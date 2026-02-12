@@ -107,6 +107,37 @@ object FFTProcessor {
     }
 
     /**
+     * Computes an in-place inverse FFT (IFFT).
+     *
+     * Uses the identity IFFT(X) = (1/N) * conj(FFT(conj(X))):
+     * 1. Conjugate the input (negate imaginary parts).
+     * 2. Apply the forward [fft].
+     * 3. Conjugate the output and divide by N.
+     *
+     * On return, [real] and [imag] contain the time-domain signal.
+     *
+     * @param real Real part of the frequency-domain signal (overwritten).
+     * @param imag Imaginary part (overwritten).
+     */
+    fun ifft(real: FloatArray, imag: FloatArray) {
+        val n = real.size
+        require(n > 0 && n and (n - 1) == 0) { "IFFT size must be a power of 2" }
+
+        // Conjugate input
+        for (i in imag.indices) imag[i] = -imag[i]
+
+        // Forward FFT
+        fft(real, imag)
+
+        // Conjugate output and normalise
+        val invN = 1.0f / n
+        for (i in 0 until n) {
+            real[i] *= invN
+            imag[i] = -imag[i] * invN
+        }
+    }
+
+    /**
      * Computes the magnitude spectrum from a complex FFT result.
      *
      * Only the first N/2 bins are returned (the positive-frequency half),

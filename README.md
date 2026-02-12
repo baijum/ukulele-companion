@@ -66,6 +66,26 @@ Theory lessons, ear training, interval trainer, circle of fifths, glossary, scal
 </tr>
 </table>
 
+## 📱 Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/chord-detected.png" width="30%" alt="Chord Detection">
+  <img src="docs/screenshots/chord-library.png" width="30%" alt="Chord Library">
+  <img src="docs/screenshots/scale-overlay.png" width="30%" alt="Scale Overlay">
+</p>
+<p align="center">
+  <img src="docs/screenshots/strumming-patterns.png" width="30%" alt="Strumming Patterns">
+  <img src="docs/screenshots/chord-progressions.png" width="30%" alt="Chord Progressions">
+  <img src="docs/screenshots/circle-of-fifths.png" width="30%" alt="Circle of Fifths">
+</p>
+<p align="center">
+  <a href="https://youtube.com/shorts/Vu0_naGO2wA">
+    <img src="https://img.youtube.com/vi/Vu0_naGO2wA/0.jpg" width="30%" alt="Watch demo video">
+  </a>
+  <br>
+  <sub>Tap to watch the demo video</sub>
+</p>
+
 ### ⚙️ Settings
 
 - **Display**: Sharp/Flat note names, Light/Dark/System theme
@@ -258,6 +278,27 @@ Detailed feature documentation and a user manual are available in the [`docs/`](
 
 - **Feature specs**: 20 design documents covering each major feature
 - **User manual**: Step-by-step guide with screenshots in [`docs/manual/`](docs/manual/)
+
+---
+
+## 🧪 Beta Testing
+
+Want to try new features before they go live? Join the
+[Ukulele Companion Testers](https://groups.google.com/g/ukulele-companion)
+Google Group to get access to pre-release builds through the Google Play Store.
+
+As a tester you can:
+- Install pre-release builds from the Play Store
+- Try new features before they are publicly available
+- Report bugs or share feedback to help improve the app
+
+---
+
+## 💬 Feedback Wanted: Neural-Powered Tuner
+
+We are exploring adding a lightweight neural pitch estimator ([SwiftF0](https://github.com/lars76/swift-f0)) to work alongside the existing tuner. This could improve accuracy in noisy environments and reduce octave errors on low strings — without sacrificing the fast, responsive needle you already have.
+
+The full design is in [`docs/22-neural-pitch-supervisor.md`](docs/22-neural-pitch-supervisor.md). If you have thoughts on whether this would be useful for your playing — especially if you tune in noisy settings like rehearsals, open mics, or outdoors — we would love to hear from you in [GitHub Discussions](https://github.com/baijum/ukulele-chords/discussions).
 
 ---
 
