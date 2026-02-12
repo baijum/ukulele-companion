@@ -1,0 +1,43 @@
+site_name: Ukulele Companion
+site_description: Free, offline, ad-free Android app for learning ukulele.
+site_url: https://baijum.github.io/ukulele-companion/
+repo_url: https://github.com/baijum/ukulele-companion
+repo_name: baijum/ukulele-companion
+
+theme:
+  name: material
+  logo: app-icon.svg
+  favicon: app-icon.svg
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+
+exclude_docs: |
+  spec/**
+
+nav:
+  - Home: index.md
+  - Manual:
+      - Overview: manual/index.md
+      - Getting Started: manual/01-getting-started.md
+      - Explorer: manual/02-explorer.md
+      - Chords: manual/03-chords.md
+      - Patterns: manual/04-patterns.md
+      - Progressions: manual/05-progressions.md
+      - Favorites: manual/06-favorites.md
+      - Songs: manual/07-songs.md
+      - Settings: manual/08-settings.md
+      - Learning and Practice: manual/09-learning.md
+      - Play Along and Chord Training: manual/10-play-along.md
+  - Privacy Policy: privacy-policy.md

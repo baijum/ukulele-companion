@@ -278,10 +278,13 @@ Looking for a place to start? Here are some areas where contributions would be e
 
 ## 📖 Documentation
 
+- **Website**: https://baijum.github.io/ukulele-companion/
+- **Privacy policy**: https://baijum.github.io/ukulele-companion/privacy-policy/
+
 Detailed feature documentation and a user manual are available in the [`docs/`](docs/) directory:
 
-- **Feature specs**: 20 design documents covering each major feature
-- **User manual**: Step-by-step guide with screenshots in [`docs/manual/`](docs/manual/)
+- **Feature specs**: 22 design documents in [`docs/spec/`](docs/spec/)
+- **User manual**: Step-by-step guide in [`docs/manual/`](docs/manual/)
 
 ---
 
