@@ -13,7 +13,7 @@
       clean Android experience built for daily practice.
     </p>
     <div class="hero-cta">
-      <a class="md-button md-button--primary" href="manual/">Start with the Manual</a>
+      [Start with the Manual](manual/index.md){ .md-button .md-button--primary }
     </div>
     <div class="hero-stats">
       <div><strong>30+</strong><span>learning screens</span></div>
@@ -90,10 +90,10 @@
   <h2>Start playing better in minutes</h2>
   <p>Use the manual to get up and running, then explore the feature that matches your current goal.</p>
   <div class="hero-cta">
-    <a class="md-button md-button--primary" href="manual/index.md">Read manual overview</a>
-    <a class="md-button" href="manual/01-getting-started.md">Go to getting started</a>
+    [Read manual overview](manual/index.md){ .md-button .md-button--primary }
+    [Go to getting started](manual/01-getting-started.md){ .md-button }
   </div>
   <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.8;">
-    <a href="privacy-policy/">Privacy Policy</a>
+    [Privacy Policy](privacy-policy.md)
   </p>
 </section>

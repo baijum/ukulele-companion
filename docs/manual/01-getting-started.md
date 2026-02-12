@@ -76,4 +76,4 @@ Tap the **gear icon** in the top-right corner of the app bar to open the Setting
 - The app works entirely offline — no internet connection is needed.
 - Your favorites, songs, and settings are saved locally on your device.
 - Long-press on chord voicings in the library to save them as favorites.
-- Check the [Help](../HelpView.kt) screen (at the bottom of the drawer) for quick descriptions of every feature.
+- Check the [Help](https://github.com/baijum/ukulele-companion/blob/main/app/src/main/java/com/baijum/ukufretboard/ui/HelpView.kt) screen (at the bottom of the drawer) for quick descriptions of every feature.
