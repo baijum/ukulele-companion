@@ -1,27 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="6" by="lint 8.7.3" type="baseline" client="gradle" dependencies="false" name="AGP (8.7.3)" variant="all" version="8.7.3">
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="                text = &quot;${String.format(&quot;%.1f&quot;, animationSpeed)}x&quot;,"
-        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/ChordTransitionAnimation.kt"
-            line="327"
-            column="27"/>
-    </issue>
-
-    <issue
-        id="InlinedApi"
-        message="Field requires API level 30 (current min is 26): `android.view.WindowInsetsController#BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE`"
-        errorLine1="                WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/FullScreenFretboard.kt"
-            line="91"
-            column="17"/>
-    </issue>
+<issues format="6" by="lint 8.9.1" type="baseline" client="gradle" dependencies="false" name="AGP (8.9.1)" variant="all" version="8.9.1">
 
     <issue
         id="InlinedApi"
@@ -58,28 +36,6 @@
 
     <issue
         id="NewApi"
-        message="Call requires API level 30 (current min is 26): `android.view.WindowInsetsController#hide`"
-        errorLine1="            it.hide(android.view.WindowInsets.Type.systemBars())"
-        errorLine2="               ~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/FullScreenFretboard.kt"
-            line="89"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 30 (current min is 26): `android.view.WindowInsetsController#setSystemBarsBehavior`"
-        errorLine1="            it.systemBarsBehavior ="
-        errorLine2="               ~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/FullScreenFretboard.kt"
-            line="90"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="NewApi"
         message="Call requires API level 30 (current min is 26): `android.view.WindowInsets.Type#systemBars`"
         errorLine1="            insetsController?.show(android.view.WindowInsets.Type.systemBars())"
         errorLine2="                                                                  ~~~~~~~~~~">
@@ -101,34 +57,45 @@
     </issue>
 
     <issue
+        id="OldTargetApi"
+        message="Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the `android.os.Build.VERSION_CODES` javadoc for details."
+        errorLine1="        targetSdk = 35"
+        errorLine2="        ~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle.kts"
+            line="30"
+            column="9"/>
+    </issue>
+
+    <issue
         id="AndroidGradlePluginVersion"
-        message="A newer version of com.android.application than 8.7.3 is available: 9.0.0"
-        errorLine1="agp = &quot;8.7.3&quot;"
+        message="A newer version of com.android.application than 8.9.1 is available: 9.0.0. (There is also a newer version of 8.9.𝑥 available, if upgrading to 9.0.0 is difficult: 8.9.3)"
+        errorLine1="agp = &quot;8.9.1&quot;"
         errorLine2="      ~~~~~~~">
         <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
+            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
             line="2"
             column="7"/>
     </issue>
 
     <issue
         id="AndroidGradlePluginVersion"
-        message="A newer version of com.android.application than 8.7.3 is available: 9.0.0"
-        errorLine1="agp = &quot;8.7.3&quot;"
+        message="A newer version of com.android.application than 8.9.1 is available: 9.0.0. (There is also a newer version of 8.9.𝑥 available, if upgrading to 9.0.0 is difficult: 8.9.3)"
+        errorLine1="agp = &quot;8.9.1&quot;"
         errorLine2="      ~~~~~~~">
         <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
+            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
             line="2"
             column="7"/>
     </issue>
 
     <issue
         id="AndroidGradlePluginVersion"
-        message="A newer version of com.android.application than 8.7.3 is available: 9.0.0"
-        errorLine1="agp = &quot;8.7.3&quot;"
+        message="A newer version of com.android.application than 8.9.1 is available: 9.0.0. (There is also a newer version of 8.9.𝑥 available, if upgrading to 9.0.0 is difficult: 8.9.3)"
+        errorLine1="agp = &quot;8.9.1&quot;"
         errorLine2="      ~~~~~~~">
         <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
+            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
             line="2"
             column="7"/>
     </issue>
@@ -139,7 +106,7 @@
         errorLine1="composeBom = &quot;2024.12.01&quot;"
         errorLine2="             ~~~~~~~~~~~~">
         <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
+            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
             line="4"
             column="14"/>
     </issue>
@@ -150,7 +117,7 @@
         errorLine1="composeBom = &quot;2024.12.01&quot;"
         errorLine2="             ~~~~~~~~~~~~">
         <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
+            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
             line="4"
             column="14"/>
     </issue>
@@ -161,108 +128,9 @@
         errorLine1="composeBom = &quot;2024.12.01&quot;"
         errorLine2="             ~~~~~~~~~~~~">
         <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
+            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
             line="4"
             column="14"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.activity:activity-compose than 1.9.3 is available: 1.12.4"
-        errorLine1="activityCompose = &quot;1.9.3&quot;"
-        errorLine2="                  ~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
-            line="5"
-            column="19"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.activity:activity-compose than 1.9.3 is available: 1.12.4"
-        errorLine1="activityCompose = &quot;1.9.3&quot;"
-        errorLine2="                  ~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
-            line="5"
-            column="19"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.activity:activity-compose than 1.9.3 is available: 1.12.4"
-        errorLine1="activityCompose = &quot;1.9.3&quot;"
-        errorLine2="                  ~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
-            line="5"
-            column="19"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.lifecycle:lifecycle-viewmodel-compose than 2.8.7 is available: 2.10.0"
-        errorLine1="lifecycleViewmodelCompose = &quot;2.8.7&quot;"
-        errorLine2="                            ~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
-            line="6"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.lifecycle:lifecycle-viewmodel-compose than 2.8.7 is available: 2.10.0"
-        errorLine1="lifecycleViewmodelCompose = &quot;2.8.7&quot;"
-        errorLine2="                            ~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
-            line="6"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.lifecycle:lifecycle-viewmodel-compose than 2.8.7 is available: 2.10.0"
-        errorLine1="lifecycleViewmodelCompose = &quot;2.8.7&quot;"
-        errorLine2="                            ~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
-            line="6"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.core:core-ktx than 1.15.0 is available: 1.17.0"
-        errorLine1="coreKtx = &quot;1.15.0&quot;"
-        errorLine2="          ~~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
-            line="7"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.core:core-ktx than 1.15.0 is available: 1.17.0"
-        errorLine1="coreKtx = &quot;1.15.0&quot;"
-        errorLine2="          ~~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
-            line="7"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.core:core-ktx than 1.15.0 is available: 1.17.0"
-        errorLine1="coreKtx = &quot;1.15.0&quot;"
-        errorLine2="          ~~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
-            line="7"
-            column="11"/>
     </issue>
 
     <issue
@@ -271,7 +139,7 @@
         errorLine1="workRuntime = &quot;2.10.0&quot;"
         errorLine2="              ~~~~~~~~">
         <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
+            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
             line="9"
             column="15"/>
     </issue>
@@ -282,7 +150,7 @@
         errorLine1="workRuntime = &quot;2.10.0&quot;"
         errorLine2="              ~~~~~~~~">
         <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
+            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
             line="9"
             column="15"/>
     </issue>
@@ -293,7 +161,7 @@
         errorLine1="workRuntime = &quot;2.10.0&quot;"
         errorLine2="              ~~~~~~~~">
         <location
-            file="$HOME/baijum/ukulele-chords/gradle/libs.versions.toml"
+            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
             line="9"
             column="15"/>
     </issue>
@@ -471,6 +339,17 @@
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/FretboardScreen.kt"
             line="945"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/FretboardView.kt"
+            line="111"
             column="5"/>
     </issue>
 
@@ -721,6 +600,468 @@
             file="src/main/res/mipmap-anydpi-v26/ic_launcher.xml"
             line="2"
             column="1"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().putString(KEY_UNLOCKED, json.encodeToString(current)).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/AchievementRepository.kt"
+            line="43"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().putString(KEY_UNLOCKED, json.encodeToString(current)).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/AchievementRepository.kt"
+            line="64"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().remove(KEY_UNLOCKED).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/AchievementRepository.kt"
+            line="69"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="                prefs.edit().putLong(KEY_LAST_BACKUP, now).apply()"
+        errorLine2="                ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/viewmodel/BackupRestoreViewModel.kt"
+            line="107"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().putString(sheet.id, serialize(sheet)).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/ChordSheetRepository.kt"
+            line="28"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().remove(id).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/ChordSheetRepository.kt"
+            line="32"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        val editor = prefs.edit()"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/ChordSheetRepository.kt"
+            line="70"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().putString(custom.id, serialize(custom)).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/CustomFingerpickingPatternRepository.kt"
+            line="47"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().remove(id).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/CustomFingerpickingPatternRepository.kt"
+            line="54"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        val editor = prefs.edit()"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/CustomFingerpickingPatternRepository.kt"
+            line="108"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().putString(custom.id, serialize(custom)).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/CustomProgressionRepository.kt"
+            line="53"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().remove(id).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/CustomProgressionRepository.kt"
+            line="60"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        val editor = prefs.edit()"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/CustomProgressionRepository.kt"
+            line="112"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().putString(custom.id, serialize(custom)).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/CustomStrumPatternRepository.kt"
+            line="47"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().remove(id).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/CustomStrumPatternRepository.kt"
+            line="54"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        val editor = prefs.edit()"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/CustomStrumPatternRepository.kt"
+            line="107"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="            prefs.edit().putString(voicing.key, serialize(voicing)).apply()"
+        errorLine2="            ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/FavoritesRepository.kt"
+            line="34"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().remove(voicing.key).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/FavoritesRepository.kt"
+            line="42"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().putString(updated.key, serialize(updated)).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/FavoritesRepository.kt"
+            line="73"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        folderPrefs.edit().putString(folder.id, serializeFolder(folder)).apply()"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/FavoritesRepository.kt"
+            line="107"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="            prefs.edit().putString(updated.key, serialize(updated)).apply()"
+        errorLine2="            ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/FavoritesRepository.kt"
+            line="120"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        val editor = prefs.edit()"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/FavoritesRepository.kt"
+            line="198"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        val editor = folderPrefs.edit()"
+        errorLine2="                     ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/FavoritesRepository.kt"
+            line="212"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().putBoolean(&quot;$KEY_LESSON_COMPLETED$lessonId&quot;, true).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/LearningProgressRepository.kt"
+            line="29"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().putBoolean(&quot;$KEY_LESSON_QUIZ$lessonId&quot;, true).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/LearningProgressRepository.kt"
+            line="39"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="            prefs.edit()"
+        errorLine2="            ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/LearningProgressRepository.kt"
+            line="74"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="            prefs.edit()"
+        errorLine2="            ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/LearningProgressRepository.kt"
+            line="114"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="            prefs.edit().putInt(KEY_NOTE_QUIZ_STREAK, 0).apply()"
+        errorLine2="            ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/LearningProgressRepository.kt"
+            line="145"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="            prefs.edit()"
+        errorLine2="            ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/LearningProgressRepository.kt"
+            line="176"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="            prefs.edit()"
+        errorLine2="            ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/LearningProgressRepository.kt"
+            line="217"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/LearningProgressRepository.kt"
+            line="254"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().clear().apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/LearningProgressRepository.kt"
+            line="279"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        val editor = prefs.edit()"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/LearningProgressRepository.kt"
+            line="296"
+            column="22"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().putInt(key, newValue).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/LearningProgressRepository.kt"
+            line="314"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="            prefs.edit().putInt(bestKey, currentStreak).apply()"
+        errorLine2="            ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/LearningProgressRepository.kt"
+            line="321"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().apply {"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/PracticeTimerRepository.kt"
+            line="33"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().putInt(KEY_DAILY_GOAL, minutes.coerceIn(5, 120)).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/PracticeTimerRepository.kt"
+            line="82"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().clear().apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/PracticeTimerRepository.kt"
+            line="97"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/viewmodel/SettingsViewModel.kt"
+            line="119"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().putString(KEY_CARDS, json.encodeToString(cards)).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/SrsCardRepository.kt"
+            line="47"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().putString(KEY_CARDS, json.encodeToString(cards)).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/SrsCardRepository.kt"
+            line="55"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().clear().apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/SrsCardRepository.kt"
+            line="136"
+            column="9"/>
     </issue>
 
 </issues>
