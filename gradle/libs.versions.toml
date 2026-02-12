@@ -1,7 +1,7 @@
 [versions]
 agp = "8.9.1"
 kotlin = "2.3.10"
-composeBom = "2024.12.01"
+composeBom = "2026.02.00"
 activityCompose = "1.12.4"
 lifecycleViewmodelCompose = "2.10.0"
 coreKtx = "1.17.0"
