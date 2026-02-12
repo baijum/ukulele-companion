@@ -565,6 +565,6 @@ Features A, B, and C are low-hanging fruit that can be implemented independently
 
 ## Cross-References
 
-- Feature 16 (`docs/16-learn-section-persistence.md`) — Required for persistence of achievements, streaks, and all-time stats
-- Feature 17 (`docs/17-interval-trainer-audio.md`) — Audio infrastructure needed for Chord Ear Training (Feature F)
-- Feature 15 (`docs/15-music-theory-learning.md`) — Original PRD proposing the Learn section; this document extends and refines those proposals
+- Feature 16 (`docs/spec/16-learn-section-persistence.md`) — Required for persistence of achievements, streaks, and all-time stats
+- Feature 17 (`docs/spec/17-interval-trainer-audio.md`) — Audio infrastructure needed for Chord Ear Training (Feature F)
+- Feature 15 (`docs/spec/15-music-theory-learning.md`) — Original PRD proposing the Learn section; this document extends and refines those proposals

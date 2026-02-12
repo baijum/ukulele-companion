@@ -485,7 +485,7 @@ Items 1–6 deliver the most value with minimal effort. The Chord Substitutions 
 
 ## Cross-References
 
-- `docs/15-music-theory-learning.md` — Original PRD for music theory features; Circle of Fifths (Feature A) and Key Signatures (Feature F) are implemented
-- `docs/16-learn-section-persistence.md` — Persistence patterns applicable if Reference features add saved preferences
-- `docs/17-interval-trainer-audio.md` — Audio infrastructure patterns reusable for Circle of Fifths and Chord Substitutions audio
-- `docs/18-learn-section-enhancements.md` — Cross-feature linking (Feature A) and interactive demos (Feature D) share components with this plan
+- `docs/spec/15-music-theory-learning.md` — Original PRD for music theory features; Circle of Fifths (Feature A) and Key Signatures (Feature F) are implemented
+- `docs/spec/16-learn-section-persistence.md` — Persistence patterns applicable if Reference features add saved preferences
+- `docs/spec/17-interval-trainer-audio.md` — Audio infrastructure patterns reusable for Circle of Fifths and Chord Substitutions audio
+- `docs/spec/18-learn-section-enhancements.md` — Cross-feature linking (Feature A) and interactive demos (Feature D) share components with this plan

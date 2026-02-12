@@ -8,7 +8,7 @@ Add an audio-based ear training mode to the existing Interval Trainer. Users hea
 
 ## Motivation
 
-- The PRD (`docs/15-music-theory-learning.md`, Feature B) explicitly proposed audio mode but it was never implemented
+- The PRD (`docs/spec/15-music-theory-learning.md`, Feature B) explicitly proposed audio mode but it was never implemented
 - Interval ear training is the #1 skill-building exercise across all music theory apps (Auricula, RelativePitch, EarMaster, Solfy)
 - The app already has `ToneGenerator` for playing notes — the audio infrastructure exists
 - Visual interval identification (current mode) tests music theory knowledge; audio identification tests musical ear — these are complementary but distinct skills

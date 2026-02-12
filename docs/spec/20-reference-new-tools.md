@@ -22,7 +22,7 @@ New reference tools to expand the Reference section beyond its current three fea
 
 The Scale Overlay and Progressions tab are disconnected. A user viewing the C major scale can't see which chords are built from that scale. Conversely, a user viewing a C major progression can't see the underlying scale. This relationship — "these chords belong to this scale because they're built from its notes" — is the central insight of harmony, and the app doesn't surface it.
 
-This was identified as a Tier 2 gap in `docs/15-music-theory-learning.md` and also proposed in `docs/14-composition-tools.md` (Idea 5: Scale-Aware Chord Suggestions).
+This was identified as a Tier 2 gap in `docs/spec/15-music-theory-learning.md` and also proposed in `docs/spec/14-composition-tools.md` (Idea 5: Scale-Aware Chord Suggestions).
 
 ### Proposed Solution
 
@@ -487,7 +487,7 @@ Feature A (Scale-Chord Viewer) has the highest impact because it connects two ex
 ## Architecture Notes
 
 - All features follow the established pattern: data in `data/`, UI in `ui/`, logic in `domain/` (if needed)
-- Scale-Chord Builder (Feature A) creates a new domain concept that could be reused by composition tools (see `docs/14-composition-tools.md`)
+- Scale-Chord Builder (Feature A) creates a new domain concept that could be reused by composition tools (see `docs/spec/14-composition-tools.md`)
 - Fretboard Note Map (Feature C) should respect all user preferences: Left-Handed mode, Flat Note Names, Low-G tuning
 - Glossary (Feature B) entries should cross-reference each other and link to relevant app features
 - Common Chords (Feature D) fingerings should come from `VoicingGenerator` where possible, with curated overrides for the standard "textbook" fingerings
@@ -510,6 +510,6 @@ Feature A (Scale-Chord Viewer) has the highest impact because it connects two ex
 
 ## Cross-References
 
-- `docs/14-composition-tools.md` — Idea 5 (Scale-Aware Chord Suggestions) overlaps with Feature A; implementing either covers the gap
-- `docs/15-music-theory-learning.md` — Tier 2 gap: Scale-Chord Relationship View aligns with Feature A
-- `docs/19-reference-section-enhancements.md` — Enhancements to existing Reference features; shares mini chord diagram component with Features A and D
+- `docs/spec/14-composition-tools.md` — Idea 5 (Scale-Aware Chord Suggestions) overlaps with Feature A; implementing either covers the gap
+- `docs/spec/15-music-theory-learning.md` — Tier 2 gap: Scale-Chord Relationship View aligns with Feature A
+- `docs/spec/19-reference-section-enhancements.md` — Enhancements to existing Reference features; shares mini chord diagram component with Features A and D

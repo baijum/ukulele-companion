@@ -11,7 +11,7 @@ Add data persistence and a progress dashboard to the Learn section (Theory Lesso
 - All quiz scores, streaks, and interval trainer stats are lost on app restart — users have no sense of long-term progress
 - Leading music education apps (Solfy, Tomus, Yousician) prominently feature progress tracking; its absence makes the app feel like a toy rather than a learning tool
 - The app already uses SharedPreferences for Favorites and Chord Sheets — the persistence pattern is well-established
-- Completion tracking for Theory Lessons was proposed in `docs/15-music-theory-learning.md` (Feature C) but never implemented
+- Completion tracking for Theory Lessons was proposed in `docs/spec/15-music-theory-learning.md` (Feature C) but never implemented
 - Progress visibility is a key driver of habit formation and return visits
 
 ## Scope

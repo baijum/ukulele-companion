@@ -83,7 +83,7 @@ Compared to standard music theory curricula and leading theory-teaching apps, th
 | Gap | Why It Matters |
 |-----|----------------|
 | **More Scale Types (All Modes)** | Missing Phrygian, Lydian, Locrian, Harmonic Minor, Melodic Minor, Whole Tone. Architecture already supports them — just needs new entries in `Scales.kt`. |
-| **Scale-Chord Relationship View** | Scale overlay and progressions tab are disconnected. A "Chords in this Scale" panel would show diatonic triads/sevenths derived from the selected scale. (Also proposed in `docs/14-composition-tools.md` Idea 5.) |
+| **Scale-Chord Relationship View** | Scale overlay and progressions tab are disconnected. A "Chords in this Scale" panel would show diatonic triads/sevenths derived from the selected scale. (Also proposed in `docs/spec/14-composition-tools.md` Idea 5.) |
 | **Chord Function Labels** | Tag each chord in a progression with T (Tonic), S (Subdominant), D (Dominant) so users understand harmonic role, not just the numeral. |
 | **Interactive Theory Quizzes** | Gamified exercises reinforce passive knowledge through active recall: "Name this interval," "What's the V chord in D major?" |
 
@@ -658,6 +658,6 @@ Features E and D provide the highest return for minimal effort. Feature A (Circl
 
 ## Cross-References
 
-- Composition tools proposed in `docs/14-composition-tools.md` Idea 5 (Scale-Aware Chord Suggestions) overlaps with the Scale-Chord Relationship gap identified here — implementing either covers that gap
+- Composition tools proposed in `docs/spec/14-composition-tools.md` Idea 5 (Scale-Aware Chord Suggestions) overlaps with the Scale-Chord Relationship gap identified here — implementing either covers that gap
 - The Capo Guide (`ui/CapoGuideView.kt`) serves as a structural template for Features C and H (educational content with interactive demos)
 - The existing `ChordInfo.INTERVAL_NAMES` map is directly reusable for Features B (Interval Trainer) and G (Quizzes)

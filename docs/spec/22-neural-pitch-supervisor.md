@@ -9,7 +9,7 @@ approaches, and trigger criteria for when to pursue this work.
 
 ## Motivation
 
-The current tuner pipeline (documented in `docs/21-tuner-pitch-detection-improvements.md`)
+The current tuner pipeline (documented in `docs/spec/21-tuner-pitch-detection-improvements.md`)
 implements a complete 7-step Fast YIN algorithm with confidence gating, onset
 blanking, pitch continuity tracking, and confidence-based UI feedback. This
 pipeline performs well for typical practice environments.
@@ -574,7 +574,7 @@ inference performance.
    but improves accuracy in noisy environments").
 3. Ensure graceful degradation if model loading fails.
 4. Add ProGuard rules for ONNX Runtime.
-5. Update `docs/21-tuner-pitch-detection-improvements.md` to reference this
+5. Update `docs/spec/21-tuner-pitch-detection-improvements.md` to reference this
    document as the next step.
 6. A/B test with beta users: compare pitch stability with and without the
    neural supervisor in noisy environments.
