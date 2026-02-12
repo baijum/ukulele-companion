@@ -89,6 +89,23 @@ class PitchMonitorViewModel : ViewModel() {
          * at ~10 Hz — the same effective rate as before the overlap change.
          */
         private const val CHORD_DETECTION_INTERVAL = 4
+
+        /**
+         * RMS ratio threshold for onset (pluck) detection.
+         *
+         * When the current frame's RMS exceeds the previous frame's RMS by
+         * this factor, a transient attack is assumed and pitch updates are
+         * suppressed for [BLANKING_FRAMES]. Same value as [TunerViewModel].
+         */
+        private const val ONSET_RATIO_THRESHOLD = 3.0f
+
+        /**
+         * Number of frames to suppress after detecting an onset.
+         *
+         * At ~23 ms per frame (75 % overlap), 2 frames ≈ 46 ms — aligned
+         * with the typical 20–50 ms attack phase of a plucked string.
+         */
+        private const val BLANKING_FRAMES = 2
     }
 
     // --- State ---------------------------------------------------------------
@@ -116,6 +133,23 @@ class PitchMonitorViewModel : ViewModel() {
     /** Frame counter for throttling chord detection to every Nth frame. */
     private var chordFrameCounter = 0
 
+    // --- Onset detection state -----------------------------------------------
+
+    /** RMS energy of the previous frame, for onset (pluck) detection. */
+    private var previousRms = 0f
+
+    /** Remaining frames to suppress after an onset is detected. */
+    private var blankingFramesRemaining = 0
+
+    // --- Pitch continuity state ----------------------------------------------
+
+    /**
+     * Frequency detected in the previous frame, or `null` after silence /
+     * start.  Passed to [PitchDetector.detect] so the lag search is
+     * constrained to a narrow pitch window, preventing wild jumps.
+     */
+    private var previousFrequency: Double? = null
+
     // --- Public API ----------------------------------------------------------
 
     /**
@@ -131,6 +165,9 @@ class PitchMonitorViewModel : ViewModel() {
         displayedChord = null
         lastChordConfidence = 0f
         chordFrameCounter = 0
+        previousRms = 0f
+        blankingFramesRemaining = 0
+        previousFrequency = null
 
         AudioCaptureEngine.start(viewModelScope) { buffer ->
             processBuffer(buffer)
@@ -185,17 +222,49 @@ class PitchMonitorViewModel : ViewModel() {
         val n = samples.size
         if (n == 0 || n and (n - 1) != 0) return
 
+        // --- Onset detection ----------------------------------------------------
+        // Detect sudden energy spikes (pluck attacks) and suppress pitch
+        // updates for a few frames so the non-periodic transient doesn't
+        // produce spike artifacts in the scrolling graph.
+        val currentRms = PitchDetector.rms(samples)
+        if (previousRms > 0f && currentRms / previousRms > ONSET_RATIO_THRESHOLD) {
+            blankingFramesRemaining = BLANKING_FRAMES
+        }
+        previousRms = currentRms
+
+        if (blankingFramesRemaining > 0) {
+            blankingFramesRemaining--
+            // Still emit a null PitchPoint so the scrolling graph shows a
+            // gap rather than freezing (unlike TunerViewModel which just
+            // returns early — the pitch canvas needs continuous timestamps).
+            val now = System.currentTimeMillis()
+            val newPoint = PitchPoint(timestampMs = now, midiNote = null)
+            _uiState.update { current ->
+                val cutoff = now - HISTORY_DURATION_MS
+                val trimmed = current.pitchHistory.dropWhile { it.timestampMs < cutoff }
+                current.copy(pitchHistory = trimmed + newPoint)
+            }
+            return
+        }
+
         val now = System.currentTimeMillis()
 
         // =====================================================================
         // PATH 1: Pitch detection (YIN) → scrolling visualization
         // =====================================================================
-        val pitchResult = PitchDetector.detect(samples, AudioCaptureEngine.SAMPLE_RATE)
+        val pitchResult = PitchDetector.detect(
+            samples,
+            AudioCaptureEngine.SAMPLE_RATE,
+            previousFrequency = previousFrequency,
+        )
 
         val midiNote: Float?
         val currentNote: String?
 
         if (pitchResult != null) {
+            // Track for next frame's continuity constraint.
+            previousFrequency = pitchResult.frequencyHz
+
             // Smooth the frequency with a median filter
             recentFrequencies.addLast(pitchResult.frequencyHz)
             if (recentFrequencies.size > SMOOTHING_WINDOW) {
@@ -210,6 +279,7 @@ class PitchMonitorViewModel : ViewModel() {
             val noteInfo = TunerNoteMapper.mapFrequency(smoothedHz)
             currentNote = noteInfo?.let { "${it.noteName}${it.octave}" }
         } else {
+            previousFrequency = null
             recentFrequencies.clear()
             midiNote = null
             currentNote = null
