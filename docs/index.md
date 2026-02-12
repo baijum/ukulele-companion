@@ -19,7 +19,7 @@ hide:
       beautiful Android experience designed for daily practice.
     </p>
     <div class="hero-cta">
-      <a href="manual/index.md" class="md-button md-button--primary">Start with the Manual</a>
+      <a href="manual/" class="md-button md-button--primary">Start with the Manual</a>
       <a href="https://github.com/baijum/ukulele-companion" class="md-button">View on GitHub</a>
     </div>
     <div class="hero-stats">
@@ -97,10 +97,10 @@ hide:
   <h2>Start playing better in minutes</h2>
   <p>Use the manual to get up and running, then explore the feature that matches your current goal.</p>
   <div class="hero-cta">
-    <a href="manual/index.md" class="md-button md-button--primary">Read manual overview</a>
-    <a href="manual/01-getting-started.md" class="md-button">Go to getting started</a>
+    <a href="manual/" class="md-button md-button--primary">Read manual overview</a>
+    <a href="manual/01-getting-started/" class="md-button">Go to getting started</a>
   </div>
   <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.8;">
-    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="privacy-policy/">Privacy Policy</a>
   </p>
 </section>
