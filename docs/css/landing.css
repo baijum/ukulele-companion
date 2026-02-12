@@ -357,3 +357,14 @@
     width: 180px;
   }
 }
+
+/* Manual page screenshots — cap width so phone screenshots don't blow up */
+.md-content img[src*="screenshots/"] {
+  max-width: 320px;
+  height: auto;
+  border-radius: 0.75rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--md-default-fg-color) 8%, transparent);
+  display: block;
+  margin: 1rem 0;
+}
