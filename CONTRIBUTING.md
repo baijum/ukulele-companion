@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing! This project is a free, offline ukulele learning app for Android, and every contribution — big or small — helps make it better for musicians everywhere.
 
-Please read this guide before submitting your first pull request. If you have questions, feel free to open a [discussion](https://github.com/baijum/ukulele-chords/issues) or ask in your PR.
+Please read this guide before submitting your first pull request. If you have questions, feel free to open a [discussion](https://github.com/baijum/ukulele-companion/issues) or ask in your PR.
 
 ## Table of Contents
 
@@ -28,8 +28,8 @@ This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.
 1. **Fork** the repository on GitHub
 2. **Clone** your fork locally:
    ```bash
-   git clone https://github.com/<your-username>/ukulele-chords.git
-   cd ukulele-chords
+   git clone https://github.com/<your-username>/ukulele-companion.git
+   cd ukulele-companion
    ```
 3. **Open** the project in Android Studio
 4. **Build** and run:
@@ -252,7 +252,7 @@ Before submitting, verify:
 
 ## Reporting Bugs
 
-Use the [Bug Report](https://github.com/baijum/ukulele-chords/issues/new?template=bug_report.md) issue template and include:
+Use the [Bug Report](https://github.com/baijum/ukulele-companion/issues/new?template=bug_report.md) issue template and include:
 
 - **Device and Android version**
 - **App version** (shown in Settings)
@@ -262,7 +262,7 @@ Use the [Bug Report](https://github.com/baijum/ukulele-chords/issues/new?templat
 
 ## Requesting Features
 
-Use the [Feature Request](https://github.com/baijum/ukulele-chords/issues/new?template=feature_request.md) issue template and include:
+Use the [Feature Request](https://github.com/baijum/ukulele-companion/issues/new?template=feature_request.md) issue template and include:
 
 - **What** you'd like to see
 - **Why** it would be useful

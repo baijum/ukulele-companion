@@ -15,7 +15,7 @@
   <a href="https://developer.android.com/compose"><img src="https://img.shields.io/badge/Jetpack%20Compose-Material3-green.svg?logo=jetpackcompose" alt="Jetpack Compose"></a>
   <a href="https://developer.android.com/about/versions/oreo"><img src="https://img.shields.io/badge/Min%20SDK-26-orange.svg" alt="Min SDK"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
-  <a href="https://github.com/baijum/ukulele-chords/actions/workflows/android.yml"><img src="https://github.com/baijum/ukulele-chords/actions/workflows/android.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/baijum/ukulele-companion/actions/workflows/android.yml"><img src="https://github.com/baijum/ukulele-companion/actions/workflows/android.yml/badge.svg" alt="CI"></a>
 </p>
 
 ---
@@ -170,8 +170,8 @@ com.baijum.ukufretboard
 ### Clone & Build
 
 ```bash
-git clone https://github.com/baijum/ukulele-chords.git
-cd ukulele-chords
+git clone https://github.com/baijum/ukulele-companion.git
+cd ukulele-companion
 ./gradlew assembleDebug
 ```
 

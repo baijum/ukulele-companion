@@ -1,17 +1,17 @@
 blank_issues_enabled: false
 contact_links:
   - name: Ask a Question
-    url: https://github.com/baijum/ukulele-chords/discussions/categories/q-a
+    url: https://github.com/baijum/ukulele-companion/discussions/categories/q-a
     about: Ask questions and get help from the community in Discussions.
   - name: Suggest an Idea
-    url: https://github.com/baijum/ukulele-chords/discussions/categories/ideas
+    url: https://github.com/baijum/ukulele-companion/discussions/categories/ideas
     about: Share feature ideas or suggestions in Discussions before opening an issue.
   - name: Beta Testing
     url: https://groups.google.com/g/ukulele-companion
     about: Join the Google Group to get pre-release builds and help test new features.
   - name: Contributing Guide
-    url: https://github.com/baijum/ukulele-chords/blob/main/CONTRIBUTING.md
+    url: https://github.com/baijum/ukulele-companion/blob/main/CONTRIBUTING.md
     about: Read the contributing guidelines before opening an issue or PR.
   - name: Security Vulnerability
-    url: https://github.com/baijum/ukulele-chords/blob/main/SECURITY.md
+    url: https://github.com/baijum/ukulele-companion/blob/main/SECURITY.md
     about: Please report security issues privately. Do not open a public issue.

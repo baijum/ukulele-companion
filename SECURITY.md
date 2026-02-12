@@ -21,7 +21,7 @@ If you discover a security issue in this project, please report it responsibly.
 Instead, please email the maintainer directly:
 
 - **Email**: baijum@gmail.com
-- **Subject line**: `[SECURITY] ukulele-chords: <brief description>`
+- **Subject line**: `[SECURITY] ukulele-companion: <brief description>`
 
 ### What to Include
 

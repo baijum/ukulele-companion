@@ -32,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -125,6 +126,9 @@ private val C_NOTES = setOf(48, 60, 72, 84)
 fun PitchMonitorTab(
     viewModel: PitchMonitorViewModel,
 ) {
+    val context = LocalContext.current
+    viewModel.setApplicationContext(context)
+
     // Stop capture when navigating away.
     DisposableEffect(Unit) {
         onDispose { viewModel.stopListening() }
@@ -166,27 +170,39 @@ private fun PitchMonitorContent(
             enter = fadeIn(),
             exit = fadeOut(),
         ) {
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        shape = RoundedCornerShape(12.dp),
-                    )
-                    .padding(horizontal = 24.dp, vertical = 8.dp),
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(
-                    text = state.detectedChord ?: "",
-                    style = MaterialTheme.typography.displayMedium.copy(
-                        fontWeight = FontWeight.Bold,
-                    ),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                )
+                Box(
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                            shape = RoundedCornerShape(12.dp),
+                        )
+                        .padding(horizontal = 24.dp, vertical = 8.dp),
+                ) {
+                    Text(
+                        text = state.detectedChord ?: "",
+                        style = MaterialTheme.typography.displayMedium.copy(
+                            fontWeight = FontWeight.Bold,
+                        ),
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    )
+                }
+                if (state.detectedChordNotes.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Notes: ${state.detectedChordNotes.joinToString(" ")}",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
         }
 
         if (state.detectedChord == null) {
             // Reserve space so the layout doesn't jump
-            Spacer(modifier = Modifier.height(56.dp))
+            Spacer(modifier = Modifier.height(80.dp))
         }
 
         Spacer(modifier = Modifier.height(4.dp))

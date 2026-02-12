@@ -1,17 +1,24 @@
 package com.baijum.ukufretboard.viewmodel
 
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.baijum.ukufretboard.audio.AudioCaptureEngine
 import com.baijum.ukufretboard.domain.AudioChordDetector
 import com.baijum.ukufretboard.domain.ChordDetector
+import com.baijum.ukufretboard.domain.NeuralPitchResult
+import com.baijum.ukufretboard.domain.NeuralPitchSupervisor
 import com.baijum.ukufretboard.domain.PitchDetector
+import com.baijum.ukufretboard.domain.PitchResult
 import com.baijum.ukufretboard.domain.TunerNoteMapper
+import kotlin.math.abs
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlin.math.log2
+import kotlin.math.roundToInt
 
 /**
  * A single pitch data point in the scrolling visualization.
@@ -42,6 +49,9 @@ data class PitchMonitorUiState(
 
     /** Name of the detected chord (e.g. "C", "Am7"), or null if none. */
     val detectedChord: String? = null,
+
+    /** Notes of the detected chord (e.g. ["C", "E", "G"]). */
+    val detectedChordNotes: List<String> = emptyList(),
 
     /** Confidence of the chord detection (0.0 .. 1.0). */
     val chordConfidence: Float = 0f,
@@ -74,11 +84,11 @@ class PitchMonitorViewModel : ViewModel() {
         private const val HISTORY_DURATION_MS = 10_000L
 
         /**
-         * Number of consecutive frames a chord must be stable before
-         * it is shown in the UI. At ~23 ms per frame (75 % overlap),
-         * 12 frames ≈ 280 ms. This prevents rapid flickering during strums.
+         * Number of consecutive chord detections required before showing
+         * the chord in the UI. Lower than before to make live feedback
+         * responsive for short ukulele strums.
          */
-        private const val CHORD_HOLD_FRAMES = 12
+        private const val CHORD_HOLD_FRAMES = 4
 
         /**
          * Run chord detection (FFT + Chromagram) every Nth frame.
@@ -86,9 +96,15 @@ class PitchMonitorViewModel : ViewModel() {
          * The pitch path runs on every frame for smooth scrolling, but
          * chord detection is heavier (FFT + Chromagram + matching) and
          * doesn't benefit from 43 fps. Running every 4th frame keeps it
-         * at ~10 Hz — the same effective rate as before the overlap change.
+         * at ~21 Hz, balancing responsiveness with CPU use.
          */
-        private const val CHORD_DETECTION_INTERVAL = 4
+        private const val CHORD_DETECTION_INTERVAL = 2
+
+        /**
+         * How many detection cycles can miss before clearing a shown chord.
+         * This avoids UI dropouts between strums and brief noisy frames.
+         */
+        private const val CHORD_MISS_TOLERANCE = 3
 
         /**
          * RMS ratio threshold for onset (pluck) detection.
@@ -106,6 +122,24 @@ class PitchMonitorViewModel : ViewModel() {
          * with the typical 20–50 ms attack phase of a plucked string.
          */
         private const val BLANKING_FRAMES = 2
+
+        /** Run neural supervisor every Nth frame (~115 ms at 23 ms/frame). */
+        private const val NEURAL_SUPERVISOR_INTERVAL = 5
+
+        /** Neural results older than this many frames are ignored. */
+        private const val NEURAL_RESULT_TTL_FRAMES = 10
+
+        /** Ignore tiny YIN-vs-neural disagreements. */
+        private const val ARBITRATION_IGNORE_SEMITONES = 1.5
+
+        /** Strong disagreement threshold for non-octave correction. */
+        private const val ARBITRATION_STRONG_SEMITONES = 2.5
+
+        /** Require short temporal consistency before neural override. */
+        private const val NEURAL_CONSISTENCY_FRAMES = 2
+
+        private const val TELEMETRY_LOG_INTERVAL_FRAMES = 25L
+        private const val TAG = "PitchMonitorVM"
     }
 
     // --- State ---------------------------------------------------------------
@@ -127,11 +161,20 @@ class PitchMonitorViewModel : ViewModel() {
     /** The chord name currently displayed (after hold threshold). */
     private var displayedChord: String? = null
 
+    /** Notes for the currently displayed chord. */
+    private var displayedChordNotes: List<String> = emptyList()
+
     /** Confidence of the most recent chord detection (for the UI). */
     private var lastChordConfidence = 0f
 
+    /** Consecutive detection cycles where no chord was found. */
+    private var chordMissCount = 0
+
     /** Frame counter for throttling chord detection to every Nth frame. */
     private var chordFrameCounter = 0
+
+    /** Application context used to initialize optional neural supervisor. */
+    private var appContext: Context? = null
 
     // --- Onset detection state -----------------------------------------------
 
@@ -150,6 +193,16 @@ class PitchMonitorViewModel : ViewModel() {
      */
     private var previousFrequency: Double? = null
 
+    // --- Neural supervisor state ----------------------------------------------
+
+    private var neuralSupervisor: NeuralPitchSupervisor? = null
+    private var neuralFrameCounter = 0
+    private var lastNeuralResult: NeuralPitchResult? = null
+    private var neuralResultAgeFrames = Int.MAX_VALUE
+    private var lastNeuralFrequencyForConsistency: Double? = null
+    private var neuralConsistencyFrames = 0
+    private var telemetryFrameCounter = 0L
+
     // --- Public API ----------------------------------------------------------
 
     /**
@@ -158,16 +211,26 @@ class PitchMonitorViewModel : ViewModel() {
     fun startListening() {
         if (_uiState.value.isListening) return
 
+        initializeNeuralSupervisor()
+
         _uiState.update { it.copy(isListening = true) }
         recentFrequencies.clear()
         lastChordName = null
         chordHoldCount = 0
         displayedChord = null
+        displayedChordNotes = emptyList()
         lastChordConfidence = 0f
+        chordMissCount = 0
         chordFrameCounter = 0
         previousRms = 0f
         blankingFramesRemaining = 0
         previousFrequency = null
+        neuralFrameCounter = 0
+        lastNeuralResult = null
+        neuralResultAgeFrames = Int.MAX_VALUE
+        lastNeuralFrequencyForConsistency = null
+        neuralConsistencyFrames = 0
+        telemetryFrameCounter = 0
 
         AudioCaptureEngine.start(viewModelScope) { buffer ->
             processBuffer(buffer)
@@ -194,14 +257,25 @@ class PitchMonitorViewModel : ViewModel() {
                 isListening = false,
                 currentNote = null,
                 detectedChord = null,
+                detectedChordNotes = emptyList(),
                 chordConfidence = 0f,
             )
         }
     }
 
+    /**
+     * Provides an application context so optional neural supervisor can load.
+     */
+    fun setApplicationContext(context: Context) {
+        if (appContext != null) return
+        appContext = context.applicationContext
+    }
+
     override fun onCleared() {
         super.onCleared()
         AudioCaptureEngine.stop()
+        neuralSupervisor?.close()
+        neuralSupervisor = null
     }
 
     // --- Internal pipeline ---------------------------------------------------
@@ -252,11 +326,13 @@ class PitchMonitorViewModel : ViewModel() {
         // =====================================================================
         // PATH 1: Pitch detection (YIN) → scrolling visualization
         // =====================================================================
-        val pitchResult = PitchDetector.detect(
+        val yinResult = PitchDetector.detect(
             samples,
             AudioCaptureEngine.SAMPLE_RATE,
             previousFrequency = previousFrequency,
         )
+        val neuralResult = runNeuralSupervisor(samples)
+        val pitchResult = arbitrate(yinResult, neuralResult)
 
         val midiNote: Float?
         val currentNote: String?
@@ -293,27 +369,41 @@ class PitchMonitorViewModel : ViewModel() {
         // running the heavier FFT pipeline at the full 43 fps overlap rate.
         // =====================================================================
         if (chordFrameCounter++ % CHORD_DETECTION_INTERVAL == 0) {
-            val chordResult = AudioChordDetector.detect(samples)
+            val preferredRootPitchClass = preferredRootPitchClass(neuralResult, pitchResult)
+            val chordResult = AudioChordDetector.detect(
+                samples = samples,
+                preferredRootPitchClass = preferredRootPitchClass,
+            )
             lastChordConfidence = chordResult.confidence
 
             val rawChordName = when (val det = chordResult.detection) {
                 is ChordDetector.DetectionResult.ChordFound -> det.result.name
                 else -> null
             }
+            val rawChordNotes = when (val det = chordResult.detection) {
+                is ChordDetector.DetectionResult.ChordFound -> det.result.notes.map { it.name }
+                else -> emptyList()
+            }
 
             // Temporal smoothing: require the same chord for CHORD_HOLD_FRAMES
             if (rawChordName == lastChordName && rawChordName != null) {
                 chordHoldCount++
+                chordMissCount = 0
             } else {
                 lastChordName = rawChordName
                 chordHoldCount = if (rawChordName != null) 1 else 0
+                chordMissCount = if (rawChordName == null) chordMissCount + 1 else 0
             }
 
             if (chordHoldCount >= CHORD_HOLD_FRAMES) {
                 displayedChord = rawChordName
-            } else if (rawChordName == null) {
-                // Decay: clear display after a few silent frames
+                displayedChordNotes = rawChordNotes
+            } else if (rawChordName == null && chordMissCount > CHORD_MISS_TOLERANCE) {
+                // Clear only after repeated misses to reduce flicker/dropouts.
                 displayedChord = null
+                displayedChordNotes = emptyList()
+                lastChordName = null
+                chordHoldCount = 0
             }
         }
 
@@ -329,9 +419,18 @@ class PitchMonitorViewModel : ViewModel() {
                 pitchHistory = trimmed + newPoint,
                 currentNote = currentNote,
                 detectedChord = displayedChord,
+                detectedChordNotes = displayedChordNotes,
                 chordConfidence = if (displayedChord != null) lastChordConfidence else 0f,
             )
         }
+
+        logTelemetry(
+            yinResult = yinResult,
+            neuralResult = neuralResult,
+            finalResult = pitchResult,
+            chordConfidence = lastChordConfidence,
+            displayedChord = displayedChord,
+        )
     }
 
     /**
@@ -346,5 +445,136 @@ class PitchMonitorViewModel : ViewModel() {
         } else {
             sorted[mid]
         }
+    }
+
+    private fun initializeNeuralSupervisor() {
+        if (neuralSupervisor != null) return
+        val ctx = appContext ?: return
+        neuralSupervisor = try {
+            NeuralPitchSupervisor(ctx)
+        } catch (e: Exception) {
+            Log.w(TAG, "Neural supervisor unavailable: ${e.message}")
+            null
+        }
+    }
+
+    private fun runNeuralSupervisor(samples: FloatArray): NeuralPitchResult? {
+        val supervisor = neuralSupervisor ?: return null
+        neuralFrameCounter++
+
+        if (neuralFrameCounter % NEURAL_SUPERVISOR_INTERVAL == 0) {
+            val estimate = supervisor.estimate(samples)
+            lastNeuralResult = estimate
+            neuralResultAgeFrames = 0
+            updateNeuralConsistency(estimate?.frequencyHz)
+        } else if (neuralResultAgeFrames < Int.MAX_VALUE) {
+            neuralResultAgeFrames++
+        }
+
+        return if (neuralResultAgeFrames <= NEURAL_RESULT_TTL_FRAMES) {
+            lastNeuralResult
+        } else {
+            null
+        }
+    }
+
+    private fun arbitrate(
+        yinResult: PitchResult?,
+        neuralResult: NeuralPitchResult?,
+    ): PitchResult? {
+        if (yinResult == null) return null
+        if (neuralResult == null) return yinResult
+
+        if (neuralConsistencyFrames < NEURAL_CONSISTENCY_FRAMES) return yinResult
+
+        val semitoneGap = semitoneDistance(yinResult.frequencyHz, neuralResult.frequencyHz)
+        if (semitoneGap <= ARBITRATION_IGNORE_SEMITONES) return yinResult
+
+        if (isOctaveRelation(yinResult.frequencyHz, neuralResult.frequencyHz) &&
+            neuralResult.confidence >= 0.85 &&
+            yinResult.confidence >= 0.12
+        ) {
+            return yinResult.copy(frequencyHz = neuralResult.frequencyHz)
+        }
+
+        return if (semitoneGap >= ARBITRATION_STRONG_SEMITONES &&
+            neuralResult.confidence >= 0.93 &&
+            yinResult.confidence >= 0.16
+        ) {
+            yinResult.copy(frequencyHz = neuralResult.frequencyHz)
+        } else {
+            yinResult
+        }
+    }
+
+    private fun updateNeuralConsistency(neuralFrequencyHz: Double?) {
+        if (neuralFrequencyHz == null || neuralFrequencyHz <= 0.0) {
+            neuralConsistencyFrames = 0
+            lastNeuralFrequencyForConsistency = null
+            return
+        }
+        val previous = lastNeuralFrequencyForConsistency
+        neuralConsistencyFrames = if (previous != null &&
+            semitoneDistance(previous, neuralFrequencyHz) <= 0.5
+        ) {
+            neuralConsistencyFrames + 1
+        } else {
+            1
+        }
+        lastNeuralFrequencyForConsistency = neuralFrequencyHz
+    }
+
+    private fun preferredRootPitchClass(
+        neuralResult: NeuralPitchResult?,
+        finalResult: PitchResult?,
+    ): Int? {
+        val sourceHz = when {
+            neuralResult != null && neuralResult.confidence >= 0.70 -> neuralResult.frequencyHz
+            finalResult != null -> finalResult.frequencyHz
+            else -> return null
+        }
+        if (sourceHz <= 0.0) return null
+        val midi = 69.0 + 12.0 * log2(sourceHz / 440.0)
+        val pitchClass = ((midi.roundToInt() % 12) + 12) % 12
+        return pitchClass
+    }
+
+    private fun semitoneDistance(aHz: Double, bHz: Double): Double {
+        if (aHz <= 0.0 || bHz <= 0.0) return Double.MAX_VALUE
+        return abs(12.0 * log2(aHz / bHz))
+    }
+
+    private fun isOctaveRelation(aHz: Double, bHz: Double): Boolean {
+        if (aHz <= 0.0 || bHz <= 0.0) return false
+        val semitones = semitoneDistance(aHz, bHz)
+        return abs(semitones - 12.0) <= 1.0 || abs(semitones - 24.0) <= 1.0
+    }
+
+    private fun logTelemetry(
+        yinResult: PitchResult?,
+        neuralResult: NeuralPitchResult?,
+        finalResult: PitchResult?,
+        chordConfidence: Float,
+        displayedChord: String?,
+    ) {
+        if (!Log.isLoggable(TAG, Log.DEBUG)) return
+        telemetryFrameCounter++
+        if (telemetryFrameCounter % TELEMETRY_LOG_INTERVAL_FRAMES != 0L) return
+
+        val yinHz = yinResult?.frequencyHz?.let { "%.2f".format(it) } ?: "null"
+        val yinConf = yinResult?.confidence?.let { "%.2f".format(it) } ?: "null"
+        val neuralHz = neuralResult?.frequencyHz?.let { "%.2f".format(it) } ?: "null"
+        val neuralConf = neuralResult?.confidence?.let { "%.2f".format(it) } ?: "null"
+        val finalHz = finalResult?.frequencyHz?.let { "%.2f".format(it) } ?: "null"
+        val finalConf = finalResult?.confidence?.let { "%.2f".format(it) } ?: "null"
+        val neuralMs = neuralSupervisor?.lastInferenceMs()?.let { "%.2f".format(it) } ?: "null"
+
+        Log.d(
+            TAG,
+            "Telemetry frame=$telemetryFrameCounter " +
+                "yinHz=$yinHz yinConf=$yinConf neuralHz=$neuralHz neuralConf=$neuralConf " +
+                "finalHz=$finalHz finalConf=$finalConf neuralMs=$neuralMs " +
+                "chord=${displayedChord ?: "null"} chordConf=${"%.2f".format(chordConfidence)}",
+        )
     }
 }

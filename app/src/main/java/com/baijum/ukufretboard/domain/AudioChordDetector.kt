@@ -1,6 +1,7 @@
 package com.baijum.ukufretboard.domain
 
 import com.baijum.ukufretboard.audio.AudioCaptureEngine
+import kotlin.math.max
 
 /**
  * Detects chords from live audio by combining [FFTProcessor], [Chromagram],
@@ -42,7 +43,7 @@ object AudioChordDetector {
      * `threshold * maxBinEnergy`. Lower values are more sensitive (detect
      * quieter notes) but may pick up overtones as false positives.
      */
-    private const val DEFAULT_THRESHOLD = 0.35f
+    private const val DEFAULT_THRESHOLD = 0.28f
 
     /**
      * Minimum number of active pitch classes required to attempt chord matching.
@@ -65,6 +66,8 @@ object AudioChordDetector {
         samples: FloatArray,
         sampleRate: Int = AudioCaptureEngine.SAMPLE_RATE,
         threshold: Float = DEFAULT_THRESHOLD,
+        preferredRootPitchClass: Int? = null,
+        preferredRootWeight: Float = 1.15f,
     ): AudioChordResult {
         // Step 1: Windowed FFT
         val windowed = FFTProcessor.hanningWindow(samples)
@@ -82,8 +85,16 @@ object AudioChordDetector {
             fftSize = samples.size,
         )
 
+        // Optional guidance: bias the chroma toward a stable root hint from
+        // external pitch estimation (e.g., neural supervisor in Pitch Monitor).
+        val weightedChroma = chroma.copyOf()
+        if (preferredRootPitchClass != null && preferredRootPitchClass in 0..11) {
+            weightedChroma[preferredRootPitchClass] =
+                weightedChroma[preferredRootPitchClass] * max(1.0f, preferredRootWeight)
+        }
+
         // Step 4: Threshold — find active pitch classes
-        val maxEnergy = chroma.max()
+        val maxEnergy = weightedChroma.max()
         if (maxEnergy <= 0f) {
             return AudioChordResult(
                 detection = ChordDetector.DetectionResult.NoSelection,
@@ -96,10 +107,10 @@ object AudioChordDetector {
         val activePitchClasses = mutableSetOf<Int>()
         var activeEnergy = 0f
 
-        for (i in chroma.indices) {
-            if (chroma[i] >= cutoff) {
+        for (i in weightedChroma.indices) {
+            if (weightedChroma[i] >= cutoff) {
                 activePitchClasses.add(i)
-                activeEnergy += chroma[i]
+                activeEnergy += weightedChroma[i]
             }
         }
 
@@ -111,7 +122,7 @@ object AudioChordDetector {
         }
 
         // Confidence: fraction of total energy captured by the active bins
-        val confidence = activeEnergy / chroma.sum()
+        val confidence = activeEnergy / weightedChroma.sum().coerceAtLeast(1e-6f)
 
         return AudioChordResult(
             detection = detection,
