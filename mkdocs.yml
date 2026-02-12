@@ -8,11 +8,38 @@ theme:
   name: material
   logo: app-icon.svg
   favicon: app-icon.svg
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
   features:
     - navigation.tabs
     - navigation.sections
     - navigation.top
+    - navigation.indexes
+    - navigation.expand
+    - toc.integrate
     - content.code.copy
+    - content.action.edit
+    - search.suggest
+    - search.highlight
+    - search.share
 
 extra_css:
   - css/landing.css

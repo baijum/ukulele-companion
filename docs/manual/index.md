@@ -2,18 +2,59 @@
 
 Welcome to **Ukulele Companion**, a free, offline, ad-free Android app for learning ukulele. This manual walks you through every core feature so you can get the most out of the app.
 
-## Table of Contents
+<div class="manual-grid">
 
-1. [Getting Started](01-getting-started.md) — Installation, first launch, and navigating the app
-2. [Explorer](02-explorer.md) — Interactive fretboard, chord detection, and scale overlay
-3. [Chords](03-chords.md) — Browsing the chord library and saving favorites
-4. [Patterns](04-patterns.md) — Strumming and fingerpicking pattern reference
-5. [Progressions](05-progressions.md) — Common chord progressions in any key, with tap tempo
-6. [Favorites](06-favorites.md) — Saving and organizing your favorite voicings
-7. [Songs](07-songs.md) — Creating chord sheets with auto-scroll, transpose, key detection, and ChordPro import/export
-8. [Settings](08-settings.md) — Tuning, themes, sound, notifications, and more
-9. [Learning & Practice](09-learning.md) — Progress tracking, daily challenges, practice routines, achievements, and song finder
-10. [Play Along & Chord Training](10-play-along.md) — Real-time play-along with chord detection, spaced repetition, and chord transition animation
+  <a href="01-getting-started.md" class="manual-card">
+    <h3>Getting Started</h3>
+    <p>Installation, first launch, and navigating the app.</p>
+  </a>
+
+  <a href="02-explorer.md" class="manual-card">
+    <h3>Explorer</h3>
+    <p>Interactive fretboard, chord detection, and scale overlay.</p>
+  </a>
+
+  <a href="03-chords.md" class="manual-card">
+    <h3>Chords</h3>
+    <p>Browsing the chord library and saving favorites.</p>
+  </a>
+
+  <a href="04-patterns.md" class="manual-card">
+    <h3>Patterns</h3>
+    <p>Strumming and fingerpicking pattern reference.</p>
+  </a>
+
+  <a href="05-progressions.md" class="manual-card">
+    <h3>Progressions</h3>
+    <p>Common chord progressions in any key, with tap tempo.</p>
+  </a>
+
+  <a href="06-favorites.md" class="manual-card">
+    <h3>Favorites</h3>
+    <p>Saving and organizing your favorite voicings.</p>
+  </a>
+
+  <a href="07-songs.md" class="manual-card">
+    <h3>Songs</h3>
+    <p>Creating chord sheets with auto-scroll, transpose, key detection, and ChordPro import/export.</p>
+  </a>
+
+  <a href="08-settings.md" class="manual-card">
+    <h3>Settings</h3>
+    <p>Tuning, themes, sound, notifications, and more.</p>
+  </a>
+
+  <a href="09-learning.md" class="manual-card">
+    <h3>Learning & Practice</h3>
+    <p>Progress tracking, daily challenges, practice routines, achievements, and song finder.</p>
+  </a>
+
+  <a href="10-play-along.md" class="manual-card">
+    <h3>Play Along & Chord Training</h3>
+    <p>Real-time play-along with chord detection, spaced repetition, and chord transition animation.</p>
+  </a>
+
+</div>
 
 ## About the App
 

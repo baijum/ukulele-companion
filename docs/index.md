@@ -1,3 +1,9 @@
+---
+hide:
+  - navigation
+  - toc
+---
+
 # Ukulele Companion
 
 <section class="hero-shell">
@@ -7,13 +13,14 @@
       <span>Ukulele Companion</span>
     </div>
     <p class="hero-kicker">Free. Offline. Ad-free.</p>
-    <h1>A complete practice companion for ukulele players.</h1>
+    <h1>The complete practice companion for ukulele players.</h1>
     <p class="hero-subtitle">
-      Learn chords, explore scales, train your ear, and build real songs in one
-      clean Android experience built for daily practice.
+      Master chords, explore scales, train your ear, and build real songs in one
+      beautiful Android experience designed for daily practice.
     </p>
-    <div class="hero-cta">
+    <div class="hero-cta" markdown>
       [Start with the Manual](manual/index.md){ .md-button .md-button--primary }
+      [View on GitHub](https://github.com/baijum/ukulele-companion){ .md-button }
     </div>
     <div class="hero-stats">
       <div><strong>30+</strong><span>learning screens</span></div>
@@ -41,19 +48,19 @@
 <div class="feature-grid">
   <article class="feature-card">
     <h3>Interactive Fretboard</h3>
-    <p>Tap notes and instantly detect chords with visual feedback that mirrors your instrument.</p>
+    <p>Tap notes and instantly detect chords with visual feedback that mirrors your actual instrument.</p>
   </article>
   <article class="feature-card">
     <h3>Smart Learning Flow</h3>
-    <p>Move from chord lookup to progressions, scales, and training without leaving the app context.</p>
+    <p>Seamlessly move from chord lookup to progressions, scales, and training without losing context.</p>
   </article>
   <article class="feature-card">
     <h3>Play, Not Configure</h3>
-    <p>No login, no account setup, and no tracking prompts interrupting your practice session.</p>
+    <p>No login, no account setup, and no tracking prompts interrupting your creative flow.</p>
   </article>
   <article class="feature-card">
     <h3>Music Theory That Clicks</h3>
-    <p>Use practical visuals like circle of fifths and interval tools to connect theory with songs.</p>
+    <p>Use practical visuals like the circle of fifths and interval tools to connect theory with the songs you love.</p>
   </article>
 </div>
 
@@ -86,14 +93,14 @@
   </figure>
 </div>
 
-<section class="cta-panel">
+<section class="cta-panel" markdown>
   <h2>Start playing better in minutes</h2>
   <p>Use the manual to get up and running, then explore the feature that matches your current goal.</p>
-  <div class="hero-cta">
+  <div class="hero-cta" markdown>
     [Read manual overview](manual/index.md){ .md-button .md-button--primary }
     [Go to getting started](manual/01-getting-started.md){ .md-button }
   </div>
-  <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.8;">
+  <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.8;" markdown>
     [Privacy Policy](privacy-policy.md)
   </p>
 </section>
