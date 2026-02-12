@@ -78,6 +78,13 @@ Theory lessons, ear training, interval trainer, circle of fifths, glossary, scal
   <img src="docs/screenshots/chord-progressions.png" width="30%" alt="Chord Progressions">
   <img src="docs/screenshots/circle-of-fifths.png" width="30%" alt="Circle of Fifths">
 </p>
+<p align="center">
+  <a href="https://youtube.com/shorts/Vu0_naGO2wA">
+    <img src="https://img.youtube.com/vi/Vu0_naGO2wA/0.jpg" width="30%" alt="Watch demo video">
+  </a>
+  <br>
+  <sub>Tap to watch the demo video</sub>
+</p>
 
 ### ⚙️ Settings
 
