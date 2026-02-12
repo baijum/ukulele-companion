@@ -14,7 +14,6 @@
     </p>
     <div class="hero-cta">
       <a class="md-button md-button--primary" href="manual/">Start with the Manual</a>
-      <a class="md-button" href="privacy-policy/">Privacy Policy</a>
     </div>
     <div class="hero-stats">
       <div><strong>30+</strong><span>learning screens</span></div>
@@ -94,4 +93,7 @@
     <a class="md-button md-button--primary" href="manual/index.md">Read manual overview</a>
     <a class="md-button" href="manual/01-getting-started.md">Go to getting started</a>
   </div>
+  <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.8;">
+    <a href="privacy-policy/">Privacy Policy</a>
+  </p>
 </section>
