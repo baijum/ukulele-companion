@@ -79,11 +79,30 @@ class TunerViewModel : ViewModel() {
 
         /**
          * Approximate interval between pitch readings in ms.
-         * Derived from [AudioCaptureEngine.FRAME_SIZE] / sample-rate.
+         *
+         * With 75 % overlap ([AudioCaptureEngine.HOP_SIZE] = 1024 at
+         * 44.1 kHz) this is ~23 ms — roughly 43 updates per second.
          */
         private const val FRAME_INTERVAL_MS = (
-            AudioCaptureEngine.FRAME_SIZE * 1000L / AudioCaptureEngine.SAMPLE_RATE
+            AudioCaptureEngine.HOP_SIZE * 1000L / AudioCaptureEngine.SAMPLE_RATE
         )
+
+        /**
+         * RMS ratio threshold for onset (pluck) detection.
+         *
+         * When the current frame's RMS exceeds the previous frame's RMS by
+         * this factor, a transient attack is assumed and pitch updates are
+         * suppressed for [BLANKING_FRAMES] to avoid displaying spurious notes.
+         */
+        private const val ONSET_RATIO_THRESHOLD = 3.0f
+
+        /**
+         * Number of frames to suppress after detecting an onset.
+         *
+         * At ~23 ms per frame (75 % overlap), 2 frames ≈ 46 ms — aligned
+         * with the typical 20–50 ms attack phase of a plucked ukulele string.
+         */
+        private const val BLANKING_FRAMES = 2
     }
 
     // --- State ---------------------------------------------------------------
@@ -107,6 +126,23 @@ class TunerViewModel : ViewModel() {
     /** Index of the string that was in-tune in the previous frame. */
     private var inTuneStringIndex = -1
 
+    // --- Onset detection state -----------------------------------------------
+
+    /** RMS energy of the previous frame, for onset (pluck) detection. */
+    private var previousRms = 0f
+
+    /** Remaining frames to suppress after an onset is detected. */
+    private var blankingFramesRemaining = 0
+
+    // --- Pitch continuity state ----------------------------------------------
+
+    /**
+     * Frequency detected in the previous frame, or `null` after silence /
+     * start / stop.  Passed to [PitchDetector.detect] so the lag search
+     * is constrained to a narrow pitch window, preventing wild jumps.
+     */
+    private var previousFrequency: Double? = null
+
     // --- Public API ----------------------------------------------------------
 
     /**
@@ -127,6 +163,9 @@ class TunerViewModel : ViewModel() {
         recentFrequencies.clear()
         inTuneFrames = 0
         inTuneStringIndex = -1
+        previousRms = 0f
+        blankingFramesRemaining = 0
+        previousFrequency = null
 
         AudioCaptureEngine.start(viewModelScope) { buffer ->
             processBuffer(buffer)
@@ -150,6 +189,9 @@ class TunerViewModel : ViewModel() {
         }
         recentFrequencies.clear()
         inTuneFrames = 0
+        previousRms = 0f
+        blankingFramesRemaining = 0
+        previousFrequency = null
     }
 
     /**
@@ -174,10 +216,30 @@ class TunerViewModel : ViewModel() {
      * Processes a single audio buffer through pitch detection and note mapping.
      */
     private fun processBuffer(samples: FloatArray) {
-        val result = PitchDetector.detect(samples, AudioCaptureEngine.SAMPLE_RATE)
+        // --- Onset detection ------------------------------------------------
+        // Detect sudden energy spikes (pluck attacks) and suppress pitch
+        // updates for a few frames so the non-periodic transient doesn't
+        // cause the display to flash a wrong note.
+        val currentRms = PitchDetector.rms(samples)
+        if (previousRms > 0f && currentRms / previousRms > ONSET_RATIO_THRESHOLD) {
+            blankingFramesRemaining = BLANKING_FRAMES
+        }
+        previousRms = currentRms
+
+        if (blankingFramesRemaining > 0) {
+            blankingFramesRemaining--
+            return // skip — likely attack transient
+        }
+
+        val result = PitchDetector.detect(
+            samples,
+            AudioCaptureEngine.SAMPLE_RATE,
+            previousFrequency = previousFrequency,
+        )
 
         if (result == null) {
-            // Silence — decay towards neutral after a few silent frames.
+            // Silence or aperiodic — clear continuity and decay towards neutral.
+            previousFrequency = null
             recentFrequencies.clear()
             inTuneFrames = 0
             _uiState.update {
@@ -192,6 +254,9 @@ class TunerViewModel : ViewModel() {
             }
             return
         }
+
+        // Track for next frame's continuity constraint.
+        previousFrequency = result.frequencyHz
 
         // --- Smoothing -------------------------------------------------------
         recentFrequencies.addLast(result.frequencyHz)

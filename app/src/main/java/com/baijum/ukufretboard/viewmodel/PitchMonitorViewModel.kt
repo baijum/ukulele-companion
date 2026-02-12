@@ -75,10 +75,20 @@ class PitchMonitorViewModel : ViewModel() {
 
         /**
          * Number of consecutive frames a chord must be stable before
-         * it is shown in the UI. At ~93 ms per frame, 3 frames ≈ 280 ms.
-         * This prevents rapid flickering during strums.
+         * it is shown in the UI. At ~23 ms per frame (75 % overlap),
+         * 12 frames ≈ 280 ms. This prevents rapid flickering during strums.
          */
-        private const val CHORD_HOLD_FRAMES = 3
+        private const val CHORD_HOLD_FRAMES = 12
+
+        /**
+         * Run chord detection (FFT + Chromagram) every Nth frame.
+         *
+         * The pitch path runs on every frame for smooth scrolling, but
+         * chord detection is heavier (FFT + Chromagram + matching) and
+         * doesn't benefit from 43 fps. Running every 4th frame keeps it
+         * at ~10 Hz — the same effective rate as before the overlap change.
+         */
+        private const val CHORD_DETECTION_INTERVAL = 4
     }
 
     // --- State ---------------------------------------------------------------
@@ -100,6 +110,12 @@ class PitchMonitorViewModel : ViewModel() {
     /** The chord name currently displayed (after hold threshold). */
     private var displayedChord: String? = null
 
+    /** Confidence of the most recent chord detection (for the UI). */
+    private var lastChordConfidence = 0f
+
+    /** Frame counter for throttling chord detection to every Nth frame. */
+    private var chordFrameCounter = 0
+
     // --- Public API ----------------------------------------------------------
 
     /**
@@ -113,6 +129,8 @@ class PitchMonitorViewModel : ViewModel() {
         lastChordName = null
         chordHoldCount = 0
         displayedChord = null
+        lastChordConfidence = 0f
+        chordFrameCounter = 0
 
         AudioCaptureEngine.start(viewModelScope) { buffer ->
             processBuffer(buffer)
@@ -201,27 +219,32 @@ class PitchMonitorViewModel : ViewModel() {
 
         // =====================================================================
         // PATH 2: Chord detection (FFT → Chromagram → ChordDetector)
+        // Throttled to every CHORD_DETECTION_INTERVAL frames to avoid
+        // running the heavier FFT pipeline at the full 43 fps overlap rate.
         // =====================================================================
-        val chordResult = AudioChordDetector.detect(samples)
+        if (chordFrameCounter++ % CHORD_DETECTION_INTERVAL == 0) {
+            val chordResult = AudioChordDetector.detect(samples)
+            lastChordConfidence = chordResult.confidence
 
-        val rawChordName = when (val det = chordResult.detection) {
-            is ChordDetector.DetectionResult.ChordFound -> det.result.name
-            else -> null
-        }
+            val rawChordName = when (val det = chordResult.detection) {
+                is ChordDetector.DetectionResult.ChordFound -> det.result.name
+                else -> null
+            }
 
-        // Temporal smoothing: require the same chord for CHORD_HOLD_FRAMES
-        if (rawChordName == lastChordName && rawChordName != null) {
-            chordHoldCount++
-        } else {
-            lastChordName = rawChordName
-            chordHoldCount = if (rawChordName != null) 1 else 0
-        }
+            // Temporal smoothing: require the same chord for CHORD_HOLD_FRAMES
+            if (rawChordName == lastChordName && rawChordName != null) {
+                chordHoldCount++
+            } else {
+                lastChordName = rawChordName
+                chordHoldCount = if (rawChordName != null) 1 else 0
+            }
 
-        if (chordHoldCount >= CHORD_HOLD_FRAMES) {
-            displayedChord = rawChordName
-        } else if (rawChordName == null) {
-            // Decay: clear display after a few silent frames
-            displayedChord = null
+            if (chordHoldCount >= CHORD_HOLD_FRAMES) {
+                displayedChord = rawChordName
+            } else if (rawChordName == null) {
+                // Decay: clear display after a few silent frames
+                displayedChord = null
+            }
         }
 
         // =====================================================================
@@ -236,7 +259,7 @@ class PitchMonitorViewModel : ViewModel() {
                 pitchHistory = trimmed + newPoint,
                 currentNote = currentNote,
                 detectedChord = displayedChord,
-                chordConfidence = if (displayedChord != null) chordResult.confidence else 0f,
+                chordConfidence = if (displayedChord != null) lastChordConfidence else 0f,
             )
         }
     }

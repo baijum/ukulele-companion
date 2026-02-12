@@ -14,8 +14,10 @@ import kotlinx.coroutines.withContext
  * Captures audio from the device microphone and emits normalised sample buffers.
  *
  * Wraps Android's [AudioRecord] API, reading PCM 16-bit mono audio at 44.1 kHz
- * in a coroutine loop. Each buffer is normalised to the range -1.0..1.0 and
- * delivered via the [onBuffer] callback supplied to [start].
+ * in a coroutine loop. Incoming samples are accumulated in a circular ring
+ * buffer. Once a full [FRAME_SIZE] window has been filled, an analysis frame is
+ * emitted via [onBuffer][start] every [HOP_SIZE] new samples, producing 75%
+ * overlap between consecutive frames (~43 updates/second).
  *
  * Lifecycle mirrors [ToneGenerator]: call [start] to begin capture and [stop]
  * to release resources. The RECORD_AUDIO permission must be granted before
@@ -35,6 +37,15 @@ object AudioCaptureEngine {
      */
     const val FRAME_SIZE = 4096
 
+    /**
+     * Number of new samples between consecutive analysis frames (hop size).
+     *
+     * With [FRAME_SIZE] = 4096, a hop of 1024 produces 75 % overlap and an
+     * analysis update every ~23 ms — roughly 43 updates per second —
+     * providing smooth visual feedback for the tuner needle.
+     */
+    const val HOP_SIZE = 1024
+
     /** Factor to convert a signed 16-bit PCM sample to the -1.0..1.0 range. */
     private const val SHORT_TO_FLOAT = 1.0f / Short.MAX_VALUE
 
@@ -47,11 +58,15 @@ object AudioCaptureEngine {
     /**
      * Begins capturing audio from the microphone.
      *
-     * Each captured frame of [FRAME_SIZE] samples is normalised to floats and
-     * passed to [onBuffer] on a background thread.
+     * Samples are read in [HOP_SIZE] chunks and accumulated in a circular
+     * ring buffer. Once the buffer contains at least [FRAME_SIZE] samples, an
+     * overlapping analysis frame is linearised and passed to [onBuffer] on a
+     * background thread every [HOP_SIZE] new samples.
      *
-     * @param scope   Coroutine scope that owns the capture lifetime.
-     * @param onBuffer Callback receiving a [FloatArray] of normalised samples.
+     * @param scope    Coroutine scope that owns the capture lifetime.
+     * @param onBuffer Callback receiving a [FloatArray] of [FRAME_SIZE]
+     *   normalised samples. The array is reused across calls; consumers must
+     *   not hold a reference beyond the callback invocation.
      */
     fun start(scope: CoroutineScope, onBuffer: (FloatArray) -> Unit) {
         if (isCapturing) return
@@ -87,25 +102,51 @@ object AudioCaptureEngine {
         captureJob = scope.launch {
             try {
                 withContext(Dispatchers.Default) {
-                    val shortBuf = ShortArray(FRAME_SIZE)
-                    val floatBuf = FloatArray(FRAME_SIZE)
+                    // Read from the recorder in hop-sized chunks.
+                    val shortBuf = ShortArray(HOP_SIZE)
+
+                    // Circular ring buffer that always holds the most recent
+                    // FRAME_SIZE samples.
+                    val ringBuffer = FloatArray(FRAME_SIZE)
+                    var writePos = 0
+
+                    // Reusable linear buffer passed to the callback.
+                    val analysisBuf = FloatArray(FRAME_SIZE)
+
+                    // Counts samples accumulated since the last emission (or
+                    // since capture started).  An analysis frame is emitted
+                    // once `filled` reaches FRAME_SIZE, then every HOP_SIZE
+                    // new samples thereafter.
+                    var filled = 0
 
                     while (isActive) {
                         val read = try {
-                            recorder.read(shortBuf, 0, FRAME_SIZE)
+                            recorder.read(shortBuf, 0, HOP_SIZE)
                         } catch (_: IllegalStateException) {
                             // Recorder was stopped/released — exit gracefully.
                             break
                         }
-                        // Only emit complete frames.  When the recorder is
-                        // stopped, read() may return a partial buffer whose
-                        // length is not a power of two, which would crash the
-                        // downstream FFT (requires power-of-2 input).
-                        if (read == FRAME_SIZE) {
-                            for (i in 0 until read) {
-                                floatBuf[i] = shortBuf[i] * SHORT_TO_FLOAT
+                        if (read <= 0) continue
+
+                        // Accumulate into the ring buffer.
+                        for (i in 0 until read) {
+                            ringBuffer[writePos] = shortBuf[i] * SHORT_TO_FLOAT
+                            writePos = (writePos + 1) % FRAME_SIZE
+                        }
+                        filled += read
+
+                        // Emit once we have a full analysis window, then
+                        // every HOP_SIZE new samples thereafter.
+                        if (filled >= FRAME_SIZE) {
+                            // Linearise: writePos points one past the newest
+                            // sample, so (writePos + 0) % FRAME_SIZE is the
+                            // oldest sample in the window.
+                            for (i in 0 until FRAME_SIZE) {
+                                analysisBuf[i] =
+                                    ringBuffer[(writePos + i) % FRAME_SIZE]
                             }
-                            onBuffer(floatBuf)
+                            onBuffer(analysisBuf)
+                            filled -= HOP_SIZE
                         }
                     }
                 }
