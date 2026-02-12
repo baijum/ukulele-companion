@@ -1,5 +1,8 @@
 package com.baijum.ukufretboard.ui
 
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -486,6 +489,16 @@ private fun AboutSection() {
         text = "Version $versionName",
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
+    Spacer(modifier = Modifier.height(4.dp))
+    Text(
+        text = "Website",
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.clickable {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://baijum.github.io/ukulele-companion"))
+            context.startActivity(intent)
+        },
     )
 
     Spacer(modifier = Modifier.height(16.dp))

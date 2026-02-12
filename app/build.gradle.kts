@@ -28,8 +28,8 @@ android {
         applicationId = "com.baijum.ukufretboard"
         minSdk = 26
         targetSdk = 35
-        versionCode = 49
-        versionName = "5.15"
+        versionCode = 50
+        versionName = "5.16"
     }
 
     if (keystorePropertiesFile.exists()) {
