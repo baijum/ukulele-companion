@@ -10,6 +10,7 @@
   padding: 1.4rem;
   border-radius: 1.25rem;
   border: 1px solid var(--md-default-fg-color--lightest);
+  background-color: var(--md-default-bg-color);
   background:
     radial-gradient(circle at 10% 10%, color-mix(in srgb, var(--md-primary-fg-color) 18%, transparent) 0%, transparent 45%),
     radial-gradient(circle at 90% 90%, color-mix(in srgb, var(--md-accent-fg-color) 14%, transparent) 0%, transparent 42%),

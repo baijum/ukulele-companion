@@ -15,7 +15,7 @@ theme:
     - content.code.copy
 
 extra_css:
-  - assets/stylesheets/extra.css
+  - css/landing.css
 
 markdown_extensions:
   - admonition
