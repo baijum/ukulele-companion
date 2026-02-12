@@ -133,13 +133,27 @@ private fun TunerContent(
             label = "noteColor",
         )
 
+        // --- Confidence → alpha mapping -------------------------------------
+        // YIN confidence: 0.0 = perfectly periodic, up to 0.30 (reject gate).
+        // Map to visual opacity so the UI "fades in" as the pitch stabilises
+        // and dims when the detection is borderline.
+        //   0.00 → 1.0 (fully opaque — very confident)
+        //   0.15 → 0.7
+        //   0.30 → 0.4 (faded — barely accepted)
+        val confidenceAlpha by animateFloatAsState(
+            targetValue = if (state.tuningStatus == TuningStatus.SILENT) 1f
+            else (1.0f - state.confidence.toFloat() * 2f).coerceIn(0.4f, 1.0f),
+            animationSpec = tween(durationMillis = 150),
+            label = "confidenceAlpha",
+        )
+
         Text(
             text = state.detectedNote ?: "—",
             style = MaterialTheme.typography.displayLarge.copy(
                 fontWeight = FontWeight.Bold,
                 fontSize = 64.sp,
             ),
-            color = noteColor,
+            color = noteColor.copy(alpha = noteColor.alpha * confidenceAlpha),
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -156,6 +170,7 @@ private fun TunerContent(
         NeedleMeter(
             cents = animatedCents,
             tuningStatus = state.tuningStatus,
+            confidenceAlpha = confidenceAlpha,
             inTuneColor = meterColorScheme.primary,
             closeColor = meterColorScheme.tertiary,
             offColor = meterColorScheme.error,
@@ -181,7 +196,7 @@ private fun TunerContent(
         Text(
             text = guidanceText,
             style = MaterialTheme.typography.titleMedium,
-            color = noteColor,
+            color = noteColor.copy(alpha = noteColor.alpha * confidenceAlpha),
             textAlign = TextAlign.Center,
         )
 
@@ -262,6 +277,7 @@ private fun TunerContent(
 private fun NeedleMeter(
     cents: Float,
     tuningStatus: TuningStatus,
+    confidenceAlpha: Float,
     inTuneColor: Color,
     closeColor: Color,
     offColor: Color,
@@ -330,11 +346,15 @@ private fun NeedleMeter(
             val needleEndX = cx + (needleLen * cos(needleAngle)).toFloat()
             val needleEndY = cy - (needleLen * sin(needleAngle)).toFloat()
 
-            val needleCol = when (tuningStatus) {
+            val baseNeedleCol = when (tuningStatus) {
                 TuningStatus.IN_TUNE -> inTuneColor
                 TuningStatus.CLOSE -> closeColor
                 else -> offColor
             }
+            // Modulate needle opacity by detection confidence.
+            val needleCol = baseNeedleCol.copy(
+                alpha = baseNeedleCol.alpha * confidenceAlpha,
+            )
 
             drawLine(
                 color = needleCol,
