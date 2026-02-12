@@ -1,0 +1,8 @@
+Place the SwiftF0 ONNX model in this directory as:
+
+  swift_f0_model.onnx
+
+Notes:
+- Source: https://github.com/lars76/swift-f0 (model.onnx from pip package/release)
+- Expected by code: app/src/main/assets/swift_f0_model.onnx
+- If the model file is missing, the app gracefully falls back to YIN-only tuning.

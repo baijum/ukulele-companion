@@ -1,11 +1,16 @@
 package com.baijum.ukufretboard.viewmodel
 
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.baijum.ukufretboard.audio.AudioCaptureEngine
 import com.baijum.ukufretboard.data.UkuleleTuning
+import com.baijum.ukufretboard.domain.NeuralPitchResult
+import com.baijum.ukufretboard.domain.NeuralPitchSupervisor
 import com.baijum.ukufretboard.domain.NoteInfo
 import com.baijum.ukufretboard.domain.PitchDetector
+import com.baijum.ukufretboard.domain.PitchResult
 import com.baijum.ukufretboard.domain.StringMatch
 import com.baijum.ukufretboard.domain.TunerNoteMapper
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlin.math.abs
+import kotlin.math.log2
 
 /**
  * Tuning accuracy status shown to the user.
@@ -30,6 +36,11 @@ enum class TuningStatus {
     CLOSE,
 }
 
+enum class NeuralRuntimeStatus {
+    ACTIVE,
+    FALLBACK,
+}
+
 /**
  * UI state for the Tuner screen.
  */
@@ -40,6 +51,8 @@ data class TunerUiState(
     val detectedNote: String? = null,
     /** Cents deviation from the nearest note (−50 .. +50). */
     val centsDeviation: Double = 0.0,
+    /** Display-only smoothed cents for calmer needle movement. */
+    val displayCentsDeviation: Double = 0.0,
     /** Detection confidence (lower = more confident in YIN terms). */
     val confidence: Double = 1.0,
     /** Current tuning accuracy status. */
@@ -50,6 +63,12 @@ data class TunerUiState(
     val stringProgress: List<Boolean> = listOf(false, false, false, false),
     /** The underlying [NoteInfo] for downstream consumers (e.g. reference tone). */
     val noteInfo: NoteInfo? = null,
+    /** Whether SwiftF0 session/model is available on this device/build. */
+    val isNeuralAvailable: Boolean = false,
+    /** Whether SwiftF0 is actively producing usable runtime estimates. */
+    val isNeuralActive: Boolean = false,
+    /** High-level status shown in the permanent tuner badge. */
+    val neuralRuntimeStatus: NeuralRuntimeStatus = NeuralRuntimeStatus.FALLBACK,
 )
 
 /**
@@ -66,16 +85,22 @@ class TunerViewModel : ViewModel() {
 
     companion object {
         /** Cents threshold for "in tune". */
-        const val IN_TUNE_CENTS = 5.0
+        const val IN_TUNE_CENTS = 6.0
 
         /** Cents threshold for "close" (between close and flat/sharp). */
         const val CLOSE_CENTS = 15.0
+
+        /** Smoothing factor for display-only cents damping (0..1). */
+        private const val DISPLAY_CENTS_ALPHA = 0.30
+
+        /** Suppress tiny centre jitter for the needle UI. */
+        private const val DISPLAY_DEADBAND_CENTS = 0.8
 
         /** How many recent readings to keep for smoothing. */
         private const val SMOOTHING_WINDOW = 5
 
         /** Milliseconds a string must stay in-tune before it's marked done. */
-        private const val IN_TUNE_HOLD_MS = 2000L
+        private const val IN_TUNE_HOLD_MS = 1400L
 
         /**
          * Approximate interval between pitch readings in ms.
@@ -103,6 +128,43 @@ class TunerViewModel : ViewModel() {
          * with the typical 20–50 ms attack phase of a plucked ukulele string.
          */
         private const val BLANKING_FRAMES = 2
+
+        /**
+         * How long to keep the last valid reading before showing SILENT.
+         *
+         * At ~23 ms per frame, 400 ms corresponds to ~17 frames. This prevents
+         * brief dropouts from instantly replacing guidance text with
+         * "Play a string…".
+         */
+        private const val LOST_SIGNAL_HOLD_MS = 400L
+
+        /**
+         * Neural supervisor cadence. At ~23 ms per frame, 5 frames ≈ 115 ms.
+         */
+        private const val NEURAL_SUPERVISOR_INTERVAL = 5
+
+        /** If stale, neural estimates are ignored until refreshed. */
+        private const val NEURAL_RESULT_TTL_FRAMES = 10
+
+        /** Mark runtime fallback if this many inferences fail in a row. */
+        private const val NEURAL_FAILURE_THRESHOLD = 15
+
+        /** Ignore tiny YIN-vs-neural disagreements. */
+        private const val ARBITRATION_IGNORE_SEMITONES = 1.5
+
+        /** Strong disagreement threshold for non-octave correction. */
+        private const val ARBITRATION_STRONG_SEMITONES = 2.5
+
+        /** Required consecutive similar neural readings before override. */
+        private const val NEURAL_CONSISTENCY_FRAMES = 2
+
+        /** Hysteresis for keeping previous target string assignment. */
+        private const val STRING_SWITCH_HYSTERESIS_CENTS = 4.0
+
+        /** Periodic telemetry cadence to keep logs readable. */
+        private const val TELEMETRY_LOG_INTERVAL_FRAMES = 25L
+
+        private const val TAG = "TunerViewModel"
     }
 
     // --- State ---------------------------------------------------------------
@@ -113,7 +175,8 @@ class TunerViewModel : ViewModel() {
     /** Current tuning — set externally by the host screen from SettingsViewModel. */
     private var currentTuning: UkuleleTuning = UkuleleTuning.HIGH_G
 
-    
+    /** Application context used to initialize optional neural supervisor. */
+    private var appContext: Context? = null
 
     // --- Smoothing state -----------------------------------------------------
 
@@ -134,6 +197,9 @@ class TunerViewModel : ViewModel() {
     /** Remaining frames to suppress after an onset is detected. */
     private var blankingFramesRemaining = 0
 
+    /** Consecutive frames with no reliable pitch result. */
+    private var lostSignalFrames = 0
+
     // --- Pitch continuity state ----------------------------------------------
 
     /**
@@ -142,6 +208,27 @@ class TunerViewModel : ViewModel() {
      * is constrained to a narrow pitch window, preventing wild jumps.
      */
     private var previousFrequency: Double? = null
+    private var displayCentsFiltered = 0.0
+
+    /** Frames to hold the last non-silent reading before switching to SILENT. */
+    private val lostSignalHoldFrames = (
+        LOST_SIGNAL_HOLD_MS / FRAME_INTERVAL_MS
+    ).toInt().coerceAtLeast(1)
+
+    // --- Neural supervisor state --------------------------------------------
+
+    private var neuralSupervisor: NeuralPitchSupervisor? = null
+    private var neuralFrameCounter = 0
+    private var lastNeuralResult: NeuralPitchResult? = null
+    private var neuralResultAgeFrames = Int.MAX_VALUE
+    private var consecutiveNeuralFailures = 0
+    private var lastNeuralFrequencyForConsistency: Double? = null
+    private var neuralConsistencyFrames = 0
+
+    // --- Calibration telemetry ------------------------------------------------
+    private var telemetryFrameCounter = 0L
+    private var telemetryOverrideCount = 0L
+    private var lastLoggedStatus: TuningStatus = TuningStatus.SILENT
 
     // --- Public API ----------------------------------------------------------
 
@@ -151,6 +238,15 @@ class TunerViewModel : ViewModel() {
     fun setTuning(tuning: UkuleleTuning) {
         currentTuning = tuning
         resetProgress()
+    }
+
+    /**
+     * Provides an application context so optional neural supervisor can load.
+     */
+    fun setApplicationContext(context: Context) {
+        if (appContext != null) return
+        appContext = context.applicationContext
+        initializeNeuralSupervisor()
     }
 
     /**
@@ -165,7 +261,18 @@ class TunerViewModel : ViewModel() {
         inTuneStringIndex = -1
         previousRms = 0f
         blankingFramesRemaining = 0
+        lostSignalFrames = 0
         previousFrequency = null
+        displayCentsFiltered = 0.0
+        neuralFrameCounter = 0
+        lastNeuralResult = null
+        neuralResultAgeFrames = Int.MAX_VALUE
+        consecutiveNeuralFailures = 0
+        lastNeuralFrequencyForConsistency = null
+        neuralConsistencyFrames = 0
+        telemetryFrameCounter = 0
+        telemetryOverrideCount = 0
+        lastLoggedStatus = TuningStatus.SILENT
 
         AudioCaptureEngine.start(viewModelScope) { buffer ->
             processBuffer(buffer)
@@ -183,6 +290,7 @@ class TunerViewModel : ViewModel() {
                 tuningStatus = TuningStatus.SILENT,
                 detectedNote = null,
                 centsDeviation = 0.0,
+                displayCentsDeviation = 0.0,
                 targetString = null,
                 noteInfo = null,
             )
@@ -191,7 +299,15 @@ class TunerViewModel : ViewModel() {
         inTuneFrames = 0
         previousRms = 0f
         blankingFramesRemaining = 0
+        lostSignalFrames = 0
         previousFrequency = null
+        displayCentsFiltered = 0.0
+        neuralFrameCounter = 0
+        lastNeuralResult = null
+        neuralResultAgeFrames = Int.MAX_VALUE
+        consecutiveNeuralFailures = 0
+        lastNeuralFrequencyForConsistency = null
+        neuralConsistencyFrames = 0
     }
 
     /**
@@ -203,11 +319,14 @@ class TunerViewModel : ViewModel() {
         }
         inTuneFrames = 0
         inTuneStringIndex = -1
+        lostSignalFrames = 0
     }
 
     override fun onCleared() {
         super.onCleared()
         AudioCaptureEngine.stop()
+        neuralSupervisor?.close()
+        neuralSupervisor = null
     }
 
     // --- Internal pipeline ---------------------------------------------------
@@ -238,15 +357,29 @@ class TunerViewModel : ViewModel() {
         )
 
         if (result == null) {
-            // Silence or aperiodic — clear continuity and decay towards neutral.
+            // Brief gaps are common while strings decay. Keep the last reading
+            // for a short grace window so guidance text remains readable.
+            lostSignalFrames++
+            if (
+                lostSignalFrames < lostSignalHoldFrames &&
+                _uiState.value.tuningStatus != TuningStatus.SILENT
+            ) {
+                return
+            }
+
+            // Sustained loss — now transition to SILENT and clear continuity.
+            lostSignalFrames = 0
             previousFrequency = null
             recentFrequencies.clear()
             inTuneFrames = 0
+            inTuneStringIndex = -1
+            displayCentsFiltered = 0.0
             _uiState.update {
                 it.copy(
                     tuningStatus = TuningStatus.SILENT,
                     detectedNote = null,
                     centsDeviation = 0.0,
+                    displayCentsDeviation = 0.0,
                     confidence = 1.0,
                     targetString = null,
                     noteInfo = null,
@@ -255,11 +388,20 @@ class TunerViewModel : ViewModel() {
             return
         }
 
+        lostSignalFrames = 0
+
+        val neuralResultForFrame = runNeuralSupervisor(samples)
+        val arbitration = arbitrate(result, neuralResultForFrame)
+        val finalPitch = arbitration.result
+        if (arbitration.overrideApplied) {
+            telemetryOverrideCount++
+        }
+
         // Track for next frame's continuity constraint.
-        previousFrequency = result.frequencyHz
+        previousFrequency = finalPitch.frequencyHz
 
         // --- Smoothing -------------------------------------------------------
-        recentFrequencies.addLast(result.frequencyHz)
+        recentFrequencies.addLast(finalPitch.frequencyHz)
         if (recentFrequencies.size > SMOOTHING_WINDOW) {
             recentFrequencies.removeFirst()
         }
@@ -267,12 +409,20 @@ class TunerViewModel : ViewModel() {
 
         // --- Note mapping ----------------------------------------------------
         val noteInfo = TunerNoteMapper.mapFrequency(smoothedHz) ?: return
-        val stringMatch = TunerNoteMapper.findNearestString(noteInfo, currentTuning)
+        val previousTargetStringIndex = _uiState.value.targetString?.stringIndex
+        val stringMatch = TunerNoteMapper.findNearestStringWithHysteresis(
+            noteInfo = noteInfo,
+            tuning = currentTuning,
+            previousStringIndex = previousTargetStringIndex,
+            switchHysteresisCents = STRING_SWITCH_HYSTERESIS_CENTS,
+        )
 
         // Use cents-from-target-string for the meter (more useful than
         // cents-from-nearest-chromatic-note when tuning a specific string).
         val cents = stringMatch.centsFromTarget
         val absCents = abs(cents)
+        val clampedCents = cents.coerceIn(-50.0, 50.0)
+        val displayCents = smoothDisplayCents(clampedCents)
 
         val status = when {
             absCents <= IN_TUNE_CENTS -> TuningStatus.IN_TUNE
@@ -304,14 +454,25 @@ class TunerViewModel : ViewModel() {
         _uiState.update {
             it.copy(
                 detectedNote = displayNote,
-                centsDeviation = cents.coerceIn(-50.0, 50.0),
-                confidence = result.confidence,
+                centsDeviation = clampedCents,
+                displayCentsDeviation = displayCents,
+                confidence = finalPitch.confidence,
                 tuningStatus = status,
                 targetString = stringMatch,
                 stringProgress = progress,
                 noteInfo = noteInfo,
             )
         }
+
+        logCalibrationTelemetry(
+            yinResult = result,
+            neuralResult = neuralResultForFrame,
+            finalPitch = finalPitch,
+            cents = clampedCents,
+            status = status,
+            stringMatch = stringMatch,
+            arbitrationReason = arbitration.reason,
+        )
     }
 
     /**
@@ -328,5 +489,221 @@ class TunerViewModel : ViewModel() {
         } else {
             sorted[mid]
         }
+    }
+
+    private fun initializeNeuralSupervisor() {
+        if (neuralSupervisor != null) return
+        val ctx = appContext ?: return
+        neuralSupervisor = try {
+            NeuralPitchSupervisor(ctx).also {
+                updateNeuralStatus(
+                    available = true,
+                    active = true,
+                    status = NeuralRuntimeStatus.ACTIVE,
+                )
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "Neural supervisor unavailable: ${e.message}")
+            updateNeuralStatus(
+                available = false,
+                active = false,
+                status = NeuralRuntimeStatus.FALLBACK,
+            )
+            null
+        }
+    }
+
+    private fun runNeuralSupervisor(samples: FloatArray): NeuralPitchResult? {
+        val supervisor = neuralSupervisor ?: return null
+        neuralFrameCounter++
+
+        if (neuralFrameCounter % NEURAL_SUPERVISOR_INTERVAL == 0) {
+            val estimate = supervisor.estimate(samples)
+            lastNeuralResult = estimate
+            neuralResultAgeFrames = 0
+            if (estimate != null) {
+                consecutiveNeuralFailures = 0
+                updateNeuralConsistency(estimate.frequencyHz)
+                updateNeuralStatus(
+                    available = true,
+                    active = true,
+                    status = NeuralRuntimeStatus.ACTIVE,
+                )
+            } else {
+                consecutiveNeuralFailures++
+                neuralConsistencyFrames = 0
+                lastNeuralFrequencyForConsistency = null
+                if (consecutiveNeuralFailures >= NEURAL_FAILURE_THRESHOLD) {
+                    updateNeuralStatus(
+                        available = true,
+                        active = false,
+                        status = NeuralRuntimeStatus.FALLBACK,
+                    )
+                }
+            }
+        } else if (neuralResultAgeFrames < Int.MAX_VALUE) {
+            neuralResultAgeFrames++
+        }
+
+        return if (neuralResultAgeFrames <= NEURAL_RESULT_TTL_FRAMES) {
+            lastNeuralResult
+        } else {
+            null
+        }
+    }
+
+    private data class ArbitrationDecision(
+        val result: PitchResult,
+        val overrideApplied: Boolean,
+        val reason: String,
+    )
+
+    private fun arbitrate(
+        yinResult: PitchResult,
+        neuralResult: NeuralPitchResult?,
+    ): ArbitrationDecision {
+        if (neuralResult == null) {
+            return ArbitrationDecision(
+                result = yinResult,
+                overrideApplied = false,
+                reason = "no_neural",
+            )
+        }
+
+        val semitoneGap = semitoneDistance(yinResult.frequencyHz, neuralResult.frequencyHz)
+        if (semitoneGap <= ARBITRATION_IGNORE_SEMITONES) {
+            return ArbitrationDecision(
+                result = yinResult,
+                overrideApplied = false,
+                reason = "small_gap",
+            )
+        }
+
+        if (neuralConsistencyFrames < NEURAL_CONSISTENCY_FRAMES) {
+            return ArbitrationDecision(
+                result = yinResult,
+                overrideApplied = false,
+                reason = "neural_inconsistent",
+            )
+        }
+
+        if (isOctaveRelation(yinResult.frequencyHz, neuralResult.frequencyHz) &&
+            neuralResult.confidence >= 0.85 &&
+            yinResult.confidence >= 0.12
+        ) {
+            return ArbitrationDecision(
+                result = yinResult.copy(frequencyHz = neuralResult.frequencyHz),
+                overrideApplied = true,
+                reason = "octave_correction",
+            )
+        }
+
+        return if (semitoneGap >= ARBITRATION_STRONG_SEMITONES &&
+            neuralResult.confidence >= 0.93 &&
+            yinResult.confidence >= 0.16
+        ) {
+            ArbitrationDecision(
+                result = yinResult.copy(frequencyHz = neuralResult.frequencyHz),
+                overrideApplied = true,
+                reason = "strong_disagreement",
+            )
+        } else {
+            ArbitrationDecision(
+                result = yinResult,
+                overrideApplied = false,
+                reason = "keep_yin",
+            )
+        }
+    }
+
+    private fun semitoneDistance(aHz: Double, bHz: Double): Double {
+        if (aHz <= 0.0 || bHz <= 0.0) return Double.MAX_VALUE
+        return abs(12.0 * log2(aHz / bHz))
+    }
+
+    private fun isOctaveRelation(aHz: Double, bHz: Double): Boolean {
+        if (aHz <= 0.0 || bHz <= 0.0) return false
+        val semitones = semitoneDistance(aHz, bHz)
+        return abs(semitones - 12.0) <= 1.0 || abs(semitones - 24.0) <= 1.0
+    }
+
+    private fun updateNeuralConsistency(neuralFrequencyHz: Double) {
+        if (neuralFrequencyHz <= 0.0) {
+            neuralConsistencyFrames = 0
+            lastNeuralFrequencyForConsistency = null
+            return
+        }
+
+        val previous = lastNeuralFrequencyForConsistency
+        neuralConsistencyFrames = if (previous != null &&
+            semitoneDistance(previous, neuralFrequencyHz) <= 0.5
+        ) {
+            neuralConsistencyFrames + 1
+        } else {
+            1
+        }
+        lastNeuralFrequencyForConsistency = neuralFrequencyHz
+    }
+
+    private fun smoothDisplayCents(rawCents: Double): Double {
+        val target = if (abs(rawCents) < DISPLAY_DEADBAND_CENTS) 0.0 else rawCents
+        displayCentsFiltered += DISPLAY_CENTS_ALPHA * (target - displayCentsFiltered)
+        if (abs(displayCentsFiltered) < DISPLAY_DEADBAND_CENTS / 2.0) {
+            displayCentsFiltered = 0.0
+        }
+        return displayCentsFiltered
+    }
+
+    private fun updateNeuralStatus(
+        available: Boolean,
+        active: Boolean,
+        status: NeuralRuntimeStatus,
+    ) {
+        _uiState.update {
+            it.copy(
+                isNeuralAvailable = available,
+                isNeuralActive = active,
+                neuralRuntimeStatus = status,
+            )
+        }
+    }
+
+    private fun logCalibrationTelemetry(
+        yinResult: PitchResult,
+        neuralResult: NeuralPitchResult?,
+        finalPitch: PitchResult,
+        cents: Double,
+        status: TuningStatus,
+        stringMatch: StringMatch,
+        arbitrationReason: String,
+    ) {
+        if (!Log.isLoggable(TAG, Log.DEBUG)) return
+
+        telemetryFrameCounter++
+
+        if (status != lastLoggedStatus) {
+            Log.d(
+                TAG,
+                "Status transition: $lastLoggedStatus -> $status " +
+                    "(string=${stringMatch.stringName}, cents=${"%.2f".format(cents)})",
+            )
+            lastLoggedStatus = status
+        }
+
+        if (telemetryFrameCounter % TELEMETRY_LOG_INTERVAL_FRAMES != 0L) return
+
+        val neuralFreq = neuralResult?.frequencyHz?.let { "%.2f".format(it) } ?: "null"
+        val neuralConf = neuralResult?.confidence?.let { "%.2f".format(it) } ?: "null"
+        val inferenceMs = neuralSupervisor?.lastInferenceMs()?.let { "%.2f".format(it) } ?: "null"
+
+        Log.d(
+            TAG,
+            "Telemetry frame=$telemetryFrameCounter " +
+                "yinHz=${"%.2f".format(yinResult.frequencyHz)} yinConf=${"%.2f".format(yinResult.confidence)} " +
+                "neuralHz=$neuralFreq neuralConf=$neuralConf neuralMs=$inferenceMs " +
+                "finalHz=${"%.2f".format(finalPitch.frequencyHz)} finalConf=${"%.2f".format(finalPitch.confidence)} " +
+                "string=${stringMatch.stringName} cents=${"%.2f".format(cents)} status=$status " +
+                "reason=$arbitrationReason overrides=$telemetryOverrideCount",
+        )
     }
 }

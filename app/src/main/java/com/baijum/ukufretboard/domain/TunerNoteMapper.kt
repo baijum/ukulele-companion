@@ -117,4 +117,53 @@ object TunerNoteMapper {
             centsFromTarget = bestCents,
         )
     }
+
+    /**
+     * Finds the nearest string with optional hysteresis to reduce string-switch
+     * thrashing when two strings are very close in distance.
+     *
+     * If [previousStringIndex] is provided and it remains within
+     * [switchHysteresisCents] of the current best match, the previous string is
+     * kept. This stabilizes status guidance during borderline frames.
+     */
+    fun findNearestStringWithHysteresis(
+        noteInfo: NoteInfo,
+        tuning: UkuleleTuning,
+        previousStringIndex: Int?,
+        switchHysteresisCents: Double,
+    ): StringMatch {
+        val centsDiffs = tuning.pitchClasses.indices.map { i ->
+            val targetHz = ToneGenerator.frequencyOf(
+                tuning.pitchClasses[i],
+                tuning.octaves[i],
+            )
+            1200.0 * log2(noteInfo.frequencyHz / targetHz)
+        }
+
+        var bestIndex = 0
+        var bestAbs = Double.MAX_VALUE
+        centsDiffs.forEachIndexed { idx, cents ->
+            val absCents = abs(cents)
+            if (absCents < bestAbs) {
+                bestAbs = absCents
+                bestIndex = idx
+            }
+        }
+
+        val chosenIndex = if (previousStringIndex != null &&
+            previousStringIndex in centsDiffs.indices
+        ) {
+            val previousAbs = abs(centsDiffs[previousStringIndex])
+            if (previousAbs <= bestAbs + switchHysteresisCents) previousStringIndex
+            else bestIndex
+        } else {
+            bestIndex
+        }
+
+        return StringMatch(
+            stringIndex = chosenIndex,
+            stringName = tuning.stringNames[chosenIndex],
+            centsFromTarget = centsDiffs[chosenIndex],
+        )
+    }
 }

@@ -28,8 +28,8 @@ android {
         applicationId = "com.baijum.ukufretboard"
         minSdk = 26
         targetSdk = 35
-        versionCode = 39
-        versionName = "5.9"
+        versionCode = 46
+        versionName = "5.12"
     }
 
     if (keystorePropertiesFile.exists()) {
@@ -92,5 +92,6 @@ dependencies {
     implementation(libs.glance.material3)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.reorderable)
+    implementation(libs.onnxruntime.android)
     debugImplementation(libs.ui.tooling)
 }

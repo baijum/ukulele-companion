@@ -4,6 +4,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -32,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,6 +50,7 @@ import androidx.compose.ui.unit.sp
 import com.baijum.ukufretboard.audio.ToneGenerator
 import com.baijum.ukufretboard.data.UkuleleTuning
 import com.baijum.ukufretboard.viewmodel.TunerViewModel
+import com.baijum.ukufretboard.viewmodel.NeuralRuntimeStatus
 import com.baijum.ukufretboard.viewmodel.TuningStatus
 import kotlinx.coroutines.launch
 import kotlin.math.PI
@@ -74,8 +78,11 @@ fun TunerTab(
     leftHanded: Boolean,
     soundEnabled: Boolean,
 ) {
+    val context = LocalContext.current
+
     // Keep ViewModel in sync with settings.
     viewModel.setTuning(tuning)
+    viewModel.setApplicationContext(context)
 
     // Stop capture when leaving the tab.
     DisposableEffect(Unit) {
@@ -119,6 +126,11 @@ private fun TunerContent(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
+        SwiftF0StatusBadge(
+            status = state.neuralRuntimeStatus,
+            modifier = Modifier.padding(top = 8.dp),
+        )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         // --- Detected note --------------------------------------------------
@@ -160,7 +172,7 @@ private fun TunerContent(
 
         // --- Needle meter ---------------------------------------------------
         val animatedCents by animateFloatAsState(
-            targetValue = state.centsDeviation.toFloat(),
+            targetValue = state.displayCentsDeviation.toFloat(),
             animationSpec = tween(durationMillis = 120),
             label = "needleCents",
         )
@@ -259,6 +271,38 @@ private fun TunerContent(
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+@Composable
+private fun SwiftF0StatusBadge(
+    status: NeuralRuntimeStatus,
+    modifier: Modifier = Modifier,
+) {
+    val (label, bgColor, fgColor) = when (status) {
+        NeuralRuntimeStatus.ACTIVE -> Triple(
+            "SwiftF0 Active",
+            MaterialTheme.colorScheme.primaryContainer,
+            MaterialTheme.colorScheme.onPrimaryContainer,
+        )
+        NeuralRuntimeStatus.FALLBACK -> Triple(
+            "SwiftF0 Fallback",
+            MaterialTheme.colorScheme.errorContainer,
+            MaterialTheme.colorScheme.onErrorContainer,
+        )
+    }
+
+    Box(
+        modifier = modifier
+            .background(color = bgColor, shape = RoundedCornerShape(999.dp))
+            .padding(horizontal = 12.dp, vertical = 6.dp),
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelMedium,
+            color = fgColor,
+            fontWeight = FontWeight.SemiBold,
+        )
     }
 }
 

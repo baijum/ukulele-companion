@@ -10,6 +10,7 @@ workRuntime = "2.10.0"
 kotlinxSerializationJson = "1.7.3"
 kotlinxSerialization = "2.3.10"
 reorderable = "3.0.0"
+onnxruntime = "1.20.0"
 
 [libraries]
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -27,6 +28,7 @@ glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", versi
 glance-material3 = { group = "androidx.glance", name = "glance-material3", version.ref = "glance" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
+onnxruntime-android = { group = "com.microsoft.onnxruntime", name = "onnxruntime-android", version.ref = "onnxruntime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

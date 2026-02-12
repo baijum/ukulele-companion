@@ -35,6 +35,9 @@ Browse playable voicings for any chord. Select a root note, category (Triad, Sev
 ### 🔄 Transpose
 Shift chords up or down by semitones with +/- buttons. Shows the capo equivalent for easy reference.
 
+### 🧠 Neural-Powered Tuner
+The tuner now uses a hybrid pipeline: fast YIN pitch tracking on every frame, supervised by SwiftF0 neural inference at intervals. This improves robustness against octave mistakes and unstable frames while preserving responsive needle movement.
+
 ### 🥁 Strumming Patterns
 A reference guide with 8 common ukulele strumming patterns — from beginner (All Downs, Island Strum) to intermediate (Calypso, Ska). Each pattern includes visual beat arrows, notation, description, and suggested tempo.
 
@@ -117,6 +120,7 @@ Theory lessons, ear training, interval trainer, circle of fifths, glossary, scal
 | Widget | Jetpack Glance |
 | Persistence | SharedPreferences |
 | Serialization | Kotlinx Serialization |
+| Neural Inference | ONNX Runtime (SwiftF0 supervisor) |
 | Min SDK | 26 (Android 8.0) |
 | Target SDK | 35 |
 
@@ -291,14 +295,6 @@ As a tester you can:
 - Install pre-release builds from the Play Store
 - Try new features before they are publicly available
 - Report bugs or share feedback to help improve the app
-
----
-
-## 💬 Feedback Wanted: Neural-Powered Tuner
-
-We are exploring adding a lightweight neural pitch estimator ([SwiftF0](https://github.com/lars76/swift-f0)) to work alongside the existing tuner. This could improve accuracy in noisy environments and reduce octave errors on low strings — without sacrificing the fast, responsive needle you already have.
-
-The full design is in [`docs/22-neural-pitch-supervisor.md`](docs/22-neural-pitch-supervisor.md). If you have thoughts on whether this would be useful for your playing — especially if you tune in noisy settings like rehearsals, open mics, or outdoors — we would love to hear from you in [GitHub Discussions](https://github.com/baijum/ukulele-chords/discussions).
 
 ---
 
