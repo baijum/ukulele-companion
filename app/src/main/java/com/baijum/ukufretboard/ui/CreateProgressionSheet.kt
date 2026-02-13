@@ -38,7 +38,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.data.ChordCategory
 import com.baijum.ukufretboard.data.ChordDegree
+import com.baijum.ukufretboard.data.ChordFormula
+import com.baijum.ukufretboard.data.ChordFormulas
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.Progressions
 import com.baijum.ukufretboard.data.ScaleType
@@ -81,6 +84,7 @@ fun CreateProgressionSheet(
     var description by remember { mutableStateOf(initialDescription) }
     var scaleType by remember { mutableStateOf(initialScaleType ?: selectedScale) }
     val chosenDegrees = remember { mutableStateListOf<ChordDegree>().also { it.addAll(initialDegrees) } }
+    var selectedQuality by remember { mutableStateOf<ChordFormula?>(null) }
 
     val availableDegrees = Progressions.diatonicDegrees(scaleType)
 
@@ -158,6 +162,51 @@ fun CreateProgressionSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Chord quality selector
+            Text(
+                text = "Chord Quality",
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                // "Triad" default option
+                FilterChip(
+                    selected = selectedQuality == null,
+                    onClick = { selectedQuality = null },
+                    label = { Text("Triad") },
+                    colors = FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = MaterialTheme.colorScheme.tertiary,
+                        selectedLabelColor = MaterialTheme.colorScheme.onTertiary,
+                    ),
+                )
+                // Group by category, skip triads (covered by "Triad" default)
+                ChordCategory.entries
+                    .filter { it != ChordCategory.TRIAD }
+                    .forEach { category ->
+                        val formulas = ChordFormulas.BY_CATEGORY[category] ?: emptyList()
+                        formulas.forEach { formula ->
+                            FilterChip(
+                                selected = selectedQuality == formula,
+                                onClick = { selectedQuality = formula },
+                                label = {
+                                    Text(formula.symbol.ifEmpty { formula.quality })
+                                },
+                                colors = FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.tertiary,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onTertiary,
+                                ),
+                            )
+                        }
+                    }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             // Available diatonic chords
             Text(
                 text = "Tap chords to add",
@@ -172,9 +221,23 @@ fun CreateProgressionSheet(
             ) {
                 availableDegrees.forEach { degree ->
                     val chordRoot = (selectedRoot + degree.interval) % Notes.PITCH_CLASS_COUNT
-                    val chordName = Notes.enharmonicForKey(chordRoot, selectedRoot) + degree.quality
+                    val quality = selectedQuality?.symbol ?: degree.quality
+                    val chordName = Notes.enharmonicForKey(chordRoot, selectedRoot) + quality
+                    val numeral = if (selectedQuality != null) {
+                        degree.numeral + selectedQuality!!.symbol
+                    } else {
+                        degree.numeral
+                    }
                     SuggestionChip(
-                        onClick = { chosenDegrees.add(degree) },
+                        onClick = {
+                            chosenDegrees.add(
+                                ChordDegree(
+                                    interval = degree.interval,
+                                    quality = quality,
+                                    numeral = numeral,
+                                ),
+                            )
+                        },
                         label = {
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(
@@ -182,7 +245,7 @@ fun CreateProgressionSheet(
                                     fontWeight = FontWeight.Medium,
                                 )
                                 Text(
-                                    text = degree.numeral,
+                                    text = numeral,
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )

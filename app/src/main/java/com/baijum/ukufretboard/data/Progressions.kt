@@ -122,6 +122,31 @@ object Progressions {
     private val VI_lo    = ChordDegree(8,  "",    "VI")
     private val vii_lo   = ChordDegree(10, "m",   "vii")
 
+    // ── Extended chord degrees (Major key) ──
+    // Seventh chords
+    private val Imaj7   = ChordDegree(0,  "maj7", "Imaj7")
+    private val iim7    = ChordDegree(2,  "m7",   "iim7")
+    private val iiim7   = ChordDegree(4,  "m7",   "iiim7")
+    private val IVmaj7  = ChordDegree(5,  "maj7", "IVmaj7")
+    private val V7_maj  = ChordDegree(7,  "7",    "V7")
+    private val vim7    = ChordDegree(9,  "m7",   "vim7")
+    // Suspended chords
+    private val Isus2   = ChordDegree(0,  "sus2", "Isus2")
+    private val Isus4   = ChordDegree(0,  "sus4", "Isus4")
+    private val Vsus4   = ChordDegree(7,  "sus4", "Vsus4")
+    private val IVsus4  = ChordDegree(5,  "sus4", "IVsus4")
+    // Extended chords
+    private val I6_maj  = ChordDegree(0,  "6",    "I6")
+    private val iim9    = ChordDegree(2,  "m9",   "iim9")
+    private val V9_maj  = ChordDegree(7,  "9",    "V9")
+
+    // ── Extended chord degrees (Minor key) ──
+    private val im7      = ChordDegree(0,  "m7",   "im7")
+    private val ivm7     = ChordDegree(5,  "m7",   "ivm7")
+    private val V7_min   = ChordDegree(7,  "7",    "V7")
+    private val IIImaj7  = ChordDegree(3,  "maj7", "IIImaj7")
+    private val VIImaj7  = ChordDegree(10, "maj7", "VIImaj7")
+
     val MAJOR_PROGRESSIONS: List<Progression> = listOf(
         Progression(
             name = "Pop / Four Chords",
@@ -163,6 +188,44 @@ object Progressions {
             description = "Based on the famous Canon in D. Used in countless wedding and pop songs.",
             degrees = listOf(I, V, vi, iii, IV, I, IV, V),
         ),
+        // ── Seventh chord progressions ──
+        Progression(
+            name = "Jazz ii\u2013V\u2013I (7ths)",
+            description = "The classic jazz cadence with seventh chords. The foundation of jazz harmony.",
+            degrees = listOf(iim7, V7_maj, Imaj7),
+        ),
+        Progression(
+            name = "Jazz Turnaround",
+            description = "A four-chord jazz cycle that loops back to the start. Used in countless standards.",
+            degrees = listOf(Imaj7, vim7, iim7, V7_maj),
+        ),
+        Progression(
+            name = "Smooth Soul",
+            description = "A lush, soulful progression. Seventh chords add warmth and sophistication.",
+            degrees = listOf(Imaj7, iiim7, vim7, IVmaj7),
+        ),
+        // ── Suspended chord progressions ──
+        Progression(
+            name = "Ambient Pop",
+            description = "Suspended chords create an open, airy texture. Great for atmospheric music.",
+            degrees = listOf(Isus2, V, vi, IVsus4),
+        ),
+        Progression(
+            name = "Anthem Rock",
+            description = "Alternating between suspended and resolved chords builds and releases tension.",
+            degrees = listOf(Isus4, I, Vsus4, V),
+        ),
+        // ── Extended chord progressions ──
+        Progression(
+            name = "Bossa Nova",
+            description = "A smooth Brazilian jazz feel. Minor 9th chords add rich color and movement.",
+            degrees = listOf(Imaj7, iim9, V7_maj, Imaj7),
+        ),
+        Progression(
+            name = "Jazz Swing",
+            description = "A swinging jazz progression. The 6th chord gives a classic, upbeat swing feel.",
+            degrees = listOf(I6_maj, vim7, iim7, V7_maj),
+        ),
     )
 
     val MINOR_PROGRESSIONS: List<Progression> = listOf(
@@ -188,6 +251,19 @@ object Progressions {
             name = "Minor Blues",
             description = "A simplified minor blues feel. Raw and expressive.",
             degrees = listOf(i_m, iv_m, i_m, V_m),
+            scaleType = ScaleType.MINOR,
+        ),
+        // ── Minor seventh chord progressions ──
+        Progression(
+            name = "Minor Jazz",
+            description = "A minor jazz cycle with seventh chords. The dominant V7 adds harmonic pull back to i.",
+            degrees = listOf(im7, ivm7, V7_min, im7),
+            scaleType = ScaleType.MINOR,
+        ),
+        Progression(
+            name = "Noir Jazz",
+            description = "A dark, cinematic progression. Major 7th chords on III and VII add mysterious color.",
+            degrees = listOf(im7, VIImaj7, IIImaj7, V7_min),
             scaleType = ScaleType.MINOR,
         ),
     )
