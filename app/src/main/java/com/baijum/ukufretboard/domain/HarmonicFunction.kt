@@ -25,22 +25,47 @@ enum class HarmonicFunction(
  * Determines the harmonic function of a chord degree based on its
  * Roman numeral and the scale type.
  *
- * **Major scale functions:**
+ * **Major (Ionian) functions:**
  * - Tonic: I, iii, vi (share notes with I)
  * - Subdominant: ii, IV (share notes with IV)
  * - Dominant: V, vii° (share the leading tone)
  *
- * **Minor scale functions:**
+ * **Minor (Aeolian) functions:**
  * - Tonic: i, III, VI
  * - Subdominant: ii°, iv
  * - Dominant: V, v, VII
+ *
+ * **Dorian functions:**
+ * - Tonic: i, III
+ * - Subdominant: ii, IV
+ * - Dominant: v, vi°, VII
+ *
+ * **Phrygian functions:**
+ * - Tonic: i, III, VI
+ * - Subdominant: II, iv
+ * - Dominant: v°, vii
+ *
+ * **Lydian functions:**
+ * - Tonic: I, iii, vi
+ * - Subdominant: II, #iv°
+ * - Dominant: V, vii
+ *
+ * **Mixolydian functions:**
+ * - Tonic: I, vi
+ * - Subdominant: ii, IV
+ * - Dominant: iii°, v, VII
+ *
+ * **Locrian functions:**
+ * - Tonic: i°, iii
+ * - Subdominant: II, iv
+ * - Dominant: V, VI, vii
  *
  * @param numeral The Roman numeral label of the chord degree.
  * @param scaleType The scale type context.
  * @return The [HarmonicFunction] of the chord degree.
  */
 fun harmonicFunction(numeral: String, scaleType: ScaleType): HarmonicFunction = when {
-    // ── Major scale ──
+    // ── Major (Ionian) ──
     scaleType == ScaleType.MAJOR && numeral in listOf("I", "iii", "vi") ->
         HarmonicFunction.TONIC
     scaleType == ScaleType.MAJOR && numeral in listOf("ii", "IV") ->
@@ -48,12 +73,52 @@ fun harmonicFunction(numeral: String, scaleType: ScaleType): HarmonicFunction = 
     scaleType == ScaleType.MAJOR && numeral in listOf("V", "vii\u00B0") ->
         HarmonicFunction.DOMINANT
 
-    // ── Minor scale ──
+    // ── Minor (Aeolian) ──
     scaleType == ScaleType.MINOR && numeral in listOf("i", "III", "VI") ->
         HarmonicFunction.TONIC
     scaleType == ScaleType.MINOR && numeral in listOf("ii\u00B0", "iv") ->
         HarmonicFunction.SUBDOMINANT
     scaleType == ScaleType.MINOR && numeral in listOf("V", "v", "VII") ->
+        HarmonicFunction.DOMINANT
+
+    // ── Dorian ──
+    scaleType == ScaleType.DORIAN && numeral in listOf("i", "III") ->
+        HarmonicFunction.TONIC
+    scaleType == ScaleType.DORIAN && numeral in listOf("ii", "IV") ->
+        HarmonicFunction.SUBDOMINANT
+    scaleType == ScaleType.DORIAN && numeral in listOf("v", "vi\u00B0", "VII") ->
+        HarmonicFunction.DOMINANT
+
+    // ── Phrygian ──
+    scaleType == ScaleType.PHRYGIAN && numeral in listOf("i", "III", "VI") ->
+        HarmonicFunction.TONIC
+    scaleType == ScaleType.PHRYGIAN && numeral in listOf("II", "iv") ->
+        HarmonicFunction.SUBDOMINANT
+    scaleType == ScaleType.PHRYGIAN && numeral in listOf("v\u00B0", "vii") ->
+        HarmonicFunction.DOMINANT
+
+    // ── Lydian ──
+    scaleType == ScaleType.LYDIAN && numeral in listOf("I", "iii", "vi") ->
+        HarmonicFunction.TONIC
+    scaleType == ScaleType.LYDIAN && numeral in listOf("II", "#iv\u00B0") ->
+        HarmonicFunction.SUBDOMINANT
+    scaleType == ScaleType.LYDIAN && numeral in listOf("V", "vii") ->
+        HarmonicFunction.DOMINANT
+
+    // ── Mixolydian ──
+    scaleType == ScaleType.MIXOLYDIAN && numeral in listOf("I", "vi") ->
+        HarmonicFunction.TONIC
+    scaleType == ScaleType.MIXOLYDIAN && numeral in listOf("ii", "IV") ->
+        HarmonicFunction.SUBDOMINANT
+    scaleType == ScaleType.MIXOLYDIAN && numeral in listOf("iii\u00B0", "v", "VII") ->
+        HarmonicFunction.DOMINANT
+
+    // ── Locrian ──
+    scaleType == ScaleType.LOCRIAN && numeral in listOf("i\u00B0", "iii") ->
+        HarmonicFunction.TONIC
+    scaleType == ScaleType.LOCRIAN && numeral in listOf("II", "iv") ->
+        HarmonicFunction.SUBDOMINANT
+    scaleType == ScaleType.LOCRIAN && numeral in listOf("V", "VI", "vii") ->
         HarmonicFunction.DOMINANT
 
     // Fallback

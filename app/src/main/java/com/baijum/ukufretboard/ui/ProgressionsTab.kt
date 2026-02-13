@@ -198,7 +198,10 @@ fun ProgressionsTab(
 
         // Scale toggle
         Row(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             ScaleType.entries.forEach { scale ->
@@ -508,53 +511,61 @@ private fun ProgressionCard(
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            // Action buttons
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState()),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                IconButton(onClick = onPlay) {
-                    Icon(
-                        imageVector = Icons.Filled.PlayArrow,
-                        contentDescription = "Play",
-                        tint = MaterialTheme.colorScheme.primary,
-                    )
-                }
-                TextButton(onClick = onPractice) {
-                    Text("Practice")
-                }
-                IconButton(onClick = onShare) {
-                    Icon(
-                        imageVector = Icons.Filled.Share,
-                        contentDescription = "Share",
-                        tint = MaterialTheme.colorScheme.primary,
-                    )
-                }
-                TextButton(onClick = onCapo) {
-                    Text("Capo")
-                }
-                TextButton(onClick = onVoiceLeading) {
-                    Text("Voice Leading")
-                }
-                if (onEdit != null) {
-                    IconButton(onClick = onEdit) {
+            // Action buttons — two rows
+            Column(modifier = Modifier.fillMaxWidth()) {
+                // Row 1: Primary actions
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    IconButton(onClick = onPlay) {
                         Icon(
-                            imageVector = Icons.Filled.Edit,
-                            contentDescription = "Edit",
+                            imageVector = Icons.Filled.PlayArrow,
+                            contentDescription = "Play",
                             tint = MaterialTheme.colorScheme.primary,
                         )
                     }
+                    TextButton(onClick = onPractice) {
+                        Text("Practice")
+                    }
+                    if (onDuplicate != null) {
+                        IconButton(onClick = onDuplicate) {
+                            Icon(
+                                imageVector = Icons.Filled.ContentCopy,
+                                contentDescription = "Duplicate",
+                                tint = MaterialTheme.colorScheme.primary,
+                            )
+                        }
+                    }
+                    if (onEdit != null) {
+                        IconButton(onClick = onEdit) {
+                            Icon(
+                                imageVector = Icons.Filled.Edit,
+                                contentDescription = "Edit",
+                                tint = MaterialTheme.colorScheme.primary,
+                            )
+                        }
+                    }
                 }
-                if (onDuplicate != null) {
-                    IconButton(onClick = onDuplicate) {
+                // Row 2: Secondary actions
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    IconButton(onClick = onShare) {
                         Icon(
-                            imageVector = Icons.Filled.ContentCopy,
-                            contentDescription = "Duplicate",
+                            imageVector = Icons.Filled.Share,
+                            contentDescription = "Share",
                             tint = MaterialTheme.colorScheme.primary,
                         )
+                    }
+                    TextButton(onClick = onCapo) {
+                        Text("Capo")
+                    }
+                    TextButton(onClick = onVoiceLeading) {
+                        Text("Voice Leading")
                     }
                 }
             }

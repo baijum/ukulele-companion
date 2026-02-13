@@ -133,6 +133,9 @@ fun CreateProgressionSheet(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 ScaleType.entries.forEach { scale ->
