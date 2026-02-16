@@ -70,7 +70,11 @@ enum class UkuleleTuning(
     HIGH_G("High-G (Standard)", listOf("G","C","E","A"), listOf(7,0,4,9), listOf(4,4,4,4)),
     LOW_G("Low-G", listOf("g","C","E","A"), listOf(7,0,4,9), listOf(3,4,4,4)),
     BARITONE("Baritone (DGBE)", listOf("D","G","B","E"), listOf(2,7,11,4), listOf(3,3,4,4)),
-    D_TUNING("D-Tuning (ADF#B)", listOf("A","D","F#","B"), listOf(9,2,6,11), listOf(4,4,4,4));
+    D_TUNING("D-Tuning (ADF#B)", listOf("A","D","F#","B"), listOf(9,2,6,11), listOf(4,4,4,4)),
+    SLACK_KEY("Slack Key (GCEG)", listOf("G","C","E","G"), listOf(7,0,4,7), listOf(4,4,4,4)),
+    OPEN_A("Open A (AC#EA)", listOf("A","C#","E","A"), listOf(9,1,4,9), listOf(4,4,4,4)),
+    LOW_A("Low A (GCEa)", listOf("G","C","E","a"), listOf(7,0,4,9), listOf(4,4,4,3)),
+    HALF_STEP_DOWN("Half-Step Down", listOf("F#","B","D#","G#"), listOf(6,11,3,8), listOf(4,3,4,4));
 
     /**
      * Whether this tuning is re-entrant (string pitches are not monotonically ascending).
@@ -158,6 +162,40 @@ data class ScalePracticeSettings(
 }
 
 /**
+ * Settings for the tuner feature.
+ *
+ * @property spokenFeedback When true, the tuner uses text-to-speech to announce
+ *   the detected note and tuning status (e.g. "A, 5 cents sharp"). Designed
+ *   for blind and visually impaired musicians.
+ * @property precisionMode When true, the in-tune zone is tightened from ±6 cents
+ *   to ±2 cents for advanced players who need higher accuracy.
+ * @property a4Reference The reference frequency for A4 in Hz (default 440.0).
+ *   Adjustable for playing with instruments tuned to a different concert pitch.
+ * @property autoAdvance When true, the tuner automatically advances to the next
+ *   untuned string once the current string is marked as tuned.
+ * @property autoStart When true, the tuner begins listening automatically when
+ *   the tuner tab is opened, removing the need to tap "Start Tuning".
+ */
+data class TunerSettings(
+    val spokenFeedback: Boolean = false,
+    val precisionMode: Boolean = false,
+    val a4Reference: Float = DEFAULT_A4_REFERENCE,
+    val autoAdvance: Boolean = false,
+    val autoStart: Boolean = false,
+) {
+    companion object {
+        const val DEFAULT_A4_REFERENCE = 440.0f
+        const val MIN_A4_REFERENCE = 415.0f
+        const val MAX_A4_REFERENCE = 465.0f
+
+        /** Standard (beginner-friendly) in-tune threshold in cents. */
+        const val STANDARD_IN_TUNE_CENTS = 6.0
+        /** Precision in-tune threshold in cents. */
+        const val PRECISION_IN_TUNE_CENTS = 2.0
+    }
+}
+
+/**
  * Top-level container for all app settings, organized by section.
  *
  * Each section is a nested data class with its own defaults.
@@ -170,4 +208,5 @@ data class AppSettings(
     val fretboard: FretboardSettings = FretboardSettings(),
     val notification: NotificationSettings = NotificationSettings(),
     val scalePractice: ScalePracticeSettings = ScalePracticeSettings(),
+    val tuner: TunerSettings = TunerSettings(),
 )

@@ -1,9 +1,9 @@
 package com.baijum.ukufretboard.domain
 
-import com.baijum.ukufretboard.audio.ToneGenerator
 import com.baijum.ukufretboard.data.UkuleleTuning
 import kotlin.math.abs
 import kotlin.math.log2
+import kotlin.math.pow
 import kotlin.math.roundToInt
 
 /**
@@ -49,19 +49,23 @@ data class StringMatch(
  */
 object TunerNoteMapper {
 
+    /** Default concert pitch A4 = 440 Hz. */
+    const val DEFAULT_A4_HZ = 440.0
+
     /**
      * Converts a detected frequency to the nearest musical note.
      *
      * Uses standard note names (C, C#, D, Eb, E, F, F#, G, Ab, A, Bb, B).
      *
      * @param hz Frequency in Hertz (must be > 0).
+     * @param a4Reference Reference frequency for A4 (default 440.0 Hz).
      * @return A [NoteInfo] describing the nearest note, or `null` if [hz] ≤ 0.
      */
-    fun mapFrequency(hz: Double): NoteInfo? {
+    fun mapFrequency(hz: Double, a4Reference: Double = DEFAULT_A4_HZ): NoteInfo? {
         if (hz <= 0.0) return null
 
         // MIDI note number (fractional) relative to A4 = 69.
-        val midiExact = 69.0 + 12.0 * log2(hz / 440.0)
+        val midiExact = 69.0 + 12.0 * log2(hz / a4Reference)
         val midiRounded = midiExact.roundToInt()
 
         // Cents deviation from the nearest semitone.
@@ -83,25 +87,41 @@ object TunerNoteMapper {
     }
 
     /**
+     * Computes the target frequency for a string, optionally using a custom
+     * A4 reference instead of the standard 440 Hz.
+     */
+    private fun targetFrequency(
+        pitchClass: Int,
+        octave: Int,
+        a4Reference: Double,
+    ): Double {
+        val midiNote = (octave + 1) * 12 + pitchClass
+        return a4Reference * 2.0.pow((midiNote - 69).toDouble() / 12.0)
+    }
+
+    /**
      * Finds the ukulele string in [tuning] closest to the given [noteInfo].
      *
      * Compares the detected frequency against each string's exact target
      * frequency (computed from the tuning's pitch classes and octaves) and
      * returns the string with the smallest absolute cents difference.
      *
+     * @param a4Reference Reference frequency for A4 (default 440.0 Hz).
      * @return A [StringMatch] for the best-matching string.
      */
     fun findNearestString(
         noteInfo: NoteInfo,
         tuning: UkuleleTuning,
+        a4Reference: Double = DEFAULT_A4_HZ,
     ): StringMatch {
         var bestIndex = 0
         var bestCents = Double.MAX_VALUE
 
         for (i in tuning.pitchClasses.indices) {
-            val targetHz = ToneGenerator.frequencyOf(
+            val targetHz = targetFrequency(
                 tuning.pitchClasses[i],
                 tuning.octaves[i],
+                a4Reference,
             )
             val centsDiff = 1200.0 * log2(noteInfo.frequencyHz / targetHz)
 
@@ -125,17 +145,21 @@ object TunerNoteMapper {
      * If [previousStringIndex] is provided and it remains within
      * [switchHysteresisCents] of the current best match, the previous string is
      * kept. This stabilizes status guidance during borderline frames.
+     *
+     * @param a4Reference Reference frequency for A4 (default 440.0 Hz).
      */
     fun findNearestStringWithHysteresis(
         noteInfo: NoteInfo,
         tuning: UkuleleTuning,
         previousStringIndex: Int?,
         switchHysteresisCents: Double,
+        a4Reference: Double = DEFAULT_A4_HZ,
     ): StringMatch {
         val centsDiffs = tuning.pitchClasses.indices.map { i ->
-            val targetHz = ToneGenerator.frequencyOf(
+            val targetHz = targetFrequency(
                 tuning.pitchClasses[i],
                 tuning.octaves[i],
+                a4Reference,
             )
             1200.0 * log2(noteInfo.frequencyHz / targetHz)
         }

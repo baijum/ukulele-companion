@@ -426,6 +426,7 @@ fun FretboardScreen(
                         tuning = appSettings.tuning.tuning,
                         leftHanded = appSettings.fretboard.leftHanded,
                         soundEnabled = appSettings.sound.enabled,
+                        tunerSettings = appSettings.tuner,
                     )
                     NAV_PITCH_MONITOR -> PitchMonitorTab(
                         viewModel = pitchMonitorViewModel,
@@ -682,6 +683,10 @@ fun FretboardScreen(
                 } else {
                     com.baijum.ukufretboard.widget.ChordOfDayNotificationWorker.cancel(context)
                 }
+            },
+            tunerSettings = appSettings.tuner,
+            onTunerSettingsChange = { newTuner ->
+                settingsViewModel.updateTuner { newTuner }
             },
             backupRestoreViewModel = backupRestoreViewModel,
             onDismiss = { showSettings = false },

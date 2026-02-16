@@ -1,10 +1,12 @@
 package com.baijum.ukufretboard.viewmodel
 
 import android.content.Context
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.baijum.ukufretboard.audio.AudioCaptureEngine
+import com.baijum.ukufretboard.data.TunerSettings
 import com.baijum.ukufretboard.data.UkuleleTuning
 import com.baijum.ukufretboard.domain.NeuralPitchResult
 import com.baijum.ukufretboard.domain.NeuralPitchSupervisor
@@ -17,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.log2
 
@@ -69,6 +72,8 @@ data class TunerUiState(
     val isNeuralActive: Boolean = false,
     /** High-level status shown in the permanent tuner badge. */
     val neuralRuntimeStatus: NeuralRuntimeStatus = NeuralRuntimeStatus.FALLBACK,
+    /** Index of the string that auto-advance is suggesting the user tune next, or -1 if none. */
+    val autoAdvanceTarget: Int = -1,
 )
 
 /**
@@ -84,8 +89,11 @@ data class TunerUiState(
 class TunerViewModel : ViewModel() {
 
     companion object {
-        /** Cents threshold for "in tune". */
+        /** Default cents threshold for "in tune" (standard mode). */
         const val IN_TUNE_CENTS = 6.0
+
+        /** Cents threshold for "in tune" in precision mode. */
+        const val PRECISION_IN_TUNE_CENTS = 2.0
 
         /** Cents threshold for "close" (between close and flat/sharp). */
         const val CLOSE_CENTS = 15.0
@@ -164,6 +172,12 @@ class TunerViewModel : ViewModel() {
         /** Periodic telemetry cadence to keep logs readable. */
         private const val TELEMETRY_LOG_INTERVAL_FRAMES = 25L
 
+        /** Minimum interval between TTS announcements in ms. */
+        private const val TTS_MIN_INTERVAL_MS = 1200L
+
+        /** Longer interval for "in tune" announcements to avoid repetition. */
+        private const val TTS_IN_TUNE_INTERVAL_MS = 3000L
+
         private const val TAG = "TunerViewModel"
     }
 
@@ -175,8 +189,25 @@ class TunerViewModel : ViewModel() {
     /** Current tuning — set externally by the host screen from SettingsViewModel. */
     private var currentTuning: UkuleleTuning = UkuleleTuning.HIGH_G
 
+    /** Current tuner settings — set externally by the host screen. */
+    private var tunerSettings: TunerSettings = TunerSettings()
+
     /** Application context used to initialize optional neural supervisor. */
     private var appContext: Context? = null
+
+    // --- Text-to-Speech state ------------------------------------------------
+
+    private var tts: TextToSpeech? = null
+    private var ttsReady = false
+
+    /**
+     * Minimum interval between TTS announcements to avoid overwhelming the user.
+     * At ~43 updates/sec, we only speak after a status change has been stable
+     * for a short period.
+     */
+    private var lastSpokenTimeMs = 0L
+    private var lastSpokenStatus: TuningStatus = TuningStatus.SILENT
+    private var lastSpokenNote: String? = null
 
     // --- Smoothing state -----------------------------------------------------
 
@@ -241,12 +272,28 @@ class TunerViewModel : ViewModel() {
     }
 
     /**
+     * Updates tuner-specific settings (spoken feedback, precision, A4, auto-advance).
+     */
+    fun setTunerSettings(settings: TunerSettings) {
+        val oldSpoken = tunerSettings.spokenFeedback
+        tunerSettings = settings
+        if (settings.spokenFeedback && !oldSpoken) {
+            initializeTts()
+        } else if (!settings.spokenFeedback && oldSpoken) {
+            shutdownTts()
+        }
+    }
+
+    /**
      * Provides an application context so optional neural supervisor can load.
      */
     fun setApplicationContext(context: Context) {
         if (appContext != null) return
         appContext = context.applicationContext
         initializeNeuralSupervisor()
+        if (tunerSettings.spokenFeedback) {
+            initializeTts()
+        }
     }
 
     /**
@@ -327,6 +374,7 @@ class TunerViewModel : ViewModel() {
         AudioCaptureEngine.stop()
         neuralSupervisor?.close()
         neuralSupervisor = null
+        shutdownTts()
     }
 
     // --- Internal pipeline ---------------------------------------------------
@@ -408,13 +456,15 @@ class TunerViewModel : ViewModel() {
         val smoothedHz = medianFrequency()
 
         // --- Note mapping ----------------------------------------------------
-        val noteInfo = TunerNoteMapper.mapFrequency(smoothedHz) ?: return
+        val a4Ref = tunerSettings.a4Reference.toDouble()
+        val noteInfo = TunerNoteMapper.mapFrequency(smoothedHz, a4Ref) ?: return
         val previousTargetStringIndex = _uiState.value.targetString?.stringIndex
         val stringMatch = TunerNoteMapper.findNearestStringWithHysteresis(
             noteInfo = noteInfo,
             tuning = currentTuning,
             previousStringIndex = previousTargetStringIndex,
             switchHysteresisCents = STRING_SWITCH_HYSTERESIS_CENTS,
+            a4Reference = a4Ref,
         )
 
         // Use cents-from-target-string for the meter (more useful than
@@ -424,8 +474,14 @@ class TunerViewModel : ViewModel() {
         val clampedCents = cents.coerceIn(-50.0, 50.0)
         val displayCents = smoothDisplayCents(clampedCents)
 
+        val effectiveInTuneCents = if (tunerSettings.precisionMode) {
+            PRECISION_IN_TUNE_CENTS
+        } else {
+            IN_TUNE_CENTS
+        }
+
         val status = when {
-            absCents <= IN_TUNE_CENTS -> TuningStatus.IN_TUNE
+            absCents <= effectiveInTuneCents -> TuningStatus.IN_TUNE
             absCents <= CLOSE_CENTS -> TuningStatus.CLOSE
             cents < 0 -> TuningStatus.FLAT
             else -> TuningStatus.SHARP
@@ -433,12 +489,14 @@ class TunerViewModel : ViewModel() {
 
         // --- String completion tracking --------------------------------------
         val progress = _uiState.value.stringProgress.toMutableList()
+        var justTuned = false
 
         if (status == TuningStatus.IN_TUNE && stringMatch.stringIndex == inTuneStringIndex) {
             inTuneFrames++
             val holdFrames = (IN_TUNE_HOLD_MS / FRAME_INTERVAL_MS).toInt()
-            if (inTuneFrames >= holdFrames) {
+            if (inTuneFrames >= holdFrames && !progress[stringMatch.stringIndex]) {
                 progress[stringMatch.stringIndex] = true
+                justTuned = true
             }
         } else if (status == TuningStatus.IN_TUNE) {
             inTuneStringIndex = stringMatch.stringIndex
@@ -446,6 +504,15 @@ class TunerViewModel : ViewModel() {
         } else {
             inTuneFrames = 0
             inTuneStringIndex = -1
+        }
+
+        // --- Auto-advance target ---------------------------------------------
+        val autoAdvanceIdx = if (tunerSettings.autoAdvance && justTuned) {
+            findNextUntunedString(progress)
+        } else if (tunerSettings.autoAdvance) {
+            _uiState.value.autoAdvanceTarget
+        } else {
+            -1
         }
 
         // --- Emit state ------------------------------------------------------
@@ -461,6 +528,18 @@ class TunerViewModel : ViewModel() {
                 targetString = stringMatch,
                 stringProgress = progress,
                 noteInfo = noteInfo,
+                autoAdvanceTarget = autoAdvanceIdx,
+            )
+        }
+
+        // --- Spoken feedback -------------------------------------------------
+        if (tunerSettings.spokenFeedback) {
+            speakTuningFeedback(
+                noteName = noteInfo.noteName,
+                status = status,
+                cents = clampedCents,
+                stringName = stringMatch.stringName,
+                justTuned = justTuned,
             )
         }
 
@@ -666,6 +745,101 @@ class TunerViewModel : ViewModel() {
                 neuralRuntimeStatus = status,
             )
         }
+    }
+
+    // --- TTS helpers ---------------------------------------------------------
+
+    private fun initializeTts() {
+        if (tts != null) return
+        val ctx = appContext ?: return
+        tts = TextToSpeech(ctx) { status ->
+            ttsReady = status == TextToSpeech.SUCCESS
+            tts?.language = Locale.US
+        }
+    }
+
+    private fun shutdownTts() {
+        tts?.stop()
+        tts?.shutdown()
+        tts = null
+        ttsReady = false
+    }
+
+    /**
+     * Speaks tuning feedback using TTS. Throttled to avoid overwhelming the user.
+     *
+     * Modelled after Talking Tuner (iOS): speaks the note name and how many
+     * cents sharp or flat. Announces "In tune!" when the string is on pitch
+     * and "String tuned!" when a string is marked as completed.
+     */
+    private fun speakTuningFeedback(
+        noteName: String,
+        status: TuningStatus,
+        cents: Double,
+        stringName: String,
+        justTuned: Boolean,
+    ) {
+        if (!ttsReady || tts == null) return
+        val now = System.currentTimeMillis()
+
+        if (justTuned) {
+            tts?.speak(
+                "$stringName string tuned!",
+                TextToSpeech.QUEUE_FLUSH,
+                null,
+                "tuned_$stringName",
+            )
+            lastSpokenTimeMs = now
+            lastSpokenStatus = status
+            lastSpokenNote = noteName
+            return
+        }
+
+        val minInterval = if (status == TuningStatus.IN_TUNE) {
+            TTS_IN_TUNE_INTERVAL_MS
+        } else {
+            TTS_MIN_INTERVAL_MS
+        }
+
+        if (now - lastSpokenTimeMs < minInterval) return
+        if (status == lastSpokenStatus && noteName == lastSpokenNote && status == TuningStatus.IN_TUNE) return
+
+        val message = when (status) {
+            TuningStatus.SILENT -> return
+            TuningStatus.IN_TUNE -> "$noteName, in tune"
+            TuningStatus.CLOSE -> {
+                val absCents = abs(cents).toInt()
+                val direction = if (cents < 0) "flat" else "sharp"
+                "$noteName, $absCents cents $direction"
+            }
+            TuningStatus.FLAT -> {
+                val absCents = abs(cents).toInt()
+                "$noteName, $absCents cents flat"
+            }
+            TuningStatus.SHARP -> {
+                val absCents = abs(cents).toInt()
+                "$noteName, $absCents cents sharp"
+            }
+        }
+
+        tts?.speak(message, TextToSpeech.QUEUE_FLUSH, null, "feedback_$noteName")
+        lastSpokenTimeMs = now
+        lastSpokenStatus = status
+        lastSpokenNote = noteName
+    }
+
+    // --- Auto-advance helpers ------------------------------------------------
+
+    /**
+     * Finds the next untuned string index, wrapping around. Returns -1 if all are tuned.
+     */
+    private fun findNextUntunedString(progress: List<Boolean>): Int {
+        val current = inTuneStringIndex
+        for (offset in 1..progress.size) {
+            val idx = (current + offset) % progress.size
+            if (!progress[idx]) return idx
+        }
+        return -1
     }
 
     private fun logCalibrationTelemetry(

@@ -1,8 +1,13 @@
 package com.baijum.ukufretboard.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +15,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,9 +36,16 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,13 +66,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baijum.ukufretboard.audio.ToneGenerator
+import com.baijum.ukufretboard.data.TunerSettings
 import com.baijum.ukufretboard.data.UkuleleTuning
 import com.baijum.ukufretboard.viewmodel.TunerViewModel
 import com.baijum.ukufretboard.viewmodel.NeuralRuntimeStatus
 import com.baijum.ukufretboard.viewmodel.TuningStatus
 import kotlinx.coroutines.launch
 import kotlin.math.PI
+import kotlin.math.abs
 import kotlin.math.cos
+import kotlin.math.roundToInt
 import kotlin.math.sin
 
 /**
@@ -84,11 +98,13 @@ fun TunerTab(
     tuning: UkuleleTuning,
     leftHanded: Boolean,
     soundEnabled: Boolean,
+    tunerSettings: TunerSettings = TunerSettings(),
 ) {
     val context = LocalContext.current
 
     // Keep ViewModel in sync with settings.
     viewModel.setTuning(tuning)
+    viewModel.setTunerSettings(tunerSettings)
     viewModel.setApplicationContext(context)
 
     // Stop capture when leaving the tab.
@@ -102,6 +118,7 @@ fun TunerTab(
             tuning = tuning,
             leftHanded = leftHanded,
             soundEnabled = soundEnabled,
+            tunerSettings = tunerSettings,
         )
     }
 }
@@ -116,9 +133,34 @@ private fun TunerContent(
     tuning: UkuleleTuning,
     leftHanded: Boolean,
     soundEnabled: Boolean,
+    tunerSettings: TunerSettings = TunerSettings(),
 ) {
     val state by viewModel.uiState.collectAsState()
     val scope = rememberCoroutineScope()
+    val haptic = LocalHapticFeedback.current
+
+    // --- Auto-start: begin listening when entering the tab ----------------
+    if (tunerSettings.autoStart && !state.isListening) {
+        LaunchedEffect(Unit) {
+            viewModel.startTuning()
+        }
+    }
+
+    // --- Haptic feedback on string tuned ----------------------------------
+    // Track which strings were tuned to detect new completions.
+    var previousTunedCount by remember { mutableStateOf(0) }
+    val currentTunedCount = state.stringProgress.count { it }
+    LaunchedEffect(currentTunedCount) {
+        if (currentTunedCount > previousTunedCount && previousTunedCount >= 0) {
+            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+        }
+        previousTunedCount = currentTunedCount
+    }
+
+    // --- All strings tuned detection --------------------------------------
+    val allTuned by remember {
+        derivedStateOf { state.stringProgress.all { it } && state.isListening }
+    }
 
     Column(
         modifier = Modifier
@@ -127,18 +169,26 @@ private fun TunerContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // --- Tuning label ---------------------------------------------------
+        val a4Label = if (tunerSettings.a4Reference != TunerSettings.DEFAULT_A4_REFERENCE) {
+            " (A4=${"%.1f".format(tunerSettings.a4Reference)} Hz)"
+        } else ""
         Text(
-            text = "${tuning.label} — ${tuning.stringNames.joinToString(" ")}",
+            text = "${tuning.label} — ${tuning.stringNames.joinToString(" ")}$a4Label",
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
-        SwiftF0StatusBadge(
-            status = state.neuralRuntimeStatus,
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(top = 8.dp),
-        )
+        ) {
+            SwiftF0StatusBadge(status = state.neuralRuntimeStatus)
+            if (tunerSettings.precisionMode) {
+                PrecisionModeBadge()
+            }
+        }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         // --- Detected note --------------------------------------------------
         val noteColor by animateColorAsState(
@@ -153,12 +203,6 @@ private fun TunerContent(
         )
 
         // --- Confidence → alpha mapping -------------------------------------
-        // YIN confidence: 0.0 = perfectly periodic, up to 0.30 (reject gate).
-        // Map to visual opacity so the UI "fades in" as the pitch stabilises
-        // and dims when the detection is borderline.
-        //   0.00 → 1.0 (fully opaque — very confident)
-        //   0.15 → 0.7
-        //   0.30 → 0.4 (faded — barely accepted)
         val confidenceAlpha by animateFloatAsState(
             targetValue = if (state.tuningStatus == TuningStatus.SILENT) 1f
             else (1.0f - state.confidence.toFloat() * 2f).coerceIn(0.4f, 1.0f),
@@ -179,9 +223,9 @@ private fun TunerContent(
             },
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
-        // --- Needle meter ---------------------------------------------------
+        // --- Needle meter (weighted to fill available space) ----------------
         val animatedCents by animateFloatAsState(
             targetValue = state.displayCentsDeviation.toFloat(),
             animationSpec = tween(durationMillis = 120),
@@ -193,15 +237,22 @@ private fun TunerContent(
         val meterDescription = when (state.tuningStatus) {
             TuningStatus.SILENT -> "Tuning meter, no pitch detected"
             TuningStatus.IN_TUNE -> "Tuning meter, in tune"
-            TuningStatus.CLOSE -> "Tuning meter, ${kotlin.math.abs(state.centsDeviation)} cents ${if (state.centsDeviation < 0) "flat" else "sharp"}, almost in tune"
-            TuningStatus.FLAT -> "Tuning meter, ${kotlin.math.abs(state.centsDeviation)} cents flat"
-            TuningStatus.SHARP -> "Tuning meter, ${kotlin.math.abs(state.centsDeviation)} cents sharp"
+            TuningStatus.CLOSE -> "Tuning meter, ${abs(state.centsDeviation).roundToInt()} cents ${if (state.centsDeviation < 0) "flat" else "sharp"}, almost in tune"
+            TuningStatus.FLAT -> "Tuning meter, ${abs(state.centsDeviation).roundToInt()} cents flat"
+            TuningStatus.SHARP -> "Tuning meter, ${abs(state.centsDeviation).roundToInt()} cents sharp"
+        }
+
+        val effectiveInTuneCents = if (tunerSettings.precisionMode) {
+            TunerViewModel.PRECISION_IN_TUNE_CENTS
+        } else {
+            TunerViewModel.IN_TUNE_CENTS
         }
 
         NeedleMeter(
             cents = animatedCents,
             tuningStatus = state.tuningStatus,
             confidenceAlpha = confidenceAlpha,
+            inTuneCents = effectiveInTuneCents,
             inTuneColor = meterColorScheme.primary,
             closeColor = meterColorScheme.tertiary,
             offColor = meterColorScheme.error,
@@ -209,14 +260,34 @@ private fun TunerContent(
             needleColor = meterColorScheme.onSurface,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(2f)
-                .padding(horizontal = 24.dp)
+                .weight(1f)
+                .padding(horizontal = 16.dp)
                 .clearAndSetSemantics {
                     contentDescription = meterDescription
                 },
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        // --- Numeric cents display ------------------------------------------
+        val centsText = when (state.tuningStatus) {
+            TuningStatus.SILENT -> ""
+            TuningStatus.IN_TUNE -> "0 ¢"
+            else -> {
+                val rounded = state.centsDeviation.roundToInt()
+                val sign = if (rounded > 0) "+" else ""
+                "$sign$rounded ¢"
+            }
+        }
+
+        Text(
+            text = centsText,
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Medium,
+            color = noteColor.copy(alpha = noteColor.alpha * confidenceAlpha * 0.8f),
+            textAlign = TextAlign.Center,
+            modifier = Modifier.height(20.dp),
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
 
         // --- Guidance text --------------------------------------------------
         val guidanceText = when (state.tuningStatus) {
@@ -237,7 +308,35 @@ private fun TunerContent(
             },
         )
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // --- All strings tuned celebration ----------------------------------
+        AnimatedVisibility(
+            visible = allTuned,
+            enter = scaleIn(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessLow,
+                ),
+            ) + fadeIn(),
+        ) {
+            Text(
+                text = "All strings tuned!",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .semantics {
+                        liveRegion = LiveRegionMode.Assertive
+                    },
+            )
+        }
+
+        if (!allTuned) {
+            Spacer(modifier = Modifier.height(12.dp))
+        }
 
         // --- String buttons -------------------------------------------------
         val stringOrder = if (leftHanded) {
@@ -254,11 +353,14 @@ private fun TunerContent(
                 val isActive = state.targetString?.stringIndex == idx
                         && state.tuningStatus != TuningStatus.SILENT
                 val isTuned = state.stringProgress[idx]
+                val isAutoAdvanceTarget = tunerSettings.autoAdvance &&
+                        state.autoAdvanceTarget == idx
 
                 StringButton(
                     label = tuning.stringNames[idx],
                     isActive = isActive,
                     isTuned = isTuned,
+                    isAutoAdvanceTarget = isAutoAdvanceTarget,
                     onClick = {
                         if (soundEnabled) {
                             scope.launch {
@@ -273,7 +375,7 @@ private fun TunerContent(
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         // --- Start / Stop button --------------------------------------------
         if (state.isListening) {
@@ -295,7 +397,7 @@ private fun TunerContent(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
     }
 }
 
@@ -347,6 +449,7 @@ private fun NeedleMeter(
     cents: Float,
     tuningStatus: TuningStatus,
     confidenceAlpha: Float,
+    inTuneCents: Double = TunerViewModel.IN_TUNE_CENTS,
     inTuneColor: Color,
     closeColor: Color,
     offColor: Color,
@@ -371,8 +474,8 @@ private fun NeedleMeter(
             style = Stroke(width = trackStroke, cap = StrokeCap.Round),
         )
 
-        // --- In-tune highlight zone (centre ±5 cents → ±9°) ----------------
-        val highlightSweep = (TunerViewModel.IN_TUNE_CENTS / 50.0 * 180.0).toFloat()
+        // --- In-tune highlight zone -----------------------------------------
+        val highlightSweep = (inTuneCents / 50.0 * 180.0).toFloat()
         drawArc(
             color = inTuneColor.copy(alpha = 0.25f),
             startAngle = 270f - highlightSweep,
@@ -454,14 +557,35 @@ private fun NeedleMeter(
  * string has been successfully tuned.
  */
 @Composable
+private fun PrecisionModeBadge(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .background(
+                color = MaterialTheme.colorScheme.tertiaryContainer,
+                shape = RoundedCornerShape(999.dp),
+            )
+            .padding(horizontal = 12.dp, vertical = 6.dp),
+    ) {
+        Text(
+            text = "Precision Mode",
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onTertiaryContainer,
+            fontWeight = FontWeight.SemiBold,
+        )
+    }
+}
+
+@Composable
 private fun StringButton(
     label: String,
     isActive: Boolean,
     isTuned: Boolean,
+    isAutoAdvanceTarget: Boolean = false,
     onClick: () -> Unit,
 ) {
     val stateDesc = when {
         isTuned -> "tuned"
+        isAutoAdvanceTarget -> "next string to tune"
         isActive -> "active"
         else -> "not tuned"
     }
@@ -481,6 +605,17 @@ private fun StringButton(
             ) {
                 StringButtonContent(label, isTuned)
             }
+        } else if (isAutoAdvanceTarget && !isTuned) {
+            FilledTonalButton(
+                onClick = onClick,
+                modifier = Modifier.size(64.dp),
+                shape = CircleShape,
+                colors = ButtonDefaults.filledTonalButtonColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                ),
+            ) {
+                StringButtonContent(label, isTuned)
+            }
         } else {
             OutlinedButton(
                 onClick = onClick,
@@ -496,12 +631,22 @@ private fun StringButton(
 @Composable
 private fun StringButtonContent(label: String, isTuned: Boolean) {
     if (isTuned) {
+        // Animate the checkmark appearing with a bouncy scale-in.
+        val checkScale by animateFloatAsState(
+            targetValue = 1f,
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessMedium,
+            ),
+            label = "checkScale",
+        )
+
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(label, fontWeight = FontWeight.Bold, fontSize = 16.sp)
             Icon(
                 Icons.Filled.Check,
                 contentDescription = "Tuned",
-                modifier = Modifier.size(14.dp),
+                modifier = Modifier.size((14.dp.value * checkScale).dp),
                 tint = MaterialTheme.colorScheme.primary,
             )
         }

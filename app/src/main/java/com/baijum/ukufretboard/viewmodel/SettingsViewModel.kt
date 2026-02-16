@@ -10,6 +10,7 @@ import com.baijum.ukufretboard.data.NotificationSettings
 import com.baijum.ukufretboard.data.ScalePracticeSettings
 import com.baijum.ukufretboard.data.SoundSettings
 import com.baijum.ukufretboard.data.ThemeMode
+import com.baijum.ukufretboard.data.TunerSettings
 import com.baijum.ukufretboard.data.TuningSettings
 import com.baijum.ukufretboard.data.UkuleleTuning
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -100,6 +101,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
+     * Updates the tuner settings by applying a transformation function.
+     */
+    fun updateTuner(transform: (TunerSettings) -> TunerSettings) {
+        _settings.update { current ->
+            current.copy(tuner = transform(current.tuner)).also { saveSettings(it) }
+        }
+    }
+
+    /**
      * Replaces all settings with the given [AppSettings].
      * Used for sync/restore operations.
      */
@@ -142,6 +152,12 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             .putInt(KEY_SCALE_PRACTICE_BPM, s.scalePractice.lastBpm)
             .putInt(KEY_SCALE_PRACTICE_MODE, s.scalePractice.lastMode)
             .putBoolean(KEY_SCALE_PRACTICE_FRETBOARD, s.scalePractice.showFretboard)
+            // Tuner
+            .putBoolean(KEY_TUNER_SPOKEN_FEEDBACK, s.tuner.spokenFeedback)
+            .putBoolean(KEY_TUNER_PRECISION_MODE, s.tuner.precisionMode)
+            .putFloat(KEY_TUNER_A4_REFERENCE, s.tuner.a4Reference)
+            .putBoolean(KEY_TUNER_AUTO_ADVANCE, s.tuner.autoAdvance)
+            .putBoolean(KEY_TUNER_AUTO_START, s.tuner.autoStart)
             .apply()
     }
 
@@ -188,6 +204,13 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 lastMode = prefs.getInt(KEY_SCALE_PRACTICE_MODE, 0),
                 showFretboard = prefs.getBoolean(KEY_SCALE_PRACTICE_FRETBOARD, false),
             ),
+            tuner = TunerSettings(
+                spokenFeedback = prefs.getBoolean(KEY_TUNER_SPOKEN_FEEDBACK, false),
+                precisionMode = prefs.getBoolean(KEY_TUNER_PRECISION_MODE, false),
+                a4Reference = prefs.getFloat(KEY_TUNER_A4_REFERENCE, TunerSettings.DEFAULT_A4_REFERENCE),
+                autoAdvance = prefs.getBoolean(KEY_TUNER_AUTO_ADVANCE, false),
+                autoStart = prefs.getBoolean(KEY_TUNER_AUTO_START, false),
+            ),
         )
     }
 
@@ -212,5 +235,10 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         private const val KEY_SCALE_PRACTICE_BPM = "scale_practice_bpm"
         private const val KEY_SCALE_PRACTICE_MODE = "scale_practice_mode"
         private const val KEY_SCALE_PRACTICE_FRETBOARD = "scale_practice_fretboard"
+        private const val KEY_TUNER_SPOKEN_FEEDBACK = "tuner_spoken_feedback"
+        private const val KEY_TUNER_PRECISION_MODE = "tuner_precision_mode"
+        private const val KEY_TUNER_A4_REFERENCE = "tuner_a4_reference"
+        private const val KEY_TUNER_AUTO_ADVANCE = "tuner_auto_advance"
+        private const val KEY_TUNER_AUTO_START = "tuner_auto_start"
     }
 }

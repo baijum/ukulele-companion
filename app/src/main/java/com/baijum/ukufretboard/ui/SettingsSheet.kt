@@ -35,6 +35,7 @@ import com.baijum.ukufretboard.data.FretboardSettings
 import com.baijum.ukufretboard.data.NotificationSettings
 import com.baijum.ukufretboard.data.SoundSettings
 import com.baijum.ukufretboard.data.ThemeMode
+import com.baijum.ukufretboard.data.TunerSettings
 import com.baijum.ukufretboard.data.TuningSettings
 import com.baijum.ukufretboard.data.UkuleleTuning
 
@@ -66,6 +67,8 @@ fun SettingsSheet(
     onFretboardSettingsChange: (FretboardSettings) -> Unit,
     notificationSettings: NotificationSettings = NotificationSettings(),
     onNotificationSettingsChange: (NotificationSettings) -> Unit = {},
+    tunerSettings: TunerSettings = TunerSettings(),
+    onTunerSettingsChange: (TunerSettings) -> Unit = {},
     backupRestoreViewModel: com.baijum.ukufretboard.viewmodel.BackupRestoreViewModel? = null,
     onDismiss: () -> Unit,
 ) {
@@ -111,6 +114,14 @@ fun SettingsSheet(
             TuningSection(
                 settings = tuningSettings,
                 onSettingsChange = onTuningSettingsChange,
+            )
+
+            // ── Tuner section ──
+            Spacer(modifier = Modifier.height(16.dp))
+            HorizontalDivider()
+            TunerSection(
+                settings = tunerSettings,
+                onSettingsChange = onTunerSettingsChange,
             )
 
             // ── Fretboard section ──
@@ -316,32 +327,117 @@ private fun TuningSection(
     )
     Spacer(modifier = Modifier.height(8.dp))
 
-    // Two rows of two chips to accommodate four tuning options
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        UkuleleTuning.entries.take(2).forEach { tuning ->
+    // Display tunings in rows of two chips
+    val tunings = UkuleleTuning.entries
+    for (i in tunings.indices step 2) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
             FilterChip(
-                selected = settings.tuning == tuning,
-                onClick = { onSettingsChange(settings.copy(tuning = tuning)) },
-                label = { Text(tuning.label) },
+                selected = settings.tuning == tunings[i],
+                onClick = { onSettingsChange(settings.copy(tuning = tunings[i])) },
+                label = { Text(tunings[i].label) },
             )
+            if (i + 1 < tunings.size) {
+                FilterChip(
+                    selected = settings.tuning == tunings[i + 1],
+                    onClick = { onSettingsChange(settings.copy(tuning = tunings[i + 1])) },
+                    label = { Text(tunings[i + 1].label) },
+                )
+            }
+        }
+        if (i + 2 < tunings.size) {
+            Spacer(modifier = Modifier.height(4.dp))
         }
     }
+}
+
+/**
+ * The Tuner settings section with spoken feedback, precision mode, A4 calibration,
+ * and auto-advance controls.
+ */
+@Composable
+private fun TunerSection(
+    settings: TunerSettings,
+    onSettingsChange: (TunerSettings) -> Unit,
+) {
+    SectionHeader("Tuner")
+
+    SettingsSwitch(
+        label = "Spoken Feedback",
+        checked = settings.spokenFeedback,
+        onCheckedChange = { onSettingsChange(settings.copy(spokenFeedback = it)) },
+    )
+
     Spacer(modifier = Modifier.height(4.dp))
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        UkuleleTuning.entries.drop(2).forEach { tuning ->
-            FilterChip(
-                selected = settings.tuning == tuning,
-                onClick = { onSettingsChange(settings.copy(tuning = tuning)) },
-                label = { Text(tuning.label) },
-            )
-        }
-    }
+
+    Text(
+        text = "Announces note name and cents deviation using text-to-speech",
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
+
+    Spacer(modifier = Modifier.height(12.dp))
+
+    SettingsSwitch(
+        label = "Precision Mode",
+        checked = settings.precisionMode,
+        onCheckedChange = { onSettingsChange(settings.copy(precisionMode = it)) },
+    )
+
+    Spacer(modifier = Modifier.height(4.dp))
+
+    Text(
+        text = "Tightens the in-tune zone from ±6 cents to ±2 cents",
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
+
+    Spacer(modifier = Modifier.height(12.dp))
+
+    SettingsSwitch(
+        label = "Auto-Advance",
+        checked = settings.autoAdvance,
+        onCheckedChange = { onSettingsChange(settings.copy(autoAdvance = it)) },
+    )
+
+    Spacer(modifier = Modifier.height(4.dp))
+
+    Text(
+        text = "Highlights the next untuned string automatically",
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
+
+    Spacer(modifier = Modifier.height(12.dp))
+
+    SettingsSwitch(
+        label = "Auto-Start",
+        checked = settings.autoStart,
+        onCheckedChange = { onSettingsChange(settings.copy(autoStart = it)) },
+    )
+
+    Spacer(modifier = Modifier.height(4.dp))
+
+    Text(
+        text = "Start listening automatically when the tuner tab is opened",
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
+
+    Spacer(modifier = Modifier.height(12.dp))
+
+    SettingsSlider(
+        label = "A4 Reference",
+        value = settings.a4Reference,
+        valueRange = TunerSettings.MIN_A4_REFERENCE..TunerSettings.MAX_A4_REFERENCE,
+        valueLabel = "${"%.1f".format(settings.a4Reference)} Hz",
+        enabled = true,
+        onValueChange = {
+            onSettingsChange(settings.copy(a4Reference = (it * 10).toInt() / 10f))
+        },
+    )
 }
 
 /**
