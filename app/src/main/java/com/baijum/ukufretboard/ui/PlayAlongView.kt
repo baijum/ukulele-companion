@@ -197,7 +197,7 @@ fun PlayAlongView(
                     Button(onClick = {
                         permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
                     }) {
-                        Icon(Icons.Filled.Mic, contentDescription = null)
+                        Icon(Icons.Filled.Mic, contentDescription = "Grant microphone permission")
                         Spacer(modifier = Modifier.width(8.dp))
                         Text("Grant Permission")
                     }
@@ -285,7 +285,7 @@ fun PlayAlongView(
                     ) {
                         Icon(
                             imageVector = if (isCorrect) Icons.Filled.CheckCircle else Icons.Filled.Close,
-                            contentDescription = null,
+                            contentDescription = if (isCorrect) "Correct" else "Incorrect",
                             tint = if (isCorrect) {
                                 MaterialTheme.colorScheme.primary
                             } else {

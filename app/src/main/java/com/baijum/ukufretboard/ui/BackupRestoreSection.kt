@@ -133,7 +133,7 @@ fun BackupRestoreSection(
                 } else {
                     Icon(
                         Icons.Filled.CloudUpload,
-                        contentDescription = null,
+                        contentDescription = "Backup data",
                         modifier = Modifier.size(18.dp),
                     )
                 }
@@ -157,7 +157,7 @@ fun BackupRestoreSection(
                 } else {
                     Icon(
                         Icons.Filled.CloudDownload,
-                        contentDescription = null,
+                        contentDescription = "Restore data",
                         modifier = Modifier.size(18.dp),
                     )
                 }

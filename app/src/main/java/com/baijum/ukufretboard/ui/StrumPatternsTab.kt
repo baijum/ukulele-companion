@@ -43,6 +43,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -123,6 +125,7 @@ fun StrumPatternsTab(
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.semantics { heading() },
                             )
                         }
                         items(customStrumPatterns, key = { it.id }) { custom ->
@@ -141,6 +144,7 @@ fun StrumPatternsTab(
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.semantics { heading() },
                             )
                         }
                     }
@@ -160,6 +164,7 @@ fun StrumPatternsTab(
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.semantics { heading() },
                             )
                         }
                         items(customFingerpickPatterns, key = { it.id }) { custom ->
@@ -178,6 +183,7 @@ fun StrumPatternsTab(
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.semantics { heading() },
                             )
                         }
                     }
@@ -553,7 +559,7 @@ private fun CreateStrumPatternSheet(
                 text = "Create Strum Pattern",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 16.dp),
+                modifier = Modifier.padding(bottom = 16.dp).semantics { heading() },
             )
 
             OutlinedTextField(
@@ -722,7 +728,7 @@ private fun CreateFingerpickingPatternSheet(
                 text = "Create Fingerpicking Pattern",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 16.dp),
+                modifier = Modifier.padding(bottom = 16.dp).semantics { heading() },
             )
 
             OutlinedTextField(

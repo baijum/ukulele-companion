@@ -409,7 +409,7 @@ fun ProgressionPracticeView(
                         leadingIcon = {
                             Icon(
                                 Icons.Filled.Refresh,
-                                contentDescription = null,
+                                contentDescription = "Toggle loop",
                                 modifier = Modifier.size(16.dp),
                             )
                         },

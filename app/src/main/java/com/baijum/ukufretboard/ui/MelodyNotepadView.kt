@@ -199,7 +199,7 @@ fun MelodyNotepadView(
                                 selectedNoteIndex = -1
                             },
                         ) {
-                            Icon(Icons.Filled.Delete, contentDescription = null, modifier = Modifier.size(16.dp))
+                            Icon(Icons.Filled.Delete, contentDescription = "Delete note", modifier = Modifier.size(16.dp))
                             Spacer(modifier = Modifier.width(4.dp))
                             Text("Delete")
                         }
@@ -336,7 +336,7 @@ fun MelodyNotepadView(
                 },
                 enabled = notes.isNotEmpty() && !isPlaying,
             ) {
-                Icon(Icons.Filled.PlayArrow, contentDescription = null, modifier = Modifier.size(18.dp))
+                Icon(Icons.Filled.PlayArrow, contentDescription = "Play melody", modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(4.dp))
                 Text("Play")
             }
@@ -349,7 +349,7 @@ fun MelodyNotepadView(
                         playingIndex = -1
                     },
                 ) {
-                    Icon(Icons.Filled.Close, contentDescription = null, modifier = Modifier.size(18.dp))
+                    Icon(Icons.Filled.Close, contentDescription = "Stop playing", modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(4.dp))
                     Text("Stop")
                 }
@@ -364,7 +364,7 @@ fun MelodyNotepadView(
                 },
                 enabled = notes.isNotEmpty() && !isPlaying,
             ) {
-                Icon(Icons.Filled.Delete, contentDescription = null, modifier = Modifier.size(18.dp))
+                Icon(Icons.Filled.Delete, contentDescription = "Clear all notes", modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(4.dp))
                 Text("Clear")
             }

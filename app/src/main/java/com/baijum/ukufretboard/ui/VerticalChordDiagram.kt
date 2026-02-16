@@ -29,6 +29,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -119,11 +122,20 @@ fun VerticalChordDiagram(
     }
     val isAtNut = startFret == 0
 
+    val chordDescription = voicing.toAccessibilityDescription(
+        leftHanded = leftHanded,
+        inversionLabel = inversionLabel,
+        capoFret = capoFret,
+        soundingNotes = soundingNotes,
+    )
+
     Card(
-        modifier = modifier.combinedClickable(
-            onClick = onClick,
-            onLongClick = onLongClick,
-        ),
+        modifier = modifier
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongClick,
+            )
+            .semantics { contentDescription = chordDescription },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -227,7 +239,9 @@ private fun VerticalChordCanvas(
     val canvasHeight = OPEN_CIRCLE_AREA + nutArea + FRET_SPACING * fretRowCount
 
     Canvas(
-        modifier = Modifier.size(width = canvasWidth, height = canvasHeight),
+        modifier = Modifier
+            .size(width = canvasWidth, height = canvasHeight)
+            .clearAndSetSemantics { },
     ) {
         val posLabelPx = POSITION_LABEL_WIDTH.toPx()
         val stringSpacePx = STRING_SPACING.toPx()
@@ -402,4 +416,47 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawPositionLabel(
         }
         drawText(text, x, y + paint.textSize / 3, paint)
     }
+}
+
+/**
+ * Generates a text description of this chord voicing for screen reader accessibility.
+ *
+ * Example output: "C major chord: G string open, C string fret 3, E string fret 4, A string fret 3"
+ */
+fun ChordVoicing.toAccessibilityDescription(
+    leftHanded: Boolean = false,
+    inversionLabel: String? = null,
+    capoFret: Int? = null,
+    soundingNotes: String? = null,
+): String {
+    val stringNames = listOf("G", "C", "E", "A")
+    val parts = mutableListOf<String>()
+
+    // Note names or chord name summary
+    val notesSummary = soundingNotes
+        ?: notes.joinToString(" ") { it?.name ?: "x" }
+    parts.add("Chord $notesSummary")
+
+    // Per-string descriptions
+    val indices = if (leftHanded) frets.indices.reversed() else frets.indices.toList()
+    for (i in indices) {
+        val name = stringNames.getOrElse(i) { "String $i" }
+        val fret = frets[i]
+        val desc = when (fret) {
+            ChordVoicing.MUTED -> "$name string muted"
+            0 -> "$name string open"
+            else -> "$name string fret $fret"
+        }
+        parts.add(desc)
+    }
+
+    if (capoFret != null) {
+        parts.add("capo at fret $capoFret")
+    }
+
+    if (inversionLabel != null) {
+        parts.add(inversionLabel)
+    }
+
+    return parts.joinToString(", ")
 }

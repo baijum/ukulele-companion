@@ -39,6 +39,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.domain.PracticeRoutine
@@ -131,6 +133,7 @@ private fun RoutineSetup(
             text = "Practice Routine",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
+            modifier = Modifier.semantics { heading() },
         )
         Text(
             text = "Set up your practice session.",
@@ -221,7 +224,7 @@ private fun RoutineSetup(
         ) {
             Icon(
                 Icons.Filled.PlayArrow,
-                contentDescription = null,
+                contentDescription = "Start practice routine",
                 modifier = Modifier.size(20.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
@@ -263,6 +266,7 @@ private fun ActiveRoutine(
                         text = routine.title,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
+                        modifier = Modifier.semantics { heading() },
                     )
                     Text(
                         text = "${routine.totalMinutes} min total · ${completedSteps.size}/${routine.steps.size} steps",
@@ -320,7 +324,7 @@ private fun ActiveRoutine(
                     ) {
                         Icon(
                             Icons.Filled.CheckCircle,
-                            contentDescription = null,
+                            contentDescription = "Practice complete",
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(48.dp),
                         )

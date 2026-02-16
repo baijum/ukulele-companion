@@ -98,7 +98,7 @@ fun ShareChordBottomSheet(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Share,
-                    contentDescription = null,
+                    contentDescription = "Share chord as image",
                     modifier = Modifier.padding(end = 8.dp),
                 )
                 Text("Share as Image")

@@ -26,6 +26,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.data.DisplaySettings
@@ -84,7 +86,9 @@ fun SettingsSheet(
             Text(
                 text = "Settings",
                 style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = 20.dp),
+                modifier = Modifier
+                    .padding(bottom = 20.dp)
+                    .semantics { heading() },
             )
 
             // ── Sound section ──
@@ -150,7 +154,9 @@ private fun SectionHeader(title: String) {
         style = MaterialTheme.typography.labelLarge,
         fontWeight = FontWeight.SemiBold,
         color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
+        modifier = Modifier
+            .padding(top = 16.dp, bottom = 8.dp)
+            .semantics { heading() },
     )
 }
 

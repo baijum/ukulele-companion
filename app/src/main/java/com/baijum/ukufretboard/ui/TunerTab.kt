@@ -43,6 +43,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -166,6 +173,10 @@ private fun TunerContent(
                 fontSize = 64.sp,
             ),
             color = noteColor.copy(alpha = noteColor.alpha * confidenceAlpha),
+            modifier = Modifier.semantics {
+                liveRegion = LiveRegionMode.Polite
+                contentDescription = "Detected note: ${state.detectedNote ?: "none"}"
+            },
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -179,6 +190,14 @@ private fun TunerContent(
 
         val meterColorScheme = MaterialTheme.colorScheme
 
+        val meterDescription = when (state.tuningStatus) {
+            TuningStatus.SILENT -> "Tuning meter, no pitch detected"
+            TuningStatus.IN_TUNE -> "Tuning meter, in tune"
+            TuningStatus.CLOSE -> "Tuning meter, ${kotlin.math.abs(state.centsDeviation)} cents ${if (state.centsDeviation < 0) "flat" else "sharp"}, almost in tune"
+            TuningStatus.FLAT -> "Tuning meter, ${kotlin.math.abs(state.centsDeviation)} cents flat"
+            TuningStatus.SHARP -> "Tuning meter, ${kotlin.math.abs(state.centsDeviation)} cents sharp"
+        }
+
         NeedleMeter(
             cents = animatedCents,
             tuningStatus = state.tuningStatus,
@@ -190,8 +209,11 @@ private fun TunerContent(
             needleColor = meterColorScheme.onSurface,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(2f) // semicircle: width = 2 × height
-                .padding(horizontal = 24.dp),
+                .aspectRatio(2f)
+                .padding(horizontal = 24.dp)
+                .clearAndSetSemantics {
+                    contentDescription = meterDescription
+                },
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -210,6 +232,9 @@ private fun TunerContent(
             style = MaterialTheme.typography.titleMedium,
             color = noteColor.copy(alpha = noteColor.alpha * confidenceAlpha),
             textAlign = TextAlign.Center,
+            modifier = Modifier.semantics {
+                liveRegion = LiveRegionMode.Assertive
+            },
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -258,13 +283,13 @@ private fun TunerContent(
                     containerColor = MaterialTheme.colorScheme.error,
                 ),
             ) {
-                Icon(Icons.Filled.MicOff, contentDescription = null)
+                Icon(Icons.Filled.MicOff, contentDescription = "Stop tuning")
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Stop")
             }
         } else {
             Button(onClick = { viewModel.startTuning() }) {
-                Icon(Icons.Filled.Mic, contentDescription = null)
+                Icon(Icons.Filled.Mic, contentDescription = "Start tuning")
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Start Tuning")
             }
@@ -435,7 +460,19 @@ private fun StringButton(
     isTuned: Boolean,
     onClick: () -> Unit,
 ) {
-    Box(contentAlignment = Alignment.Center) {
+    val stateDesc = when {
+        isTuned -> "tuned"
+        isActive -> "active"
+        else -> "not tuned"
+    }
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.semantics {
+            contentDescription = "$label string, $stateDesc, tap for reference tone"
+            stateDescription = stateDesc
+        },
+    ) {
         if (isActive) {
             FilledTonalButton(
                 onClick = onClick,

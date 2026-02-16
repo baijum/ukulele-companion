@@ -245,7 +245,7 @@ fun ProgressionsTab(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Add,
-                        contentDescription = null,
+                        contentDescription = "Add new progression",
                         modifier = Modifier.size(18.dp),
                     )
                     Spacer(modifier = Modifier.width(4.dp))

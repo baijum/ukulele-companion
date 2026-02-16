@@ -552,7 +552,7 @@ private fun InversionCompareView(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.PlayArrow,
-                            contentDescription = null,
+                            contentDescription = "Play all inversions",
                             modifier = Modifier.size(18.dp),
                         )
                         Spacer(modifier = Modifier.width(4.dp))

@@ -79,7 +79,7 @@ This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.
 |------|----------------|------------|
 | **Unit Tests** | Test domain logic (`ChordDetector`, `Transpose`, `CapoCalculator`, etc.) | Beginner |
 | **UI Tests** | Compose UI tests for screens and components | Beginner |
-| **Accessibility** | Content descriptions, TalkBack support, contrast ratios | Beginner |
+| **Accessibility** | TalkBack support, content descriptions, live regions, heading semantics | Beginner |
 | **Documentation** | Improve code comments, feature docs, user manual | Beginner |
 | **New Musical Content** | Scales, strumming patterns, chord progressions | Beginner |
 | **Localization** | Translate strings to other languages | Intermediate |
@@ -95,7 +95,7 @@ This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.
 - **Documentation** — Code comments, README improvements, feature docs
 - **Refactoring** — Improve code quality without changing behavior
 - **Musical content** — New chord progressions, strumming patterns, scales, theory lessons
-- **Accessibility** — Make the app usable for everyone
+- **Accessibility** — Maintain and improve screen reader support (see [Accessibility Guidelines](#accessibility-guidelines))
 - **Translations** — Help make the app available in more languages
 
 ## Using AI Tools
@@ -140,6 +140,38 @@ When using AI-generated code:
 3. **Review it for correctness** — AI can make mistakes with music theory, chord formulas, or Android-specific APIs
 4. **Adapt it to the codebase** — Ensure it follows the existing patterns (see [Code Guidelines](#code-guidelines))
 5. **Mention AI usage** — You're welcome to note in your PR if AI tools helped, but it's not required
+
+## Accessibility Guidelines
+
+This app is actively used by blind and visually impaired musicians with screen readers. **Every code change must preserve accessibility.** See also [AGENTS.md](AGENTS.md) for AI-specific rules.
+
+### Content Descriptions
+
+- Every **informative/interactive icon** must have a `contentDescription` string
+- **Decorative-only icons** (inside labeled buttons where the text is sufficient) may use `contentDescription = null`
+- Use **conditional descriptions** for toggle states: `if (isPlaying) "Stop" else "Play"`
+
+### Heading Semantics
+
+- **Screen titles** and **section headers** must have `Modifier.semantics { heading() }`
+- This enables screen reader users to navigate by headings (swipe up/down with TalkBack)
+
+### Live Regions
+
+- Use `Modifier.semantics { liveRegion = LiveRegionMode.Polite }` for frequently updating text (pitch, current note)
+- Use `LiveRegionMode.Assertive` for important state changes ("In Tune!", quiz results)
+
+### Canvas Components
+
+- Any `Canvas` that conveys information must be wrapped with `Modifier.clearAndSetSemantics { contentDescription = "..." }`
+- Generate the description from the underlying data model, not from visual appearance
+
+### Testing with TalkBack
+
+1. Enable TalkBack: Settings > Accessibility > TalkBack > On
+2. Swipe right/left to navigate elements — verify everything is announced
+3. Swipe up/down to navigate by headings — verify screen structure makes sense
+4. Complete the full user flow without looking at the screen
 
 ## Code Guidelines
 
@@ -232,6 +264,10 @@ Before submitting, verify:
 - [ ] No new warnings introduced
 - [ ] Code follows the project's existing patterns
 - [ ] UI changes look correct in both light and dark themes
+- [ ] All new icons have appropriate `contentDescription` (see [Accessibility Guidelines](#accessibility-guidelines))
+- [ ] New screens have heading semantics on titles
+- [ ] Dynamic content has `liveRegion` where needed
+- [ ] TalkBack navigation works for changed screens (if UI was modified)
 - [ ] Left-handed mode is not broken (if touching fretboard UI)
 - [ ] Both High-G and Low-G tuning modes work (if touching chord/note logic)
 

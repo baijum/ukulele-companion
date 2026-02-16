@@ -42,6 +42,12 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -187,6 +193,10 @@ private fun PitchMonitorContent(
                             fontWeight = FontWeight.Bold,
                         ),
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        modifier = Modifier.semantics {
+                            liveRegion = LiveRegionMode.Assertive
+                            contentDescription = "Detected chord: ${state.detectedChord ?: "none"}"
+                        },
                     )
                 }
                 if (state.detectedChordNotes.isNotEmpty()) {
@@ -218,6 +228,10 @@ private fun PitchMonitorContent(
             } else {
                 MaterialTheme.colorScheme.onSurfaceVariant
             },
+            modifier = Modifier.semantics {
+                liveRegion = LiveRegionMode.Polite
+                contentDescription = "Current note: ${state.currentNote ?: "none"}"
+            },
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -235,7 +249,11 @@ private fun PitchMonitorContent(
             PitchCanvas(
                 pitchHistory = state.pitchHistory,
                 currentTimeMs = frameTime,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clearAndSetSemantics {
+                        contentDescription = "Pitch visualization showing pitch over time"
+                    },
             )
         }
 
@@ -253,6 +271,9 @@ private fun PitchMonitorContent(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
+            modifier = Modifier.semantics {
+                liveRegion = LiveRegionMode.Polite
+            },
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -269,13 +290,13 @@ private fun PitchMonitorContent(
                         containerColor = MaterialTheme.colorScheme.error,
                     ),
                 ) {
-                    Icon(Icons.Filled.MicOff, contentDescription = null)
+                    Icon(Icons.Filled.MicOff, contentDescription = "Stop listening")
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("Stop")
                 }
             } else {
                 Button(onClick = { viewModel.startListening() }) {
-                    Icon(Icons.Filled.Mic, contentDescription = null)
+                    Icon(Icons.Filled.Mic, contentDescription = "Start listening")
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("Start")
                 }

@@ -56,6 +56,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
@@ -309,7 +311,9 @@ fun FretboardScreen(
                     Text(
                         text = "Ukulele Companion",
                         style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(horizontal = 28.dp, vertical = 24.dp),
+                        modifier = Modifier
+                            .padding(horizontal = 28.dp, vertical = 24.dp)
+                            .semantics { heading() },
                     )
                     sections.forEachIndexed { sectionIndex, section ->
                         if (sectionIndex > 0) {
@@ -319,7 +323,9 @@ fun FretboardScreen(
                             text = section.title,
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp),
+                            modifier = Modifier
+                                .padding(horizontal = 28.dp, vertical = 8.dp)
+                                .semantics { heading() },
                         )
                         section.items.forEach { item ->
                             NavigationDrawerItem(
@@ -362,6 +368,7 @@ fun FretboardScreen(
                                     ?: "Explorer"
                             },
                             style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.semantics { heading() },
                         )
                     },
                     navigationIcon = {

@@ -34,6 +34,12 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.data.KeySignatures
@@ -76,7 +82,9 @@ fun CircleOfFifthsView(
             text = "Circle of Fifths",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 4.dp),
+            modifier = Modifier
+                .padding(bottom = 4.dp)
+                .semantics { heading() },
         )
         Text(
             text = "Tap a key to see its signature and chords. Adjacent keys are closely related.",
@@ -94,10 +102,19 @@ fun CircleOfFifthsView(
             contentAlignment = Alignment.Center,
         ) {
             val circleOrder = KeySignatures.CIRCLE_ORDER
+            val selectedKeyName = selectedKey?.let { Notes.enharmonicForKey(it, it) }
+            val circleDesc = if (selectedKeyName != null) {
+                "Circle of Fifths diagram, $selectedKeyName selected. Tap to select a different key."
+            } else {
+                "Circle of Fifths diagram. Tap to select a key."
+            }
 
             Canvas(
                 modifier = Modifier
                     .fillMaxSize()
+                    .clearAndSetSemantics {
+                        contentDescription = circleDesc
+                    }
                     .pointerInput(Unit) {
                         detectTapGestures { offset ->
                             val centerX = size.width / 2f
@@ -338,11 +355,16 @@ private fun MajorKeyDetail(
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .semantics { liveRegion = LiveRegionMode.Polite },
+        ) {
             Text(
                 text = "$keyName Major",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
+                modifier = Modifier.semantics { heading() },
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -456,11 +478,16 @@ private fun MinorKeyDetail(
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .semantics { liveRegion = LiveRegionMode.Polite },
+        ) {
             Text(
                 text = "$minorName Minor",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
+                modifier = Modifier.semantics { heading() },
             )
 
             Spacer(modifier = Modifier.height(8.dp))

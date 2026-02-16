@@ -27,6 +27,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -168,13 +174,31 @@ fun FretboardView(
                 Row {
                     fretRange.forEach { fret ->
                         val note = getNoteAt(stringIndex, fret)
+                        val isSelected = selections[stringIndex] == fret
                         val inScale = note.pitchClass in scaleNotes &&
                             (scalePositionFretRange == null || fret in scalePositionFretRange)
                         val isScaleRoot = scaleRoot != null && note.pitchClass == scaleRoot
                         val blocked = capoFret > 0 && fret in 1..capoFret
+
+                        // Build accessibility description
+                        val stringName = tuning[stringIndex].name
+                        val cellDesc = buildString {
+                            append("$stringName string, ")
+                            if (fret == FretboardViewModel.OPEN_STRING_FRET) {
+                                append("open")
+                            } else {
+                                append("fret $fret")
+                            }
+                            append(", ${note.name}")
+                            if (isSelected) append(", selected")
+                            if (inScale) append(", in scale")
+                            if (isScaleRoot) append(", scale root")
+                            if (blocked) append(", blocked by capo")
+                        }
+
                         FretCell(
                             note = note,
-                            isSelected = selections[stringIndex] == fret,
+                            isSelected = isSelected,
                             isOpenString = fret == FretboardViewModel.OPEN_STRING_FRET,
                             showNoteNames = showNoteNames,
                             onClick = { onFretTap(stringIndex, fret) },
@@ -183,7 +207,14 @@ fun FretboardView(
                             isScaleRoot = isScaleRoot,
                             isCapoFret = capoFret > 0 && fret == capoFret,
                             isBlockedByCapo = blocked,
-                            modifier = Modifier.size(cellWidth, cellHeight),
+                            modifier = Modifier
+                                .size(cellWidth, cellHeight)
+                                .semantics {
+                                    contentDescription = cellDesc
+                                    role = Role.Button
+                                    if (isSelected) selected = true
+                                    if (blocked) stateDescription = "Blocked by capo"
+                                },
                         )
                     }
                 }

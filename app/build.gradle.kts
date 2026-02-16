@@ -28,8 +28,9 @@ android {
         applicationId = "com.baijum.ukufretboard"
         minSdk = 26
         targetSdk = 35
-        versionCode = 52
-        versionName = "5.18.0"
+        versionCode = 53
+        versionName = "6.0.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     if (keystorePropertiesFile.exists()) {
@@ -94,4 +95,7 @@ dependencies {
     implementation(libs.reorderable)
     implementation(libs.onnxruntime.android)
     debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.ui.test.manifest)
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.ui.test.junit4)
 }

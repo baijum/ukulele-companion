@@ -91,10 +91,21 @@ Theory lessons, ear training, interval trainer, circle of fifths, glossary, scal
 
 ### ⚙️ Settings
 
-- **Display**: Sharp/Flat note names, Light/Dark/System theme
+- **Display**: Sharp/Flat note names, Light/Dark/System/High Contrast theme
 - **Tuning**: High-G (standard), Low-G, Baritone, D-Tuning
 - **Fretboard**: Left-handed mode (mirrors the fretboard)
 - **Sound**: Enable/disable, strum delay, note duration
+
+### ♿ Accessibility
+
+Ukulele Companion is designed to be usable by everyone, including blind and visually impaired musicians:
+
+- **TalkBack support**: All interactive elements have descriptive content descriptions for Android's screen reader
+- **Heading semantics**: Screen titles and section headers are marked as headings for efficient screen reader navigation
+- **Live regions**: Dynamic content like tuner readings, chord detection, and pitch monitoring are announced by screen readers as they change
+- **Canvas alternatives**: Visual-only components (tuner meter, chord diagrams, fretboard, pitch monitor, Circle of Fifths) have text descriptions for screen readers
+- **High contrast theme**: A high-contrast color scheme is available in Display settings
+- **Logical focus order**: Navigation follows a logical order for keyboard and switch access users
 
 ---
 
@@ -236,7 +247,7 @@ Looking for a place to start? Here are some areas where contributions would be e
 |------|-------------|------------|
 | **Unit Tests** | Add tests for `ChordDetector`, `Transpose`, `CapoCalculator`, and other domain logic | Beginner |
 | **UI Tests** | Add Compose UI tests for screens and components | Beginner |
-| **Accessibility** | Improve content descriptions and TalkBack support | Beginner |
+| **Accessibility** | Maintain and improve TalkBack support, content descriptions, live regions | Beginner |
 | **New Scales** | Add more scale types to the Scale Overlay feature | Beginner |
 | **New Strumming Patterns** | Expand the strumming pattern library | Beginner |
 | **New Chord Progressions** | Add genre-specific chord progressions | Beginner |

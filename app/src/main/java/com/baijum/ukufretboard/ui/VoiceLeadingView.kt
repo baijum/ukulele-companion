@@ -565,7 +565,7 @@ private fun BottomControls(
                 Button(onClick = onPlayAll) {
                     Icon(
                         imageVector = Icons.Filled.PlayArrow,
-                        contentDescription = null,
+                        contentDescription = "Play all voice leadings",
                         modifier = Modifier.size(18.dp),
                     )
                     Spacer(modifier = Modifier.width(4.dp))
