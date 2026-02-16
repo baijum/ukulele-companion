@@ -207,7 +207,7 @@ fun FretboardScreen(
     learningProgressViewModel: LearningProgressViewModel = viewModel(),
     scalePracticeViewModel: ScalePracticeViewModel = viewModel(),
 ) {
-    var selectedSection by remember { mutableIntStateOf(NAV_EXPLORER) }
+    var selectedSection by rememberSaveable { mutableIntStateOf(NAV_EXPLORER) }
     var showSettings by remember { mutableStateOf(false) }
     var showFullScreen by rememberSaveable { mutableStateOf(false) }
     var shareChordInfo by remember { mutableStateOf<ShareChordInfo?>(null) }
