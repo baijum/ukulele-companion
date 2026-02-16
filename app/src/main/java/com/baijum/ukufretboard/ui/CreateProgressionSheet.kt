@@ -36,8 +36,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.ChordCategory
 import com.baijum.ukufretboard.data.ChordDegree
 import com.baijum.ukufretboard.data.ChordFormula
@@ -100,7 +102,7 @@ fun CreateProgressionSheet(
         ) {
             // Title
             Text(
-                text = if (isEditMode) "Edit Progression" else "Create Progression",
+                text = if (isEditMode) stringResource(R.string.progression_edit_title) else stringResource(R.string.progression_create_title),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
             )
@@ -111,7 +113,7 @@ fun CreateProgressionSheet(
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Progression name") },
+                label = { Text(stringResource(R.string.progression_name_label)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -122,7 +124,7 @@ fun CreateProgressionSheet(
             OutlinedTextField(
                 value = description,
                 onValueChange = { description = it },
-                label = { Text("Description (optional)") },
+                label = { Text(stringResource(R.string.progression_desc_label)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -131,7 +133,7 @@ fun CreateProgressionSheet(
 
             // Scale type toggle
             Text(
-                text = "Scale",
+                text = stringResource(R.string.label_scale),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -164,7 +166,7 @@ fun CreateProgressionSheet(
 
             // Chord quality selector
             Text(
-                text = "Chord Quality",
+                text = stringResource(R.string.progression_chord_quality),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -178,7 +180,7 @@ fun CreateProgressionSheet(
                 FilterChip(
                     selected = selectedQuality == null,
                     onClick = { selectedQuality = null },
-                    label = { Text("Triad") },
+                    label = { Text(stringResource(R.string.progression_triad)) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = MaterialTheme.colorScheme.tertiary,
                         selectedLabelColor = MaterialTheme.colorScheme.onTertiary,
@@ -209,7 +211,7 @@ fun CreateProgressionSheet(
 
             // Available diatonic chords
             Text(
-                text = "Tap chords to add",
+                text = stringResource(R.string.progression_tap_chords),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -259,7 +261,7 @@ fun CreateProgressionSheet(
 
             // Chosen progression sequence
             Text(
-                text = "Your progression (${chosenDegrees.size} chords)",
+                text = stringResource(R.string.progression_your_chords, chosenDegrees.size),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -268,7 +270,7 @@ fun CreateProgressionSheet(
 
             if (chosenDegrees.isEmpty()) {
                 Text(
-                    text = "Tap the chords above to build your progression",
+                    text = stringResource(R.string.progression_placeholder),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                     modifier = Modifier.padding(vertical = 8.dp),
@@ -299,7 +301,7 @@ fun CreateProgressionSheet(
                             trailingIcon = {
                                 Icon(
                                     imageVector = Icons.Filled.Close,
-                                    contentDescription = "Remove",
+                                    contentDescription = stringResource(R.string.cd_remove),
                                     modifier = androidx.compose.ui.Modifier.padding(0.dp),
                                 )
                             },
@@ -330,12 +332,12 @@ fun CreateProgressionSheet(
                 enabled = name.isNotBlank() && chosenDegrees.size >= 2,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text(if (isEditMode) "Update Progression" else "Save Progression")
+                Text(if (isEditMode) stringResource(R.string.progression_update) else stringResource(R.string.progression_save))
             }
 
             if (name.isNotBlank() && chosenDegrees.size < 2) {
                 Text(
-                    text = "Add at least 2 chords",
+                    text = stringResource(R.string.progression_error_min),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.padding(top = 4.dp),

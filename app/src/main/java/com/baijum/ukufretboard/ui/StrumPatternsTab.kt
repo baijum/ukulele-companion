@@ -47,8 +47,10 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.CustomFingerpickingPattern
 import com.baijum.ukufretboard.data.CustomFingerpickingPatternRepository
 import com.baijum.ukufretboard.data.CustomStrumPattern
@@ -103,12 +105,12 @@ fun StrumPatternsTab(
                 FilterChip(
                     selected = selectedTab == TAB_STRUMMING,
                     onClick = { selectedTab = TAB_STRUMMING },
-                    label = { Text("Strumming") },
+                    label = { Text(stringResource(R.string.patterns_strumming)) },
                 )
                 FilterChip(
                     selected = selectedTab == TAB_FINGERPICKING,
                     onClick = { selectedTab = TAB_FINGERPICKING },
-                    label = { Text("Fingerpicking") },
+                    label = { Text(stringResource(R.string.patterns_fingerpicking)) },
                 )
             }
 
@@ -121,7 +123,7 @@ fun StrumPatternsTab(
                     if (customStrumPatterns.isNotEmpty()) {
                         item {
                             Text(
-                                text = "My Patterns",
+                                text = stringResource(R.string.patterns_my),
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.primary,
@@ -140,7 +142,7 @@ fun StrumPatternsTab(
                         item {
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "Presets",
+                                text = stringResource(R.string.label_presets),
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.primary,
@@ -160,7 +162,7 @@ fun StrumPatternsTab(
                     if (customFingerpickPatterns.isNotEmpty()) {
                         item {
                             Text(
-                                text = "My Patterns",
+                                text = stringResource(R.string.patterns_my),
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.primary,
@@ -179,7 +181,7 @@ fun StrumPatternsTab(
                         item {
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "Presets",
+                                text = stringResource(R.string.label_presets),
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.primary,
@@ -206,7 +208,7 @@ fun StrumPatternsTab(
                 .align(Alignment.BottomEnd)
                 .padding(16.dp),
         ) {
-            Icon(Icons.Filled.Add, contentDescription = "Create Pattern")
+            Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.cd_create_pattern))
         }
     }
 
@@ -269,7 +271,7 @@ private fun StrumPatternCard(pattern: StrumPattern, onDelete: (() -> Unit)? = nu
                     IconButton(onClick = onDelete) {
                         Icon(
                             Icons.Filled.Delete,
-                            contentDescription = "Delete",
+                            contentDescription = stringResource(R.string.dialog_delete),
                             tint = MaterialTheme.colorScheme.error,
                         )
                     }
@@ -305,7 +307,7 @@ private fun StrumPatternCard(pattern: StrumPattern, onDelete: (() -> Unit)? = nu
 
             // Tempo range
             Text(
-                text = "${pattern.suggestedBpm.first}–${pattern.suggestedBpm.last} BPM",
+                text = "${pattern.suggestedBpm.first}–${pattern.suggestedBpm.last} ${stringResource(R.string.label_bpm)}",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.outline,
             )
@@ -422,7 +424,7 @@ private fun FingerpickingPatternCard(pattern: FingerpickingPattern, onDelete: ((
                     IconButton(onClick = onDelete) {
                         Icon(
                             Icons.Filled.Delete,
-                            contentDescription = "Delete",
+                            contentDescription = stringResource(R.string.dialog_delete),
                             tint = MaterialTheme.colorScheme.error,
                         )
                     }
@@ -458,7 +460,7 @@ private fun FingerpickingPatternCard(pattern: FingerpickingPattern, onDelete: ((
 
             // Tempo range
             Text(
-                text = "${pattern.suggestedBpm.first}–${pattern.suggestedBpm.last} BPM",
+                text = "${pattern.suggestedBpm.first}–${pattern.suggestedBpm.last} ${stringResource(R.string.label_bpm)}",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.outline,
             )
@@ -532,6 +534,7 @@ private fun CreateStrumPatternSheet(
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var patternName by remember { mutableStateOf("") }
+    val customPatternDesc = stringResource(R.string.patterns_custom)
     val beats = remember {
         mutableStateListOf(
             StrumBeat(StrumDirection.DOWN, emphasis = true),
@@ -556,7 +559,7 @@ private fun CreateStrumPatternSheet(
                 .padding(bottom = 32.dp),
         ) {
             Text(
-                text = "Create Strum Pattern",
+                text = stringResource(R.string.patterns_create_strum),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp).semantics { heading() },
@@ -565,7 +568,7 @@ private fun CreateStrumPatternSheet(
             OutlinedTextField(
                 value = patternName,
                 onValueChange = { patternName = it },
-                label = { Text("Pattern Name") },
+                label = { Text(stringResource(R.string.patterns_pattern_name)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -573,7 +576,7 @@ private fun CreateStrumPatternSheet(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Tap each beat to change direction",
+                text = stringResource(R.string.patterns_tap_beat),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -620,7 +623,7 @@ private fun CreateStrumPatternSheet(
 
             // Emphasis toggles
             Text(
-                text = "Tap below to toggle accent",
+                text = stringResource(R.string.patterns_tap_accent),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -660,7 +663,7 @@ private fun CreateStrumPatternSheet(
                 horizontalArrangement = Arrangement.End,
             ) {
                 TextButton(onClick = onDismiss) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.dialog_cancel))
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 TextButton(
@@ -670,7 +673,7 @@ private fun CreateStrumPatternSheet(
                             onSave(
                                 StrumPattern(
                                     name = patternName.trim(),
-                                    description = "Custom pattern",
+                                    description = customPatternDesc,
                                     difficulty = Difficulty.BEGINNER,
                                     beats = beats.toList(),
                                     notation = notation,
@@ -681,7 +684,7 @@ private fun CreateStrumPatternSheet(
                     },
                     enabled = patternName.isNotBlank(),
                 ) {
-                    Text("Save")
+                    Text(stringResource(R.string.dialog_save))
                 }
             }
         }
@@ -704,6 +707,7 @@ private fun CreateFingerpickingPatternSheet(
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var patternName by remember { mutableStateOf("") }
+    val customPatternDesc = stringResource(R.string.patterns_custom)
     val steps = remember {
         mutableStateListOf(
             FingerpickStep(Finger.THUMB, 0, emphasis = true),
@@ -725,7 +729,7 @@ private fun CreateFingerpickingPatternSheet(
                 .padding(bottom = 32.dp),
         ) {
             Text(
-                text = "Create Fingerpicking Pattern",
+                text = stringResource(R.string.patterns_create_fingerpick),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp).semantics { heading() },
@@ -734,7 +738,7 @@ private fun CreateFingerpickingPatternSheet(
             OutlinedTextField(
                 value = patternName,
                 onValueChange = { patternName = it },
-                label = { Text("Pattern Name") },
+                label = { Text(stringResource(R.string.patterns_pattern_name)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -748,7 +752,7 @@ private fun CreateFingerpickingPatternSheet(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "${steps.size} steps",
+                    text = stringResource(R.string.patterns_steps, steps.size),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -784,7 +788,7 @@ private fun CreateFingerpickingPatternSheet(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Tap a step, then pick finger and string below",
+                text = stringResource(R.string.patterns_tap_step),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -844,7 +848,7 @@ private fun CreateFingerpickingPatternSheet(
 
             // Emphasis toggles
             Text(
-                text = "Tap below to toggle accent",
+                text = stringResource(R.string.patterns_tap_accent),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -880,7 +884,7 @@ private fun CreateFingerpickingPatternSheet(
 
             // Finger selector
             Text(
-                text = "Finger",
+                text = stringResource(R.string.patterns_finger),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(bottom = 4.dp),
@@ -900,10 +904,10 @@ private fun CreateFingerpickingPatternSheet(
                         label = {
                             Text(
                                 text = when (finger) {
-                                    Finger.THUMB -> "Thumb"
-                                    Finger.INDEX -> "Index"
-                                    Finger.MIDDLE -> "Middle"
-                                    Finger.RING -> "Ring"
+                                    Finger.THUMB -> stringResource(R.string.patterns_thumb)
+                                    Finger.INDEX -> stringResource(R.string.patterns_index)
+                                    Finger.MIDDLE -> stringResource(R.string.patterns_middle)
+                                    Finger.RING -> stringResource(R.string.patterns_ring)
                                 },
                             )
                         },
@@ -915,7 +919,7 @@ private fun CreateFingerpickingPatternSheet(
 
             // String selector
             Text(
-                text = "String",
+                text = stringResource(R.string.patterns_string),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(bottom = 4.dp),
@@ -945,7 +949,7 @@ private fun CreateFingerpickingPatternSheet(
                 horizontalArrangement = Arrangement.End,
             ) {
                 TextButton(onClick = onDismiss) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.dialog_cancel))
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 TextButton(
@@ -958,7 +962,7 @@ private fun CreateFingerpickingPatternSheet(
                             onSave(
                                 FingerpickingPattern(
                                     name = patternName.trim(),
-                                    description = "Custom pattern",
+                                    description = customPatternDesc,
                                     difficulty = Difficulty.BEGINNER,
                                     steps = steps.toList(),
                                     notation = notation,
@@ -969,7 +973,7 @@ private fun CreateFingerpickingPatternSheet(
                     },
                     enabled = patternName.isNotBlank(),
                 ) {
-                    Text("Save")
+                    Text(stringResource(R.string.dialog_save))
                 }
             }
         }

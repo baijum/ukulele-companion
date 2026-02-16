@@ -51,10 +51,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.audio.AudioCaptureEngine
 import com.baijum.ukufretboard.audio.MetronomeEngine
 import com.baijum.ukufretboard.data.ChordFormulas
@@ -162,12 +164,12 @@ fun PlayAlongView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Play Along",
+            text = stringResource(R.string.play_along_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
         )
         Text(
-            text = "${progression.name} — Listen and play the right chords!",
+            text = "${progression.name} — ${stringResource(R.string.play_along_subtitle)}",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -188,7 +190,7 @@ fun PlayAlongView(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = "Microphone access needed for chord detection",
+                        text = stringResource(R.string.play_along_mic_needed),
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onErrorContainer,
@@ -197,9 +199,9 @@ fun PlayAlongView(
                     Button(onClick = {
                         permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
                     }) {
-                        Icon(Icons.Filled.Mic, contentDescription = "Grant microphone permission")
+                        Icon(Icons.Filled.Mic, contentDescription = stringResource(R.string.cd_grant_permission))
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Grant Permission")
+                        Text(stringResource(R.string.play_along_grant))
                     }
                 }
             }
@@ -260,7 +262,7 @@ fun PlayAlongView(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = "Play:",
+                    text = stringResource(R.string.play_along_play),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f),
                 )
@@ -285,7 +287,7 @@ fun PlayAlongView(
                     ) {
                         Icon(
                             imageVector = if (isCorrect) Icons.Filled.CheckCircle else Icons.Filled.Close,
-                            contentDescription = if (isCorrect) "Correct" else "Incorrect",
+                            contentDescription = if (isCorrect) stringResource(R.string.cd_correct) else stringResource(R.string.cd_incorrect),
                             tint = if (isCorrect) {
                                 MaterialTheme.colorScheme.primary
                             } else {
@@ -295,7 +297,7 @@ fun PlayAlongView(
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            text = "Heard: ${detectedChord ?: "..."}",
+                            text = "${stringResource(R.string.play_along_heard)} ${detectedChord ?: "..."}",
                             style = MaterialTheme.typography.bodyMedium,
                             color = if (isCorrect) {
                                 MaterialTheme.colorScheme.primary
@@ -332,7 +334,7 @@ fun PlayAlongView(
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary,
                         )
-                        Text("Accuracy", style = MaterialTheme.typography.labelSmall)
+                        Text(stringResource(R.string.label_accuracy), style = MaterialTheme.typography.labelSmall)
                     }
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
@@ -340,7 +342,7 @@ fun PlayAlongView(
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold,
                         )
-                        Text("Grade", style = MaterialTheme.typography.labelSmall)
+                        Text(stringResource(R.string.play_along_grade), style = MaterialTheme.typography.labelSmall)
                     }
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
@@ -348,7 +350,7 @@ fun PlayAlongView(
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold,
                         )
-                        Text("Best Streak", style = MaterialTheme.typography.labelSmall)
+                        Text(stringResource(R.string.label_best_streak), style = MaterialTheme.typography.labelSmall)
                     }
                 }
             }
@@ -371,7 +373,7 @@ fun PlayAlongView(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "BPM: ${bpm.toInt()}",
+                        text = stringResource(R.string.label_bpm_value, bpm.toInt()),
                         style = MaterialTheme.typography.labelSmall,
                         modifier = Modifier.width(64.dp),
                     )
@@ -392,7 +394,7 @@ fun PlayAlongView(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
-                    Text("Beats:", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.label_beats), style = MaterialTheme.typography.labelSmall)
                     listOf(2, 4, 8).forEach { beats ->
                         FilterChip(
                             selected = beatsPerChord == beats,
@@ -531,12 +533,12 @@ fun PlayAlongSetup(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
         ) {
             Text(
-                text = "Play Along",
+                text = stringResource(R.string.play_along_title),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
             )
             Text(
-                text = "Choose a key and progression, then play along with real-time chord detection.",
+                text = stringResource(R.string.play_along_choose),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -545,7 +547,7 @@ fun PlayAlongSetup(
 
             // Key selection
             Text(
-                text = "Key",
+                text = stringResource(R.string.label_key),
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.Bold,
             )
@@ -574,7 +576,7 @@ fun PlayAlongSetup(
 
             // Scale type
             Text(
-                text = "Scale",
+                text = stringResource(R.string.label_scale),
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.Bold,
             )
@@ -602,7 +604,7 @@ fun PlayAlongSetup(
 
             // Progression selection
             Text(
-                text = "Progression",
+                text = stringResource(R.string.play_along_progression),
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.Bold,
             )

@@ -31,12 +31,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.CapoReference
 import com.baijum.ukufretboard.data.Notes
 
@@ -64,7 +66,7 @@ fun CapoGuideView(
         item {
             LessonSection(
                 number = 1,
-                title = "What is a Capo?",
+                title = stringResource(R.string.capo_guide_what),
             ) {
                 Text(
                     text = CapoReference.WHAT_IS_A_CAPO,
@@ -78,7 +80,7 @@ fun CapoGuideView(
         item {
             LessonSection(
                 number = 2,
-                title = "How It Changes Pitch",
+                title = stringResource(R.string.capo_guide_pitch),
             ) {
                 Text(
                     text = CapoReference.HOW_IT_CHANGES_PITCH,
@@ -94,10 +96,10 @@ fun CapoGuideView(
         item {
             LessonSection(
                 number = 3,
-                title = "Common Capo Positions",
+                title = stringResource(R.string.capo_guide_positions),
             ) {
                 Text(
-                    text = "Reference table showing which shapes produce which sounding keys:",
+                    text = stringResource(R.string.capo_guide_ref_table),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -110,7 +112,7 @@ fun CapoGuideView(
         item {
             LessonSection(
                 number = 4,
-                title = "When to Use a Capo",
+                title = stringResource(R.string.capo_guide_when),
             ) {
                 Text(
                     text = CapoReference.WHEN_TO_USE,
@@ -131,7 +133,7 @@ fun CapoGuideView(
         item {
             LessonSection(
                 number = 5,
-                title = "Try It Yourself!",
+                title = stringResource(R.string.capo_guide_try),
             ) {
                 Text(
                     text = CapoReference.TRY_IT_TIP,
@@ -142,7 +144,7 @@ fun CapoGuideView(
 
                 // Friendly shapes reference
                 Text(
-                    text = "Common open chord shapes (good with capo):",
+                    text = stringResource(R.string.capo_guide_open_shapes),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -280,7 +282,7 @@ private fun InteractiveCapoDemo() {
     Column {
         // Fret selector row
         Text(
-            text = "Tap a fret to place the capo:",
+            text = stringResource(R.string.capo_guide_tap_fret),
             style = MaterialTheme.typography.labelMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -312,7 +314,7 @@ private fun InteractiveCapoDemo() {
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
-                        text = if (fret == 0) "Open" else "$fret",
+                        text = if (fret == 0) stringResource(R.string.label_open) else "$fret",
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                         color = if (isSelected) MaterialTheme.colorScheme.onPrimary
@@ -333,8 +335,8 @@ private fun InteractiveCapoDemo() {
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
                 Text(
-                    text = if (selectedCapoFret == 0) "No capo \u2014 standard tuning"
-                    else "Capo on fret $selectedCapoFret",
+                    text = if (selectedCapoFret == 0) stringResource(R.string.capo_guide_no_capo)
+                    else stringResource(R.string.capo_guide_on_fret, selectedCapoFret),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
@@ -352,7 +354,7 @@ private fun InteractiveCapoDemo() {
 
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
-                                text = "String ${index + 1}",
+                                text = stringResource(R.string.capo_guide_string, index + 1),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -367,7 +369,7 @@ private fun InteractiveCapoDemo() {
                             )
                             if (selectedCapoFret > 0) {
                                 Text(
-                                    text = "(was $originalName)",
+                                    text = stringResource(R.string.capo_guide_was_note, originalName),
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
@@ -399,20 +401,20 @@ private fun CapoPositionsTable() {
                     .padding(vertical = 4.dp),
             ) {
                 Text(
-                    text = "Capo",
+                    text = stringResource(R.string.label_capo),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.width(44.dp),
                     textAlign = TextAlign.Center,
                 )
                 Text(
-                    text = "Shape",
+                    text = stringResource(R.string.capo_guide_shape),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f),
                 )
                 Text(
-                    text = "Sounds as",
+                    text = stringResource(R.string.capo_guide_sounds_as),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f),

@@ -41,7 +41,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.ChordCategory
 import com.baijum.ukufretboard.data.ChordFormula
 import com.baijum.ukufretboard.data.ChordFormulas
@@ -98,7 +100,7 @@ fun ChordLibraryTab(
             .padding(top = 8.dp),
     ) {
         // Section: Root note selector
-        SectionLabel("Root Note")
+        SectionLabel(stringResource(R.string.chord_library_root_note))
         RootNoteSelector(
             selectedRoot = uiState.selectedRoot,
             onRootSelected = viewModel::selectRoot,
@@ -107,7 +109,7 @@ fun ChordLibraryTab(
         Spacer(modifier = Modifier.height(12.dp))
 
         // Section: Category selector
-        SectionLabel("Type")
+        SectionLabel(stringResource(R.string.chord_library_type))
         CategorySelector(
             selectedCategory = uiState.selectedCategory,
             onCategorySelected = viewModel::selectCategory,
@@ -163,7 +165,7 @@ fun ChordLibraryTab(
                 )
             } else if (compareMode) {
                 // ── Compare Inversions mode ──
-                SectionLabel("$rootName$symbol — Compare Inversions")
+                SectionLabel(rootName + symbol + stringResource(R.string.chord_library_compare_inversions))
 
                 Spacer(modifier = Modifier.height(4.dp))
 
@@ -224,7 +226,7 @@ fun ChordLibraryTab(
                     uiState.voicings
                 }
 
-                SectionLabel("$rootName$symbol — ${filteredVoicings.size} voicings")
+                SectionLabel("$rootName$symbol — " + stringResource(R.string.chord_library_voicings, filteredVoicings.size))
 
                 // Inversion filter chips + action buttons
                 Column(
@@ -259,7 +261,7 @@ fun ChordLibraryTab(
                                 )
                             },
                         ) {
-                            Text("Capo", style = MaterialTheme.typography.labelSmall)
+                            Text(stringResource(R.string.label_capo), style = MaterialTheme.typography.labelSmall)
                         }
                         OutlinedButton(
                             onClick = {
@@ -267,10 +269,10 @@ fun ChordLibraryTab(
                                 capoVisualVoicing = filteredVoicings.firstOrNull()
                             },
                         ) {
-                            Text("Viz", style = MaterialTheme.typography.labelSmall)
+                            Text(stringResource(R.string.chord_library_viz), style = MaterialTheme.typography.labelSmall)
                         }
                         OutlinedButton(onClick = { compareMode = true }) {
-                            Text("Compare", style = MaterialTheme.typography.labelSmall)
+                            Text(stringResource(R.string.chord_library_compare), style = MaterialTheme.typography.labelSmall)
                         }
                     }
                 }
@@ -279,9 +281,7 @@ fun ChordLibraryTab(
 
                 // Build a contextual empty-state message when an inversion filter is active
                 val inversionEmptySubtitle = if (inversionFilter != null && filteredVoicings.isEmpty()) {
-                    "In re-entrant tuning (High-G), the C string is almost always " +
-                        "the lowest note, so most voicings are root position. " +
-                        "Try selecting \"All\" to see available voicings."
+                    stringResource(R.string.chord_library_reentrant_empty)
                 } else {
                     null
                 }
@@ -298,7 +298,7 @@ fun ChordLibraryTab(
                     emptyTitle = if (inversionFilter != null) {
                         "No ${inversionFilter!!.label.lowercase()} voicings"
                     } else {
-                        "No voicings found"
+                        stringResource(R.string.chord_library_no_voicings)
                     },
                     emptySubtitle = inversionEmptySubtitle,
                     modifier = Modifier.weight(1f),
@@ -315,6 +315,7 @@ fun ChordLibraryTab(
                 leftHanded = leftHanded,
                 rootPitchClass = uiState.selectedRoot,
                 formula = uiState.selectedFormula,
+                emptyTitle = stringResource(R.string.chord_library_no_voicings),
                 modifier = Modifier.weight(1f),
             )
         }
@@ -470,8 +471,8 @@ private fun InversionFilterChips(
     val totalCount = inversionCounts.values.sum()
 
     val options = buildList {
-        add(null to "All")
-        add(ChordInfo.Inversion.ROOT to "Root")
+        add(null to stringResource(R.string.label_all))
+        add(ChordInfo.Inversion.ROOT to stringResource(R.string.label_root))
         add(ChordInfo.Inversion.FIRST to "1st Inv")
         add(ChordInfo.Inversion.SECOND to "2nd Inv")
         if (hasSeventhIntervals) {
@@ -535,7 +536,7 @@ private fun InversionCompareView(
         // Educational tip + Play All + Back
         item {
             Text(
-                text = "Same chord, different bass note. Listen to how each inversion has a distinct character.",
+                text = stringResource(R.string.chord_library_inversion_tip),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(bottom = 8.dp),
@@ -552,15 +553,15 @@ private fun InversionCompareView(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.PlayArrow,
-                            contentDescription = "Play all inversions",
+                            contentDescription = stringResource(R.string.cd_play_all_inversions),
                             modifier = Modifier.size(18.dp),
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text("Play All Inversions")
+                        Text(stringResource(R.string.chord_library_play_all_inversions))
                     }
                 }
                 OutlinedButton(onClick = onExitCompare) {
-                    Text("Back")
+                    Text(stringResource(R.string.action_back))
                 }
             }
 
@@ -592,7 +593,9 @@ private fun InversionCompareView(
                             color = MaterialTheme.colorScheme.onSurface,
                         )
                         Text(
-                            text = "Bass: $bassName \u2022 ${voicings.size} voicing${if (voicings.size > 1) "s" else ""}",
+                            text = stringResource(R.string.chord_library_bass_prefix) + bassName + " \u2022 " +
+                                if (voicings.size == 1) stringResource(R.string.chord_library_voicing_singular, voicings.size)
+                                else stringResource(R.string.chord_library_voicings, voicings.size),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -601,7 +604,7 @@ private fun InversionCompareView(
                         IconButton(onClick = { onPlayVoicing(bestVoicing) }) {
                             Icon(
                                 imageVector = Icons.Filled.PlayArrow,
-                                contentDescription = "Play ${inversion.label}",
+                                contentDescription = stringResource(R.string.cd_play_item, inversion.label),
                                 tint = MaterialTheme.colorScheme.primary,
                             )
                         }
@@ -636,9 +639,10 @@ private fun InversionCompareView(
             item {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "This chord only has ${availableInversions.first().label.lowercase()} voicings. " +
-                        "Re-entrant tuning (High-G) limits inversions because the C string (C4) " +
-                        "is almost always the lowest pitch. Low-G tuning allows more inversion variety.",
+                    text = stringResource(
+                        R.string.chord_library_reentrant_limited,
+                        grouped[availableInversions.first()]?.size ?: 0,
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(horizontal = 16.dp),

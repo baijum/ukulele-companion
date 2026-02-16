@@ -26,10 +26,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import android.content.pm.PackageManager
+import com.baijum.ukufretboard.R
 
 /**
  * Result of checking the RECORD_AUDIO permission state.
@@ -137,18 +139,17 @@ private fun MicPermissionRationaleCard(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
-                text = "Microphone Access",
+                text = stringResource(R.string.mic_permission_title),
                 style = MaterialTheme.typography.titleMedium,
             )
             Text(
-                text = "The tuner needs access to your microphone to listen to " +
-                    "your ukulele and detect the pitch of each string.",
+                text = stringResource(R.string.mic_permission_message),
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
             )
             Spacer(modifier = Modifier.height(4.dp))
             Button(onClick = onRequestPermission) {
-                Text("Allow Microphone")
+                Text(stringResource(R.string.mic_permission_allow))
             }
         }
     }
@@ -177,20 +178,19 @@ private fun MicPermissionDeniedCard(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
-                text = "Microphone Denied",
+                text = stringResource(R.string.mic_permission_denied_title),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onErrorContainer,
             )
             Text(
-                text = "The tuner cannot work without microphone access. " +
-                    "Please enable it in your device's app settings.",
+                text = stringResource(R.string.mic_permission_denied_message),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onErrorContainer,
                 textAlign = TextAlign.Center,
             )
             Spacer(modifier = Modifier.height(4.dp))
             OutlinedButton(onClick = onOpenSettings) {
-                Text("Open Settings")
+                Text(stringResource(R.string.mic_permission_open_settings))
             }
         }
     }

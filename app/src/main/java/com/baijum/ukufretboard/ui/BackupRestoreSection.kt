@@ -31,9 +31,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.viewmodel.BackupRestoreState
 import com.baijum.ukufretboard.viewmodel.BackupRestoreViewModel
 import java.text.SimpleDateFormat
@@ -84,7 +86,7 @@ fun BackupRestoreSection(
     Column(modifier = Modifier.fillMaxWidth()) {
         // Section header
         Text(
-            text = "BACKUP & RESTORE",
+            text = stringResource(R.string.backup_title),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.primary,
@@ -92,8 +94,7 @@ fun BackupRestoreSection(
         )
 
         Text(
-            text = "Save all your data (favorites, songs, progressions, patterns, " +
-                "settings, and learning progress) to a file, or restore from a backup.",
+            text = stringResource(R.string.backup_description),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -103,7 +104,7 @@ fun BackupRestoreSection(
         // Last backup date
         state.lastBackupDate?.let { date ->
             Text(
-                text = "Last backup: $date",
+                text = stringResource(R.string.backup_last, date),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -133,12 +134,12 @@ fun BackupRestoreSection(
                 } else {
                     Icon(
                         Icons.Filled.CloudUpload,
-                        contentDescription = "Backup data",
+                        contentDescription = stringResource(R.string.cd_backup),
                         modifier = Modifier.size(18.dp),
                     )
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Backup")
+                Text(stringResource(R.string.backup_button))
             }
 
             // Restore button
@@ -157,12 +158,12 @@ fun BackupRestoreSection(
                 } else {
                     Icon(
                         Icons.Filled.CloudDownload,
-                        contentDescription = "Restore data",
+                        contentDescription = stringResource(R.string.cd_restore),
                         modifier = Modifier.size(18.dp),
                     )
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Restore")
+                Text(stringResource(R.string.restore_button))
             }
         }
 
@@ -199,14 +200,9 @@ fun BackupRestoreSection(
                 showRestoreConfirm = false
                 pendingRestoreUri = null
             },
-            title = { Text("Restore Data?") },
+            title = { Text(stringResource(R.string.restore_dialog_title)) },
             text = {
-                Text(
-                    "This will merge favorites, songs, progressions, and patterns " +
-                        "from the backup file with your existing data. Settings will " +
-                        "be replaced with the backup values.\n\n" +
-                        "Your existing data will not be deleted.",
-                )
+                Text(stringResource(R.string.restore_dialog_message))
             },
             confirmButton = {
                 Button(
@@ -219,7 +215,7 @@ fun BackupRestoreSection(
                         containerColor = MaterialTheme.colorScheme.primary,
                     ),
                 ) {
-                    Text("Restore")
+                    Text(stringResource(R.string.restore_button))
                 }
             },
             dismissButton = {
@@ -227,7 +223,7 @@ fun BackupRestoreSection(
                     showRestoreConfirm = false
                     pendingRestoreUri = null
                 }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.dialog_cancel))
                 }
             },
         )

@@ -17,8 +17,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -61,7 +63,7 @@ fun ScaleSelector(
             Column {
                 // Root note selector
                 Text(
-                    text = "Scale Root",
+                    text = stringResource(R.string.scale_selector_root),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -121,7 +123,7 @@ fun ScaleSelector(
                     var selectedPosition by remember(state.root, currentScale) { mutableStateOf<ScalePosition?>(null) }
 
                     Text(
-                        text = "Position",
+                        text = stringResource(R.string.label_position),
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -140,7 +142,7 @@ fun ScaleSelector(
                                 selectedPosition = null
                                 onPositionChanged(null)
                             },
-                            label = { Text("All") },
+                            label = { Text(stringResource(R.string.label_all)) },
                             colors = FilterChipDefaults.filterChipColors(
                                 selectedContainerColor = MaterialTheme.colorScheme.tertiary,
                                 selectedLabelColor = MaterialTheme.colorScheme.onTertiary,
@@ -170,7 +172,7 @@ fun ScaleSelector(
                     Spacer(modifier = Modifier.height(6.dp))
 
                     Text(
-                        text = "Chords in ${currentScale.name}",
+                        text = stringResource(R.string.scale_selector_chords_in, currentScale.name),
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,

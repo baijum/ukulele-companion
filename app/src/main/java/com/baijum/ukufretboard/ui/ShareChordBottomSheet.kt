@@ -21,7 +21,9 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.domain.ChordImageSharer
 import com.baijum.ukufretboard.domain.ChordVoicing
 import kotlinx.coroutines.launch
@@ -98,10 +100,10 @@ fun ShareChordBottomSheet(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Share,
-                    contentDescription = "Share chord as image",
+                    contentDescription = stringResource(R.string.cd_share_chord_image),
                     modifier = Modifier.padding(end = 8.dp),
                 )
-                Text("Share as Image")
+                Text(stringResource(R.string.share_as_image))
             }
         }
     }

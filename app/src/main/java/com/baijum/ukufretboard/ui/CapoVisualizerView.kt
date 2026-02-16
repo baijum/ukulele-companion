@@ -22,9 +22,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.ChordFormula
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.VoicingGenerator
@@ -88,10 +90,10 @@ fun CapoVisualizerView(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            OutlinedButton(onClick = onBack) { Text("Back") }
+            OutlinedButton(onClick = onBack) { Text(stringResource(R.string.action_back)) }
             Spacer(modifier = Modifier.width(12.dp))
             Text(
-                text = "Capo Visualizer",
+                text = stringResource(R.string.capo_viz_title),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
             )
@@ -101,20 +103,20 @@ fun CapoVisualizerView(
 
         // Current chord info
         Text(
-            text = "Shape: $originalName",
+            text = stringResource(R.string.capo_viz_shape, originalName),
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Medium,
         )
         if (capoFret > 0) {
             Text(
-                text = "Capo on fret $capoFret \u2192 Sounds as $soundingName",
+                text = stringResource(R.string.capo_viz_with_capo, capoFret, soundingName),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
             )
         } else {
             Text(
-                text = "No capo \u2014 sounds as $originalName",
+                text = stringResource(R.string.capo_viz_no_capo, originalName),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -124,7 +126,7 @@ fun CapoVisualizerView(
 
         // Capo position slider
         Text(
-            text = "Capo Position",
+            text = stringResource(R.string.capo_viz_position),
             style = MaterialTheme.typography.labelMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -152,7 +154,7 @@ fun CapoVisualizerView(
             )
         }
         Text(
-            text = if (capoFret == 0) "No capo" else "Fret $capoFret",
+            text = if (capoFret == 0) stringResource(R.string.capo_viz_no_capo_label) else stringResource(R.string.capo_viz_fret, capoFret),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
@@ -174,7 +176,7 @@ fun CapoVisualizerView(
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = "Shape",
+                    text = stringResource(R.string.capo_guide_shape),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -199,7 +201,7 @@ fun CapoVisualizerView(
                         MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
-                    text = if (capoFret > 0) "Sounding" else "Same",
+                    text = if (capoFret > 0) stringResource(R.string.capo_viz_sounding) else stringResource(R.string.capo_viz_same),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -220,9 +222,7 @@ fun CapoVisualizerView(
         // Educational note
         if (capoFret > 0) {
             Text(
-                text = "Tip: With a capo on fret $capoFret, you play the $originalName shape " +
-                    "but it sounds as $soundingName. " +
-                    "Each fret raises the pitch by one semitone.",
+                text = stringResource(R.string.capo_viz_tip, capoFret, originalName, soundingName),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 8.dp),

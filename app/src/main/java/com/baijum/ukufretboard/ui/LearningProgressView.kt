@@ -28,10 +28,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.LearningStats
 import com.baijum.ukufretboard.data.PracticeStats
 import com.baijum.ukufretboard.data.PracticeTimerRepository
@@ -57,13 +59,13 @@ fun LearningProgressView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Learning Progress",
+            text = stringResource(R.string.progress_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.semantics { heading() },
         )
         Text(
-            text = "Track your music theory journey.",
+            text = stringResource(R.string.progress_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -81,7 +83,7 @@ fun LearningProgressView(
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "Practice Time",
+                        text = stringResource(R.string.progress_practice_time),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onTertiaryContainer,
@@ -94,17 +96,17 @@ fun LearningProgressView(
                     ) {
                         ProgressStat(
                             value = "${practiceStats.todayMinutes}m",
-                            label = "Today",
+                            label = stringResource(R.string.progress_today),
                             color = MaterialTheme.colorScheme.onTertiaryContainer,
                         )
                         ProgressStat(
                             value = practiceStats.totalTimeFormatted,
-                            label = "Total",
+                            label = stringResource(R.string.progress_total),
                             color = MaterialTheme.colorScheme.onTertiaryContainer,
                         )
                         ProgressStat(
                             value = "${practiceStats.totalSessions}",
-                            label = "Sessions",
+                            label = stringResource(R.string.progress_sessions),
                             color = MaterialTheme.colorScheme.onTertiaryContainer,
                         )
                     }
@@ -142,17 +144,17 @@ fun LearningProgressView(
             ) {
                 ProgressStat(
                     value = "${state.currentDayStreak}",
-                    label = "Day Streak",
+                    label = stringResource(R.string.progress_day_streak),
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
                 ProgressStat(
                     value = "${state.bestDayStreak}",
-                    label = "Best Streak",
+                    label = stringResource(R.string.label_best_streak),
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
                 ProgressStat(
                     value = "${state.lessonCompletionPercent}%",
-                    label = "Lessons Done",
+                    label = stringResource(R.string.progress_lessons_done),
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
@@ -161,7 +163,7 @@ fun LearningProgressView(
         Spacer(modifier = Modifier.height(16.dp))
 
         // ── Theory Lessons ──
-        SectionHeader("Theory Lessons")
+        SectionHeader(stringResource(R.string.progress_theory_lessons))
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
@@ -173,7 +175,7 @@ fun LearningProgressView(
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
-                        text = "Lessons completed",
+                        text = stringResource(R.string.progress_lessons_completed),
                         style = MaterialTheme.typography.bodyMedium,
                     )
                     Text(
@@ -199,7 +201,7 @@ fun LearningProgressView(
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
-                        text = "Quizzes passed",
+                        text = stringResource(R.string.progress_quizzes_passed),
                         style = MaterialTheme.typography.bodyMedium,
                     )
                     Text(
@@ -225,8 +227,8 @@ fun LearningProgressView(
         Spacer(modifier = Modifier.height(16.dp))
 
         // ── Theory Quiz ──
-        SectionHeader("Theory Quiz")
-        StatsCard(stats = state.quizStatsOverall, label = "Overall")
+        SectionHeader(stringResource(R.string.nav_theory_quiz))
+        StatsCard(stats = state.quizStatsOverall, label = stringResource(R.string.progress_overall))
         Spacer(modifier = Modifier.height(8.dp))
         state.quizStatsByCategory.forEach { (category, stats) ->
             if (stats.total > 0) {
@@ -237,10 +239,15 @@ fun LearningProgressView(
         Spacer(modifier = Modifier.height(16.dp))
 
         // ── Interval Trainer ──
-        SectionHeader("Interval Trainer")
-        StatsCard(stats = state.intervalStatsOverall, label = "Overall")
+        SectionHeader(stringResource(R.string.nav_interval_trainer))
+        StatsCard(stats = state.intervalStatsOverall, label = stringResource(R.string.progress_overall))
         Spacer(modifier = Modifier.height(8.dp))
-        val levelNames = listOf("Easy", "Medium", "Hard", "Expert")
+        val levelNames = listOf(
+            stringResource(R.string.label_easy),
+            stringResource(R.string.label_medium),
+            stringResource(R.string.label_hard),
+            stringResource(R.string.label_expert),
+        )
         state.intervalStatsByLevel.forEach { (level, stats) ->
             if (stats.total > 0) {
                 MiniStatsRow(label = levelNames.getOrElse(level - 1) { "Level $level" }, stats = stats)
@@ -250,14 +257,14 @@ fun LearningProgressView(
         Spacer(modifier = Modifier.height(16.dp))
 
         // ── Note Quiz ──
-        SectionHeader("Note Quiz")
-        StatsCard(stats = state.noteQuizStats, label = "Overall")
+        SectionHeader(stringResource(R.string.nav_note_quiz))
+        StatsCard(stats = state.noteQuizStats, label = stringResource(R.string.progress_overall))
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // ── Chord Ear Training ──
-        SectionHeader("Chord Ear Training")
-        StatsCard(stats = state.chordEarStatsOverall, label = "Overall")
+        SectionHeader(stringResource(R.string.nav_chord_ear_training))
+        StatsCard(stats = state.chordEarStatsOverall, label = stringResource(R.string.progress_overall))
         Spacer(modifier = Modifier.height(8.dp))
         state.chordEarStatsByLevel.forEach { (level, stats) ->
             if (stats.total > 0) {
@@ -272,7 +279,7 @@ fun LearningProgressView(
             onClick = { showResetDialog = true },
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text("Reset All Progress")
+            Text(stringResource(R.string.progress_reset))
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -281,19 +288,19 @@ fun LearningProgressView(
     if (showResetDialog) {
         AlertDialog(
             onDismissRequest = { showResetDialog = false },
-            title = { Text("Reset Progress?") },
-            text = { Text("This will clear all learning progress, quiz scores, streaks, and lesson completion. This cannot be undone.") },
+            title = { Text(stringResource(R.string.progress_reset_title)) },
+            text = { Text(stringResource(R.string.progress_reset_message)) },
             confirmButton = {
                 TextButton(onClick = {
                     viewModel.clearAllProgress()
                     showResetDialog = false
                 }) {
-                    Text("Reset", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.dialog_reset), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showResetDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.dialog_cancel))
                 }
             },
         )
@@ -327,7 +334,7 @@ private fun StatsCard(stats: LearningStats, label: String) {
             Spacer(modifier = Modifier.height(8.dp))
             if (stats.total == 0) {
                 Text(
-                    text = "No attempts yet.",
+                    text = stringResource(R.string.progress_no_attempts),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -336,9 +343,9 @@ private fun StatsCard(stats: LearningStats, label: String) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
-                    ProgressStat(value = "${stats.correct}/${stats.total}", label = "Score")
-                    ProgressStat(value = "${stats.accuracyPercent}%", label = "Accuracy")
-                    ProgressStat(value = "${stats.bestStreak}", label = "Best Streak")
+                    ProgressStat(value = "${stats.correct}/${stats.total}", label = stringResource(R.string.label_score))
+                    ProgressStat(value = "${stats.accuracyPercent}%", label = stringResource(R.string.label_accuracy))
+                    ProgressStat(value = "${stats.bestStreak}", label = stringResource(R.string.label_best_streak))
                 }
             }
         }

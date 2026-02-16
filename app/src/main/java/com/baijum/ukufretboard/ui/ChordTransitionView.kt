@@ -43,11 +43,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.audio.MetronomeEngine
 import com.baijum.ukufretboard.data.ChordFormulas
 import com.baijum.ukufretboard.data.Notes
@@ -130,13 +132,13 @@ fun ChordTransitionView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Chord Transition Trainer",
+            text = stringResource(R.string.chord_transition_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.semantics { heading() },
         )
         Text(
-            text = "Practice switching between two chords in time.",
+            text = stringResource(R.string.chord_transition_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -145,7 +147,7 @@ fun ChordTransitionView(
 
         // ── Chord A selector ─────────────────────────────────────────
         ChordSelector(
-            label = "Chord A",
+            label = stringResource(R.string.chord_transition_chord_a),
             selectedRoot = rootA,
             selectedFormulaIndex = formulaIndexA,
             formulas = commonFormulas,
@@ -171,7 +173,7 @@ fun ChordTransitionView(
             }) {
                 Icon(
                     Icons.Filled.SwapHoriz,
-                    contentDescription = "Swap chords",
+                    contentDescription = stringResource(R.string.cd_swap_chords),
                     tint = MaterialTheme.colorScheme.primary,
                 )
             }
@@ -179,7 +181,7 @@ fun ChordTransitionView(
 
         // ── Chord B selector ─────────────────────────────────────────
         ChordSelector(
-            label = "Chord B",
+            label = stringResource(R.string.chord_transition_chord_b),
             selectedRoot = rootB,
             selectedFormulaIndex = formulaIndexB,
             formulas = commonFormulas,
@@ -264,7 +266,7 @@ fun ChordTransitionView(
                             color = MaterialTheme.colorScheme.primary,
                         )
                         Text(
-                            text = "Switches",
+                            text = stringResource(R.string.chord_transition_switches),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -279,7 +281,7 @@ fun ChordTransitionView(
                             fontWeight = FontWeight.Bold,
                         )
                         Text(
-                            text = "Time",
+                            text = stringResource(R.string.chord_transition_time),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -297,7 +299,7 @@ fun ChordTransitionView(
                             fontWeight = FontWeight.Bold,
                         )
                         Text(
-                            text = "Per min",
+                            text = stringResource(R.string.chord_transition_per_min),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -323,7 +325,7 @@ fun ChordTransitionView(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "BPM: ${bpm.toInt()}",
+                        text = stringResource(R.string.label_bpm_value, bpm.toInt()),
                         style = MaterialTheme.typography.labelSmall,
                         modifier = Modifier.width(64.dp),
                     )
@@ -349,7 +351,7 @@ fun ChordTransitionView(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
                     Text(
-                        text = "Beats:",
+                        text = stringResource(R.string.label_beats),
                         style = MaterialTheme.typography.labelSmall,
                     )
                     listOf(1, 2, 4, 8).forEach { beats ->
@@ -385,7 +387,7 @@ fun ChordTransitionView(
                             sessionStartTime = 0L
                         },
                     ) {
-                        Icon(Icons.Filled.Refresh, contentDescription = "Reset")
+                        Icon(Icons.Filled.Refresh, contentDescription = stringResource(R.string.cd_reset))
                     }
 
                     Spacer(modifier = Modifier.weight(1f))
@@ -439,7 +441,7 @@ fun ChordTransitionView(
                     ) {
                         Icon(
                             imageVector = if (isPlaying) Icons.Filled.Close else Icons.Filled.PlayArrow,
-                            contentDescription = if (isPlaying) "Stop" else "Start",
+                            contentDescription = if (isPlaying) stringResource(R.string.cd_stop) else stringResource(R.string.cd_start),
                             tint = if (isPlaying) {
                                 MaterialTheme.colorScheme.onError
                             } else {

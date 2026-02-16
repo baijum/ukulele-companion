@@ -33,11 +33,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.audio.ToneGenerator
 import com.baijum.ukufretboard.domain.ChordEarTrainer
 import com.baijum.ukufretboard.viewmodel.LearningProgressViewModel
@@ -76,13 +78,13 @@ fun ChordEarTrainingView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Chord Ear Training",
+            text = stringResource(R.string.chord_ear_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.semantics { heading() },
         )
         Text(
-            text = "Identify the chord quality by ear.",
+            text = stringResource(R.string.chord_ear_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -91,7 +93,7 @@ fun ChordEarTrainingView(
 
         // Level selector
         Text(
-            text = "Difficulty",
+            text = stringResource(R.string.label_difficulty),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -100,7 +102,12 @@ fun ChordEarTrainingView(
             modifier = Modifier.padding(vertical = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
-            val levelNames = listOf("Easy", "Medium", "Hard", "Expert")
+            val levelNames = listOf(
+                stringResource(R.string.label_easy),
+                stringResource(R.string.label_medium),
+                stringResource(R.string.label_hard),
+                stringResource(R.string.label_expert),
+            )
             levelNames.forEachIndexed { index, name ->
                 FilterChip(
                     selected = level == index + 1,
@@ -123,7 +130,7 @@ fun ChordEarTrainingView(
         // Session stats
         if (totalAnswered > 0) {
             Text(
-                text = "This Session",
+                text = stringResource(R.string.label_this_session),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -133,10 +140,10 @@ fun ChordEarTrainingView(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
-                ChordEarScoreItem(label = "Correct", value = "$totalCorrect/$totalAnswered")
-                ChordEarScoreItem(label = "Accuracy", value = "${(totalCorrect * 100 / totalAnswered)}%")
-                ChordEarScoreItem(label = "Streak", value = "$streak")
-                ChordEarScoreItem(label = "Best", value = "$bestStreak")
+                ChordEarScoreItem(label = stringResource(R.string.label_correct), value = "$totalCorrect/$totalAnswered")
+                ChordEarScoreItem(label = stringResource(R.string.label_accuracy), value = "${(totalCorrect * 100 / totalAnswered)}%")
+                ChordEarScoreItem(label = stringResource(R.string.label_streak), value = "$streak")
+                ChordEarScoreItem(label = stringResource(R.string.label_best), value = "$bestStreak")
             }
             Spacer(modifier = Modifier.height(12.dp))
         }
@@ -144,7 +151,7 @@ fun ChordEarTrainingView(
         // All-time stats
         if (allTimeStats != null && allTimeStats.total > 0) {
             Text(
-                text = "All Time",
+                text = stringResource(R.string.label_all_time),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -154,9 +161,9 @@ fun ChordEarTrainingView(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
-                ChordEarScoreItem(label = "Score", value = "${allTimeStats.correct}/${allTimeStats.total}")
-                ChordEarScoreItem(label = "Accuracy", value = "${allTimeStats.accuracyPercent}%")
-                ChordEarScoreItem(label = "Best Streak", value = "${allTimeStats.bestStreak}")
+                ChordEarScoreItem(label = stringResource(R.string.label_score), value = "${allTimeStats.correct}/${allTimeStats.total}")
+                ChordEarScoreItem(label = stringResource(R.string.label_accuracy), value = "${allTimeStats.accuracyPercent}%")
+                ChordEarScoreItem(label = stringResource(R.string.label_best_streak), value = "${allTimeStats.bestStreak}")
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -180,7 +187,7 @@ fun ChordEarTrainingView(
                     .fillMaxWidth()
                     .padding(vertical = 16.dp),
             ) {
-                Text(if (totalAnswered == 0) "Start Training" else "Next Chord")
+                Text(if (totalAnswered == 0) stringResource(R.string.chord_ear_start) else stringResource(R.string.chord_ear_next))
             }
         } else {
             val q = question!!
@@ -194,7 +201,7 @@ fun ChordEarTrainingView(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = "What type of chord is this?",
+                        text = stringResource(R.string.chord_ear_what),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -225,10 +232,10 @@ fun ChordEarTrainingView(
                     ) {
                         Icon(
                             Icons.Filled.PlayArrow,
-                            contentDescription = "Replay",
+                            contentDescription = stringResource(R.string.label_replay),
                             modifier = Modifier.padding(end = 8.dp),
                         )
-                        Text("Replay Chord")
+                        Text(stringResource(R.string.chord_ear_replay))
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -283,8 +290,9 @@ fun ChordEarTrainingView(
                         Spacer(modifier = Modifier.height(12.dp))
                         val isCorrectAnswer = selectedAnswer == q.correctIndex
                         val fullChordName = "${q.rootName}${q.symbol} (${q.quality})"
+                        val theAnswerIs = stringResource(R.string.label_the_answer_is)
                         Text(
-                            text = if (isCorrectAnswer) "Correct!" else "The answer is ${q.correctAnswer}",
+                            text = if (isCorrectAnswer) stringResource(R.string.label_correct_answer) else "$theAnswerIs ${q.correctAnswer}",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold,
                             color = if (isCorrectAnswer) {
@@ -314,7 +322,7 @@ fun ChordEarTrainingView(
                             },
                             modifier = Modifier.fillMaxWidth(),
                         ) {
-                            Text("Next Chord")
+                            Text(stringResource(R.string.chord_ear_next))
                         }
                     }
                 }

@@ -35,12 +35,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.rememberCoroutineScope
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.audio.ToneGenerator
 import com.baijum.ukufretboard.data.LearningStats
 import com.baijum.ukufretboard.domain.IntervalTrainer
@@ -81,13 +83,13 @@ fun IntervalTrainerView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Interval Trainer",
+            text = stringResource(R.string.interval_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.semantics { heading() },
         )
         Text(
-            text = "Identify the interval between two notes.",
+            text = stringResource(R.string.interval_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -96,7 +98,7 @@ fun IntervalTrainerView(
 
         // Mode toggle: Visual / Audio
         Text(
-            text = "Mode",
+            text = stringResource(R.string.label_mode),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -112,7 +114,7 @@ fun IntervalTrainerView(
                     question = null
                     selectedAnswer = null
                 },
-                label = { Text("Visual") },
+                label = { Text(stringResource(R.string.interval_visual)) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.primary,
                     selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
@@ -125,7 +127,7 @@ fun IntervalTrainerView(
                     question = null
                     selectedAnswer = null
                 },
-                label = { Text("Audio") },
+                label = { Text(stringResource(R.string.interval_audio)) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.primary,
                     selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
@@ -137,7 +139,7 @@ fun IntervalTrainerView(
         if (isAudioMode) {
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Direction",
+                text = stringResource(R.string.label_direction),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -147,9 +149,9 @@ fun IntervalTrainerView(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 val directions = listOf(
-                    "Ascending" to IntervalTrainer.IntervalDirection.ASCENDING,
-                    "Descending" to IntervalTrainer.IntervalDirection.DESCENDING,
-                    "Harmonic" to IntervalTrainer.IntervalDirection.HARMONIC,
+                    stringResource(R.string.interval_ascending) to IntervalTrainer.IntervalDirection.ASCENDING,
+                    stringResource(R.string.interval_descending) to IntervalTrainer.IntervalDirection.DESCENDING,
+                    stringResource(R.string.interval_harmonic) to IntervalTrainer.IntervalDirection.HARMONIC,
                 )
                 directions.forEach { (label, dir) ->
                     FilterChip(
@@ -173,7 +175,7 @@ fun IntervalTrainerView(
 
         // Level selector
         Text(
-            text = "Difficulty",
+            text = stringResource(R.string.label_difficulty),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -182,7 +184,12 @@ fun IntervalTrainerView(
             modifier = Modifier.padding(vertical = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
-            val levelNames = listOf("Easy", "Medium", "Hard", "Expert")
+            val levelNames = listOf(
+                stringResource(R.string.label_easy),
+                stringResource(R.string.label_medium),
+                stringResource(R.string.label_hard),
+                stringResource(R.string.label_expert),
+            )
             levelNames.forEachIndexed { index, name ->
                 FilterChip(
                     selected = level == index + 1,
@@ -205,7 +212,7 @@ fun IntervalTrainerView(
         // Session score display
         if (totalAnswered > 0) {
             Text(
-                text = "This Session",
+                text = stringResource(R.string.label_this_session),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -215,10 +222,10 @@ fun IntervalTrainerView(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
-                ScoreItem(label = "Correct", value = "$totalCorrect/$totalAnswered")
-                ScoreItem(label = "Accuracy", value = "${(totalCorrect * 100 / totalAnswered)}%")
-                ScoreItem(label = "Streak", value = "$streak")
-                ScoreItem(label = "Best", value = "$bestStreak")
+                ScoreItem(label = stringResource(R.string.label_correct), value = "$totalCorrect/$totalAnswered")
+                ScoreItem(label = stringResource(R.string.label_accuracy), value = "${(totalCorrect * 100 / totalAnswered)}%")
+                ScoreItem(label = stringResource(R.string.label_streak), value = "$streak")
+                ScoreItem(label = stringResource(R.string.label_best), value = "$bestStreak")
             }
             Spacer(modifier = Modifier.height(12.dp))
         }
@@ -226,7 +233,7 @@ fun IntervalTrainerView(
         // All-time stats
         if (allTimeStats != null && allTimeStats.total > 0) {
             Text(
-                text = "All Time",
+                text = stringResource(R.string.label_all_time),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -236,9 +243,9 @@ fun IntervalTrainerView(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
-                ScoreItem(label = "Score", value = "${allTimeStats.correct}/${allTimeStats.total}")
-                ScoreItem(label = "Accuracy", value = "${allTimeStats.accuracyPercent}%")
-                ScoreItem(label = "Best Streak", value = "${allTimeStats.bestStreak}")
+                ScoreItem(label = stringResource(R.string.label_score), value = "${allTimeStats.correct}/${allTimeStats.total}")
+                ScoreItem(label = stringResource(R.string.label_accuracy), value = "${allTimeStats.accuracyPercent}%")
+                ScoreItem(label = stringResource(R.string.label_best_streak), value = "${allTimeStats.bestStreak}")
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -260,7 +267,7 @@ fun IntervalTrainerView(
                     .fillMaxWidth()
                     .padding(vertical = 16.dp),
             ) {
-                Text(if (totalAnswered == 0) "Start Training" else "Next Interval")
+                Text(if (totalAnswered == 0) stringResource(R.string.interval_start) else stringResource(R.string.interval_next))
             }
         } else {
             // Note display
@@ -274,7 +281,7 @@ fun IntervalTrainerView(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = "What interval is this?",
+                        text = stringResource(R.string.interval_what),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -291,19 +298,19 @@ fun IntervalTrainerView(
                         ) {
                             Icon(
                                 Icons.Filled.PlayArrow,
-                                contentDescription = "Replay",
+                                contentDescription = stringResource(R.string.label_replay),
                                 modifier = Modifier.padding(end = 8.dp),
                             )
-                            Text("Replay Interval")
+                            Text(stringResource(R.string.interval_replay))
                         }
 
                         Spacer(modifier = Modifier.height(8.dp))
 
                         // Show direction label
                         val dirLabel = when (question!!.direction) {
-                            IntervalTrainer.IntervalDirection.ASCENDING -> "Ascending"
-                            IntervalTrainer.IntervalDirection.DESCENDING -> "Descending"
-                            IntervalTrainer.IntervalDirection.HARMONIC -> "Harmonic"
+                            IntervalTrainer.IntervalDirection.ASCENDING -> stringResource(R.string.interval_ascending)
+                            IntervalTrainer.IntervalDirection.DESCENDING -> stringResource(R.string.interval_descending)
+                            IntervalTrainer.IntervalDirection.HARMONIC -> stringResource(R.string.interval_harmonic)
                         }
                         Text(
                             text = dirLabel,
@@ -417,8 +424,9 @@ fun IntervalTrainerView(
                     if (selectedAnswer != null) {
                         Spacer(modifier = Modifier.height(12.dp))
                         val isCorrect = selectedAnswer == question!!.correctIndex
+                        val theAnswerIs = stringResource(R.string.label_the_answer_is)
                         Text(
-                            text = if (isCorrect) "Correct!" else "The answer is ${question!!.correctAnswer}",
+                            text = if (isCorrect) stringResource(R.string.label_correct_answer) else "$theAnswerIs ${question!!.correctAnswer}",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold,
                             color = if (isCorrect) {
@@ -439,7 +447,7 @@ fun IntervalTrainerView(
                             },
                             modifier = Modifier.fillMaxWidth(),
                         ) {
-                            Text("Next Interval")
+                            Text(stringResource(R.string.interval_next))
                         }
                     }
                 }

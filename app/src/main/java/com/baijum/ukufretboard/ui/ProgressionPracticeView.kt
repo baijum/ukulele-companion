@@ -46,9 +46,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.audio.MetronomeEngine
 import com.baijum.ukufretboard.data.ChordFormulas
 import com.baijum.ukufretboard.data.Notes
@@ -174,12 +176,12 @@ fun ProgressionPracticeView(
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
+                    contentDescription = stringResource(R.string.action_back),
                 )
             }
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Practice",
+                    text = stringResource(R.string.progression_practice_title),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -293,7 +295,7 @@ fun ProgressionPracticeView(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = "Previous voicing",
+                        contentDescription = stringResource(R.string.cd_previous_voicing),
                     )
                 }
 
@@ -315,13 +317,13 @@ fun ProgressionPracticeView(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = "Next voicing",
+                        contentDescription = stringResource(R.string.cd_next_voicing),
                     )
                 }
             }
         } else {
             Text(
-                text = "No voicing available",
+                text = stringResource(R.string.progression_practice_no_voicing),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
@@ -405,11 +407,11 @@ fun ProgressionPracticeView(
                     FilterChip(
                         selected = loop,
                         onClick = { loop = !loop },
-                        label = { Text("Loop") },
+                        label = { Text(stringResource(R.string.scale_practice_loop)) },
                         leadingIcon = {
                             Icon(
                                 Icons.Filled.Refresh,
-                                contentDescription = "Toggle loop",
+                                contentDescription = stringResource(R.string.cd_toggle_loop),
                                 modifier = Modifier.size(16.dp),
                             )
                         },
@@ -467,7 +469,7 @@ fun ProgressionPracticeView(
                     ) {
                         Icon(
                             imageVector = if (isPlaying) Icons.Filled.Close else Icons.Filled.PlayArrow,
-                            contentDescription = if (isPlaying) "Stop" else "Play",
+                            contentDescription = if (isPlaying) stringResource(R.string.action_stop) else stringResource(R.string.action_play),
                             tint = if (isPlaying) {
                                 MaterialTheme.colorScheme.onError
                             } else {

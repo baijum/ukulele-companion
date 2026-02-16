@@ -4,6 +4,7 @@ kotlin = "2.3.10"
 composeBom = "2026.02.00"
 activityCompose = "1.12.4"
 lifecycleViewmodelCompose = "2.10.0"
+appcompat = "1.7.0"
 coreKtx = "1.17.0"
 glance = "1.1.1"
 workRuntime = "2.11.1"
@@ -24,6 +25,7 @@ ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
 material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntime" }
 glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glance" }

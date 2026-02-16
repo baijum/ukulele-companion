@@ -46,8 +46,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.audio.MetronomeEngine
 import com.baijum.ukufretboard.data.MelodyNote
 import com.baijum.ukufretboard.data.NoteDuration
@@ -86,12 +88,12 @@ fun MelodyNotepadView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Melody Notepad",
+            text = stringResource(R.string.melody_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
         )
         Text(
-            text = "Tap notes to compose a melody. Press play to hear it.",
+            text = stringResource(R.string.melody_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -106,7 +108,7 @@ fun MelodyNotepadView(
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
                 Text(
-                    text = "Sequence (${notes.size} notes)",
+                    text = stringResource(R.string.melody_sequence, notes.size),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -115,7 +117,7 @@ fun MelodyNotepadView(
 
                 if (notes.isEmpty()) {
                     Text(
-                        text = "Tap a note below to start composing",
+                        text = stringResource(R.string.melody_placeholder),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(vertical = 16.dp),
@@ -173,11 +175,11 @@ fun MelodyNotepadView(
                                 }
                                 Text(
                                     text = when (note.duration) {
-                                        NoteDuration.WHOLE -> "W"
-                                        NoteDuration.HALF -> "H"
-                                        NoteDuration.QUARTER -> "Q"
-                                        NoteDuration.EIGHTH -> "8"
-                                        NoteDuration.SIXTEENTH -> "16"
+                                        NoteDuration.WHOLE -> stringResource(R.string.melody_whole)
+                                        NoteDuration.HALF -> stringResource(R.string.melody_half)
+                                        NoteDuration.QUARTER -> stringResource(R.string.melody_quarter)
+                                        NoteDuration.EIGHTH -> stringResource(R.string.melody_eighth)
+                                        NoteDuration.SIXTEENTH -> stringResource(R.string.melody_sixteenth)
                                     },
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -199,9 +201,9 @@ fun MelodyNotepadView(
                                 selectedNoteIndex = -1
                             },
                         ) {
-                            Icon(Icons.Filled.Delete, contentDescription = "Delete note", modifier = Modifier.size(16.dp))
+                            Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.cd_delete_note), modifier = Modifier.size(16.dp))
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text("Delete")
+                            Text(stringResource(R.string.dialog_delete))
                         }
                     }
                 }
@@ -212,7 +214,7 @@ fun MelodyNotepadView(
 
         // Duration selector
         Text(
-            text = "Note Duration",
+            text = stringResource(R.string.melody_note_duration),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -225,7 +227,17 @@ fun MelodyNotepadView(
                 FilterChip(
                     selected = selectedDuration == dur,
                     onClick = { selectedDuration = dur },
-                    label = { Text(dur.label) },
+                    label = {
+                        Text(
+                            when (dur) {
+                                NoteDuration.WHOLE -> stringResource(R.string.melody_whole)
+                                NoteDuration.HALF -> stringResource(R.string.melody_half)
+                                NoteDuration.QUARTER -> stringResource(R.string.melody_quarter)
+                                NoteDuration.EIGHTH -> stringResource(R.string.melody_eighth)
+                                NoteDuration.SIXTEENTH -> stringResource(R.string.melody_sixteenth)
+                            },
+                        )
+                    },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = MaterialTheme.colorScheme.primary,
                         selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
@@ -238,7 +250,7 @@ fun MelodyNotepadView(
 
         // Note palette (12 notes + rest)
         Text(
-            text = "Tap to Add Note",
+            text = stringResource(R.string.melody_tap_to_add),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -285,7 +297,7 @@ fun MelodyNotepadView(
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
-                    text = "Rest",
+                    text = stringResource(R.string.melody_rest),
                     style = MaterialTheme.typography.labelSmall,
                 )
             }
@@ -299,7 +311,7 @@ fun MelodyNotepadView(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "BPM: ${bpm.toInt()}",
+                text = stringResource(R.string.label_bpm_value, bpm.toInt()),
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.width(64.dp),
             )
@@ -336,9 +348,9 @@ fun MelodyNotepadView(
                 },
                 enabled = notes.isNotEmpty() && !isPlaying,
             ) {
-                Icon(Icons.Filled.PlayArrow, contentDescription = "Play melody", modifier = Modifier.size(18.dp))
+                Icon(Icons.Filled.PlayArrow, contentDescription = stringResource(R.string.cd_play_melody), modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("Play")
+                Text(stringResource(R.string.action_play))
             }
 
             // Stop button
@@ -349,9 +361,9 @@ fun MelodyNotepadView(
                         playingIndex = -1
                     },
                 ) {
-                    Icon(Icons.Filled.Close, contentDescription = "Stop playing", modifier = Modifier.size(18.dp))
+                    Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.cd_stop_playing), modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Stop")
+                    Text(stringResource(R.string.action_stop))
                 }
             }
 
@@ -364,9 +376,9 @@ fun MelodyNotepadView(
                 },
                 enabled = notes.isNotEmpty() && !isPlaying,
             ) {
-                Icon(Icons.Filled.Delete, contentDescription = "Clear all notes", modifier = Modifier.size(18.dp))
+                Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.cd_clear_all), modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("Clear")
+                Text(stringResource(R.string.melody_clear))
             }
         }
     }

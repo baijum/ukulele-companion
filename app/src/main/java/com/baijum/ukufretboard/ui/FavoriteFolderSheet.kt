@@ -30,8 +30,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.FavoriteFolder
 
 /**
@@ -77,7 +79,7 @@ fun FavoriteFolderSheet(
         ) {
             // Title
             Text(
-                text = if (isAlreadyFavorited) "Manage Folders" else "Save to Folders",
+                text = if (isAlreadyFavorited) stringResource(R.string.folder_sheet_manage) else stringResource(R.string.folder_sheet_save_to),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
             )
@@ -87,7 +89,7 @@ fun FavoriteFolderSheet(
             // Folder checkboxes
             if (folders.isEmpty() && !showNewFolderField) {
                 Text(
-                    text = "No folders yet. Create one below.",
+                    text = stringResource(R.string.folder_sheet_no_folders),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -136,7 +138,7 @@ fun FavoriteFolderSheet(
                     OutlinedTextField(
                         value = newFolderName,
                         onValueChange = { newFolderName = it },
-                        placeholder = { Text("Folder name") },
+                        placeholder = { Text(stringResource(R.string.favorites_folder_name)) },
                         singleLine = true,
                         modifier = Modifier.weight(1f),
                         textStyle = MaterialTheme.typography.bodyMedium,
@@ -151,14 +153,14 @@ fun FavoriteFolderSheet(
                         },
                         enabled = newFolderName.isNotBlank(),
                     ) {
-                        Text("Create")
+                        Text(stringResource(R.string.dialog_create))
                     }
                 }
             } else {
                 TextButton(
                     onClick = { showNewFolderField = true },
                 ) {
-                    Text("+ New Folder")
+                    Text(stringResource(R.string.folder_sheet_new_folder))
                 }
             }
 
@@ -173,7 +175,7 @@ fun FavoriteFolderSheet(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Text(
-                        text = "Remove from Favorites",
+                        text = stringResource(R.string.folder_sheet_remove),
                         color = MaterialTheme.colorScheme.error,
                     )
                 }
@@ -190,11 +192,11 @@ fun FavoriteFolderSheet(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 OutlinedButton(onClick = onDismiss) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.dialog_cancel))
                 }
                 Spacer(modifier = Modifier.width(12.dp))
                 Button(onClick = { onSave(checkedIds.toList()) }) {
-                    Text("Save")
+                    Text(stringResource(R.string.dialog_save))
                 }
             }
         }

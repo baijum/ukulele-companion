@@ -39,8 +39,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.audio.MetronomeEngine
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.Progression
@@ -113,7 +115,7 @@ fun ProgressionPlaybackBar(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Playback: ${progression.name}",
+                    text = stringResource(R.string.playback_prefix) + progression.name,
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f),
@@ -128,7 +130,7 @@ fun ProgressionPlaybackBar(
                 ) {
                     Icon(
                         Icons.Filled.Close,
-                        contentDescription = "Close",
+                        contentDescription = stringResource(R.string.action_close),
                         modifier = Modifier.size(18.dp),
                     )
                 }
@@ -181,7 +183,7 @@ fun ProgressionPlaybackBar(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "BPM: ${bpm.toInt()}",
+                    text = stringResource(R.string.playback_bpm_prefix) + "${bpm.toInt()}",
                     style = MaterialTheme.typography.labelSmall,
                     modifier = Modifier.width(64.dp),
                 )
@@ -205,7 +207,7 @@ fun ProgressionPlaybackBar(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Text(
-                    text = "Beats:",
+                    text = stringResource(R.string.label_beats),
                     style = MaterialTheme.typography.labelSmall,
                 )
                 listOf(1, 2, 4, 8).forEach { beats ->
@@ -230,7 +232,7 @@ fun ProgressionPlaybackBar(
                 ) {
                     Icon(
                         Icons.Filled.Refresh,
-                        contentDescription = if (loop) "Loop on" else "Loop off",
+                        contentDescription = if (loop) stringResource(R.string.cd_loop_on) else stringResource(R.string.cd_loop_off),
                         tint = if (loop) {
                             MaterialTheme.colorScheme.primary
                         } else {
@@ -287,7 +289,7 @@ fun ProgressionPlaybackBar(
                 ) {
                     Icon(
                         imageVector = if (isPlaying) Icons.Filled.Close else Icons.Filled.PlayArrow,
-                        contentDescription = if (isPlaying) "Stop" else "Play",
+                        contentDescription = if (isPlaying) stringResource(R.string.cd_stop) else stringResource(R.string.action_play),
                         tint = if (isPlaying) {
                             MaterialTheme.colorScheme.onError
                         } else {

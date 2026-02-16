@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -42,6 +43,7 @@ import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.KeySignatures
 import com.baijum.ukufretboard.data.Notes
 import kotlin.math.PI
@@ -79,7 +81,7 @@ fun CircleOfFifthsView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Circle of Fifths",
+            text = stringResource(R.string.circle_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -87,7 +89,7 @@ fun CircleOfFifthsView(
                 .semantics { heading() },
         )
         Text(
-            text = "Tap a key to see its signature and chords. Adjacent keys are closely related.",
+            text = stringResource(R.string.circle_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 12.dp),
@@ -104,9 +106,9 @@ fun CircleOfFifthsView(
             val circleOrder = KeySignatures.CIRCLE_ORDER
             val selectedKeyName = selectedKey?.let { Notes.enharmonicForKey(it, it) }
             val circleDesc = if (selectedKeyName != null) {
-                "Circle of Fifths diagram, $selectedKeyName selected. Tap to select a different key."
+                stringResource(R.string.circle_cd_selected, selectedKeyName)
             } else {
-                "Circle of Fifths diagram. Tap to select a key."
+                stringResource(R.string.circle_cd_default)
             }
 
             Canvas(
@@ -371,7 +373,7 @@ private fun MajorKeyDetail(
 
             // Key signature
             Text(
-                text = "Key Signature",
+                text = stringResource(R.string.circle_key_signature),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
@@ -385,7 +387,7 @@ private fun MajorKeyDetail(
 
             // Relative minor
             Text(
-                text = "Relative Minor",
+                text = stringResource(R.string.circle_relative_minor),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
@@ -399,7 +401,7 @@ private fun MajorKeyDetail(
 
             // Diatonic chords
             Text(
-                text = "Diatonic Chords",
+                text = stringResource(R.string.circle_diatonic_chords),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
@@ -446,7 +448,7 @@ private fun MajorKeyDetail(
             val circleIndex = KeySignatures.CIRCLE_ORDER.indexOf(keySig.pitchClass)
             if (circleIndex >= 0) {
                 Text(
-                    text = "Closely Related Keys",
+                    text = stringResource(R.string.circle_related_keys),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
@@ -493,20 +495,20 @@ private fun MinorKeyDetail(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Key Signature",
+                text = stringResource(R.string.circle_key_signature),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
             )
             Text(
-                text = "${KeySignatures.formatSignature(majorKeySig)} (same as $majorName major)",
+                text = "${KeySignatures.formatSignature(majorKeySig)} (${stringResource(R.string.circle_same_as)} $majorName major)",
                 style = MaterialTheme.typography.bodyMedium,
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Relative Major",
+                text = stringResource(R.string.circle_relative_major),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
@@ -520,7 +522,7 @@ private fun MinorKeyDetail(
 
             // Diatonic chords for natural minor
             Text(
-                text = "Diatonic Chords",
+                text = stringResource(R.string.circle_diatonic_chords),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
@@ -566,7 +568,7 @@ private fun MinorKeyDetail(
             // Closely related keys
             val (prevKey, nextKey) = KeySignatures.closelyRelatedKeys(majorKeySig.pitchClass)
             Text(
-                text = "Closely Related Keys",
+                text = stringResource(R.string.circle_related_keys),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,

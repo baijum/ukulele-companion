@@ -1,0 +1,804 @@
+<resources>
+    <string name="app_name">Uke</string>
+    <string name="app_full_name">Ukulele Companion</string>
+    <string name="widget_description">Показывает новый аккорд для укулеле каждый день</string>
+
+    <!-- ── Common / Shared ──────────────────────────────────────────── -->
+    <string name="dialog_cancel">Отмена</string>
+    <string name="dialog_delete">Удалить</string>
+    <string name="dialog_save">Сохранить</string>
+    <string name="dialog_create">Создать</string>
+    <string name="dialog_rename">Переименовать</string>
+    <string name="dialog_reset">Сбросить</string>
+    <string name="action_back">Назад</string>
+    <string name="action_play">Воспроизвести</string>
+    <string name="action_stop">Остановить</string>
+    <string name="action_edit">Редактировать</string>
+    <string name="action_share">Поделиться</string>
+    <string name="action_close">Закрыть</string>
+    <string name="label_all">Все</string>
+    <string name="label_none">нет</string>
+    <string name="label_bpm">BPM</string>
+    <string name="label_bpm_value">BPM: %d</string>
+    <string name="label_beats">Доли:</string>
+    <string name="label_capo">Каподастр</string>
+    <string name="label_key">Тональность</string>
+    <string name="label_scale">Гамма</string>
+    <string name="label_correct">Правильно</string>
+    <string name="label_accuracy">Точность</string>
+    <string name="label_streak">Серия</string>
+    <string name="label_best">Лучший</string>
+    <string name="label_score">Счёт</string>
+    <string name="label_best_streak">Лучшая серия</string>
+    <string name="label_this_session">Эта сессия</string>
+    <string name="label_all_time">За всё время</string>
+    <string name="label_difficulty">Сложность</string>
+    <string name="label_mode">Режим</string>
+    <string name="label_direction">Направление</string>
+    <string name="label_category">Категория</string>
+    <string name="label_easy">Легко</string>
+    <string name="label_medium">Средне</string>
+    <string name="label_hard">Сложно</string>
+    <string name="label_expert">Эксперт</string>
+    <string name="label_replay">Повтор</string>
+    <string name="label_correct_answer">Правильно!</string>
+    <string name="label_the_answer_is">Ответ:</string>
+    <string name="label_root">Основной тон</string>
+    <string name="label_position">Позиция</string>
+    <string name="label_off">Выкл.</string>
+    <string name="label_open">Открытая</string>
+    <string name="label_presets">Шаблоны</string>
+    <string name="label_practice">Практика</string>
+    <string name="label_go">Начать</string>
+    <string name="label_done">Готово</string>
+
+    <!-- ── Navigation Drawer ────────────────────────────────────────── -->
+    <string name="nav_section_play">Игра</string>
+    <string name="nav_section_create">Создание</string>
+    <string name="nav_section_learn">Обучение</string>
+    <string name="nav_section_reference">Справка</string>
+    <string name="nav_explorer">Обозреватель</string>
+    <string name="nav_tuner">Тюнер</string>
+    <string name="nav_pitch_monitor">Монитор высоты</string>
+    <string name="nav_chords">Аккорды</string>
+    <string name="nav_favorites">Избранное</string>
+    <string name="nav_song_finder">Поиск песен</string>
+    <string name="nav_songs">Песни</string>
+    <string name="nav_melody_notepad">Блокнот мелодий</string>
+    <string name="nav_patterns">Ритмы</string>
+    <string name="nav_progressions">Прогрессии</string>
+    <string name="nav_learn_theory">Изучить теорию</string>
+    <string name="nav_theory_quiz">Тест по теории</string>
+    <string name="nav_interval_trainer">Тренажёр интервалов</string>
+    <string name="nav_note_quiz">Тест по нотам</string>
+    <string name="nav_chord_ear_training">Тренировка слуха на аккорды</string>
+    <string name="nav_scale_practice">Практика гамм</string>
+    <string name="nav_progress">Прогресс</string>
+    <string name="nav_daily_challenge">Ежедневный вызов</string>
+    <string name="nav_practice_routine">План занятий</string>
+    <string name="nav_srs_review">Повторение SRS</string>
+    <string name="nav_chord_transitions">Смена аккордов</string>
+    <string name="nav_play_along">Играть вместе</string>
+    <string name="nav_achievements">Достижения</string>
+    <string name="nav_capo_guide">Руководство по каподастру</string>
+    <string name="nav_circle_of_fifths">Квинтовый круг</string>
+    <string name="nav_chord_substitutions">Замена аккордов</string>
+    <string name="nav_chords_in_scale">Аккорды в гамме</string>
+    <string name="nav_fretboard_notes">Ноты на грифе</string>
+    <string name="nav_glossary">Глоссарий</string>
+    <string name="nav_help">Помощь</string>
+
+    <!-- ── Top Bar / Content Descriptions ───────────────────────────── -->
+    <string name="cd_open_nav_menu">Открыть меню навигации</string>
+    <string name="cd_settings">Настройки</string>
+    <string name="cd_full_screen">Полный экран</string>
+    <string name="cd_exit_full_screen">Выход из полного экрана</string>
+    <string name="cd_play_chord">Воспроизвести аккорд</string>
+    <string name="cd_play_sound">Воспроизвести звук</string>
+    <string name="cd_share_chord_image">Поделиться аккордом как изображением</string>
+    <string name="cd_remove_favorites">Удалить из избранного</string>
+    <string name="cd_add_favorites">Добавить в избранное</string>
+    <string name="cd_replay">Повтор</string>
+
+    <!-- ── Explorer Tab ─────────────────────────────────────────────── -->
+    <string name="explorer_reset">Сбросить</string>
+    <string name="explorer_scales">Гаммы</string>
+    <string name="explorer_hide_scale">Скрыть гамму</string>
+    <string name="explorer_tap_frets">Нажмите на лады</string>
+    <string name="explorer_capo_off">Выкл.</string>
+
+    <!-- ── Chord Result ─────────────────────────────────────────────── -->
+    <string name="chord_result_tap_fretboard">Нажмите на гриф для выбора нот</string>
+    <string name="chord_result_single_note">Выбрана одна нота</string>
+    <string name="chord_result_incomplete">Неполный аккорд</string>
+    <string name="chord_result_no_match">Точное совпадение не найдено</string>
+    <string name="chord_result_also">Также: </string>
+    <string name="chord_result_intervals">Интервалы</string>
+    <string name="chord_result_formula">Формула</string>
+    <string name="chord_result_fingering">Аппликатура</string>
+    <string name="chord_result_difficulty">Сложность</string>
+    <string name="chord_result_inversion">Обращение</string>
+    <string name="chord_result_bass">бас: </string>
+
+    <!-- ── Chord Library ────────────────────────────────────────────── -->
+    <string name="chord_library_root_note">Основной тон</string>
+    <string name="chord_library_type">Тип</string>
+    <string name="chord_library_compare_inversions"> — Сравнить обращения</string>
+    <string name="chord_library_voicings">%d вариантов</string>
+    <string name="chord_library_viz">Визуал.</string>
+    <string name="chord_library_compare">Сравнить</string>
+    <string name="cd_play_all_inversions">Воспроизвести все обращения</string>
+    <string name="chord_library_play_all_inversions">Воспроизвести все обращения</string>
+    <string name="chord_library_inversion_tip">Тот же аккорд, другой басовый звук. Послушайте, как каждое обращение имеет свой характер.</string>
+    <string name="chord_library_bass_prefix">Бас: </string>
+    <string name="chord_library_voicing_singular">%d вариант</string>
+    <string name="chord_library_reentrant_limited">У этого аккорда всего %d вариантов. Реентрантный строй (High-G) ограничивает обращения, поскольку струна C (C4) почти всегда является самым низким звуком. Строй Low-G даёт больше вариантов обращений.</string>
+    <string name="chord_library_reentrant_empty">При реентрантном строе (High-G) струна C почти всегда является самой низкой нотой, поэтому большинство вариантов — в основной позиции. Попробуйте выбрать «Все», чтобы увидеть доступные варианты.</string>
+    <string name="chord_library_no_voicings">Варианты не найдены</string>
+
+    <!-- ── Tuner ────────────────────────────────────────────────────── -->
+    <string name="tuner_play_a_string">Сыграйте на струне…</string>
+    <string name="tuner_in_tune">Настроено!</string>
+    <string name="tuner_almost_up">Почти — подтяните чуть выше</string>
+    <string name="tuner_almost_down">Почти — ослабьте чуть ниже</string>
+    <string name="tuner_tune_up">Подтяните</string>
+    <string name="tuner_tune_down">Ослабьте</string>
+    <string name="tuner_all_tuned">Все струны настроены!</string>
+    <string name="tuner_start">Начать настройку</string>
+    <string name="tuner_stop">Стоп</string>
+    <string name="cd_start_tuning">Начать настройку</string>
+    <string name="cd_stop_tuning">Остановить настройку</string>
+    <string name="cd_detected_note">Определённая нота: %s</string>
+    <string name="tuner_meter_no_pitch">Шкала настройки, звук не определён</string>
+    <string name="tuner_meter_in_tune">Шкала настройки, настроено</string>
+    <string name="tuner_meter_close">Шкала настройки, отклонение %1$d центов %2$s, почти настроено</string>
+    <string name="tuner_meter_flat">Шкала настройки, ниже на %d центов</string>
+    <string name="tuner_meter_sharp">Шкала настройки, выше на %d центов</string>
+    <string name="tuner_direction_flat">ниже</string>
+    <string name="tuner_direction_sharp">выше</string>
+    <string name="tuner_swiftf0_active">SwiftF0 Active</string>
+    <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
+    <string name="tuner_precision_mode">Точный режим</string>
+    <string name="tuner_string_tuned">настроена</string>
+    <string name="tuner_string_next">следующая струна для настройки</string>
+    <string name="tuner_string_active">активна</string>
+    <string name="tuner_string_not_tuned">не настроена</string>
+    <string name="tuner_string_desc">Струна %1$s, %2$s, нажмите для эталонного звука</string>
+    <string name="tuner_check_tuned">Настроена</string>
+
+    <!-- ── Pitch Monitor ────────────────────────────────────────────── -->
+    <string name="pitch_monitor_detected_chord">Определённый аккорд: %s</string>
+    <string name="pitch_monitor_notes_prefix">Ноты: </string>
+    <string name="pitch_monitor_current_note">Текущая нота: %s</string>
+    <string name="pitch_monitor_visualization">Визуализация высоты звука во времени</string>
+    <string name="pitch_monitor_tap_start">Нажмите «Старт» для начала</string>
+    <string name="pitch_monitor_playing">Воспроизводится %s</string>
+    <string name="pitch_monitor_detecting">Определение высоты звука…</string>
+    <string name="pitch_monitor_play_ukulele">Играйте на укулеле…</string>
+    <string name="cd_stop_listening">Остановить прослушивание</string>
+    <string name="cd_start_listening">Начать прослушивание</string>
+    <string name="pitch_monitor_start">Старт</string>
+
+    <!-- ── Favorites ────────────────────────────────────────────────── -->
+    <string name="favorites_empty_title">Пока нет избранного</string>
+    <string name="favorites_empty_message">Просмотрите вкладку «Аккорды» и нажмите значок сердца на варианте, чтобы сохранить его здесь.</string>
+    <string name="favorites_all_count">Все (%d)</string>
+    <string name="favorites_new_folder">Новая папка</string>
+    <string name="favorites_folder_name">Имя папки</string>
+    <string name="favorites_rename_folder">Переименовать папку</string>
+    <string name="favorites_delete_folder">Удалить папку</string>
+    <string name="favorites_delete_folder_msg">Удалить папку \"%s\"? Аккорды в этой папке не будут удалены.</string>
+    <string name="cd_rename_folder">Переименовать папку</string>
+    <string name="cd_delete_folder">Удалить папку</string>
+    <string name="cd_manage_folders">Управление папками</string>
+    <string name="cd_reorder">Изменить порядок</string>
+
+    <!-- ── Favorite Folder Sheet ────────────────────────────────────── -->
+    <string name="folder_sheet_manage">Управление папками</string>
+    <string name="folder_sheet_save_to">Сохранить в папки</string>
+    <string name="folder_sheet_no_folders">Пока нет папок. Создайте одну ниже.</string>
+    <string name="folder_sheet_new_folder">+ Новая папка</string>
+    <string name="folder_sheet_remove">Удалить из избранного</string>
+
+    <!-- ── Songbook ─────────────────────────────────────────────────── -->
+    <string name="songbook_empty_title">Пока нет песен</string>
+    <string name="songbook_empty_message">Нажмите +, чтобы создать первую аккордную таблицу.\nИли импортируйте файл ChordPro.</string>
+    <string name="songbook_untitled">Без названия</string>
+    <string name="songbook_share_as_text">Поделиться как текст</string>
+    <string name="songbook_chord_sheet">Аккордная таблица</string>
+    <string name="songbook_export_chordpro">Экспорт в ChordPro</string>
+    <string name="songbook_export_chooser">Экспорт ChordPro</string>
+    <string name="songbook_key_prefix">Тональность: </string>
+    <string name="songbook_transpose">Транспонирование:</string>
+    <string name="songbook_capo_hint">Или используйте каподастр %d с оригинальными аккордами</string>
+    <string name="songbook_field_title">Название</string>
+    <string name="songbook_field_artist">Исполнитель (необязательно)</string>
+    <string name="songbook_field_lyrics_hint">Используйте [НазваниеАккорда] для аккордов, например Some[C]where over the [Em]rainbow</string>
+    <string name="songbook_field_lyrics">Текст с [аккордами]</string>
+    <string name="cd_import_chordpro">Импорт файла ChordPro</string>
+    <string name="cd_new_chord_sheet">Новая аккордная таблица</string>
+    <string name="songbook_speed_half">0.5x</string>
+    <string name="songbook_speed_1x">1x</string>
+    <string name="songbook_speed_2x">2x</string>
+    <string name="songbook_speed_3x">3x</string>
+    <string name="cd_stop_scroll">Остановить прокрутку</string>
+    <string name="cd_pause_scroll">Приостановить прокрутку</string>
+    <string name="cd_auto_scroll">Автопрокрутка</string>
+
+    <!-- ── Progressions ─────────────────────────────────────────────── -->
+    <string name="progressions_new">Новая прогрессия</string>
+    <string name="cd_add_progression">Добавить новую прогрессию</string>
+    <string name="progressions_my">Мои прогрессии</string>
+    <string name="cd_delete_progression">Удалить прогрессию</string>
+    <string name="cd_duplicate_progression">Дублировать</string>
+    <string name="progressions_voice_leading">Голосоведение</string>
+    <string name="progressions_copy_suffix"> (копия)</string>
+
+    <!-- ── Create Progression Sheet ─────────────────────────────────── -->
+    <string name="progression_edit_title">Редактировать прогрессию</string>
+    <string name="progression_create_title">Создать прогрессию</string>
+    <string name="progression_name_label">Название прогрессии</string>
+    <string name="progression_desc_label">Описание (необязательно)</string>
+    <string name="progression_chord_quality">Качество аккорда</string>
+    <string name="progression_triad">Трезвучие</string>
+    <string name="progression_tap_chords">Нажмите на аккорды для добавления</string>
+    <string name="progression_your_chords">Ваша прогрессия (%d аккордов)</string>
+    <string name="progression_placeholder">Нажимайте на аккорды выше, чтобы построить прогрессию</string>
+    <string name="progression_update">Обновить прогрессию</string>
+    <string name="progression_save">Сохранить прогрессию</string>
+    <string name="progression_error_min">Добавьте хотя бы 2 аккорда</string>
+    <string name="cd_remove">Удалить</string>
+
+    <!-- ── Strum Patterns ───────────────────────────────────────────── -->
+    <string name="patterns_strumming">Бой</string>
+    <string name="patterns_fingerpicking">Перебор</string>
+    <string name="patterns_my">Мои ритмы</string>
+    <string name="cd_create_pattern">Создать ритм</string>
+    <string name="patterns_create_strum">Создать ритм боя</string>
+    <string name="patterns_pattern_name">Название ритма</string>
+    <string name="patterns_tap_beat">Нажмите на каждую долю для смены направления</string>
+    <string name="patterns_tap_accent">Нажмите ниже для переключения акцента</string>
+    <string name="patterns_custom">Свой ритм</string>
+    <string name="patterns_create_fingerpick">Создать ритм перебора</string>
+    <string name="patterns_steps">%d шагов</string>
+    <string name="patterns_tap_step">Нажмите на шаг, затем выберите палец и струну ниже</string>
+    <string name="patterns_finger">Палец</string>
+    <string name="patterns_thumb">Большой</string>
+    <string name="patterns_index">Указательный</string>
+    <string name="patterns_middle">Средний</string>
+    <string name="patterns_ring">Безымянный</string>
+    <string name="patterns_string">Струна</string>
+
+    <!-- ── Playback Bar ─────────────────────────────────────────────── -->
+    <string name="playback_prefix">Воспроизведение: </string>
+    <string name="playback_bpm_prefix">BPM: </string>
+    <string name="cd_loop_on">Повтор включён</string>
+    <string name="cd_loop_off">Повтор выключен</string>
+
+    <!-- ── Scale Selector ───────────────────────────────────────────── -->
+    <string name="scale_selector_root">Тоника гаммы</string>
+    <string name="scale_selector_chords_in">Аккорды в %s</string>
+
+    <!-- ── Settings ─────────────────────────────────────────────────── -->
+    <string name="settings_title">Настройки</string>
+    <string name="settings_sound">Звук</string>
+    <string name="settings_volume">Громкость</string>
+    <string name="settings_note_duration">Длительность ноты</string>
+    <string name="settings_strum_delay">Задержка боя</string>
+    <string name="settings_strum_direction">Направление боя</string>
+    <string name="settings_strum_down">Вниз</string>
+    <string name="settings_strum_up">Вверх</string>
+    <string name="settings_play_on_tap">Звук при нажатии</string>
+    <string name="settings_display">Отображение</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_language">Язык</string>
+    <string name="settings_select_language">Выберите язык</string>
+    <string name="settings_tuning">Строй</string>
+    <string name="settings_tuner">Тюнер</string>
+    <string name="settings_spoken_feedback">Голосовая обратная связь</string>
+    <string name="settings_spoken_feedback_desc">Озвучивает название ноты и отклонение в центах с помощью синтеза речи</string>
+    <string name="settings_precision_mode">Точный режим</string>
+    <string name="settings_precision_mode_desc">Сужает зону настройки с ±6 центов до ±2 центов</string>
+    <string name="settings_auto_advance">Автопереход</string>
+    <string name="settings_auto_advance_desc">Автоматически выделяет следующую ненастроенную струну</string>
+    <string name="settings_auto_start">Автостарт</string>
+    <string name="settings_auto_start_desc">Автоматически начинает прослушивание при открытии вкладки тюнера</string>
+    <string name="settings_a4_reference">Эталон A4</string>
+    <string name="settings_fretboard">Гриф</string>
+    <string name="settings_left_handed">Для левши</string>
+    <string name="settings_show_note_names">Показывать названия нот</string>
+    <string name="settings_allow_muted">Разрешить приглушённые струны</string>
+    <string name="settings_frets">Лады</string>
+    <string name="settings_notifications">Уведомления</string>
+    <string name="settings_chord_of_day">Аккорд дня</string>
+    <string name="settings_about">О приложении</string>
+    <string name="settings_version">Версия %s</string>
+    <string name="settings_website">Веб-сайт</string>
+    <string name="settings_credits">Благодарности</string>
+    <string name="settings_audio_samples">Аудиосэмплы</string>
+    <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" by stomachache (Freesound.org)</string>
+    <string name="settings_license">Лицензия</string>
+    <string name="settings_license_value">CC BY 3.0</string>
+    <string name="settings_tagline">Ваш универсальный помощник для укулеле: аккорды, гаммы, теория музыки и сочинение. Бесплатно, офлайн, без рекламы и отслеживания.</string>
+    <string name="settings_unknown_version">Неизвестно</string>
+
+    <!-- ── Backup &amp; Restore ──────────────────────────────────────── -->
+    <string name="backup_title">РЕЗЕРВНОЕ КОПИРОВАНИЕ И ВОССТАНОВЛЕНИЕ</string>
+    <string name="backup_description">Сохраните все данные (избранное, песни, прогрессии, ритмы, настройки и прогресс обучения) в файл или восстановите из резервной копии.</string>
+    <string name="backup_last">Последняя копия: %s</string>
+    <string name="cd_backup">Создать резервную копию</string>
+    <string name="backup_button">Копировать</string>
+    <string name="cd_restore">Восстановить данные</string>
+    <string name="restore_button">Восстановить</string>
+    <string name="restore_dialog_title">Восстановить данные?</string>
+    <string name="restore_dialog_message">Избранное, песни, прогрессии и ритмы из файла будут объединены с вашими текущими данными. Настройки будут заменены значениями из резервной копии.\n\nВаши текущие данные не будут удалены.</string>
+
+    <!-- ── Tuner Permission ─────────────────────────────────────────── -->
+    <string name="mic_permission_title">Доступ к микрофону</string>
+    <string name="mic_permission_message">Тюнеру нужен доступ к микрофону, чтобы слушать укулеле и определять высоту звука каждой струны.</string>
+    <string name="mic_permission_allow">Разрешить микрофон</string>
+    <string name="mic_permission_denied_title">Микрофон отклонён</string>
+    <string name="mic_permission_denied_message">Тюнер не может работать без доступа к микрофону. Пожалуйста, включите его в настройках приложения на вашем устройстве.</string>
+    <string name="mic_permission_open_settings">Открыть настройки</string>
+
+    <!-- ── Note Quiz ────────────────────────────────────────────────── -->
+    <string name="note_quiz_title">Тест по нотам</string>
+    <string name="note_quiz_subtitle">Проверьте своё знание нот на грифе.</string>
+    <string name="note_quiz_name_it">Назовите</string>
+    <string name="note_quiz_find_it">Найдите</string>
+    <string name="note_quiz_start">Начать тест</string>
+    <string name="note_quiz_next">Следующий вопрос</string>
+    <string name="note_quiz_what_note">Какая нота в этой позиции?</string>
+    <string name="note_quiz_string_fret">струна, лад</string>
+    <string name="note_quiz_where_is">Где эта нота?</string>
+
+    <!-- ── Theory Quiz ──────────────────────────────────────────────── -->
+    <string name="theory_quiz_title">Тест по теории</string>
+    <string name="theory_quiz_subtitle">Проверьте свои знания теории музыки!</string>
+    <string name="theory_quiz_standard">Стандартный</string>
+    <string name="theory_quiz_blitz">Блиц (60 с)</string>
+    <string name="theory_quiz_start_blitz">Начать блиц!</string>
+    <string name="theory_quiz_start">Начать тест</string>
+    <string name="theory_quiz_next">Следующий вопрос</string>
+    <string name="theory_quiz_times_up">Время вышло!</string>
+    <string name="theory_quiz_final_score">Счёт: %d</string>
+    <string name="theory_quiz_final_accuracy">Точность: %s</string>
+    <string name="theory_quiz_play_again">Играть снова</string>
+
+    <!-- ── Interval Trainer ─────────────────────────────────────────── -->
+    <string name="interval_title">Тренажёр интервалов</string>
+    <string name="interval_subtitle">Определите интервал между двумя нотами.</string>
+    <string name="interval_visual">Визуальный</string>
+    <string name="interval_audio">Слуховой</string>
+    <string name="interval_ascending">Восходящий</string>
+    <string name="interval_descending">Нисходящий</string>
+    <string name="interval_harmonic">Гармонический</string>
+    <string name="interval_start">Начать тренировку</string>
+    <string name="interval_next">Следующий интервал</string>
+    <string name="interval_what">Какой это интервал?</string>
+    <string name="interval_replay">Повторить интервал</string>
+    <string name="interval_semitone">полутон</string>
+    <string name="interval_semitones_apart">полутонов разницы</string>
+
+    <!-- ── Chord Ear Training ───────────────────────────────────────── -->
+    <string name="chord_ear_title">Тренировка слуха на аккорды</string>
+    <string name="chord_ear_subtitle">Определите тип аккорда на слух.</string>
+    <string name="chord_ear_start">Начать тренировку</string>
+    <string name="chord_ear_next">Следующий аккорд</string>
+    <string name="chord_ear_what">Какой это тип аккорда?</string>
+    <string name="chord_ear_replay">Повторить аккорд</string>
+
+    <!-- ── Scale Practice ───────────────────────────────────────────── -->
+    <string name="scale_practice_title">Практика гамм</string>
+    <string name="scale_practice_subtitle">Практикуйте гаммы с направленной игрой, тестами и тренировкой слуха.</string>
+    <string name="scale_practice_root">Тоника гаммы</string>
+    <string name="scale_practice_options">Параметры</string>
+    <string name="scale_practice_loop">Повтор</string>
+    <string name="scale_practice_fretboard">Гриф</string>
+    <string name="scale_practice_play">Воспроизвести гамму</string>
+    <string name="scale_practice_resume">Продолжить</string>
+    <string name="scale_practice_now">Сейчас:</string>
+    <string name="scale_practice_note_of">Нота %1$d из %2$d</string>
+    <string name="scale_practice_start_quiz">Начать тест</string>
+    <string name="scale_practice_next">Следующий вопрос</string>
+    <string name="scale_practice_what">Какая гамма звучит?</string>
+    <string name="scale_practice_root_label">Тоника:</string>
+    <string name="scale_practice_replay">Повторить гамму</string>
+    <string name="scale_practice_correct">Правильно! Это</string>
+    <string name="scale_practice_notes_label">Ноты:</string>
+    <string name="scale_practice_next_scale">Следующая гамма</string>
+    <string name="scale_practice_start_training">Начать тренировку</string>
+
+    <!-- ── Theory Lessons ───────────────────────────────────────────── -->
+    <string name="theory_lessons_title">Изучение теории музыки</string>
+    <string name="theory_lessons_subtitle">Структурированные уроки от основ до продвинутой гармонии.</string>
+    <string name="theory_lessons_progress">Прогресс</string>
+    <string name="theory_lessons_count">%d уроков</string>
+    <string name="theory_lessons_key_points">Ключевые моменты</string>
+    <string name="theory_lessons_quick_check">Быстрая проверка</string>
+    <string name="theory_lessons_not_quite">Не совсем.</string>
+    <string name="theory_lessons_back">К урокам</string>
+
+    <!-- ── Learning Progress ────────────────────────────────────────── -->
+    <string name="progress_title">Прогресс обучения</string>
+    <string name="progress_subtitle">Отслеживайте свой путь в теории музыки.</string>
+    <string name="progress_practice_time">Время занятий</string>
+    <string name="progress_today">Сегодня</string>
+    <string name="progress_total">Всего</string>
+    <string name="progress_sessions">Сессии</string>
+    <string name="progress_daily_goal">Дневная цель: %d мин</string>
+    <string name="progress_day_streak">Дней подряд</string>
+    <string name="progress_lessons_done">Уроков пройдено</string>
+    <string name="progress_theory_lessons">Уроки теории</string>
+    <string name="progress_lessons_completed">Уроков пройдено</string>
+    <string name="progress_quizzes_passed">Тестов сдано</string>
+    <string name="progress_overall">Общее</string>
+    <string name="progress_reset">Сбросить весь прогресс</string>
+    <string name="progress_reset_title">Сбросить прогресс?</string>
+    <string name="progress_reset_message">Это удалит весь прогресс обучения, результаты тестов, серии и пройденные уроки. Это действие нельзя отменить.</string>
+    <string name="progress_no_attempts">Пока нет попыток.</string>
+
+    <!-- ── Daily Challenge ──────────────────────────────────────────── -->
+    <string name="daily_challenge_title">Ежедневные задания</string>
+    <string name="daily_challenge_subtitle">Выполняйте сегодняшние задания, чтобы развивать навыки!</string>
+    <string name="daily_challenge_tip_title">Совет дня</string>
+    <string name="daily_tip_1">Даже 5 минут ежедневной практики лучше, чем 1 час раз в неделю.</string>
+    <string name="daily_tip_2">Используйте метроном при отработке смены аккордов — начинайте медленно и ускоряйтесь.</string>
+    <string name="daily_tip_3">Изучая новый аккорд, играйте каждую струну отдельно, чтобы проверить чистоту звука.</string>
+    <string name="daily_tip_4">Попробуйте напевать во время игры боем — это развивает музыкальный слух.</string>
+    <string name="daily_tip_5">Занимайтесь перед зеркалом, чтобы контролировать положение руки.</string>
+    <string name="daily_tip_6">Стремитесь к плавным переходам, а не к скорости — скорость придёт со временем.</string>
+    <string name="daily_tip_7">Учите песни, которые вам нравятся! Мотивация делает практику приятной.</string>
+
+    <!-- ── SRS Practice ─────────────────────────────────────────────── -->
+    <string name="srs_title">Интервальное повторение</string>
+    <string name="srs_subtitle">Повторяйте аккорды через оптимальные интервалы для долговременной памяти.</string>
+    <string name="srs_due">К повторению</string>
+    <string name="srs_reviewed">Повторено</string>
+    <string name="srs_total">Всего</string>
+    <string name="srs_no_cards">Пока нет карточек</string>
+    <string name="srs_no_cards_message">Добавьте аккорды в колоду SRS из библиотеки аккордов, удерживая вариант и выбирая «Добавить в SRS».</string>
+    <string name="srs_all_caught_up">Всё повторено!</string>
+    <string name="srs_session_done">Вы повторили %1$d %2$s за эту сессию. Возвращайтесь позже для новых повторений.</string>
+    <string name="srs_card_singular">карточку</string>
+    <string name="srs_card_plural">карточек</string>
+    <string name="srs_no_due">Сейчас нет карточек для повторения. Загляните позже!</string>
+    <string name="srs_card_remaining">Карточка %1$d, осталось %2$d</string>
+    <string name="srs_recall_prompt">Можете вспомнить аппликатуру?</string>
+    <string name="srs_show_voicing">Показать вариант</string>
+    <string name="srs_frets">Лады: %s</string>
+    <string name="srs_how_well">Насколько хорошо вы запомнили?</string>
+
+    <!-- ── Practice Routine ─────────────────────────────────────────── -->
+    <string name="routine_title">План занятий</string>
+    <string name="routine_subtitle">Настройте своё занятие.</string>
+    <string name="routine_duration">Длительность: %d минут</string>
+    <string name="routine_skill_level">Уровень навыка</string>
+    <string name="routine_focus_areas">Направления</string>
+    <string name="routine_start">Начать план занятий</string>
+    <string name="cd_start_routine">Начать план занятий</string>
+    <string name="routine_total">Всего %1$d мин, %2$d шагов</string>
+    <string name="cd_new_routine">Новый план</string>
+    <string name="routine_complete_title">Занятие завершено!</string>
+    <string name="routine_complete_message">Отличная сессия! Продолжайте ежедневные занятия.</string>
+    <string name="cd_practice_complete">Занятие завершено</string>
+    <string name="cd_completed">Завершено</string>
+
+    <!-- ── Chord Transition Trainer ─────────────────────────────────── -->
+    <string name="chord_transition_title">Тренажёр смены аккордов</string>
+    <string name="chord_transition_subtitle">Тренируйте переключение между двумя аккордами в ритме.</string>
+    <string name="chord_transition_chord_a">Аккорд A</string>
+    <string name="chord_transition_chord_b">Аккорд B</string>
+    <string name="cd_swap_chords">Поменять аккорды</string>
+    <string name="chord_transition_switches">Переключения</string>
+    <string name="chord_transition_time">Время</string>
+    <string name="chord_transition_per_min">В минуту</string>
+    <string name="cd_reset">Сбросить</string>
+    <string name="cd_start">Старт</string>
+    <string name="cd_stop">Стоп</string>
+
+    <!-- ── Chord Transition Animation ───────────────────────────────── -->
+    <string name="transition_anim_finger_movements">Движения пальцев</string>
+    <string name="transition_anim_no_movement">Движения пальцев не требуется!</string>
+    <string name="transition_anim_speed">Скорость:</string>
+    <string name="transition_anim_animate">Анимация перехода</string>
+    <string name="cd_animate_transition">Анимация перехода</string>
+    <string name="cd_prev_step">Предыдущий шаг</string>
+    <string name="cd_next_step">Следующий шаг</string>
+    <string name="transition_anim_start_shape">Начальная форма</string>
+    <string name="transition_anim_end_shape">Конечная форма</string>
+    <string name="transition_anim_step">Шаг %1$d/%2$d</string>
+
+    <!-- ── Play Along ───────────────────────────────────────────────── -->
+    <string name="play_along_title">Играть вместе</string>
+    <string name="play_along_subtitle">Слушайте и играйте правильные аккорды!</string>
+    <string name="play_along_mic_needed">Для определения аккордов нужен доступ к микрофону</string>
+    <string name="cd_grant_permission">Предоставить доступ к микрофону</string>
+    <string name="play_along_grant">Предоставить доступ</string>
+    <string name="play_along_play">Играйте:</string>
+    <string name="play_along_heard">Услышано:</string>
+    <string name="cd_correct">Правильно</string>
+    <string name="cd_incorrect">Неправильно</string>
+    <string name="play_along_grade">Оценка</string>
+    <string name="play_along_choose">Выберите тональность и прогрессию, затем играйте с определением аккордов в реальном времени.</string>
+    <string name="play_along_progression">Прогрессия</string>
+
+    <!-- ── Achievements ─────────────────────────────────────────────── -->
+    <string name="achievements_title">Достижения</string>
+    <string name="achievements_subtitle">Зарабатывайте значки, практикуясь и обучаясь.</string>
+    <string name="achievements_unlocked">%d открыто</string>
+    <string name="achievements_earned">Получено</string>
+
+    <!-- ── Help ──────────────────────────────────────────────────────── -->
+    <string name="help_title">Помощь</string>
+    <string name="help_subtitle">Нажмите на любую функцию, чтобы узнать, как она работает.</string>
+    <string name="help_section_play">Игра</string>
+    <string name="help_section_create">Создание</string>
+    <string name="help_section_learn">Обучение</string>
+    <string name="help_section_reference">Справка</string>
+    <string name="help_section_other">Прочее</string>
+
+    <!-- Help item titles (matching nav labels) -->
+    <string name="help_explorer">Обозреватель</string>
+    <string name="help_tuner">Тюнер</string>
+    <string name="help_pitch_monitor">Монитор высоты</string>
+    <string name="help_chords">Аккорды</string>
+    <string name="help_favorites">Избранное</string>
+    <string name="help_song_finder">Поиск песен</string>
+    <string name="help_songs">Песни</string>
+    <string name="help_melody_notepad">Блокнот мелодий</string>
+    <string name="help_patterns">Ритмы</string>
+    <string name="help_progressions">Прогрессии</string>
+    <string name="help_learn_theory">Изучить теорию</string>
+    <string name="help_theory_quiz">Тест по теории</string>
+    <string name="help_interval_trainer">Тренажёр интервалов</string>
+    <string name="help_note_quiz">Тест по нотам</string>
+    <string name="help_chord_ear">Тренировка слуха на аккорды</string>
+    <string name="help_scale_practice">Практика гамм</string>
+    <string name="help_progress">Прогресс</string>
+    <string name="help_daily_challenge">Ежедневный вызов</string>
+    <string name="help_practice_routine">План занятий</string>
+    <string name="help_srs_review">Повторение SRS</string>
+    <string name="help_chord_transitions">Смена аккордов</string>
+    <string name="help_play_along">Играть вместе</string>
+    <string name="help_achievements">Достижения</string>
+    <string name="help_capo_guide">Руководство по каподастру</string>
+    <string name="help_circle_of_fifths">Квинтовый круг</string>
+    <string name="help_chord_subs">Замена аккордов</string>
+    <string name="help_chords_in_scale">Аккорды в гамме</string>
+    <string name="help_fretboard_notes">Ноты на грифе</string>
+    <string name="help_glossary">Глоссарий</string>
+    <string name="help_settings">Настройки</string>
+    <string name="help_sharing">Поделиться аккордом</string>
+    <string name="help_full_screen">Полноэкранный режим</string>
+
+    <!-- Help descriptions -->
+    <string name="help_desc_explorer">Интерактивный гриф, на котором вы нажимаете лады для построения аккордов. Приложение определяет, какой аккорд вы играете, и показывает обращения, интервалы и альтернативные названия. Включает выбор каподастра и наложение гаммы для изучения сочетания аккордов и гамм.</string>
+    <string name="help_desc_tuner">Хроматический тюнер, использующий микрофон устройства. Показывает определённую ноту, отклонение в центах на стрелочном индикаторе и простые подсказки («Подтяните», «Настроено!»). Нажмите кнопки струн для эталонного звука. Поддерживает различные строи, калибровку A4, голосовую обратную связь и точный режим.</string>
+    <string name="help_desc_pitch_monitor">Инструмент визуализации высоты звука в реальном времени. Показывает определённую высоту на прокручиваемом графике, отображает текущую ноту и выделяет совпадающие аккорды. Полезен для проверки интонации при игре мелодий или отработке бендов.</string>
+    <string name="help_desc_chords">Обширная библиотека аккордов. Выберите основной тон и тип аккорда, чтобы увидеть все игровые варианты на укулеле. Нажмите на вариант, чтобы загрузить его на гриф обозревателя, или удерживайте для публикации, добавления в избранное или SRS. Включает режим сравнения обращений.</string>
+    <string name="help_desc_favorites">Сохранённые варианты аккордов, организованные по папкам. Нажмите на вариант, чтобы увидеть его на грифе, проведите или удерживайте для вариантов. Используйте папки для группировки аккордов для конкретных песен или занятий.</string>
+    <string name="help_desc_song_finder">Находите песни, которые вы уже можете играть с аккордами из избранного. Чем больше аккордов вы сохраните, тем больше песен откроется. Также показывает песни, для которых нужно выучить всего 1–2 дополнительных аккорда.</string>
+    <string name="help_desc_songs">Личный песенник для записи и хранения аккордных таблиц. Вводите текст и вставляйте аккорды в скобках: «Some[C]where over the [Em]rainbow». Поддерживает транспонирование, подсказки для каподастра, автопрокрутку и импорт/экспорт файлов ChordPro.</string>
+    <string name="help_desc_melody_notepad">Простой инструмент для сочинения мелодий нота за нотой. Нажимайте ноты для создания последовательности, выбирайте длительность (целая, половинная, четвертная, восьмая, шестнадцатая), добавляйте паузы и воспроизводите с настраиваемым BPM. Отлично подходит для записи мелодических идей или упражнений.</string>
+    <string name="help_desc_patterns">Просматривайте и создавайте ритмы боя и перебора. Нажимайте на индикаторы доли для смены направления (вниз, вверх, приглушение, пауза) или назначайте пальцы на струны. Воспроизводите с настраиваемым темпом.</string>
+    <string name="help_desc_progressions">Библиотека распространённых аккордных прогрессий в каждой тональности. Нажмите на любой аккорд, чтобы увидеть его в библиотеке. Создавайте свои прогрессии, тренируйтесь с встроенным метрономом или изучайте голосоведение между аккордами.</string>
+    <string name="help_desc_learn_theory">Структурированные уроки теории музыки: ноты, интервалы, гаммы, аккорды, тональности и гармония. Каждый урок содержит ключевые моменты и быструю проверку для подтверждения понимания перед продолжением.</string>
+    <string name="help_desc_theory_quiz">Проверьте свои знания таких понятий, как интервалы, построение аккордов, ключевые знаки и ступени гаммы. Включает стандартный режим и блиц (60 с) для дополнительного вызова.</string>
+    <string name="help_desc_interval_trainer">Тренировка слуха на музыкальные интервалы. Выберите визуальный (гриф) или слуховой режим, восходящее, нисходящее или гармоническое воспроизведение и уровень сложности. Определяйте интервалы и развивайте относительный слух.</string>
+    <string name="help_desc_note_quiz">Тест на время, проверяющий знание нот на грифе. В режиме «Назовите» вы видите позицию и угадываете ноту; в режиме «Найдите» вы видите ноту и нажимаете на её позицию. Уровни сложности ограничивают диапазон ладов.</string>
+    <string name="help_desc_chord_ear">Прослушайте аккорд и определите его тип (мажор, минор, уменьшённый и т.д.). Уровни сложности добавляют больше типов аккордов. Отличный способ развить гармонический слух.</string>
+    <string name="help_desc_scale_practice">Практикуйте гаммы на грифе в трёх режимах: игра вместе (с направлением и необязательным метрономом), тест (определение звучащей гаммы) и тренировка слуха. Поддерживает все типы гамм, повтор и компактный вид грифа.</string>
+    <string name="help_desc_progress">Панель со статистикой обучения: время занятий, серия дней, пройденные уроки и результаты тестов по теории, интервалам, нотам и аккордам на слух. Помогает отслеживать регулярность и прогресс.</string>
+    <string name="help_desc_daily_challenge">Три свежих задания каждый день для разнообразия практики. Каждое задание нацелено на определённый навык — аккорды, гаммы, слух, теорию или переходы. Выполнение заданий формирует регулярность.</string>
+    <string name="help_desc_practice_routine">Конструктор направленных занятий. Выберите длительность, уровень навыка и направления для создания пошагового плана. Приложение создаёт тайминговую последовательность упражнений: разминка, техника, репертуар и заминка.</string>
+    <string name="help_desc_srs_review">Система интервального повторения для запоминания вариантов аккордов. Добавьте аккорды из библиотеки, и приложение запланирует повторения с увеличивающимися интервалами в зависимости от того, насколько хорошо вы помните каждый вариант. Эффективно расширяет словарный запас аккордов.</string>
+    <string name="help_desc_chord_transitions">Визуализируйте движение пальцев между двумя аккордами. Выберите два аккорда и посмотрите пошаговую анимацию движений. Включает режим тренировки с таймером, счётчиком переключений и регулировкой BPM.</string>
+    <string name="help_desc_play_along">Совместная игра в реальном времени с определением аккордов по звуку. Выберите тональность и прогрессию, затем играйте, пока приложение слушает и оценивает точность. Требуется разрешение на микрофон.</string>
+    <string name="help_desc_achievements">Галерея достижений, открываемых по мере использования приложения. Получайте значки за серии занятий, результаты тестов, созданные песни, выученные аккорды и многое другое. Проверяйте свой прогресс.</string>
+    <string name="help_desc_capo_guide">Обучающее руководство по использованию каподастра на укулеле. Объясняет, что делает каподастр, как он изменяет высоту звука, перечисляет распространённые позиции и включает интерактивный раздел «Попробуйте» со справочной таблицей.</string>
+    <string name="help_desc_circle_of_fifths">Интерактивная диаграмма квинтового круга. Нажмите на любую тональность, чтобы увидеть её ключевые знаки, параллельную минорную/мажорную, диатонические аккорды и родственные тональности. Фундаментальный справочник для понимания связей между тональностями.</string>
+    <string name="help_desc_chord_subs">Справочник по вариантам замены аккордов. Выберите аккорд и узнайте, какие аккорды могут его заменить и почему — параллельный минор, тритоновая замена, модальный обмен и другое. Каждая замена объясняет теорию.</string>
+    <string name="help_desc_chords_in_scale">Выберите гамму и посмотрите все аккорды, которые в ней образуются. Показывает диатонические трезвучия с анализом римскими цифрами. Полезно для сочинения и понимания гармонии в любой тональности.</string>
+    <string name="help_desc_fretboard_notes">Визуальная карта всех нот на грифе укулеле. Выделите конкретную ноту, чтобы увидеть все её позиции. Поддерживает строи High-G и Low-G. Нажмите на любую ноту, чтобы услышать её.</string>
+    <string name="help_desc_glossary">Словарь терминов теории музыки и укулеле с поиском — от арпеджио до голосоведения. Каждая запись содержит краткое определение и, где уместно, пример.</string>
+    <string name="help_desc_settings">Настройте общие параметры приложения: звук (громкость, задержка боя, направление), отображение (тема), строй (High-G, Low-G, баритон и др.), тюнер (голосовая обратная связь, точный режим, калибровка A4), гриф (для левши, количество ладов) и уведомления.</string>
+    <string name="help_desc_sharing">Поделитесь любым аккордом как изображением. При просмотре аккорда в обозревателе или библиотеке нажмите значок «Поделиться», чтобы создать аккуратную диаграмму аккорда, которую можно отправить друзьям или опубликовать в соцсетях.</string>
+    <string name="help_desc_full_screen">Нажмите значок развёртывания во вкладке обозревателя для перехода в ландшафтный полноэкранный гриф. Идеально для занятий, когда нужна максимальная видимость грифа без отвлекающих элементов интерфейса.</string>
+
+    <!-- ── Glossary ─────────────────────────────────────────────────── -->
+    <string name="glossary_title">Музыкальный глоссарий</string>
+    <string name="glossary_term_count">%d терминов по теории музыки и укулеле.</string>
+    <string name="glossary_search_hint">Поиск терминов…</string>
+    <string name="glossary_no_match">Совпадений не найдено.</string>
+    <string name="glossary_example">Пример:</string>
+
+    <!-- ── Circle of Fifths ─────────────────────────────────────────── -->
+    <string name="circle_title">Квинтовый круг</string>
+    <string name="circle_subtitle">Нажмите на тональность, чтобы увидеть её знаки и аккорды. Соседние тональности тесно связаны.</string>
+    <string name="circle_cd_selected">Диаграмма квинтового круга, выбрана %s. Нажмите для выбора другой тональности.</string>
+    <string name="circle_cd_default">Диаграмма квинтового круга. Нажмите для выбора тональности.</string>
+    <string name="circle_key_signature">Ключевые знаки</string>
+    <string name="circle_relative_minor">Параллельный минор</string>
+    <string name="circle_relative_major">Параллельный мажор</string>
+    <string name="circle_diatonic_chords">Диатонические аккорды</string>
+    <string name="circle_related_keys">Родственные тональности</string>
+    <string name="circle_same_as">как</string>
+
+    <!-- ── Capo Guide ───────────────────────────────────────────────── -->
+    <string name="capo_guide_what">Что такое каподастр?</string>
+    <string name="capo_guide_pitch">Как он меняет высоту</string>
+    <string name="capo_guide_positions">Распространённые позиции каподастра</string>
+    <string name="capo_guide_when">Когда использовать каподастр</string>
+    <string name="capo_guide_try">Попробуйте сами!</string>
+    <string name="capo_guide_ref_table">Справочная таблица: какие формы дают какие звучащие тональности:</string>
+    <string name="capo_guide_open_shapes">Распространённые открытые формы аккордов (хороши с каподастром):</string>
+    <string name="capo_guide_tap_fret">Нажмите на лад для установки каподастра:</string>
+    <string name="capo_guide_no_capo">Без каподастра — стандартный строй</string>
+    <string name="capo_guide_on_fret">Каподастр на %d ладу</string>
+    <string name="capo_guide_was_note">(было %s)</string>
+    <string name="capo_guide_shape">Форма</string>
+    <string name="capo_guide_sounds_as">Звучит как</string>
+    <string name="capo_guide_string">Струна %d</string>
+
+    <!-- ── Capo Calculator ──────────────────────────────────────────── -->
+    <string name="capo_calc_title">Калькулятор каподастра</string>
+    <string name="capo_calc_sounding">Звучит: %s</string>
+    <string name="capo_calc_hint">Используйте каподастр для более простых форм с тем же звучанием.</string>
+    <string name="capo_calc_no_capo">Без каподастра</string>
+    <string name="capo_calc_fret">Лад %d</string>
+    <string name="capo_calc_play_shape">Играйте: %s</string>
+    <string name="capo_calc_recommended">Рекомендуется</string>
+    <string name="capo_calc_frets">Лады: %s</string>
+    <string name="capo_calc_ease">Лёгкость: %d%%</string>
+    <string name="capo_calc_no_positions">Позиции каподастра для этого аккорда недоступны.</string>
+    <string name="capo_helper_title">Помощник каподастра</string>
+    <string name="capo_helper_hint">Найдите самую удобную позицию каподастра для этой прогрессии.</string>
+    <string name="capo_helper_shapes">Формы: %s</string>
+    <string name="capo_helper_ease">Общая лёгкость: %d%%</string>
+    <string name="capo_helper_no_positions">Позиции каподастра для этой прогрессии недоступны.</string>
+
+    <!-- ── Capo Visualizer ──────────────────────────────────────────── -->
+    <string name="capo_viz_title">Визуализатор каподастра</string>
+    <string name="capo_viz_shape">Форма: %s</string>
+    <string name="capo_viz_with_capo">Каподастр на %1$d ладу → Звучит как %2$s</string>
+    <string name="capo_viz_no_capo">Без каподастра — звучит как %s</string>
+    <string name="capo_viz_position">Позиция каподастра</string>
+    <string name="capo_viz_no_capo_label">Без каподастра</string>
+    <string name="capo_viz_fret">Лад %d</string>
+    <string name="capo_viz_sounding">Звучание</string>
+    <string name="capo_viz_same">То же</string>
+    <string name="capo_viz_tip">Совет: С каподастром на %1$d ладу вы играете форму %2$s, но звучит %3$s. Каждый лад повышает звук на полтона.</string>
+
+    <!-- ── Chord Substitutions ──────────────────────────────────────── -->
+    <string name="chord_subs_title">Замена аккордов</string>
+    <string name="chord_subs_subtitle">Узнайте, как заменять аккорды альтернативами, создающими другие цвета и настроения при сохранении гармонического смысла.</string>
+    <string name="chord_subs_examples_in">Примеры в тональности:</string>
+    <string name="chord_subs_practice_tip_title">Совет для практики</string>
+    <string name="chord_subs_practice_tip">Начните с диатонических замен и смены параллельных тональностей — они всегда звучат хорошо. Освоившись, попробуйте модальный обмен для большего разнообразия. Тритоновую замену и побочные доминанты оставьте для изучения джазовой гармонии.</string>
+    <string name="chord_subs_shared">Общие: %s</string>
+
+    <!-- ── Scale Chord View ─────────────────────────────────────────── -->
+    <string name="scale_chord_title">Аккорды в гамме</string>
+    <string name="scale_chord_subtitle">Посмотрите, какие аккорды строятся в любой гамме.</string>
+    <string name="scale_chord_notes">Ноты: %s</string>
+    <string name="scale_chord_too_few">В этой гамме слишком мало нот для построения стандартных трезвучий.</string>
+    <string name="scale_chord_diatonic">Диатонические трезвучия</string>
+
+    <!-- ── Fretboard Note Map ───────────────────────────────────────── -->
+    <string name="note_map_title">Карта нот на грифе</string>
+    <string name="note_map_subtitle">Изучите каждую ноту на грифе укулеле.</string>
+    <string name="note_map_high_g">Стандартный (High G)</string>
+    <string name="note_map_low_g">Low-G</string>
+    <string name="note_map_highlight">Выделить ноту</string>
+    <string name="note_map_tips_title">Советы</string>
+    <string name="note_map_tip_1">Нажмите на любую ноту, чтобы услышать её</string>
+    <string name="note_map_tip_2">Используйте фильтр выделения, чтобы найти все позиции ноты</string>
+    <string name="note_map_tip_3">Лад 12 — те же ноты, что и лад 0 (на октаву выше)</string>
+    <string name="note_map_tip_4">Переключитесь на Low-G, чтобы увидеть изменения струны G</string>
+    <string name="note_map_string">Струна %d</string>
+
+    <!-- ── Fretboard View ───────────────────────────────────────────── -->
+    <string name="fretboard_string">струна, </string>
+    <string name="fretboard_open">открытая</string>
+    <string name="fretboard_fret">лад %d</string>
+    <string name="fretboard_selected">, выбрана</string>
+    <string name="fretboard_in_scale">, в гамме</string>
+    <string name="fretboard_scale_root">, тоника гаммы</string>
+    <string name="fretboard_blocked">, заблокировано каподастром</string>
+    <string name="fretboard_blocked_text">Заблокировано каподастром</string>
+
+    <!-- ── Vertical Chord Diagram ───────────────────────────────────── -->
+    <string name="diagram_chord_cd">Аккорд %s</string>
+    <string name="diagram_string_muted">струна приглушена</string>
+    <string name="diagram_string_open">струна открыта</string>
+    <string name="diagram_string_fret">струна лад %d</string>
+    <string name="diagram_capo_fret">каподастр на ладу %d</string>
+
+    <!-- ── Share Chord ──────────────────────────────────────────────── -->
+    <string name="share_as_image">Поделиться как изображение</string>
+    <string name="share_diagram_attribution">Ukulele Companion</string>
+
+    <!-- ── Melody Notepad ───────────────────────────────────────────── -->
+    <string name="melody_title">Блокнот мелодий</string>
+    <string name="melody_subtitle">Нажимайте ноты для создания мелодии. Нажмите «Воспроизвести» для прослушивания.</string>
+    <string name="melody_sequence">Последовательность (%d нот)</string>
+    <string name="melody_placeholder">Нажмите на ноту ниже, чтобы начать</string>
+    <string name="melody_whole">Ц</string>
+    <string name="melody_half">П</string>
+    <string name="melody_quarter">Ч</string>
+    <string name="melody_eighth">8</string>
+    <string name="melody_sixteenth">16</string>
+    <string name="melody_note_duration">Длительность ноты</string>
+    <string name="melody_tap_to_add">Нажмите для добавления ноты</string>
+    <string name="melody_rest">Пауза</string>
+    <string name="cd_delete_note">Удалить ноту</string>
+    <string name="cd_play_melody">Воспроизвести мелодию</string>
+    <string name="cd_stop_playing">Остановить воспроизведение</string>
+    <string name="cd_clear_all">Очистить все ноты</string>
+    <string name="melody_clear">Очистить</string>
+
+    <!-- ── Song Finder ──────────────────────────────────────────────── -->
+    <string name="song_finder_title">Поиск песен</string>
+    <string name="song_finder_subtitle">Найдите песни, которые можно сыграть знакомыми аккордами.</string>
+    <string name="song_finder_no_chords_title">Пока нет известных аккордов</string>
+    <string name="song_finder_no_chords_message">Сохраните несколько аккордов в избранное, и мы найдём песни, которые вы сможете играть!</string>
+    <string name="song_finder_your_chords">Ваши аккорды (%d)</string>
+    <string name="song_finder_songs_can_play">Песни, которые вы можете играть (%d)</string>
+    <string name="song_finder_learn_more">Выучите ещё 1–2 аккорда (%d)</string>
+    <string name="song_finder_hide">Скрыть</string>
+    <string name="song_finder_show">Показать</string>
+    <string name="song_finder_keep_learning">Учите новые аккорды, чтобы открыть ещё больше песен!</string>
+    <string name="song_finder_learn_prefix">Выучить: </string>
+
+    <!-- ── Voice Leading ────────────────────────────────────────────── -->
+    <string name="cd_back_progressions">Назад к прогрессиям</string>
+    <string name="voice_leading_title">Голосоведение в %s</string>
+    <string name="voice_leading_common_tones">%d общий тон</string>
+    <string name="voice_leading_common_tones_plural">%d общих тонов</string>
+    <string name="voice_leading_fret_movement">%d лад общего движения</string>
+    <string name="voice_leading_frets_movement">%d ладов общего движения</string>
+    <string name="voice_leading_stays">остаётся на </string>
+    <string name="voice_leading_muted">приглушена</string>
+    <string name="voice_leading_fret_prefix">лад </string>
+    <string name="voice_leading_arrow"> → </string>
+    <string name="voice_leading_tip_singular">Совет: держите палец на струне %1$s — та же нота в обоих аккордах.</string>
+    <string name="voice_leading_tip_plural">Совет: держите пальцы на струнах %1$s — та же нота в обоих аккордах.</string>
+    <string name="voice_leading_total_path">Общий путь: %1$d ладов движения через %2$d переходов</string>
+    <string name="voice_leading_prev">Назад</string>
+    <string name="cd_play_all_voice_leadings">Воспроизвести всё голосоведение</string>
+    <string name="voice_leading_play_all">Воспроизвести всё</string>
+    <string name="voice_leading_next">Далее</string>
+    <string name="voice_leading_step">Шаг %1$d из %2$d</string>
+    <string name="voice_leading_single_chord">В этой прогрессии только один аккорд.</string>
+
+    <!-- ── Misc Content Descriptions ──────────────────────────────── -->
+    <string name="cd_play_item">Воспроизвести %s</string>
+    <string name="cd_to">к</string>
+
+    <!-- ── Transpose Controls ───────────────────────────────────────── -->
+    <string name="transpose_arrow"> → </string>
+    <string name="transpose_capo_prefix">Каподастр </string>
+
+    <!-- ── Progression Practice ─────────────────────────────────────── -->
+    <string name="progression_practice_title">Практика</string>
+    <string name="progression_practice_no_voicing">Нет аппликатуры</string>
+    <string name="cd_previous_voicing">Предыдущая аппликатура</string>
+    <string name="cd_next_voicing">Следующая аппликатура</string>
+    <string name="cd_toggle_loop">Вкл/выкл повтор</string>
+
+    <!-- ── Tap Tempo ────────────────────────────────────────────────── -->
+    <string name="tap_tempo_label">Тап</string>
+
+    <!-- ── Full Screen Fretboard ────────────────────────────────────── -->
+    <string name="full_screen_reset">Сбросить</string>
+
+    <!-- ── Notification (Chord of the Day) ──────────────────────────── -->
+    <string name="notif_chord_of_day">Аккорд дня: %s</string>
+    <string name="notif_frets">Лады: %1$s — нажмите для практики!</string>
+    <string name="notif_channel_name">Аккорд дня</string>
+    <string name="notif_channel_desc">Ежедневное предложение аккорда для укулеле</string>
+
+    <!-- ── Widget ───────────────────────────────────────────────────── -->
+    <string name="widget_title">Аккорд дня</string>
+</resources>

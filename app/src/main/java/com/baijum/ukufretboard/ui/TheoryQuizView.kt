@@ -31,11 +31,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.LearningStats
 import com.baijum.ukufretboard.domain.QuizGenerator
 import com.baijum.ukufretboard.viewmodel.LearningProgressViewModel
@@ -90,13 +92,13 @@ fun TheoryQuizView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Theory Quiz",
+            text = stringResource(R.string.theory_quiz_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.semantics { heading() },
         )
         Text(
-            text = "Test your music theory knowledge!",
+            text = stringResource(R.string.theory_quiz_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -105,7 +107,7 @@ fun TheoryQuizView(
 
         // Mode toggle: Standard / Blitz
         Text(
-            text = "Mode",
+            text = stringResource(R.string.label_mode),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -123,7 +125,7 @@ fun TheoryQuizView(
                     blitzActive = false
                     blitzFinished = false
                 },
-                label = { Text("Standard") },
+                label = { Text(stringResource(R.string.theory_quiz_standard)) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.primary,
                     selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
@@ -143,7 +145,7 @@ fun TheoryQuizView(
                     totalAnswered = 0
                     streak = 0
                 },
-                label = { Text("Blitz (60s)") },
+                label = { Text(stringResource(R.string.theory_quiz_blitz)) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.error,
                     selectedLabelColor = MaterialTheme.colorScheme.onError,
@@ -155,7 +157,7 @@ fun TheoryQuizView(
 
         // Category selector
         Text(
-            text = "Category",
+            text = stringResource(R.string.label_category),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -169,7 +171,7 @@ fun TheoryQuizView(
             FilterChip(
                 selected = selectedCategory == null,
                 onClick = { selectedCategory = null },
-                label = { Text("All") },
+                label = { Text(stringResource(R.string.label_all)) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.primary,
                     selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
@@ -193,7 +195,7 @@ fun TheoryQuizView(
         // Session score display
         if (totalAnswered > 0) {
             Text(
-                text = "This Session",
+                text = stringResource(R.string.label_this_session),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -203,10 +205,10 @@ fun TheoryQuizView(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
-                ScoreStat(label = "Score", value = "$totalCorrect/$totalAnswered")
-                ScoreStat(label = "Accuracy", value = "${(totalCorrect * 100 / totalAnswered)}%")
-                ScoreStat(label = "Streak", value = "$streak")
-                ScoreStat(label = "Best", value = "$bestStreak")
+                ScoreStat(label = stringResource(R.string.label_score), value = "$totalCorrect/$totalAnswered")
+                ScoreStat(label = stringResource(R.string.label_accuracy), value = "${(totalCorrect * 100 / totalAnswered)}%")
+                ScoreStat(label = stringResource(R.string.label_streak), value = "$streak")
+                ScoreStat(label = stringResource(R.string.label_best), value = "$bestStreak")
             }
             Spacer(modifier = Modifier.height(12.dp))
         }
@@ -214,7 +216,7 @@ fun TheoryQuizView(
         // All-time stats
         if (allTimeStats != null && allTimeStats.total > 0) {
             Text(
-                text = "All Time",
+                text = stringResource(R.string.label_all_time),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -224,9 +226,9 @@ fun TheoryQuizView(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
-                ScoreStat(label = "Score", value = "${allTimeStats.correct}/${allTimeStats.total}")
-                ScoreStat(label = "Accuracy", value = "${allTimeStats.accuracyPercent}%")
-                ScoreStat(label = "Best Streak", value = "${allTimeStats.bestStreak}")
+                ScoreStat(label = stringResource(R.string.label_score), value = "${allTimeStats.correct}/${allTimeStats.total}")
+                ScoreStat(label = stringResource(R.string.label_accuracy), value = "${allTimeStats.accuracyPercent}%")
+                ScoreStat(label = stringResource(R.string.label_best_streak), value = "${allTimeStats.bestStreak}")
             }
             Spacer(modifier = Modifier.height(12.dp))
         }
@@ -254,7 +256,7 @@ fun TheoryQuizView(
                         fontWeight = FontWeight.Bold,
                     )
                     Text(
-                        text = "Score: $blitzScore",
+                        text = stringResource(R.string.theory_quiz_final_score, blitzScore),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                     )
@@ -277,21 +279,21 @@ fun TheoryQuizView(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = "Time's Up!",
+                        text = stringResource(R.string.theory_quiz_times_up),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.semantics { heading() },
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
-                        text = "Score: $blitzScore",
+                        text = stringResource(R.string.theory_quiz_final_score, blitzScore),
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                     )
                     if (totalAnswered > 0) {
                         Text(
-                            text = "Accuracy: ${totalCorrect * 100 / totalAnswered}%",
+                            text = stringResource(R.string.theory_quiz_final_accuracy, "${totalCorrect * 100 / totalAnswered}%"),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
@@ -307,7 +309,7 @@ fun TheoryQuizView(
                         selectedAnswer = null
                         blitzActive = true
                     }) {
-                        Text("Play Again")
+                        Text(stringResource(R.string.theory_quiz_play_again))
                     }
                 }
             }
@@ -337,9 +339,9 @@ fun TheoryQuizView(
             ) {
                 Text(
                     when {
-                        isBlitzMode -> "Start Blitz!"
-                        totalAnswered == 0 -> "Start Quiz"
-                        else -> "Next Question"
+                        isBlitzMode -> stringResource(R.string.theory_quiz_start_blitz)
+                        totalAnswered == 0 -> stringResource(R.string.theory_quiz_start)
+                        else -> stringResource(R.string.theory_quiz_next)
                     }
                 )
             }
@@ -478,7 +480,7 @@ private fun QuestionCard(
                     onClick = onNext,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text("Next Question")
+                    Text(stringResource(R.string.theory_quiz_next))
                 }
             }
         }

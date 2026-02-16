@@ -26,8 +26,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.domain.CapoCalculator
 
 /**
@@ -53,9 +55,9 @@ fun CapoCalculatorSingleView(
             modifier = modifier.fillMaxSize().padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text("No capo positions available for this chord.")
+            Text(stringResource(R.string.capo_calc_no_positions))
             Spacer(modifier = Modifier.height(16.dp))
-            OutlinedButton(onClick = onBack) { Text("Back") }
+            OutlinedButton(onClick = onBack) { Text(stringResource(R.string.action_back)) }
         }
         return
     }
@@ -70,16 +72,16 @@ fun CapoCalculatorSingleView(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            OutlinedButton(onClick = onBack) { Text("Back") }
+            OutlinedButton(onClick = onBack) { Text(stringResource(R.string.action_back)) }
             Spacer(modifier = Modifier.width(12.dp))
             Column {
                 Text(
-                    text = "Capo Calculator",
+                    text = stringResource(R.string.capo_calc_title),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = "Sounding: ${results.first().soundingName}",
+                    text = stringResource(R.string.capo_calc_sounding, results.first().soundingName),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -88,7 +90,7 @@ fun CapoCalculatorSingleView(
 
         // Tip
         Text(
-            text = "Place a capo to play simpler shapes that sound the same.",
+            text = stringResource(R.string.capo_calc_hint),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -134,9 +136,9 @@ fun CapoCalculatorProgressionView(
             modifier = modifier.fillMaxSize().padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text("No capo positions available for this progression.")
+            Text(stringResource(R.string.capo_helper_no_positions))
             Spacer(modifier = Modifier.height(16.dp))
-            OutlinedButton(onClick = onBack) { Text("Back") }
+            OutlinedButton(onClick = onBack) { Text(stringResource(R.string.action_back)) }
         }
         return
     }
@@ -151,17 +153,17 @@ fun CapoCalculatorProgressionView(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            OutlinedButton(onClick = onBack) { Text("Back") }
+            OutlinedButton(onClick = onBack) { Text(stringResource(R.string.action_back)) }
             Spacer(modifier = Modifier.width(12.dp))
             Text(
-                text = "Capo Helper",
+                text = stringResource(R.string.capo_helper_title),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
             )
         }
 
         Text(
-            text = "Find the easiest capo position for this progression.",
+            text = stringResource(R.string.capo_helper_hint),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -217,13 +219,9 @@ private fun CapoResultCard(
                 modifier = Modifier.width(56.dp),
             ) {
                 Text(
-                    text = if (result.capoFret == 0) "No" else "Fret",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Text(
-                    text = if (result.capoFret == 0) "capo" else "${result.capoFret}",
-                    style = MaterialTheme.typography.titleLarge,
+                    text = if (result.capoFret == 0) stringResource(R.string.capo_calc_no_capo)
+                        else stringResource(R.string.capo_calc_fret, result.capoFret),
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = if (isRecommended)
                         MaterialTheme.colorScheme.onPrimaryContainer
@@ -238,14 +236,14 @@ private fun CapoResultCard(
             Column(modifier = Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = "Play: ${result.shapeName}",
+                        text = stringResource(R.string.capo_calc_play_shape, result.shapeName),
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold,
                     )
                     if (isRecommended) {
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Recommended",
+                            text = stringResource(R.string.capo_calc_recommended),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary,
@@ -253,14 +251,14 @@ private fun CapoResultCard(
                     }
                 }
                 Text(
-                    text = "Frets: ${result.bestVoicing.frets.joinToString(" ")}",
+                    text = stringResource(R.string.capo_calc_frets, result.bestVoicing.frets.joinToString(" ")),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 // Simple score indicator
                 val ease = if (maxScore > 0) (result.score * 100 / maxScore) else 0
                 Text(
-                    text = "Ease: $ease%",
+                    text = stringResource(R.string.capo_calc_ease, ease),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -313,13 +311,9 @@ private fun CapoProgressionResultCard(
                     modifier = Modifier.width(56.dp),
                 ) {
                     Text(
-                        text = if (result.capoFret == 0) "No" else "Fret",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    Text(
-                        text = if (result.capoFret == 0) "capo" else "${result.capoFret}",
-                        style = MaterialTheme.typography.titleLarge,
+                        text = if (result.capoFret == 0) stringResource(R.string.capo_calc_no_capo)
+                            else stringResource(R.string.capo_calc_fret, result.capoFret),
+                        style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = if (isRecommended)
                             MaterialTheme.colorScheme.onPrimaryContainer
@@ -334,14 +328,14 @@ private fun CapoProgressionResultCard(
                 Column(modifier = Modifier.weight(1f)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "Shapes: ${result.chordResults.joinToString(" \u2013 ") { it.shapeName }}",
+                            text = stringResource(R.string.capo_helper_shapes, result.chordResults.joinToString(" \u2013 ") { it.shapeName }),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Medium,
                         )
                     }
                     if (isRecommended) {
                         Text(
-                            text = "Recommended",
+                            text = stringResource(R.string.capo_calc_recommended),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary,
@@ -349,7 +343,7 @@ private fun CapoProgressionResultCard(
                     }
                     val ease = if (maxScore > 0) (result.totalScore * 100 / maxScore) else 0
                     Text(
-                        text = "Overall ease: $ease%",
+                        text = stringResource(R.string.capo_helper_ease, ease),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

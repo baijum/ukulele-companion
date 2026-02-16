@@ -1,0 +1,804 @@
+<resources>
+    <string name="app_name">Uke</string>
+    <string name="app_full_name">Ukulele Companion</string>
+    <string name="widget_description">हर दिन एक नया यूकुलेले कॉर्ड दिखाता है</string>
+
+    <!-- ── Common / Shared ──────────────────────────────────────────── -->
+    <string name="dialog_cancel">रद्द करें</string>
+    <string name="dialog_delete">हटाएँ</string>
+    <string name="dialog_save">सहेजें</string>
+    <string name="dialog_create">बनाएँ</string>
+    <string name="dialog_rename">नाम बदलें</string>
+    <string name="dialog_reset">रीसेट करें</string>
+    <string name="action_back">वापस</string>
+    <string name="action_play">चलाएँ</string>
+    <string name="action_stop">रोकें</string>
+    <string name="action_edit">संपादित करें</string>
+    <string name="action_share">शेयर करें</string>
+    <string name="action_close">बंद करें</string>
+    <string name="label_all">सभी</string>
+    <string name="label_none">कोई नहीं</string>
+    <string name="label_bpm">BPM</string>
+    <string name="label_bpm_value">BPM: %d</string>
+    <string name="label_beats">बीट्स:</string>
+    <string name="label_capo">कैपो</string>
+    <string name="label_key">कुंजी</string>
+    <string name="label_scale">स्केल</string>
+    <string name="label_correct">सही</string>
+    <string name="label_accuracy">सटीकता</string>
+    <string name="label_streak">लगातार</string>
+    <string name="label_best">सर्वश्रेष्ठ</string>
+    <string name="label_score">स्कोर</string>
+    <string name="label_best_streak">सर्वश्रेष्ठ लगातार</string>
+    <string name="label_this_session">इस सत्र में</string>
+    <string name="label_all_time">सर्वकालिक</string>
+    <string name="label_difficulty">कठिनाई</string>
+    <string name="label_mode">मोड</string>
+    <string name="label_direction">दिशा</string>
+    <string name="label_category">श्रेणी</string>
+    <string name="label_easy">आसान</string>
+    <string name="label_medium">मध्यम</string>
+    <string name="label_hard">कठिन</string>
+    <string name="label_expert">विशेषज्ञ</string>
+    <string name="label_replay">फिर से चलाएँ</string>
+    <string name="label_correct_answer">सही!</string>
+    <string name="label_the_answer_is">उत्तर है</string>
+    <string name="label_root">मूल स्वर</string>
+    <string name="label_position">स्थिति</string>
+    <string name="label_off">बंद</string>
+    <string name="label_open">खुला</string>
+    <string name="label_presets">प्रीसेट</string>
+    <string name="label_practice">अभ्यास</string>
+    <string name="label_go">शुरू करें</string>
+    <string name="label_done">पूर्ण</string>
+
+    <!-- ── Navigation Drawer ────────────────────────────────────────── -->
+    <string name="nav_section_play">बजाएँ</string>
+    <string name="nav_section_create">बनाएँ</string>
+    <string name="nav_section_learn">सीखें</string>
+    <string name="nav_section_reference">संदर्भ</string>
+    <string name="nav_explorer">एक्सप्लोरर</string>
+    <string name="nav_tuner">ट्यूनर</string>
+    <string name="nav_pitch_monitor">पिच मॉनिटर</string>
+    <string name="nav_chords">कॉर्ड्स</string>
+    <string name="nav_favorites">पसंदीदा</string>
+    <string name="nav_song_finder">गाना खोजें</string>
+    <string name="nav_songs">गाने</string>
+    <string name="nav_melody_notepad">मेलोडी नोटपैड</string>
+    <string name="nav_patterns">पैटर्न</string>
+    <string name="nav_progressions">कॉर्ड प्रोग्रेशन</string>
+    <string name="nav_learn_theory">थ्योरी सीखें</string>
+    <string name="nav_theory_quiz">थ्योरी क्विज़</string>
+    <string name="nav_interval_trainer">इंटरवल ट्रेनर</string>
+    <string name="nav_note_quiz">नोट क्विज़</string>
+    <string name="nav_chord_ear_training">कॉर्ड कान प्रशिक्षण</string>
+    <string name="nav_scale_practice">स्केल अभ्यास</string>
+    <string name="nav_progress">प्रगति</string>
+    <string name="nav_daily_challenge">दैनिक चुनौती</string>
+    <string name="nav_practice_routine">अभ्यास रूटीन</string>
+    <string name="nav_srs_review">SRS समीक्षा</string>
+    <string name="nav_chord_transitions">कॉर्ड ट्रांज़िशन</string>
+    <string name="nav_play_along">साथ बजाएँ</string>
+    <string name="nav_achievements">उपलब्धियाँ</string>
+    <string name="nav_capo_guide">कैपो गाइड</string>
+    <string name="nav_circle_of_fifths">पंचम चक्र</string>
+    <string name="nav_chord_substitutions">कॉर्ड प्रतिस्थापन</string>
+    <string name="nav_chords_in_scale">स्केल के कॉर्ड्स</string>
+    <string name="nav_fretboard_notes">फ्रेटबोर्ड नोट्स</string>
+    <string name="nav_glossary">शब्दावली</string>
+    <string name="nav_help">सहायता</string>
+
+    <!-- ── Top Bar / Content Descriptions ───────────────────────────── -->
+    <string name="cd_open_nav_menu">नेविगेशन मेनू खोलें</string>
+    <string name="cd_settings">सेटिंग्स</string>
+    <string name="cd_full_screen">पूर्ण स्क्रीन</string>
+    <string name="cd_exit_full_screen">पूर्ण स्क्रीन से बाहर निकलें</string>
+    <string name="cd_play_chord">कॉर्ड चलाएँ</string>
+    <string name="cd_play_sound">ध्वनि चलाएँ</string>
+    <string name="cd_share_chord_image">कॉर्ड को छवि के रूप में शेयर करें</string>
+    <string name="cd_remove_favorites">पसंदीदा से हटाएँ</string>
+    <string name="cd_add_favorites">पसंदीदा में जोड़ें</string>
+    <string name="cd_replay">फिर से चलाएँ</string>
+
+    <!-- ── Explorer Tab ─────────────────────────────────────────────── -->
+    <string name="explorer_reset">रीसेट</string>
+    <string name="explorer_scales">स्केल</string>
+    <string name="explorer_hide_scale">स्केल छिपाएँ</string>
+    <string name="explorer_tap_frets">फ्रेट्स टैप करें</string>
+    <string name="explorer_capo_off">बंद</string>
+
+    <!-- ── Chord Result ─────────────────────────────────────────────── -->
+    <string name="chord_result_tap_fretboard">नोट्स चुनने के लिए फ्रेटबोर्ड टैप करें</string>
+    <string name="chord_result_single_note">एक नोट चयनित</string>
+    <string name="chord_result_incomplete">अपूर्ण कॉर्ड</string>
+    <string name="chord_result_no_match">कोई सटीक कॉर्ड मेल नहीं</string>
+    <string name="chord_result_also">अन्य: </string>
+    <string name="chord_result_intervals">इंटरवल</string>
+    <string name="chord_result_formula">फॉर्मूला</string>
+    <string name="chord_result_fingering">फिंगरिंग</string>
+    <string name="chord_result_difficulty">कठिनाई</string>
+    <string name="chord_result_inversion">इन्वर्शन</string>
+    <string name="chord_result_bass">बेस: </string>
+
+    <!-- ── Chord Library ────────────────────────────────────────────── -->
+    <string name="chord_library_root_note">मूल नोट</string>
+    <string name="chord_library_type">प्रकार</string>
+    <string name="chord_library_compare_inversions"> — इन्वर्शन की तुलना करें</string>
+    <string name="chord_library_voicings">%d वॉइसिंग</string>
+    <string name="chord_library_viz">विज़</string>
+    <string name="chord_library_compare">तुलना करें</string>
+    <string name="cd_play_all_inversions">सभी इन्वर्शन चलाएँ</string>
+    <string name="chord_library_play_all_inversions">सभी इन्वर्शन चलाएँ</string>
+    <string name="chord_library_inversion_tip">एक ही कॉर्ड, अलग बेस नोट। सुनें कि हर इन्वर्शन का अपना अलग चरित्र कैसे है।</string>
+    <string name="chord_library_bass_prefix">बेस: </string>
+    <string name="chord_library_voicing_singular">%d वॉइसिंग</string>
+    <string name="chord_library_reentrant_limited">इस कॉर्ड में केवल %d वॉइसिंग हैं। री-एंट्रेंट ट्यूनिंग (High-G) इन्वर्शन को सीमित करती है क्योंकि C स्ट्रिंग (C4) लगभग हमेशा सबसे नीची पिच होती है। Low-G ट्यूनिंग अधिक इन्वर्शन विविधता प्रदान करती है।</string>
+    <string name="chord_library_reentrant_empty">री-एंट्रेंट ट्यूनिंग (High-G) में, C स्ट्रिंग लगभग हमेशा सबसे नीचा नोट होता है, इसलिए अधिकांश वॉइसिंग मूल स्थिति में हैं। उपलब्ध वॉइसिंग देखने के लिए \"सभी\" चुनें।</string>
+    <string name="chord_library_no_voicings">कोई वॉइसिंग नहीं मिली</string>
+
+    <!-- ── Tuner ────────────────────────────────────────────────────── -->
+    <string name="tuner_play_a_string">एक तार बजाएँ…</string>
+    <string name="tuner_in_tune">ट्यून में है!</string>
+    <string name="tuner_almost_up">लगभग — थोड़ा ऊपर ट्यून करें</string>
+    <string name="tuner_almost_down">लगभग — थोड़ा नीचे ट्यून करें</string>
+    <string name="tuner_tune_up">ऊपर ट्यून करें</string>
+    <string name="tuner_tune_down">नीचे ट्यून करें</string>
+    <string name="tuner_all_tuned">सभी तार ट्यून हो गए!</string>
+    <string name="tuner_start">ट्यूनिंग शुरू करें</string>
+    <string name="tuner_stop">रोकें</string>
+    <string name="cd_start_tuning">ट्यूनिंग शुरू करें</string>
+    <string name="cd_stop_tuning">ट्यूनिंग रोकें</string>
+    <string name="cd_detected_note">पहचाना गया नोट: %s</string>
+    <string name="tuner_meter_no_pitch">ट्यूनिंग मीटर, कोई पिच नहीं पहचानी गई</string>
+    <string name="tuner_meter_in_tune">ट्यूनिंग मीटर, ट्यून में है</string>
+    <string name="tuner_meter_close">ट्यूनिंग मीटर, %1$d सेंट %2$s, लगभग ट्यून में</string>
+    <string name="tuner_meter_flat">ट्यूनिंग मीटर, %d सेंट फ्लैट</string>
+    <string name="tuner_meter_sharp">ट्यूनिंग मीटर, %d सेंट शार्प</string>
+    <string name="tuner_direction_flat">फ्लैट</string>
+    <string name="tuner_direction_sharp">शार्प</string>
+    <string name="tuner_swiftf0_active">SwiftF0 Active</string>
+    <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
+    <string name="tuner_precision_mode">प्रिसिज़न मोड</string>
+    <string name="tuner_string_tuned">ट्यून किया हुआ</string>
+    <string name="tuner_string_next">अगला तार ट्यून करना है</string>
+    <string name="tuner_string_active">सक्रिय</string>
+    <string name="tuner_string_not_tuned">ट्यून नहीं किया</string>
+    <string name="tuner_string_desc">%1$s तार, %2$s, संदर्भ टोन के लिए टैप करें</string>
+    <string name="tuner_check_tuned">ट्यून किया हुआ</string>
+
+    <!-- ── Pitch Monitor ────────────────────────────────────────────── -->
+    <string name="pitch_monitor_detected_chord">पहचाना गया कॉर्ड: %s</string>
+    <string name="pitch_monitor_notes_prefix">नोट्स: </string>
+    <string name="pitch_monitor_current_note">वर्तमान नोट: %s</string>
+    <string name="pitch_monitor_visualization">पिच विज़ुअलाइज़ेशन, समय के साथ पिच दिखा रहा है</string>
+    <string name="pitch_monitor_tap_start">शुरू करने के लिए \"शुरू\" टैप करें</string>
+    <string name="pitch_monitor_playing">%s चला रहा है</string>
+    <string name="pitch_monitor_detecting">पिच पहचान रहा है…</string>
+    <string name="pitch_monitor_play_ukulele">अपना यूकुलेले बजाएँ…</string>
+    <string name="cd_stop_listening">सुनना बंद करें</string>
+    <string name="cd_start_listening">सुनना शुरू करें</string>
+    <string name="pitch_monitor_start">शुरू करें</string>
+
+    <!-- ── Favorites ────────────────────────────────────────────────── -->
+    <string name="favorites_empty_title">अभी कोई पसंदीदा नहीं</string>
+    <string name="favorites_empty_message">कॉर्ड्स टैब में ब्राउज़ करें और किसी वॉइसिंग पर हार्ट आइकन टैप करके यहाँ सहेजें।</string>
+    <string name="favorites_all_count">सभी (%d)</string>
+    <string name="favorites_new_folder">नया फोल्डर</string>
+    <string name="favorites_folder_name">फोल्डर का नाम</string>
+    <string name="favorites_rename_folder">फोल्डर का नाम बदलें</string>
+    <string name="favorites_delete_folder">फोल्डर हटाएँ</string>
+    <string name="favorites_delete_folder_msg">फोल्डर \"%s\" हटाएँ? इस फोल्डर की वॉइसिंग हटाई नहीं जाएँगी।</string>
+    <string name="cd_rename_folder">फोल्डर का नाम बदलें</string>
+    <string name="cd_delete_folder">फोल्डर हटाएँ</string>
+    <string name="cd_manage_folders">फोल्डर प्रबंधित करें</string>
+    <string name="cd_reorder">क्रम बदलें</string>
+
+    <!-- ── Favorite Folder Sheet ────────────────────────────────────── -->
+    <string name="folder_sheet_manage">फोल्डर प्रबंधित करें</string>
+    <string name="folder_sheet_save_to">फोल्डर में सहेजें</string>
+    <string name="folder_sheet_no_folders">अभी कोई फोल्डर नहीं। नीचे एक बनाएँ।</string>
+    <string name="folder_sheet_new_folder">+ नया फोल्डर</string>
+    <string name="folder_sheet_remove">पसंदीदा से हटाएँ</string>
+
+    <!-- ── Songbook ─────────────────────────────────────────────────── -->
+    <string name="songbook_empty_title">अभी कोई गाना नहीं</string>
+    <string name="songbook_empty_message">अपनी पहली कॉर्ड शीट बनाने के लिए + टैप करें।\nया ChordPro फ़ाइल आयात करें।</string>
+    <string name="songbook_untitled">शीर्षकहीन</string>
+    <string name="songbook_share_as_text">टेक्स्ट के रूप में शेयर करें</string>
+    <string name="songbook_chord_sheet">कॉर्ड शीट</string>
+    <string name="songbook_export_chordpro">ChordPro के रूप में निर्यात करें</string>
+    <string name="songbook_export_chooser">ChordPro निर्यात करें</string>
+    <string name="songbook_key_prefix">कुंजी: </string>
+    <string name="songbook_transpose">ट्रांसपोज़:</string>
+    <string name="songbook_capo_hint">या मूल कॉर्ड्स के साथ कैपो %d का उपयोग करें</string>
+    <string name="songbook_field_title">शीर्षक</string>
+    <string name="songbook_field_artist">कलाकार (वैकल्पिक)</string>
+    <string name="songbook_field_lyrics_hint">कॉर्ड के लिए [कॉर्डनाम] का उपयोग करें, जैसे Some[C]where over the [Em]rainbow</string>
+    <string name="songbook_field_lyrics">[कॉर्ड] के साथ गीत</string>
+    <string name="cd_import_chordpro">ChordPro फ़ाइल आयात करें</string>
+    <string name="cd_new_chord_sheet">नई कॉर्ड शीट</string>
+    <string name="songbook_speed_half">0.5x</string>
+    <string name="songbook_speed_1x">1x</string>
+    <string name="songbook_speed_2x">2x</string>
+    <string name="songbook_speed_3x">3x</string>
+    <string name="cd_stop_scroll">स्क्रॉल रोकें</string>
+    <string name="cd_pause_scroll">स्क्रॉल रोकें</string>
+    <string name="cd_auto_scroll">ऑटो-स्क्रॉल</string>
+
+    <!-- ── Progressions ─────────────────────────────────────────────── -->
+    <string name="progressions_new">नया प्रोग्रेशन</string>
+    <string name="cd_add_progression">नया प्रोग्रेशन जोड़ें</string>
+    <string name="progressions_my">मेरे प्रोग्रेशन</string>
+    <string name="cd_delete_progression">प्रोग्रेशन हटाएँ</string>
+    <string name="cd_duplicate_progression">डुप्लिकेट</string>
+    <string name="progressions_voice_leading">वॉइस लीडिंग</string>
+    <string name="progressions_copy_suffix"> (कॉपी)</string>
+
+    <!-- ── Create Progression Sheet ─────────────────────────────────── -->
+    <string name="progression_edit_title">प्रोग्रेशन संपादित करें</string>
+    <string name="progression_create_title">प्रोग्रेशन बनाएँ</string>
+    <string name="progression_name_label">प्रोग्रेशन का नाम</string>
+    <string name="progression_desc_label">विवरण (वैकल्पिक)</string>
+    <string name="progression_chord_quality">कॉर्ड गुणवत्ता</string>
+    <string name="progression_triad">त्रिस्वर</string>
+    <string name="progression_tap_chords">जोड़ने के लिए कॉर्ड टैप करें</string>
+    <string name="progression_your_chords">आपका प्रोग्रेशन (%d कॉर्ड)</string>
+    <string name="progression_placeholder">अपना प्रोग्रेशन बनाने के लिए ऊपर के कॉर्ड टैप करें</string>
+    <string name="progression_update">प्रोग्रेशन अपडेट करें</string>
+    <string name="progression_save">प्रोग्रेशन सहेजें</string>
+    <string name="progression_error_min">कम से कम 2 कॉर्ड जोड़ें</string>
+    <string name="cd_remove">हटाएँ</string>
+
+    <!-- ── Strum Patterns ───────────────────────────────────────────── -->
+    <string name="patterns_strumming">स्ट्रमिंग</string>
+    <string name="patterns_fingerpicking">फिंगरपिकिंग</string>
+    <string name="patterns_my">मेरे पैटर्न</string>
+    <string name="cd_create_pattern">पैटर्न बनाएँ</string>
+    <string name="patterns_create_strum">स्ट्रम पैटर्न बनाएँ</string>
+    <string name="patterns_pattern_name">पैटर्न का नाम</string>
+    <string name="patterns_tap_beat">दिशा बदलने के लिए हर बीट टैप करें</string>
+    <string name="patterns_tap_accent">एक्सेंट टॉगल करने के लिए नीचे टैप करें</string>
+    <string name="patterns_custom">कस्टम पैटर्न</string>
+    <string name="patterns_create_fingerpick">फिंगरपिकिंग पैटर्न बनाएँ</string>
+    <string name="patterns_steps">%d स्टेप</string>
+    <string name="patterns_tap_step">एक स्टेप टैप करें, फिर नीचे उँगली और तार चुनें</string>
+    <string name="patterns_finger">उँगली</string>
+    <string name="patterns_thumb">अँगूठा</string>
+    <string name="patterns_index">तर्जनी</string>
+    <string name="patterns_middle">मध्यमा</string>
+    <string name="patterns_ring">अनामिका</string>
+    <string name="patterns_string">तार</string>
+
+    <!-- ── Playback Bar ─────────────────────────────────────────────── -->
+    <string name="playback_prefix">प्लेबैक: </string>
+    <string name="playback_bpm_prefix">BPM: </string>
+    <string name="cd_loop_on">लूप चालू</string>
+    <string name="cd_loop_off">लूप बंद</string>
+
+    <!-- ── Scale Selector ───────────────────────────────────────────── -->
+    <string name="scale_selector_root">स्केल रूट</string>
+    <string name="scale_selector_chords_in">%s के कॉर्ड्स</string>
+
+    <!-- ── Settings ─────────────────────────────────────────────────── -->
+    <string name="settings_title">सेटिंग्स</string>
+    <string name="settings_sound">ध्वनि</string>
+    <string name="settings_volume">वॉल्यूम</string>
+    <string name="settings_note_duration">नोट अवधि</string>
+    <string name="settings_strum_delay">स्ट्रम विलंब</string>
+    <string name="settings_strum_direction">स्ट्रम दिशा</string>
+    <string name="settings_strum_down">नीचे</string>
+    <string name="settings_strum_up">ऊपर</string>
+    <string name="settings_play_on_tap">टैप पर चलाएँ</string>
+    <string name="settings_display">प्रदर्शन</string>
+    <string name="settings_theme">थीम</string>
+    <string name="settings_language">भाषा</string>
+    <string name="settings_select_language">भाषा चुनें</string>
+    <string name="settings_tuning">ट्यूनिंग</string>
+    <string name="settings_tuner">ट्यूनर</string>
+    <string name="settings_spoken_feedback">बोली प्रतिक्रिया</string>
+    <string name="settings_spoken_feedback_desc">टेक्स्ट-टू-स्पीच का उपयोग करके नोट का नाम और सेंट विचलन बताता है</string>
+    <string name="settings_precision_mode">प्रिसिज़न मोड</string>
+    <string name="settings_precision_mode_desc">ट्यून ज़ोन को ±6 सेंट से ±2 सेंट तक सख्त करता है</string>
+    <string name="settings_auto_advance">ऑटो-एडवांस</string>
+    <string name="settings_auto_advance_desc">अगले अनट्यून्ड तार को स्वचालित रूप से हाइलाइट करता है</string>
+    <string name="settings_auto_start">ऑटो-स्टार्ट</string>
+    <string name="settings_auto_start_desc">ट्यूनर टैब खोलने पर स्वचालित रूप से सुनना शुरू करता है</string>
+    <string name="settings_a4_reference">A4 संदर्भ</string>
+    <string name="settings_fretboard">फ्रेटबोर्ड</string>
+    <string name="settings_left_handed">बाएँ हाथ का</string>
+    <string name="settings_show_note_names">नोट के नाम दिखाएँ</string>
+    <string name="settings_allow_muted">म्यूटेड तार अनुमति दें</string>
+    <string name="settings_frets">फ्रेट्स</string>
+    <string name="settings_notifications">सूचनाएँ</string>
+    <string name="settings_chord_of_day">आज का कॉर्ड</string>
+    <string name="settings_about">परिचय</string>
+    <string name="settings_version">संस्करण %s</string>
+    <string name="settings_website">वेबसाइट</string>
+    <string name="settings_credits">क्रेडिट</string>
+    <string name="settings_audio_samples">ऑडियो सैंपल</string>
+    <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" by stomachache (Freesound.org)</string>
+    <string name="settings_license">लाइसेंस</string>
+    <string name="settings_license_value">CC BY 3.0</string>
+    <string name="settings_tagline">कॉर्ड्स, स्केल, संगीत सिद्धांत और रचना के लिए आपका ऑल-इन-वन यूकुलेले साथी। मुफ़्त, ऑफ़लाइन, बिना विज्ञापन, बिना ट्रैकिंग।</string>
+    <string name="settings_unknown_version">अज्ञात</string>
+
+    <!-- ── Backup &amp; Restore ──────────────────────────────────────── -->
+    <string name="backup_title">बैकअप और रिस्टोर</string>
+    <string name="backup_description">अपना सारा डेटा (पसंदीदा, गाने, प्रोग्रेशन, पैटर्न, सेटिंग्स और सीखने की प्रगति) एक फ़ाइल में सहेजें, या बैकअप से रिस्टोर करें।</string>
+    <string name="backup_last">अंतिम बैकअप: %s</string>
+    <string name="cd_backup">डेटा बैकअप करें</string>
+    <string name="backup_button">बैकअप</string>
+    <string name="cd_restore">डेटा रिस्टोर करें</string>
+    <string name="restore_button">रिस्टोर</string>
+    <string name="restore_dialog_title">डेटा रिस्टोर करें?</string>
+    <string name="restore_dialog_message">यह बैकअप फ़ाइल से पसंदीदा, गाने, प्रोग्रेशन और पैटर्न को आपके मौजूदा डेटा के साथ मर्ज करेगा। सेटिंग्स बैकअप मानों से बदली जाएँगी।\n\nआपका मौजूदा डेटा हटाया नहीं जाएगा।</string>
+
+    <!-- ── Tuner Permission ─────────────────────────────────────────── -->
+    <string name="mic_permission_title">माइक्रोफ़ोन एक्सेस</string>
+    <string name="mic_permission_message">ट्यूनर को आपके यूकुलेले को सुनने और हर तार की पिच पहचानने के लिए माइक्रोफ़ोन एक्सेस की ज़रूरत है।</string>
+    <string name="mic_permission_allow">माइक्रोफ़ोन अनुमति दें</string>
+    <string name="mic_permission_denied_title">माइक्रोफ़ोन अस्वीकृत</string>
+    <string name="mic_permission_denied_message">ट्यूनर माइक्रोफ़ोन एक्सेस के बिना काम नहीं कर सकता। कृपया अपने डिवाइस की ऐप सेटिंग्स में इसे सक्षम करें।</string>
+    <string name="mic_permission_open_settings">सेटिंग्स खोलें</string>
+
+    <!-- ── Note Quiz ────────────────────────────────────────────────── -->
+    <string name="note_quiz_title">नोट क्विज़</string>
+    <string name="note_quiz_subtitle">फ्रेटबोर्ड नोट्स की अपनी जानकारी परखें।</string>
+    <string name="note_quiz_name_it">नाम बताएँ</string>
+    <string name="note_quiz_find_it">ढूँढें</string>
+    <string name="note_quiz_start">क्विज़ शुरू करें</string>
+    <string name="note_quiz_next">अगला प्रश्न</string>
+    <string name="note_quiz_what_note">इस स्थान पर कौन सा नोट है?</string>
+    <string name="note_quiz_string_fret">तार, फ्रेट</string>
+    <string name="note_quiz_where_is">यह नोट कहाँ है?</string>
+
+    <!-- ── Theory Quiz ──────────────────────────────────────────────── -->
+    <string name="theory_quiz_title">थ्योरी क्विज़</string>
+    <string name="theory_quiz_subtitle">अपने संगीत सिद्धांत ज्ञान की परीक्षा लें!</string>
+    <string name="theory_quiz_standard">स्टैंडर्ड</string>
+    <string name="theory_quiz_blitz">ब्लिट्ज़ (60s)</string>
+    <string name="theory_quiz_start_blitz">ब्लिट्ज़ शुरू करें!</string>
+    <string name="theory_quiz_start">क्विज़ शुरू करें</string>
+    <string name="theory_quiz_next">अगला प्रश्न</string>
+    <string name="theory_quiz_times_up">समय समाप्त!</string>
+    <string name="theory_quiz_final_score">स्कोर: %d</string>
+    <string name="theory_quiz_final_accuracy">सटीकता: %s</string>
+    <string name="theory_quiz_play_again">फिर से खेलें</string>
+
+    <!-- ── Interval Trainer ─────────────────────────────────────────── -->
+    <string name="interval_title">इंटरवल ट्रेनर</string>
+    <string name="interval_subtitle">दो नोट्स के बीच का इंटरवल पहचानें।</string>
+    <string name="interval_visual">विज़ुअल</string>
+    <string name="interval_audio">ऑडियो</string>
+    <string name="interval_ascending">आरोही</string>
+    <string name="interval_descending">अवरोही</string>
+    <string name="interval_harmonic">हार्मोनिक</string>
+    <string name="interval_start">प्रशिक्षण शुरू करें</string>
+    <string name="interval_next">अगला इंटरवल</string>
+    <string name="interval_what">यह कौन सा इंटरवल है?</string>
+    <string name="interval_replay">इंटरवल फिर से चलाएँ</string>
+    <string name="interval_semitone">सेमीटोन</string>
+    <string name="interval_semitones_apart">सेमीटोन का अंतर</string>
+
+    <!-- ── Chord Ear Training ───────────────────────────────────────── -->
+    <string name="chord_ear_title">कॉर्ड कान प्रशिक्षण</string>
+    <string name="chord_ear_subtitle">कान से कॉर्ड गुणवत्ता पहचानें।</string>
+    <string name="chord_ear_start">प्रशिक्षण शुरू करें</string>
+    <string name="chord_ear_next">अगला कॉर्ड</string>
+    <string name="chord_ear_what">यह किस प्रकार का कॉर्ड है?</string>
+    <string name="chord_ear_replay">कॉर्ड फिर से चलाएँ</string>
+
+    <!-- ── Scale Practice ───────────────────────────────────────────── -->
+    <string name="scale_practice_title">स्केल अभ्यास</string>
+    <string name="scale_practice_subtitle">गाइडेड प्ले-अलॉन्ग, क्विज़ और कान प्रशिक्षण से स्केल का अभ्यास करें।</string>
+    <string name="scale_practice_root">स्केल रूट</string>
+    <string name="scale_practice_options">विकल्प</string>
+    <string name="scale_practice_loop">लूप</string>
+    <string name="scale_practice_fretboard">फ्रेटबोर्ड</string>
+    <string name="scale_practice_play">स्केल चलाएँ</string>
+    <string name="scale_practice_resume">फिर से शुरू करें</string>
+    <string name="scale_practice_now">अभी:</string>
+    <string name="scale_practice_note_of">नोट %1$d / %2$d</string>
+    <string name="scale_practice_start_quiz">क्विज़ शुरू करें</string>
+    <string name="scale_practice_next">अगला प्रश्न</string>
+    <string name="scale_practice_what">कौन सा स्केल चल रहा है?</string>
+    <string name="scale_practice_root_label">रूट:</string>
+    <string name="scale_practice_replay">स्केल फिर से चलाएँ</string>
+    <string name="scale_practice_correct">सही! यह है</string>
+    <string name="scale_practice_notes_label">नोट्स:</string>
+    <string name="scale_practice_next_scale">अगला स्केल</string>
+    <string name="scale_practice_start_training">प्रशिक्षण शुरू करें</string>
+
+    <!-- ── Theory Lessons ───────────────────────────────────────────── -->
+    <string name="theory_lessons_title">संगीत सिद्धांत सीखें</string>
+    <string name="theory_lessons_subtitle">मूल बातों से उन्नत हार्मनी तक संरचित पाठ।</string>
+    <string name="theory_lessons_progress">प्रगति</string>
+    <string name="theory_lessons_count">%d पाठ</string>
+    <string name="theory_lessons_key_points">मुख्य बिंदु</string>
+    <string name="theory_lessons_quick_check">त्वरित जाँच</string>
+    <string name="theory_lessons_not_quite">बिल्कुल नहीं।</string>
+    <string name="theory_lessons_back">पाठों पर वापस जाएँ</string>
+
+    <!-- ── Learning Progress ────────────────────────────────────────── -->
+    <string name="progress_title">सीखने की प्रगति</string>
+    <string name="progress_subtitle">अपनी संगीत सिद्धांत यात्रा पर नज़र रखें।</string>
+    <string name="progress_practice_time">अभ्यास समय</string>
+    <string name="progress_today">आज</string>
+    <string name="progress_total">कुल</string>
+    <string name="progress_sessions">सत्र</string>
+    <string name="progress_daily_goal">दैनिक लक्ष्य: %d मिनट</string>
+    <string name="progress_day_streak">दिन की लगातार</string>
+    <string name="progress_lessons_done">पूर्ण पाठ</string>
+    <string name="progress_theory_lessons">थ्योरी पाठ</string>
+    <string name="progress_lessons_completed">पूर्ण पाठ</string>
+    <string name="progress_quizzes_passed">उत्तीर्ण क्विज़</string>
+    <string name="progress_overall">समग्र</string>
+    <string name="progress_reset">सभी प्रगति रीसेट करें</string>
+    <string name="progress_reset_title">प्रगति रीसेट करें?</string>
+    <string name="progress_reset_message">यह सभी सीखने की प्रगति, क्विज़ स्कोर, लगातार रिकॉर्ड और पाठ पूर्णता को मिटा देगा। इसे वापस नहीं किया जा सकता।</string>
+    <string name="progress_no_attempts">अभी कोई प्रयास नहीं।</string>
+
+    <!-- ── Daily Challenge ──────────────────────────────────────────── -->
+    <string name="daily_challenge_title">दैनिक चुनौतियाँ</string>
+    <string name="daily_challenge_subtitle">अपने कौशल को निखारने के लिए आज की चुनौतियाँ पूरी करें!</string>
+    <string name="daily_challenge_tip_title">दिन की सलाह</string>
+    <string name="daily_tip_1">रोज़ 5 मिनट का अभ्यास भी हफ़्ते में एक बार 1 घंटे से बेहतर है।</string>
+    <string name="daily_tip_2">कॉर्ड बदलने का अभ्यास करते समय मेट्रोनोम का उपयोग करें — धीमे शुरू करें और गति बढ़ाएँ।</string>
+    <string name="daily_tip_3">नया कॉर्ड सीखते समय, स्पष्टता जाँचने के लिए हर तार को अलग-अलग बजाएँ।</string>
+    <string name="daily_tip_4">स्ट्रम करते समय साथ में गुनगुनाने की कोशिश करें — यह आपके संगीत कान को विकसित करता है।</string>
+    <string name="daily_tip_5">अपने हाथ की स्थिति जाँचने के लिए आईने के सामने अभ्यास करें।</string>
+    <string name="daily_tip_6">गति के बजाय सहज ट्रांज़िशन पर ध्यान दें — गति समय के साथ आती है।</string>
+    <string name="daily_tip_7">अपने पसंदीदा गाने सीखें! प्रेरणा अभ्यास को आनंदमय बनाती है।</string>
+
+    <!-- ── SRS Practice ─────────────────────────────────────────────── -->
+    <string name="srs_title">स्पेस्ड रिपीटिशन</string>
+    <string name="srs_subtitle">दीर्घकालिक स्मृति के लिए इष्टतम अंतराल पर कॉर्ड की समीक्षा करें।</string>
+    <string name="srs_due">बकाया</string>
+    <string name="srs_reviewed">समीक्षित</string>
+    <string name="srs_total">कुल</string>
+    <string name="srs_no_cards">अभी कोई कार्ड नहीं</string>
+    <string name="srs_no_cards_message">कॉर्ड लाइब्रेरी से किसी वॉइसिंग को लंबे समय दबाकर और \"SRS में जोड़ें\" चुनकर अपने SRS डेक में कॉर्ड जोड़ें।</string>
+    <string name="srs_all_caught_up">सब पूरा!</string>
+    <string name="srs_session_done">आपने इस सत्र में %1$d %2$s की समीक्षा की। और समीक्षाओं के लिए बाद में आएँ।</string>
+    <string name="srs_card_singular">कार्ड</string>
+    <string name="srs_card_plural">कार्ड</string>
+    <string name="srs_no_due">अभी कोई कार्ड समीक्षा के लिए नहीं है। बाद में देखें!</string>
+    <string name="srs_card_remaining">कार्ड %1$d, %2$d शेष</string>
+    <string name="srs_recall_prompt">क्या आप फिंगरिंग याद कर सकते हैं?</string>
+    <string name="srs_show_voicing">वॉइसिंग दिखाएँ</string>
+    <string name="srs_frets">फ्रेट्स: %s</string>
+    <string name="srs_how_well">आपको कितना अच्छा याद रहा?</string>
+
+    <!-- ── Practice Routine ─────────────────────────────────────────── -->
+    <string name="routine_title">अभ्यास रूटीन</string>
+    <string name="routine_subtitle">अपना अभ्यास सत्र सेट करें।</string>
+    <string name="routine_duration">अवधि: %d मिनट</string>
+    <string name="routine_skill_level">कौशल स्तर</string>
+    <string name="routine_focus_areas">फोकस क्षेत्र</string>
+    <string name="routine_start">अभ्यास रूटीन शुरू करें</string>
+    <string name="cd_start_routine">अभ्यास रूटीन शुरू करें</string>
+    <string name="routine_total">कुल %1$d मिनट, %2$d चरण</string>
+    <string name="cd_new_routine">नई रूटीन</string>
+    <string name="routine_complete_title">अभ्यास पूर्ण!</string>
+    <string name="routine_complete_message">शानदार सत्र! रोज़ अभ्यास जारी रखें।</string>
+    <string name="cd_practice_complete">अभ्यास पूर्ण</string>
+    <string name="cd_completed">पूर्ण</string>
+
+    <!-- ── Chord Transition Trainer ─────────────────────────────────── -->
+    <string name="chord_transition_title">कॉर्ड ट्रांज़िशन ट्रेनर</string>
+    <string name="chord_transition_subtitle">दो कॉर्ड के बीच समय पर बदलने का अभ्यास करें।</string>
+    <string name="chord_transition_chord_a">कॉर्ड A</string>
+    <string name="chord_transition_chord_b">कॉर्ड B</string>
+    <string name="cd_swap_chords">कॉर्ड बदलें</string>
+    <string name="chord_transition_switches">स्विच</string>
+    <string name="chord_transition_time">समय</string>
+    <string name="chord_transition_per_min">प्रति मिनट</string>
+    <string name="cd_reset">रीसेट</string>
+    <string name="cd_start">शुरू करें</string>
+    <string name="cd_stop">रोकें</string>
+
+    <!-- ── Chord Transition Animation ───────────────────────────────── -->
+    <string name="transition_anim_finger_movements">उँगली की गतिविधियाँ</string>
+    <string name="transition_anim_no_movement">कोई उँगली हिलाने की ज़रूरत नहीं!</string>
+    <string name="transition_anim_speed">गति:</string>
+    <string name="transition_anim_animate">ट्रांज़िशन एनिमेट करें</string>
+    <string name="cd_animate_transition">ट्रांज़िशन एनिमेट करें</string>
+    <string name="cd_prev_step">पिछला चरण</string>
+    <string name="cd_next_step">अगला चरण</string>
+    <string name="transition_anim_start_shape">शुरुआती आकार</string>
+    <string name="transition_anim_end_shape">अंतिम आकार</string>
+    <string name="transition_anim_step">चरण %1$d/%2$d</string>
+
+    <!-- ── Play Along ───────────────────────────────────────────────── -->
+    <string name="play_along_title">साथ बजाएँ</string>
+    <string name="play_along_subtitle">सुनें और सही कॉर्ड बजाएँ!</string>
+    <string name="play_along_mic_needed">कॉर्ड पहचान के लिए माइक्रोफ़ोन एक्सेस आवश्यक</string>
+    <string name="cd_grant_permission">माइक्रोफ़ोन अनुमति दें</string>
+    <string name="play_along_grant">अनुमति दें</string>
+    <string name="play_along_play">बजाएँ:</string>
+    <string name="play_along_heard">सुना:</string>
+    <string name="cd_correct">सही</string>
+    <string name="cd_incorrect">गलत</string>
+    <string name="play_along_grade">ग्रेड</string>
+    <string name="play_along_choose">एक कुंजी और प्रोग्रेशन चुनें, फिर रियल-टाइम कॉर्ड पहचान के साथ बजाएँ।</string>
+    <string name="play_along_progression">प्रोग्रेशन</string>
+
+    <!-- ── Achievements ─────────────────────────────────────────────── -->
+    <string name="achievements_title">उपलब्धियाँ</string>
+    <string name="achievements_subtitle">अभ्यास और सीखकर बैज अर्जित करें।</string>
+    <string name="achievements_unlocked">%d अनलॉक</string>
+    <string name="achievements_earned">अर्जित</string>
+
+    <!-- ── Help ──────────────────────────────────────────────────────── -->
+    <string name="help_title">सहायता</string>
+    <string name="help_subtitle">किसी भी सुविधा पर टैप करें और जानें कि यह कैसे काम करती है।</string>
+    <string name="help_section_play">बजाएँ</string>
+    <string name="help_section_create">बनाएँ</string>
+    <string name="help_section_learn">सीखें</string>
+    <string name="help_section_reference">संदर्भ</string>
+    <string name="help_section_other">अन्य</string>
+
+    <!-- Help item titles (matching nav labels) -->
+    <string name="help_explorer">एक्सप्लोरर</string>
+    <string name="help_tuner">ट्यूनर</string>
+    <string name="help_pitch_monitor">पिच मॉनिटर</string>
+    <string name="help_chords">कॉर्ड्स</string>
+    <string name="help_favorites">पसंदीदा</string>
+    <string name="help_song_finder">गाना खोजें</string>
+    <string name="help_songs">गाने</string>
+    <string name="help_melody_notepad">मेलोडी नोटपैड</string>
+    <string name="help_patterns">पैटर्न</string>
+    <string name="help_progressions">प्रोग्रेशन</string>
+    <string name="help_learn_theory">थ्योरी सीखें</string>
+    <string name="help_theory_quiz">थ्योरी क्विज़</string>
+    <string name="help_interval_trainer">इंटरवल ट्रेनर</string>
+    <string name="help_note_quiz">नोट क्विज़</string>
+    <string name="help_chord_ear">कॉर्ड कान प्रशिक्षण</string>
+    <string name="help_scale_practice">स्केल अभ्यास</string>
+    <string name="help_progress">प्रगति</string>
+    <string name="help_daily_challenge">दैनिक चुनौती</string>
+    <string name="help_practice_routine">अभ्यास रूटीन</string>
+    <string name="help_srs_review">SRS समीक्षा</string>
+    <string name="help_chord_transitions">कॉर्ड ट्रांज़िशन</string>
+    <string name="help_play_along">साथ बजाएँ</string>
+    <string name="help_achievements">उपलब्धियाँ</string>
+    <string name="help_capo_guide">कैपो गाइड</string>
+    <string name="help_circle_of_fifths">पंचम चक्र</string>
+    <string name="help_chord_subs">कॉर्ड प्रतिस्थापन</string>
+    <string name="help_chords_in_scale">स्केल के कॉर्ड्स</string>
+    <string name="help_fretboard_notes">फ्रेटबोर्ड नोट्स</string>
+    <string name="help_glossary">शब्दावली</string>
+    <string name="help_settings">सेटिंग्स</string>
+    <string name="help_sharing">कॉर्ड शेयर करें</string>
+    <string name="help_full_screen">पूर्ण स्क्रीन मोड</string>
+
+    <!-- Help descriptions -->
+    <string name="help_desc_explorer">इंटरैक्टिव फ्रेटबोर्ड जहाँ आप फ्रेट टैप करके कॉर्ड बनाते हैं। ऐप पहचानता है कि आप कौन सा कॉर्ड बजा रहे हैं और इन्वर्शन, इंटरवल और वैकल्पिक नाम दिखाता है। कॉर्ड और स्केल कैसे एक साथ फिट होते हैं यह खोजने के लिए कैपो सिलेक्टर और स्केल ओवरले शामिल है।</string>
+    <string name="help_desc_tuner">आपके डिवाइस के माइक्रोफ़ोन का उपयोग करने वाला क्रोमैटिक ट्यूनर। पहचाने गए नोट, सुई मीटर पर सेंट विचलन और सरल मार्गदर्शन (\"ऊपर ट्यून करें\", \"ट्यून में है!\") दिखाता है। संदर्भ टोन के लिए तार बटन टैप करें। कई ट्यूनिंग, A4 कैलिब्रेशन, बोली प्रतिक्रिया और प्रिसिज़न मोड का समर्थन करता है।</string>
+    <string name="help_desc_pitch_monitor">रियल-टाइम पिच विज़ुअलाइज़ेशन टूल। एक स्क्रॉलिंग ग्राफ पर पहचानी गई पिच दिखाता है, वर्तमान नोट नाम प्रदर्शित करता है और मिलान कॉर्ड हाइलाइट करता है। मेलोडी बजाते या बेंड का अभ्यास करते समय इंटोनेशन जाँचने के लिए उपयोगी।</string>
+    <string name="help_desc_chords">व्यापक कॉर्ड लाइब्रेरी। मूल नोट और कॉर्ड प्रकार चुनें और यूकुलेले पर सभी बजाने योग्य वॉइसिंग देखें। किसी वॉइसिंग को एक्सप्लोरर फ्रेटबोर्ड पर लोड करने के लिए टैप करें, या शेयर, पसंदीदा में जोड़ने या SRS में जोड़ने के लिए लंबे समय दबाएँ। इन्वर्शन तुलना मोड शामिल है।</string>
+    <string name="help_desc_favorites">आपकी सहेजी गई कॉर्ड वॉइसिंग, फोल्डर में व्यवस्थित। फ्रेटबोर्ड पर देखने के लिए वॉइसिंग टैप करें, विकल्पों के लिए स्वाइप या लंबे समय दबाएँ। विशिष्ट गानों या अभ्यास सत्रों के लिए कॉर्ड को फोल्डर में समूहित करें।</string>
+    <string name="help_desc_song_finder">अपने पसंदीदा में कॉर्ड से बजा सकने वाले गाने खोजें। आप जितने अधिक कॉर्ड सहेजेंगे, उतने अधिक गाने अनलॉक होंगे। ऐसे गाने भी दिखाता है जिनके लिए बस 1-2 और कॉर्ड चाहिए।</string>
+    <string name="help_desc_songs">कॉर्ड शीट लिखने और संग्रहीत करने के लिए व्यक्तिगत गानों की किताब। बोल टाइप करें और ब्रैकेट नोटेशन से कॉर्ड डालें: \"Some[C]where over the [Em]rainbow\"। ट्रांसपोज़, कैपो सुझाव, ऑटो-स्क्रॉल और ChordPro फ़ाइलों का आयात/निर्यात समर्थित।</string>
+    <string name="help_desc_melody_notepad">नोट-दर-नोट मेलोडी रचने का एक सरल टूल। नोट टैप करके सीक्वेंस बनाएँ, नोट अवधि (पूर्ण, आधा, चौथाई, आठवाँ, सोलहवाँ) चुनें, विराम जोड़ें, और एडजस्टेबल BPM पर वापस सुनें। मेलोडी विचार या अभ्यास नोट करने के लिए बढ़िया।</string>
+    <string name="help_desc_patterns">स्ट्रमिंग और फिंगरपिकिंग पैटर्न ब्राउज़ करें और बनाएँ। स्ट्रम दिशा (नीचे, ऊपर, म्यूट, विराम) बदलने के लिए बीट इंडिकेटर टैप करें या तारों को उँगलियाँ असाइन करें। एडजस्टेबल टेम्पो पर चलाएँ।</string>
+    <string name="help_desc_progressions">हर कुंजी में सामान्य कॉर्ड प्रोग्रेशन की लाइब्रेरी। किसी भी कॉर्ड को लाइब्रेरी में देखने के लिए टैप करें। अपने कस्टम प्रोग्रेशन बनाएँ, बिल्ट-इन मेट्रोनोम प्लेबैक से अभ्यास करें, या कॉर्ड के बीच वॉइस लीडिंग एक्सप्लोर करें।</string>
+    <string name="help_desc_learn_theory">नोट्स, इंटरवल, स्केल, कॉर्ड, कुंजी और हार्मनी को कवर करने वाले संरचित संगीत सिद्धांत पाठ। हर पाठ में मुख्य बिंदु और त्वरित जाँच क्विज़ है ताकि आगे बढ़ने से पहले अपनी समझ सत्यापित कर सकें।</string>
+    <string name="help_desc_theory_quiz">इंटरवल, कॉर्ड निर्माण, कुंजी हस्ताक्षर और स्केल डिग्री जैसे संगीत सिद्धांत अवधारणाओं के अपने ज्ञान की परीक्षा लें। अतिरिक्त चुनौती के लिए स्टैंडर्ड मोड और टाइम्ड ब्लिट्ज़ (60 s) मोड शामिल।</string>
+    <string name="help_desc_interval_trainer">संगीत इंटरवल के लिए कान प्रशिक्षण। विज़ुअल (फ्रेटबोर्ड) या ऑडियो मोड, आरोही, अवरोही या हार्मोनिक प्रस्तुति चुनें, और कठिनाई स्तर चुनें। इंटरवल पहचानें और अपने सापेक्ष पिच कौशल विकसित करें।</string>
+    <string name="help_desc_note_quiz">एक टाइम्ड क्विज़ जो फ्रेटबोर्ड पर नोट्स पहचानने की चुनौती देती है। \"नाम बताएँ\" मोड में आप स्थान देखकर नोट अनुमान लगाते हैं; \"ढूँढें\" मोड में आप नोट देखकर उसकी स्थान टैप करते हैं। कठिनाई स्तर फ्रेट रेंज सीमित करते हैं।</string>
+    <string name="help_desc_chord_ear">एक कॉर्ड सुनें और उसका प्रकार (मेजर, माइनर, डिमिनिश्ड आदि) पहचानें। कठिनाई स्तर अधिक कॉर्ड प्रकार जोड़ते हैं। हार्मोनिक कान विकसित करने का बेहतरीन तरीका।</string>
+    <string name="help_desc_scale_practice">तीन मोड में फ्रेटबोर्ड पर स्केल अभ्यास करें: प्ले अलॉन्ग (वैकल्पिक मेट्रोनोम के साथ गाइडेड), क्विज़ (चल रहे स्केल की पहचान), और कान प्रशिक्षण। सभी स्केल प्रकार, वैकल्पिक लूपिंग और कॉम्पैक्ट फ्रेटबोर्ड व्यू समर्थित।</string>
+    <string name="help_desc_progress">आपके सीखने के आँकड़े दिखाने वाला डैशबोर्ड: अभ्यास समय, दिन की लगातार, पूर्ण पाठ और थ्योरी, इंटरवल, नोट क्विज़ और कॉर्ड कान प्रशिक्षण के क्विज़ स्कोर। निरंतरता और सुधार ट्रैक करने में मदद करता है।</string>
+    <string name="help_desc_daily_challenge">आपकी अभ्यास दिनचर्या को विविध रखने के लिए हर दिन तीन ताज़ी चुनौतियाँ। प्रत्येक चुनौती एक अलग कौशल को लक्षित करती है — कॉर्ड, स्केल, कान प्रशिक्षण, थ्योरी या ट्रांज़िशन। इन्हें पूरा करने से निरंतरता बनती है।</string>
+    <string name="help_desc_practice_routine">गाइडेड अभ्यास सत्र बिल्डर। अवधि, कौशल स्तर और फोकस क्षेत्र चुनकर एक चरण-दर-चरण रूटीन जनरेट करें। ऐप वार्म-अप, तकनीक, रिपर्टरी और कूल-डाउन को कवर करने वाला टाइम्ड अभ्यास अनुक्रम बनाता है।</string>
+    <string name="help_desc_srs_review">कॉर्ड वॉइसिंग याद रखने के लिए स्पेस्ड रिपीटिशन सिस्टम। लाइब्रेरी से कॉर्ड जोड़ें, और ऐप इस आधार पर बढ़ते अंतराल पर समीक्षा शेड्यूल करता है कि आपको प्रत्येक वॉइसिंग कितनी अच्छी तरह याद है। आपकी कॉर्ड शब्दावली को कुशलता से बढ़ाता है।</string>
+    <string name="help_desc_chord_transitions">दो कॉर्ड के बीच आपकी उँगलियाँ कैसे चलती हैं, विज़ुअलाइज़ करें। दो कॉर्ड चुनें और उँगली की गतिविधियों का चरण-दर-चरण एनिमेशन देखें। स्विच काउंटर और BPM कंट्रोल के साथ टाइम्ड अभ्यास मोड शामिल।</string>
+    <string name="help_desc_play_along">ऑडियो कॉर्ड पहचान के साथ रियल-टाइम प्ले-अलॉन्ग अभ्यास। कुंजी और प्रोग्रेशन चुनें, फिर बजाएँ जबकि ऐप सुनता है और आपकी सटीकता का मूल्यांकन करता है। माइक्रोफ़ोन अनुमति आवश्यक।</string>
+    <string name="help_desc_achievements">ऐप का उपयोग करते हुए अनलॉक करने योग्य उपलब्धियों की गैलरी। अभ्यास लगातार, क्विज़ स्कोर, बनाए गए गाने, सीखे गए कॉर्ड और अन्य के लिए बैज अर्जित करें। अपनी प्रगति देखने के लिए वापस आएँ।</string>
+    <string name="help_desc_capo_guide">यूकुलेले पर कैपो उपयोग करने के बारे में शैक्षिक गाइड। बताता है कि कैपो क्या करता है, यह पिच कैसे बदलता है, सामान्य स्थितियाँ सूचीबद्ध करता है और संदर्भ तालिका के साथ इंटरैक्टिव ट्राई-इट सेक्शन शामिल है।</string>
+    <string name="help_desc_circle_of_fifths">इंटरैक्टिव पंचम चक्र आरेख। किसी भी कुंजी को टैप करके उसका कुंजी हस्ताक्षर, सम्बंधित माइनर/मेजर, डायटोनिक कॉर्ड और निकट सम्बंधित कुंजियाँ देखें। कुंजी संबंधों को समझने के लिए मूलभूत संदर्भ।</string>
+    <string name="help_desc_chord_subs">कॉर्ड प्रतिस्थापन विकल्पों के लिए संदर्भ गाइड। एक मूल कॉर्ड चुनें और देखें कि कौन से कॉर्ड इसे बदल सकते हैं और क्यों — सम्बंधित माइनर, ट्राइटोन सब, मोडल इंटरचेंज और अन्य। प्रत्येक प्रतिस्थापन इसके पीछे की थ्योरी बताता है।</string>
+    <string name="help_desc_chords_in_scale">एक स्केल चुनें और उसमें स्वाभाविक रूप से बनने वाले सभी कॉर्ड देखें। रोमन अंक विश्लेषण के साथ डायटोनिक त्रिस्वर दिखाता है। गीत लेखन और किसी भी कुंजी में हार्मनी समझने के लिए उपयोगी।</string>
+    <string name="help_desc_fretboard_notes">यूकुलेले फ्रेटबोर्ड पर हर नोट दिखाने वाला विज़ुअल मैप। किसी विशिष्ट नोट को हाइलाइट करके उसकी सभी स्थितियाँ देखें। High-G और Low-G ट्यूनिंग समर्थित। किसी भी नोट को सुनने के लिए टैप करें।</string>
+    <string name="help_desc_glossary">संगीत सिद्धांत और यूकुलेले शब्दों का खोज योग्य शब्दकोश — अर्पेजियो से वॉइसिंग तक। प्रत्येक प्रविष्टि में संक्षिप्त परिभाषा और, जहाँ उपयोगी हो, उदाहरण शामिल है।</string>
+    <string name="help_desc_settings">ऐप-व्यापी प्राथमिकताएँ कॉन्फ़िगर करें: ध्वनि (वॉल्यूम, स्ट्रम विलंब, दिशा), प्रदर्शन (थीम), ट्यूनिंग (High-G, Low-G, बैरीटोन आदि), ट्यूनर (बोली प्रतिक्रिया, प्रिसिज़न मोड, A4 कैलिब्रेशन), फ्रेटबोर्ड (बाएँ हाथ का, फ्रेट संख्या) और सूचनाएँ।</string>
+    <string name="help_desc_sharing">किसी भी कॉर्ड को छवि के रूप में शेयर करें। एक्सप्लोरर या कॉर्ड लाइब्रेरी में कॉर्ड देखते समय, शेयर आइकन टैप करके एक साफ़ कॉर्ड डायग्राम छवि जनरेट करें जिसे आप दोस्तों को भेज सकते हैं या सोशल मीडिया पर पोस्ट कर सकते हैं।</string>
+    <string name="help_desc_full_screen">लैंडस्केप पूर्ण-स्क्रीन फ्रेटबोर्ड में जाने के लिए एक्सप्लोरर टैब में एक्सपैंड आइकन टैप करें। उन अभ्यास सत्रों के लिए बढ़िया जहाँ आप UI विकर्षण के बिना अधिकतम फ्रेटबोर्ड दृश्यता चाहते हैं।</string>
+
+    <!-- ── Glossary ─────────────────────────────────────────────────── -->
+    <string name="glossary_title">संगीत शब्दावली</string>
+    <string name="glossary_term_count">%d शब्द जो संगीत सिद्धांत और यूकुलेले को कवर करते हैं।</string>
+    <string name="glossary_search_hint">शब्द खोजें…</string>
+    <string name="glossary_no_match">कोई मिलान शब्द नहीं मिला।</string>
+    <string name="glossary_example">उदाहरण:</string>
+
+    <!-- ── Circle of Fifths ─────────────────────────────────────────── -->
+    <string name="circle_title">पंचम चक्र</string>
+    <string name="circle_subtitle">कुंजी हस्ताक्षर और कॉर्ड देखने के लिए कोई कुंजी टैप करें। आसपास की कुंजियाँ निकट संबंधित हैं।</string>
+    <string name="circle_cd_selected">पंचम चक्र आरेख, %s चयनित। अलग कुंजी चुनने के लिए टैप करें।</string>
+    <string name="circle_cd_default">पंचम चक्र आरेख। कुंजी चुनने के लिए टैप करें।</string>
+    <string name="circle_key_signature">कुंजी हस्ताक्षर</string>
+    <string name="circle_relative_minor">सम्बंधित माइनर</string>
+    <string name="circle_relative_major">सम्बंधित मेजर</string>
+    <string name="circle_diatonic_chords">डायटोनिक कॉर्ड</string>
+    <string name="circle_related_keys">निकट सम्बंधित कुंजियाँ</string>
+    <string name="circle_same_as">जैसा कि</string>
+
+    <!-- ── Capo Guide ───────────────────────────────────────────────── -->
+    <string name="capo_guide_what">कैपो क्या है?</string>
+    <string name="capo_guide_pitch">यह पिच कैसे बदलता है</string>
+    <string name="capo_guide_positions">सामान्य कैपो स्थितियाँ</string>
+    <string name="capo_guide_when">कैपो कब उपयोग करें</string>
+    <string name="capo_guide_try">खुद आज़माएँ!</string>
+    <string name="capo_guide_ref_table">संदर्भ तालिका जो दिखाती है कि कौन से आकार कौन सी ध्वनि कुंजियाँ बनाते हैं:</string>
+    <string name="capo_guide_open_shapes">सामान्य ओपन कॉर्ड आकार (कैपो के साथ अच्छे):</string>
+    <string name="capo_guide_tap_fret">कैपो लगाने के लिए फ्रेट टैप करें:</string>
+    <string name="capo_guide_no_capo">कोई कैपो नहीं — मानक ट्यूनिंग</string>
+    <string name="capo_guide_on_fret">फ्रेट %d पर कैपो</string>
+    <string name="capo_guide_was_note">(पहले %s था)</string>
+    <string name="capo_guide_shape">आकार</string>
+    <string name="capo_guide_sounds_as">ध्वनि</string>
+    <string name="capo_guide_string">तार %d</string>
+
+    <!-- ── Capo Calculator ──────────────────────────────────────────── -->
+    <string name="capo_calc_title">कैपो कैलकुलेटर</string>
+    <string name="capo_calc_sounding">ध्वनि: %s</string>
+    <string name="capo_calc_hint">समान ध्वनि वाले सरल आकार बजाने के लिए कैपो लगाएँ।</string>
+    <string name="capo_calc_no_capo">कोई कैपो नहीं</string>
+    <string name="capo_calc_fret">फ्रेट %d</string>
+    <string name="capo_calc_play_shape">बजाएँ: %s</string>
+    <string name="capo_calc_recommended">अनुशंसित</string>
+    <string name="capo_calc_frets">फ्रेट्स: %s</string>
+    <string name="capo_calc_ease">आसानी: %d%%</string>
+    <string name="capo_calc_no_positions">इस कॉर्ड के लिए कोई कैपो स्थिति उपलब्ध नहीं।</string>
+    <string name="capo_helper_title">कैपो हेल्पर</string>
+    <string name="capo_helper_hint">इस प्रोग्रेशन के लिए सबसे आसान कैपो स्थिति खोजें।</string>
+    <string name="capo_helper_shapes">आकार: %s</string>
+    <string name="capo_helper_ease">समग्र आसानी: %d%%</string>
+    <string name="capo_helper_no_positions">इस प्रोग्रेशन के लिए कोई कैपो स्थिति उपलब्ध नहीं।</string>
+
+    <!-- ── Capo Visualizer ──────────────────────────────────────────── -->
+    <string name="capo_viz_title">कैपो विज़ुअलाइज़र</string>
+    <string name="capo_viz_shape">आकार: %s</string>
+    <string name="capo_viz_with_capo">फ्रेट %1$d पर कैपो → %2$s के रूप में बजता है</string>
+    <string name="capo_viz_no_capo">कोई कैपो नहीं — %s के रूप में बजता है</string>
+    <string name="capo_viz_position">कैपो स्थिति</string>
+    <string name="capo_viz_no_capo_label">कोई कैपो नहीं</string>
+    <string name="capo_viz_fret">फ्रेट %d</string>
+    <string name="capo_viz_sounding">ध्वनि</string>
+    <string name="capo_viz_same">समान</string>
+    <string name="capo_viz_tip">सुझाव: फ्रेट %1$d पर कैपो के साथ, आप %2$s आकार बजाते हैं लेकिन यह %3$s के रूप में बजता है। हर फ्रेट पिच को एक सेमीटोन ऊपर उठाता है।</string>
+
+    <!-- ── Chord Substitutions ──────────────────────────────────────── -->
+    <string name="chord_subs_title">कॉर्ड प्रतिस्थापन</string>
+    <string name="chord_subs_subtitle">सीखें कि हार्मोनिक समझ बनाए रखते हुए विभिन्न रंग और मूड बनाने वाले विकल्पों से कॉर्ड कैसे बदलें।</string>
+    <string name="chord_subs_examples_in">कुंजी के उदाहरण:</string>
+    <string name="chord_subs_practice_tip_title">अभ्यास सुझाव</string>
+    <string name="chord_subs_practice_tip">डायटोनिक प्रतिस्थापन और सम्बंधित मेजर/माइनर स्वैप से शुरू करें — ये हमेशा अच्छे लगते हैं। सहज होने पर, अधिक रंग के लिए मोडल इंटरचेंज आज़माएँ। ट्राइटोन सब और सेकेंडरी डॉमिनेंट जैज हार्मनी एक्सप्लोर करने के लिए तैयार होने पर रखें।</string>
+    <string name="chord_subs_shared">साझा: %s</string>
+
+    <!-- ── Scale Chord View ─────────────────────────────────────────── -->
+    <string name="scale_chord_title">स्केल के कॉर्ड्स</string>
+    <string name="scale_chord_subtitle">देखें कि किसी भी स्केल से कौन से कॉर्ड बनते हैं।</string>
+    <string name="scale_chord_notes">नोट्स: %s</string>
+    <string name="scale_chord_too_few">इस स्केल में मानक त्रिस्वर बनाने के लिए बहुत कम नोट हैं।</string>
+    <string name="scale_chord_diatonic">डायटोनिक त्रिस्वर</string>
+
+    <!-- ── Fretboard Note Map ───────────────────────────────────────── -->
+    <string name="note_map_title">फ्रेटबोर्ड नोट मैप</string>
+    <string name="note_map_subtitle">यूकुलेले फ्रेटबोर्ड पर हर नोट सीखें।</string>
+    <string name="note_map_high_g">स्टैंडर्ड (High G)</string>
+    <string name="note_map_low_g">Low-G</string>
+    <string name="note_map_highlight">नोट हाइलाइट करें</string>
+    <string name="note_map_tips_title">सुझाव</string>
+    <string name="note_map_tip_1">सुनने के लिए किसी भी नोट को टैप करें</string>
+    <string name="note_map_tip_2">किसी नोट की सभी स्थितियाँ खोजने के लिए हाइलाइट फ़िल्टर उपयोग करें</string>
+    <string name="note_map_tip_3">फ्रेट 12 के नोट फ्रेट 0 जैसे ही हैं (एक ऑक्टेव ऊपर)</string>
+    <string name="note_map_tip_4">G तार कैसे बदलता है देखने के लिए Low-G पर स्विच करें</string>
+    <string name="note_map_string">तार %d</string>
+
+    <!-- ── Fretboard View ───────────────────────────────────────────── -->
+    <string name="fretboard_string">तार, </string>
+    <string name="fretboard_open">खुला</string>
+    <string name="fretboard_fret">फ्रेट %d</string>
+    <string name="fretboard_selected">, चयनित</string>
+    <string name="fretboard_in_scale">, स्केल में</string>
+    <string name="fretboard_scale_root">, स्केल रूट</string>
+    <string name="fretboard_blocked">, कैपो द्वारा अवरुद्ध</string>
+    <string name="fretboard_blocked_text">कैपो द्वारा अवरुद्ध</string>
+
+    <!-- ── Vertical Chord Diagram ───────────────────────────────────── -->
+    <string name="diagram_chord_cd">कॉर्ड %s</string>
+    <string name="diagram_string_muted">तार म्यूटेड</string>
+    <string name="diagram_string_open">तार खुला</string>
+    <string name="diagram_string_fret">तार फ्रेट %d</string>
+    <string name="diagram_capo_fret">फ्रेट %d पर कैपो</string>
+
+    <!-- ── Share Chord ──────────────────────────────────────────────── -->
+    <string name="share_as_image">छवि के रूप में शेयर करें</string>
+    <string name="share_diagram_attribution">Ukulele Companion</string>
+
+    <!-- ── Melody Notepad ───────────────────────────────────────────── -->
+    <string name="melody_title">मेलोडी नोटपैड</string>
+    <string name="melody_subtitle">मेलोडी बनाने के लिए नोट टैप करें। सुनने के लिए प्ले दबाएँ।</string>
+    <string name="melody_sequence">सीक्वेंस (%d नोट)</string>
+    <string name="melody_placeholder">रचना शुरू करने के लिए नीचे कोई नोट टैप करें</string>
+    <string name="melody_whole">पूर्ण</string>
+    <string name="melody_half">आधा</string>
+    <string name="melody_quarter">चौथाई</string>
+    <string name="melody_eighth">आठवाँ</string>
+    <string name="melody_sixteenth">सोलहवाँ</string>
+    <string name="melody_note_duration">नोट अवधि</string>
+    <string name="melody_tap_to_add">नोट जोड़ने के लिए टैप करें</string>
+    <string name="melody_rest">विराम</string>
+    <string name="cd_delete_note">नोट हटाएँ</string>
+    <string name="cd_play_melody">मेलोडी चलाएँ</string>
+    <string name="cd_stop_playing">चलाना बंद करें</string>
+    <string name="cd_clear_all">सभी नोट साफ़ करें</string>
+    <string name="melody_clear">साफ़ करें</string>
+
+    <!-- ── Song Finder ──────────────────────────────────────────────── -->
+    <string name="song_finder_title">गाना खोजें</string>
+    <string name="song_finder_subtitle">अपने ज्ञात कॉर्ड से बजा सकने वाले गाने खोजें।</string>
+    <string name="song_finder_no_chords_title">अभी कोई ज्ञात कॉर्ड नहीं</string>
+    <string name="song_finder_no_chords_message">कुछ कॉर्ड वॉइसिंग पसंदीदा में सहेजें, और हम आपके बजा सकने वाले गाने खोजेंगे!</string>
+    <string name="song_finder_your_chords">आपके कॉर्ड (%d)</string>
+    <string name="song_finder_songs_can_play">आप बजा सकते हैं (%d)</string>
+    <string name="song_finder_learn_more">1-2 और कॉर्ड सीखें (%d)</string>
+    <string name="song_finder_hide">छिपाएँ</string>
+    <string name="song_finder_show">दिखाएँ</string>
+    <string name="song_finder_keep_learning">और गाने अनलॉक करने के लिए नए कॉर्ड सीखते रहें!</string>
+    <string name="song_finder_learn_prefix">सीखें: </string>
+
+    <!-- ── Voice Leading ────────────────────────────────────────────── -->
+    <string name="cd_back_progressions">प्रोग्रेशन पर वापस जाएँ</string>
+    <string name="voice_leading_title">%s में वॉइस लीडिंग</string>
+    <string name="voice_leading_common_tones">%d साझा स्वर</string>
+    <string name="voice_leading_common_tones_plural">%d साझा स्वर</string>
+    <string name="voice_leading_fret_movement">कुल %d फ्रेट गति</string>
+    <string name="voice_leading_frets_movement">कुल %d फ्रेट गति</string>
+    <string name="voice_leading_stays">रहता है </string>
+    <string name="voice_leading_muted">म्यूटेड</string>
+    <string name="voice_leading_fret_prefix">फ्रेट </string>
+    <string name="voice_leading_arrow"> → </string>
+    <string name="voice_leading_tip_singular">सुझाव: %1$s तार पर उँगली रखें — दोनों कॉर्ड में एक ही नोट।</string>
+    <string name="voice_leading_tip_plural">सुझाव: %1$s तारों पर उँगलियाँ रखें — दोनों कॉर्ड में एक ही नोट।</string>
+    <string name="voice_leading_total_path">कुल पथ: %2$d ट्रांज़िशन में %1$d फ्रेट गति</string>
+    <string name="voice_leading_prev">पिछला</string>
+    <string name="cd_play_all_voice_leadings">सभी वॉइस लीडिंग चलाएँ</string>
+    <string name="voice_leading_play_all">सब चलाएँ</string>
+    <string name="voice_leading_next">अगला</string>
+    <string name="voice_leading_step">चरण %1$d / %2$d</string>
+    <string name="voice_leading_single_chord">इस प्रोग्रेशन में केवल एक कॉर्ड है।</string>
+
+    <!-- ── Misc Content Descriptions ──────────────────────────────── -->
+    <string name="cd_play_item">%s चलाएं</string>
+    <string name="cd_to">से</string>
+
+    <!-- ── Transpose Controls ───────────────────────────────────────── -->
+    <string name="transpose_arrow"> → </string>
+    <string name="transpose_capo_prefix">कैपो </string>
+
+    <!-- ── Progression Practice ─────────────────────────────────────── -->
+    <string name="progression_practice_title">अभ्यास</string>
+    <string name="progression_practice_no_voicing">कोई वॉइसिंग उपलब्ध नहीं</string>
+    <string name="cd_previous_voicing">पिछला वॉइसिंग</string>
+    <string name="cd_next_voicing">अगला वॉइसिंग</string>
+    <string name="cd_toggle_loop">लूप टॉगल करें</string>
+
+    <!-- ── Tap Tempo ────────────────────────────────────────────────── -->
+    <string name="tap_tempo_label">टैप</string>
+
+    <!-- ── Full Screen Fretboard ────────────────────────────────────── -->
+    <string name="full_screen_reset">रीसेट</string>
+
+    <!-- ── Notification (Chord of the Day) ──────────────────────────── -->
+    <string name="notif_chord_of_day">आज का कॉर्ड: %s</string>
+    <string name="notif_frets">फ्रेट्स: %1$s — अभ्यास करने के लिए टैप करें!</string>
+    <string name="notif_channel_name">आज का कॉर्ड</string>
+    <string name="notif_channel_desc">दैनिक यूकुलेले कॉर्ड सुझाव</string>
+
+    <!-- ── Widget ───────────────────────────────────────────────────── -->
+    <string name="widget_title">आज का कॉर्ड</string>
+</resources>

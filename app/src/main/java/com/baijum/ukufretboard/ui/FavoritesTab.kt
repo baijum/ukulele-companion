@@ -45,8 +45,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.FavoriteFolder
 import com.baijum.ukufretboard.data.FavoriteVoicing
 import com.baijum.ukufretboard.data.Notes
@@ -89,13 +91,13 @@ fun FavoritesTab(
             verticalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = "No favorites yet",
+                text = stringResource(R.string.favorites_empty_title),
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Browse the Chords tab and tap the heart icon on a voicing to save it here.",
+                text = stringResource(R.string.favorites_empty_message),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
@@ -112,7 +114,7 @@ fun FavoritesTab(
                     FilterChip(
                         selected = selectedFilter == FILTER_ALL,
                         onClick = { selectedFilter = FILTER_ALL },
-                        label = { Text("All (${favorites.size})") },
+                        label = { Text(stringResource(R.string.favorites_all_count, favorites.size)) },
                     )
                 }
                 items(folders) { folder ->
@@ -129,7 +131,7 @@ fun FavoritesTab(
                                 ) {
                                     Icon(
                                         Icons.Filled.Edit,
-                                        contentDescription = "Rename folder",
+                                        contentDescription = stringResource(R.string.cd_rename_folder),
                                         modifier = Modifier.size(14.dp),
                                     )
                                 }
@@ -139,7 +141,7 @@ fun FavoritesTab(
                                 ) {
                                     Icon(
                                         Icons.Filled.Delete,
-                                        contentDescription = "Delete folder",
+                                        contentDescription = stringResource(R.string.cd_delete_folder),
                                         modifier = Modifier.size(14.dp),
                                     )
                                 }
@@ -205,12 +207,12 @@ fun FavoritesTab(
         var folderName by remember { mutableStateOf("") }
         AlertDialog(
             onDismissRequest = { showCreateFolderDialog = false },
-            title = { Text("New Folder") },
+            title = { Text(stringResource(R.string.favorites_new_folder)) },
             text = {
                 OutlinedTextField(
                     value = folderName,
                     onValueChange = { folderName = it },
-                    label = { Text("Folder name") },
+                    label = { Text(stringResource(R.string.favorites_folder_name)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -224,10 +226,10 @@ fun FavoritesTab(
                         }
                     },
                     enabled = folderName.isNotBlank(),
-                ) { Text("Create") }
+                ) { Text(stringResource(R.string.dialog_create)) }
             },
             dismissButton = {
-                TextButton(onClick = { showCreateFolderDialog = false }) { Text("Cancel") }
+                TextButton(onClick = { showCreateFolderDialog = false }) { Text(stringResource(R.string.dialog_cancel)) }
             },
         )
     }
@@ -237,12 +239,12 @@ fun FavoritesTab(
         var newName by remember { mutableStateOf(folder.name) }
         AlertDialog(
             onDismissRequest = { renamingFolder = null },
-            title = { Text("Rename Folder") },
+            title = { Text(stringResource(R.string.favorites_rename_folder)) },
             text = {
                 OutlinedTextField(
                     value = newName,
                     onValueChange = { newName = it },
-                    label = { Text("Folder name") },
+                    label = { Text(stringResource(R.string.favorites_folder_name)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -256,10 +258,10 @@ fun FavoritesTab(
                         }
                     },
                     enabled = newName.isNotBlank(),
-                ) { Text("Rename") }
+                ) { Text(stringResource(R.string.dialog_rename)) }
             },
             dismissButton = {
-                TextButton(onClick = { renamingFolder = null }) { Text("Cancel") }
+                TextButton(onClick = { renamingFolder = null }) { Text(stringResource(R.string.dialog_cancel)) }
             },
         )
     }
@@ -268,9 +270,9 @@ fun FavoritesTab(
     deletingFolder?.let { folder ->
         AlertDialog(
             onDismissRequest = { deletingFolder = null },
-            title = { Text("Delete Folder") },
+            title = { Text(stringResource(R.string.favorites_delete_folder)) },
             text = {
-                Text("Delete folder \"${folder.name}\"? Voicings in this folder will not be deleted.")
+                Text(stringResource(R.string.favorites_delete_folder_msg, folder.name))
             },
             confirmButton = {
                 TextButton(
@@ -280,11 +282,11 @@ fun FavoritesTab(
                         deletingFolder = null
                     },
                 ) {
-                    Text("Delete", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.dialog_delete), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
-                TextButton(onClick = { deletingFolder = null }) { Text("Cancel") }
+                TextButton(onClick = { deletingFolder = null }) { Text(stringResource(R.string.dialog_cancel)) }
             },
         )
     }
@@ -379,7 +381,7 @@ private fun ReorderableFavoritesGrid(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.DragHandle,
-                                    contentDescription = "Reorder",
+                                    contentDescription = stringResource(R.string.cd_reorder),
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                                     modifier = Modifier.size(16.dp),
                                 )
@@ -441,7 +443,7 @@ private fun FavoriteVoicingCard(
             ) {
                 Icon(
                     imageVector = Icons.Outlined.FolderOpen,
-                    contentDescription = "Manage folders",
+                    contentDescription = stringResource(R.string.cd_manage_folders),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(16.dp),
                 )
@@ -452,7 +454,7 @@ private fun FavoriteVoicingCard(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Favorite,
-                    contentDescription = "Remove from favorites",
+                    contentDescription = stringResource(R.string.cd_remove_favorites),
                     tint = MaterialTheme.colorScheme.error,
                     modifier = Modifier.size(18.dp),
                 )

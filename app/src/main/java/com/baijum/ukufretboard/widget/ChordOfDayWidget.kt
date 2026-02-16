@@ -21,6 +21,7 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.baijum.ukufretboard.MainActivity
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.ChordOfDay
 import com.baijum.ukufretboard.data.Notes
 
@@ -56,7 +57,7 @@ class ChordOfDayWidget : GlanceAppWidget() {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "Chord of the Day",
+                        text = context.getString(R.string.widget_title),
                         style = TextStyle(
                             fontWeight = FontWeight.Normal,
                             fontSize = 12.sp,

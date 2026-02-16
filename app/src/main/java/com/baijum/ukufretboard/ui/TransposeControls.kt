@@ -12,8 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.domain.Transpose
 
@@ -56,7 +58,7 @@ fun TransposeControls(
 
         if (showOriginal) {
             Text(
-                text = "$originalName → $currentName",
+                text = "$originalName${stringResource(R.string.transpose_arrow)}$currentName",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -81,7 +83,7 @@ fun TransposeControls(
             val capo = Transpose.capoFret(originalRoot, rootPitchClass)
             if (capo > 0) {
                 Text(
-                    text = "Capo $capo",
+                    text = stringResource(R.string.transpose_capo_prefix) + "$capo",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.primary,
                 )

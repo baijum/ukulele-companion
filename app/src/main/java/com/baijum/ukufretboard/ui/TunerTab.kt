@@ -65,6 +65,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.audio.ToneGenerator
 import com.baijum.ukufretboard.data.TunerSettings
 import com.baijum.ukufretboard.data.UkuleleTuning
@@ -210,6 +212,8 @@ private fun TunerContent(
             label = "confidenceAlpha",
         )
 
+        val detectedNoteDescription = stringResource(R.string.cd_detected_note, state.detectedNote ?: stringResource(R.string.label_none))
+
         Text(
             text = state.detectedNote ?: "—",
             style = MaterialTheme.typography.displayLarge.copy(
@@ -219,7 +223,7 @@ private fun TunerContent(
             color = noteColor.copy(alpha = noteColor.alpha * confidenceAlpha),
             modifier = Modifier.semantics {
                 liveRegion = LiveRegionMode.Polite
-                contentDescription = "Detected note: ${state.detectedNote ?: "none"}"
+                contentDescription = detectedNoteDescription
             },
         )
 
@@ -235,11 +239,11 @@ private fun TunerContent(
         val meterColorScheme = MaterialTheme.colorScheme
 
         val meterDescription = when (state.tuningStatus) {
-            TuningStatus.SILENT -> "Tuning meter, no pitch detected"
-            TuningStatus.IN_TUNE -> "Tuning meter, in tune"
-            TuningStatus.CLOSE -> "Tuning meter, ${abs(state.centsDeviation).roundToInt()} cents ${if (state.centsDeviation < 0) "flat" else "sharp"}, almost in tune"
-            TuningStatus.FLAT -> "Tuning meter, ${abs(state.centsDeviation).roundToInt()} cents flat"
-            TuningStatus.SHARP -> "Tuning meter, ${abs(state.centsDeviation).roundToInt()} cents sharp"
+            TuningStatus.SILENT -> stringResource(R.string.tuner_meter_no_pitch)
+            TuningStatus.IN_TUNE -> stringResource(R.string.tuner_meter_in_tune)
+            TuningStatus.CLOSE -> stringResource(R.string.tuner_meter_close, abs(state.centsDeviation).roundToInt(), if (state.centsDeviation < 0) stringResource(R.string.tuner_direction_flat) else stringResource(R.string.tuner_direction_sharp))
+            TuningStatus.FLAT -> stringResource(R.string.tuner_meter_flat, abs(state.centsDeviation).roundToInt())
+            TuningStatus.SHARP -> stringResource(R.string.tuner_meter_sharp, abs(state.centsDeviation).roundToInt())
         }
 
         val effectiveInTuneCents = if (tunerSettings.precisionMode) {
@@ -291,11 +295,11 @@ private fun TunerContent(
 
         // --- Guidance text --------------------------------------------------
         val guidanceText = when (state.tuningStatus) {
-            TuningStatus.SILENT -> "Play a string…"
-            TuningStatus.IN_TUNE -> "In Tune!"
-            TuningStatus.CLOSE -> if (state.centsDeviation < 0) "Almost — tune up a tiny bit" else "Almost — tune down a tiny bit"
-            TuningStatus.FLAT -> "Tune Up"
-            TuningStatus.SHARP -> "Tune Down"
+            TuningStatus.SILENT -> stringResource(R.string.tuner_play_a_string)
+            TuningStatus.IN_TUNE -> stringResource(R.string.tuner_in_tune)
+            TuningStatus.CLOSE -> if (state.centsDeviation < 0) stringResource(R.string.tuner_almost_up) else stringResource(R.string.tuner_almost_down)
+            TuningStatus.FLAT -> stringResource(R.string.tuner_tune_up)
+            TuningStatus.SHARP -> stringResource(R.string.tuner_tune_down)
         }
 
         Text(
@@ -321,7 +325,7 @@ private fun TunerContent(
             ) + fadeIn(),
         ) {
             Text(
-                text = "All strings tuned!",
+                text = stringResource(R.string.tuner_all_tuned),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
@@ -385,15 +389,15 @@ private fun TunerContent(
                     containerColor = MaterialTheme.colorScheme.error,
                 ),
             ) {
-                Icon(Icons.Filled.MicOff, contentDescription = "Stop tuning")
+                Icon(Icons.Filled.MicOff, contentDescription = stringResource(R.string.cd_stop_tuning))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Stop")
+                Text(stringResource(R.string.tuner_stop))
             }
         } else {
             Button(onClick = { viewModel.startTuning() }) {
-                Icon(Icons.Filled.Mic, contentDescription = "Start tuning")
+                Icon(Icons.Filled.Mic, contentDescription = stringResource(R.string.cd_start_tuning))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Start Tuning")
+                Text(stringResource(R.string.tuner_start))
             }
         }
 
@@ -408,12 +412,12 @@ private fun SwiftF0StatusBadge(
 ) {
     val (label, bgColor, fgColor) = when (status) {
         NeuralRuntimeStatus.ACTIVE -> Triple(
-            "SwiftF0 Active",
+            stringResource(R.string.tuner_swiftf0_active),
             MaterialTheme.colorScheme.primaryContainer,
             MaterialTheme.colorScheme.onPrimaryContainer,
         )
         NeuralRuntimeStatus.FALLBACK -> Triple(
-            "SwiftF0 Fallback",
+            stringResource(R.string.tuner_swiftf0_fallback),
             MaterialTheme.colorScheme.errorContainer,
             MaterialTheme.colorScheme.onErrorContainer,
         )
@@ -567,7 +571,7 @@ private fun PrecisionModeBadge(modifier: Modifier = Modifier) {
             .padding(horizontal = 12.dp, vertical = 6.dp),
     ) {
         Text(
-            text = "Precision Mode",
+            text = stringResource(R.string.tuner_precision_mode),
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onTertiaryContainer,
             fontWeight = FontWeight.SemiBold,
@@ -584,16 +588,17 @@ private fun StringButton(
     onClick: () -> Unit,
 ) {
     val stateDesc = when {
-        isTuned -> "tuned"
-        isAutoAdvanceTarget -> "next string to tune"
-        isActive -> "active"
-        else -> "not tuned"
+        isTuned -> stringResource(R.string.tuner_string_tuned)
+        isAutoAdvanceTarget -> stringResource(R.string.tuner_string_next)
+        isActive -> stringResource(R.string.tuner_string_active)
+        else -> stringResource(R.string.tuner_string_not_tuned)
     }
+    val stringDesc = stringResource(R.string.tuner_string_desc, label, stateDesc)
 
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.semantics {
-            contentDescription = "$label string, $stateDesc, tap for reference tone"
+            contentDescription = stringDesc
             stateDescription = stateDesc
         },
     ) {
@@ -645,7 +650,7 @@ private fun StringButtonContent(label: String, isTuned: Boolean) {
             Text(label, fontWeight = FontWeight.Bold, fontSize = 16.sp)
             Icon(
                 Icons.Filled.Check,
-                contentDescription = "Tuned",
+                contentDescription = stringResource(R.string.tuner_check_tuned),
                 modifier = Modifier.size((14.dp.value * checkScale).dp),
                 tint = MaterialTheme.colorScheme.primary,
             )

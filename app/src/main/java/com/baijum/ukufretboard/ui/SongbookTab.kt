@@ -69,7 +69,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.ChordParser
 import com.baijum.ukufretboard.data.ChordProExporter
 import com.baijum.ukufretboard.data.ChordProParser
@@ -174,13 +176,13 @@ private fun SheetList(
                 verticalArrangement = Arrangement.Center,
             ) {
                 Text(
-                    text = "No songs yet",
+                    text = stringResource(R.string.songbook_empty_title),
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Tap + to create your first chord sheet.\nOr import a ChordPro file.",
+                    text = stringResource(R.string.songbook_empty_message),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center,
@@ -214,7 +216,7 @@ private fun SheetList(
             ) {
                 Icon(
                     Icons.Filled.FileOpen,
-                    contentDescription = "Import ChordPro file",
+                    contentDescription = stringResource(R.string.cd_import_chordpro),
                     modifier = Modifier.size(20.dp),
                 )
             }
@@ -223,7 +225,7 @@ private fun SheetList(
                 onClick = onNewSheet,
                 containerColor = MaterialTheme.colorScheme.primary,
             ) {
-                Icon(Icons.Filled.Add, contentDescription = "New chord sheet")
+                Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.cd_new_chord_sheet))
             }
         }
     }
@@ -240,7 +242,7 @@ private fun SheetCard(sheet: ChordSheet, onClick: () -> Unit) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = sheet.title.ifEmpty { "Untitled" },
+                text = sheet.title.ifEmpty { stringResource(R.string.songbook_untitled) },
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
@@ -282,10 +284,10 @@ private fun SheetViewer(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(onClick = onBack) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back))
             }
             Text(
-                text = sheet.title.ifEmpty { "Untitled" },
+                text = sheet.title.ifEmpty { stringResource(R.string.songbook_untitled) },
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f).semantics { heading() },
@@ -295,26 +297,26 @@ private fun SheetViewer(
             Box {
                 var showShareMenu by remember { mutableStateOf(false) }
                 IconButton(onClick = { showShareMenu = true }) {
-                    Icon(Icons.Filled.Share, contentDescription = "Share")
+                    Icon(Icons.Filled.Share, contentDescription = stringResource(R.string.action_share))
                 }
                 DropdownMenu(
                     expanded = showShareMenu,
                     onDismissRequest = { showShareMenu = false },
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Share as text") },
+                        text = { Text(stringResource(R.string.songbook_share_as_text)) },
                         onClick = {
                             showShareMenu = false
                             val formatted = ChordSheetFormatter.formatChordsAboveLyrics(sheet)
                             ChordSheetFormatter.shareText(
                                 context = context,
-                                title = sheet.title.ifEmpty { "Chord Sheet" },
+                                title = sheet.title.ifEmpty { context.getString(R.string.songbook_chord_sheet) },
                                 text = formatted,
                             )
                         },
                     )
                     DropdownMenuItem(
-                        text = { Text("Export as ChordPro") },
+                        text = { Text(stringResource(R.string.songbook_export_chordpro)) },
                         onClick = {
                             showShareMenu = false
                             val chordProText = ChordProExporter.export(sheet)
@@ -327,17 +329,17 @@ private fun SheetViewer(
                                 )
                             }
                             context.startActivity(
-                                Intent.createChooser(intent, "Export ChordPro"),
+                                Intent.createChooser(intent, context.getString(R.string.songbook_export_chooser)),
                             )
                         },
                     )
                 }
             }
             IconButton(onClick = onEdit) {
-                Icon(Icons.Filled.Edit, contentDescription = "Edit")
+                Icon(Icons.Filled.Edit, contentDescription = stringResource(R.string.action_edit))
             }
             IconButton(onClick = onDelete) {
-                Icon(Icons.Filled.Delete, contentDescription = "Delete")
+                Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.dialog_delete))
             }
         }
 
@@ -357,7 +359,7 @@ private fun SheetViewer(
         // Key display
         if (detectedKey != null) {
             Text(
-                text = "Key: ${detectedKey.displayName}",
+                text = stringResource(R.string.songbook_key_prefix) + detectedKey.displayName,
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
@@ -375,7 +377,7 @@ private fun SheetViewer(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "Transpose:",
+                text = stringResource(R.string.songbook_transpose),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -395,7 +397,7 @@ private fun SheetViewer(
             if (transposeSemitones != 0) {
                 Spacer(modifier = Modifier.width(8.dp))
                 TextButton(onClick = { transposeSemitones = 0 }) {
-                    Text("Reset")
+                    Text(stringResource(R.string.dialog_reset))
                 }
             }
         }
@@ -405,7 +407,7 @@ private fun SheetViewer(
             val capoFret = ((transposeSemitones % 12) + 12) % 12
             if (capoFret > 0) {
                 Text(
-                    text = "Or use Capo $capoFret with original chords",
+                    text = stringResource(R.string.songbook_capo_hint, capoFret),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.tertiary,
                     fontWeight = FontWeight.Bold,
@@ -542,7 +544,7 @@ private fun SheetViewer(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Stop,
-                                contentDescription = "Stop scroll",
+                                contentDescription = stringResource(R.string.cd_stop_scroll),
                             )
                         }
                     }
@@ -552,7 +554,7 @@ private fun SheetViewer(
                     ) {
                         Icon(
                             imageVector = if (autoScrolling) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-                            contentDescription = if (autoScrolling) "Pause scroll" else "Auto-scroll",
+                            contentDescription = if (autoScrolling) stringResource(R.string.cd_pause_scroll) else stringResource(R.string.cd_auto_scroll),
                         )
                     }
                 }
@@ -582,7 +584,7 @@ private fun SheetEditor(
         OutlinedTextField(
             value = title,
             onValueChange = { title = it },
-            label = { Text("Title") },
+            label = { Text(stringResource(R.string.songbook_field_title)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
         )
@@ -592,7 +594,7 @@ private fun SheetEditor(
         OutlinedTextField(
             value = artist,
             onValueChange = { artist = it },
-            label = { Text("Artist (optional)") },
+            label = { Text(stringResource(R.string.songbook_field_artist)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
         )
@@ -600,7 +602,7 @@ private fun SheetEditor(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Use [ChordName] for chords, e.g. Some[C]where over the [Em]rainbow",
+            text = stringResource(R.string.songbook_field_lyrics_hint),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -610,7 +612,7 @@ private fun SheetEditor(
         OutlinedTextField(
             value = content,
             onValueChange = { content = it },
-            label = { Text("Lyrics with [chords]") },
+            label = { Text(stringResource(R.string.songbook_field_lyrics)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
@@ -624,14 +626,14 @@ private fun SheetEditor(
             horizontalArrangement = Arrangement.End,
         ) {
             TextButton(onClick = onCancel) {
-                Text("Cancel")
+                Text(stringResource(R.string.dialog_cancel))
             }
             Spacer(modifier = Modifier.width(8.dp))
             OutlinedButton(
                 onClick = { onSave(title, artist, content) },
                 enabled = title.isNotBlank(),
             ) {
-                Text("Save")
+                Text(stringResource(R.string.dialog_save))
             }
         }
     }

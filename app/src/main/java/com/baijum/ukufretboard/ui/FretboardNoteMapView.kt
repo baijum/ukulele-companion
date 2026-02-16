@@ -34,9 +34,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.audio.ToneGenerator
 import com.baijum.ukufretboard.data.Notes
 import kotlinx.coroutines.launch
@@ -73,12 +75,12 @@ fun FretboardNoteMapView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Fretboard Note Map",
+            text = stringResource(R.string.note_map_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
         )
         Text(
-            text = "Learn every note on the ukulele fretboard.",
+            text = stringResource(R.string.note_map_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -92,7 +94,7 @@ fun FretboardNoteMapView(
             FilterChip(
                 selected = !isLowG,
                 onClick = { isLowG = false },
-                label = { Text("Standard (High G)") },
+                label = { Text(stringResource(R.string.note_map_high_g)) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.primary,
                     selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
@@ -101,7 +103,7 @@ fun FretboardNoteMapView(
             FilterChip(
                 selected = isLowG,
                 onClick = { isLowG = true },
-                label = { Text("Low-G") },
+                label = { Text(stringResource(R.string.note_map_low_g)) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.primary,
                     selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
@@ -113,7 +115,7 @@ fun FretboardNoteMapView(
 
         // Highlight filter
         Text(
-            text = "Highlight Note",
+            text = stringResource(R.string.note_map_highlight),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -128,7 +130,7 @@ fun FretboardNoteMapView(
             FilterChip(
                 selected = highlightNote == -1,
                 onClick = { highlightNote = -1 },
-                label = { Text("All", style = MaterialTheme.typography.labelSmall) },
+                label = { Text(stringResource(R.string.label_all), style = MaterialTheme.typography.labelSmall) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.secondary,
                     selectedLabelColor = MaterialTheme.colorScheme.onSecondary,
@@ -261,17 +263,17 @@ fun FretboardNoteMapView(
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
                 Text(
-                    text = "Tips",
+                    text = stringResource(R.string.note_map_tips_title),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "\u2022 Tap any note to hear it\n" +
-                        "\u2022 Use the highlight filter to find all positions of a note\n" +
-                        "\u2022 Fret 12 is the same notes as fret 0 (one octave higher)\n" +
-                        "\u2022 Switch to Low-G to see how the G string changes",
+                    text = "\u2022 ${stringResource(R.string.note_map_tip_1)}\n" +
+                        "\u2022 ${stringResource(R.string.note_map_tip_2)}\n" +
+                        "\u2022 ${stringResource(R.string.note_map_tip_3)}\n" +
+                        "\u2022 ${stringResource(R.string.note_map_tip_4)}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )

@@ -58,8 +58,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.baijum.ukufretboard.R
 import kotlinx.coroutines.launch
 import com.baijum.ukufretboard.audio.ToneGenerator
 import com.baijum.ukufretboard.data.AchievementRepository
@@ -132,43 +134,44 @@ private data class DrawerSection(
 )
 
 /** Drawer items organised into four groups: Play, Create, Learn, Reference. */
+@Composable
 private fun drawerSections(): List<DrawerSection> = listOf(
-    DrawerSection("Play", listOf(
-        DrawerItem(NAV_EXPLORER, "Explorer", Icons.Filled.Home),
-        DrawerItem(NAV_TUNER, "Tuner", Icons.Filled.Mic),
-        DrawerItem(NAV_PITCH_MONITOR, "Pitch Monitor", Icons.Filled.Equalizer),
-        DrawerItem(NAV_LIBRARY, "Chords", Icons.Filled.Search),
-        DrawerItem(NAV_FAVORITES, "Favorites", Icons.Filled.Favorite),
-        DrawerItem(NAV_SONG_FINDER, "Song Finder", Icons.Filled.Search),
+    DrawerSection(stringResource(R.string.nav_section_play), listOf(
+        DrawerItem(NAV_EXPLORER, stringResource(R.string.nav_explorer), Icons.Filled.Home),
+        DrawerItem(NAV_TUNER, stringResource(R.string.nav_tuner), Icons.Filled.Mic),
+        DrawerItem(NAV_PITCH_MONITOR, stringResource(R.string.nav_pitch_monitor), Icons.Filled.Equalizer),
+        DrawerItem(NAV_LIBRARY, stringResource(R.string.nav_chords), Icons.Filled.Search),
+        DrawerItem(NAV_FAVORITES, stringResource(R.string.nav_favorites), Icons.Filled.Favorite),
+        DrawerItem(NAV_SONG_FINDER, stringResource(R.string.nav_song_finder), Icons.Filled.Search),
     )),
-    DrawerSection("Create", listOf(
-        DrawerItem(NAV_SONGBOOK, "Songs", Icons.Filled.Create),
-        DrawerItem(NAV_MELODY_NOTEPAD, "Melody Notepad", Icons.Filled.Create),
-        DrawerItem(NAV_PATTERNS, "Patterns", Icons.AutoMirrored.Filled.List),
-        DrawerItem(NAV_PROGRESSIONS, "Progressions", Icons.Filled.PlayArrow),
+    DrawerSection(stringResource(R.string.nav_section_create), listOf(
+        DrawerItem(NAV_SONGBOOK, stringResource(R.string.nav_songs), Icons.Filled.Create),
+        DrawerItem(NAV_MELODY_NOTEPAD, stringResource(R.string.nav_melody_notepad), Icons.Filled.Create),
+        DrawerItem(NAV_PATTERNS, stringResource(R.string.nav_patterns), Icons.AutoMirrored.Filled.List),
+        DrawerItem(NAV_PROGRESSIONS, stringResource(R.string.nav_progressions), Icons.Filled.PlayArrow),
     )),
-    DrawerSection("Learn", listOf(
-        DrawerItem(NAV_THEORY_LESSONS, "Learn Theory", Icons.Filled.Info),
-        DrawerItem(NAV_THEORY_QUIZ, "Theory Quiz", Icons.Filled.Create),
-        DrawerItem(NAV_INTERVAL_TRAINER, "Interval Trainer", Icons.Filled.PlayArrow),
-        DrawerItem(NAV_NOTE_QUIZ, "Note Quiz", Icons.Filled.Search),
-        DrawerItem(NAV_CHORD_EAR, "Chord Ear Training", Icons.Filled.PlayArrow),
-        DrawerItem(NAV_SCALE_PRACTICE, "Scale Practice", Icons.Filled.PlayArrow),
-        DrawerItem(NAV_LEARNING_PROGRESS, "Progress", Icons.Filled.Favorite),
-        DrawerItem(NAV_DAILY_CHALLENGE, "Daily Challenge", Icons.Filled.Star),
-        DrawerItem(NAV_PRACTICE_ROUTINE, "Practice Routine", Icons.Filled.PlayArrow),
-        DrawerItem(NAV_SRS_PRACTICE, "SRS Review", Icons.Filled.Refresh),
-        DrawerItem(NAV_CHORD_TRANSITION, "Chord Transitions", Icons.Filled.PlayArrow),
-        DrawerItem(NAV_PLAY_ALONG, "Play Along", Icons.Filled.Mic),
-        DrawerItem(NAV_ACHIEVEMENTS, "Achievements", Icons.Filled.Star),
+    DrawerSection(stringResource(R.string.nav_section_learn), listOf(
+        DrawerItem(NAV_THEORY_LESSONS, stringResource(R.string.nav_learn_theory), Icons.Filled.Info),
+        DrawerItem(NAV_THEORY_QUIZ, stringResource(R.string.nav_theory_quiz), Icons.Filled.Create),
+        DrawerItem(NAV_INTERVAL_TRAINER, stringResource(R.string.nav_interval_trainer), Icons.Filled.PlayArrow),
+        DrawerItem(NAV_NOTE_QUIZ, stringResource(R.string.nav_note_quiz), Icons.Filled.Search),
+        DrawerItem(NAV_CHORD_EAR, stringResource(R.string.nav_chord_ear_training), Icons.Filled.PlayArrow),
+        DrawerItem(NAV_SCALE_PRACTICE, stringResource(R.string.nav_scale_practice), Icons.Filled.PlayArrow),
+        DrawerItem(NAV_LEARNING_PROGRESS, stringResource(R.string.nav_progress), Icons.Filled.Favorite),
+        DrawerItem(NAV_DAILY_CHALLENGE, stringResource(R.string.nav_daily_challenge), Icons.Filled.Star),
+        DrawerItem(NAV_PRACTICE_ROUTINE, stringResource(R.string.nav_practice_routine), Icons.Filled.PlayArrow),
+        DrawerItem(NAV_SRS_PRACTICE, stringResource(R.string.nav_srs_review), Icons.Filled.Refresh),
+        DrawerItem(NAV_CHORD_TRANSITION, stringResource(R.string.nav_chord_transitions), Icons.Filled.PlayArrow),
+        DrawerItem(NAV_PLAY_ALONG, stringResource(R.string.nav_play_along), Icons.Filled.Mic),
+        DrawerItem(NAV_ACHIEVEMENTS, stringResource(R.string.nav_achievements), Icons.Filled.Star),
     )),
-    DrawerSection("Reference", listOf(
-        DrawerItem(NAV_CAPO_GUIDE, "Capo Guide", Icons.Filled.Info),
-        DrawerItem(NAV_CIRCLE_OF_FIFTHS, "Circle of Fifths", Icons.Filled.Refresh),
-        DrawerItem(NAV_CHORD_SUBS, "Chord Substitutions", Icons.AutoMirrored.Filled.List),
-        DrawerItem(NAV_SCALE_CHORDS, "Chords in Scale", Icons.Filled.PlayArrow),
-        DrawerItem(NAV_NOTE_MAP, "Fretboard Notes", Icons.Filled.Search),
-        DrawerItem(NAV_GLOSSARY, "Glossary", Icons.Filled.Info),
+    DrawerSection(stringResource(R.string.nav_section_reference), listOf(
+        DrawerItem(NAV_CAPO_GUIDE, stringResource(R.string.nav_capo_guide), Icons.Filled.Info),
+        DrawerItem(NAV_CIRCLE_OF_FIFTHS, stringResource(R.string.nav_circle_of_fifths), Icons.Filled.Refresh),
+        DrawerItem(NAV_CHORD_SUBS, stringResource(R.string.nav_chord_substitutions), Icons.AutoMirrored.Filled.List),
+        DrawerItem(NAV_SCALE_CHORDS, stringResource(R.string.nav_chords_in_scale), Icons.Filled.PlayArrow),
+        DrawerItem(NAV_NOTE_MAP, stringResource(R.string.nav_fretboard_notes), Icons.Filled.Search),
+        DrawerItem(NAV_GLOSSARY, stringResource(R.string.nav_glossary), Icons.Filled.Info),
     )),
 )
 
@@ -249,8 +252,8 @@ fun FretboardScreen(
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val sections = remember { drawerSections() }
-    val allItems = remember(sections) { sections.flatMap { it.items } }
+    val sections = drawerSections()
+    val allItems = sections.flatMap { it.items }
 
     val appSettings by settingsViewModel.settings.collectAsState()
 
@@ -309,7 +312,7 @@ fun FretboardScreen(
                     modifier = Modifier.verticalScroll(rememberScrollState()),
                 ) {
                     Text(
-                        text = "Ukulele Companion",
+                        text = stringResource(R.string.app_full_name),
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier
                             .padding(horizontal = 28.dp, vertical = 24.dp)
@@ -344,8 +347,8 @@ fun FretboardScreen(
                     // Help item below all section groups
                     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                     NavigationDrawerItem(
-                        icon = { Icon(Icons.Filled.Info, contentDescription = "Help") },
-                        label = { Text("Help") },
+                        icon = { Icon(Icons.Filled.Info, contentDescription = stringResource(R.string.nav_help)) },
+                        label = { Text(stringResource(R.string.nav_help)) },
                         selected = selectedSection == NAV_HELP,
                         onClick = {
                             selectedSection = NAV_HELP
@@ -363,9 +366,9 @@ fun FretboardScreen(
                     title = {
                         Text(
                             text = when (selectedSection) {
-                                NAV_HELP -> "Help"
+                                NAV_HELP -> stringResource(R.string.nav_help)
                                 else -> allItems.firstOrNull { it.index == selectedSection }?.label
-                                    ?: "Explorer"
+                                    ?: stringResource(R.string.nav_explorer)
                             },
                             style = MaterialTheme.typography.titleLarge,
                             modifier = Modifier.semantics { heading() },
@@ -375,7 +378,7 @@ fun FretboardScreen(
                         IconButton(onClick = { scope.launch { drawerState.open() } }) {
                             Icon(
                                 imageVector = Icons.Filled.Menu,
-                                contentDescription = "Open navigation menu",
+                                contentDescription = stringResource(R.string.cd_open_nav_menu),
                             )
                         }
                     },
@@ -383,7 +386,7 @@ fun FretboardScreen(
                         IconButton(onClick = { showSettings = true }) {
                             Icon(
                                 imageVector = Icons.Filled.Settings,
-                                contentDescription = "Settings",
+                                contentDescription = stringResource(R.string.cd_settings),
                             )
                         }
                     },
@@ -863,15 +866,15 @@ private fun ExplorerTabContent(
             ),
         ) {
             OutlinedButton(onClick = viewModel::clearAll) {
-                Text("Reset")
+                Text(stringResource(R.string.explorer_reset))
             }
             OutlinedButton(onClick = viewModel::toggleScaleOverlay) {
-                Text(if (uiState.scaleOverlay.enabled) "Hide Scale" else "Scales")
+                Text(if (uiState.scaleOverlay.enabled) stringResource(R.string.explorer_hide_scale) else stringResource(R.string.explorer_scales))
             }
             IconButton(onClick = onFullScreen) {
                 Icon(
                     imageVector = Icons.Filled.Fullscreen,
-                    contentDescription = "Full Screen",
+                    contentDescription = stringResource(R.string.cd_full_screen),
                 )
             }
         }
@@ -962,7 +965,7 @@ private fun CapoSelector(
         horizontalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = "Capo",
+            text = stringResource(R.string.label_capo),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -981,7 +984,7 @@ private fun CapoSelector(
             )
         }
         Text(
-            text = if (capoFret == 0) "Off" else "$capoFret",
+            text = if (capoFret == 0) stringResource(R.string.explorer_capo_off) else "$capoFret",
             style = MaterialTheme.typography.titleMedium,
             color = if (capoFret > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.width(32.dp),

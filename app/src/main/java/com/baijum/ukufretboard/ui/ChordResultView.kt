@@ -21,10 +21,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.domain.AlternateChord
 import com.baijum.ukufretboard.domain.ChordDetector
 import com.baijum.ukufretboard.domain.ChordInfo
@@ -79,7 +81,7 @@ fun ChordResultView(
         when (detectionResult) {
             is ChordDetector.DetectionResult.NoSelection -> {
                 Text(
-                    text = "Tap the fretboard to select notes",
+                    text = stringResource(R.string.chord_result_tap_fretboard),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -93,7 +95,7 @@ fun ChordResultView(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Single note selected",
+                    text = stringResource(R.string.chord_result_single_note),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -108,7 +110,7 @@ fun ChordResultView(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Incomplete chord",
+                    text = stringResource(R.string.chord_result_incomplete),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -162,7 +164,7 @@ fun ChordResultView(
                     Spacer(modifier = Modifier.height(4.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "Also: ",
+                            text = stringResource(R.string.chord_result_also),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -219,7 +221,7 @@ fun ChordResultView(
 
             is ChordDetector.DetectionResult.NoMatch -> {
                 ChordHeadlineWithPlay(
-                    text = "No exact chord match",
+                    text = stringResource(R.string.chord_result_no_match),
                     onPlay = onPlayChord,
                     showPlay = soundEnabled,
                     isSmall = true,
@@ -258,7 +260,7 @@ fun ChordResultView(
 
                 // Intervals
                 ChordInfoRow(
-                    label = "Intervals",
+                    label = stringResource(R.string.chord_result_intervals),
                     value = ChordInfo.buildIntervalBreakdown(
                         root = result.root,
                         notes = result.notes,
@@ -267,7 +269,7 @@ fun ChordResultView(
 
                 // Formula
                 ChordInfoRow(
-                    label = "Formula",
+                    label = stringResource(R.string.chord_result_formula),
                     value = ChordInfo.buildFormulaString(formula),
                 )
 
@@ -275,13 +277,13 @@ fun ChordResultView(
                 if (frets != null && frets.size == 4) {
                     val fingering = ChordInfo.suggestFingering(frets)
                     ChordInfoRow(
-                        label = "Fingering",
+                        label = stringResource(R.string.chord_result_fingering),
                         value = ChordInfo.formatFingering(fingering),
                     )
 
                     // Difficulty
                     ChordInfoRow(
-                        label = "Difficulty",
+                        label = stringResource(R.string.chord_result_difficulty),
                         value = ChordInfo.rateDifficulty(frets),
                     )
 
@@ -294,8 +296,8 @@ fun ChordResultView(
                         ChordInfo.bassPitchClass(detailedInvFrets, tuning)
                     )
                     ChordInfoRow(
-                        label = "Inversion",
-                        value = "${detailedInversion.label} (bass: $bassNoteName)",
+                        label = stringResource(R.string.chord_result_inversion),
+                        value = "${detailedInversion.label} (${stringResource(R.string.chord_result_bass)}$bassNoteName)",
                     )
                 }
             }
@@ -373,7 +375,7 @@ private fun ChordHeadlineWithPlay(
             ) {
                 Icon(
                     imageVector = Icons.Filled.PlayArrow,
-                    contentDescription = "Play sound",
+                    contentDescription = stringResource(R.string.cd_play_sound),
                     modifier = Modifier.size(32.dp),
                 )
             }
@@ -388,7 +390,7 @@ private fun ChordHeadlineWithPlay(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Share,
-                    contentDescription = "Share chord as image",
+                    contentDescription = stringResource(R.string.cd_share_chord_image),
                     modifier = Modifier.size(24.dp),
                 )
             }

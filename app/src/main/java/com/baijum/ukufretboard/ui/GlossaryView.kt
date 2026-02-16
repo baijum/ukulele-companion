@@ -23,11 +23,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.Glossary
 import com.baijum.ukufretboard.data.GlossaryEntry
 
@@ -61,13 +63,13 @@ fun GlossaryView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Music Glossary",
+            text = stringResource(R.string.glossary_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.semantics { heading() },
         )
         Text(
-            text = "${Glossary.ALL.size} terms covering music theory and ukulele.",
+            text = stringResource(R.string.glossary_term_count, Glossary.ALL.size),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -79,7 +81,7 @@ fun GlossaryView(
             value = searchQuery,
             onValueChange = { searchQuery = it },
             modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text("Search terms...") },
+            placeholder = { Text(stringResource(R.string.glossary_search_hint)) },
             singleLine = true,
             shape = RoundedCornerShape(12.dp),
         )
@@ -88,7 +90,7 @@ fun GlossaryView(
 
         if (filteredEntries.isEmpty()) {
             Text(
-                text = "No matching terms found.",
+                text = stringResource(R.string.glossary_no_match),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -163,7 +165,7 @@ private fun GlossaryItem(
                 if (entry.example != null) {
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "Example: ${entry.example}",
+                        text = "${stringResource(R.string.glossary_example)} ${entry.example}",
                         style = MaterialTheme.typography.bodySmall,
                         fontStyle = FontStyle.Italic,
                         color = MaterialTheme.colorScheme.primary,

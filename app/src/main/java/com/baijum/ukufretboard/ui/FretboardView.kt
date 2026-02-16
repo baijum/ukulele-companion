@@ -35,7 +35,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.domain.Note
 import com.baijum.ukufretboard.viewmodel.FretboardViewModel
 import com.baijum.ukufretboard.viewmodel.UkuleleString
@@ -180,20 +182,29 @@ fun FretboardView(
                         val isScaleRoot = scaleRoot != null && note.pitchClass == scaleRoot
                         val blocked = capoFret > 0 && fret in 1..capoFret
 
-                        // Build accessibility description
+                        // Pre-compute accessibility strings in composable scope
                         val stringName = tuning[stringIndex].name
+                        val fretboardStringLabel = stringResource(R.string.fretboard_string)
+                        val fretboardOpenLabel = stringResource(R.string.fretboard_open)
+                        val fretboardFretLabel = stringResource(R.string.fretboard_fret, fret)
+                        val fretboardSelectedLabel = stringResource(R.string.fretboard_selected)
+                        val fretboardInScaleLabel = stringResource(R.string.fretboard_in_scale)
+                        val fretboardScaleRootLabel = stringResource(R.string.fretboard_scale_root)
+                        val fretboardBlockedLabel = stringResource(R.string.fretboard_blocked)
+                        val fretboardBlockedText = stringResource(R.string.fretboard_blocked_text)
+
                         val cellDesc = buildString {
-                            append("$stringName string, ")
+                            append("$stringName $fretboardStringLabel")
                             if (fret == FretboardViewModel.OPEN_STRING_FRET) {
-                                append("open")
+                                append(fretboardOpenLabel)
                             } else {
-                                append("fret $fret")
+                                append(fretboardFretLabel)
                             }
                             append(", ${note.name}")
-                            if (isSelected) append(", selected")
-                            if (inScale) append(", in scale")
-                            if (isScaleRoot) append(", scale root")
-                            if (blocked) append(", blocked by capo")
+                            if (isSelected) append(fretboardSelectedLabel)
+                            if (inScale) append(fretboardInScaleLabel)
+                            if (isScaleRoot) append(fretboardScaleRootLabel)
+                            if (blocked) append(fretboardBlockedLabel)
                         }
 
                         FretCell(
@@ -213,7 +224,7 @@ fun FretboardView(
                                     contentDescription = cellDesc
                                     role = Role.Button
                                     if (isSelected) selected = true
-                                    if (blocked) stateDescription = "Blocked by capo"
+                                    if (blocked) stateDescription = fretboardBlockedText
                                 },
                         )
                     }

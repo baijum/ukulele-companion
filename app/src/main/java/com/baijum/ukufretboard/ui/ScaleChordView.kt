@@ -25,8 +25,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.Scale
 import com.baijum.ukufretboard.data.Scales
@@ -63,12 +65,12 @@ fun ScaleChordView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Chords in Scale",
+            text = stringResource(R.string.scale_chord_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
         )
         Text(
-            text = "See which chords are built from any scale.",
+            text = stringResource(R.string.scale_chord_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -77,7 +79,7 @@ fun ScaleChordView(
 
         // Root selector
         Text(
-            text = "Root",
+            text = stringResource(R.string.label_root),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -106,7 +108,7 @@ fun ScaleChordView(
 
         // Scale selector
         Text(
-            text = "Scale",
+            text = stringResource(R.string.label_scale),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -149,7 +151,7 @@ fun ScaleChordView(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Notes: ${scaleNotes.joinToString("  ")}",
+                    text = stringResource(R.string.scale_chord_notes, scaleNotes.joinToString("  ")),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
@@ -161,13 +163,13 @@ fun ScaleChordView(
         // Diatonic chords
         if (chords.isEmpty()) {
             Text(
-                text = "This scale has too few notes to build standard triads.",
+                text = stringResource(R.string.scale_chord_too_few),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         } else {
             Text(
-                text = "Diatonic Triads",
+                text = stringResource(R.string.scale_chord_diatonic),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
             )

@@ -1,0 +1,800 @@
+<resources>
+    <string name="app_name">Uke</string>
+    <string name="app_full_name">Ukulele Companion</string>
+    <string name="widget_description">Menampilkan akor ukulele baru setiap hari</string>
+
+    <!-- ── Umum / Bersama ─────────────────────────────────────────────── -->
+    <string name="dialog_cancel">Batal</string>
+    <string name="dialog_delete">Hapus</string>
+    <string name="dialog_save">Simpan</string>
+    <string name="dialog_create">Buat</string>
+    <string name="dialog_rename">Ganti nama</string>
+    <string name="dialog_reset">Atur ulang</string>
+    <string name="action_back">Kembali</string>
+    <string name="action_play">Putar</string>
+    <string name="action_stop">Berhenti</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_share">Bagikan</string>
+    <string name="action_close">Tutup</string>
+    <string name="label_all">Semua</string>
+    <string name="label_none">tidak ada</string>
+    <string name="label_bpm">BPM</string>
+    <string name="label_bpm_value">BPM: %d</string>
+    <string name="label_beats">Ketukan:</string>
+    <string name="label_capo">Capo</string>
+    <string name="label_key">Kunci</string>
+    <string name="label_scale">Tangga nada</string>
+    <string name="label_correct">Benar</string>
+    <string name="label_accuracy">Akurasi</string>
+    <string name="label_streak">Beruntun</string>
+    <string name="label_best">Terbaik</string>
+    <string name="label_score">Skor</string>
+    <string name="label_best_streak">Beruntun terbaik</string>
+    <string name="label_this_session">Sesi ini</string>
+    <string name="label_all_time">Sepanjang waktu</string>
+    <string name="label_difficulty">Tingkat kesulitan</string>
+    <string name="label_mode">Mode</string>
+    <string name="label_direction">Arah</string>
+    <string name="label_category">Kategori</string>
+    <string name="label_easy">Mudah</string>
+    <string name="label_medium">Sedang</string>
+    <string name="label_hard">Sulit</string>
+    <string name="label_expert">Ahli</string>
+    <string name="label_replay">Putar ulang</string>
+    <string name="label_correct_answer">Benar!</string>
+    <string name="label_the_answer_is">Jawabannya adalah</string>
+    <string name="label_root">Akar</string>
+    <string name="label_position">Posisi</string>
+    <string name="label_off">Mati</string>
+    <string name="label_open">Terbuka</string>
+    <string name="label_presets">Preset</string>
+    <string name="label_practice">Latihan</string>
+    <string name="label_go">Mulai</string>
+    <string name="label_done">Selesai</string>
+
+    <!-- ── Menu Navigasi ──────────────────────────────────────────────── -->
+    <string name="nav_section_play">Mainkan</string>
+    <string name="nav_section_create">Buat</string>
+    <string name="nav_section_learn">Belajar</string>
+    <string name="nav_section_reference">Referensi</string>
+    <string name="nav_explorer">Penjelajah</string>
+    <string name="nav_tuner">Tuner</string>
+    <string name="nav_pitch_monitor">Monitor Nada</string>
+    <string name="nav_chords">Akor</string>
+    <string name="nav_favorites">Favorit</string>
+    <string name="nav_song_finder">Pencari Lagu</string>
+    <string name="nav_songs">Lagu</string>
+    <string name="nav_melody_notepad">Catatan Melodi</string>
+    <string name="nav_patterns">Pola</string>
+    <string name="nav_progressions">Progresi</string>
+    <string name="nav_learn_theory">Belajar Teori</string>
+    <string name="nav_theory_quiz">Kuis Teori</string>
+    <string name="nav_interval_trainer">Latihan Interval</string>
+    <string name="nav_note_quiz">Kuis Not</string>
+    <string name="nav_chord_ear_training">Latihan Pendengaran Akor</string>
+    <string name="nav_scale_practice">Latihan Tangga Nada</string>
+    <string name="nav_progress">Kemajuan</string>
+    <string name="nav_daily_challenge">Tantangan Harian</string>
+    <string name="nav_practice_routine">Rutinitas Latihan</string>
+    <string name="nav_srs_review">Ulasan SRS</string>
+    <string name="nav_chord_transitions">Transisi Akor</string>
+    <string name="nav_play_along">Bermain Bersama</string>
+    <string name="nav_achievements">Pencapaian</string>
+    <string name="nav_capo_guide">Panduan Capo</string>
+    <string name="nav_circle_of_fifths">Lingkaran Kuint</string>
+    <string name="nav_chord_substitutions">Substitusi Akor</string>
+    <string name="nav_chords_in_scale">Akor dalam Tangga Nada</string>
+    <string name="nav_fretboard_notes">Not pada Fretboard</string>
+    <string name="nav_glossary">Glosarium</string>
+    <string name="nav_help">Bantuan</string>
+
+    <!-- ── Bilah Atas / Deskripsi Konten ──────────────────────────────── -->
+    <string name="cd_open_nav_menu">Buka menu navigasi</string>
+    <string name="cd_settings">Pengaturan</string>
+    <string name="cd_full_screen">Layar penuh</string>
+    <string name="cd_exit_full_screen">Keluar layar penuh</string>
+    <string name="cd_play_chord">Putar akor</string>
+    <string name="cd_play_sound">Putar suara</string>
+    <string name="cd_share_chord_image">Bagikan akor sebagai gambar</string>
+    <string name="cd_remove_favorites">Hapus dari favorit</string>
+    <string name="cd_add_favorites">Tambah ke favorit</string>
+    <string name="cd_replay">Putar ulang</string>
+
+    <!-- ── Tab Penjelajah ─────────────────────────────────────────────── -->
+    <string name="explorer_reset">Atur ulang</string>
+    <string name="explorer_scales">Tangga nada</string>
+    <string name="explorer_hide_scale">Sembunyikan tangga nada</string>
+    <string name="explorer_tap_frets">Ketuk fret</string>
+    <string name="explorer_capo_off">Mati</string>
+
+    <!-- ── Hasil Akor ─────────────────────────────────────────────────── -->
+    <string name="chord_result_tap_fretboard">Ketuk fretboard untuk memilih not</string>
+    <string name="chord_result_single_note">Satu not dipilih</string>
+    <string name="chord_result_incomplete">Akor tidak lengkap</string>
+    <string name="chord_result_no_match">Tidak ada akor yang cocok</string>
+    <string name="chord_result_also">Juga: </string>
+    <string name="chord_result_intervals">Interval</string>
+    <string name="chord_result_formula">Formula</string>
+    <string name="chord_result_fingering">Penjarian</string>
+    <string name="chord_result_difficulty">Tingkat kesulitan</string>
+    <string name="chord_result_inversion">Inversi</string>
+    <string name="chord_result_bass">bas: </string>
+
+    <!-- ── Perpustakaan Akor ──────────────────────────────────────────── -->
+    <string name="chord_library_root_note">Not dasar</string>
+    <string name="chord_library_type">Jenis</string>
+    <string name="chord_library_compare_inversions"> — Bandingkan Inversi</string>
+    <string name="chord_library_voicings">%d voicing</string>
+    <string name="chord_library_viz">Viz</string>
+    <string name="chord_library_compare">Bandingkan</string>
+    <string name="cd_play_all_inversions">Putar semua inversi</string>
+    <string name="chord_library_play_all_inversions">Putar Semua Inversi</string>
+    <string name="chord_library_inversion_tip">Akor yang sama, not bas berbeda. Dengarkan bagaimana setiap inversi memiliki karakter yang berbeda.</string>
+    <string name="chord_library_bass_prefix">Bas: </string>
+    <string name="chord_library_voicing_singular">%d voicing</string>
+    <string name="chord_library_reentrant_limited">Akor ini hanya memiliki %d voicing. Tuning re-entrant (G tinggi) membatasi inversi karena senar C (C4) hampir selalu menjadi nada terendah. Tuning G rendah memungkinkan lebih banyak variasi inversi.</string>
+    <string name="chord_library_reentrant_empty">Pada tuning re-entrant (G tinggi), senar C hampir selalu menjadi not terendah, sehingga sebagian besar voicing berada di posisi dasar. Coba pilih \"Semua\" untuk melihat voicing yang tersedia.</string>
+    <string name="chord_library_no_voicings">Tidak ada voicing ditemukan</string>
+
+    <!-- ── Tuner ──────────────────────────────────────────────────────── -->
+    <string name="tuner_play_a_string">Petik senar…</string>
+    <string name="tuner_in_tune">Sudah pas!</string>
+    <string name="tuner_almost_up">Hampir — naikkan sedikit</string>
+    <string name="tuner_almost_down">Hampir — turunkan sedikit</string>
+    <string name="tuner_tune_up">Naikkan</string>
+    <string name="tuner_tune_down">Turunkan</string>
+    <string name="tuner_all_tuned">Semua senar sudah pas!</string>
+    <string name="tuner_start">Mulai Tuning</string>
+    <string name="tuner_stop">Berhenti</string>
+    <string name="cd_start_tuning">Mulai tuning</string>
+    <string name="cd_stop_tuning">Berhenti tuning</string>
+    <string name="cd_detected_note">Not terdeteksi: %s</string>
+    <string name="tuner_meter_no_pitch">Pengukur tuning, tidak ada nada terdeteksi</string>
+    <string name="tuner_meter_in_tune">Pengukur tuning, sudah pas</string>
+    <string name="tuner_meter_close">Pengukur tuning, %1$d sen %2$s, hampir pas</string>
+    <string name="tuner_meter_flat">Pengukur tuning, %d sen rendah</string>
+    <string name="tuner_meter_sharp">Pengukur tuning, %d sen tinggi</string>
+    <string name="tuner_direction_flat">rendah</string>
+    <string name="tuner_direction_sharp">tinggi</string>
+    <string name="tuner_swiftf0_active">SwiftF0 Active</string>
+    <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
+    <string name="tuner_precision_mode">Mode Presisi</string>
+    <string name="tuner_string_tuned">sudah pas</string>
+    <string name="tuner_string_next">senar berikutnya untuk dituning</string>
+    <string name="tuner_string_active">aktif</string>
+    <string name="tuner_string_not_tuned">belum pas</string>
+    <string name="tuner_string_desc">Senar %1$s, %2$s, ketuk untuk nada referensi</string>
+    <string name="tuner_check_tuned">Sudah pas</string>
+
+    <!-- ── Monitor Nada ───────────────────────────────────────────────── -->
+    <string name="pitch_monitor_detected_chord">Akor terdeteksi: %s</string>
+    <string name="pitch_monitor_notes_prefix">Not: </string>
+    <string name="pitch_monitor_current_note">Not saat ini: %s</string>
+    <string name="pitch_monitor_visualization">Visualisasi nada menunjukkan perubahan nada dari waktu ke waktu</string>
+    <string name="pitch_monitor_tap_start">Ketuk Mulai untuk memulai</string>
+    <string name="pitch_monitor_playing">Memutar %s</string>
+    <string name="pitch_monitor_detecting">Mendeteksi nada…</string>
+    <string name="pitch_monitor_play_ukulele">Mainkan ukulele Anda…</string>
+    <string name="cd_stop_listening">Berhenti mendengarkan</string>
+    <string name="cd_start_listening">Mulai mendengarkan</string>
+    <string name="pitch_monitor_start">Mulai</string>
+
+    <!-- ── Favorit ────────────────────────────────────────────────────── -->
+    <string name="favorites_empty_title">Belum ada favorit</string>
+    <string name="favorites_empty_message">Jelajahi tab Akor dan ketuk ikon hati pada voicing untuk menyimpannya di sini.</string>
+    <string name="favorites_all_count">Semua (%d)</string>
+    <string name="favorites_new_folder">Folder Baru</string>
+    <string name="favorites_folder_name">Nama folder</string>
+    <string name="favorites_rename_folder">Ganti Nama Folder</string>
+    <string name="favorites_delete_folder">Hapus Folder</string>
+    <string name="favorites_delete_folder_msg">Hapus folder \"%s\"? Voicing di folder ini tidak akan dihapus.</string>
+    <string name="cd_rename_folder">Ganti nama folder</string>
+    <string name="cd_delete_folder">Hapus folder</string>
+    <string name="cd_manage_folders">Kelola folder</string>
+    <string name="cd_reorder">Susun ulang</string>
+
+    <!-- ── Lembar Folder Favorit ──────────────────────────────────────── -->
+    <string name="folder_sheet_manage">Kelola Folder</string>
+    <string name="folder_sheet_save_to">Simpan ke Folder</string>
+    <string name="folder_sheet_no_folders">Belum ada folder. Buat satu di bawah ini.</string>
+    <string name="folder_sheet_new_folder">+ Folder Baru</string>
+    <string name="folder_sheet_remove">Hapus dari Favorit</string>
+
+    <!-- ── Buku Lagu ──────────────────────────────────────────────────── -->
+    <string name="songbook_empty_title">Belum ada lagu</string>
+    <string name="songbook_empty_message">Ketuk + untuk membuat lembar akor pertama Anda.\nAtau impor file ChordPro.</string>
+    <string name="songbook_untitled">Tanpa judul</string>
+    <string name="songbook_share_as_text">Bagikan sebagai teks</string>
+    <string name="songbook_chord_sheet">Lembar Akor</string>
+    <string name="songbook_export_chordpro">Ekspor sebagai ChordPro</string>
+    <string name="songbook_export_chooser">Ekspor ChordPro</string>
+    <string name="songbook_key_prefix">Kunci: </string>
+    <string name="songbook_transpose">Transpos:</string>
+    <string name="songbook_capo_hint">Atau gunakan capo %d dengan akor asli</string>
+    <string name="songbook_field_title">Judul</string>
+    <string name="songbook_field_artist">Artis (opsional)</string>
+    <string name="songbook_field_lyrics_hint">Gunakan [NamaAkor] untuk akor, contoh: Di[C]suatu tempat di atas pela[Em]ngi</string>
+    <string name="songbook_field_lyrics">Lirik dengan [akor]</string>
+    <string name="cd_import_chordpro">Impor file ChordPro</string>
+    <string name="cd_new_chord_sheet">Lembar akor baru</string>
+    <string name="songbook_speed_half">0.5x</string>
+    <string name="songbook_speed_1x">1x</string>
+    <string name="songbook_speed_2x">2x</string>
+    <string name="songbook_speed_3x">3x</string>
+    <string name="cd_stop_scroll">Hentikan gulir</string>
+    <string name="cd_pause_scroll">Jeda gulir</string>
+    <string name="cd_auto_scroll">Gulir otomatis</string>
+
+    <!-- ── Progresi ───────────────────────────────────────────────────── -->
+    <string name="progressions_new">Progresi Baru</string>
+    <string name="cd_add_progression">Tambah progresi baru</string>
+    <string name="progressions_my">Progresi Saya</string>
+    <string name="cd_delete_progression">Hapus progresi</string>
+    <string name="cd_duplicate_progression">Duplikat</string>
+    <string name="progressions_voice_leading">Voice Leading</string>
+    <string name="progressions_copy_suffix"> (Salinan)</string>
+
+    <!-- ── Lembar Buat Progresi ───────────────────────────────────────── -->
+    <string name="progression_edit_title">Edit Progresi</string>
+    <string name="progression_create_title">Buat Progresi</string>
+    <string name="progression_name_label">Nama progresi</string>
+    <string name="progression_desc_label">Deskripsi (opsional)</string>
+    <string name="progression_chord_quality">Kualitas Akor</string>
+    <string name="progression_triad">Triad</string>
+    <string name="progression_tap_chords">Ketuk akor untuk menambahkan</string>
+    <string name="progression_your_chords">Progresi Anda (%d akor)</string>
+    <string name="progression_placeholder">Ketuk akor di atas untuk membangun progresi Anda</string>
+    <string name="progression_update">Perbarui Progresi</string>
+    <string name="progression_save">Simpan Progresi</string>
+    <string name="progression_error_min">Tambahkan minimal 2 akor</string>
+    <string name="cd_remove">Hapus</string>
+
+    <!-- ── Pola Strumming ─────────────────────────────────────────────── -->
+    <string name="patterns_strumming">Strumming</string>
+    <string name="patterns_fingerpicking">Fingerpicking</string>
+    <string name="patterns_my">Pola Saya</string>
+    <string name="cd_create_pattern">Buat Pola</string>
+    <string name="patterns_create_strum">Buat Pola Strumming</string>
+    <string name="patterns_pattern_name">Nama Pola</string>
+    <string name="patterns_tap_beat">Ketuk setiap ketukan untuk mengubah arah</string>
+    <string name="patterns_tap_accent">Ketuk di bawah untuk mengaktifkan/menonaktifkan aksen</string>
+    <string name="patterns_custom">Pola kustom</string>
+    <string name="patterns_create_fingerpick">Buat Pola Fingerpicking</string>
+    <string name="patterns_steps">%d langkah</string>
+    <string name="patterns_tap_step">Ketuk langkah, lalu pilih jari dan senar di bawah</string>
+    <string name="patterns_finger">Jari</string>
+    <string name="patterns_thumb">Jempol</string>
+    <string name="patterns_index">Telunjuk</string>
+    <string name="patterns_middle">Tengah</string>
+    <string name="patterns_ring">Manis</string>
+    <string name="patterns_string">Senar</string>
+
+    <!-- ── Bilah Pemutaran ────────────────────────────────────────────── -->
+    <string name="playback_prefix">Pemutaran: </string>
+    <string name="playback_bpm_prefix">BPM: </string>
+    <string name="cd_loop_on">Pengulangan aktif</string>
+    <string name="cd_loop_off">Pengulangan nonaktif</string>
+
+    <!-- ── Pemilih Tangga Nada ─────────────────────────────────────────── -->
+    <string name="scale_selector_root">Akar Tangga Nada</string>
+    <string name="scale_selector_chords_in">Akor dalam %s</string>
+
+    <!-- ── Pengaturan ─────────────────────────────────────────────────── -->
+    <string name="settings_title">Pengaturan</string>
+    <string name="settings_sound">Suara</string>
+    <string name="settings_volume">Volume</string>
+    <string name="settings_note_duration">Durasi Not</string>
+    <string name="settings_strum_delay">Jeda Strum</string>
+    <string name="settings_strum_direction">Arah Strum</string>
+    <string name="settings_strum_down">Turun</string>
+    <string name="settings_strum_up">Naik</string>
+    <string name="settings_play_on_tap">Putar saat Diketuk</string>
+    <string name="settings_display">Tampilan</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_language">Bahasa</string>
+    <string name="settings_select_language">Pilih bahasa</string>
+    <string name="settings_tuning">Tuning</string>
+    <string name="settings_tuner">Tuner</string>
+    <string name="settings_spoken_feedback">Umpan Balik Suara</string>
+    <string name="settings_spoken_feedback_desc">Mengumumkan nama not dan deviasi sen menggunakan text-to-speech</string>
+    <string name="settings_precision_mode">Mode Presisi</string>
+    <string name="settings_precision_mode_desc">Mempersempit zona pas dari ±6 sen menjadi ±2 sen</string>
+    <string name="settings_auto_advance">Maju Otomatis</string>
+    <string name="settings_auto_advance_desc">Menyorot senar berikutnya yang belum dituning secara otomatis</string>
+    <string name="settings_auto_start">Mulai Otomatis</string>
+    <string name="settings_auto_start_desc">Mulai mendengarkan secara otomatis saat tab tuner dibuka</string>
+    <string name="settings_a4_reference">Referensi A4</string>
+    <string name="settings_fretboard">Fretboard</string>
+    <string name="settings_left_handed">Kidal</string>
+    <string name="settings_show_note_names">Tampilkan Nama Not</string>
+    <string name="settings_allow_muted">Izinkan Senar Diredam</string>
+    <string name="settings_frets">Fret</string>
+    <string name="settings_notifications">Notifikasi</string>
+    <string name="settings_chord_of_day">Akor Hari Ini</string>
+    <string name="settings_about">Tentang</string>
+    <string name="settings_version">Versi %s</string>
+    <string name="settings_website">Situs web</string>
+    <string name="settings_credits">Kredit</string>
+    <string name="settings_audio_samples">Sampel Audio</string>
+    <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" oleh stomachache (Freesound.org)</string>
+    <string name="settings_license">Lisensi</string>
+    <string name="settings_license_value">CC BY 3.0</string>
+    <string name="settings_tagline">Teman ukulele lengkap untuk akor, tangga nada, teori musik, dan komposisi. Gratis, offline, tanpa iklan, tanpa pelacakan.</string>
+    <string name="settings_unknown_version">Tidak diketahui</string>
+
+    <!-- ── Cadangan &amp; Pemulihan ──────────────────────────────────────── -->
+    <string name="backup_title">CADANGAN &amp; PEMULIHAN</string>
+    <string name="backup_description">Simpan semua data Anda (favorit, lagu, progresi, pola, pengaturan, dan kemajuan belajar) ke file, atau pulihkan dari cadangan.</string>
+    <string name="backup_last">Cadangan terakhir: %s</string>
+    <string name="cd_backup">Cadangkan data</string>
+    <string name="backup_button">Cadangkan</string>
+    <string name="cd_restore">Pulihkan data</string>
+    <string name="restore_button">Pulihkan</string>
+    <string name="restore_dialog_title">Pulihkan Data?</string>
+    <string name="restore_dialog_message">Ini akan menggabungkan favorit, lagu, progresi, dan pola dari file cadangan dengan data Anda yang ada. Pengaturan akan diganti dengan nilai dari cadangan.\n\nData Anda yang ada tidak akan dihapus.</string>
+
+    <!-- ── Izin Mikrofon ──────────────────────────────────────────────── -->
+    <string name="mic_permission_title">Akses Mikrofon</string>
+    <string name="mic_permission_message">Tuner memerlukan akses mikrofon untuk mendengarkan ukulele Anda dan mendeteksi nada setiap senar.</string>
+    <string name="mic_permission_allow">Izinkan Mikrofon</string>
+    <string name="mic_permission_denied_title">Mikrofon Ditolak</string>
+    <string name="mic_permission_denied_message">Tuner tidak dapat berfungsi tanpa akses mikrofon. Silakan aktifkan di pengaturan aplikasi perangkat Anda.</string>
+    <string name="mic_permission_open_settings">Buka Pengaturan</string>
+
+    <!-- ── Kuis Not ───────────────────────────────────────────────────── -->
+    <string name="note_quiz_title">Kuis Not</string>
+    <string name="note_quiz_subtitle">Uji pengetahuan Anda tentang not pada fretboard.</string>
+    <string name="note_quiz_name_it">Sebutkan</string>
+    <string name="note_quiz_find_it">Temukan</string>
+    <string name="note_quiz_start">Mulai Kuis</string>
+    <string name="note_quiz_next">Pertanyaan Berikutnya</string>
+    <string name="note_quiz_what_note">Not apa yang ada di posisi ini?</string>
+    <string name="note_quiz_string_fret">senar, fret</string>
+    <string name="note_quiz_where_is">Di mana not ini?</string>
+
+    <!-- ── Kuis Teori ─────────────────────────────────────────────────── -->
+    <string name="theory_quiz_title">Kuis Teori</string>
+    <string name="theory_quiz_subtitle">Uji pengetahuan teori musik Anda!</string>
+    <string name="theory_quiz_standard">Standar</string>
+    <string name="theory_quiz_blitz">Blitz (60d)</string>
+    <string name="theory_quiz_start_blitz">Mulai Blitz!</string>
+    <string name="theory_quiz_start">Mulai Kuis</string>
+    <string name="theory_quiz_next">Pertanyaan Berikutnya</string>
+    <string name="theory_quiz_times_up">Waktu Habis!</string>
+    <string name="theory_quiz_final_score">Skor: %d</string>
+    <string name="theory_quiz_final_accuracy">Akurasi: %s</string>
+    <string name="theory_quiz_play_again">Main Lagi</string>
+
+    <!-- ── Latihan Interval ───────────────────────────────────────────── -->
+    <string name="interval_title">Latihan Interval</string>
+    <string name="interval_subtitle">Identifikasi interval antara dua not.</string>
+    <string name="interval_visual">Visual</string>
+    <string name="interval_audio">Audio</string>
+    <string name="interval_ascending">Naik</string>
+    <string name="interval_descending">Turun</string>
+    <string name="interval_harmonic">Harmonik</string>
+    <string name="interval_start">Mulai Latihan</string>
+    <string name="interval_next">Interval Berikutnya</string>
+    <string name="interval_what">Interval apa ini?</string>
+    <string name="interval_replay">Putar Ulang Interval</string>
+    <string name="interval_semitone">semitone</string>
+    <string name="interval_semitones_apart">semitone terpisah</string>
+
+    <!-- ── Latihan Pendengaran Akor ───────────────────────────────────── -->
+    <string name="chord_ear_title">Latihan Pendengaran Akor</string>
+    <string name="chord_ear_subtitle">Identifikasi kualitas akor dengan pendengaran.</string>
+    <string name="chord_ear_start">Mulai Latihan</string>
+    <string name="chord_ear_next">Akor Berikutnya</string>
+    <string name="chord_ear_what">Jenis akor apa ini?</string>
+    <string name="chord_ear_replay">Putar Ulang Akor</string>
+
+    <!-- ── Latihan Tangga Nada ────────────────────────────────────────── -->
+    <string name="scale_practice_title">Latihan Tangga Nada</string>
+    <string name="scale_practice_subtitle">Latih tangga nada dengan panduan bermain, kuis, dan latihan pendengaran.</string>
+    <string name="scale_practice_root">Akar Tangga Nada</string>
+    <string name="scale_practice_options">Opsi</string>
+    <string name="scale_practice_loop">Ulangi</string>
+    <string name="scale_practice_fretboard">Fretboard</string>
+    <string name="scale_practice_play">Putar Tangga Nada</string>
+    <string name="scale_practice_resume">Lanjutkan</string>
+    <string name="scale_practice_now">Sekarang:</string>
+    <string name="scale_practice_note_of">Not %1$d dari %2$d</string>
+    <string name="scale_practice_start_quiz">Mulai Kuis</string>
+    <string name="scale_practice_next">Pertanyaan Berikutnya</string>
+    <string name="scale_practice_what">Tangga nada apa yang dimainkan?</string>
+    <string name="scale_practice_root_label">Akar:</string>
+    <string name="scale_practice_replay">Putar Ulang Tangga Nada</string>
+    <string name="scale_practice_correct">Benar! Ini adalah</string>
+    <string name="scale_practice_notes_label">Not:</string>
+    <string name="scale_practice_next_scale">Tangga Nada Berikutnya</string>
+    <string name="scale_practice_start_training">Mulai Latihan</string>
+
+    <!-- ── Pelajaran Teori ────────────────────────────────────────────── -->
+    <string name="theory_lessons_title">Belajar Teori Musik</string>
+    <string name="theory_lessons_subtitle">Pelajaran terstruktur dari dasar hingga harmoni lanjutan.</string>
+    <string name="theory_lessons_progress">Kemajuan</string>
+    <string name="theory_lessons_count">%d pelajaran</string>
+    <string name="theory_lessons_key_points">Poin Utama</string>
+    <string name="theory_lessons_quick_check">Cek Cepat</string>
+    <string name="theory_lessons_not_quite">Belum tepat.</string>
+    <string name="theory_lessons_back">Kembali ke Pelajaran</string>
+
+    <!-- ── Kemajuan Belajar ───────────────────────────────────────────── -->
+    <string name="progress_title">Kemajuan Belajar</string>
+    <string name="progress_subtitle">Pantau perjalanan teori musik Anda.</string>
+    <string name="progress_practice_time">Waktu Latihan</string>
+    <string name="progress_today">Hari ini</string>
+    <string name="progress_total">Total</string>
+    <string name="progress_sessions">Sesi</string>
+    <string name="progress_daily_goal">Target harian: %d menit</string>
+    <string name="progress_day_streak">Hari Beruntun</string>
+    <string name="progress_lessons_done">Pelajaran Selesai</string>
+    <string name="progress_theory_lessons">Pelajaran Teori</string>
+    <string name="progress_lessons_completed">Pelajaran diselesaikan</string>
+    <string name="progress_quizzes_passed">Kuis lulus</string>
+    <string name="progress_overall">Keseluruhan</string>
+    <string name="progress_reset">Atur Ulang Semua Kemajuan</string>
+    <string name="progress_reset_title">Atur Ulang Kemajuan?</string>
+    <string name="progress_reset_message">Ini akan menghapus semua kemajuan belajar, skor kuis, beruntun, dan pelajaran yang diselesaikan. Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="progress_no_attempts">Belum ada percobaan.</string>
+
+    <!-- ── Tantangan Harian ───────────────────────────────────────────── -->
+    <string name="daily_challenge_title">Tantangan Harian</string>
+    <string name="daily_challenge_subtitle">Selesaikan tantangan hari ini untuk meningkatkan kemampuan Anda!</string>
+    <string name="daily_challenge_tip_title">Tips Hari Ini</string>
+    <string name="daily_tip_1">Bahkan 5 menit latihan harian lebih baik daripada 1 jam sekali seminggu.</string>
+    <string name="daily_tip_2">Gunakan metronom saat berlatih pergantian akor — mulai pelan dan tingkatkan bertahap.</string>
+    <string name="daily_tip_3">Saat mempelajari akor baru, petik setiap senar satu per satu untuk memeriksa kejelasannya.</string>
+    <string name="daily_tip_4">Coba bersenandung sambil memainkan strumming untuk mengembangkan pendengaran musik Anda.</string>
+    <string name="daily_tip_5">Berlatihlah di depan cermin untuk memeriksa posisi tangan.</string>
+    <string name="daily_tip_6">Fokus pada transisi yang mulus daripada kecepatan — kecepatan akan datang seiring waktu.</string>
+    <string name="daily_tip_7">Pelajari lagu yang Anda sukai! Motivasi membuat latihan menyenangkan.</string>
+
+    <!-- ── Latihan SRS ────────────────────────────────────────────────── -->
+    <string name="srs_title">Pengulangan Berjarak</string>
+    <string name="srs_subtitle">Ulang akor pada interval optimal untuk memori jangka panjang.</string>
+    <string name="srs_due">Jatuh tempo</string>
+    <string name="srs_reviewed">Diulang</string>
+    <string name="srs_total">Total</string>
+    <string name="srs_no_cards">Belum ada kartu</string>
+    <string name="srs_no_cards_message">Tambahkan akor ke dek SRS Anda dari Perpustakaan Akor dengan menekan lama voicing dan memilih \"Tambah ke SRS\".</string>
+    <string name="srs_all_caught_up">Semua sudah terulang!</string>
+    <string name="srs_session_done">Anda mengulang %1$d %2$s sesi ini. Kembali nanti untuk ulasan lagi.</string>
+    <string name="srs_card_singular">kartu</string>
+    <string name="srs_card_plural">kartu</string>
+    <string name="srs_no_due">Tidak ada kartu yang jatuh tempo saat ini. Periksa lagi nanti!</string>
+    <string name="srs_card_remaining">Kartu %1$d, %2$d tersisa</string>
+    <string name="srs_recall_prompt">Bisakah Anda mengingat penjariannya?</string>
+    <string name="srs_show_voicing">Tampilkan Voicing</string>
+    <string name="srs_frets">Fret: %s</string>
+    <string name="srs_how_well">Seberapa baik Anda mengingatnya?</string>
+
+    <!-- ── Rutinitas Latihan ──────────────────────────────────────────── -->
+    <string name="routine_title">Rutinitas Latihan</string>
+    <string name="routine_subtitle">Atur sesi latihan Anda.</string>
+    <string name="routine_duration">Durasi: %d menit</string>
+    <string name="routine_skill_level">Tingkat Kemampuan</string>
+    <string name="routine_focus_areas">Area Fokus</string>
+    <string name="routine_start">Mulai Rutinitas Latihan</string>
+    <string name="cd_start_routine">Mulai rutinitas latihan</string>
+    <string name="routine_total">%1$d menit total, %2$d langkah</string>
+    <string name="cd_new_routine">Rutinitas baru</string>
+    <string name="routine_complete_title">Latihan Selesai!</string>
+    <string name="routine_complete_message">Sesi yang bagus! Terus berlatih setiap hari.</string>
+    <string name="cd_practice_complete">Latihan selesai</string>
+    <string name="cd_completed">Selesai</string>
+
+    <!-- ── Latihan Transisi Akor ──────────────────────────────────────── -->
+    <string name="chord_transition_title">Latihan Transisi Akor</string>
+    <string name="chord_transition_subtitle">Berlatih berganti antara dua akor sesuai tempo.</string>
+    <string name="chord_transition_chord_a">Akor A</string>
+    <string name="chord_transition_chord_b">Akor B</string>
+    <string name="cd_swap_chords">Tukar akor</string>
+    <string name="chord_transition_switches">Pergantian</string>
+    <string name="chord_transition_time">Waktu</string>
+    <string name="chord_transition_per_min">Per menit</string>
+    <string name="cd_reset">Atur ulang</string>
+    <string name="cd_start">Mulai</string>
+    <string name="cd_stop">Berhenti</string>
+
+    <!-- ── Animasi Transisi Akor ──────────────────────────────────────── -->
+    <string name="transition_anim_finger_movements">Gerakan Jari</string>
+    <string name="transition_anim_no_movement">Tidak perlu gerakan jari!</string>
+    <string name="transition_anim_speed">Kecepatan:</string>
+    <string name="transition_anim_animate">Animasikan Transisi</string>
+    <string name="cd_animate_transition">Animasikan transisi</string>
+    <string name="cd_prev_step">Langkah sebelumnya</string>
+    <string name="cd_next_step">Langkah berikutnya</string>
+    <string name="transition_anim_start_shape">Bentuk awal</string>
+    <string name="transition_anim_end_shape">Bentuk akhir</string>
+    <string name="transition_anim_step">Langkah %1$d/%2$d</string>
+
+    <!-- ── Bermain Bersama ────────────────────────────────────────────── -->
+    <string name="play_along_title">Bermain Bersama</string>
+    <string name="play_along_subtitle">Dengarkan dan mainkan akor yang tepat!</string>
+    <string name="play_along_mic_needed">Akses mikrofon diperlukan untuk deteksi akor</string>
+    <string name="cd_grant_permission">Berikan izin mikrofon</string>
+    <string name="play_along_grant">Berikan Izin</string>
+    <string name="play_along_play">Mainkan:</string>
+    <string name="play_along_heard">Terdengar:</string>
+    <string name="cd_correct">Benar</string>
+    <string name="cd_incorrect">Salah</string>
+    <string name="play_along_grade">Nilai</string>
+    <string name="play_along_choose">Pilih kunci dan progresi, lalu bermain bersama dengan deteksi akor waktu nyata.</string>
+    <string name="play_along_progression">Progresi</string>
+
+    <!-- ── Pencapaian ─────────────────────────────────────────────────── -->
+    <string name="achievements_title">Pencapaian</string>
+    <string name="achievements_subtitle">Dapatkan lencana dengan berlatih dan belajar.</string>
+    <string name="achievements_unlocked">%d terbuka</string>
+    <string name="achievements_earned">Diperoleh</string>
+
+    <!-- ── Bantuan ────────────────────────────────────────────────────── -->
+    <string name="help_title">Bantuan</string>
+    <string name="help_subtitle">Ketuk fitur apa pun untuk mempelajari cara kerjanya.</string>
+    <string name="help_section_play">Mainkan</string>
+    <string name="help_section_create">Buat</string>
+    <string name="help_section_learn">Belajar</string>
+    <string name="help_section_reference">Referensi</string>
+    <string name="help_section_other">Lainnya</string>
+
+    <!-- Judul item bantuan -->
+    <string name="help_explorer">Penjelajah</string>
+    <string name="help_tuner">Tuner</string>
+    <string name="help_pitch_monitor">Monitor Nada</string>
+    <string name="help_chords">Akor</string>
+    <string name="help_favorites">Favorit</string>
+    <string name="help_song_finder">Pencari Lagu</string>
+    <string name="help_songs">Lagu</string>
+    <string name="help_melody_notepad">Catatan Melodi</string>
+    <string name="help_patterns">Pola</string>
+    <string name="help_progressions">Progresi</string>
+    <string name="help_learn_theory">Belajar Teori</string>
+    <string name="help_theory_quiz">Kuis Teori</string>
+    <string name="help_interval_trainer">Latihan Interval</string>
+    <string name="help_note_quiz">Kuis Not</string>
+    <string name="help_chord_ear">Latihan Pendengaran Akor</string>
+    <string name="help_scale_practice">Latihan Tangga Nada</string>
+    <string name="help_progress">Kemajuan</string>
+    <string name="help_daily_challenge">Tantangan Harian</string>
+    <string name="help_practice_routine">Rutinitas Latihan</string>
+    <string name="help_srs_review">Ulasan SRS</string>
+    <string name="help_chord_transitions">Transisi Akor</string>
+    <string name="help_play_along">Bermain Bersama</string>
+    <string name="help_achievements">Pencapaian</string>
+    <string name="help_capo_guide">Panduan Capo</string>
+    <string name="help_circle_of_fifths">Lingkaran Kuint</string>
+    <string name="help_chord_subs">Substitusi Akor</string>
+    <string name="help_chords_in_scale">Akor dalam Tangga Nada</string>
+    <string name="help_fretboard_notes">Not pada Fretboard</string>
+    <string name="help_glossary">Glosarium</string>
+    <string name="help_settings">Pengaturan</string>
+    <string name="help_sharing">Berbagi Akor</string>
+    <string name="help_full_screen">Mode Layar Penuh</string>
+
+    <!-- Deskripsi bantuan -->
+    <string name="help_desc_explorer">Fretboard interaktif tempat Anda mengetuk fret untuk membangun akor. Aplikasi mendeteksi akor yang Anda mainkan dan menampilkan inversi, interval, dan nama alternatif. Termasuk pemilih capo dan overlay tangga nada untuk mengeksplorasi hubungan akor dan tangga nada.</string>
+    <string name="help_desc_tuner">Tuner kromatik yang menggunakan mikrofon perangkat Anda. Menampilkan not terdeteksi, deviasi sen pada pengukur jarum, dan panduan sederhana (\"Naikkan\", \"Sudah pas!\"). Ketuk tombol senar untuk nada referensi. Mendukung berbagai tuning, kalibrasi A4, umpan balik suara, dan mode presisi.</string>
+    <string name="help_desc_pitch_monitor">Alat visualisasi nada waktu nyata. Menampilkan nada terdeteksi pada grafik bergulir, nama not saat ini, dan akor yang cocok. Berguna untuk memeriksa intonasi saat memainkan melodi atau berlatih bending.</string>
+    <string name="help_desc_chords">Perpustakaan akor yang lengkap. Pilih not dasar dan jenis akor untuk melihat semua voicing yang dapat dimainkan di ukulele. Ketuk voicing untuk memuatnya di fretboard penjelajah, atau tekan lama untuk berbagi, menambah ke favorit, atau menambah ke SRS. Termasuk mode perbandingan inversi.</string>
+    <string name="help_desc_favorites">Voicing akor tersimpan Anda, diatur dalam folder. Ketuk voicing untuk melihatnya di fretboard, geser atau tekan lama untuk opsi. Gunakan folder untuk mengelompokkan akor untuk lagu atau sesi latihan tertentu.</string>
+    <string name="help_desc_song_finder">Temukan lagu yang sudah bisa Anda mainkan dengan akor di Favorit Anda. Semakin banyak akor yang disimpan, semakin banyak lagu yang terbuka. Juga menampilkan lagu yang hanya membutuhkan 1-2 akor lagi.</string>
+    <string name="help_desc_songs">Buku lagu pribadi untuk menulis dan menyimpan lembar akor. Ketik lirik dan sisipkan akor menggunakan notasi kurung: \"Di[C]suatu tempat di atas pela[Em]ngi\". Mendukung transposisi, saran capo, gulir otomatis, dan impor/ekspor file ChordPro.</string>
+    <string name="help_desc_melody_notepad">Alat sederhana untuk menggubah melodi not per not. Ketuk not untuk membangun urutan, pilih durasi (penuh, setengah, seperempat, seperdelapan, seperenambelas), tambahkan jeda, dan putar ulang pada BPM yang dapat disesuaikan. Bagus untuk mencatat ide melodi atau latihan.</string>
+    <string name="help_desc_patterns">Jelajahi dan buat pola strumming dan fingerpicking. Ketuk indikator ketukan untuk mengubah arah (turun, naik, redam, jeda) atau tetapkan jari ke senar. Putar pada tempo yang dapat disesuaikan.</string>
+    <string name="help_desc_progressions">Perpustakaan progresi akor umum di setiap kunci. Ketuk akor apa pun untuk melihatnya di perpustakaan. Buat progresi kustom, berlatih dengan pemutaran metronom bawaan, atau jelajahi voice leading antar akor.</string>
+    <string name="help_desc_learn_theory">Pelajaran teori musik terstruktur yang mencakup not, interval, tangga nada, akor, kunci, dan harmoni. Setiap pelajaran memiliki poin utama dan kuis cek cepat untuk memverifikasi pemahaman sebelum melanjutkan.</string>
+    <string name="help_desc_theory_quiz">Uji pengetahuan Anda tentang konsep teori musik seperti interval, konstruksi akor, tanda kunci, dan derajat tangga nada. Termasuk mode Standar dan mode Blitz berwaktu (60 d) untuk tantangan ekstra.</string>
+    <string name="help_desc_interval_trainer">Latihan pendengaran untuk interval musik. Pilih mode visual (fretboard) atau audio, pilih presentasi naik, turun, atau harmonik, dan pilih tingkat kesulitan. Identifikasi interval dan kembangkan kemampuan nada relatif Anda.</string>
+    <string name="help_desc_note_quiz">Kuis berwaktu yang menantang Anda mengidentifikasi not pada fretboard. Dalam mode \"Sebutkan\" Anda melihat posisi dan menebak notnya; dalam mode \"Temukan\" Anda melihat not dan mengetuk lokasinya. Tingkat kesulitan membatasi rentang fret.</string>
+    <string name="help_desc_chord_ear">Dengarkan akor dan identifikasi jenisnya (mayor, minor, diminished, dll.). Tingkat kesulitan menambah lebih banyak kualitas akor. Cara bagus untuk mengembangkan pendengaran harmonik Anda.</string>
+    <string name="help_desc_scale_practice">Berlatih memainkan tangga nada di fretboard dengan tiga mode: Bermain Bersama (dipandu dengan metronom opsional), Kuis (identifikasi tangga nada yang dimainkan), dan Latihan Pendengaran. Mendukung semua jenis tangga nada, pengulangan opsional, dan tampilan fretboard kompak.</string>
+    <string name="help_desc_progress">Dasbor yang menampilkan statistik belajar Anda: waktu latihan, hari beruntun, pelajaran diselesaikan, dan skor kuis untuk Teori, Interval, Kuis Not, dan Latihan Pendengaran Akor. Membantu Anda memantau konsistensi dan peningkatan dari waktu ke waktu.</string>
+    <string name="help_desc_daily_challenge">Tiga tantangan baru dihasilkan setiap hari untuk menjaga variasi rutinitas latihan Anda. Setiap tantangan menargetkan kemampuan berbeda — akor, tangga nada, latihan pendengaran, teori, atau transisi. Menyelesaikannya membangun konsistensi.</string>
+    <string name="help_desc_practice_routine">Pembuat sesi latihan terpandu. Pilih durasi, tingkat kemampuan, dan area fokus untuk menghasilkan rutinitas langkah demi langkah. Aplikasi membuat urutan latihan berwaktu yang mencakup pemanasan, teknik, repertoar, dan pendinginan.</string>
+    <string name="help_desc_srs_review">Sistem Pengulangan Berjarak untuk menghafal voicing akor. Tambahkan akor dari perpustakaan, dan aplikasi menjadwalkan ulasan pada interval yang meningkat berdasarkan seberapa baik Anda mengingat setiap voicing. Menjaga kosakata akor Anda terus bertumbuh secara efisien.</string>
+    <string name="help_desc_chord_transitions">Visualisasikan bagaimana jari Anda bergerak antara dua akor. Pilih dua akor dan lihat animasi langkah demi langkah gerakan jari. Termasuk mode latihan berwaktu dengan penghitung pergantian dan kontrol BPM.</string>
+    <string name="help_desc_play_along">Latihan bermain bersama waktu nyata dengan deteksi akor audio. Pilih kunci dan progresi, lalu mainkan strumming sementara aplikasi mendengarkan dan menilai akurasi Anda. Memerlukan izin mikrofon.</string>
+    <string name="help_desc_achievements">Galeri pencapaian untuk dibuka saat Anda menggunakan aplikasi. Dapatkan lencana untuk hari beruntun latihan, skor kuis, lagu dibuat, akor dipelajari, dan lainnya. Periksa kembali untuk melihat kemajuan Anda.</string>
+    <string name="help_desc_capo_guide">Panduan edukatif tentang penggunaan capo pada ukulele. Menjelaskan fungsi capo, menunjukkan bagaimana ia mengubah nada, mencantumkan posisi umum, dan menyertakan bagian interaktif dengan tabel referensi.</string>
+    <string name="help_desc_circle_of_fifths">Diagram lingkaran kuint interaktif. Ketuk kunci apa pun untuk melihat tanda kunci, relatif minor/mayor, akor diatonik, dan kunci terkait erat. Referensi mendasar untuk memahami hubungan kunci.</string>
+    <string name="help_desc_chord_subs">Panduan referensi untuk opsi substitusi akor. Pilih akor dasar dan lihat akor mana yang bisa menggantikannya dan mengapa — relatif minor, substitusi tritonus, pertukaran modal, dan lainnya. Setiap substitusi menjelaskan teori di baliknya.</string>
+    <string name="help_desc_chords_in_scale">Pilih tangga nada dan lihat semua akor yang terbentuk secara alami di dalamnya. Menampilkan triad diatonik dengan analisis angka Romawi. Berguna untuk penulisan lagu dan pemahaman harmoni di kunci apa pun.</string>
+    <string name="help_desc_fretboard_notes">Peta visual yang menampilkan setiap not pada fretboard ukulele. Sorot not tertentu untuk melihat semua posisinya. Mendukung tuning G tinggi dan G rendah. Ketuk not apa pun untuk mendengarnya.</string>
+    <string name="help_desc_glossary">Kamus istilah teori musik dan ukulele yang dapat dicari — dari arpeggio hingga voicing. Setiap entri mencakup definisi ringkas dan, jika membantu, contoh.</string>
+    <string name="help_desc_settings">Konfigurasikan preferensi aplikasi: suara (volume, jeda strum, arah), tampilan (tema), tuning (G tinggi, G rendah, Baritone, dll.), tuner (umpan balik suara, mode presisi, kalibrasi A4), fretboard (kidal, jumlah fret), dan notifikasi.</string>
+    <string name="help_desc_sharing">Bagikan akor apa pun sebagai gambar. Saat melihat akor di Penjelajah atau Perpustakaan Akor, ketuk ikon bagikan untuk menghasilkan diagram akor yang bersih yang dapat Anda kirim ke teman atau posting di media sosial.</string>
+    <string name="help_desc_full_screen">Ketuk ikon perbesar di tab Penjelajah untuk masuk ke fretboard layar penuh lanskap. Bagus untuk sesi latihan di mana Anda ingin visibilitas fretboard maksimal tanpa gangguan antarmuka.</string>
+
+    <!-- ── Glosarium ──────────────────────────────────────────────────── -->
+    <string name="glossary_title">Glosarium Musik</string>
+    <string name="glossary_term_count">%d istilah tentang teori musik dan ukulele.</string>
+    <string name="glossary_search_hint">Cari istilah…</string>
+    <string name="glossary_no_match">Tidak ada istilah yang cocok.</string>
+    <string name="glossary_example">Contoh:</string>
+
+    <!-- ── Lingkaran Kuint ────────────────────────────────────────────── -->
+    <string name="circle_title">Lingkaran Kuint</string>
+    <string name="circle_subtitle">Ketuk kunci untuk melihat tanda kunci dan akornya. Kunci yang berdekatan saling terkait erat.</string>
+    <string name="circle_cd_selected">Diagram lingkaran kuint, %s dipilih. Ketuk untuk memilih kunci lain.</string>
+    <string name="circle_cd_default">Diagram lingkaran kuint. Ketuk untuk memilih kunci.</string>
+    <string name="circle_key_signature">Tanda Kunci</string>
+    <string name="circle_relative_minor">Relatif Minor</string>
+    <string name="circle_relative_major">Relatif Mayor</string>
+    <string name="circle_diatonic_chords">Akor Diatonik</string>
+    <string name="circle_related_keys">Kunci Terkait Erat</string>
+    <string name="circle_same_as">sama dengan</string>
+
+    <!-- ── Panduan Capo ───────────────────────────────────────────────── -->
+    <string name="capo_guide_what">Apa itu Capo?</string>
+    <string name="capo_guide_pitch">Bagaimana Mengubah Nada</string>
+    <string name="capo_guide_positions">Posisi Capo Umum</string>
+    <string name="capo_guide_when">Kapan Menggunakan Capo</string>
+    <string name="capo_guide_try">Coba Sendiri!</string>
+    <string name="capo_guide_ref_table">Tabel referensi yang menunjukkan bentuk mana menghasilkan kunci apa:</string>
+    <string name="capo_guide_open_shapes">Bentuk akor terbuka umum (cocok dengan capo):</string>
+    <string name="capo_guide_tap_fret">Ketuk fret untuk menempatkan capo:</string>
+    <string name="capo_guide_no_capo">Tanpa capo — tuning standar</string>
+    <string name="capo_guide_on_fret">Capo di fret %d</string>
+    <string name="capo_guide_was_note">(sebelumnya %s)</string>
+    <string name="capo_guide_shape">Bentuk</string>
+    <string name="capo_guide_sounds_as">Terdengar sebagai</string>
+    <string name="capo_guide_string">Senar %d</string>
+
+    <!-- ── Kalkulator Capo ────────────────────────────────────────────── -->
+    <string name="capo_calc_title">Kalkulator Capo</string>
+    <string name="capo_calc_sounding">Berbunyi: %s</string>
+    <string name="capo_calc_hint">Pasang capo untuk memainkan bentuk yang lebih mudah dengan bunyi yang sama.</string>
+    <string name="capo_calc_no_capo">Tanpa capo</string>
+    <string name="capo_calc_fret">Fret %d</string>
+    <string name="capo_calc_play_shape">Mainkan: %s</string>
+    <string name="capo_calc_recommended">Disarankan</string>
+    <string name="capo_calc_frets">Fret: %s</string>
+    <string name="capo_calc_ease">Kemudahan: %d%%</string>
+    <string name="capo_calc_no_positions">Tidak ada posisi capo yang tersedia untuk akor ini.</string>
+    <string name="capo_helper_title">Pembantu Capo</string>
+    <string name="capo_helper_hint">Temukan posisi capo termudah untuk progresi ini.</string>
+    <string name="capo_helper_shapes">Bentuk: %s</string>
+    <string name="capo_helper_ease">Kemudahan keseluruhan: %d%%</string>
+    <string name="capo_helper_no_positions">Tidak ada posisi capo yang tersedia untuk progresi ini.</string>
+
+    <!-- ── Visualizer Capo ────────────────────────────────────────────── -->
+    <string name="capo_viz_title">Visualizer Capo</string>
+    <string name="capo_viz_shape">Bentuk: %s</string>
+    <string name="capo_viz_with_capo">Capo di fret %1$d → Terdengar sebagai %2$s</string>
+    <string name="capo_viz_no_capo">Tanpa capo — terdengar sebagai %s</string>
+    <string name="capo_viz_position">Posisi Capo</string>
+    <string name="capo_viz_no_capo_label">Tanpa capo</string>
+    <string name="capo_viz_fret">Fret %d</string>
+    <string name="capo_viz_sounding">Berbunyi</string>
+    <string name="capo_viz_same">Sama</string>
+    <string name="capo_viz_tip">Tips: Dengan capo di fret %1$d, Anda memainkan bentuk %2$s tetapi terdengar sebagai %3$s. Setiap fret menaikkan nada satu semitone.</string>
+
+    <!-- ── Substitusi Akor ────────────────────────────────────────────── -->
+    <string name="chord_subs_title">Substitusi Akor</string>
+    <string name="chord_subs_subtitle">Pelajari cara mengganti akor dengan alternatif yang menciptakan warna dan suasana berbeda sambil menjaga keharmonisan.</string>
+    <string name="chord_subs_examples_in">Contoh dalam kunci:</string>
+    <string name="chord_subs_practice_tip_title">Tips Latihan</string>
+    <string name="chord_subs_practice_tip">Mulai dengan substitusi diatonik dan pertukaran relatif mayor/minor — selalu terdengar bagus. Setelah nyaman, coba pertukaran modal untuk lebih banyak warna. Simpan substitusi tritonus dan dominan sekunder untuk saat Anda siap mengeksplorasi harmoni jazz.</string>
+    <string name="chord_subs_shared">Bersama: %s</string>
+
+    <!-- ── Tampilan Akor dalam Tangga Nada ────────────────────────────── -->
+    <string name="scale_chord_title">Akor dalam Tangga Nada</string>
+    <string name="scale_chord_subtitle">Lihat akor mana yang terbentuk dari tangga nada apa pun.</string>
+    <string name="scale_chord_notes">Not: %s</string>
+    <string name="scale_chord_too_few">Tangga nada ini memiliki terlalu sedikit not untuk membangun triad standar.</string>
+    <string name="scale_chord_diatonic">Triad Diatonik</string>
+
+    <!-- ── Peta Not Fretboard ─────────────────────────────────────────── -->
+    <string name="note_map_title">Peta Not Fretboard</string>
+    <string name="note_map_subtitle">Pelajari setiap not pada fretboard ukulele.</string>
+    <string name="note_map_high_g">Standar (G Tinggi)</string>
+    <string name="note_map_low_g">G Rendah</string>
+    <string name="note_map_highlight">Sorot Not</string>
+    <string name="note_map_tips_title">Tips</string>
+    <string name="note_map_tip_1">Ketuk not apa pun untuk mendengarnya</string>
+    <string name="note_map_tip_2">Gunakan filter sorot untuk menemukan semua posisi sebuah not</string>
+    <string name="note_map_tip_3">Fret 12 memiliki not yang sama dengan fret 0 (satu oktaf lebih tinggi)</string>
+    <string name="note_map_tip_4">Beralih ke G rendah untuk melihat bagaimana senar G berubah</string>
+    <string name="note_map_string">Senar %d</string>
+
+    <!-- ── Tampilan Fretboard ─────────────────────────────────────────── -->
+    <string name="fretboard_string">senar, </string>
+    <string name="fretboard_open">terbuka</string>
+    <string name="fretboard_fret">fret %d</string>
+    <string name="fretboard_selected">, dipilih</string>
+    <string name="fretboard_in_scale">, dalam tangga nada</string>
+    <string name="fretboard_scale_root">, akar tangga nada</string>
+    <string name="fretboard_blocked">, diblokir oleh capo</string>
+    <string name="fretboard_blocked_text">Diblokir oleh capo</string>
+
+    <!-- ── Diagram Akor Vertikal ──────────────────────────────────────── -->
+    <string name="diagram_chord_cd">Akor %s</string>
+    <string name="diagram_string_muted">senar diredam</string>
+    <string name="diagram_string_open">senar terbuka</string>
+    <string name="diagram_string_fret">senar fret %d</string>
+    <string name="diagram_capo_fret">capo di fret %d</string>
+
+    <!-- ── Bagikan Akor ───────────────────────────────────────────────── -->
+    <string name="share_as_image">Bagikan sebagai Gambar</string>
+    <string name="share_diagram_attribution">Ukulele Companion</string>
+
+    <!-- ── Catatan Melodi ─────────────────────────────────────────────── -->
+    <string name="melody_title">Catatan Melodi</string>
+    <string name="melody_subtitle">Ketuk not untuk menggubah melodi. Tekan putar untuk mendengarnya.</string>
+    <string name="melody_sequence">Urutan (%d not)</string>
+    <string name="melody_placeholder">Ketuk not di bawah untuk mulai menggubah</string>
+    <string name="melody_whole">P</string>
+    <string name="melody_half">S</string>
+    <string name="melody_quarter">E</string>
+    <string name="melody_eighth">8</string>
+    <string name="melody_sixteenth">16</string>
+    <string name="melody_note_duration">Durasi Not</string>
+    <string name="melody_tap_to_add">Ketuk untuk Menambah Not</string>
+    <string name="melody_rest">Jeda</string>
+    <string name="cd_delete_note">Hapus not</string>
+    <string name="cd_play_melody">Putar melodi</string>
+    <string name="cd_stop_playing">Berhenti memutar</string>
+    <string name="cd_clear_all">Hapus semua not</string>
+    <string name="melody_clear">Hapus</string>
+
+    <!-- ── Pencari Lagu ───────────────────────────────────────────────── -->
+    <string name="song_finder_title">Pencari Lagu</string>
+    <string name="song_finder_subtitle">Temukan lagu yang bisa Anda mainkan dengan akor yang Anda ketahui.</string>
+    <string name="song_finder_no_chords_title">Belum ada akor yang diketahui</string>
+    <string name="song_finder_no_chords_message">Simpan beberapa voicing akor ke Favorit, dan kami akan menemukan lagu yang bisa Anda mainkan!</string>
+    <string name="song_finder_your_chords">Akor Anda (%d)</string>
+    <string name="song_finder_songs_can_play">Lagu yang Bisa Anda Mainkan (%d)</string>
+    <string name="song_finder_learn_more">Pelajari 1-2 Akor Lagi (%d)</string>
+    <string name="song_finder_hide">Sembunyikan</string>
+    <string name="song_finder_show">Tampilkan</string>
+    <string name="song_finder_keep_learning">Terus pelajari akor baru untuk membuka lebih banyak lagu!</string>
+    <string name="song_finder_learn_prefix">Pelajari: </string>
+
+    <!-- ── Voice Leading ──────────────────────────────────────────────── -->
+    <string name="cd_back_progressions">Kembali ke progresi</string>
+    <string name="voice_leading_title">Voice Leading dalam %s</string>
+    <string name="voice_leading_common_tones">%d nada bersama</string>
+    <string name="voice_leading_common_tones_plural">%d nada bersama</string>
+    <string name="voice_leading_fret_movement">%d fret total gerakan</string>
+    <string name="voice_leading_frets_movement">%d fret total gerakan</string>
+    <string name="voice_leading_stays">tetap di </string>
+    <string name="voice_leading_muted">diredam</string>
+    <string name="voice_leading_fret_prefix">fret </string>
+    <string name="voice_leading_arrow"> → </string>
+    <string name="voice_leading_tip_singular">Tips: Pertahankan jari Anda pada senar %1$s — not yang sama di kedua akor.</string>
+    <string name="voice_leading_tip_plural">Tips: Pertahankan jari Anda pada senar %1$s — not yang sama di kedua akor.</string>
+    <string name="voice_leading_total_path">Total jalur: %1$d fret gerakan dalam %2$d transisi</string>
+    <string name="voice_leading_prev">Sblm</string>
+    <string name="cd_play_all_voice_leadings">Putar semua voice leading</string>
+    <string name="voice_leading_play_all">Putar Semua</string>
+    <string name="voice_leading_next">Brktn</string>
+    <string name="voice_leading_step">Langkah %1$d dari %2$d</string>
+    <string name="voice_leading_single_chord">Progresi ini hanya memiliki satu akor.</string>
+
+    <!-- ── Kontrol Transpos ───────────────────────────────────────────── -->
+    <string name="transpose_arrow"> → </string>
+    <string name="transpose_capo_prefix">Capo </string>
+
+    <!-- ── Progression Practice ─────────────────────────────────────── -->
+    <string name="progression_practice_title">Latihan</string>
+    <string name="progression_practice_no_voicing">Tidak ada voicing tersedia</string>
+    <string name="cd_previous_voicing">Voicing sebelumnya</string>
+    <string name="cd_next_voicing">Voicing berikutnya</string>
+    <string name="cd_toggle_loop">Aktifkan/nonaktifkan loop</string>
+
+    <!-- ── Tap Tempo ──────────────────────────────────────────────────── -->
+    <string name="tap_tempo_label">Ketuk</string>
+
+    <!-- ── Fretboard Layar Penuh ──────────────────────────────────────── -->
+    <string name="full_screen_reset">Atur ulang</string>
+
+    <!-- ── Notifikasi (Akor Hari Ini) ─────────────────────────────────── -->
+    <string name="notif_chord_of_day">Akor Hari Ini: %s</string>
+    <string name="notif_frets">Fret: %1$s — Ketuk untuk berlatih!</string>
+    <string name="notif_channel_name">Akor Hari Ini</string>
+    <string name="notif_channel_desc">Saran akor ukulele harian</string>
+
+    <!-- ── Widget ─────────────────────────────────────────────────────── -->
+    <string name="widget_title">Akor Hari Ini</string>
+</resources>

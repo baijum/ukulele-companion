@@ -35,9 +35,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.LearningStats
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.ScaleCategory
@@ -97,13 +99,13 @@ fun ScalePracticeView(
     ) {
         // ── Title ────────────────────────────────────────────────────
         Text(
-            text = "Scale Practice",
+            text = stringResource(R.string.scale_practice_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.semantics { heading() },
         )
         Text(
-            text = "Practice scales with guided play-along, quizzes, and ear training.",
+            text = stringResource(R.string.scale_practice_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -142,7 +144,7 @@ fun ScalePracticeView(
 
         // ── Category filter ──────────────────────────────────────────
         Text(
-            text = "Category",
+            text = stringResource(R.string.label_category),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -163,7 +165,7 @@ fun ScalePracticeView(
                 },
                 label = {
                     Text(
-                        "All",
+                        stringResource(R.string.label_all),
                         fontWeight = if (state.selectedCategory == null) FontWeight.Bold else FontWeight.Normal,
                     )
                 },
@@ -254,7 +256,7 @@ private fun PlayAlongContent(
 
     // Root note selector
     Text(
-        text = "Scale Root",
+        text = stringResource(R.string.scale_practice_root),
         style = MaterialTheme.typography.labelSmall,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -291,7 +293,7 @@ private fun PlayAlongContent(
 
     // Scale type selector
     Text(
-        text = "Scale",
+        text = stringResource(R.string.label_scale),
         style = MaterialTheme.typography.labelSmall,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -323,7 +325,7 @@ private fun PlayAlongContent(
 
     // Direction selector
     Text(
-        text = "Direction",
+        text = stringResource(R.string.label_direction),
         style = MaterialTheme.typography.labelSmall,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -349,7 +351,7 @@ private fun PlayAlongContent(
 
     // Options row: Loop and Fretboard toggles
     Text(
-        text = "Options",
+        text = stringResource(R.string.scale_practice_options),
         style = MaterialTheme.typography.labelSmall,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -361,7 +363,7 @@ private fun PlayAlongContent(
         FilterChip(
             selected = state.loopPlayback,
             onClick = { viewModel.toggleLoop() },
-            label = { Text("Loop") },
+            label = { Text(stringResource(R.string.scale_practice_loop)) },
             colors = FilterChipDefaults.filterChipColors(
                 selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                 selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -373,7 +375,7 @@ private fun PlayAlongContent(
                 viewModel.toggleFretboard()
                 onSettingsChanged(viewModel.currentSettings())
             },
-            label = { Text("Fretboard") },
+            label = { Text(stringResource(R.string.scale_practice_fretboard)) },
             colors = FilterChipDefaults.filterChipColors(
                 selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                 selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -385,7 +387,7 @@ private fun PlayAlongContent(
     if (state.showFretboard) {
         Spacer(modifier = Modifier.height(6.dp))
         Text(
-            text = "Position",
+            text = stringResource(R.string.label_position),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -412,7 +414,7 @@ private fun PlayAlongContent(
 
     // BPM slider
     Text(
-        text = "BPM: ${state.bpm}",
+        text = stringResource(R.string.label_bpm_value, state.bpm),
         style = MaterialTheme.typography.labelSmall,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -465,13 +467,13 @@ private fun PlayAlongContent(
                 val currentPc = state.playAlongNotes[state.currentNoteIndex]
                 val currentName = Notes.enharmonicForKey(currentPc, state.selectedRoot, isMinor)
                 Text(
-                    text = "Now: $currentName",
+                    text = "${stringResource(R.string.scale_practice_now)} $currentName",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.tertiary,
                 )
                 Text(
-                    text = "Note ${state.currentNoteIndex + 1} of ${state.playAlongNotes.size}",
+                    text = stringResource(R.string.scale_practice_note_of, state.currentNoteIndex + 1, state.playAlongNotes.size),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -542,10 +544,10 @@ private fun PlayAlongContent(
             ) {
                 Icon(
                     Icons.Filled.PlayArrow,
-                    contentDescription = "Play",
+                    contentDescription = stringResource(R.string.action_play),
                     modifier = Modifier.padding(end = 8.dp),
                 )
-                Text("Play Scale")
+                Text(stringResource(R.string.scale_practice_play))
             }
         }
         PlaybackState.PLAYING -> {
@@ -557,7 +559,7 @@ private fun PlayAlongContent(
                     contentColor = MaterialTheme.colorScheme.onError,
                 ),
             ) {
-                Text("Stop")
+                Text(stringResource(R.string.action_stop))
             }
         }
         PlaybackState.PAUSED -> {
@@ -565,7 +567,7 @@ private fun PlayAlongContent(
                 onClick = { viewModel.startPlayback(scope) },
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text("Resume")
+                Text(stringResource(R.string.scale_practice_resume))
             }
         }
     }
@@ -585,7 +587,7 @@ private fun QuizContent(
     // Session stats
     if (state.quizTotal > 0) {
         StatsRow(
-            label = "This Session",
+            label = stringResource(R.string.label_this_session),
             correct = state.quizCorrect,
             total = state.quizTotal,
             streak = state.quizStreak,
@@ -609,7 +611,7 @@ private fun QuizContent(
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
         ) {
-            Text(if (state.quizTotal == 0) "Start Quiz" else "Next Question")
+            Text(if (state.quizTotal == 0) stringResource(R.string.scale_practice_start_quiz) else stringResource(R.string.scale_practice_next))
         }
     } else {
         // Question card
@@ -687,7 +689,7 @@ private fun QuizContent(
                 onClick = { viewModel.generateQuizQuestion() },
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text("Next Question")
+                Text(stringResource(R.string.scale_practice_next))
             }
         }
     }
@@ -709,7 +711,7 @@ private fun EarTrainingContent(
     // Session stats
     if (state.earTotal > 0) {
         StatsRow(
-            label = "This Session",
+            label = stringResource(R.string.label_this_session),
             correct = state.earCorrect,
             total = state.earTotal,
             streak = state.earStreak,
@@ -734,7 +736,7 @@ private fun EarTrainingContent(
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
         ) {
-            Text(if (state.earTotal == 0) "Start Training" else "Next Scale")
+            Text(if (state.earTotal == 0) stringResource(R.string.scale_practice_start_training) else stringResource(R.string.scale_practice_next_scale))
         }
     } else {
         // Auto-play the scale when a new question appears
@@ -752,7 +754,7 @@ private fun EarTrainingContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = "What scale is being played?",
+                    text = stringResource(R.string.scale_practice_what),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -762,7 +764,7 @@ private fun EarTrainingContent(
                 // Show root note
                 val rootName = Notes.pitchClassToName(question.root)
                 Text(
-                    text = "Root: $rootName",
+                    text = "${stringResource(R.string.scale_practice_root_label)} $rootName",
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
@@ -777,10 +779,10 @@ private fun EarTrainingContent(
                 ) {
                     Icon(
                         Icons.Filled.PlayArrow,
-                        contentDescription = "Replay",
+                        contentDescription = stringResource(R.string.label_replay),
                         modifier = Modifier.padding(end = 8.dp),
                     )
-                    Text("Replay Scale")
+                    Text(stringResource(R.string.scale_practice_replay))
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -830,9 +832,9 @@ private fun EarTrainingContent(
                         Notes.enharmonicForKey(pc, question.root, isMinor)
                     }
                     val resultText = if (state.earSelectedAnswer == question.correctIndex) {
-                        "Correct! This is $rootName $scaleName."
+                        "${stringResource(R.string.scale_practice_correct)} $rootName $scaleName."
                     } else {
-                        "The answer is $rootName $scaleName."
+                        "${stringResource(R.string.label_the_answer_is)} $rootName $scaleName."
                     }
                     Text(
                         text = resultText,
@@ -842,7 +844,7 @@ private fun EarTrainingContent(
                         textAlign = TextAlign.Center,
                     )
                     Text(
-                        text = "Notes: ${notes.joinToString(" – ")}",
+                        text = "${stringResource(R.string.scale_practice_notes_label)} ${notes.joinToString(" – ")}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center,
@@ -858,7 +860,7 @@ private fun EarTrainingContent(
                 onClick = { viewModel.generateEarQuestion() },
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text("Next Scale")
+                Text(stringResource(R.string.scale_practice_next_scale))
             }
         }
     }
@@ -887,20 +889,20 @@ private fun StatsRow(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
-        ScoreItem(label = "Correct", value = "$correct/$total")
+        ScoreItem(label = stringResource(R.string.label_correct), value = "$correct/$total")
         ScoreItem(
-            label = "Accuracy",
+            label = stringResource(R.string.label_accuracy),
             value = if (total > 0) "${correct * 100 / total}%" else "—",
         )
-        ScoreItem(label = "Streak", value = "$streak")
-        ScoreItem(label = "Best", value = "$bestStreak")
+        ScoreItem(label = stringResource(R.string.label_streak), value = "$streak")
+        ScoreItem(label = stringResource(R.string.label_best), value = "$bestStreak")
     }
 }
 
 @Composable
 private fun AllTimeStatsRow(stats: LearningStats) {
     Text(
-        text = "All Time",
+        text = stringResource(R.string.label_all_time),
         style = MaterialTheme.typography.labelSmall,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -910,9 +912,9 @@ private fun AllTimeStatsRow(stats: LearningStats) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
-        ScoreItem(label = "Score", value = "${stats.correct}/${stats.total}")
-        ScoreItem(label = "Accuracy", value = "${stats.accuracyPercent}%")
-        ScoreItem(label = "Best Streak", value = "${stats.bestStreak}")
+        ScoreItem(label = stringResource(R.string.label_score), value = "${stats.correct}/${stats.total}")
+        ScoreItem(label = stringResource(R.string.label_accuracy), value = "${stats.accuracyPercent}%")
+        ScoreItem(label = stringResource(R.string.label_best_streak), value = "${stats.bestStreak}")
     }
 }
 

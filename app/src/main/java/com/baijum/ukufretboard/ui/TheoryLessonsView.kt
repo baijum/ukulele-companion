@@ -35,9 +35,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import androidx.compose.material.icons.filled.Check
 import com.baijum.ukufretboard.data.TheoryLesson
 import com.baijum.ukufretboard.data.TheoryLessons
@@ -98,13 +100,13 @@ private fun LessonListView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Learn Music Theory",
+            text = stringResource(R.string.theory_lessons_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.semantics { heading() },
         )
         Text(
-            text = "Structured lessons from fundamentals to advanced harmony.",
+            text = stringResource(R.string.theory_lessons_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -117,13 +119,13 @@ private fun LessonListView(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
-                    text = "Progress",
+                    text = stringResource(R.string.theory_lessons_progress),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Text(
-                    text = "$completedCount / $totalCount lessons",
+                    text = "$completedCount / " + stringResource(R.string.theory_lessons_count, totalCount),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold,
@@ -189,7 +191,7 @@ private fun LessonListView(
                             if (completed) {
                                 Icon(
                                     imageVector = Icons.Filled.Check,
-                                    contentDescription = "Completed",
+                                    contentDescription = stringResource(R.string.cd_completed),
                                     tint = MaterialTheme.colorScheme.primary,
                                     modifier = Modifier.padding(end = 8.dp),
                                 )
@@ -243,7 +245,7 @@ private fun LessonDetailView(
         // Back button and title
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = onBack) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back))
             }
             Column {
                 Text(
@@ -282,7 +284,7 @@ private fun LessonDetailView(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Key Points",
+                    text = stringResource(R.string.theory_lessons_key_points),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -309,7 +311,7 @@ private fun LessonDetailView(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Quick Check",
+                    text = stringResource(R.string.theory_lessons_quick_check),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                 )
@@ -359,7 +361,7 @@ private fun LessonDetailView(
                     Spacer(modifier = Modifier.height(8.dp))
                     val isCorrect = selectedQuizAnswer == lesson.quizCorrectIndex
                     Text(
-                        text = if (isCorrect) "Correct!" else "Not quite.",
+                        text = if (isCorrect) stringResource(R.string.label_correct_answer) else stringResource(R.string.theory_lessons_not_quite),
                         fontWeight = FontWeight.Bold,
                         color = if (isCorrect) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
                     )
@@ -379,7 +381,7 @@ private fun LessonDetailView(
             onClick = onBack,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text("Back to Lessons")
+            Text(stringResource(R.string.theory_lessons_back))
         }
     }
 }

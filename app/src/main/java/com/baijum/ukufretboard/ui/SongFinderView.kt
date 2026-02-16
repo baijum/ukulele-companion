@@ -34,9 +34,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.SongChordDatabase
 import com.baijum.ukufretboard.viewmodel.FavoritesViewModel
@@ -86,12 +88,12 @@ fun SongFinderView(
         // Header
         item {
             Text(
-                text = "Song Finder",
+                text = stringResource(R.string.song_finder_title),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
             )
             Text(
-                text = "Find songs you can play with chords you know.",
+                text = stringResource(R.string.song_finder_subtitle),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -113,13 +115,13 @@ fun SongFinderView(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
-                            text = "No known chords yet",
+                            text = stringResource(R.string.song_finder_no_chords_title),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "Save some chord voicings to Favorites, and we'll find songs you can play!",
+                            text = stringResource(R.string.song_finder_no_chords_message),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             textAlign = TextAlign.Center,
@@ -128,7 +130,7 @@ fun SongFinderView(
                 }
             } else {
                 Text(
-                    text = "Your chords (${knownChords.size})",
+                    text = stringResource(R.string.song_finder_your_chords, knownChords.size),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -162,7 +164,7 @@ fun SongFinderView(
             item {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Songs You Can Play (${playableSongs.size})",
+                    text = stringResource(R.string.song_finder_songs_can_play, playableSongs.size),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
@@ -188,7 +190,7 @@ fun SongFinderView(
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
-                        text = "Learn 1-2 More Chords (${almostPlayableSongs.size})",
+                        text = stringResource(R.string.song_finder_learn_more, almostPlayableSongs.size),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.secondary,
@@ -196,7 +198,7 @@ fun SongFinderView(
                     FilterChip(
                         selected = showAlmostPlayable,
                         onClick = { showAlmostPlayable = !showAlmostPlayable },
-                        label = { Text(if (showAlmostPlayable) "Hide" else "Show") },
+                        label = { Text(if (showAlmostPlayable) stringResource(R.string.song_finder_hide) else stringResource(R.string.song_finder_show)) },
                     )
                 }
             }
@@ -218,7 +220,7 @@ fun SongFinderView(
             item {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Keep learning new chords to unlock more songs!",
+                    text = stringResource(R.string.song_finder_keep_learning),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center,
@@ -328,7 +330,7 @@ private fun SongCard(
             if (missingChords.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Learn: ${missingChords.joinToString(", ")}",
+                    text = stringResource(R.string.song_finder_learn_prefix) + missingChords.joinToString(", "),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.error,

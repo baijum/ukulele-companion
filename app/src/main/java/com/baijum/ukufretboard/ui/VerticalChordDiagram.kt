@@ -34,8 +34,10 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.domain.ChordVoicing
 
 /** Number of strings on a ukulele. */
@@ -122,12 +124,32 @@ fun VerticalChordDiagram(
     }
     val isAtNut = startFret == 0
 
-    val chordDescription = voicing.toAccessibilityDescription(
-        leftHanded = leftHanded,
-        inversionLabel = inversionLabel,
-        capoFret = capoFret,
-        soundingNotes = soundingNotes,
-    )
+    // Build accessibility description in composable scope for stringResource access
+    val chordDescription = run {
+        val stringNames = listOf("G", "C", "E", "A")
+        val parts = mutableListOf<String>()
+        val notesSummary = soundingNotes
+            ?: voicing.notes.joinToString(" ") { it?.name ?: "x" }
+        parts.add(stringResource(R.string.diagram_chord_cd, notesSummary))
+        val indices = if (leftHanded) voicing.frets.indices.reversed() else voicing.frets.indices.toList()
+        for (i in indices) {
+            val name = stringNames.getOrElse(i) { "String $i" }
+            val fret = voicing.frets[i]
+            val desc = when (fret) {
+                ChordVoicing.MUTED -> "$name ${stringResource(R.string.diagram_string_muted)}"
+                0 -> "$name ${stringResource(R.string.diagram_string_open)}"
+                else -> "$name ${stringResource(R.string.diagram_string_fret, fret)}"
+            }
+            parts.add(desc)
+        }
+        if (capoFret != null) {
+            parts.add(stringResource(R.string.diagram_capo_fret, capoFret))
+        }
+        if (inversionLabel != null) {
+            parts.add(inversionLabel)
+        }
+        parts.joinToString(", ")
+    }
 
     Card(
         modifier = modifier
@@ -195,8 +217,8 @@ fun VerticalChordDiagram(
                     Icon(
                         imageVector = if (isFavorite) Icons.Filled.Favorite
                         else Icons.Outlined.FavoriteBorder,
-                        contentDescription = if (isFavorite) "Remove from favorites"
-                        else "Add to favorites",
+                        contentDescription = if (isFavorite) stringResource(R.string.cd_remove_favorites)
+                        else stringResource(R.string.cd_add_favorites),
                         tint = if (isFavorite) MaterialTheme.colorScheme.error
                         else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                         modifier = Modifier.size(18.dp),
@@ -418,45 +440,3 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawPositionLabel(
     }
 }
 
-/**
- * Generates a text description of this chord voicing for screen reader accessibility.
- *
- * Example output: "C major chord: G string open, C string fret 3, E string fret 4, A string fret 3"
- */
-fun ChordVoicing.toAccessibilityDescription(
-    leftHanded: Boolean = false,
-    inversionLabel: String? = null,
-    capoFret: Int? = null,
-    soundingNotes: String? = null,
-): String {
-    val stringNames = listOf("G", "C", "E", "A")
-    val parts = mutableListOf<String>()
-
-    // Note names or chord name summary
-    val notesSummary = soundingNotes
-        ?: notes.joinToString(" ") { it?.name ?: "x" }
-    parts.add("Chord $notesSummary")
-
-    // Per-string descriptions
-    val indices = if (leftHanded) frets.indices.reversed() else frets.indices.toList()
-    for (i in indices) {
-        val name = stringNames.getOrElse(i) { "String $i" }
-        val fret = frets[i]
-        val desc = when (fret) {
-            ChordVoicing.MUTED -> "$name string muted"
-            0 -> "$name string open"
-            else -> "$name string fret $fret"
-        }
-        parts.add(desc)
-    }
-
-    if (capoFret != null) {
-        parts.add("capo at fret $capoFret")
-    }
-
-    if (inversionLabel != null) {
-        parts.add(inversionLabel)
-    }
-
-    return parts.joinToString(", ")
-}

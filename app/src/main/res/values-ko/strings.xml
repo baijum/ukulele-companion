@@ -1,0 +1,804 @@
+<resources>
+    <string name="app_name">Uke</string>
+    <string name="app_full_name">Ukulele Companion</string>
+    <string name="widget_description">매일 새로운 우쿨렐레 코드를 보여줍니다</string>
+
+    <!-- ── Common / Shared ──────────────────────────────────────────── -->
+    <string name="dialog_cancel">취소</string>
+    <string name="dialog_delete">삭제</string>
+    <string name="dialog_save">저장</string>
+    <string name="dialog_create">만들기</string>
+    <string name="dialog_rename">이름 변경</string>
+    <string name="dialog_reset">초기화</string>
+    <string name="action_back">뒤로</string>
+    <string name="action_play">재생</string>
+    <string name="action_stop">정지</string>
+    <string name="action_edit">편집</string>
+    <string name="action_share">공유</string>
+    <string name="action_close">닫기</string>
+    <string name="label_all">전체</string>
+    <string name="label_none">없음</string>
+    <string name="label_bpm">BPM</string>
+    <string name="label_bpm_value">BPM: %d</string>
+    <string name="label_beats">박자:</string>
+    <string name="label_capo">카포</string>
+    <string name="label_key">키</string>
+    <string name="label_scale">스케일</string>
+    <string name="label_correct">정답</string>
+    <string name="label_accuracy">정확도</string>
+    <string name="label_streak">연속</string>
+    <string name="label_best">최고</string>
+    <string name="label_score">점수</string>
+    <string name="label_best_streak">최고 연속</string>
+    <string name="label_this_session">이번 세션</string>
+    <string name="label_all_time">누적</string>
+    <string name="label_difficulty">난이도</string>
+    <string name="label_mode">모드</string>
+    <string name="label_direction">방향</string>
+    <string name="label_category">카테고리</string>
+    <string name="label_easy">쉬움</string>
+    <string name="label_medium">보통</string>
+    <string name="label_hard">어려움</string>
+    <string name="label_expert">전문가</string>
+    <string name="label_replay">다시 듣기</string>
+    <string name="label_correct_answer">정답!</string>
+    <string name="label_the_answer_is">정답은</string>
+    <string name="label_root">루트</string>
+    <string name="label_position">포지션</string>
+    <string name="label_off">끄기</string>
+    <string name="label_open">오픈</string>
+    <string name="label_presets">프리셋</string>
+    <string name="label_practice">연습</string>
+    <string name="label_go">시작</string>
+    <string name="label_done">완료</string>
+
+    <!-- ── Navigation Drawer ────────────────────────────────────────── -->
+    <string name="nav_section_play">연주</string>
+    <string name="nav_section_create">만들기</string>
+    <string name="nav_section_learn">학습</string>
+    <string name="nav_section_reference">참고</string>
+    <string name="nav_explorer">탐색기</string>
+    <string name="nav_tuner">튜너</string>
+    <string name="nav_pitch_monitor">피치 모니터</string>
+    <string name="nav_chords">코드</string>
+    <string name="nav_favorites">즐겨찾기</string>
+    <string name="nav_song_finder">곡 찾기</string>
+    <string name="nav_songs">곡</string>
+    <string name="nav_melody_notepad">멜로디 메모장</string>
+    <string name="nav_patterns">패턴</string>
+    <string name="nav_progressions">코드 진행</string>
+    <string name="nav_learn_theory">음악 이론 배우기</string>
+    <string name="nav_theory_quiz">이론 퀴즈</string>
+    <string name="nav_interval_trainer">인터벌 트레이너</string>
+    <string name="nav_note_quiz">음표 퀴즈</string>
+    <string name="nav_chord_ear_training">코드 청음 훈련</string>
+    <string name="nav_scale_practice">스케일 연습</string>
+    <string name="nav_progress">진행 상황</string>
+    <string name="nav_daily_challenge">일일 도전</string>
+    <string name="nav_practice_routine">연습 루틴</string>
+    <string name="nav_srs_review">SRS 복습</string>
+    <string name="nav_chord_transitions">코드 전환</string>
+    <string name="nav_play_along">함께 연주</string>
+    <string name="nav_achievements">업적</string>
+    <string name="nav_capo_guide">카포 가이드</string>
+    <string name="nav_circle_of_fifths">5도권</string>
+    <string name="nav_chord_substitutions">대리 코드</string>
+    <string name="nav_chords_in_scale">스케일 내 코드</string>
+    <string name="nav_fretboard_notes">지판 음표</string>
+    <string name="nav_glossary">용어 사전</string>
+    <string name="nav_help">도움말</string>
+
+    <!-- ── Top Bar / Content Descriptions ───────────────────────────── -->
+    <string name="cd_open_nav_menu">내비게이션 메뉴 열기</string>
+    <string name="cd_settings">설정</string>
+    <string name="cd_full_screen">전체 화면</string>
+    <string name="cd_exit_full_screen">전체 화면 종료</string>
+    <string name="cd_play_chord">코드 재생</string>
+    <string name="cd_play_sound">소리 재생</string>
+    <string name="cd_share_chord_image">코드를 이미지로 공유</string>
+    <string name="cd_remove_favorites">즐겨찾기에서 제거</string>
+    <string name="cd_add_favorites">즐겨찾기에 추가</string>
+    <string name="cd_replay">다시 재생</string>
+
+    <!-- ── Explorer Tab ─────────────────────────────────────────────── -->
+    <string name="explorer_reset">초기화</string>
+    <string name="explorer_scales">스케일</string>
+    <string name="explorer_hide_scale">스케일 숨기기</string>
+    <string name="explorer_tap_frets">프렛을 탭하세요</string>
+    <string name="explorer_capo_off">끄기</string>
+
+    <!-- ── Chord Result ─────────────────────────────────────────────── -->
+    <string name="chord_result_tap_fretboard">지판을 탭하여 음을 선택하세요</string>
+    <string name="chord_result_single_note">단음이 선택되었습니다</string>
+    <string name="chord_result_incomplete">불완전한 코드</string>
+    <string name="chord_result_no_match">일치하는 코드가 없습니다</string>
+    <string name="chord_result_also">다른 이름: </string>
+    <string name="chord_result_intervals">음정</string>
+    <string name="chord_result_formula">구성음</string>
+    <string name="chord_result_fingering">운지법</string>
+    <string name="chord_result_difficulty">난이도</string>
+    <string name="chord_result_inversion">전위</string>
+    <string name="chord_result_bass">베이스: </string>
+
+    <!-- ── Chord Library ────────────────────────────────────────────── -->
+    <string name="chord_library_root_note">루트 음</string>
+    <string name="chord_library_type">유형</string>
+    <string name="chord_library_compare_inversions"> — 전위 비교</string>
+    <string name="chord_library_voicings">보이싱 %d개</string>
+    <string name="chord_library_viz">시각화</string>
+    <string name="chord_library_compare">비교</string>
+    <string name="cd_play_all_inversions">모든 전위 재생</string>
+    <string name="chord_library_play_all_inversions">모든 전위 재생</string>
+    <string name="chord_library_inversion_tip">같은 코드지만 베이스 음이 다릅니다. 각 전위가 가진 고유한 성격을 들어보세요.</string>
+    <string name="chord_library_bass_prefix">베이스: </string>
+    <string name="chord_library_voicing_singular">보이싱 %d개</string>
+    <string name="chord_library_reentrant_limited">이 코드는 보이싱이 %d개뿐입니다. 리엔트런트 튜닝(High-G)에서는 C현(C4)이 거의 항상 가장 낮은 음이 되어 전위가 제한됩니다. Low-G 튜닝에서는 더 다양한 전위가 가능합니다.</string>
+    <string name="chord_library_reentrant_empty">리엔트런트 튜닝(High-G)에서는 C현이 거의 항상 가장 낮은 음이므로 대부분의 보이싱이 기본형입니다. 사용 가능한 보이싱을 보려면 \"전체\"를 선택하세요.</string>
+    <string name="chord_library_no_voicings">보이싱을 찾을 수 없습니다</string>
+
+    <!-- ── Tuner ────────────────────────────────────────────────────── -->
+    <string name="tuner_play_a_string">현을 연주하세요…</string>
+    <string name="tuner_in_tune">튜닝 완료!</string>
+    <string name="tuner_almost_up">거의 맞았어요 — 아주 조금 높여 주세요</string>
+    <string name="tuner_almost_down">거의 맞았어요 — 아주 조금 낮춰 주세요</string>
+    <string name="tuner_tune_up">높이기</string>
+    <string name="tuner_tune_down">낮추기</string>
+    <string name="tuner_all_tuned">모든 현 튜닝 완료!</string>
+    <string name="tuner_start">튜닝 시작</string>
+    <string name="tuner_stop">정지</string>
+    <string name="cd_start_tuning">튜닝 시작</string>
+    <string name="cd_stop_tuning">튜닝 중지</string>
+    <string name="cd_detected_note">감지된 음: %s</string>
+    <string name="tuner_meter_no_pitch">튜닝 미터, 음이 감지되지 않음</string>
+    <string name="tuner_meter_in_tune">튜닝 미터, 튜닝됨</string>
+    <string name="tuner_meter_close">튜닝 미터, %1$d센트 %2$s, 거의 맞음</string>
+    <string name="tuner_meter_flat">튜닝 미터, %d센트 낮음</string>
+    <string name="tuner_meter_sharp">튜닝 미터, %d센트 높음</string>
+    <string name="tuner_direction_flat">낮음</string>
+    <string name="tuner_direction_sharp">높음</string>
+    <string name="tuner_swiftf0_active">SwiftF0 Active</string>
+    <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
+    <string name="tuner_precision_mode">정밀 모드</string>
+    <string name="tuner_string_tuned">튜닝됨</string>
+    <string name="tuner_string_next">다음 튜닝할 현</string>
+    <string name="tuner_string_active">활성</string>
+    <string name="tuner_string_not_tuned">미튜닝</string>
+    <string name="tuner_string_desc">%1$s현, %2$s, 탭하면 기준음 재생</string>
+    <string name="tuner_check_tuned">튜닝됨</string>
+
+    <!-- ── Pitch Monitor ────────────────────────────────────────────── -->
+    <string name="pitch_monitor_detected_chord">감지된 코드: %s</string>
+    <string name="pitch_monitor_notes_prefix">음: </string>
+    <string name="pitch_monitor_current_note">현재 음: %s</string>
+    <string name="pitch_monitor_visualization">시간에 따른 피치 변화 시각화</string>
+    <string name="pitch_monitor_tap_start">시작을 탭하여 시작하세요</string>
+    <string name="pitch_monitor_playing">%s 재생 중</string>
+    <string name="pitch_monitor_detecting">피치 감지 중…</string>
+    <string name="pitch_monitor_play_ukulele">우쿨렐레를 연주하세요…</string>
+    <string name="cd_stop_listening">듣기 중지</string>
+    <string name="cd_start_listening">듣기 시작</string>
+    <string name="pitch_monitor_start">시작</string>
+
+    <!-- ── Favorites ────────────────────────────────────────────────── -->
+    <string name="favorites_empty_title">즐겨찾기가 없습니다</string>
+    <string name="favorites_empty_message">코드 탭에서 보이싱의 하트 아이콘을 탭하면 여기에 저장됩니다.</string>
+    <string name="favorites_all_count">전체 (%d)</string>
+    <string name="favorites_new_folder">새 폴더</string>
+    <string name="favorites_folder_name">폴더 이름</string>
+    <string name="favorites_rename_folder">폴더 이름 변경</string>
+    <string name="favorites_delete_folder">폴더 삭제</string>
+    <string name="favorites_delete_folder_msg">\"%s\" 폴더를 삭제할까요? 폴더 안의 보이싱은 삭제되지 않습니다.</string>
+    <string name="cd_rename_folder">폴더 이름 변경</string>
+    <string name="cd_delete_folder">폴더 삭제</string>
+    <string name="cd_manage_folders">폴더 관리</string>
+    <string name="cd_reorder">순서 변경</string>
+
+    <!-- ── Favorite Folder Sheet ────────────────────────────────────── -->
+    <string name="folder_sheet_manage">폴더 관리</string>
+    <string name="folder_sheet_save_to">폴더에 저장</string>
+    <string name="folder_sheet_no_folders">폴더가 아직 없습니다. 아래에서 만들어 보세요.</string>
+    <string name="folder_sheet_new_folder">+ 새 폴더</string>
+    <string name="folder_sheet_remove">즐겨찾기에서 제거</string>
+
+    <!-- ── Songbook ─────────────────────────────────────────────────── -->
+    <string name="songbook_empty_title">곡이 아직 없습니다</string>
+    <string name="songbook_empty_message">+를 탭하여 첫 코드 시트를 만들어 보세요.\n또는 ChordPro 파일을 가져올 수 있습니다.</string>
+    <string name="songbook_untitled">제목 없음</string>
+    <string name="songbook_share_as_text">텍스트로 공유</string>
+    <string name="songbook_chord_sheet">코드 시트</string>
+    <string name="songbook_export_chordpro">ChordPro로 내보내기</string>
+    <string name="songbook_export_chooser">ChordPro 내보내기</string>
+    <string name="songbook_key_prefix">키: </string>
+    <string name="songbook_transpose">이조:</string>
+    <string name="songbook_capo_hint">또는 카포 %d로 원래 코드 사용</string>
+    <string name="songbook_field_title">제목</string>
+    <string name="songbook_field_artist">아티스트 (선택)</string>
+    <string name="songbook_field_lyrics_hint">[코드이름]으로 코드를 삽입합니다. 예: 무지개[C] 너머 어딘[Em]가에</string>
+    <string name="songbook_field_lyrics">[코드]가 포함된 가사</string>
+    <string name="cd_import_chordpro">ChordPro 파일 가져오기</string>
+    <string name="cd_new_chord_sheet">새 코드 시트</string>
+    <string name="songbook_speed_half">0.5x</string>
+    <string name="songbook_speed_1x">1x</string>
+    <string name="songbook_speed_2x">2x</string>
+    <string name="songbook_speed_3x">3x</string>
+    <string name="cd_stop_scroll">스크롤 정지</string>
+    <string name="cd_pause_scroll">스크롤 일시 정지</string>
+    <string name="cd_auto_scroll">자동 스크롤</string>
+
+    <!-- ── Progressions ─────────────────────────────────────────────── -->
+    <string name="progressions_new">새 코드 진행</string>
+    <string name="cd_add_progression">새 코드 진행 추가</string>
+    <string name="progressions_my">내 코드 진행</string>
+    <string name="cd_delete_progression">코드 진행 삭제</string>
+    <string name="cd_duplicate_progression">복제</string>
+    <string name="progressions_voice_leading">보이스 리딩</string>
+    <string name="progressions_copy_suffix"> (복사본)</string>
+
+    <!-- ── Create Progression Sheet ─────────────────────────────────── -->
+    <string name="progression_edit_title">코드 진행 편집</string>
+    <string name="progression_create_title">코드 진행 만들기</string>
+    <string name="progression_name_label">코드 진행 이름</string>
+    <string name="progression_desc_label">설명 (선택)</string>
+    <string name="progression_chord_quality">코드 퀄리티</string>
+    <string name="progression_triad">트라이어드</string>
+    <string name="progression_tap_chords">코드를 탭하여 추가</string>
+    <string name="progression_your_chords">내 코드 진행 (코드 %d개)</string>
+    <string name="progression_placeholder">위의 코드를 탭하여 진행을 만들어 보세요</string>
+    <string name="progression_update">코드 진행 업데이트</string>
+    <string name="progression_save">코드 진행 저장</string>
+    <string name="progression_error_min">코드를 2개 이상 추가하세요</string>
+    <string name="cd_remove">제거</string>
+
+    <!-- ── Strum Patterns ───────────────────────────────────────────── -->
+    <string name="patterns_strumming">스트러밍</string>
+    <string name="patterns_fingerpicking">핑거피킹</string>
+    <string name="patterns_my">내 패턴</string>
+    <string name="cd_create_pattern">패턴 만들기</string>
+    <string name="patterns_create_strum">스트럼 패턴 만들기</string>
+    <string name="patterns_pattern_name">패턴 이름</string>
+    <string name="patterns_tap_beat">각 박자를 탭하여 방향을 변경하세요</string>
+    <string name="patterns_tap_accent">아래를 탭하여 악센트를 전환하세요</string>
+    <string name="patterns_custom">커스텀 패턴</string>
+    <string name="patterns_create_fingerpick">핑거피킹 패턴 만들기</string>
+    <string name="patterns_steps">%d단계</string>
+    <string name="patterns_tap_step">단계를 탭한 뒤, 아래에서 손가락과 현을 선택하세요</string>
+    <string name="patterns_finger">손가락</string>
+    <string name="patterns_thumb">엄지</string>
+    <string name="patterns_index">검지</string>
+    <string name="patterns_middle">중지</string>
+    <string name="patterns_ring">약지</string>
+    <string name="patterns_string">현</string>
+
+    <!-- ── Playback Bar ─────────────────────────────────────────────── -->
+    <string name="playback_prefix">재생: </string>
+    <string name="playback_bpm_prefix">BPM: </string>
+    <string name="cd_loop_on">루프 켜기</string>
+    <string name="cd_loop_off">루프 끄기</string>
+
+    <!-- ── Scale Selector ───────────────────────────────────────────── -->
+    <string name="scale_selector_root">스케일 루트</string>
+    <string name="scale_selector_chords_in">%s의 코드</string>
+
+    <!-- ── Settings ─────────────────────────────────────────────────── -->
+    <string name="settings_title">설정</string>
+    <string name="settings_sound">사운드</string>
+    <string name="settings_volume">음량</string>
+    <string name="settings_note_duration">음 길이</string>
+    <string name="settings_strum_delay">스트럼 딜레이</string>
+    <string name="settings_strum_direction">스트럼 방향</string>
+    <string name="settings_strum_down">다운</string>
+    <string name="settings_strum_up">업</string>
+    <string name="settings_play_on_tap">탭하면 재생</string>
+    <string name="settings_display">화면</string>
+    <string name="settings_theme">테마</string>
+    <string name="settings_language">언어</string>
+    <string name="settings_select_language">언어 선택</string>
+    <string name="settings_tuning">튜닝</string>
+    <string name="settings_tuner">튜너</string>
+    <string name="settings_spoken_feedback">음성 피드백</string>
+    <string name="settings_spoken_feedback_desc">텍스트 음성 변환으로 음 이름과 센트 편차를 읽어줍니다</string>
+    <string name="settings_precision_mode">정밀 모드</string>
+    <string name="settings_precision_mode_desc">튜닝 허용 범위를 ±6센트에서 ±2센트로 좁힙니다</string>
+    <string name="settings_auto_advance">자동 진행</string>
+    <string name="settings_auto_advance_desc">다음 튜닝되지 않은 현을 자동으로 강조합니다</string>
+    <string name="settings_auto_start">자동 시작</string>
+    <string name="settings_auto_start_desc">튜너 탭을 열면 자동으로 감지를 시작합니다</string>
+    <string name="settings_a4_reference">A4 기준</string>
+    <string name="settings_fretboard">지판</string>
+    <string name="settings_left_handed">왼손잡이</string>
+    <string name="settings_show_note_names">음 이름 표시</string>
+    <string name="settings_allow_muted">뮤트 현 허용</string>
+    <string name="settings_frets">프렛</string>
+    <string name="settings_notifications">알림</string>
+    <string name="settings_chord_of_day">오늘의 코드</string>
+    <string name="settings_about">앱 정보</string>
+    <string name="settings_version">버전 %s</string>
+    <string name="settings_website">웹사이트</string>
+    <string name="settings_credits">크레딧</string>
+    <string name="settings_audio_samples">오디오 샘플</string>
+    <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" by stomachache (Freesound.org)</string>
+    <string name="settings_license">라이선스</string>
+    <string name="settings_license_value">CC BY 3.0</string>
+    <string name="settings_tagline">코드, 스케일, 음악 이론, 작곡을 위한 올인원 우쿨렐레 컴패니언. 무료, 오프라인, 광고 없음, 추적 없음.</string>
+    <string name="settings_unknown_version">알 수 없음</string>
+
+    <!-- ── Backup &amp; Restore ──────────────────────────────────────── -->
+    <string name="backup_title">백업 &amp; 복원</string>
+    <string name="backup_description">모든 데이터(즐겨찾기, 곡, 코드 진행, 패턴, 설정, 학습 진행 상황)를 파일로 저장하거나 백업에서 복원할 수 있습니다.</string>
+    <string name="backup_last">마지막 백업: %s</string>
+    <string name="cd_backup">데이터 백업</string>
+    <string name="backup_button">백업</string>
+    <string name="cd_restore">데이터 복원</string>
+    <string name="restore_button">복원</string>
+    <string name="restore_dialog_title">데이터를 복원할까요?</string>
+    <string name="restore_dialog_message">백업 파일의 즐겨찾기, 곡, 코드 진행, 패턴이 기존 데이터와 병합됩니다. 설정은 백업 값으로 대체됩니다.\n\n기존 데이터는 삭제되지 않습니다.</string>
+
+    <!-- ── Tuner Permission ─────────────────────────────────────────── -->
+    <string name="mic_permission_title">마이크 접근</string>
+    <string name="mic_permission_message">튜너가 우쿨렐레 소리를 듣고 각 현의 피치를 감지하려면 마이크 접근이 필요합니다.</string>
+    <string name="mic_permission_allow">마이크 허용</string>
+    <string name="mic_permission_denied_title">마이크가 거부됨</string>
+    <string name="mic_permission_denied_message">마이크 접근 없이는 튜너를 사용할 수 없습니다. 기기의 앱 설정에서 마이크를 활성화해 주세요.</string>
+    <string name="mic_permission_open_settings">설정 열기</string>
+
+    <!-- ── Note Quiz ────────────────────────────────────────────────── -->
+    <string name="note_quiz_title">음표 퀴즈</string>
+    <string name="note_quiz_subtitle">지판 음에 대한 지식을 테스트해 보세요.</string>
+    <string name="note_quiz_name_it">음 맞히기</string>
+    <string name="note_quiz_find_it">위치 찾기</string>
+    <string name="note_quiz_start">퀴즈 시작</string>
+    <string name="note_quiz_next">다음 문제</string>
+    <string name="note_quiz_what_note">이 위치의 음은 무엇인가요?</string>
+    <string name="note_quiz_string_fret">현, 프렛</string>
+    <string name="note_quiz_where_is">이 음은 어디에 있나요?</string>
+
+    <!-- ── Theory Quiz ──────────────────────────────────────────────── -->
+    <string name="theory_quiz_title">이론 퀴즈</string>
+    <string name="theory_quiz_subtitle">음악 이론 지식을 테스트해 보세요!</string>
+    <string name="theory_quiz_standard">스탠다드</string>
+    <string name="theory_quiz_blitz">블리츠 (60초)</string>
+    <string name="theory_quiz_start_blitz">블리츠 시작!</string>
+    <string name="theory_quiz_start">퀴즈 시작</string>
+    <string name="theory_quiz_next">다음 문제</string>
+    <string name="theory_quiz_times_up">시간 초과!</string>
+    <string name="theory_quiz_final_score">점수: %d</string>
+    <string name="theory_quiz_final_accuracy">정확도: %s</string>
+    <string name="theory_quiz_play_again">다시 도전</string>
+
+    <!-- ── Interval Trainer ─────────────────────────────────────────── -->
+    <string name="interval_title">인터벌 트레이너</string>
+    <string name="interval_subtitle">두 음 사이의 음정을 맞혀 보세요.</string>
+    <string name="interval_visual">시각</string>
+    <string name="interval_audio">청각</string>
+    <string name="interval_ascending">상행</string>
+    <string name="interval_descending">하행</string>
+    <string name="interval_harmonic">화성</string>
+    <string name="interval_start">훈련 시작</string>
+    <string name="interval_next">다음 인터벌</string>
+    <string name="interval_what">어떤 음정인가요?</string>
+    <string name="interval_replay">다시 듣기</string>
+    <string name="interval_semitone">반음</string>
+    <string name="interval_semitones_apart">반음 간격</string>
+
+    <!-- ── Chord Ear Training ───────────────────────────────────────── -->
+    <string name="chord_ear_title">코드 청음 훈련</string>
+    <string name="chord_ear_subtitle">귀로 코드의 종류를 맞혀 보세요.</string>
+    <string name="chord_ear_start">훈련 시작</string>
+    <string name="chord_ear_next">다음 코드</string>
+    <string name="chord_ear_what">이 코드의 종류는 무엇인가요?</string>
+    <string name="chord_ear_replay">다시 듣기</string>
+
+    <!-- ── Scale Practice ───────────────────────────────────────────── -->
+    <string name="scale_practice_title">스케일 연습</string>
+    <string name="scale_practice_subtitle">가이드 연주, 퀴즈, 청음 훈련으로 스케일을 연습하세요.</string>
+    <string name="scale_practice_root">스케일 루트</string>
+    <string name="scale_practice_options">옵션</string>
+    <string name="scale_practice_loop">루프</string>
+    <string name="scale_practice_fretboard">지판</string>
+    <string name="scale_practice_play">스케일 재생</string>
+    <string name="scale_practice_resume">재개</string>
+    <string name="scale_practice_now">현재:</string>
+    <string name="scale_practice_note_of">%2$d음 중 %1$d번째</string>
+    <string name="scale_practice_start_quiz">퀴즈 시작</string>
+    <string name="scale_practice_next">다음 문제</string>
+    <string name="scale_practice_what">재생된 스케일은 무엇인가요?</string>
+    <string name="scale_practice_root_label">루트:</string>
+    <string name="scale_practice_replay">스케일 다시 듣기</string>
+    <string name="scale_practice_correct">정답! 이것은</string>
+    <string name="scale_practice_notes_label">음:</string>
+    <string name="scale_practice_next_scale">다음 스케일</string>
+    <string name="scale_practice_start_training">훈련 시작</string>
+
+    <!-- ── Theory Lessons ───────────────────────────────────────────── -->
+    <string name="theory_lessons_title">음악 이론 배우기</string>
+    <string name="theory_lessons_subtitle">기초부터 고급 화성학까지 단계별 레슨.</string>
+    <string name="theory_lessons_progress">진행 상황</string>
+    <string name="theory_lessons_count">%d개 레슨</string>
+    <string name="theory_lessons_key_points">핵심 포인트</string>
+    <string name="theory_lessons_quick_check">확인 문제</string>
+    <string name="theory_lessons_not_quite">아쉽네요.</string>
+    <string name="theory_lessons_back">레슨 목록으로 돌아가기</string>
+
+    <!-- ── Learning Progress ────────────────────────────────────────── -->
+    <string name="progress_title">학습 진행 상황</string>
+    <string name="progress_subtitle">음악 이론 학습 여정을 확인하세요.</string>
+    <string name="progress_practice_time">연습 시간</string>
+    <string name="progress_today">오늘</string>
+    <string name="progress_total">합계</string>
+    <string name="progress_sessions">세션</string>
+    <string name="progress_daily_goal">일일 목표: %d분</string>
+    <string name="progress_day_streak">연속 일수</string>
+    <string name="progress_lessons_done">완료한 레슨</string>
+    <string name="progress_theory_lessons">이론 레슨</string>
+    <string name="progress_lessons_completed">완료한 레슨</string>
+    <string name="progress_quizzes_passed">통과한 퀴즈</string>
+    <string name="progress_overall">전체</string>
+    <string name="progress_reset">모든 진행 상황 초기화</string>
+    <string name="progress_reset_title">진행 상황을 초기화할까요?</string>
+    <string name="progress_reset_message">모든 학습 진행 상황, 퀴즈 점수, 연속 기록, 레슨 완료 현황이 삭제됩니다. 이 작업은 되돌릴 수 없습니다.</string>
+    <string name="progress_no_attempts">아직 기록이 없습니다.</string>
+
+    <!-- ── Daily Challenge ──────────────────────────────────────────── -->
+    <string name="daily_challenge_title">일일 도전</string>
+    <string name="daily_challenge_subtitle">오늘의 도전을 완료하고 실력을 키워 보세요!</string>
+    <string name="daily_challenge_tip_title">오늘의 팁</string>
+    <string name="daily_tip_1">매일 5분이라도 연습하는 것이 일주일에 한 번 1시간보다 효과적입니다.</string>
+    <string name="daily_tip_2">코드 전환을 연습할 때는 메트로놈을 사용하세요 — 느리게 시작해서 점점 빠르게.</string>
+    <string name="daily_tip_3">새 코드를 배울 때는 각 현을 하나씩 소리 내어 깨끗한지 확인하세요.</string>
+    <string name="daily_tip_4">스트러밍하면서 함께 허밍해 보세요. 음악적 귀가 발달합니다.</string>
+    <string name="daily_tip_5">거울 앞에서 연습하며 손 자세를 확인하세요.</string>
+    <string name="daily_tip_6">속도보다 부드러운 전환에 집중하세요 — 속도는 나중에 따라옵니다.</string>
+    <string name="daily_tip_7">좋아하는 곡을 배우세요! 동기 부여가 연습을 즐겁게 만듭니다.</string>
+
+    <!-- ── SRS Practice ─────────────────────────────────────────────── -->
+    <string name="srs_title">간격 반복 학습</string>
+    <string name="srs_subtitle">최적의 간격으로 코드를 복습하여 장기 기억에 남기세요.</string>
+    <string name="srs_due">복습 예정</string>
+    <string name="srs_reviewed">복습 완료</string>
+    <string name="srs_total">전체</string>
+    <string name="srs_no_cards">카드가 아직 없습니다</string>
+    <string name="srs_no_cards_message">코드 라이브러리에서 보이싱을 길게 눌러 \"SRS에 추가\"를 선택하면 SRS 덱에 코드를 추가할 수 있습니다.</string>
+    <string name="srs_all_caught_up">모두 완료!</string>
+    <string name="srs_session_done">이번 세션에서 %1$d%2$s를 복습했습니다. 나중에 다시 와서 더 복습하세요.</string>
+    <string name="srs_card_singular">장</string>
+    <string name="srs_card_plural">장</string>
+    <string name="srs_no_due">현재 복습할 카드가 없습니다. 나중에 다시 확인하세요!</string>
+    <string name="srs_card_remaining">카드 %1$d, 남은 %2$d장</string>
+    <string name="srs_recall_prompt">운지법을 기억할 수 있나요?</string>
+    <string name="srs_show_voicing">보이싱 보기</string>
+    <string name="srs_frets">프렛: %s</string>
+    <string name="srs_how_well">얼마나 잘 기억했나요?</string>
+
+    <!-- ── Practice Routine ─────────────────────────────────────────── -->
+    <string name="routine_title">연습 루틴</string>
+    <string name="routine_subtitle">연습 세션을 설정하세요.</string>
+    <string name="routine_duration">소요 시간: %d분</string>
+    <string name="routine_skill_level">실력 수준</string>
+    <string name="routine_focus_areas">중점 영역</string>
+    <string name="routine_start">연습 루틴 시작</string>
+    <string name="cd_start_routine">연습 루틴 시작</string>
+    <string name="routine_total">총 %1$d분, %2$d단계</string>
+    <string name="cd_new_routine">새 루틴</string>
+    <string name="routine_complete_title">연습 완료!</string>
+    <string name="routine_complete_message">수고하셨어요! 매일 연습을 계속하세요.</string>
+    <string name="cd_practice_complete">연습 완료</string>
+    <string name="cd_completed">완료</string>
+
+    <!-- ── Chord Transition Trainer ─────────────────────────────────── -->
+    <string name="chord_transition_title">코드 전환 트레이너</string>
+    <string name="chord_transition_subtitle">박자에 맞춰 두 코드 사이의 전환을 연습하세요.</string>
+    <string name="chord_transition_chord_a">코드 A</string>
+    <string name="chord_transition_chord_b">코드 B</string>
+    <string name="cd_swap_chords">코드 교환</string>
+    <string name="chord_transition_switches">전환 횟수</string>
+    <string name="chord_transition_time">시간</string>
+    <string name="chord_transition_per_min">회/분</string>
+    <string name="cd_reset">초기화</string>
+    <string name="cd_start">시작</string>
+    <string name="cd_stop">정지</string>
+
+    <!-- ── Chord Transition Animation ───────────────────────────────── -->
+    <string name="transition_anim_finger_movements">손가락 움직임</string>
+    <string name="transition_anim_no_movement">손가락 이동이 필요 없습니다!</string>
+    <string name="transition_anim_speed">속도:</string>
+    <string name="transition_anim_animate">전환 애니메이션</string>
+    <string name="cd_animate_transition">전환 애니메이션</string>
+    <string name="cd_prev_step">이전 단계</string>
+    <string name="cd_next_step">다음 단계</string>
+    <string name="transition_anim_start_shape">시작 폼</string>
+    <string name="transition_anim_end_shape">종료 폼</string>
+    <string name="transition_anim_step">단계 %1$d/%2$d</string>
+
+    <!-- ── Play Along ───────────────────────────────────────────────── -->
+    <string name="play_along_title">함께 연주</string>
+    <string name="play_along_subtitle">듣고 올바른 코드를 연주하세요!</string>
+    <string name="play_along_mic_needed">코드 감지를 위해 마이크 접근이 필요합니다</string>
+    <string name="cd_grant_permission">마이크 권한 허용</string>
+    <string name="play_along_grant">권한 허용</string>
+    <string name="play_along_play">연주:</string>
+    <string name="play_along_heard">감지:</string>
+    <string name="cd_correct">정답</string>
+    <string name="cd_incorrect">오답</string>
+    <string name="play_along_grade">평가</string>
+    <string name="play_along_choose">키와 코드 진행을 선택하고 실시간 코드 감지로 함께 연주하세요.</string>
+    <string name="play_along_progression">코드 진행</string>
+
+    <!-- ── Achievements ─────────────────────────────────────────────── -->
+    <string name="achievements_title">업적</string>
+    <string name="achievements_subtitle">연습과 학습으로 배지를 획득하세요.</string>
+    <string name="achievements_unlocked">%d개 달성</string>
+    <string name="achievements_earned">획득함</string>
+
+    <!-- ── Help ──────────────────────────────────────────────────────── -->
+    <string name="help_title">도움말</string>
+    <string name="help_subtitle">기능을 탭하여 자세히 알아보세요.</string>
+    <string name="help_section_play">연주</string>
+    <string name="help_section_create">만들기</string>
+    <string name="help_section_learn">학습</string>
+    <string name="help_section_reference">참고</string>
+    <string name="help_section_other">기타</string>
+
+    <!-- Help item titles (matching nav labels) -->
+    <string name="help_explorer">탐색기</string>
+    <string name="help_tuner">튜너</string>
+    <string name="help_pitch_monitor">피치 모니터</string>
+    <string name="help_chords">코드</string>
+    <string name="help_favorites">즐겨찾기</string>
+    <string name="help_song_finder">곡 찾기</string>
+    <string name="help_songs">곡</string>
+    <string name="help_melody_notepad">멜로디 메모장</string>
+    <string name="help_patterns">패턴</string>
+    <string name="help_progressions">코드 진행</string>
+    <string name="help_learn_theory">음악 이론 배우기</string>
+    <string name="help_theory_quiz">이론 퀴즈</string>
+    <string name="help_interval_trainer">인터벌 트레이너</string>
+    <string name="help_note_quiz">음표 퀴즈</string>
+    <string name="help_chord_ear">코드 청음 훈련</string>
+    <string name="help_scale_practice">스케일 연습</string>
+    <string name="help_progress">진행 상황</string>
+    <string name="help_daily_challenge">일일 도전</string>
+    <string name="help_practice_routine">연습 루틴</string>
+    <string name="help_srs_review">SRS 복습</string>
+    <string name="help_chord_transitions">코드 전환</string>
+    <string name="help_play_along">함께 연주</string>
+    <string name="help_achievements">업적</string>
+    <string name="help_capo_guide">카포 가이드</string>
+    <string name="help_circle_of_fifths">5도권</string>
+    <string name="help_chord_subs">대리 코드</string>
+    <string name="help_chords_in_scale">스케일 내 코드</string>
+    <string name="help_fretboard_notes">지판 음표</string>
+    <string name="help_glossary">용어 사전</string>
+    <string name="help_settings">설정</string>
+    <string name="help_sharing">코드 공유</string>
+    <string name="help_full_screen">전체 화면 모드</string>
+
+    <!-- Help descriptions -->
+    <string name="help_desc_explorer">프렛을 탭하여 코드를 구성하는 인터랙티브 지판입니다. 어떤 코드를 연주하는지 자동으로 감지하여 전위, 음정, 다른 이름을 보여줍니다. 카포 선택기와 스케일 오버레이로 코드와 스케일의 관계를 탐구할 수 있습니다.</string>
+    <string name="help_desc_tuner">기기의 마이크를 사용하는 크로매틱 튜너입니다. 감지된 음, 미터의 센트 편차, 이해하기 쉬운 안내(\"높이기\", \"튜닝 완료!\")를 표시합니다. 현 버튼을 탭하면 기준음이 재생됩니다. 다양한 튜닝, A4 보정, 음성 피드백, 정밀 모드를 지원합니다.</string>
+    <string name="help_desc_pitch_monitor">실시간 피치 시각화 도구입니다. 스크롤 그래프에 감지된 피치를 표시하고, 현재 음 이름과 일치하는 코드를 강조합니다. 멜로디 연주 시 음정 확인이나 벤딩 연습에 유용합니다.</string>
+    <string name="help_desc_chords">종합 코드 라이브러리입니다. 루트 음과 코드 유형을 선택하여 우쿨렐레에서 연주 가능한 모든 보이싱을 확인할 수 있습니다. 보이싱을 탭하면 탐색기 지판에 표시되고, 길게 눌러 공유, 즐겨찾기 또는 SRS 추가가 가능합니다. 전위 비교 모드도 포함되어 있습니다.</string>
+    <string name="help_desc_favorites">폴더로 정리된 저장된 코드 보이싱입니다. 보이싱을 탭하면 지판에 표시되고, 밀거나 길게 눌러 옵션을 확인할 수 있습니다. 폴더를 사용하여 특정 곡이나 연습 세션별로 코드를 분류하세요.</string>
+    <string name="help_desc_song_finder">즐겨찾기에 저장된 코드로 연주할 수 있는 곡을 찾아줍니다. 코드를 많이 저장할수록 더 많은 곡을 찾을 수 있습니다. 1~2개의 코드만 더 배우면 연주할 수 있는 곡도 보여줍니다.</string>
+    <string name="help_desc_songs">코드 시트를 작성하고 저장하는 개인 곡 목록입니다. 가사를 입력하고 괄호 표기법으로 코드를 삽입하세요: \"무지개[C] 너머 어딘[Em]가에\". 이조, 카포 제안, 자동 스크롤, ChordPro 파일 가져오기/내보내기를 지원합니다.</string>
+    <string name="help_desc_melody_notepad">음 하나씩 멜로디를 작곡하는 간단한 도구입니다. 음을 탭하여 시퀀스를 만들고, 음가(온음표, 2분음표, 4분음표, 8분음표, 16분음표)를 선택하고, 쉼표를 추가하여 조절 가능한 BPM으로 재생할 수 있습니다. 멜로디 아이디어나 연습을 메모하기에 좋습니다.</string>
+    <string name="help_desc_patterns">스트러밍과 핑거피킹 패턴을 둘러보고 만들 수 있습니다. 박자 표시를 탭하여 방향을 변경(다운, 업, 뮤트, 쉼)하거나 손가락을 현에 지정합니다. 조절 가능한 템포로 재생할 수 있습니다.</string>
+    <string name="help_desc_progressions">모든 키의 일반적인 코드 진행 라이브러리입니다. 코드를 탭하여 라이브러리에서 확인하세요. 나만의 코드 진행을 만들고 내장 메트로놈으로 연습하거나 코드 간 보이스 리딩을 탐구하세요.</string>
+    <string name="help_desc_learn_theory">음표, 음정, 스케일, 코드, 조성, 화성을 다루는 체계적인 음악 이론 레슨입니다. 각 레슨에는 핵심 포인트와 확인 문제가 있어 다음으로 넘어가기 전에 이해도를 확인할 수 있습니다.</string>
+    <string name="help_desc_theory_quiz">음정, 코드 구성, 조표, 스케일 음도 등 음악 이론 지식을 테스트합니다. 스탠다드 모드와 시간 제한 블리츠 모드(60초)가 있습니다.</string>
+    <string name="help_desc_interval_trainer">음정 청음 훈련입니다. 시각(지판) 또는 청각 모드를 선택하고, 상행, 하행, 화성 제시 방식과 난이도를 선택합니다. 음정을 맞히며 상대 음감을 키우세요.</string>
+    <string name="help_desc_note_quiz">지판의 음을 맞히는 시간 제한 퀴즈입니다. \"음 맞히기\" 모드에서는 위치를 보고 음을 맞히고, \"위치 찾기\" 모드에서는 음을 보고 위치를 탭합니다. 난이도에 따라 프렛 범위가 달라집니다.</string>
+    <string name="help_desc_chord_ear">코드를 듣고 종류(장, 단, 감 등)를 맞힙니다. 난이도가 올라갈수록 코드 종류가 늘어납니다. 화성적 감각을 기르는 데 좋습니다.</string>
+    <string name="help_desc_scale_practice">세 가지 모드로 지판 위의 스케일을 연습합니다: 함께 연주(메트로놈 가이드), 퀴즈(재생된 스케일 맞히기), 청음 훈련. 모든 스케일 유형, 루프, 컴팩트 지판 뷰를 지원합니다.</string>
+    <string name="help_desc_progress">학습 통계를 보여주는 대시보드입니다: 연습 시간, 연속 일수, 완료 레슨, 이론·인터벌·음표 퀴즈·코드 청음 점수. 시간에 따른 일관성과 향상을 추적할 수 있습니다.</string>
+    <string name="help_desc_daily_challenge">매일 3개의 새로운 도전으로 연습에 변화를 줍니다. 각 도전은 코드, 스케일, 청음, 이론, 전환 등 다른 기술을 대상으로 합니다. 완료하면 꾸준함이 쌓입니다.</string>
+    <string name="help_desc_practice_routine">가이드 연습 세션 빌더입니다. 소요 시간, 실력 수준, 중점 영역을 선택하여 단계별 루틴을 생성합니다. 워밍업, 테크닉, 레퍼토리, 마무리를 포함한 시간 배분 연습 메뉴를 만들어 줍니다.</string>
+    <string name="help_desc_srs_review">코드 보이싱 암기를 위한 간격 반복 시스템입니다. 라이브러리에서 코드를 추가하면 각 보이싱의 기억 정도에 따라 점점 긴 간격으로 복습을 예약합니다. 코드 어휘를 효율적으로 늘려 나갈 수 있습니다.</string>
+    <string name="help_desc_chord_transitions">두 코드 사이에서 손가락이 어떻게 움직이는지 시각화합니다. 두 코드를 선택하면 손가락 움직임의 단계별 애니메이션이 표시됩니다. 시간 측정 연습 모드, 전환 카운터, BPM 조절도 포함되어 있습니다.</string>
+    <string name="help_desc_play_along">오디오 코드 감지를 통한 실시간 함께 연주 연습입니다. 키와 코드 진행을 선택하고 앱이 듣고 정확도를 평가하는 동안 함께 스트러밍하세요. 마이크 권한이 필요합니다.</string>
+    <string name="help_desc_achievements">앱을 사용하면서 달성할 수 있는 마일스톤 갤러리입니다. 연습 연속 일수, 퀴즈 점수, 만든 곡, 배운 코드 등으로 배지를 획득하세요. 진행 상황을 확인하러 와 보세요.</string>
+    <string name="help_desc_capo_guide">우쿨렐레에서 카포를 사용하는 방법을 안내하는 교육 가이드입니다. 카포의 역할, 피치 변화, 일반적인 위치를 설명하고, 참조 테이블이 포함된 인터랙티브 체험 섹션도 있습니다.</string>
+    <string name="help_desc_circle_of_fifths">인터랙티브 5도권 다이어그램입니다. 키를 탭하면 조표, 나란한조, 다이어토닉 코드, 가까운조를 볼 수 있습니다. 조성 관계를 이해하기 위한 기본 참고 자료입니다.</string>
+    <string name="help_desc_chord_subs">대리 코드 참조 가이드입니다. 루트 코드를 선택하면 어떤 코드로 대체할 수 있는지와 그 이유(나란한조, 트라이톤 대리, 모달 인터체인지 등)를 보여줍니다. 각 대리의 이론적 배경도 설명합니다.</string>
+    <string name="help_desc_chords_in_scale">스케일을 선택하면 그 안에서 자연스럽게 만들어지는 모든 코드를 표시합니다. 로마 숫자 분석이 포함된 다이어토닉 트라이어드를 보여줍니다. 작곡과 모든 키의 화성 이해에 유용합니다.</string>
+    <string name="help_desc_fretboard_notes">우쿨렐레 지판의 모든 음을 보여주는 시각적 맵입니다. 특정 음을 강조하여 모든 위치를 확인할 수 있습니다. High-G 및 Low-G 튜닝을 지원합니다. 음을 탭하면 들을 수 있습니다.</string>
+    <string name="help_desc_glossary">아르페지오부터 보이싱까지 음악 이론과 우쿨렐레 용어를 검색할 수 있는 사전입니다. 각 항목에는 간결한 정의와 필요시 예시가 포함되어 있습니다.</string>
+    <string name="help_desc_settings">앱 전체 환경을 설정합니다: 사운드(음량, 스트럼 딜레이, 방향), 화면(테마), 튜닝(High-G, Low-G, 바리톤 등), 튜너(음성 피드백, 정밀 모드, A4 보정), 지판(왼손잡이, 프렛 수), 알림.</string>
+    <string name="help_desc_sharing">코드를 이미지로 공유할 수 있습니다. 탐색기나 코드 라이브러리에서 코드를 볼 때 공유 아이콘을 탭하면 깔끔한 코드 다이어그램 이미지를 생성하여 친구에게 보내거나 SNS에 게시할 수 있습니다.</string>
+    <string name="help_desc_full_screen">탐색기 탭의 확대 아이콘을 탭하면 가로 전체 화면 지판이 표시됩니다. UI 방해 없이 지판을 최대한 크게 보고 싶은 연습에 적합합니다.</string>
+
+    <!-- ── Glossary ─────────────────────────────────────────────────── -->
+    <string name="glossary_title">음악 용어 사전</string>
+    <string name="glossary_term_count">음악 이론과 우쿨렐레 관련 용어 %d개.</string>
+    <string name="glossary_search_hint">용어 검색…</string>
+    <string name="glossary_no_match">일치하는 용어가 없습니다.</string>
+    <string name="glossary_example">예시:</string>
+
+    <!-- ── Circle of Fifths ─────────────────────────────────────────── -->
+    <string name="circle_title">5도권</string>
+    <string name="circle_subtitle">키를 탭하여 조표와 코드를 확인하세요. 인접한 키는 가까운조입니다.</string>
+    <string name="circle_cd_selected">5도권 다이어그램, %s 선택됨. 탭하여 다른 키를 선택하세요.</string>
+    <string name="circle_cd_default">5도권 다이어그램. 탭하여 키를 선택하세요.</string>
+    <string name="circle_key_signature">조표</string>
+    <string name="circle_relative_minor">나란한단조</string>
+    <string name="circle_relative_major">나란한장조</string>
+    <string name="circle_diatonic_chords">다이어토닉 코드</string>
+    <string name="circle_related_keys">가까운조</string>
+    <string name="circle_same_as">와 같음</string>
+
+    <!-- ── Capo Guide ───────────────────────────────────────────────── -->
+    <string name="capo_guide_what">카포란?</string>
+    <string name="capo_guide_pitch">피치 변화 원리</string>
+    <string name="capo_guide_positions">일반적인 카포 위치</string>
+    <string name="capo_guide_when">카포를 사용할 때</string>
+    <string name="capo_guide_try">직접 해 보세요!</string>
+    <string name="capo_guide_ref_table">어떤 폼이 어떤 키 소리를 내는지 참조 테이블:</string>
+    <string name="capo_guide_open_shapes">카포와 잘 어울리는 오픈 코드 폼:</string>
+    <string name="capo_guide_tap_fret">프렛을 탭하여 카포를 배치하세요:</string>
+    <string name="capo_guide_no_capo">카포 없음 — 표준 튜닝</string>
+    <string name="capo_guide_on_fret">프렛 %d에 카포</string>
+    <string name="capo_guide_was_note">(원래 %s)</string>
+    <string name="capo_guide_shape">폼</string>
+    <string name="capo_guide_sounds_as">실제 음</string>
+    <string name="capo_guide_string">%d현</string>
+
+    <!-- ── Capo Calculator ──────────────────────────────────────────── -->
+    <string name="capo_calc_title">카포 계산기</string>
+    <string name="capo_calc_sounding">실제 음: %s</string>
+    <string name="capo_calc_hint">카포를 사용하여 같은 음이 나는 더 쉬운 폼으로 연주하세요.</string>
+    <string name="capo_calc_no_capo">카포 없음</string>
+    <string name="capo_calc_fret">프렛 %d</string>
+    <string name="capo_calc_play_shape">연주: %s</string>
+    <string name="capo_calc_recommended">추천</string>
+    <string name="capo_calc_frets">프렛: %s</string>
+    <string name="capo_calc_ease">편의성: %d%%</string>
+    <string name="capo_calc_no_positions">이 코드에 사용할 수 있는 카포 위치가 없습니다.</string>
+    <string name="capo_helper_title">카포 헬퍼</string>
+    <string name="capo_helper_hint">이 코드 진행에 가장 쉬운 카포 위치를 찾으세요.</string>
+    <string name="capo_helper_shapes">폼: %s</string>
+    <string name="capo_helper_ease">전체 편의성: %d%%</string>
+    <string name="capo_helper_no_positions">이 코드 진행에 사용할 수 있는 카포 위치가 없습니다.</string>
+
+    <!-- ── Capo Visualizer ──────────────────────────────────────────── -->
+    <string name="capo_viz_title">카포 시각화</string>
+    <string name="capo_viz_shape">폼: %s</string>
+    <string name="capo_viz_with_capo">프렛 %1$d에 카포 → 실제 음은 %2$s</string>
+    <string name="capo_viz_no_capo">카포 없음 — 실제 음은 %s</string>
+    <string name="capo_viz_position">카포 위치</string>
+    <string name="capo_viz_no_capo_label">카포 없음</string>
+    <string name="capo_viz_fret">프렛 %d</string>
+    <string name="capo_viz_sounding">실제 음</string>
+    <string name="capo_viz_same">동일</string>
+    <string name="capo_viz_tip">팁: 프렛 %1$d에 카포를 놓으면 %2$s 폼으로 연주해도 실제 음은 %3$s가 됩니다. 프렛 하나당 반음씩 피치가 올라갑니다.</string>
+
+    <!-- ── Chord Substitutions ──────────────────────────────────────── -->
+    <string name="chord_subs_title">대리 코드</string>
+    <string name="chord_subs_subtitle">화성적 흐름을 유지하면서 다른 색채와 분위기를 만들어내는 코드 대체 방법을 배워 보세요.</string>
+    <string name="chord_subs_examples_in">예시 키:</string>
+    <string name="chord_subs_practice_tip_title">연습 팁</string>
+    <string name="chord_subs_practice_tip">먼저 다이어토닉 대리와 나란한조 교체부터 시작하세요 — 항상 좋은 소리가 납니다. 익숙해지면 모달 인터체인지로 더 다채로운 사운드를 시도해 보세요. 트라이톤 대리와 세컨더리 도미넌트는 재즈 화성을 탐구할 준비가 됐을 때 도전하세요.</string>
+    <string name="chord_subs_shared">공통: %s</string>
+
+    <!-- ── Scale Chord View ─────────────────────────────────────────── -->
+    <string name="scale_chord_title">스케일 내 코드</string>
+    <string name="scale_chord_subtitle">스케일에서 만들어지는 코드를 확인하세요.</string>
+    <string name="scale_chord_notes">음: %s</string>
+    <string name="scale_chord_too_few">이 스케일은 표준 트라이어드를 구성하기에 음이 너무 적습니다.</string>
+    <string name="scale_chord_diatonic">다이어토닉 트라이어드</string>
+
+    <!-- ── Fretboard Note Map ───────────────────────────────────────── -->
+    <string name="note_map_title">지판 음표 맵</string>
+    <string name="note_map_subtitle">우쿨렐레 지판의 모든 음을 익히세요.</string>
+    <string name="note_map_high_g">스탠다드 (High G)</string>
+    <string name="note_map_low_g">Low-G</string>
+    <string name="note_map_highlight">음 강조</string>
+    <string name="note_map_tips_title">팁</string>
+    <string name="note_map_tip_1">음을 탭하면 들을 수 있습니다</string>
+    <string name="note_map_tip_2">강조 필터로 특정 음의 모든 위치를 찾을 수 있습니다</string>
+    <string name="note_map_tip_3">프렛 12는 프렛 0과 같은 음입니다 (한 옥타브 높음)</string>
+    <string name="note_map_tip_4">Low-G로 전환하면 G현의 변화를 볼 수 있습니다</string>
+    <string name="note_map_string">%d현</string>
+
+    <!-- ── Fretboard View ───────────────────────────────────────────── -->
+    <string name="fretboard_string">현, </string>
+    <string name="fretboard_open">개방</string>
+    <string name="fretboard_fret">프렛 %d</string>
+    <string name="fretboard_selected">, 선택됨</string>
+    <string name="fretboard_in_scale">, 스케일 내</string>
+    <string name="fretboard_scale_root">, 스케일 루트</string>
+    <string name="fretboard_blocked">, 카포로 차단</string>
+    <string name="fretboard_blocked_text">카포로 차단</string>
+
+    <!-- ── Vertical Chord Diagram ───────────────────────────────────── -->
+    <string name="diagram_chord_cd">코드 %s</string>
+    <string name="diagram_string_muted">현 뮤트</string>
+    <string name="diagram_string_open">현 개방</string>
+    <string name="diagram_string_fret">현 프렛 %d</string>
+    <string name="diagram_capo_fret">프렛 %d에 카포</string>
+
+    <!-- ── Share Chord ──────────────────────────────────────────────── -->
+    <string name="share_as_image">이미지로 공유</string>
+    <string name="share_diagram_attribution">Ukulele Companion</string>
+
+    <!-- ── Melody Notepad ───────────────────────────────────────────── -->
+    <string name="melody_title">멜로디 메모장</string>
+    <string name="melody_subtitle">음을 탭하여 멜로디를 작곡하세요. 재생 버튼으로 들을 수 있습니다.</string>
+    <string name="melody_sequence">시퀀스 (%d음)</string>
+    <string name="melody_placeholder">아래의 음을 탭하여 작곡을 시작하세요</string>
+    <string name="melody_whole">온</string>
+    <string name="melody_half">2분</string>
+    <string name="melody_quarter">4분</string>
+    <string name="melody_eighth">8</string>
+    <string name="melody_sixteenth">16</string>
+    <string name="melody_note_duration">음 길이</string>
+    <string name="melody_tap_to_add">탭하여 음 추가</string>
+    <string name="melody_rest">쉼표</string>
+    <string name="cd_delete_note">음 삭제</string>
+    <string name="cd_play_melody">멜로디 재생</string>
+    <string name="cd_stop_playing">재생 정지</string>
+    <string name="cd_clear_all">모든 음 지우기</string>
+    <string name="melody_clear">지우기</string>
+
+    <!-- ── Song Finder ──────────────────────────────────────────────── -->
+    <string name="song_finder_title">곡 찾기</string>
+    <string name="song_finder_subtitle">알고 있는 코드로 연주할 수 있는 곡을 찾으세요.</string>
+    <string name="song_finder_no_chords_title">알고 있는 코드가 아직 없습니다</string>
+    <string name="song_finder_no_chords_message">코드 보이싱을 즐겨찾기에 저장하면 연주할 수 있는 곡을 찾아드립니다!</string>
+    <string name="song_finder_your_chords">내 코드 (%d개)</string>
+    <string name="song_finder_songs_can_play">연주할 수 있는 곡 (%d곡)</string>
+    <string name="song_finder_learn_more">1~2개 더 배우면 연주 가능 (%d곡)</string>
+    <string name="song_finder_hide">숨기기</string>
+    <string name="song_finder_show">보기</string>
+    <string name="song_finder_keep_learning">새로운 코드를 계속 배워서 더 많은 곡을 연주하세요!</string>
+    <string name="song_finder_learn_prefix">배우기: </string>
+
+    <!-- ── Voice Leading ────────────────────────────────────────────── -->
+    <string name="cd_back_progressions">코드 진행으로 돌아가기</string>
+    <string name="voice_leading_title">%s의 보이스 리딩</string>
+    <string name="voice_leading_common_tones">공통음 %d개</string>
+    <string name="voice_leading_common_tones_plural">공통음 %d개</string>
+    <string name="voice_leading_fret_movement">총 %d프렛 이동</string>
+    <string name="voice_leading_frets_movement">총 %d프렛 이동</string>
+    <string name="voice_leading_stays">유지: </string>
+    <string name="voice_leading_muted">뮤트</string>
+    <string name="voice_leading_fret_prefix">프렛 </string>
+    <string name="voice_leading_arrow"> → </string>
+    <string name="voice_leading_tip_singular">팁: %1$s현의 손가락은 그대로 유지하세요 — 두 코드 모두 같은 음입니다.</string>
+    <string name="voice_leading_tip_plural">팁: %1$s현의 손가락은 그대로 유지하세요 — 두 코드 모두 같은 음입니다.</string>
+    <string name="voice_leading_total_path">전체: %2$d번의 전환에서 %1$d프렛 이동</string>
+    <string name="voice_leading_prev">이전</string>
+    <string name="cd_play_all_voice_leadings">모든 보이스 리딩 재생</string>
+    <string name="voice_leading_play_all">전체 재생</string>
+    <string name="voice_leading_next">다음</string>
+    <string name="voice_leading_step">단계 %1$d / %2$d</string>
+    <string name="voice_leading_single_chord">이 코드 진행에는 코드가 하나뿐입니다.</string>
+
+    <!-- ── Misc Content Descriptions ──────────────────────────────── -->
+    <string name="cd_play_item">%s 재생</string>
+    <string name="cd_to">에서</string>
+
+    <!-- ── Transpose Controls ───────────────────────────────────────── -->
+    <string name="transpose_arrow"> → </string>
+    <string name="transpose_capo_prefix">카포 </string>
+
+    <!-- ── Progression Practice ─────────────────────────────────────── -->
+    <string name="progression_practice_title">연습</string>
+    <string name="progression_practice_no_voicing">보이싱 없음</string>
+    <string name="cd_previous_voicing">이전 보이싱</string>
+    <string name="cd_next_voicing">다음 보이싱</string>
+    <string name="cd_toggle_loop">루프 전환</string>
+
+    <!-- ── Tap Tempo ────────────────────────────────────────────────── -->
+    <string name="tap_tempo_label">탭</string>
+
+    <!-- ── Full Screen Fretboard ────────────────────────────────────── -->
+    <string name="full_screen_reset">초기화</string>
+
+    <!-- ── Notification (Chord of the Day) ──────────────────────────── -->
+    <string name="notif_chord_of_day">오늘의 코드: %s</string>
+    <string name="notif_frets">프렛: %1$s — 탭하여 연습!</string>
+    <string name="notif_channel_name">오늘의 코드</string>
+    <string name="notif_channel_desc">매일 우쿨렐레 코드 추천</string>
+
+    <!-- ── Widget ───────────────────────────────────────────────────── -->
+    <string name="widget_title">오늘의 코드</string>
+</resources>

@@ -27,9 +27,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.SrsCard
 import com.baijum.ukufretboard.data.SrsCardRepository
 import com.baijum.ukufretboard.domain.ChordVoicing
@@ -66,12 +68,12 @@ fun SrsPracticeView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Spaced Repetition",
+            text = stringResource(R.string.srs_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
         )
         Text(
-            text = "Review chords at optimal intervals for long-term memory.",
+            text = stringResource(R.string.srs_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -100,7 +102,7 @@ fun SrsPracticeView(
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                     Text(
-                        text = "Due",
+                        text = stringResource(R.string.srs_due),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
@@ -113,7 +115,7 @@ fun SrsPracticeView(
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                     Text(
-                        text = "Reviewed",
+                        text = stringResource(R.string.srs_reviewed),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
@@ -126,7 +128,7 @@ fun SrsPracticeView(
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                     Text(
-                        text = "Total",
+                        text = stringResource(R.string.srs_total),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
@@ -153,29 +155,33 @@ fun SrsPracticeView(
                 ) {
                     if (totalCards == 0) {
                         Text(
-                            text = "No cards yet",
+                            text = stringResource(R.string.srs_no_cards),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Add chords to your SRS deck from the Chord Library by long-pressing a voicing and selecting \"Add to SRS\".",
+                            text = stringResource(R.string.srs_no_cards_message),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             textAlign = TextAlign.Center,
                         )
                     } else {
                         Text(
-                            text = "All caught up!",
+                            text = stringResource(R.string.srs_all_caught_up),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = if (sessionReviewed > 0) {
-                                "You reviewed $sessionReviewed card${if (sessionReviewed > 1) "s" else ""} this session. Come back later for more reviews."
+                                stringResource(
+                                    R.string.srs_session_done,
+                                    sessionReviewed,
+                                    if (sessionReviewed == 1) stringResource(R.string.srs_card_singular) else stringResource(R.string.srs_card_plural),
+                                )
                             } else {
-                                "No cards are due for review right now. Check back later!"
+                                stringResource(R.string.srs_no_due)
                             },
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -257,7 +263,7 @@ private fun ReviewCard(
             )
 
             Text(
-                text = "Can you recall the fingering?",
+                text = stringResource(R.string.srs_recall_prompt),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f),
             )
@@ -270,7 +276,7 @@ private fun ReviewCard(
                     onClick = onShowAnswer,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text("Show Voicing")
+                    Text(stringResource(R.string.srs_show_voicing))
                 }
             } else {
                 // Reveal the chord diagram
@@ -288,8 +294,9 @@ private fun ReviewCard(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
+                val fretsString = card.frets.joinToString(" ")
                 Text(
-                    text = "Frets: ${card.frets.joinToString(" ")}",
+                    text = stringResource(R.string.srs_frets, fretsString),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f),
                 )
@@ -298,7 +305,7 @@ private fun ReviewCard(
 
                 // Grade buttons
                 Text(
-                    text = "How well did you remember?",
+                    text = stringResource(R.string.srs_how_well),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSecondaryContainer,

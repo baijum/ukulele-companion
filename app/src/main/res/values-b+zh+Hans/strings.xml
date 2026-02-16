@@ -1,0 +1,804 @@
+<resources>
+    <string name="app_name">Uke</string>
+    <string name="app_full_name">Ukulele Companion</string>
+    <string name="widget_description">每天显示一个新的尤克里里和弦</string>
+
+    <!-- ── Common / Shared ──────────────────────────────────────────── -->
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_delete">删除</string>
+    <string name="dialog_save">保存</string>
+    <string name="dialog_create">创建</string>
+    <string name="dialog_rename">重命名</string>
+    <string name="dialog_reset">重置</string>
+    <string name="action_back">返回</string>
+    <string name="action_play">播放</string>
+    <string name="action_stop">停止</string>
+    <string name="action_edit">编辑</string>
+    <string name="action_share">分享</string>
+    <string name="action_close">关闭</string>
+    <string name="label_all">全部</string>
+    <string name="label_none">无</string>
+    <string name="label_bpm">BPM</string>
+    <string name="label_bpm_value">BPM: %d</string>
+    <string name="label_beats">节拍:</string>
+    <string name="label_capo">变调夹</string>
+    <string name="label_key">调</string>
+    <string name="label_scale">音阶</string>
+    <string name="label_correct">正确</string>
+    <string name="label_accuracy">准确率</string>
+    <string name="label_streak">连胜</string>
+    <string name="label_best">最佳</string>
+    <string name="label_score">得分</string>
+    <string name="label_best_streak">最佳连胜</string>
+    <string name="label_this_session">本次练习</string>
+    <string name="label_all_time">历史最佳</string>
+    <string name="label_difficulty">难度</string>
+    <string name="label_mode">模式</string>
+    <string name="label_direction">方向</string>
+    <string name="label_category">分类</string>
+    <string name="label_easy">简单</string>
+    <string name="label_medium">中等</string>
+    <string name="label_hard">困难</string>
+    <string name="label_expert">专家</string>
+    <string name="label_replay">重播</string>
+    <string name="label_correct_answer">正确！</string>
+    <string name="label_the_answer_is">答案是</string>
+    <string name="label_root">根音</string>
+    <string name="label_position">位置</string>
+    <string name="label_off">关闭</string>
+    <string name="label_open">开放</string>
+    <string name="label_presets">预设</string>
+    <string name="label_practice">练习</string>
+    <string name="label_go">开始</string>
+    <string name="label_done">完成</string>
+
+    <!-- ── Navigation Drawer ────────────────────────────────────────── -->
+    <string name="nav_section_play">演奏</string>
+    <string name="nav_section_create">创作</string>
+    <string name="nav_section_learn">学习</string>
+    <string name="nav_section_reference">参考</string>
+    <string name="nav_explorer">探索器</string>
+    <string name="nav_tuner">调音器</string>
+    <string name="nav_pitch_monitor">音高监测</string>
+    <string name="nav_chords">和弦</string>
+    <string name="nav_favorites">收藏</string>
+    <string name="nav_song_finder">找歌曲</string>
+    <string name="nav_songs">歌曲</string>
+    <string name="nav_melody_notepad">旋律记事本</string>
+    <string name="nav_patterns">节奏型</string>
+    <string name="nav_progressions">和弦进行</string>
+    <string name="nav_learn_theory">学习乐理</string>
+    <string name="nav_theory_quiz">乐理测验</string>
+    <string name="nav_interval_trainer">音程训练</string>
+    <string name="nav_note_quiz">音符测验</string>
+    <string name="nav_chord_ear_training">和弦听力训练</string>
+    <string name="nav_scale_practice">音阶练习</string>
+    <string name="nav_progress">学习进度</string>
+    <string name="nav_daily_challenge">每日挑战</string>
+    <string name="nav_practice_routine">练习计划</string>
+    <string name="nav_srs_review">SRS 复习</string>
+    <string name="nav_chord_transitions">和弦转换</string>
+    <string name="nav_play_along">跟弹练习</string>
+    <string name="nav_achievements">成就</string>
+    <string name="nav_capo_guide">变调夹指南</string>
+    <string name="nav_circle_of_fifths">五度圈</string>
+    <string name="nav_chord_substitutions">和弦替代</string>
+    <string name="nav_chords_in_scale">音阶和弦</string>
+    <string name="nav_fretboard_notes">指板音符</string>
+    <string name="nav_glossary">术语表</string>
+    <string name="nav_help">帮助</string>
+
+    <!-- ── Top Bar / Content Descriptions ───────────────────────────── -->
+    <string name="cd_open_nav_menu">打开导航菜单</string>
+    <string name="cd_settings">设置</string>
+    <string name="cd_full_screen">全屏</string>
+    <string name="cd_exit_full_screen">退出全屏</string>
+    <string name="cd_play_chord">播放和弦</string>
+    <string name="cd_play_sound">播放声音</string>
+    <string name="cd_share_chord_image">以图片分享和弦</string>
+    <string name="cd_remove_favorites">从收藏中移除</string>
+    <string name="cd_add_favorites">添加到收藏</string>
+    <string name="cd_replay">重播</string>
+
+    <!-- ── Explorer Tab ─────────────────────────────────────────────── -->
+    <string name="explorer_reset">重置</string>
+    <string name="explorer_scales">音阶</string>
+    <string name="explorer_hide_scale">隐藏音阶</string>
+    <string name="explorer_tap_frets">点击品格</string>
+    <string name="explorer_capo_off">关闭</string>
+
+    <!-- ── Chord Result ─────────────────────────────────────────────── -->
+    <string name="chord_result_tap_fretboard">点击指板选择音符</string>
+    <string name="chord_result_single_note">已选择单个音符</string>
+    <string name="chord_result_incomplete">不完整的和弦</string>
+    <string name="chord_result_no_match">没有找到精确匹配的和弦</string>
+    <string name="chord_result_also">其他: </string>
+    <string name="chord_result_intervals">音程</string>
+    <string name="chord_result_formula">公式</string>
+    <string name="chord_result_fingering">指法</string>
+    <string name="chord_result_difficulty">难度</string>
+    <string name="chord_result_inversion">转位</string>
+    <string name="chord_result_bass">低音: </string>
+
+    <!-- ── Chord Library ────────────────────────────────────────────── -->
+    <string name="chord_library_root_note">根音</string>
+    <string name="chord_library_type">类型</string>
+    <string name="chord_library_compare_inversions"> — 比较转位</string>
+    <string name="chord_library_voicings">%d 种指法</string>
+    <string name="chord_library_viz">可视化</string>
+    <string name="chord_library_compare">比较</string>
+    <string name="cd_play_all_inversions">播放所有转位</string>
+    <string name="chord_library_play_all_inversions">播放所有转位</string>
+    <string name="chord_library_inversion_tip">同一和弦，不同低音。听听每个转位各自的特色。</string>
+    <string name="chord_library_bass_prefix">低音: </string>
+    <string name="chord_library_voicing_singular">%d 种指法</string>
+    <string name="chord_library_reentrant_limited">这个和弦只有 %d 种指法。回旋调弦（High-G）限制了转位的可能，因为 C 弦 (C4) 几乎总是最低音。Low-G 调弦可以提供更多转位变化。</string>
+    <string name="chord_library_reentrant_empty">在回旋调弦（High-G）下，C 弦几乎总是最低音，因此大多数指法都是原位。试试选择"全部"来查看可用指法。</string>
+    <string name="chord_library_no_voicings">未找到指法</string>
+
+    <!-- ── Tuner ────────────────────────────────────────────────────── -->
+    <string name="tuner_play_a_string">弹一根弦…</string>
+    <string name="tuner_in_tune">已调准！</string>
+    <string name="tuner_almost_up">接近了——再调高一点点</string>
+    <string name="tuner_almost_down">接近了——再调低一点点</string>
+    <string name="tuner_tune_up">调高</string>
+    <string name="tuner_tune_down">调低</string>
+    <string name="tuner_all_tuned">所有弦都调准了！</string>
+    <string name="tuner_start">开始调音</string>
+    <string name="tuner_stop">停止</string>
+    <string name="cd_start_tuning">开始调音</string>
+    <string name="cd_stop_tuning">停止调音</string>
+    <string name="cd_detected_note">检测到的音符: %s</string>
+    <string name="tuner_meter_no_pitch">调音表，未检测到音高</string>
+    <string name="tuner_meter_in_tune">调音表，已调准</string>
+    <string name="tuner_meter_close">调音表，偏差 %1$d 音分 %2$s，接近调准</string>
+    <string name="tuner_meter_flat">调音表，偏低 %d 音分</string>
+    <string name="tuner_meter_sharp">调音表，偏高 %d 音分</string>
+    <string name="tuner_direction_flat">偏低</string>
+    <string name="tuner_direction_sharp">偏高</string>
+    <string name="tuner_swiftf0_active">SwiftF0 Active</string>
+    <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
+    <string name="tuner_precision_mode">精确模式</string>
+    <string name="tuner_string_tuned">已调准</string>
+    <string name="tuner_string_next">下一根要调的弦</string>
+    <string name="tuner_string_active">活动中</string>
+    <string name="tuner_string_not_tuned">未调准</string>
+    <string name="tuner_string_desc">%1$s 弦，%2$s，点击播放参考音</string>
+    <string name="tuner_check_tuned">已调准</string>
+
+    <!-- ── Pitch Monitor ────────────────────────────────────────────── -->
+    <string name="pitch_monitor_detected_chord">检测到的和弦: %s</string>
+    <string name="pitch_monitor_notes_prefix">音符: </string>
+    <string name="pitch_monitor_current_note">当前音符: %s</string>
+    <string name="pitch_monitor_visualization">音高可视化，显示音高随时间的变化</string>
+    <string name="pitch_monitor_tap_start">点击"开始"以启动</string>
+    <string name="pitch_monitor_playing">正在播放 %s</string>
+    <string name="pitch_monitor_detecting">正在检测音高…</string>
+    <string name="pitch_monitor_play_ukulele">弹奏你的尤克里里…</string>
+    <string name="cd_stop_listening">停止监听</string>
+    <string name="cd_start_listening">开始监听</string>
+    <string name="pitch_monitor_start">开始</string>
+
+    <!-- ── Favorites ────────────────────────────────────────────────── -->
+    <string name="favorites_empty_title">还没有收藏</string>
+    <string name="favorites_empty_message">浏览和弦页面，点击指法上的心形图标即可收藏。</string>
+    <string name="favorites_all_count">全部 (%d)</string>
+    <string name="favorites_new_folder">新建文件夹</string>
+    <string name="favorites_folder_name">文件夹名称</string>
+    <string name="favorites_rename_folder">重命名文件夹</string>
+    <string name="favorites_delete_folder">删除文件夹</string>
+    <string name="favorites_delete_folder_msg">删除文件夹 \"%s\"？文件夹中的指法不会被删除。</string>
+    <string name="cd_rename_folder">重命名文件夹</string>
+    <string name="cd_delete_folder">删除文件夹</string>
+    <string name="cd_manage_folders">管理文件夹</string>
+    <string name="cd_reorder">重新排序</string>
+
+    <!-- ── Favorite Folder Sheet ────────────────────────────────────── -->
+    <string name="folder_sheet_manage">管理文件夹</string>
+    <string name="folder_sheet_save_to">保存到文件夹</string>
+    <string name="folder_sheet_no_folders">还没有文件夹。在下方创建一个。</string>
+    <string name="folder_sheet_new_folder">+ 新建文件夹</string>
+    <string name="folder_sheet_remove">从收藏中移除</string>
+
+    <!-- ── Songbook ─────────────────────────────────────────────────── -->
+    <string name="songbook_empty_title">还没有歌曲</string>
+    <string name="songbook_empty_message">点击 + 创建你的第一个和弦谱。\n或导入 ChordPro 文件。</string>
+    <string name="songbook_untitled">未命名</string>
+    <string name="songbook_share_as_text">以文本分享</string>
+    <string name="songbook_chord_sheet">和弦谱</string>
+    <string name="songbook_export_chordpro">导出为 ChordPro</string>
+    <string name="songbook_export_chooser">导出 ChordPro</string>
+    <string name="songbook_key_prefix">调: </string>
+    <string name="songbook_transpose">移调:</string>
+    <string name="songbook_capo_hint">或使用变调夹 %d 配合原始和弦</string>
+    <string name="songbook_field_title">标题</string>
+    <string name="songbook_field_artist">艺术家（可选）</string>
+    <string name="songbook_field_lyrics_hint">使用 [和弦名] 标记和弦，例如 Some[C]where over the [Em]rainbow</string>
+    <string name="songbook_field_lyrics">带 [和弦] 的歌词</string>
+    <string name="cd_import_chordpro">导入 ChordPro 文件</string>
+    <string name="cd_new_chord_sheet">新建和弦谱</string>
+    <string name="songbook_speed_half">0.5x</string>
+    <string name="songbook_speed_1x">1x</string>
+    <string name="songbook_speed_2x">2x</string>
+    <string name="songbook_speed_3x">3x</string>
+    <string name="cd_stop_scroll">停止滚动</string>
+    <string name="cd_pause_scroll">暂停滚动</string>
+    <string name="cd_auto_scroll">自动滚动</string>
+
+    <!-- ── Progressions ─────────────────────────────────────────────── -->
+    <string name="progressions_new">新建和弦进行</string>
+    <string name="cd_add_progression">添加新和弦进行</string>
+    <string name="progressions_my">我的和弦进行</string>
+    <string name="cd_delete_progression">删除和弦进行</string>
+    <string name="cd_duplicate_progression">复制</string>
+    <string name="progressions_voice_leading">声部连接</string>
+    <string name="progressions_copy_suffix">（副本）</string>
+
+    <!-- ── Create Progression Sheet ─────────────────────────────────── -->
+    <string name="progression_edit_title">编辑和弦进行</string>
+    <string name="progression_create_title">创建和弦进行</string>
+    <string name="progression_name_label">和弦进行名称</string>
+    <string name="progression_desc_label">描述（可选）</string>
+    <string name="progression_chord_quality">和弦性质</string>
+    <string name="progression_triad">三和弦</string>
+    <string name="progression_tap_chords">点击和弦以添加</string>
+    <string name="progression_your_chords">你的和弦进行（%d 个和弦）</string>
+    <string name="progression_placeholder">点击上方的和弦来构建你的和弦进行</string>
+    <string name="progression_update">更新和弦进行</string>
+    <string name="progression_save">保存和弦进行</string>
+    <string name="progression_error_min">请至少添加 2 个和弦</string>
+    <string name="cd_remove">移除</string>
+
+    <!-- ── Strum Patterns ───────────────────────────────────────────── -->
+    <string name="patterns_strumming">扫弦</string>
+    <string name="patterns_fingerpicking">指弹</string>
+    <string name="patterns_my">我的节奏型</string>
+    <string name="cd_create_pattern">创建节奏型</string>
+    <string name="patterns_create_strum">创建扫弦节奏</string>
+    <string name="patterns_pattern_name">节奏型名称</string>
+    <string name="patterns_tap_beat">点击每个节拍以改变方向</string>
+    <string name="patterns_tap_accent">点击下方切换重音</string>
+    <string name="patterns_custom">自定义节奏型</string>
+    <string name="patterns_create_fingerpick">创建指弹节奏</string>
+    <string name="patterns_steps">%d 步</string>
+    <string name="patterns_tap_step">点击一个步骤，然后在下方选择手指和弦</string>
+    <string name="patterns_finger">手指</string>
+    <string name="patterns_thumb">拇指</string>
+    <string name="patterns_index">食指</string>
+    <string name="patterns_middle">中指</string>
+    <string name="patterns_ring">无名指</string>
+    <string name="patterns_string">弦</string>
+
+    <!-- ── Playback Bar ─────────────────────────────────────────────── -->
+    <string name="playback_prefix">播放: </string>
+    <string name="playback_bpm_prefix">BPM: </string>
+    <string name="cd_loop_on">循环已开</string>
+    <string name="cd_loop_off">循环已关</string>
+
+    <!-- ── Scale Selector ───────────────────────────────────────────── -->
+    <string name="scale_selector_root">音阶根音</string>
+    <string name="scale_selector_chords_in">%s 中的和弦</string>
+
+    <!-- ── Settings ─────────────────────────────────────────────────── -->
+    <string name="settings_title">设置</string>
+    <string name="settings_sound">声音</string>
+    <string name="settings_volume">音量</string>
+    <string name="settings_note_duration">音符时长</string>
+    <string name="settings_strum_delay">扫弦延迟</string>
+    <string name="settings_strum_direction">扫弦方向</string>
+    <string name="settings_strum_down">下扫</string>
+    <string name="settings_strum_up">上扫</string>
+    <string name="settings_play_on_tap">点击时播放</string>
+    <string name="settings_display">显示</string>
+    <string name="settings_theme">主题</string>
+    <string name="settings_language">语言</string>
+    <string name="settings_select_language">选择语言</string>
+    <string name="settings_tuning">调弦</string>
+    <string name="settings_tuner">调音器</string>
+    <string name="settings_spoken_feedback">语音反馈</string>
+    <string name="settings_spoken_feedback_desc">使用语音合成播报音符名称和音分偏差</string>
+    <string name="settings_precision_mode">精确模式</string>
+    <string name="settings_precision_mode_desc">将调准范围从 ±6 音分缩小到 ±2 音分</string>
+    <string name="settings_auto_advance">自动前进</string>
+    <string name="settings_auto_advance_desc">自动高亮下一根未调准的弦</string>
+    <string name="settings_auto_start">自动开始</string>
+    <string name="settings_auto_start_desc">打开调音器页面时自动开始监听</string>
+    <string name="settings_a4_reference">A4 参考频率</string>
+    <string name="settings_fretboard">指板</string>
+    <string name="settings_left_handed">左手模式</string>
+    <string name="settings_show_note_names">显示音符名称</string>
+    <string name="settings_allow_muted">允许闷弦</string>
+    <string name="settings_frets">品格数</string>
+    <string name="settings_notifications">通知</string>
+    <string name="settings_chord_of_day">每日和弦</string>
+    <string name="settings_about">关于</string>
+    <string name="settings_version">版本 %s</string>
+    <string name="settings_website">网站</string>
+    <string name="settings_credits">致谢</string>
+    <string name="settings_audio_samples">音频采样</string>
+    <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" by stomachache (Freesound.org)</string>
+    <string name="settings_license">许可</string>
+    <string name="settings_license_value">CC BY 3.0</string>
+    <string name="settings_tagline">你的全能尤克里里伴侣，涵盖和弦、音阶、乐理和创作。免费、离线、无广告、无追踪。</string>
+    <string name="settings_unknown_version">未知</string>
+
+    <!-- ── Backup &amp; Restore ──────────────────────────────────────── -->
+    <string name="backup_title">备份与恢复</string>
+    <string name="backup_description">将你的所有数据（收藏、歌曲、和弦进行、节奏型、设置和学习进度）保存到文件，或从备份中恢复。</string>
+    <string name="backup_last">上次备份: %s</string>
+    <string name="cd_backup">备份数据</string>
+    <string name="backup_button">备份</string>
+    <string name="cd_restore">恢复数据</string>
+    <string name="restore_button">恢复</string>
+    <string name="restore_dialog_title">恢复数据？</string>
+    <string name="restore_dialog_message">这将把备份文件中的收藏、歌曲、和弦进行和节奏型与你现有的数据合并。设置将被备份中的值替换。\n\n你现有的数据不会被删除。</string>
+
+    <!-- ── Tuner Permission ─────────────────────────────────────────── -->
+    <string name="mic_permission_title">麦克风权限</string>
+    <string name="mic_permission_message">调音器需要访问你的麦克风来聆听尤克里里并检测每根弦的音高。</string>
+    <string name="mic_permission_allow">允许使用麦克风</string>
+    <string name="mic_permission_denied_title">麦克风权限被拒绝</string>
+    <string name="mic_permission_denied_message">调音器无法在没有麦克风权限的情况下工作。请在设备的应用设置中启用该权限。</string>
+    <string name="mic_permission_open_settings">打开设置</string>
+
+    <!-- ── Note Quiz ────────────────────────────────────────────────── -->
+    <string name="note_quiz_title">音符测验</string>
+    <string name="note_quiz_subtitle">测试你对指板音符的了解。</string>
+    <string name="note_quiz_name_it">说出名称</string>
+    <string name="note_quiz_find_it">找到位置</string>
+    <string name="note_quiz_start">开始测验</string>
+    <string name="note_quiz_next">下一题</string>
+    <string name="note_quiz_what_note">这个位置的音符是什么？</string>
+    <string name="note_quiz_string_fret">弦，品格</string>
+    <string name="note_quiz_where_is">这个音符在哪里？</string>
+
+    <!-- ── Theory Quiz ──────────────────────────────────────────────── -->
+    <string name="theory_quiz_title">乐理测验</string>
+    <string name="theory_quiz_subtitle">测试你的音乐理论知识！</string>
+    <string name="theory_quiz_standard">标准</string>
+    <string name="theory_quiz_blitz">闪电战 (60秒)</string>
+    <string name="theory_quiz_start_blitz">开始闪电战！</string>
+    <string name="theory_quiz_start">开始测验</string>
+    <string name="theory_quiz_next">下一题</string>
+    <string name="theory_quiz_times_up">时间到！</string>
+    <string name="theory_quiz_final_score">得分: %d</string>
+    <string name="theory_quiz_final_accuracy">准确率: %s</string>
+    <string name="theory_quiz_play_again">再来一次</string>
+
+    <!-- ── Interval Trainer ─────────────────────────────────────────── -->
+    <string name="interval_title">音程训练</string>
+    <string name="interval_subtitle">辨认两个音符之间的音程。</string>
+    <string name="interval_visual">视觉</string>
+    <string name="interval_audio">听觉</string>
+    <string name="interval_ascending">上行</string>
+    <string name="interval_descending">下行</string>
+    <string name="interval_harmonic">和声</string>
+    <string name="interval_start">开始训练</string>
+    <string name="interval_next">下一个音程</string>
+    <string name="interval_what">这是什么音程？</string>
+    <string name="interval_replay">重播音程</string>
+    <string name="interval_semitone">半音</string>
+    <string name="interval_semitones_apart">半音之距</string>
+
+    <!-- ── Chord Ear Training ───────────────────────────────────────── -->
+    <string name="chord_ear_title">和弦听力训练</string>
+    <string name="chord_ear_subtitle">通过听觉辨认和弦性质。</string>
+    <string name="chord_ear_start">开始训练</string>
+    <string name="chord_ear_next">下一个和弦</string>
+    <string name="chord_ear_what">这是什么类型的和弦？</string>
+    <string name="chord_ear_replay">重播和弦</string>
+
+    <!-- ── Scale Practice ───────────────────────────────────────────── -->
+    <string name="scale_practice_title">音阶练习</string>
+    <string name="scale_practice_subtitle">通过引导跟弹、测验和听力训练来练习音阶。</string>
+    <string name="scale_practice_root">音阶根音</string>
+    <string name="scale_practice_options">选项</string>
+    <string name="scale_practice_loop">循环</string>
+    <string name="scale_practice_fretboard">指板</string>
+    <string name="scale_practice_play">播放音阶</string>
+    <string name="scale_practice_resume">继续</string>
+    <string name="scale_practice_now">当前:</string>
+    <string name="scale_practice_note_of">第 %1$d 个音符（共 %2$d 个）</string>
+    <string name="scale_practice_start_quiz">开始测验</string>
+    <string name="scale_practice_next">下一题</string>
+    <string name="scale_practice_what">正在播放什么音阶？</string>
+    <string name="scale_practice_root_label">根音:</string>
+    <string name="scale_practice_replay">重播音阶</string>
+    <string name="scale_practice_correct">正确！这是</string>
+    <string name="scale_practice_notes_label">音符:</string>
+    <string name="scale_practice_next_scale">下一个音阶</string>
+    <string name="scale_practice_start_training">开始训练</string>
+
+    <!-- ── Theory Lessons ───────────────────────────────────────────── -->
+    <string name="theory_lessons_title">学习乐理</string>
+    <string name="theory_lessons_subtitle">从基础到高级和声的系统课程。</string>
+    <string name="theory_lessons_progress">进度</string>
+    <string name="theory_lessons_count">%d 节课</string>
+    <string name="theory_lessons_key_points">要点</string>
+    <string name="theory_lessons_quick_check">快速检测</string>
+    <string name="theory_lessons_not_quite">不太对。</string>
+    <string name="theory_lessons_back">返回课程</string>
+
+    <!-- ── Learning Progress ────────────────────────────────────────── -->
+    <string name="progress_title">学习进度</string>
+    <string name="progress_subtitle">跟踪你的乐理学习之旅。</string>
+    <string name="progress_practice_time">练习时间</string>
+    <string name="progress_today">今天</string>
+    <string name="progress_total">总计</string>
+    <string name="progress_sessions">练习次数</string>
+    <string name="progress_daily_goal">每日目标: %d 分钟</string>
+    <string name="progress_day_streak">连续天数</string>
+    <string name="progress_lessons_done">已完成课程</string>
+    <string name="progress_theory_lessons">乐理课程</string>
+    <string name="progress_lessons_completed">已完成课程</string>
+    <string name="progress_quizzes_passed">已通过测验</string>
+    <string name="progress_overall">总览</string>
+    <string name="progress_reset">重置所有进度</string>
+    <string name="progress_reset_title">重置进度？</string>
+    <string name="progress_reset_message">这将清除所有学习进度、测验分数、连胜记录和课程完成情况。此操作无法撤销。</string>
+    <string name="progress_no_attempts">暂无尝试。</string>
+
+    <!-- ── Daily Challenge ──────────────────────────────────────────── -->
+    <string name="daily_challenge_title">每日挑战</string>
+    <string name="daily_challenge_subtitle">完成今天的挑战来提升你的技能！</string>
+    <string name="daily_challenge_tip_title">每日小贴士</string>
+    <string name="daily_tip_1">每天练习5分钟也比每周一次练1小时要好。</string>
+    <string name="daily_tip_2">练习和弦转换时使用节拍器——从慢速开始逐步加快。</string>
+    <string name="daily_tip_3">学习新和弦时，逐根弦弹奏以检查声音是否清晰。</string>
+    <string name="daily_tip_4">试试在扫弦时跟着哼唱，培养你的音乐听觉。</string>
+    <string name="daily_tip_5">对着镜子练习以检查手部姿势。</string>
+    <string name="daily_tip_6">专注于流畅的转换而不是速度——速度会随时间自然提升。</string>
+    <string name="daily_tip_7">学习你喜欢的歌曲！热爱让练习变得愉快。</string>
+
+    <!-- ── SRS Practice ─────────────────────────────────────────────── -->
+    <string name="srs_title">间隔重复</string>
+    <string name="srs_subtitle">以最佳间隔复习和弦，增强长期记忆。</string>
+    <string name="srs_due">待复习</string>
+    <string name="srs_reviewed">已复习</string>
+    <string name="srs_total">总计</string>
+    <string name="srs_no_cards">还没有卡片</string>
+    <string name="srs_no_cards_message">从和弦库中长按指法并选择"添加到 SRS"来将和弦添加到你的 SRS 卡组。</string>
+    <string name="srs_all_caught_up">全部完成！</string>
+    <string name="srs_session_done">本次复习了 %1$d %2$s。稍后再来继续复习。</string>
+    <string name="srs_card_singular">张卡片</string>
+    <string name="srs_card_plural">张卡片</string>
+    <string name="srs_no_due">目前没有需要复习的卡片。稍后再来查看！</string>
+    <string name="srs_card_remaining">第 %1$d 张卡片，剩余 %2$d 张</string>
+    <string name="srs_recall_prompt">你能回忆起指法吗？</string>
+    <string name="srs_show_voicing">显示指法</string>
+    <string name="srs_frets">品格: %s</string>
+    <string name="srs_how_well">你记得有多清楚？</string>
+
+    <!-- ── Practice Routine ─────────────────────────────────────────── -->
+    <string name="routine_title">练习计划</string>
+    <string name="routine_subtitle">设置你的练习环节。</string>
+    <string name="routine_duration">时长: %d 分钟</string>
+    <string name="routine_skill_level">技能水平</string>
+    <string name="routine_focus_areas">重点领域</string>
+    <string name="routine_start">开始练习计划</string>
+    <string name="cd_start_routine">开始练习计划</string>
+    <string name="routine_total">共 %1$d 分钟，%2$d 个步骤</string>
+    <string name="cd_new_routine">新建计划</string>
+    <string name="routine_complete_title">练习完成！</string>
+    <string name="routine_complete_message">练习得很棒！坚持每天练习。</string>
+    <string name="cd_practice_complete">练习完成</string>
+    <string name="cd_completed">已完成</string>
+
+    <!-- ── Chord Transition Trainer ─────────────────────────────────── -->
+    <string name="chord_transition_title">和弦转换训练</string>
+    <string name="chord_transition_subtitle">按节拍练习两个和弦之间的切换。</string>
+    <string name="chord_transition_chord_a">和弦 A</string>
+    <string name="chord_transition_chord_b">和弦 B</string>
+    <string name="cd_swap_chords">交换和弦</string>
+    <string name="chord_transition_switches">切换次数</string>
+    <string name="chord_transition_time">时间</string>
+    <string name="chord_transition_per_min">每分钟</string>
+    <string name="cd_reset">重置</string>
+    <string name="cd_start">开始</string>
+    <string name="cd_stop">停止</string>
+
+    <!-- ── Chord Transition Animation ───────────────────────────────── -->
+    <string name="transition_anim_finger_movements">手指移动</string>
+    <string name="transition_anim_no_movement">无需移动手指！</string>
+    <string name="transition_anim_speed">速度:</string>
+    <string name="transition_anim_animate">动画展示转换</string>
+    <string name="cd_animate_transition">动画展示转换</string>
+    <string name="cd_prev_step">上一步</string>
+    <string name="cd_next_step">下一步</string>
+    <string name="transition_anim_start_shape">起始指型</string>
+    <string name="transition_anim_end_shape">结束指型</string>
+    <string name="transition_anim_step">第 %1$d 步 / 共 %2$d 步</string>
+
+    <!-- ── Play Along ───────────────────────────────────────────────── -->
+    <string name="play_along_title">跟弹练习</string>
+    <string name="play_along_subtitle">聆听并弹奏正确的和弦！</string>
+    <string name="play_along_mic_needed">和弦检测需要麦克风权限</string>
+    <string name="cd_grant_permission">授予麦克风权限</string>
+    <string name="play_along_grant">授予权限</string>
+    <string name="play_along_play">弹奏:</string>
+    <string name="play_along_heard">听到:</string>
+    <string name="cd_correct">正确</string>
+    <string name="cd_incorrect">不正确</string>
+    <string name="play_along_grade">评分</string>
+    <string name="play_along_choose">选择一个调和一个和弦进行，然后跟着实时和弦检测一起弹奏。</string>
+    <string name="play_along_progression">和弦进行</string>
+
+    <!-- ── Achievements ─────────────────────────────────────────────── -->
+    <string name="achievements_title">成就</string>
+    <string name="achievements_subtitle">通过练习和学习获得徽章。</string>
+    <string name="achievements_unlocked">%d 个已解锁</string>
+    <string name="achievements_earned">已获得</string>
+
+    <!-- ── Help ──────────────────────────────────────────────────────── -->
+    <string name="help_title">帮助</string>
+    <string name="help_subtitle">点击任意功能了解其使用方法。</string>
+    <string name="help_section_play">演奏</string>
+    <string name="help_section_create">创作</string>
+    <string name="help_section_learn">学习</string>
+    <string name="help_section_reference">参考</string>
+    <string name="help_section_other">其他</string>
+
+    <!-- Help item titles (matching nav labels) -->
+    <string name="help_explorer">探索器</string>
+    <string name="help_tuner">调音器</string>
+    <string name="help_pitch_monitor">音高监测</string>
+    <string name="help_chords">和弦</string>
+    <string name="help_favorites">收藏</string>
+    <string name="help_song_finder">找歌曲</string>
+    <string name="help_songs">歌曲</string>
+    <string name="help_melody_notepad">旋律记事本</string>
+    <string name="help_patterns">节奏型</string>
+    <string name="help_progressions">和弦进行</string>
+    <string name="help_learn_theory">学习乐理</string>
+    <string name="help_theory_quiz">乐理测验</string>
+    <string name="help_interval_trainer">音程训练</string>
+    <string name="help_note_quiz">音符测验</string>
+    <string name="help_chord_ear">和弦听力训练</string>
+    <string name="help_scale_practice">音阶练习</string>
+    <string name="help_progress">学习进度</string>
+    <string name="help_daily_challenge">每日挑战</string>
+    <string name="help_practice_routine">练习计划</string>
+    <string name="help_srs_review">SRS 复习</string>
+    <string name="help_chord_transitions">和弦转换</string>
+    <string name="help_play_along">跟弹练习</string>
+    <string name="help_achievements">成就</string>
+    <string name="help_capo_guide">变调夹指南</string>
+    <string name="help_circle_of_fifths">五度圈</string>
+    <string name="help_chord_subs">和弦替代</string>
+    <string name="help_chords_in_scale">音阶和弦</string>
+    <string name="help_fretboard_notes">指板音符</string>
+    <string name="help_glossary">术语表</string>
+    <string name="help_settings">设置</string>
+    <string name="help_sharing">分享和弦</string>
+    <string name="help_full_screen">全屏模式</string>
+
+    <!-- Help descriptions -->
+    <string name="help_desc_explorer">互动指板，点击品格来构建和弦。应用会检测你正在弹奏的和弦，并显示转位、音程和别名。包含变调夹选择器和音阶叠加层，可探索和弦与音阶如何配合。</string>
+    <string name="help_desc_tuner">使用设备麦克风的半音调音器。显示检测到的音符、音分偏差（指针表）以及简明指导（"调高"、"已调准！"）。点击弦按钮播放参考音。支持多种调弦方式、A4 校准、语音反馈和精确模式。</string>
+    <string name="help_desc_pitch_monitor">实时音高可视化工具。在滚动图表上显示检测到的音高，显示当前音符名称并高亮匹配的和弦。适用于检查演奏旋律或练习推弦时的音准。</string>
+    <string name="help_desc_chords">全面的和弦库。选择根音和和弦类型，查看尤克里里上所有可弹奏的指法。点击指法将其加载到探索器指板上，或长按分享、收藏或添加到 SRS。包含转位比较模式。</string>
+    <string name="help_desc_favorites">你保存的和弦指法，按文件夹整理。点击指法在指板上查看，滑动或长按查看选项。使用文件夹将和弦分组用于特定歌曲或练习环节。</string>
+    <string name="help_desc_song_finder">发现你可以用收藏中的和弦弹奏的歌曲。你保存的和弦越多，解锁的歌曲就越多。还会显示只需再学 1-2 个和弦就能弹奏的歌曲。</string>
+    <string name="help_desc_songs">个人歌曲本，用于编写和存储和弦谱。输入歌词并使用方括号标记和弦: "Some[C]where over the [Em]rainbow"。支持移调、变调夹建议、自动滚动以及 ChordPro 文件的导入/导出。</string>
+    <string name="help_desc_melody_notepad">一个简单的工具，用于逐音符创作旋律。点击音符构建序列，选择音符时值（全音符、二分、四分、八分、十六分），添加休止符，以可调 BPM 回放。适合记录旋律灵感或练习。</string>
+    <string name="help_desc_patterns">浏览和创建扫弦和指弹节奏型。点击节拍指示器改变扫弦方向（下扫、上扫、闷音、休止），或为各弦分配手指。可以按可调节的速度播放。</string>
+    <string name="help_desc_progressions">每个调的常用和弦进行库。点击任何和弦在库中查看。创建自定义和弦进行，使用内置节拍器播放练习，或探索和弦之间的声部连接。</string>
+    <string name="help_desc_learn_theory">系统的乐理课程，涵盖音符、音程、音阶、和弦、调和和声。每节课都有要点总结和快速检测题，帮助你在继续之前验证理解。</string>
+    <string name="help_desc_theory_quiz">测试你对音程、和弦构建、调号和音阶级数等乐理概念的了解。包含标准模式和限时闪电战（60 秒）模式以增加挑战。</string>
+    <string name="help_desc_interval_trainer">音程听力训练。选择视觉（指板）或听觉模式，选择上行、下行或和声呈现方式，选取难度等级。辨认音程并培养你的相对音高能力。</string>
+    <string name="help_desc_note_quiz">限时测验，挑战你识别指板上音符的能力。在"说出名称"模式中你看到位置猜音符；在"找到位置"模式中你看到音符并点击其位置。难度等级限制品格范围。</string>
+    <string name="help_desc_chord_ear">听一个和弦并辨认其类型（大调、小调、减和弦等）。难度等级会增加更多和弦类型。培养和声听觉的好方法。</string>
+    <string name="help_desc_scale_practice">在指板上练习音阶，有三种模式：跟弹（带可选节拍器引导）、测验（辨认正在播放的音阶）和听力训练。支持所有音阶类型、可选循环和紧凑指板视图。</string>
+    <string name="help_desc_progress">展示你学习统计数据的仪表盘：练习时间、连续天数、已完成课程以及乐理、音程、音符测验和和弦听力训练的测验分数。帮助你追踪持续性和进步。</string>
+    <string name="help_desc_daily_challenge">每天生成三个新挑战，让你的练习保持多样化。每个挑战针对不同技能——和弦、音阶、听力训练、乐理或转换。完成它们可以培养持续性。</string>
+    <string name="help_desc_practice_routine">引导式练习环节构建器。选择时长、技能水平和重点领域来生成分步计划。应用会创建包含热身、技巧、曲目和放松的定时练习序列。</string>
+    <string name="help_desc_srs_review">用于记忆和弦指法的间隔重复系统。从和弦库添加和弦，应用会根据你回忆每个指法的程度以递增间隔安排复习。有效地扩展你的和弦词汇量。</string>
+    <string name="help_desc_chord_transitions">可视化手指在两个和弦之间的移动方式。选择两个和弦，查看手指移动的分步动画。包含带切换计数器和 BPM 控制的限时练习模式。</string>
+    <string name="help_desc_play_along">带实时音频和弦检测的跟弹练习。选择一个调和和弦进行，然后跟着弹奏，应用会监听并评估你的准确度。需要麦克风权限。</string>
+    <string name="help_desc_achievements">一系列随着你使用应用而解锁的里程碑。通过练习连续天数、测验分数、创建歌曲、学习和弦等获得徽章。随时查看你的进展。</string>
+    <string name="help_desc_capo_guide">关于在尤克里里上使用变调夹的教育指南。解释变调夹的作用、如何改变音高、列出常用位置，并包含带参考表的互动试用部分。</string>
+    <string name="help_desc_circle_of_fifths">互动五度圈图。点击任何调查看其调号、关系小调/大调、自然和弦和近关系调。理解调性关系的基础参考。</string>
+    <string name="help_desc_chord_subs">和弦替代选项参考指南。选择一个根和弦，查看哪些和弦可以替代它及原因——关系小调、三全音替代、调式互换等。每个替代都解释其背后的理论。</string>
+    <string name="help_desc_chords_in_scale">选择一个音阶，查看其中自然产生的所有和弦。用罗马数字分析显示自然三和弦。对创作和理解任何调的和声都很有用。</string>
+    <string name="help_desc_fretboard_notes">显示尤克里里指板上每个音符的可视化地图。高亮特定音符查看其所有位置。支持 High-G 和 Low-G 调弦。点击任何音符可试听。</string>
+    <string name="help_desc_glossary">可搜索的乐理和尤克里里术语词典——从琶音到指法。每个词条包含简明定义，适当时附有示例。</string>
+    <string name="help_desc_settings">配置应用全局偏好设置：声音（音量、扫弦延迟、方向）、显示（主题）、调弦（High-G、Low-G、男中音等）、调音器（语音反馈、精确模式、A4 校准）、指板（左手模式、品格数）和通知。</string>
+    <string name="help_desc_sharing">以图片分享任何和弦。在探索器或和弦库中查看和弦时，点击分享图标生成整洁的和弦图，可以发送给朋友或发布在社交媒体上。</string>
+    <string name="help_desc_full_screen">在探索器页面点击展开图标进入横屏全屏指板。非常适合需要最大指板可视性的练习环节。</string>
+
+    <!-- ── Glossary ─────────────────────────────────────────────────── -->
+    <string name="glossary_title">音乐术语表</string>
+    <string name="glossary_term_count">%d 个涵盖乐理和尤克里里的术语。</string>
+    <string name="glossary_search_hint">搜索术语…</string>
+    <string name="glossary_no_match">未找到匹配的术语。</string>
+    <string name="glossary_example">示例:</string>
+
+    <!-- ── Circle of Fifths ─────────────────────────────────────────── -->
+    <string name="circle_title">五度圈</string>
+    <string name="circle_subtitle">点击一个调查看其调号和和弦。相邻的调是近关系调。</string>
+    <string name="circle_cd_selected">五度圈图，已选择 %s。点击选择其他调。</string>
+    <string name="circle_cd_default">五度圈图。点击选择一个调。</string>
+    <string name="circle_key_signature">调号</string>
+    <string name="circle_relative_minor">关系小调</string>
+    <string name="circle_relative_major">关系大调</string>
+    <string name="circle_diatonic_chords">自然和弦</string>
+    <string name="circle_related_keys">近关系调</string>
+    <string name="circle_same_as">等同于</string>
+
+    <!-- ── Capo Guide ───────────────────────────────────────────────── -->
+    <string name="capo_guide_what">什么是变调夹？</string>
+    <string name="capo_guide_pitch">变调夹如何改变音高</string>
+    <string name="capo_guide_positions">常用变调夹位置</string>
+    <string name="capo_guide_when">何时使用变调夹</string>
+    <string name="capo_guide_try">自己试试！</string>
+    <string name="capo_guide_ref_table">参考表，显示哪些指型产生哪些实际音调:</string>
+    <string name="capo_guide_open_shapes">常用开放和弦指型（适合配合变调夹）:</string>
+    <string name="capo_guide_tap_fret">点击品格放置变调夹:</string>
+    <string name="capo_guide_no_capo">无变调夹——标准调弦</string>
+    <string name="capo_guide_on_fret">变调夹在第 %d 品</string>
+    <string name="capo_guide_was_note">（原为 %s）</string>
+    <string name="capo_guide_shape">指型</string>
+    <string name="capo_guide_sounds_as">实际音效</string>
+    <string name="capo_guide_string">第 %d 弦</string>
+
+    <!-- ── Capo Calculator ──────────────────────────────────────────── -->
+    <string name="capo_calc_title">变调夹计算器</string>
+    <string name="capo_calc_sounding">实际音效: %s</string>
+    <string name="capo_calc_hint">使用变调夹弹奏更简单的指型，发出相同的声音。</string>
+    <string name="capo_calc_no_capo">无变调夹</string>
+    <string name="capo_calc_fret">第 %d 品</string>
+    <string name="capo_calc_play_shape">弹奏: %s</string>
+    <string name="capo_calc_recommended">推荐</string>
+    <string name="capo_calc_frets">品格: %s</string>
+    <string name="capo_calc_ease">简易度: %d%%</string>
+    <string name="capo_calc_no_positions">此和弦没有可用的变调夹位置。</string>
+    <string name="capo_helper_title">变调夹助手</string>
+    <string name="capo_helper_hint">找到这个和弦进行最简单的变调夹位置。</string>
+    <string name="capo_helper_shapes">指型: %s</string>
+    <string name="capo_helper_ease">整体简易度: %d%%</string>
+    <string name="capo_helper_no_positions">此和弦进行没有可用的变调夹位置。</string>
+
+    <!-- ── Capo Visualizer ──────────────────────────────────────────── -->
+    <string name="capo_viz_title">变调夹可视化</string>
+    <string name="capo_viz_shape">指型: %s</string>
+    <string name="capo_viz_with_capo">变调夹在第 %1$d 品 → 实际音效为 %2$s</string>
+    <string name="capo_viz_no_capo">无变调夹——实际音效为 %s</string>
+    <string name="capo_viz_position">变调夹位置</string>
+    <string name="capo_viz_no_capo_label">无变调夹</string>
+    <string name="capo_viz_fret">第 %d 品</string>
+    <string name="capo_viz_sounding">实际音效</string>
+    <string name="capo_viz_same">相同</string>
+    <string name="capo_viz_tip">提示: 变调夹在第 %1$d 品时，你弹 %2$s 指型但实际发出 %3$s 的声音。每品升高一个半音。</string>
+
+    <!-- ── Chord Substitutions ──────────────────────────────────────── -->
+    <string name="chord_subs_title">和弦替代</string>
+    <string name="chord_subs_subtitle">学习如何用替代和弦创造不同的色彩和情绪，同时保持和声感觉。</string>
+    <string name="chord_subs_examples_in">以下调为例:</string>
+    <string name="chord_subs_practice_tip_title">练习提示</string>
+    <string name="chord_subs_practice_tip">从自然替代和关系大小调互换开始——它们总是听起来不错。熟练后，尝试调式互换增加色彩。等你准备好探索爵士和声时，再使用三全音替代和副属和弦。</string>
+    <string name="chord_subs_shared">共有: %s</string>
+
+    <!-- ── Scale Chord View ─────────────────────────────────────────── -->
+    <string name="scale_chord_title">音阶和弦</string>
+    <string name="scale_chord_subtitle">查看任何音阶中构建的和弦。</string>
+    <string name="scale_chord_notes">音符: %s</string>
+    <string name="scale_chord_too_few">此音阶的音符太少，无法构建标准三和弦。</string>
+    <string name="scale_chord_diatonic">自然三和弦</string>
+
+    <!-- ── Fretboard Note Map ───────────────────────────────────────── -->
+    <string name="note_map_title">指板音符图</string>
+    <string name="note_map_subtitle">学习尤克里里指板上的每个音符。</string>
+    <string name="note_map_high_g">标准 (High G)</string>
+    <string name="note_map_low_g">Low-G</string>
+    <string name="note_map_highlight">高亮音符</string>
+    <string name="note_map_tips_title">提示</string>
+    <string name="note_map_tip_1">点击任何音符可试听</string>
+    <string name="note_map_tip_2">使用高亮筛选器查找一个音符的所有位置</string>
+    <string name="note_map_tip_3">第 12 品的音符与第 0 品相同（高一个八度）</string>
+    <string name="note_map_tip_4">切换到 Low-G 查看 G 弦的变化</string>
+    <string name="note_map_string">第 %d 弦</string>
+
+    <!-- ── Fretboard View ───────────────────────────────────────────── -->
+    <string name="fretboard_string">弦，</string>
+    <string name="fretboard_open">开放</string>
+    <string name="fretboard_fret">第 %d 品</string>
+    <string name="fretboard_selected">，已选择</string>
+    <string name="fretboard_in_scale">，在音阶中</string>
+    <string name="fretboard_scale_root">，音阶根音</string>
+    <string name="fretboard_blocked">，被变调夹阻挡</string>
+    <string name="fretboard_blocked_text">被变调夹阻挡</string>
+
+    <!-- ── Vertical Chord Diagram ───────────────────────────────────── -->
+    <string name="diagram_chord_cd">和弦 %s</string>
+    <string name="diagram_string_muted">弦已闷音</string>
+    <string name="diagram_string_open">弦开放</string>
+    <string name="diagram_string_fret">弦第 %d 品</string>
+    <string name="diagram_capo_fret">变调夹在第 %d 品</string>
+
+    <!-- ── Share Chord ──────────────────────────────────────────────── -->
+    <string name="share_as_image">以图片分享</string>
+    <string name="share_diagram_attribution">Ukulele Companion</string>
+
+    <!-- ── Melody Notepad ───────────────────────────────────────────── -->
+    <string name="melody_title">旋律记事本</string>
+    <string name="melody_subtitle">点击音符创作旋律。按播放键聆听。</string>
+    <string name="melody_sequence">序列（%d 个音符）</string>
+    <string name="melody_placeholder">点击下方的音符开始创作</string>
+    <string name="melody_whole">全</string>
+    <string name="melody_half">二分</string>
+    <string name="melody_quarter">四分</string>
+    <string name="melody_eighth">八分</string>
+    <string name="melody_sixteenth">十六</string>
+    <string name="melody_note_duration">音符时值</string>
+    <string name="melody_tap_to_add">点击添加音符</string>
+    <string name="melody_rest">休止</string>
+    <string name="cd_delete_note">删除音符</string>
+    <string name="cd_play_melody">播放旋律</string>
+    <string name="cd_stop_playing">停止播放</string>
+    <string name="cd_clear_all">清除所有音符</string>
+    <string name="melody_clear">清除</string>
+
+    <!-- ── Song Finder ──────────────────────────────────────────────── -->
+    <string name="song_finder_title">找歌曲</string>
+    <string name="song_finder_subtitle">用你会的和弦找到可以弹奏的歌曲。</string>
+    <string name="song_finder_no_chords_title">还没有已知和弦</string>
+    <string name="song_finder_no_chords_message">将一些和弦指法保存到收藏，我们就能为你找到可以弹奏的歌曲！</string>
+    <string name="song_finder_your_chords">你的和弦（%d）</string>
+    <string name="song_finder_songs_can_play">你可以弹奏的歌曲（%d）</string>
+    <string name="song_finder_learn_more">再学 1-2 个和弦（%d）</string>
+    <string name="song_finder_hide">隐藏</string>
+    <string name="song_finder_show">显示</string>
+    <string name="song_finder_keep_learning">继续学习新和弦来解锁更多歌曲！</string>
+    <string name="song_finder_learn_prefix">学习: </string>
+
+    <!-- ── Voice Leading ────────────────────────────────────────────── -->
+    <string name="cd_back_progressions">返回和弦进行</string>
+    <string name="voice_leading_title">%s 中的声部连接</string>
+    <string name="voice_leading_common_tones">%d 个共同音</string>
+    <string name="voice_leading_common_tones_plural">%d 个共同音</string>
+    <string name="voice_leading_fret_movement">总移动 %d 品</string>
+    <string name="voice_leading_frets_movement">总移动 %d 品</string>
+    <string name="voice_leading_stays">保持在 </string>
+    <string name="voice_leading_muted">闷音</string>
+    <string name="voice_leading_fret_prefix">第 </string>
+    <string name="voice_leading_arrow"> → </string>
+    <string name="voice_leading_tip_singular">提示: 保持手指在 %1$s 弦上——两个和弦使用相同的音。</string>
+    <string name="voice_leading_tip_plural">提示: 保持手指在 %1$s 弦上——两个和弦使用相同的音。</string>
+    <string name="voice_leading_total_path">总路径: %2$d 次转换中移动 %1$d 品</string>
+    <string name="voice_leading_prev">上一步</string>
+    <string name="cd_play_all_voice_leadings">播放所有声部连接</string>
+    <string name="voice_leading_play_all">全部播放</string>
+    <string name="voice_leading_next">下一步</string>
+    <string name="voice_leading_step">第 %1$d 步（共 %2$d 步）</string>
+    <string name="voice_leading_single_chord">此和弦进行只有一个和弦。</string>
+
+    <!-- ── Misc Content Descriptions ──────────────────────────────── -->
+    <string name="cd_play_item">播放%s</string>
+    <string name="cd_to">到</string>
+
+    <!-- ── Transpose Controls ───────────────────────────────────────── -->
+    <string name="transpose_arrow"> → </string>
+    <string name="transpose_capo_prefix">变调夹 </string>
+
+    <!-- ── Progression Practice ─────────────────────────────────────── -->
+    <string name="progression_practice_title">练习</string>
+    <string name="progression_practice_no_voicing">没有可用的指法</string>
+    <string name="cd_previous_voicing">上一个指法</string>
+    <string name="cd_next_voicing">下一个指法</string>
+    <string name="cd_toggle_loop">切换循环</string>
+
+    <!-- ── Tap Tempo ────────────────────────────────────────────────── -->
+    <string name="tap_tempo_label">点击</string>
+
+    <!-- ── Full Screen Fretboard ────────────────────────────────────── -->
+    <string name="full_screen_reset">重置</string>
+
+    <!-- ── Notification (Chord of the Day) ──────────────────────────── -->
+    <string name="notif_chord_of_day">每日和弦: %s</string>
+    <string name="notif_frets">品格: %1$s — 点击开始练习！</string>
+    <string name="notif_channel_name">每日和弦</string>
+    <string name="notif_channel_desc">每日尤克里里和弦推荐</string>
+
+    <!-- ── Widget ───────────────────────────────────────────────────── -->
+    <string name="widget_title">每日和弦</string>
+</resources>

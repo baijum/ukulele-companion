@@ -39,10 +39,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.domain.PracticeRoutine
 import com.baijum.ukufretboard.domain.PracticeRoutineGenerator
 import com.baijum.ukufretboard.domain.PracticeStep
@@ -130,13 +132,13 @@ private fun RoutineSetup(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Practice Routine",
+            text = stringResource(R.string.routine_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.semantics { heading() },
         )
         Text(
-            text = "Set up your practice session.",
+            text = stringResource(R.string.routine_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -145,7 +147,7 @@ private fun RoutineSetup(
 
         // Duration slider
         Text(
-            text = "Duration: $durationMinutes minutes",
+            text = stringResource(R.string.routine_duration, durationMinutes),
             style = MaterialTheme.typography.labelMedium,
             fontWeight = FontWeight.Bold,
         )
@@ -161,7 +163,7 @@ private fun RoutineSetup(
 
         // Skill level
         Text(
-            text = "Skill Level",
+            text = stringResource(R.string.routine_skill_level),
             style = MaterialTheme.typography.labelMedium,
             fontWeight = FontWeight.Bold,
         )
@@ -184,7 +186,7 @@ private fun RoutineSetup(
 
         // Focus areas
         Text(
-            text = "Focus Areas",
+            text = stringResource(R.string.routine_focus_areas),
             style = MaterialTheme.typography.labelMedium,
             fontWeight = FontWeight.Bold,
         )
@@ -224,11 +226,11 @@ private fun RoutineSetup(
         ) {
             Icon(
                 Icons.Filled.PlayArrow,
-                contentDescription = "Start practice routine",
+                contentDescription = stringResource(R.string.cd_start_routine),
                 modifier = Modifier.size(20.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Start Practice Routine")
+            Text(stringResource(R.string.routine_start))
         }
     }
 }
@@ -277,7 +279,7 @@ private fun ActiveRoutine(
                 IconButton(onClick = onReset) {
                     Icon(
                         Icons.Filled.Refresh,
-                        contentDescription = "New routine",
+                        contentDescription = stringResource(R.string.cd_new_routine),
                         tint = MaterialTheme.colorScheme.primary,
                     )
                 }
@@ -324,19 +326,19 @@ private fun ActiveRoutine(
                     ) {
                         Icon(
                             Icons.Filled.CheckCircle,
-                            contentDescription = "Practice complete",
+                            contentDescription = stringResource(R.string.cd_practice_complete),
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(48.dp),
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Practice Complete!",
+                            text = stringResource(R.string.routine_complete_title),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                         Text(
-                            text = "Great session! Keep up the daily practice.",
+                            text = stringResource(R.string.routine_complete_message),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
@@ -380,7 +382,7 @@ private fun StepCard(
             if (isCompleted) {
                 Icon(
                     Icons.Filled.CheckCircle,
-                    contentDescription = "Completed",
+                    contentDescription = stringResource(R.string.cd_completed),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(32.dp),
                 )
@@ -439,7 +441,7 @@ private fun StepCard(
                         OutlinedButton(onClick = onNavigate) {
                             Icon(
                                 Icons.AutoMirrored.Filled.ArrowForward,
-                                contentDescription = "Go",
+                                contentDescription = stringResource(R.string.label_go),
                                 modifier = Modifier.size(16.dp),
                             )
                         }
@@ -447,7 +449,7 @@ private fun StepCard(
                     OutlinedButton(onClick = onComplete) {
                         Icon(
                             Icons.Filled.CheckCircle,
-                            contentDescription = "Done",
+                            contentDescription = stringResource(R.string.label_done),
                             modifier = Modifier.size(16.dp),
                         )
                     }

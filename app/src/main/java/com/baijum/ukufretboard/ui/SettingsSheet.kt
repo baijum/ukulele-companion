@@ -2,6 +2,7 @@ package com.baijum.ukufretboard.ui
 
 import android.content.Intent
 import android.net.Uri
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
@@ -21,15 +23,23 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.os.LocaleListCompat
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.DisplaySettings
 import com.baijum.ukufretboard.data.FretboardSettings
 import com.baijum.ukufretboard.data.NotificationSettings
@@ -87,7 +97,7 @@ fun SettingsSheet(
         ) {
             // Sheet title
             Text(
-                text = "Settings",
+                text = stringResource(R.string.settings_title),
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier
                     .padding(bottom = 20.dp)
@@ -107,6 +117,11 @@ fun SettingsSheet(
                 settings = displaySettings,
                 onSettingsChange = onDisplaySettingsChange,
             )
+
+            // ── Language section ──
+            Spacer(modifier = Modifier.height(16.dp))
+            HorizontalDivider()
+            LanguageSection()
 
             // ── Tuning section ──
             Spacer(modifier = Modifier.height(16.dp))
@@ -179,11 +194,11 @@ private fun SoundSection(
     settings: SoundSettings,
     onSettingsChange: (SoundSettings) -> Unit,
 ) {
-    SectionHeader("Sound")
+    SectionHeader(stringResource(R.string.settings_sound))
 
     // Master toggle
     SettingsSwitch(
-        label = "Sound",
+        label = stringResource(R.string.settings_sound),
         checked = settings.enabled,
         onCheckedChange = { onSettingsChange(settings.copy(enabled = it)) },
     )
@@ -192,7 +207,7 @@ private fun SoundSection(
 
     // Volume slider
     SettingsSlider(
-        label = "Volume",
+        label = stringResource(R.string.settings_volume),
         value = settings.volume,
         valueRange = SoundSettings.MIN_VOLUME..SoundSettings.MAX_VOLUME,
         valueLabel = "${(settings.volume * 100).toInt()}%",
@@ -204,7 +219,7 @@ private fun SoundSection(
 
     // Note duration slider
     SettingsSlider(
-        label = "Note Duration",
+        label = stringResource(R.string.settings_note_duration),
         value = settings.noteDurationMs.toFloat(),
         valueRange = SoundSettings.MIN_NOTE_DURATION_MS.toFloat()..SoundSettings.MAX_NOTE_DURATION_MS.toFloat(),
         valueLabel = "${settings.noteDurationMs}ms",
@@ -216,7 +231,7 @@ private fun SoundSection(
 
     // Strum delay slider
     SettingsSlider(
-        label = "Strum Delay",
+        label = stringResource(R.string.settings_strum_delay),
         value = settings.strumDelayMs.toFloat(),
         valueRange = SoundSettings.MIN_STRUM_DELAY_MS.toFloat()..SoundSettings.MAX_STRUM_DELAY_MS.toFloat(),
         valueLabel = "${settings.strumDelayMs}ms",
@@ -233,7 +248,7 @@ private fun SoundSection(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = "Strum Direction",
+            text = stringResource(R.string.settings_strum_direction),
             style = MaterialTheme.typography.bodyLarge,
             color = if (settings.enabled) MaterialTheme.colorScheme.onSurface
             else MaterialTheme.colorScheme.onSurfaceVariant,
@@ -242,14 +257,14 @@ private fun SoundSection(
             FilterChip(
                 selected = settings.strumDown,
                 onClick = { onSettingsChange(settings.copy(strumDown = true)) },
-                label = { Text("Down") },
+                label = { Text(stringResource(R.string.settings_strum_down)) },
                 enabled = settings.enabled,
             )
             Spacer(modifier = Modifier.width(8.dp))
             FilterChip(
                 selected = !settings.strumDown,
                 onClick = { onSettingsChange(settings.copy(strumDown = false)) },
-                label = { Text("Up") },
+                label = { Text(stringResource(R.string.settings_strum_up)) },
                 enabled = settings.enabled,
             )
         }
@@ -259,7 +274,7 @@ private fun SoundSection(
 
     // Play on tap
     SettingsSwitch(
-        label = "Play on Tap",
+        label = stringResource(R.string.settings_play_on_tap),
         checked = settings.playOnTap,
         onCheckedChange = { onSettingsChange(settings.copy(playOnTap = it)) },
         enabled = settings.enabled,
@@ -274,11 +289,11 @@ private fun DisplaySection(
     settings: DisplaySettings,
     onSettingsChange: (DisplaySettings) -> Unit,
 ) {
-    SectionHeader("Display")
+    SectionHeader(stringResource(R.string.settings_display))
 
     // Theme
     Text(
-        text = "Theme",
+        text = stringResource(R.string.settings_theme),
         style = MaterialTheme.typography.bodyLarge,
         color = MaterialTheme.colorScheme.onSurface,
     )
@@ -311,6 +326,117 @@ private fun DisplaySection(
 }
 
 /**
+ * Map of supported language tags to their native display names.
+ *
+ * The key is the BCP 47 tag used by [AppCompatDelegate.setApplicationLocales].
+ * The value is the language name shown in the picker, written in that language
+ * so users can recognise their own language regardless of the current locale.
+ */
+private val SUPPORTED_LANGUAGES = linkedMapOf(
+    "" to "System default",
+    "en" to "English",
+    "es" to "Español",
+    "fr" to "Français",
+    "pt" to "Português",
+    "de" to "Deutsch",
+    "ja" to "日本語",
+    "zh-Hans" to "中文 (简体)",
+    "ko" to "한국어",
+    "hi" to "हिन्दी",
+    "ar" to "العربية",
+    "ru" to "Русский",
+    "it" to "Italiano",
+    "in" to "Bahasa Indonesia",
+    "tr" to "Türkçe",
+    "nl" to "Nederlands",
+    "pl" to "Polski",
+)
+
+/**
+ * Language picker section that lets users override the app locale.
+ *
+ * Uses [AppCompatDelegate.setApplicationLocales] which handles persistence
+ * automatically and integrates with the Android 13+ per-app language system setting.
+ */
+@Composable
+private fun LanguageSection() {
+    SectionHeader(stringResource(R.string.settings_language))
+
+    val currentLocales = AppCompatDelegate.getApplicationLocales()
+    val currentTag = if (currentLocales.isEmpty) "" else currentLocales.toLanguageTags().split(",").first()
+    val currentLabel = SUPPORTED_LANGUAGES.entries.firstOrNull {
+        it.key.equals(currentTag, ignoreCase = true)
+    }?.value ?: SUPPORTED_LANGUAGES[""]!!
+
+    var showDialog by remember { mutableStateOf(false) }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { showDialog = true },
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = stringResource(R.string.settings_language),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface,
+        )
+        Text(
+            text = currentLabel,
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.primary,
+        )
+    }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = {
+                Text(
+                    text = stringResource(R.string.settings_select_language),
+                    modifier = Modifier.semantics { heading() },
+                )
+            },
+            text = {
+                Column(
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
+                ) {
+                    SUPPORTED_LANGUAGES.forEach { (tag, label) ->
+                        val isSelected = tag.equals(currentTag, ignoreCase = true)
+                        Text(
+                            text = label,
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                            color = if (isSelected) MaterialTheme.colorScheme.primary
+                            else MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    val localeList = if (tag.isEmpty()) {
+                                        LocaleListCompat.getEmptyLocaleList()
+                                    } else {
+                                        LocaleListCompat.forLanguageTags(tag)
+                                    }
+                                    AppCompatDelegate.setApplicationLocales(localeList)
+                                    showDialog = false
+                                }
+                                .padding(vertical = 12.dp),
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text(stringResource(R.string.dialog_cancel))
+                }
+            },
+        )
+    }
+}
+
+/**
  * The Tuning settings section with tuning variant selection.
  */
 @Composable
@@ -318,10 +444,10 @@ private fun TuningSection(
     settings: TuningSettings,
     onSettingsChange: (TuningSettings) -> Unit,
 ) {
-    SectionHeader("Tuning")
+    SectionHeader(stringResource(R.string.settings_tuning))
 
     Text(
-        text = "Tuning",
+        text = stringResource(R.string.settings_tuning),
         style = MaterialTheme.typography.bodyLarge,
         color = MaterialTheme.colorScheme.onSurface,
     )
@@ -362,10 +488,10 @@ private fun TunerSection(
     settings: TunerSettings,
     onSettingsChange: (TunerSettings) -> Unit,
 ) {
-    SectionHeader("Tuner")
+    SectionHeader(stringResource(R.string.settings_tuner))
 
     SettingsSwitch(
-        label = "Spoken Feedback",
+        label = stringResource(R.string.settings_spoken_feedback),
         checked = settings.spokenFeedback,
         onCheckedChange = { onSettingsChange(settings.copy(spokenFeedback = it)) },
     )
@@ -373,7 +499,7 @@ private fun TunerSection(
     Spacer(modifier = Modifier.height(4.dp))
 
     Text(
-        text = "Announces note name and cents deviation using text-to-speech",
+        text = stringResource(R.string.settings_spoken_feedback_desc),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
@@ -381,7 +507,7 @@ private fun TunerSection(
     Spacer(modifier = Modifier.height(12.dp))
 
     SettingsSwitch(
-        label = "Precision Mode",
+        label = stringResource(R.string.settings_precision_mode),
         checked = settings.precisionMode,
         onCheckedChange = { onSettingsChange(settings.copy(precisionMode = it)) },
     )
@@ -389,7 +515,7 @@ private fun TunerSection(
     Spacer(modifier = Modifier.height(4.dp))
 
     Text(
-        text = "Tightens the in-tune zone from ±6 cents to ±2 cents",
+        text = stringResource(R.string.settings_precision_mode_desc),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
@@ -397,7 +523,7 @@ private fun TunerSection(
     Spacer(modifier = Modifier.height(12.dp))
 
     SettingsSwitch(
-        label = "Auto-Advance",
+        label = stringResource(R.string.settings_auto_advance),
         checked = settings.autoAdvance,
         onCheckedChange = { onSettingsChange(settings.copy(autoAdvance = it)) },
     )
@@ -405,7 +531,7 @@ private fun TunerSection(
     Spacer(modifier = Modifier.height(4.dp))
 
     Text(
-        text = "Highlights the next untuned string automatically",
+        text = stringResource(R.string.settings_auto_advance_desc),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
@@ -413,7 +539,7 @@ private fun TunerSection(
     Spacer(modifier = Modifier.height(12.dp))
 
     SettingsSwitch(
-        label = "Auto-Start",
+        label = stringResource(R.string.settings_auto_start),
         checked = settings.autoStart,
         onCheckedChange = { onSettingsChange(settings.copy(autoStart = it)) },
     )
@@ -421,7 +547,7 @@ private fun TunerSection(
     Spacer(modifier = Modifier.height(4.dp))
 
     Text(
-        text = "Start listening automatically when the tuner tab is opened",
+        text = stringResource(R.string.settings_auto_start_desc),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
@@ -429,7 +555,7 @@ private fun TunerSection(
     Spacer(modifier = Modifier.height(12.dp))
 
     SettingsSlider(
-        label = "A4 Reference",
+        label = stringResource(R.string.settings_a4_reference),
         value = settings.a4Reference,
         valueRange = TunerSettings.MIN_A4_REFERENCE..TunerSettings.MAX_A4_REFERENCE,
         valueLabel = "${"%.1f".format(settings.a4Reference)} Hz",
@@ -448,22 +574,22 @@ private fun FretboardSection(
     settings: FretboardSettings,
     onSettingsChange: (FretboardSettings) -> Unit,
 ) {
-    SectionHeader("Fretboard")
+    SectionHeader(stringResource(R.string.settings_fretboard))
 
     SettingsSwitch(
-        label = "Left-Handed",
+        label = stringResource(R.string.settings_left_handed),
         checked = settings.leftHanded,
         onCheckedChange = { onSettingsChange(settings.copy(leftHanded = it)) },
     )
 
     SettingsSwitch(
-        label = "Show Note Names",
+        label = stringResource(R.string.settings_show_note_names),
         checked = settings.showNoteNames,
         onCheckedChange = { onSettingsChange(settings.copy(showNoteNames = it)) },
     )
 
     SettingsSwitch(
-        label = "Allow Muted Strings",
+        label = stringResource(R.string.settings_allow_muted),
         checked = settings.allowMutedStrings,
         onCheckedChange = { onSettingsChange(settings.copy(allowMutedStrings = it)) },
     )
@@ -471,7 +597,7 @@ private fun FretboardSection(
     Spacer(modifier = Modifier.height(8.dp))
 
     SettingsSlider(
-        label = "Frets",
+        label = stringResource(R.string.settings_frets),
         value = settings.lastFret.toFloat(),
         valueRange = FretboardSettings.MIN_LAST_FRET.toFloat()..FretboardSettings.MAX_LAST_FRET.toFloat(),
         valueLabel = "${settings.lastFret}",
@@ -488,10 +614,10 @@ private fun NotificationSection(
     settings: NotificationSettings,
     onSettingsChange: (NotificationSettings) -> Unit,
 ) {
-    SectionHeader("Notifications")
+    SectionHeader(stringResource(R.string.settings_notifications))
 
     SettingsSwitch(
-        label = "Chord of the Day",
+        label = stringResource(R.string.settings_chord_of_day),
         checked = settings.chordOfDayEnabled,
         onCheckedChange = { onSettingsChange(settings.copy(chordOfDayEnabled = it)) },
     )
@@ -575,26 +701,26 @@ private fun SettingsSlider(
 private fun AboutSection() {
     val context = LocalContext.current
     val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-    val versionName = packageInfo.versionName ?: "Unknown"
+    val versionName = packageInfo.versionName ?: stringResource(R.string.settings_unknown_version)
 
-    SectionHeader("About")
+    SectionHeader(stringResource(R.string.settings_about))
 
     // App name and version
     Text(
-        text = "Ukulele Companion",
+        text = stringResource(R.string.app_full_name),
         style = MaterialTheme.typography.titleMedium,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurface,
     )
     Spacer(modifier = Modifier.height(4.dp))
     Text(
-        text = "Version $versionName",
+        text = stringResource(R.string.settings_version, versionName),
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
     Spacer(modifier = Modifier.height(4.dp))
     Text(
-        text = "Website",
+        text = stringResource(R.string.settings_website),
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.clickable {
@@ -607,26 +733,25 @@ private fun AboutSection() {
 
     // Credits
     Text(
-        text = "Credits",
+        text = stringResource(R.string.settings_credits),
         style = MaterialTheme.typography.titleSmall,
         fontWeight = FontWeight.SemiBold,
         color = MaterialTheme.colorScheme.onSurface,
     )
     Spacer(modifier = Modifier.height(8.dp))
     CreditItem(
-        label = "Audio Samples",
-        value = "\"Ukelele single notes, close-mic\" by stomachache (Freesound.org)",
+        label = stringResource(R.string.settings_audio_samples),
+        value = stringResource(R.string.settings_audio_samples_value),
     )
     CreditItem(
-        label = "License",
-        value = "CC BY 3.0",
+        label = stringResource(R.string.settings_license),
+        value = stringResource(R.string.settings_license_value),
     )
 
     Spacer(modifier = Modifier.height(16.dp))
 
     Text(
-        text = "Your all-in-one ukulele companion for chords, scales, " +
-            "music theory, and composition. Free, offline, no ads, no tracking.",
+        text = stringResource(R.string.settings_tagline),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )

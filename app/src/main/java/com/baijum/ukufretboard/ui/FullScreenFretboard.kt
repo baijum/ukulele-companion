@@ -38,8 +38,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.domain.ChordDetector
 import com.baijum.ukufretboard.viewmodel.FretboardViewModel
 import kotlinx.coroutines.delay
@@ -190,7 +192,7 @@ fun FullScreenFretboard(
             ) {
                 // Chord name
                 Text(
-                    text = chordLabel.ifEmpty { "Tap frets" },
+                    text = chordLabel.ifEmpty { stringResource(R.string.explorer_tap_frets) },
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = if (chordLabel.isNotEmpty())
@@ -208,7 +210,7 @@ fun FullScreenFretboard(
                         IconButton(onClick = { viewModel.playChord() }) {
                             Icon(
                                 imageVector = Icons.Filled.PlayArrow,
-                                contentDescription = "Play chord",
+                                contentDescription = stringResource(R.string.cd_play_chord),
                                 tint = MaterialTheme.colorScheme.primary,
                             )
                         }
@@ -219,7 +221,7 @@ fun FullScreenFretboard(
                         viewModel.clearAll()
                         showOverlay = true
                     }) {
-                        Text("Reset")
+                        Text(stringResource(R.string.full_screen_reset))
                     }
 
                     Spacer(modifier = Modifier.width(4.dp))
@@ -228,7 +230,7 @@ fun FullScreenFretboard(
                     IconButton(onClick = onExit) {
                         Icon(
                             imageVector = Icons.Filled.Close,
-                            contentDescription = "Exit full screen",
+                            contentDescription = stringResource(R.string.cd_exit_full_screen),
                             tint = MaterialTheme.colorScheme.error,
                         )
                     }

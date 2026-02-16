@@ -1,0 +1,804 @@
+<resources>
+    <string name="app_name">Uke</string>
+    <string name="app_full_name">Ukulele Companion</string>
+    <string name="widget_description">يعرض وتراً جديداً لليوكوليلي كل يوم</string>
+
+    <!-- ── Common / Shared ──────────────────────────────────────────── -->
+    <string name="dialog_cancel">إلغاء</string>
+    <string name="dialog_delete">حذف</string>
+    <string name="dialog_save">حفظ</string>
+    <string name="dialog_create">إنشاء</string>
+    <string name="dialog_rename">إعادة تسمية</string>
+    <string name="dialog_reset">إعادة تعيين</string>
+    <string name="action_back">رجوع</string>
+    <string name="action_play">تشغيل</string>
+    <string name="action_stop">إيقاف</string>
+    <string name="action_edit">تعديل</string>
+    <string name="action_share">مشاركة</string>
+    <string name="action_close">إغلاق</string>
+    <string name="label_all">الكل</string>
+    <string name="label_none">لا شيء</string>
+    <string name="label_bpm">BPM</string>
+    <string name="label_bpm_value">BPM: %d</string>
+    <string name="label_beats">النبضات:</string>
+    <string name="label_capo">كابو</string>
+    <string name="label_key">المفتاح</string>
+    <string name="label_scale">السلم</string>
+    <string name="label_correct">صحيح</string>
+    <string name="label_accuracy">الدقة</string>
+    <string name="label_streak">متتالية</string>
+    <string name="label_best">الأفضل</string>
+    <string name="label_score">النقاط</string>
+    <string name="label_best_streak">أفضل متتالية</string>
+    <string name="label_this_session">هذه الجلسة</string>
+    <string name="label_all_time">على الإطلاق</string>
+    <string name="label_difficulty">الصعوبة</string>
+    <string name="label_mode">الوضع</string>
+    <string name="label_direction">الاتجاه</string>
+    <string name="label_category">الفئة</string>
+    <string name="label_easy">سهل</string>
+    <string name="label_medium">متوسط</string>
+    <string name="label_hard">صعب</string>
+    <string name="label_expert">خبير</string>
+    <string name="label_replay">إعادة تشغيل</string>
+    <string name="label_correct_answer">صحيح!</string>
+    <string name="label_the_answer_is">الإجابة هي</string>
+    <string name="label_root">الجذر</string>
+    <string name="label_position">الموضع</string>
+    <string name="label_off">إيقاف</string>
+    <string name="label_open">مفتوح</string>
+    <string name="label_presets">إعدادات مسبقة</string>
+    <string name="label_practice">تمرين</string>
+    <string name="label_go">ابدأ</string>
+    <string name="label_done">تم</string>
+
+    <!-- ── Navigation Drawer ────────────────────────────────────────── -->
+    <string name="nav_section_play">العزف</string>
+    <string name="nav_section_create">الإنشاء</string>
+    <string name="nav_section_learn">التعلم</string>
+    <string name="nav_section_reference">المرجع</string>
+    <string name="nav_explorer">المستكشف</string>
+    <string name="nav_tuner">الموالف</string>
+    <string name="nav_pitch_monitor">مراقب النغمة</string>
+    <string name="nav_chords">الأوتار</string>
+    <string name="nav_favorites">المفضلة</string>
+    <string name="nav_song_finder">البحث عن أغانٍ</string>
+    <string name="nav_songs">الأغاني</string>
+    <string name="nav_melody_notepad">دفتر الألحان</string>
+    <string name="nav_patterns">الأنماط</string>
+    <string name="nav_progressions">التقدمات اللحنية</string>
+    <string name="nav_learn_theory">تعلم النظرية</string>
+    <string name="nav_theory_quiz">اختبار النظرية</string>
+    <string name="nav_interval_trainer">مدرب الفواصل</string>
+    <string name="nav_note_quiz">اختبار النوتات</string>
+    <string name="nav_chord_ear_training">تدريب الأذن على الأوتار</string>
+    <string name="nav_scale_practice">تمرين السلالم</string>
+    <string name="nav_progress">التقدم</string>
+    <string name="nav_daily_challenge">التحدي اليومي</string>
+    <string name="nav_practice_routine">روتين التمرين</string>
+    <string name="nav_srs_review">مراجعة SRS</string>
+    <string name="nav_chord_transitions">انتقالات الأوتار</string>
+    <string name="nav_play_along">العزف المصاحب</string>
+    <string name="nav_achievements">الإنجازات</string>
+    <string name="nav_capo_guide">دليل الكابو</string>
+    <string name="nav_circle_of_fifths">دائرة الخامسات</string>
+    <string name="nav_chord_substitutions">بدائل الأوتار</string>
+    <string name="nav_chords_in_scale">أوتار السلم</string>
+    <string name="nav_fretboard_notes">نوتات لوحة الأصابع</string>
+    <string name="nav_glossary">المسرد</string>
+    <string name="nav_help">المساعدة</string>
+
+    <!-- ── Top Bar / Content Descriptions ───────────────────────────── -->
+    <string name="cd_open_nav_menu">فتح قائمة التنقل</string>
+    <string name="cd_settings">الإعدادات</string>
+    <string name="cd_full_screen">ملء الشاشة</string>
+    <string name="cd_exit_full_screen">الخروج من ملء الشاشة</string>
+    <string name="cd_play_chord">تشغيل الوتر</string>
+    <string name="cd_play_sound">تشغيل الصوت</string>
+    <string name="cd_share_chord_image">مشاركة الوتر كصورة</string>
+    <string name="cd_remove_favorites">إزالة من المفضلة</string>
+    <string name="cd_add_favorites">إضافة إلى المفضلة</string>
+    <string name="cd_replay">إعادة تشغيل</string>
+
+    <!-- ── Explorer Tab ─────────────────────────────────────────────── -->
+    <string name="explorer_reset">إعادة تعيين</string>
+    <string name="explorer_scales">السلالم</string>
+    <string name="explorer_hide_scale">إخفاء السلم</string>
+    <string name="explorer_tap_frets">انقر على الحنق</string>
+    <string name="explorer_capo_off">إيقاف</string>
+
+    <!-- ── Chord Result ─────────────────────────────────────────────── -->
+    <string name="chord_result_tap_fretboard">انقر على لوحة الأصابع لاختيار النوتات</string>
+    <string name="chord_result_single_note">نوتة واحدة مختارة</string>
+    <string name="chord_result_incomplete">وتر غير مكتمل</string>
+    <string name="chord_result_no_match">لا يوجد تطابق دقيق للوتر</string>
+    <string name="chord_result_also">أيضاً: </string>
+    <string name="chord_result_intervals">الفواصل</string>
+    <string name="chord_result_formula">الصيغة</string>
+    <string name="chord_result_fingering">وضع الأصابع</string>
+    <string name="chord_result_difficulty">الصعوبة</string>
+    <string name="chord_result_inversion">الانعكاس</string>
+    <string name="chord_result_bass">الباص: </string>
+
+    <!-- ── Chord Library ────────────────────────────────────────────── -->
+    <string name="chord_library_root_note">النوتة الجذر</string>
+    <string name="chord_library_type">النوع</string>
+    <string name="chord_library_compare_inversions"> — مقارنة الانعكاسات</string>
+    <string name="chord_library_voicings">%d توزيع صوتي</string>
+    <string name="chord_library_viz">عرض</string>
+    <string name="chord_library_compare">مقارنة</string>
+    <string name="cd_play_all_inversions">تشغيل جميع الانعكاسات</string>
+    <string name="chord_library_play_all_inversions">تشغيل جميع الانعكاسات</string>
+    <string name="chord_library_inversion_tip">نفس الوتر، نوتة باص مختلفة. استمع إلى كيف أن لكل انعكاس طابعه المميز.</string>
+    <string name="chord_library_bass_prefix">الباص: </string>
+    <string name="chord_library_voicing_singular">%d توزيع صوتي</string>
+    <string name="chord_library_reentrant_limited">يحتوي هذا الوتر على %d توزيعات صوتية فقط. يحد الضبط المتكرر (High-G) من الانعكاسات لأن وتر C (C4) يكون دائماً تقريباً أخفض نغمة. يتيح ضبط Low-G تنوعاً أكبر في الانعكاسات.</string>
+    <string name="chord_library_reentrant_empty">في الضبط المتكرر (High-G)، يكون وتر C دائماً تقريباً أخفض نوتة، لذا معظم التوزيعات الصوتية في الوضع الأصلي. جرّب اختيار \"الكل\" لرؤية التوزيعات المتاحة.</string>
+    <string name="chord_library_no_voicings">لم يتم العثور على توزيعات صوتية</string>
+
+    <!-- ── Tuner ────────────────────────────────────────────────────── -->
+    <string name="tuner_play_a_string">اعزف وتراً…</string>
+    <string name="tuner_in_tune">مضبوط!</string>
+    <string name="tuner_almost_up">تقريباً — ارفع قليلاً</string>
+    <string name="tuner_almost_down">تقريباً — اخفض قليلاً</string>
+    <string name="tuner_tune_up">ارفع النغمة</string>
+    <string name="tuner_tune_down">اخفض النغمة</string>
+    <string name="tuner_all_tuned">جميع الأوتار مضبوطة!</string>
+    <string name="tuner_start">بدء الضبط</string>
+    <string name="tuner_stop">إيقاف</string>
+    <string name="cd_start_tuning">بدء الضبط</string>
+    <string name="cd_stop_tuning">إيقاف الضبط</string>
+    <string name="cd_detected_note">النوتة المكتشفة: %s</string>
+    <string name="tuner_meter_no_pitch">مقياس الضبط، لم يتم اكتشاف نغمة</string>
+    <string name="tuner_meter_in_tune">مقياس الضبط، مضبوط</string>
+    <string name="tuner_meter_close">مقياس الضبط، %1$d سنت %2$s، تقريباً مضبوط</string>
+    <string name="tuner_meter_flat">مقياس الضبط، منخفض %d سنت</string>
+    <string name="tuner_meter_sharp">مقياس الضبط، مرتفع %d سنت</string>
+    <string name="tuner_direction_flat">منخفض</string>
+    <string name="tuner_direction_sharp">مرتفع</string>
+    <string name="tuner_swiftf0_active">SwiftF0 Active</string>
+    <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
+    <string name="tuner_precision_mode">وضع الدقة</string>
+    <string name="tuner_string_tuned">مضبوط</string>
+    <string name="tuner_string_next">الوتر التالي للضبط</string>
+    <string name="tuner_string_active">نشط</string>
+    <string name="tuner_string_not_tuned">غير مضبوط</string>
+    <string name="tuner_string_desc">وتر %1$s، %2$s، انقر لنغمة مرجعية</string>
+    <string name="tuner_check_tuned">مضبوط</string>
+
+    <!-- ── Pitch Monitor ────────────────────────────────────────────── -->
+    <string name="pitch_monitor_detected_chord">الوتر المكتشف: %s</string>
+    <string name="pitch_monitor_notes_prefix">النوتات: </string>
+    <string name="pitch_monitor_current_note">النوتة الحالية: %s</string>
+    <string name="pitch_monitor_visualization">عرض مرئي للنغمة يظهر تغيرها عبر الزمن</string>
+    <string name="pitch_monitor_tap_start">انقر \"ابدأ\" للبدء</string>
+    <string name="pitch_monitor_playing">يعزف %s</string>
+    <string name="pitch_monitor_detecting">جارٍ اكتشاف النغمة…</string>
+    <string name="pitch_monitor_play_ukulele">اعزف يوكوليلي الخاص بك…</string>
+    <string name="cd_stop_listening">إيقاف الاستماع</string>
+    <string name="cd_start_listening">بدء الاستماع</string>
+    <string name="pitch_monitor_start">ابدأ</string>
+
+    <!-- ── Favorites ────────────────────────────────────────────────── -->
+    <string name="favorites_empty_title">لا مفضلات بعد</string>
+    <string name="favorites_empty_message">تصفح تبويب الأوتار وانقر على أيقونة القلب على أي توزيع صوتي لحفظه هنا.</string>
+    <string name="favorites_all_count">الكل (%d)</string>
+    <string name="favorites_new_folder">مجلد جديد</string>
+    <string name="favorites_folder_name">اسم المجلد</string>
+    <string name="favorites_rename_folder">إعادة تسمية المجلد</string>
+    <string name="favorites_delete_folder">حذف المجلد</string>
+    <string name="favorites_delete_folder_msg">حذف المجلد \"%s\"؟ لن يتم حذف التوزيعات الصوتية في هذا المجلد.</string>
+    <string name="cd_rename_folder">إعادة تسمية المجلد</string>
+    <string name="cd_delete_folder">حذف المجلد</string>
+    <string name="cd_manage_folders">إدارة المجلدات</string>
+    <string name="cd_reorder">إعادة ترتيب</string>
+
+    <!-- ── Favorite Folder Sheet ────────────────────────────────────── -->
+    <string name="folder_sheet_manage">إدارة المجلدات</string>
+    <string name="folder_sheet_save_to">حفظ في المجلدات</string>
+    <string name="folder_sheet_no_folders">لا توجد مجلدات بعد. أنشئ واحداً أدناه.</string>
+    <string name="folder_sheet_new_folder">+ مجلد جديد</string>
+    <string name="folder_sheet_remove">إزالة من المفضلة</string>
+
+    <!-- ── Songbook ─────────────────────────────────────────────────── -->
+    <string name="songbook_empty_title">لا أغانٍ بعد</string>
+    <string name="songbook_empty_message">انقر + لإنشاء أول ورقة أوتار.\nأو استورد ملف ChordPro.</string>
+    <string name="songbook_untitled">بدون عنوان</string>
+    <string name="songbook_share_as_text">مشاركة كنص</string>
+    <string name="songbook_chord_sheet">ورقة أوتار</string>
+    <string name="songbook_export_chordpro">تصدير كـ ChordPro</string>
+    <string name="songbook_export_chooser">تصدير ChordPro</string>
+    <string name="songbook_key_prefix">المفتاح: </string>
+    <string name="songbook_transpose">تحويل النغمة:</string>
+    <string name="songbook_capo_hint">أو استخدم كابو %d مع الأوتار الأصلية</string>
+    <string name="songbook_field_title">العنوان</string>
+    <string name="songbook_field_artist">الفنان (اختياري)</string>
+    <string name="songbook_field_lyrics_hint">استخدم [اسم الوتر] للأوتار، مثل Some[C]where over the [Em]rainbow</string>
+    <string name="songbook_field_lyrics">كلمات مع [أوتار]</string>
+    <string name="cd_import_chordpro">استيراد ملف ChordPro</string>
+    <string name="cd_new_chord_sheet">ورقة أوتار جديدة</string>
+    <string name="songbook_speed_half">0.5x</string>
+    <string name="songbook_speed_1x">1x</string>
+    <string name="songbook_speed_2x">2x</string>
+    <string name="songbook_speed_3x">3x</string>
+    <string name="cd_stop_scroll">إيقاف التمرير</string>
+    <string name="cd_pause_scroll">إيقاف التمرير مؤقتاً</string>
+    <string name="cd_auto_scroll">تمرير تلقائي</string>
+
+    <!-- ── Progressions ─────────────────────────────────────────────── -->
+    <string name="progressions_new">تقدم لحني جديد</string>
+    <string name="cd_add_progression">إضافة تقدم لحني جديد</string>
+    <string name="progressions_my">تقدماتي اللحنية</string>
+    <string name="cd_delete_progression">حذف التقدم اللحني</string>
+    <string name="cd_duplicate_progression">تكرار</string>
+    <string name="progressions_voice_leading">قيادة الأصوات</string>
+    <string name="progressions_copy_suffix"> (نسخة)</string>
+
+    <!-- ── Create Progression Sheet ─────────────────────────────────── -->
+    <string name="progression_edit_title">تعديل التقدم اللحني</string>
+    <string name="progression_create_title">إنشاء تقدم لحني</string>
+    <string name="progression_name_label">اسم التقدم اللحني</string>
+    <string name="progression_desc_label">الوصف (اختياري)</string>
+    <string name="progression_chord_quality">جودة الوتر</string>
+    <string name="progression_triad">ثلاثي</string>
+    <string name="progression_tap_chords">انقر على الأوتار لإضافتها</string>
+    <string name="progression_your_chords">تقدمك اللحني (%d أوتار)</string>
+    <string name="progression_placeholder">انقر على الأوتار أعلاه لبناء تقدمك اللحني</string>
+    <string name="progression_update">تحديث التقدم اللحني</string>
+    <string name="progression_save">حفظ التقدم اللحني</string>
+    <string name="progression_error_min">أضف وترين على الأقل</string>
+    <string name="cd_remove">إزالة</string>
+
+    <!-- ── Strum Patterns ───────────────────────────────────────────── -->
+    <string name="patterns_strumming">النقر</string>
+    <string name="patterns_fingerpicking">العزف بالأصابع</string>
+    <string name="patterns_my">أنماطي</string>
+    <string name="cd_create_pattern">إنشاء نمط</string>
+    <string name="patterns_create_strum">إنشاء نمط نقر</string>
+    <string name="patterns_pattern_name">اسم النمط</string>
+    <string name="patterns_tap_beat">انقر على كل نبضة لتغيير الاتجاه</string>
+    <string name="patterns_tap_accent">انقر أدناه لتبديل النبر</string>
+    <string name="patterns_custom">نمط مخصص</string>
+    <string name="patterns_create_fingerpick">إنشاء نمط عزف بالأصابع</string>
+    <string name="patterns_steps">%d خطوة</string>
+    <string name="patterns_tap_step">انقر على خطوة، ثم اختر الإصبع والوتر أدناه</string>
+    <string name="patterns_finger">الإصبع</string>
+    <string name="patterns_thumb">الإبهام</string>
+    <string name="patterns_index">السبابة</string>
+    <string name="patterns_middle">الوسطى</string>
+    <string name="patterns_ring">البنصر</string>
+    <string name="patterns_string">الوتر</string>
+
+    <!-- ── Playback Bar ─────────────────────────────────────────────── -->
+    <string name="playback_prefix">التشغيل: </string>
+    <string name="playback_bpm_prefix">BPM: </string>
+    <string name="cd_loop_on">التكرار مفعل</string>
+    <string name="cd_loop_off">التكرار معطل</string>
+
+    <!-- ── Scale Selector ───────────────────────────────────────────── -->
+    <string name="scale_selector_root">جذر السلم</string>
+    <string name="scale_selector_chords_in">أوتار %s</string>
+
+    <!-- ── Settings ─────────────────────────────────────────────────── -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_sound">الصوت</string>
+    <string name="settings_volume">مستوى الصوت</string>
+    <string name="settings_note_duration">مدة النوتة</string>
+    <string name="settings_strum_delay">تأخير النقر</string>
+    <string name="settings_strum_direction">اتجاه النقر</string>
+    <string name="settings_strum_down">لأسفل</string>
+    <string name="settings_strum_up">لأعلى</string>
+    <string name="settings_play_on_tap">تشغيل عند النقر</string>
+    <string name="settings_display">العرض</string>
+    <string name="settings_theme">المظهر</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_select_language">اختر اللغة</string>
+    <string name="settings_tuning">الضبط</string>
+    <string name="settings_tuner">الموالف</string>
+    <string name="settings_spoken_feedback">التعليق الصوتي</string>
+    <string name="settings_spoken_feedback_desc">ينطق اسم النوتة وانحراف السنت باستخدام تحويل النص إلى كلام</string>
+    <string name="settings_precision_mode">وضع الدقة</string>
+    <string name="settings_precision_mode_desc">يضيّق نطاق الضبط من ±6 سنت إلى ±2 سنت</string>
+    <string name="settings_auto_advance">التقدم التلقائي</string>
+    <string name="settings_auto_advance_desc">يبرز الوتر التالي غير المضبوط تلقائياً</string>
+    <string name="settings_auto_start">البدء التلقائي</string>
+    <string name="settings_auto_start_desc">يبدأ الاستماع تلقائياً عند فتح تبويب الموالف</string>
+    <string name="settings_a4_reference">مرجع A4</string>
+    <string name="settings_fretboard">لوحة الأصابع</string>
+    <string name="settings_left_handed">لليد اليسرى</string>
+    <string name="settings_show_note_names">إظهار أسماء النوتات</string>
+    <string name="settings_allow_muted">السماح بالأوتار المكتومة</string>
+    <string name="settings_frets">الحنق</string>
+    <string name="settings_notifications">الإشعارات</string>
+    <string name="settings_chord_of_day">وتر اليوم</string>
+    <string name="settings_about">حول</string>
+    <string name="settings_version">الإصدار %s</string>
+    <string name="settings_website">الموقع</string>
+    <string name="settings_credits">شكر وتقدير</string>
+    <string name="settings_audio_samples">عينات صوتية</string>
+    <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" by stomachache (Freesound.org)</string>
+    <string name="settings_license">الرخصة</string>
+    <string name="settings_license_value">CC BY 3.0</string>
+    <string name="settings_tagline">رفيقك الشامل لليوكوليلي للأوتار والسلالم والنظرية الموسيقية والتأليف. مجاني، بدون إنترنت، بدون إعلانات، بدون تتبع.</string>
+    <string name="settings_unknown_version">غير معروف</string>
+
+    <!-- ── Backup &amp; Restore ──────────────────────────────────────── -->
+    <string name="backup_title">النسخ الاحتياطي والاستعادة</string>
+    <string name="backup_description">احفظ جميع بياناتك (المفضلة، الأغاني، التقدمات اللحنية، الأنماط، الإعدادات، وتقدم التعلم) في ملف، أو استعد من نسخة احتياطية.</string>
+    <string name="backup_last">آخر نسخ احتياطي: %s</string>
+    <string name="cd_backup">نسخ البيانات احتياطياً</string>
+    <string name="backup_button">نسخ احتياطي</string>
+    <string name="cd_restore">استعادة البيانات</string>
+    <string name="restore_button">استعادة</string>
+    <string name="restore_dialog_title">استعادة البيانات؟</string>
+    <string name="restore_dialog_message">سيتم دمج المفضلة والأغاني والتقدمات اللحنية والأنماط من ملف النسخ الاحتياطي مع بياناتك الحالية. سيتم استبدال الإعدادات بقيم النسخ الاحتياطي.\n\nلن يتم حذف بياناتك الحالية.</string>
+
+    <!-- ── Tuner Permission ─────────────────────────────────────────── -->
+    <string name="mic_permission_title">الوصول إلى الميكروفون</string>
+    <string name="mic_permission_message">يحتاج الموالف إلى الوصول إلى الميكروفون للاستماع إلى اليوكوليلي واكتشاف نغمة كل وتر.</string>
+    <string name="mic_permission_allow">السماح بالميكروفون</string>
+    <string name="mic_permission_denied_title">تم رفض الميكروفون</string>
+    <string name="mic_permission_denied_message">لا يمكن للموالف العمل بدون الوصول إلى الميكروفون. يرجى تمكينه في إعدادات التطبيق على جهازك.</string>
+    <string name="mic_permission_open_settings">فتح الإعدادات</string>
+
+    <!-- ── Note Quiz ────────────────────────────────────────────────── -->
+    <string name="note_quiz_title">اختبار النوتات</string>
+    <string name="note_quiz_subtitle">اختبر معرفتك بنوتات لوحة الأصابع.</string>
+    <string name="note_quiz_name_it">سمّها</string>
+    <string name="note_quiz_find_it">اعثر عليها</string>
+    <string name="note_quiz_start">بدء الاختبار</string>
+    <string name="note_quiz_next">السؤال التالي</string>
+    <string name="note_quiz_what_note">ما النوتة في هذا الموضع؟</string>
+    <string name="note_quiz_string_fret">الوتر، الحنق</string>
+    <string name="note_quiz_where_is">أين هذه النوتة؟</string>
+
+    <!-- ── Theory Quiz ──────────────────────────────────────────────── -->
+    <string name="theory_quiz_title">اختبار النظرية</string>
+    <string name="theory_quiz_subtitle">اختبر معرفتك بالنظرية الموسيقية!</string>
+    <string name="theory_quiz_standard">عادي</string>
+    <string name="theory_quiz_blitz">بليتز (60 ث)</string>
+    <string name="theory_quiz_start_blitz">ابدأ البليتز!</string>
+    <string name="theory_quiz_start">بدء الاختبار</string>
+    <string name="theory_quiz_next">السؤال التالي</string>
+    <string name="theory_quiz_times_up">انتهى الوقت!</string>
+    <string name="theory_quiz_final_score">النقاط: %d</string>
+    <string name="theory_quiz_final_accuracy">الدقة: %s</string>
+    <string name="theory_quiz_play_again">العب مجدداً</string>
+
+    <!-- ── Interval Trainer ─────────────────────────────────────────── -->
+    <string name="interval_title">مدرب الفواصل</string>
+    <string name="interval_subtitle">حدد الفاصل بين نوتتين.</string>
+    <string name="interval_visual">مرئي</string>
+    <string name="interval_audio">سمعي</string>
+    <string name="interval_ascending">صاعد</string>
+    <string name="interval_descending">هابط</string>
+    <string name="interval_harmonic">توافقي</string>
+    <string name="interval_start">بدء التدريب</string>
+    <string name="interval_next">الفاصل التالي</string>
+    <string name="interval_what">ما هذا الفاصل؟</string>
+    <string name="interval_replay">إعادة تشغيل الفاصل</string>
+    <string name="interval_semitone">نصف نغمة</string>
+    <string name="interval_semitones_apart">أنصاف نغمات بينهما</string>
+
+    <!-- ── Chord Ear Training ───────────────────────────────────────── -->
+    <string name="chord_ear_title">تدريب الأذن على الأوتار</string>
+    <string name="chord_ear_subtitle">حدد جودة الوتر بالأذن.</string>
+    <string name="chord_ear_start">بدء التدريب</string>
+    <string name="chord_ear_next">الوتر التالي</string>
+    <string name="chord_ear_what">ما نوع هذا الوتر؟</string>
+    <string name="chord_ear_replay">إعادة تشغيل الوتر</string>
+
+    <!-- ── Scale Practice ───────────────────────────────────────────── -->
+    <string name="scale_practice_title">تمرين السلالم</string>
+    <string name="scale_practice_subtitle">تمرن على السلالم مع العزف المصاحب الموجه والاختبارات وتدريب الأذن.</string>
+    <string name="scale_practice_root">جذر السلم</string>
+    <string name="scale_practice_options">خيارات</string>
+    <string name="scale_practice_loop">تكرار</string>
+    <string name="scale_practice_fretboard">لوحة الأصابع</string>
+    <string name="scale_practice_play">تشغيل السلم</string>
+    <string name="scale_practice_resume">استئناف</string>
+    <string name="scale_practice_now">الآن:</string>
+    <string name="scale_practice_note_of">النوتة %1$d من %2$d</string>
+    <string name="scale_practice_start_quiz">بدء الاختبار</string>
+    <string name="scale_practice_next">السؤال التالي</string>
+    <string name="scale_practice_what">ما السلم الذي يتم عزفه؟</string>
+    <string name="scale_practice_root_label">الجذر:</string>
+    <string name="scale_practice_replay">إعادة تشغيل السلم</string>
+    <string name="scale_practice_correct">صحيح! هذا هو</string>
+    <string name="scale_practice_notes_label">النوتات:</string>
+    <string name="scale_practice_next_scale">السلم التالي</string>
+    <string name="scale_practice_start_training">بدء التدريب</string>
+
+    <!-- ── Theory Lessons ───────────────────────────────────────────── -->
+    <string name="theory_lessons_title">تعلم النظرية الموسيقية</string>
+    <string name="theory_lessons_subtitle">دروس منظمة من الأساسيات إلى التناغم المتقدم.</string>
+    <string name="theory_lessons_progress">التقدم</string>
+    <string name="theory_lessons_count">%d درس</string>
+    <string name="theory_lessons_key_points">النقاط الرئيسية</string>
+    <string name="theory_lessons_quick_check">فحص سريع</string>
+    <string name="theory_lessons_not_quite">ليس تماماً.</string>
+    <string name="theory_lessons_back">العودة إلى الدروس</string>
+
+    <!-- ── Learning Progress ────────────────────────────────────────── -->
+    <string name="progress_title">تقدم التعلم</string>
+    <string name="progress_subtitle">تتبع رحلتك في النظرية الموسيقية.</string>
+    <string name="progress_practice_time">وقت التمرين</string>
+    <string name="progress_today">اليوم</string>
+    <string name="progress_total">الإجمالي</string>
+    <string name="progress_sessions">الجلسات</string>
+    <string name="progress_daily_goal">الهدف اليومي: %d دقيقة</string>
+    <string name="progress_day_streak">أيام متتالية</string>
+    <string name="progress_lessons_done">دروس مكتملة</string>
+    <string name="progress_theory_lessons">دروس النظرية</string>
+    <string name="progress_lessons_completed">دروس مكتملة</string>
+    <string name="progress_quizzes_passed">اختبارات ناجحة</string>
+    <string name="progress_overall">عام</string>
+    <string name="progress_reset">إعادة تعيين كل التقدم</string>
+    <string name="progress_reset_title">إعادة تعيين التقدم؟</string>
+    <string name="progress_reset_message">سيؤدي هذا إلى مسح جميع تقدم التعلم ونتائج الاختبارات والسلاسل المتتالية وإتمام الدروس. لا يمكن التراجع عن هذا.</string>
+    <string name="progress_no_attempts">لا محاولات بعد.</string>
+
+    <!-- ── Daily Challenge ──────────────────────────────────────────── -->
+    <string name="daily_challenge_title">التحديات اليومية</string>
+    <string name="daily_challenge_subtitle">أكمل تحديات اليوم لتطوير مهاراتك!</string>
+    <string name="daily_challenge_tip_title">نصيحة اليوم</string>
+    <string name="daily_tip_1">حتى 5 دقائق من التمرين اليومي أفضل من ساعة واحدة أسبوعياً.</string>
+    <string name="daily_tip_2">استخدم المترونوم عند التمرن على تغيير الأوتار — ابدأ ببطء ثم زد السرعة.</string>
+    <string name="daily_tip_3">عند تعلم وتر جديد، اعزف كل وتر على حدة للتأكد من وضوح الصوت.</string>
+    <string name="daily_tip_4">حاول الطنين مع العزف لتطوير أذنك الموسيقية.</string>
+    <string name="daily_tip_5">تمرن أمام المرآة للتحقق من وضع يدك.</string>
+    <string name="daily_tip_6">ركز على الانتقالات السلسة بدلاً من السرعة — السرعة تأتي مع الوقت.</string>
+    <string name="daily_tip_7">تعلم أغانٍ تحبها! الشغف يجعل التمرين ممتعاً.</string>
+
+    <!-- ── SRS Practice ─────────────────────────────────────────────── -->
+    <string name="srs_title">التكرار المتباعد</string>
+    <string name="srs_subtitle">راجع الأوتار على فترات مثالية لذاكرة طويلة المدى.</string>
+    <string name="srs_due">مستحق</string>
+    <string name="srs_reviewed">تمت المراجعة</string>
+    <string name="srs_total">الإجمالي</string>
+    <string name="srs_no_cards">لا بطاقات بعد</string>
+    <string name="srs_no_cards_message">أضف أوتاراً إلى مجموعة SRS من مكتبة الأوتار بالضغط المطول على توزيع صوتي واختيار \"إضافة إلى SRS\".</string>
+    <string name="srs_all_caught_up">أنهيت الكل!</string>
+    <string name="srs_session_done">راجعت %1$d %2$s في هذه الجلسة. عد لاحقاً لمزيد من المراجعات.</string>
+    <string name="srs_card_singular">بطاقة</string>
+    <string name="srs_card_plural">بطاقات</string>
+    <string name="srs_no_due">لا توجد بطاقات مستحقة للمراجعة الآن. تحقق لاحقاً!</string>
+    <string name="srs_card_remaining">البطاقة %1$d، %2$d متبقية</string>
+    <string name="srs_recall_prompt">هل تستطيع تذكر وضع الأصابع؟</string>
+    <string name="srs_show_voicing">إظهار التوزيع الصوتي</string>
+    <string name="srs_frets">الحنق: %s</string>
+    <string name="srs_how_well">كم كان تذكرك جيداً؟</string>
+
+    <!-- ── Practice Routine ─────────────────────────────────────────── -->
+    <string name="routine_title">روتين التمرين</string>
+    <string name="routine_subtitle">جهّز جلسة التمرين الخاصة بك.</string>
+    <string name="routine_duration">المدة: %d دقيقة</string>
+    <string name="routine_skill_level">مستوى المهارة</string>
+    <string name="routine_focus_areas">مجالات التركيز</string>
+    <string name="routine_start">بدء روتين التمرين</string>
+    <string name="cd_start_routine">بدء روتين التمرين</string>
+    <string name="routine_total">%1$d دقيقة إجمالاً، %2$d خطوة</string>
+    <string name="cd_new_routine">روتين جديد</string>
+    <string name="routine_complete_title">اكتمل التمرين!</string>
+    <string name="routine_complete_message">جلسة رائعة! واصل التمرين اليومي.</string>
+    <string name="cd_practice_complete">اكتمل التمرين</string>
+    <string name="cd_completed">مكتمل</string>
+
+    <!-- ── Chord Transition Trainer ─────────────────────────────────── -->
+    <string name="chord_transition_title">مدرب انتقالات الأوتار</string>
+    <string name="chord_transition_subtitle">تمرن على التبديل بين وترين في الوقت المحدد.</string>
+    <string name="chord_transition_chord_a">الوتر A</string>
+    <string name="chord_transition_chord_b">الوتر B</string>
+    <string name="cd_swap_chords">تبديل الأوتار</string>
+    <string name="chord_transition_switches">التبديلات</string>
+    <string name="chord_transition_time">الوقت</string>
+    <string name="chord_transition_per_min">في الدقيقة</string>
+    <string name="cd_reset">إعادة تعيين</string>
+    <string name="cd_start">ابدأ</string>
+    <string name="cd_stop">أوقف</string>
+
+    <!-- ── Chord Transition Animation ───────────────────────────────── -->
+    <string name="transition_anim_finger_movements">حركات الأصابع</string>
+    <string name="transition_anim_no_movement">لا حاجة لتحريك الأصابع!</string>
+    <string name="transition_anim_speed">السرعة:</string>
+    <string name="transition_anim_animate">تحريك الانتقال</string>
+    <string name="cd_animate_transition">تحريك الانتقال</string>
+    <string name="cd_prev_step">الخطوة السابقة</string>
+    <string name="cd_next_step">الخطوة التالية</string>
+    <string name="transition_anim_start_shape">الشكل الأول</string>
+    <string name="transition_anim_end_shape">الشكل الأخير</string>
+    <string name="transition_anim_step">الخطوة %1$d/%2$d</string>
+
+    <!-- ── Play Along ───────────────────────────────────────────────── -->
+    <string name="play_along_title">العزف المصاحب</string>
+    <string name="play_along_subtitle">استمع واعزف الأوتار الصحيحة!</string>
+    <string name="play_along_mic_needed">يلزم الوصول إلى الميكروفون لاكتشاف الأوتار</string>
+    <string name="cd_grant_permission">منح إذن الميكروفون</string>
+    <string name="play_along_grant">منح الإذن</string>
+    <string name="play_along_play">اعزف:</string>
+    <string name="play_along_heard">سُمع:</string>
+    <string name="cd_correct">صحيح</string>
+    <string name="cd_incorrect">خطأ</string>
+    <string name="play_along_grade">التقييم</string>
+    <string name="play_along_choose">اختر مفتاحاً وتقدماً لحنياً، ثم اعزف مع اكتشاف الأوتار في الوقت الحقيقي.</string>
+    <string name="play_along_progression">التقدم اللحني</string>
+
+    <!-- ── Achievements ─────────────────────────────────────────────── -->
+    <string name="achievements_title">الإنجازات</string>
+    <string name="achievements_subtitle">احصل على شارات من خلال التمرين والتعلم.</string>
+    <string name="achievements_unlocked">%d مفتوحة</string>
+    <string name="achievements_earned">مكتسبة</string>
+
+    <!-- ── Help ──────────────────────────────────────────────────────── -->
+    <string name="help_title">المساعدة</string>
+    <string name="help_subtitle">انقر على أي ميزة لمعرفة كيفية عملها.</string>
+    <string name="help_section_play">العزف</string>
+    <string name="help_section_create">الإنشاء</string>
+    <string name="help_section_learn">التعلم</string>
+    <string name="help_section_reference">المرجع</string>
+    <string name="help_section_other">أخرى</string>
+
+    <!-- Help item titles (matching nav labels) -->
+    <string name="help_explorer">المستكشف</string>
+    <string name="help_tuner">الموالف</string>
+    <string name="help_pitch_monitor">مراقب النغمة</string>
+    <string name="help_chords">الأوتار</string>
+    <string name="help_favorites">المفضلة</string>
+    <string name="help_song_finder">البحث عن أغانٍ</string>
+    <string name="help_songs">الأغاني</string>
+    <string name="help_melody_notepad">دفتر الألحان</string>
+    <string name="help_patterns">الأنماط</string>
+    <string name="help_progressions">التقدمات اللحنية</string>
+    <string name="help_learn_theory">تعلم النظرية</string>
+    <string name="help_theory_quiz">اختبار النظرية</string>
+    <string name="help_interval_trainer">مدرب الفواصل</string>
+    <string name="help_note_quiz">اختبار النوتات</string>
+    <string name="help_chord_ear">تدريب الأذن على الأوتار</string>
+    <string name="help_scale_practice">تمرين السلالم</string>
+    <string name="help_progress">التقدم</string>
+    <string name="help_daily_challenge">التحدي اليومي</string>
+    <string name="help_practice_routine">روتين التمرين</string>
+    <string name="help_srs_review">مراجعة SRS</string>
+    <string name="help_chord_transitions">انتقالات الأوتار</string>
+    <string name="help_play_along">العزف المصاحب</string>
+    <string name="help_achievements">الإنجازات</string>
+    <string name="help_capo_guide">دليل الكابو</string>
+    <string name="help_circle_of_fifths">دائرة الخامسات</string>
+    <string name="help_chord_subs">بدائل الأوتار</string>
+    <string name="help_chords_in_scale">أوتار السلم</string>
+    <string name="help_fretboard_notes">نوتات لوحة الأصابع</string>
+    <string name="help_glossary">المسرد</string>
+    <string name="help_settings">الإعدادات</string>
+    <string name="help_sharing">مشاركة الأوتار</string>
+    <string name="help_full_screen">وضع ملء الشاشة</string>
+
+    <!-- Help descriptions -->
+    <string name="help_desc_explorer">لوحة أصابع تفاعلية حيث تنقر على الحنق لبناء الأوتار. يكتشف التطبيق الوتر الذي تعزفه ويعرض الانعكاسات والفواصل والأسماء البديلة. يتضمن محدد كابو وطبقة سلم لاستكشاف تناسق الأوتار والسلالم معاً.</string>
+    <string name="help_desc_tuner">موالف لوني يستخدم ميكروفون جهازك. يعرض النوتة المكتشفة وانحراف السنت على مقياس إبري وتوجيهات واضحة (\"ارفع النغمة\"، \"مضبوط!\"). انقر أزرار الأوتار لنغمة مرجعية. يدعم ضبطات متعددة ومعايرة A4 والتعليق الصوتي ووضع الدقة.</string>
+    <string name="help_desc_pitch_monitor">أداة عرض مرئي للنغمة في الوقت الحقيقي. تعرض النغمة المكتشفة على رسم بياني متحرك واسم النوتة الحالية وتبرز الأوتار المطابقة. مفيدة للتحقق من دقة النغمة أثناء عزف الألحان أو التمرن على الانحناءات.</string>
+    <string name="help_desc_chords">مكتبة أوتار شاملة. اختر نوتة جذر ونوع وتر لرؤية جميع التوزيعات الصوتية القابلة للعزف على اليوكوليلي. انقر على توزيع لتحميله على لوحة المستكشف، أو اضغط مطولاً للمشاركة أو الإضافة للمفضلة أو الإضافة إلى SRS. يتضمن وضع مقارنة الانعكاسات.</string>
+    <string name="help_desc_favorites">توزيعاتك الصوتية المحفوظة، منظمة في مجلدات. انقر على توزيع لعرضه على لوحة الأصابع، أو اسحب أو اضغط مطولاً للخيارات. استخدم المجلدات لتجميع الأوتار لأغانٍ أو جلسات تمرين محددة.</string>
+    <string name="help_desc_song_finder">اكتشف أغانٍ يمكنك عزفها بالأوتار الموجودة في مفضلتك. كلما حفظت أوتاراً أكثر، فُتحت أغانٍ أكثر. يعرض أيضاً أغانٍ تحتاج فقط إلى وتر أو اثنين إضافيين.</string>
+    <string name="help_desc_songs">دفتر أغانٍ شخصي لكتابة وتخزين أوراق الأوتار. اكتب الكلمات وأدخل الأوتار بين أقواس: \"Some[C]where over the [Em]rainbow\". يدعم تحويل النغمة واقتراحات الكابو والتمرير التلقائي واستيراد/تصدير ملفات ChordPro.</string>
+    <string name="help_desc_melody_notepad">أداة بسيطة لتأليف الألحان نوتة بنوتة. انقر النوتات لبناء تسلسل، اختر مدد النوتات (كاملة، نصفية، ربعية، ثمنية، سادس عشرية)، أضف سكتات، وشغّل بسرعة BPM قابلة للتعديل. رائعة لتدوين الأفكار اللحنية أو التمارين.</string>
+    <string name="help_desc_patterns">تصفح وأنشئ أنماط نقر وعزف بالأصابع. انقر مؤشرات النبض لتغيير اتجاه النقر (لأسفل، لأعلى، كتم، سكتة) أو خصص الأصابع للأوتار. شغّلها بسرعة قابلة للتعديل.</string>
+    <string name="help_desc_progressions">مكتبة تقدمات لحنية شائعة في كل مفتاح. انقر أي وتر لرؤيته في المكتبة. أنشئ تقدماتك المخصصة وتمرن عليها مع التشغيل بالمترونوم المدمج أو استكشف قيادة الأصوات بين الأوتار.</string>
+    <string name="help_desc_learn_theory">دروس نظرية موسيقية منظمة تغطي النوتات والفواصل والسلالم والأوتار والمفاتيح والتناغم. كل درس يتضمن نقاطاً رئيسية واختبار فحص سريع للتحقق من فهمك قبل المتابعة.</string>
+    <string name="help_desc_theory_quiz">اختبر معرفتك بمفاهيم النظرية الموسيقية مثل الفواصل وبناء الأوتار ودلالات المفتاح ودرجات السلم. يتضمن الوضع العادي والبليتز المحدد بالوقت (60 ث) لتحدٍ إضافي.</string>
+    <string name="help_desc_interval_trainer">تدريب الأذن على الفواصل الموسيقية. اختر الوضع المرئي (لوحة الأصابع) أو السمعي، اختر عرضاً صاعداً أو هابطاً أو توافقياً، وحدد مستوى الصعوبة. حدد الفاصل وطوّر مهارات النغمة النسبية.</string>
+    <string name="help_desc_note_quiz">اختبار محدد بالوقت يتحداك لتحديد النوتات على لوحة الأصابع. في وضع \"سمّها\" ترى موضعاً وتخمن النوتة؛ في وضع \"اعثر عليها\" ترى نوتة وتنقر موقعها. مستويات الصعوبة تحد من نطاق الحنق.</string>
+    <string name="help_desc_chord_ear">استمع إلى وتر وحدد نوعه (كبير، صغير، ناقص، إلخ). مستويات الصعوبة تضيف المزيد من أنواع الأوتار. طريقة رائعة لتطوير أذنك التوافقية.</string>
+    <string name="help_desc_scale_practice">تمرن على عزف السلالم على لوحة الأصابع بثلاثة أوضاع: العزف المصاحب (موجه مع مترونوم اختياري)، اختبار (حدد السلم)، وتدريب الأذن. يدعم جميع أنواع السلالم والتكرار الاختياري وعرض لوحة أصابع مضغوط.</string>
+    <string name="help_desc_progress">لوحة معلومات تعرض إحصائيات التعلم: وقت التمرين، الأيام المتتالية، الدروس المكتملة، ونتائج اختبارات النظرية والفواصل واختبار النوتات وتدريب الأذن. تساعد في تتبع الانتظام والتحسن عبر الوقت.</string>
+    <string name="help_desc_daily_challenge">ثلاثة تحديات جديدة تُولَّد كل يوم للحفاظ على تنوع روتين التمرين. كل تحدٍ يستهدف مهارة مختلفة — الأوتار أو السلالم أو تدريب الأذن أو النظرية أو الانتقالات. إكمالها يبني الانتظام.</string>
+    <string name="help_desc_practice_routine">منشئ جلسات تمرين موجهة. اختر المدة ومستوى المهارة ومجالات التركيز لإنشاء روتين خطوة بخطوة. ينشئ التطبيق تسلسل تمارين محدد بالوقت يغطي الإحماء والتقنية والمقطوعات والتهدئة.</string>
+    <string name="help_desc_srs_review">نظام التكرار المتباعد لحفظ التوزيعات الصوتية. أضف أوتاراً من المكتبة، ويجدول التطبيق المراجعات بفترات متزايدة بناءً على مدى تذكرك لكل توزيع. يوسع مفرداتك من الأوتار بكفاءة.</string>
+    <string name="help_desc_chord_transitions">تصور كيف تتحرك أصابعك بين وترين. اختر وترين وشاهد رسوماً متحركة خطوة بخطوة لحركات الأصابع. يتضمن وضع تمرين محدد بالوقت مع عداد تبديل وتحكم BPM.</string>
+    <string name="help_desc_play_along">تمرين عزف مصاحب في الوقت الحقيقي مع اكتشاف الأوتار الصوتية. اختر مفتاحاً وتقدماً لحنياً، ثم اعزف بينما يستمع التطبيق ويقيّم دقتك. يتطلب إذن الميكروفون.</string>
+    <string name="help_desc_achievements">معرض إنجازات لفتحها أثناء استخدام التطبيق. احصل على شارات للتمرين المتتالي ونتائج الاختبارات والأغاني المنشأة والأوتار المتعلمة والمزيد. تحقق من تقدمك.</string>
+    <string name="help_desc_capo_guide">دليل تعليمي لاستخدام الكابو على اليوكوليلي. يشرح ما يفعله الكابو وكيف يغير النغمة ويسرد المواضع الشائعة ويتضمن قسم تجريب تفاعلي مع جدول مرجعي.</string>
+    <string name="help_desc_circle_of_fifths">مخطط تفاعلي لدائرة الخامسات. انقر أي مفتاح لرؤية دلالته ونسيبه الصغير/الكبير والأوتار الطبيعية والمفاتيح القريبة. مرجع أساسي لفهم علاقات المفاتيح.</string>
+    <string name="help_desc_chord_subs">دليل مرجعي لخيارات استبدال الأوتار. اختر وتراً جذراً وشاهد أي أوتار يمكن أن تحل محله ولماذا — النسيب الصغير، بديل الفاصل الموسع، التبادل المقامي، والمزيد. كل بديل يشرح النظرية وراءه.</string>
+    <string name="help_desc_chords_in_scale">اختر سلماً وشاهد جميع الأوتار التي تنشأ طبيعياً منه. يعرض الثلاثيات الطبيعية مع تحليل بالأرقام الرومانية. مفيد للتأليف وفهم التناغم في أي مفتاح.</string>
+    <string name="help_desc_fretboard_notes">خريطة مرئية تعرض كل نوتة على لوحة أصابع اليوكوليلي. أبرز نوتة محددة لرؤية جميع مواضعها. يدعم ضبط High-G وLow-G. انقر أي نوتة لسماعها.</string>
+    <string name="help_desc_glossary">قاموس قابل للبحث لمصطلحات النظرية الموسيقية واليوكوليلي — من الأربيجيو إلى التوزيع الصوتي. كل مدخل يتضمن تعريفاً موجزاً ومثالاً عند الحاجة.</string>
+    <string name="help_desc_settings">تهيئة تفضيلات التطبيق: الصوت (مستوى الصوت، تأخير النقر، الاتجاه)، العرض (المظهر)، الضبط (High-G، Low-G، الباريتون، إلخ)، الموالف (التعليق الصوتي، وضع الدقة، معايرة A4)، لوحة الأصابع (اليد اليسرى، عدد الحنق)، والإشعارات.</string>
+    <string name="help_desc_sharing">شارك أي وتر كصورة. عند عرض وتر في المستكشف أو مكتبة الأوتار، انقر أيقونة المشاركة لإنشاء صورة مخطط وتر نظيفة يمكنك إرسالها للأصدقاء أو نشرها على وسائل التواصل.</string>
+    <string name="help_desc_full_screen">انقر أيقونة التوسيع في تبويب المستكشف للدخول إلى لوحة أصابع أفقية بملء الشاشة. مثالية لجلسات التمرين حيث تريد أقصى رؤية للوحة بدون تشتيت واجهة المستخدم.</string>
+
+    <!-- ── Glossary ─────────────────────────────────────────────────── -->
+    <string name="glossary_title">المسرد الموسيقي</string>
+    <string name="glossary_term_count">%d مصطلح يغطي النظرية الموسيقية واليوكوليلي.</string>
+    <string name="glossary_search_hint">ابحث عن مصطلحات…</string>
+    <string name="glossary_no_match">لم يتم العثور على مصطلحات مطابقة.</string>
+    <string name="glossary_example">مثال:</string>
+
+    <!-- ── Circle of Fifths ─────────────────────────────────────────── -->
+    <string name="circle_title">دائرة الخامسات</string>
+    <string name="circle_subtitle">انقر على مفتاح لرؤية دلالته وأوتاره. المفاتيح المجاورة مرتبطة ارتباطاً وثيقاً.</string>
+    <string name="circle_cd_selected">مخطط دائرة الخامسات، %s محدد. انقر لاختيار مفتاح مختلف.</string>
+    <string name="circle_cd_default">مخطط دائرة الخامسات. انقر لاختيار مفتاح.</string>
+    <string name="circle_key_signature">دلالة المفتاح</string>
+    <string name="circle_relative_minor">النسيب الصغير</string>
+    <string name="circle_relative_major">النسيب الكبير</string>
+    <string name="circle_diatonic_chords">الأوتار الطبيعية</string>
+    <string name="circle_related_keys">مفاتيح قريبة</string>
+    <string name="circle_same_as">مثل</string>
+
+    <!-- ── Capo Guide ───────────────────────────────────────────────── -->
+    <string name="capo_guide_what">ما هو الكابو؟</string>
+    <string name="capo_guide_pitch">كيف يغير النغمة</string>
+    <string name="capo_guide_positions">مواضع كابو شائعة</string>
+    <string name="capo_guide_when">متى تستخدم الكابو</string>
+    <string name="capo_guide_try">جرّب بنفسك!</string>
+    <string name="capo_guide_ref_table">جدول مرجعي يوضح أي الأشكال تنتج أي مفاتيح:</string>
+    <string name="capo_guide_open_shapes">أشكال أوتار مفتوحة شائعة (جيدة مع الكابو):</string>
+    <string name="capo_guide_tap_fret">انقر حنقاً لوضع الكابو:</string>
+    <string name="capo_guide_no_capo">بدون كابو — ضبط قياسي</string>
+    <string name="capo_guide_on_fret">كابو على الحنق %d</string>
+    <string name="capo_guide_was_note">(كان %s)</string>
+    <string name="capo_guide_shape">الشكل</string>
+    <string name="capo_guide_sounds_as">يبدو كـ</string>
+    <string name="capo_guide_string">الوتر %d</string>
+
+    <!-- ── Capo Calculator ──────────────────────────────────────────── -->
+    <string name="capo_calc_title">حاسبة الكابو</string>
+    <string name="capo_calc_sounding">الصوت: %s</string>
+    <string name="capo_calc_hint">ضع كابو لعزف أشكال أبسط بنفس الصوت.</string>
+    <string name="capo_calc_no_capo">بدون كابو</string>
+    <string name="capo_calc_fret">الحنق %d</string>
+    <string name="capo_calc_play_shape">اعزف: %s</string>
+    <string name="capo_calc_recommended">موصى به</string>
+    <string name="capo_calc_frets">الحنق: %s</string>
+    <string name="capo_calc_ease">السهولة: %d%%</string>
+    <string name="capo_calc_no_positions">لا تتوفر مواضع كابو لهذا الوتر.</string>
+    <string name="capo_helper_title">مساعد الكابو</string>
+    <string name="capo_helper_hint">اعثر على أسهل موضع كابو لهذا التقدم اللحني.</string>
+    <string name="capo_helper_shapes">الأشكال: %s</string>
+    <string name="capo_helper_ease">السهولة الإجمالية: %d%%</string>
+    <string name="capo_helper_no_positions">لا تتوفر مواضع كابو لهذا التقدم اللحني.</string>
+
+    <!-- ── Capo Visualizer ──────────────────────────────────────────── -->
+    <string name="capo_viz_title">عارض الكابو</string>
+    <string name="capo_viz_shape">الشكل: %s</string>
+    <string name="capo_viz_with_capo">كابو على الحنق %1$d → يبدو كـ %2$s</string>
+    <string name="capo_viz_no_capo">بدون كابو — يبدو كـ %s</string>
+    <string name="capo_viz_position">موضع الكابو</string>
+    <string name="capo_viz_no_capo_label">بدون كابو</string>
+    <string name="capo_viz_fret">الحنق %d</string>
+    <string name="capo_viz_sounding">الصوت</string>
+    <string name="capo_viz_same">نفسه</string>
+    <string name="capo_viz_tip">تلميح: مع كابو على الحنق %1$d، تعزف شكل %2$s لكنه يبدو كـ %3$s. كل حنق يرفع النغمة نصف نغمة.</string>
+
+    <!-- ── Chord Substitutions ──────────────────────────────────────── -->
+    <string name="chord_subs_title">بدائل الأوتار</string>
+    <string name="chord_subs_subtitle">تعلم كيفية استبدال الأوتار ببدائل تخلق ألواناً وأمزجة مختلفة مع الحفاظ على المنطق التوافقي.</string>
+    <string name="chord_subs_examples_in">أمثلة في مفتاح:</string>
+    <string name="chord_subs_practice_tip_title">نصيحة تمرين</string>
+    <string name="chord_subs_practice_tip">ابدأ بالبدائل الطبيعية وتبديل النسيب الكبير/الصغير — تبدو دائماً جيدة. عندما تتمكن، جرّب التبادل المقامي لمزيد من الألوان. احتفظ ببديل الفاصل الموسع والسيطرات الثانوية لوقت استكشاف تناغم الجاز.</string>
+    <string name="chord_subs_shared">مشترك: %s</string>
+
+    <!-- ── Scale Chord View ─────────────────────────────────────────── -->
+    <string name="scale_chord_title">أوتار السلم</string>
+    <string name="scale_chord_subtitle">شاهد الأوتار المبنية من أي سلم.</string>
+    <string name="scale_chord_notes">النوتات: %s</string>
+    <string name="scale_chord_too_few">يحتوي هذا السلم على نوتات قليلة جداً لبناء ثلاثيات قياسية.</string>
+    <string name="scale_chord_diatonic">الثلاثيات الطبيعية</string>
+
+    <!-- ── Fretboard Note Map ───────────────────────────────────────── -->
+    <string name="note_map_title">خريطة نوتات لوحة الأصابع</string>
+    <string name="note_map_subtitle">تعلم كل نوتة على لوحة أصابع اليوكوليلي.</string>
+    <string name="note_map_high_g">قياسي (High G)</string>
+    <string name="note_map_low_g">Low-G</string>
+    <string name="note_map_highlight">إبراز نوتة</string>
+    <string name="note_map_tips_title">نصائح</string>
+    <string name="note_map_tip_1">انقر أي نوتة لسماعها</string>
+    <string name="note_map_tip_2">استخدم فلتر الإبراز للعثور على جميع مواضع نوتة</string>
+    <string name="note_map_tip_3">الحنق 12 يحمل نفس نوتات الحنق 0 (أعلى بأوكتاف)</string>
+    <string name="note_map_tip_4">انتقل إلى Low-G لمعرفة كيف يتغير وتر G</string>
+    <string name="note_map_string">الوتر %d</string>
+
+    <!-- ── Fretboard View ───────────────────────────────────────────── -->
+    <string name="fretboard_string">وتر، </string>
+    <string name="fretboard_open">مفتوح</string>
+    <string name="fretboard_fret">الحنق %d</string>
+    <string name="fretboard_selected">، محدد</string>
+    <string name="fretboard_in_scale">، في السلم</string>
+    <string name="fretboard_scale_root">، جذر السلم</string>
+    <string name="fretboard_blocked">، محجوب بالكابو</string>
+    <string name="fretboard_blocked_text">محجوب بالكابو</string>
+
+    <!-- ── Vertical Chord Diagram ───────────────────────────────────── -->
+    <string name="diagram_chord_cd">الوتر %s</string>
+    <string name="diagram_string_muted">وتر مكتوم</string>
+    <string name="diagram_string_open">وتر مفتوح</string>
+    <string name="diagram_string_fret">وتر الحنق %d</string>
+    <string name="diagram_capo_fret">كابو عند الحنق %d</string>
+
+    <!-- ── Share Chord ──────────────────────────────────────────────── -->
+    <string name="share_as_image">مشاركة كصورة</string>
+    <string name="share_diagram_attribution">Ukulele Companion</string>
+
+    <!-- ── Melody Notepad ───────────────────────────────────────────── -->
+    <string name="melody_title">دفتر الألحان</string>
+    <string name="melody_subtitle">انقر النوتات لتأليف لحن. اضغط تشغيل للاستماع.</string>
+    <string name="melody_sequence">التسلسل (%d نوتة)</string>
+    <string name="melody_placeholder">انقر نوتة أدناه لبدء التأليف</string>
+    <string name="melody_whole">ك</string>
+    <string name="melody_half">ن</string>
+    <string name="melody_quarter">ر</string>
+    <string name="melody_eighth">ث</string>
+    <string name="melody_sixteenth">16</string>
+    <string name="melody_note_duration">مدة النوتة</string>
+    <string name="melody_tap_to_add">انقر لإضافة نوتة</string>
+    <string name="melody_rest">سكتة</string>
+    <string name="cd_delete_note">حذف النوتة</string>
+    <string name="cd_play_melody">تشغيل اللحن</string>
+    <string name="cd_stop_playing">إيقاف التشغيل</string>
+    <string name="cd_clear_all">مسح جميع النوتات</string>
+    <string name="melody_clear">مسح</string>
+
+    <!-- ── Song Finder ──────────────────────────────────────────────── -->
+    <string name="song_finder_title">البحث عن أغانٍ</string>
+    <string name="song_finder_subtitle">اعثر على أغانٍ يمكنك عزفها بالأوتار التي تعرفها.</string>
+    <string name="song_finder_no_chords_title">لا أوتار معروفة بعد</string>
+    <string name="song_finder_no_chords_message">احفظ بعض التوزيعات الصوتية في المفضلة، وسنجد لك أغانٍ يمكنك عزفها!</string>
+    <string name="song_finder_your_chords">أوتارك (%d)</string>
+    <string name="song_finder_songs_can_play">أغانٍ يمكنك عزفها (%d)</string>
+    <string name="song_finder_learn_more">تعلم وتراً أو اثنين إضافيين (%d)</string>
+    <string name="song_finder_hide">إخفاء</string>
+    <string name="song_finder_show">إظهار</string>
+    <string name="song_finder_keep_learning">واصل تعلم أوتار جديدة لفتح المزيد من الأغاني!</string>
+    <string name="song_finder_learn_prefix">تعلم: </string>
+
+    <!-- ── Voice Leading ────────────────────────────────────────────── -->
+    <string name="cd_back_progressions">العودة إلى التقدمات اللحنية</string>
+    <string name="voice_leading_title">قيادة الأصوات في %s</string>
+    <string name="voice_leading_common_tones">%d نغمة مشتركة</string>
+    <string name="voice_leading_common_tones_plural">%d نغمات مشتركة</string>
+    <string name="voice_leading_fret_movement">إجمالي حركة %d حنق</string>
+    <string name="voice_leading_frets_movement">إجمالي حركة %d حنق</string>
+    <string name="voice_leading_stays">يبقى على </string>
+    <string name="voice_leading_muted">مكتوم</string>
+    <string name="voice_leading_fret_prefix">الحنق </string>
+    <string name="voice_leading_arrow"> → </string>
+    <string name="voice_leading_tip_singular">تلميح: أبقِ إصبعك على وتر %1$s — نفس النوتة في كلا الوترين.</string>
+    <string name="voice_leading_tip_plural">تلميح: أبقِ أصابعك على أوتار %1$s — نفس النوتة في كلا الوترين.</string>
+    <string name="voice_leading_total_path">المسار الكلي: حركة %1$d حنق عبر %2$d انتقال</string>
+    <string name="voice_leading_prev">السابق</string>
+    <string name="cd_play_all_voice_leadings">تشغيل جميع قيادات الأصوات</string>
+    <string name="voice_leading_play_all">تشغيل الكل</string>
+    <string name="voice_leading_next">التالي</string>
+    <string name="voice_leading_step">الخطوة %1$d من %2$d</string>
+    <string name="voice_leading_single_chord">يحتوي هذا التقدم اللحني على وتر واحد فقط.</string>
+
+    <!-- ── Misc Content Descriptions ──────────────────────────────── -->
+    <string name="cd_play_item">تشغيل %s</string>
+    <string name="cd_to">إلى</string>
+
+    <!-- ── Transpose Controls ───────────────────────────────────────── -->
+    <string name="transpose_arrow"> → </string>
+    <string name="transpose_capo_prefix">كابو </string>
+
+    <!-- ── Progression Practice ─────────────────────────────────────── -->
+    <string name="progression_practice_title">تدريب</string>
+    <string name="progression_practice_no_voicing">لا يوجد صوت متاح</string>
+    <string name="cd_previous_voicing">الصوت السابق</string>
+    <string name="cd_next_voicing">الصوت التالي</string>
+    <string name="cd_toggle_loop">تبديل التكرار</string>
+
+    <!-- ── Tap Tempo ────────────────────────────────────────────────── -->
+    <string name="tap_tempo_label">انقر</string>
+
+    <!-- ── Full Screen Fretboard ────────────────────────────────────── -->
+    <string name="full_screen_reset">إعادة تعيين</string>
+
+    <!-- ── Notification (Chord of the Day) ──────────────────────────── -->
+    <string name="notif_chord_of_day">وتر اليوم: %s</string>
+    <string name="notif_frets">الحنق: %1$s — انقر للتمرين!</string>
+    <string name="notif_channel_name">وتر اليوم</string>
+    <string name="notif_channel_desc">اقتراح يومي لوتر يوكوليلي</string>
+
+    <!-- ── Widget ───────────────────────────────────────────────────── -->
+    <string name="widget_title">وتر اليوم</string>
+</resources>

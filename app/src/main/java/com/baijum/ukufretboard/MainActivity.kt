@@ -1,10 +1,10 @@
 package com.baijum.ukufretboard
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.baijum.ukufretboard.ui.FretboardScreen
@@ -17,10 +17,14 @@ import com.baijum.ukufretboard.viewmodel.SettingsViewModel
  * Sets up edge-to-edge display and applies the app theme before
  * rendering the main [FretboardScreen].
  *
+ * Extends [AppCompatActivity] to enable per-app language support
+ * via [androidx.appcompat.app.AppCompatDelegate.setApplicationLocales]
+ * on all API levels (min SDK 26+).
+ *
  * [SettingsViewModel] is hoisted here so the theme mode is available
  * at the top level, before any screen composable is rendered.
  */
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val settingsViewModel: SettingsViewModel by viewModels()
 

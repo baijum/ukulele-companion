@@ -26,8 +26,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.ChordSubstitutions
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.SubstitutionCategory
@@ -51,12 +53,12 @@ fun ChordSubstitutionsView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Chord Substitutions",
+            text = stringResource(R.string.chord_subs_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
         )
         Text(
-            text = "Learn how to replace chords with alternatives that create different colors and moods while maintaining harmonic sense.",
+            text = stringResource(R.string.chord_subs_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -65,7 +67,7 @@ fun ChordSubstitutionsView(
 
         // Key selector
         Text(
-            text = "Examples in key of:",
+            text = stringResource(R.string.chord_subs_examples_in),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -113,17 +115,14 @@ fun ChordSubstitutionsView(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Practice Tip",
+                    text = stringResource(R.string.chord_subs_practice_tip_title),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Start with diatonic substitutions and relative major/minor swaps \u2014 " +
-                        "they always sound good. Once comfortable, try modal interchange for " +
-                        "more color. Save tritone subs and secondary dominants for when you're " +
-                        "ready to explore jazz harmony.",
+                    text = stringResource(R.string.chord_subs_practice_tip),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
@@ -224,7 +223,7 @@ private fun SubstitutionCategoryCard(category: SubstitutionCategory, transpositi
                         }
                         if (sub.sharedNotes != "\u2014") {
                             Text(
-                                text = "Shared: ${transposeExample(sub.sharedNotes, transposition)}",
+                                text = stringResource(R.string.chord_subs_shared, transposeExample(sub.sharedNotes, transposition)),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )

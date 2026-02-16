@@ -1,0 +1,800 @@
+<resources>
+    <string name="app_name">Uke</string>
+    <string name="app_full_name">Ukulele Companion</string>
+    <string name="widget_description">Her gün yeni bir ukulele akoru gösterir</string>
+
+    <!-- ── Ortak / Paylaşılan ─────────────────────────────────────────── -->
+    <string name="dialog_cancel">İptal</string>
+    <string name="dialog_delete">Sil</string>
+    <string name="dialog_save">Kaydet</string>
+    <string name="dialog_create">Oluştur</string>
+    <string name="dialog_rename">Yeniden adlandır</string>
+    <string name="dialog_reset">Sıfırla</string>
+    <string name="action_back">Geri</string>
+    <string name="action_play">Çal</string>
+    <string name="action_stop">Durdur</string>
+    <string name="action_edit">Düzenle</string>
+    <string name="action_share">Paylaş</string>
+    <string name="action_close">Kapat</string>
+    <string name="label_all">Tümü</string>
+    <string name="label_none">yok</string>
+    <string name="label_bpm">BPM</string>
+    <string name="label_bpm_value">BPM: %d</string>
+    <string name="label_beats">Vuruş:</string>
+    <string name="label_capo">Kapo</string>
+    <string name="label_key">Ton</string>
+    <string name="label_scale">Dizi</string>
+    <string name="label_correct">Doğru</string>
+    <string name="label_accuracy">Doğruluk</string>
+    <string name="label_streak">Seri</string>
+    <string name="label_best">En iyi</string>
+    <string name="label_score">Puan</string>
+    <string name="label_best_streak">En iyi seri</string>
+    <string name="label_this_session">Bu oturum</string>
+    <string name="label_all_time">Tüm zamanlar</string>
+    <string name="label_difficulty">Zorluk</string>
+    <string name="label_mode">Mod</string>
+    <string name="label_direction">Yön</string>
+    <string name="label_category">Kategori</string>
+    <string name="label_easy">Kolay</string>
+    <string name="label_medium">Orta</string>
+    <string name="label_hard">Zor</string>
+    <string name="label_expert">Uzman</string>
+    <string name="label_replay">Tekrar dinle</string>
+    <string name="label_correct_answer">Doğru!</string>
+    <string name="label_the_answer_is">Cevap</string>
+    <string name="label_root">Kök</string>
+    <string name="label_position">Pozisyon</string>
+    <string name="label_off">Kapalı</string>
+    <string name="label_open">Açık</string>
+    <string name="label_presets">Hazır ayarlar</string>
+    <string name="label_practice">Pratik</string>
+    <string name="label_go">Başla</string>
+    <string name="label_done">Tamam</string>
+
+    <!-- ── Gezinme Çekmecesi ──────────────────────────────────────────── -->
+    <string name="nav_section_play">Çal</string>
+    <string name="nav_section_create">Oluştur</string>
+    <string name="nav_section_learn">Öğren</string>
+    <string name="nav_section_reference">Başvuru</string>
+    <string name="nav_explorer">Keşfet</string>
+    <string name="nav_tuner">Akort</string>
+    <string name="nav_pitch_monitor">Perde İzleyici</string>
+    <string name="nav_chords">Akorlar</string>
+    <string name="nav_favorites">Favoriler</string>
+    <string name="nav_song_finder">Şarkı Bulucu</string>
+    <string name="nav_songs">Şarkılar</string>
+    <string name="nav_melody_notepad">Melodi Defteri</string>
+    <string name="nav_patterns">Kalıplar</string>
+    <string name="nav_progressions">İlerlemeler</string>
+    <string name="nav_learn_theory">Teori Öğren</string>
+    <string name="nav_theory_quiz">Teori Testi</string>
+    <string name="nav_interval_trainer">Aralık Eğitimi</string>
+    <string name="nav_note_quiz">Nota Testi</string>
+    <string name="nav_chord_ear_training">Akor Kulak Eğitimi</string>
+    <string name="nav_scale_practice">Dizi Çalışması</string>
+    <string name="nav_progress">İlerleme</string>
+    <string name="nav_daily_challenge">Günlük Görev</string>
+    <string name="nav_practice_routine">Çalışma Rutini</string>
+    <string name="nav_srs_review">SRS Tekrar</string>
+    <string name="nav_chord_transitions">Akor Geçişleri</string>
+    <string name="nav_play_along">Eşlik Et</string>
+    <string name="nav_achievements">Başarılar</string>
+    <string name="nav_capo_guide">Kapo Kılavuzu</string>
+    <string name="nav_circle_of_fifths">Beşliler Çemberi</string>
+    <string name="nav_chord_substitutions">Akor Değişimleri</string>
+    <string name="nav_chords_in_scale">Dizideki Akorlar</string>
+    <string name="nav_fretboard_notes">Klavye Notaları</string>
+    <string name="nav_glossary">Sözlük</string>
+    <string name="nav_help">Yardım</string>
+
+    <!-- ── Üst Çubuk / İçerik Açıklamaları ───────────────────────────── -->
+    <string name="cd_open_nav_menu">Gezinme menüsünü aç</string>
+    <string name="cd_settings">Ayarlar</string>
+    <string name="cd_full_screen">Tam ekran</string>
+    <string name="cd_exit_full_screen">Tam ekrandan çık</string>
+    <string name="cd_play_chord">Akor çal</string>
+    <string name="cd_play_sound">Ses çal</string>
+    <string name="cd_share_chord_image">Akoru resim olarak paylaş</string>
+    <string name="cd_remove_favorites">Favorilerden kaldır</string>
+    <string name="cd_add_favorites">Favorilere ekle</string>
+    <string name="cd_replay">Tekrar dinle</string>
+
+    <!-- ── Keşfet Sekmesi ─────────────────────────────────────────────── -->
+    <string name="explorer_reset">Sıfırla</string>
+    <string name="explorer_scales">Diziler</string>
+    <string name="explorer_hide_scale">Diziyi gizle</string>
+    <string name="explorer_tap_frets">Perdelere dokun</string>
+    <string name="explorer_capo_off">Kapalı</string>
+
+    <!-- ── Akor Sonucu ────────────────────────────────────────────────── -->
+    <string name="chord_result_tap_fretboard">Nota seçmek için klavyeye dokun</string>
+    <string name="chord_result_single_note">Tek nota seçildi</string>
+    <string name="chord_result_incomplete">Eksik akor</string>
+    <string name="chord_result_no_match">Tam eşleşme bulunamadı</string>
+    <string name="chord_result_also">Ayrıca: </string>
+    <string name="chord_result_intervals">Aralıklar</string>
+    <string name="chord_result_formula">Formül</string>
+    <string name="chord_result_fingering">Parmak pozisyonu</string>
+    <string name="chord_result_difficulty">Zorluk</string>
+    <string name="chord_result_inversion">Çevrim</string>
+    <string name="chord_result_bass">bas: </string>
+
+    <!-- ── Akor Kütüphanesi ───────────────────────────────────────────── -->
+    <string name="chord_library_root_note">Kök Nota</string>
+    <string name="chord_library_type">Tür</string>
+    <string name="chord_library_compare_inversions"> — Çevrimleri Karşılaştır</string>
+    <string name="chord_library_voicings">%d seslendirme</string>
+    <string name="chord_library_viz">Gör</string>
+    <string name="chord_library_compare">Karşılaştır</string>
+    <string name="cd_play_all_inversions">Tüm çevrimleri çal</string>
+    <string name="chord_library_play_all_inversions">Tüm Çevrimleri Çal</string>
+    <string name="chord_library_inversion_tip">Aynı akor, farklı bas nota. Her çevrimin farklı bir karaktere sahip olduğunu dinleyin.</string>
+    <string name="chord_library_bass_prefix">Bas: </string>
+    <string name="chord_library_voicing_singular">%d seslendirme</string>
+    <string name="chord_library_reentrant_limited">Bu akorun yalnızca %d seslendirmesi var. Yeniden giriş akort (Yüksek G), C teli (C4) neredeyse her zaman en düşük perde olduğu için çevrimleri sınırlar. Düşük G akort daha fazla çevrim çeşitliliği sağlar.</string>
+    <string name="chord_library_reentrant_empty">Yeniden giriş akordunda (Yüksek G), C teli neredeyse her zaman en düşük notadır, bu yüzden çoğu seslendirme kök pozisyondadır. Mevcut seslendirmeleri görmek için \"Tümü\" seçeneğini deneyin.</string>
+    <string name="chord_library_no_voicings">Seslendirme bulunamadı</string>
+
+    <!-- ── Akort ──────────────────────────────────────────────────────── -->
+    <string name="tuner_play_a_string">Bir tel çalın…</string>
+    <string name="tuner_in_tune">Akortlu!</string>
+    <string name="tuner_almost_up">Neredeyse — biraz yukarı akort edin</string>
+    <string name="tuner_almost_down">Neredeyse — biraz aşağı akort edin</string>
+    <string name="tuner_tune_up">Yukarı Akort</string>
+    <string name="tuner_tune_down">Aşağı Akort</string>
+    <string name="tuner_all_tuned">Tüm teller akortlu!</string>
+    <string name="tuner_start">Akort Başlat</string>
+    <string name="tuner_stop">Durdur</string>
+    <string name="cd_start_tuning">Akort başlat</string>
+    <string name="cd_stop_tuning">Akordu durdur</string>
+    <string name="cd_detected_note">Algılanan nota: %s</string>
+    <string name="tuner_meter_no_pitch">Akort göstergesi, perde algılanmadı</string>
+    <string name="tuner_meter_in_tune">Akort göstergesi, akortlu</string>
+    <string name="tuner_meter_close">Akort göstergesi, %1$d sent %2$s, neredeyse akortlu</string>
+    <string name="tuner_meter_flat">Akort göstergesi, %d sent bemol</string>
+    <string name="tuner_meter_sharp">Akort göstergesi, %d sent diyez</string>
+    <string name="tuner_direction_flat">bemol</string>
+    <string name="tuner_direction_sharp">diyez</string>
+    <string name="tuner_swiftf0_active">SwiftF0 Active</string>
+    <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
+    <string name="tuner_precision_mode">Hassas Mod</string>
+    <string name="tuner_string_tuned">akortlu</string>
+    <string name="tuner_string_next">akort edilecek sonraki tel</string>
+    <string name="tuner_string_active">aktif</string>
+    <string name="tuner_string_not_tuned">akort değil</string>
+    <string name="tuner_string_desc">%1$s teli, %2$s, referans tonu için dokun</string>
+    <string name="tuner_check_tuned">Akortlu</string>
+
+    <!-- ── Perde İzleyici ─────────────────────────────────────────────── -->
+    <string name="pitch_monitor_detected_chord">Algılanan akor: %s</string>
+    <string name="pitch_monitor_notes_prefix">Notalar: </string>
+    <string name="pitch_monitor_current_note">Geçerli nota: %s</string>
+    <string name="pitch_monitor_visualization">Zaman içinde perdeyi gösteren görselleştirme</string>
+    <string name="pitch_monitor_tap_start">Başlamak için Başlat\'a dokun</string>
+    <string name="pitch_monitor_playing">%s çalınıyor</string>
+    <string name="pitch_monitor_detecting">Perde algılanıyor…</string>
+    <string name="pitch_monitor_play_ukulele">Ukulelenizi çalın…</string>
+    <string name="cd_stop_listening">Dinlemeyi durdur</string>
+    <string name="cd_start_listening">Dinlemeye başla</string>
+    <string name="pitch_monitor_start">Başlat</string>
+
+    <!-- ── Favoriler ──────────────────────────────────────────────────── -->
+    <string name="favorites_empty_title">Henüz favori yok</string>
+    <string name="favorites_empty_message">Akorlar sekmesine göz atın ve bir seslendirmedeki kalp simgesine dokunarak buraya kaydedin.</string>
+    <string name="favorites_all_count">Tümü (%d)</string>
+    <string name="favorites_new_folder">Yeni Klasör</string>
+    <string name="favorites_folder_name">Klasör adı</string>
+    <string name="favorites_rename_folder">Klasörü Yeniden Adlandır</string>
+    <string name="favorites_delete_folder">Klasörü Sil</string>
+    <string name="favorites_delete_folder_msg">\"%s\" klasörü silinsin mi? Bu klasördeki seslendirmeler silinmeyecek.</string>
+    <string name="cd_rename_folder">Klasörü yeniden adlandır</string>
+    <string name="cd_delete_folder">Klasörü sil</string>
+    <string name="cd_manage_folders">Klasörleri yönet</string>
+    <string name="cd_reorder">Yeniden sırala</string>
+
+    <!-- ── Favori Klasör Sayfası ──────────────────────────────────────── -->
+    <string name="folder_sheet_manage">Klasörleri Yönet</string>
+    <string name="folder_sheet_save_to">Klasörlere Kaydet</string>
+    <string name="folder_sheet_no_folders">Henüz klasör yok. Aşağıdan bir tane oluşturun.</string>
+    <string name="folder_sheet_new_folder">+ Yeni Klasör</string>
+    <string name="folder_sheet_remove">Favorilerden Kaldır</string>
+
+    <!-- ── Şarkı Defteri ──────────────────────────────────────────────── -->
+    <string name="songbook_empty_title">Henüz şarkı yok</string>
+    <string name="songbook_empty_message">İlk akor sayfanızı oluşturmak için + simgesine dokunun.\nVeya bir ChordPro dosyası içe aktarın.</string>
+    <string name="songbook_untitled">Başlıksız</string>
+    <string name="songbook_share_as_text">Metin olarak paylaş</string>
+    <string name="songbook_chord_sheet">Akor Sayfası</string>
+    <string name="songbook_export_chordpro">ChordPro olarak dışa aktar</string>
+    <string name="songbook_export_chooser">ChordPro Dışa Aktar</string>
+    <string name="songbook_key_prefix">Ton: </string>
+    <string name="songbook_transpose">Transpoze:</string>
+    <string name="songbook_capo_hint">Veya orijinal akorlarla kapo %d kullanın</string>
+    <string name="songbook_field_title">Başlık</string>
+    <string name="songbook_field_artist">Sanatçı (isteğe bağlı)</string>
+    <string name="songbook_field_lyrics_hint">Akorlar için [AkorAdı] kullanın, ör. Gökkuşağı[C]nın üstünde bir[Em]yerde</string>
+    <string name="songbook_field_lyrics">[Akorlu] sözler</string>
+    <string name="cd_import_chordpro">ChordPro dosyası içe aktar</string>
+    <string name="cd_new_chord_sheet">Yeni akor sayfası</string>
+    <string name="songbook_speed_half">0.5x</string>
+    <string name="songbook_speed_1x">1x</string>
+    <string name="songbook_speed_2x">2x</string>
+    <string name="songbook_speed_3x">3x</string>
+    <string name="cd_stop_scroll">Kaydırmayı durdur</string>
+    <string name="cd_pause_scroll">Kaydırmayı duraklat</string>
+    <string name="cd_auto_scroll">Otomatik kaydır</string>
+
+    <!-- ── İlerlemeler ────────────────────────────────────────────────── -->
+    <string name="progressions_new">Yeni İlerleme</string>
+    <string name="cd_add_progression">Yeni ilerleme ekle</string>
+    <string name="progressions_my">İlerlemelerim</string>
+    <string name="cd_delete_progression">İlerlemeyi sil</string>
+    <string name="cd_duplicate_progression">Kopyala</string>
+    <string name="progressions_voice_leading">Ses Yönlendirme</string>
+    <string name="progressions_copy_suffix"> (Kopya)</string>
+
+    <!-- ── İlerleme Oluşturma Sayfası ─────────────────────────────────── -->
+    <string name="progression_edit_title">İlerlemeyi Düzenle</string>
+    <string name="progression_create_title">İlerleme Oluştur</string>
+    <string name="progression_name_label">İlerleme adı</string>
+    <string name="progression_desc_label">Açıklama (isteğe bağlı)</string>
+    <string name="progression_chord_quality">Akor Kalitesi</string>
+    <string name="progression_triad">Üçlü</string>
+    <string name="progression_tap_chords">Eklemek için akorlara dokunun</string>
+    <string name="progression_your_chords">İlerlemeniz (%d akor)</string>
+    <string name="progression_placeholder">İlerlemenizi oluşturmak için yukarıdaki akorlara dokunun</string>
+    <string name="progression_update">İlerlemeyi Güncelle</string>
+    <string name="progression_save">İlerlemeyi Kaydet</string>
+    <string name="progression_error_min">En az 2 akor ekleyin</string>
+    <string name="cd_remove">Kaldır</string>
+
+    <!-- ── Ritim Kalıpları ────────────────────────────────────────────── -->
+    <string name="patterns_strumming">Strumming</string>
+    <string name="patterns_fingerpicking">Fingerpicking</string>
+    <string name="patterns_my">Kalıplarım</string>
+    <string name="cd_create_pattern">Kalıp Oluştur</string>
+    <string name="patterns_create_strum">Strumming Kalıbı Oluştur</string>
+    <string name="patterns_pattern_name">Kalıp Adı</string>
+    <string name="patterns_tap_beat">Yön değiştirmek için her vuruşa dokunun</string>
+    <string name="patterns_tap_accent">Vurgu açıp kapatmak için aşağıya dokunun</string>
+    <string name="patterns_custom">Özel kalıp</string>
+    <string name="patterns_create_fingerpick">Fingerpicking Kalıbı Oluştur</string>
+    <string name="patterns_steps">%d adım</string>
+    <string name="patterns_tap_step">Bir adıma dokunun, sonra aşağıdan parmak ve tel seçin</string>
+    <string name="patterns_finger">Parmak</string>
+    <string name="patterns_thumb">Başparmak</string>
+    <string name="patterns_index">İşaret</string>
+    <string name="patterns_middle">Orta</string>
+    <string name="patterns_ring">Yüzük</string>
+    <string name="patterns_string">Tel</string>
+
+    <!-- ── Çalma Çubuğu ───────────────────────────────────────────────── -->
+    <string name="playback_prefix">Çalma: </string>
+    <string name="playback_bpm_prefix">BPM: </string>
+    <string name="cd_loop_on">Döngü açık</string>
+    <string name="cd_loop_off">Döngü kapalı</string>
+
+    <!-- ── Dizi Seçici ────────────────────────────────────────────────── -->
+    <string name="scale_selector_root">Dizi Kökü</string>
+    <string name="scale_selector_chords_in">%s içindeki akorlar</string>
+
+    <!-- ── Ayarlar ────────────────────────────────────────────────────── -->
+    <string name="settings_title">Ayarlar</string>
+    <string name="settings_sound">Ses</string>
+    <string name="settings_volume">Ses Düzeyi</string>
+    <string name="settings_note_duration">Nota Süresi</string>
+    <string name="settings_strum_delay">Strum Gecikmesi</string>
+    <string name="settings_strum_direction">Strum Yönü</string>
+    <string name="settings_strum_down">Aşağı</string>
+    <string name="settings_strum_up">Yukarı</string>
+    <string name="settings_play_on_tap">Dokunmada Çal</string>
+    <string name="settings_display">Görünüm</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_language">Dil</string>
+    <string name="settings_select_language">Dil seçin</string>
+    <string name="settings_tuning">Akort</string>
+    <string name="settings_tuner">Akort Cihazı</string>
+    <string name="settings_spoken_feedback">Sesli Geri Bildirim</string>
+    <string name="settings_spoken_feedback_desc">Nota adını ve sent sapmasını metin okuma ile duyurur</string>
+    <string name="settings_precision_mode">Hassas Mod</string>
+    <string name="settings_precision_mode_desc">Akort bölgesini ±6 sentten ±2 sente daraltır</string>
+    <string name="settings_auto_advance">Otomatik İlerleme</string>
+    <string name="settings_auto_advance_desc">Akort edilmemiş sonraki teli otomatik olarak vurgular</string>
+    <string name="settings_auto_start">Otomatik Başlat</string>
+    <string name="settings_auto_start_desc">Akort sekmesi açıldığında otomatik olarak dinlemeye başlar</string>
+    <string name="settings_a4_reference">A4 Referansı</string>
+    <string name="settings_fretboard">Klavye</string>
+    <string name="settings_left_handed">Solak</string>
+    <string name="settings_show_note_names">Nota Adlarını Göster</string>
+    <string name="settings_allow_muted">Susturulmuş Tellere İzin Ver</string>
+    <string name="settings_frets">Perdeler</string>
+    <string name="settings_notifications">Bildirimler</string>
+    <string name="settings_chord_of_day">Günün Akoru</string>
+    <string name="settings_about">Hakkında</string>
+    <string name="settings_version">Sürüm %s</string>
+    <string name="settings_website">Web sitesi</string>
+    <string name="settings_credits">Katkıda bulunanlar</string>
+    <string name="settings_audio_samples">Ses Örnekleri</string>
+    <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" — stomachache (Freesound.org)</string>
+    <string name="settings_license">Lisans</string>
+    <string name="settings_license_value">CC BY 3.0</string>
+    <string name="settings_tagline">Akorlar, diziler, müzik teorisi ve kompozisyon için hepsi bir arada ukulele yardımcınız. Ücretsiz, çevrimdışı, reklamsız, izleme yok.</string>
+    <string name="settings_unknown_version">Bilinmiyor</string>
+
+    <!-- ── Yedekleme ve Geri Yükleme ──────────────────────────────────── -->
+    <string name="backup_title">YEDEKLEME VE GERİ YÜKLEME</string>
+    <string name="backup_description">Tüm verilerinizi (favoriler, şarkılar, ilerlemeler, kalıplar, ayarlar ve öğrenme ilerlemesi) bir dosyaya kaydedin veya bir yedekten geri yükleyin.</string>
+    <string name="backup_last">Son yedekleme: %s</string>
+    <string name="cd_backup">Verileri yedekle</string>
+    <string name="backup_button">Yedekle</string>
+    <string name="cd_restore">Verileri geri yükle</string>
+    <string name="restore_button">Geri Yükle</string>
+    <string name="restore_dialog_title">Veriler Geri Yüklensin mi?</string>
+    <string name="restore_dialog_message">Bu işlem yedek dosyasındaki favorileri, şarkıları, ilerleme ve kalıpları mevcut verilerinizle birleştirecek. Ayarlar yedekteki değerlerle değiştirilecek.\n\nMevcut verileriniz silinmeyecek.</string>
+
+    <!-- ── Mikrofon İzni ──────────────────────────────────────────────── -->
+    <string name="mic_permission_title">Mikrofon Erişimi</string>
+    <string name="mic_permission_message">Akort cihazının ukulelenizi dinlemesi ve her telin perdesini algılaması için mikrofon erişimi gerekir.</string>
+    <string name="mic_permission_allow">Mikrofona İzin Ver</string>
+    <string name="mic_permission_denied_title">Mikrofon Reddedildi</string>
+    <string name="mic_permission_denied_message">Akort cihazı mikrofon erişimi olmadan çalışamaz. Lütfen cihazınızın uygulama ayarlarından etkinleştirin.</string>
+    <string name="mic_permission_open_settings">Ayarları Aç</string>
+
+    <!-- ── Nota Testi ─────────────────────────────────────────────────── -->
+    <string name="note_quiz_title">Nota Testi</string>
+    <string name="note_quiz_subtitle">Klavye notaları bilginizi test edin.</string>
+    <string name="note_quiz_name_it">Adlandır</string>
+    <string name="note_quiz_find_it">Bul</string>
+    <string name="note_quiz_start">Testi Başlat</string>
+    <string name="note_quiz_next">Sonraki Soru</string>
+    <string name="note_quiz_what_note">Bu pozisyondaki nota hangisi?</string>
+    <string name="note_quiz_string_fret">tel, perde</string>
+    <string name="note_quiz_where_is">Bu nota nerede?</string>
+
+    <!-- ── Teori Testi ────────────────────────────────────────────────── -->
+    <string name="theory_quiz_title">Teori Testi</string>
+    <string name="theory_quiz_subtitle">Müzik teorisi bilginizi test edin!</string>
+    <string name="theory_quiz_standard">Standart</string>
+    <string name="theory_quiz_blitz">Blitz (60sn)</string>
+    <string name="theory_quiz_start_blitz">Blitz Başlat!</string>
+    <string name="theory_quiz_start">Testi Başlat</string>
+    <string name="theory_quiz_next">Sonraki Soru</string>
+    <string name="theory_quiz_times_up">Süre Doldu!</string>
+    <string name="theory_quiz_final_score">Puan: %d</string>
+    <string name="theory_quiz_final_accuracy">Doğruluk: %s</string>
+    <string name="theory_quiz_play_again">Tekrar Oyna</string>
+
+    <!-- ── Aralık Eğitimi ─────────────────────────────────────────────── -->
+    <string name="interval_title">Aralık Eğitimi</string>
+    <string name="interval_subtitle">İki nota arasındaki aralığı belirleyin.</string>
+    <string name="interval_visual">Görsel</string>
+    <string name="interval_audio">İşitsel</string>
+    <string name="interval_ascending">Çıkan</string>
+    <string name="interval_descending">İnen</string>
+    <string name="interval_harmonic">Armonik</string>
+    <string name="interval_start">Eğitimi Başlat</string>
+    <string name="interval_next">Sonraki Aralık</string>
+    <string name="interval_what">Bu hangi aralık?</string>
+    <string name="interval_replay">Aralığı Tekrar Dinle</string>
+    <string name="interval_semitone">yarım ton</string>
+    <string name="interval_semitones_apart">yarım ton arayla</string>
+
+    <!-- ── Akor Kulak Eğitimi ─────────────────────────────────────────── -->
+    <string name="chord_ear_title">Akor Kulak Eğitimi</string>
+    <string name="chord_ear_subtitle">Akor kalitesini kulakla belirleyin.</string>
+    <string name="chord_ear_start">Eğitimi Başlat</string>
+    <string name="chord_ear_next">Sonraki Akor</string>
+    <string name="chord_ear_what">Bu ne tür bir akor?</string>
+    <string name="chord_ear_replay">Akoru Tekrar Dinle</string>
+
+    <!-- ── Dizi Çalışması ─────────────────────────────────────────────── -->
+    <string name="scale_practice_title">Dizi Çalışması</string>
+    <string name="scale_practice_subtitle">Rehberli çalma, testler ve kulak eğitimi ile dizileri çalışın.</string>
+    <string name="scale_practice_root">Dizi Kökü</string>
+    <string name="scale_practice_options">Seçenekler</string>
+    <string name="scale_practice_loop">Döngü</string>
+    <string name="scale_practice_fretboard">Klavye</string>
+    <string name="scale_practice_play">Diziyi Çal</string>
+    <string name="scale_practice_resume">Devam Et</string>
+    <string name="scale_practice_now">Şimdi:</string>
+    <string name="scale_practice_note_of">Nota %1$d / %2$d</string>
+    <string name="scale_practice_start_quiz">Testi Başlat</string>
+    <string name="scale_practice_next">Sonraki Soru</string>
+    <string name="scale_practice_what">Hangi dizi çalınıyor?</string>
+    <string name="scale_practice_root_label">Kök:</string>
+    <string name="scale_practice_replay">Diziyi Tekrar Dinle</string>
+    <string name="scale_practice_correct">Doğru! Bu</string>
+    <string name="scale_practice_notes_label">Notalar:</string>
+    <string name="scale_practice_next_scale">Sonraki Dizi</string>
+    <string name="scale_practice_start_training">Eğitimi Başlat</string>
+
+    <!-- ── Teori Dersleri ─────────────────────────────────────────────── -->
+    <string name="theory_lessons_title">Müzik Teorisi Öğren</string>
+    <string name="theory_lessons_subtitle">Temellerden ileri armoniye yapılandırılmış dersler.</string>
+    <string name="theory_lessons_progress">İlerleme</string>
+    <string name="theory_lessons_count">%d ders</string>
+    <string name="theory_lessons_key_points">Ana Noktalar</string>
+    <string name="theory_lessons_quick_check">Hızlı Kontrol</string>
+    <string name="theory_lessons_not_quite">Tam değil.</string>
+    <string name="theory_lessons_back">Derslere Dön</string>
+
+    <!-- ── Öğrenme İlerlemesi ─────────────────────────────────────────── -->
+    <string name="progress_title">Öğrenme İlerlemesi</string>
+    <string name="progress_subtitle">Müzik teorisi yolculuğunuzu takip edin.</string>
+    <string name="progress_practice_time">Çalışma Süresi</string>
+    <string name="progress_today">Bugün</string>
+    <string name="progress_total">Toplam</string>
+    <string name="progress_sessions">Oturumlar</string>
+    <string name="progress_daily_goal">Günlük hedef: %d dk</string>
+    <string name="progress_day_streak">Gün Serisi</string>
+    <string name="progress_lessons_done">Tamamlanan Dersler</string>
+    <string name="progress_theory_lessons">Teori Dersleri</string>
+    <string name="progress_lessons_completed">Tamamlanan dersler</string>
+    <string name="progress_quizzes_passed">Geçilen testler</string>
+    <string name="progress_overall">Genel</string>
+    <string name="progress_reset">Tüm İlerlemeyi Sıfırla</string>
+    <string name="progress_reset_title">İlerleme Sıfırlansın mı?</string>
+    <string name="progress_reset_message">Tüm öğrenme ilerlemesi, test puanları, seriler ve ders tamamlamaları silinecek. Bu işlem geri alınamaz.</string>
+    <string name="progress_no_attempts">Henüz deneme yapılmadı.</string>
+
+    <!-- ── Günlük Görev ───────────────────────────────────────────────── -->
+    <string name="daily_challenge_title">Günlük Görevler</string>
+    <string name="daily_challenge_subtitle">Becerilerinizi geliştirmek için bugünün görevlerini tamamlayın!</string>
+    <string name="daily_challenge_tip_title">Günün İpucu</string>
+    <string name="daily_tip_1">Günlük 5 dakika pratik bile haftada 1 saatten daha iyidir.</string>
+    <string name="daily_tip_2">Akor geçişleri çalışırken metronom kullanın — yavaş başlayın ve hızlanın.</string>
+    <string name="daily_tip_3">Yeni bir akor öğrenirken netliği kontrol etmek için her teli ayrı ayrı çalın.</string>
+    <string name="daily_tip_4">Strum yaparken mırıldanmayı deneyin, müzik kulağınızı geliştirir.</string>
+    <string name="daily_tip_5">El pozisyonunuzu kontrol etmek için ayna karşısında çalışın.</string>
+    <string name="daily_tip_6">Hızdan çok akıcı geçişlere odaklanın — hız zamanla gelir.</string>
+    <string name="daily_tip_7">Sevdiğiniz şarkıları öğrenin! Motivasyon pratiği keyifli kılar.</string>
+
+    <!-- ── SRS Çalışması ──────────────────────────────────────────────── -->
+    <string name="srs_title">Aralıklı Tekrar</string>
+    <string name="srs_subtitle">Uzun süreli hafıza için akorları en uygun aralıklarla tekrarlayın.</string>
+    <string name="srs_due">Bekleyen</string>
+    <string name="srs_reviewed">Tekrarlanan</string>
+    <string name="srs_total">Toplam</string>
+    <string name="srs_no_cards">Henüz kart yok</string>
+    <string name="srs_no_cards_message">Akor Kütüphanesinden bir seslendirmeye uzun basarak ve \"SRS\'ye Ekle\" seçeneğini seçerek SRS destenize akor ekleyin.</string>
+    <string name="srs_all_caught_up">Hepsini tamamladınız!</string>
+    <string name="srs_session_done">Bu oturumda %1$d %2$s tekrarladınız. Daha fazla tekrar için sonra gelin.</string>
+    <string name="srs_card_singular">kart</string>
+    <string name="srs_card_plural">kart</string>
+    <string name="srs_no_due">Şu anda bekleyen kart yok. Daha sonra tekrar kontrol edin!</string>
+    <string name="srs_card_remaining">Kart %1$d, %2$d kalan</string>
+    <string name="srs_recall_prompt">Parmak pozisyonunu hatırlayabiliyor musunuz?</string>
+    <string name="srs_show_voicing">Seslendirmeyi Göster</string>
+    <string name="srs_frets">Perdeler: %s</string>
+    <string name="srs_how_well">Ne kadar iyi hatırladınız?</string>
+
+    <!-- ── Çalışma Rutini ─────────────────────────────────────────────── -->
+    <string name="routine_title">Çalışma Rutini</string>
+    <string name="routine_subtitle">Çalışma oturumunuzu ayarlayın.</string>
+    <string name="routine_duration">Süre: %d dakika</string>
+    <string name="routine_skill_level">Beceri Düzeyi</string>
+    <string name="routine_focus_areas">Odak Alanları</string>
+    <string name="routine_start">Çalışma Rutinini Başlat</string>
+    <string name="cd_start_routine">Çalışma rutinini başlat</string>
+    <string name="routine_total">%1$d dk toplam, %2$d adım</string>
+    <string name="cd_new_routine">Yeni rutin</string>
+    <string name="routine_complete_title">Çalışma Tamamlandı!</string>
+    <string name="routine_complete_message">Harika oturum! Günlük pratiğe devam edin.</string>
+    <string name="cd_practice_complete">Çalışma tamamlandı</string>
+    <string name="cd_completed">Tamamlandı</string>
+
+    <!-- ── Akor Geçiş Eğitmeni ────────────────────────────────────────── -->
+    <string name="chord_transition_title">Akor Geçiş Eğitmeni</string>
+    <string name="chord_transition_subtitle">İki akor arasında tempoda geçiş yapma pratiği.</string>
+    <string name="chord_transition_chord_a">Akor A</string>
+    <string name="chord_transition_chord_b">Akor B</string>
+    <string name="cd_swap_chords">Akorları değiştir</string>
+    <string name="chord_transition_switches">Geçişler</string>
+    <string name="chord_transition_time">Süre</string>
+    <string name="chord_transition_per_min">Dak başı</string>
+    <string name="cd_reset">Sıfırla</string>
+    <string name="cd_start">Başlat</string>
+    <string name="cd_stop">Durdur</string>
+
+    <!-- ── Akor Geçiş Animasyonu ──────────────────────────────────────── -->
+    <string name="transition_anim_finger_movements">Parmak Hareketleri</string>
+    <string name="transition_anim_no_movement">Parmak hareketi gerekmiyor!</string>
+    <string name="transition_anim_speed">Hız:</string>
+    <string name="transition_anim_animate">Geçişi Canlandır</string>
+    <string name="cd_animate_transition">Geçişi canlandır</string>
+    <string name="cd_prev_step">Önceki adım</string>
+    <string name="cd_next_step">Sonraki adım</string>
+    <string name="transition_anim_start_shape">Başlangıç şekli</string>
+    <string name="transition_anim_end_shape">Bitiş şekli</string>
+    <string name="transition_anim_step">Adım %1$d/%2$d</string>
+
+    <!-- ── Eşlik Et ───────────────────────────────────────────────────── -->
+    <string name="play_along_title">Eşlik Et</string>
+    <string name="play_along_subtitle">Dinleyin ve doğru akorları çalın!</string>
+    <string name="play_along_mic_needed">Akor algılama için mikrofon erişimi gerekli</string>
+    <string name="cd_grant_permission">Mikrofon izni ver</string>
+    <string name="play_along_grant">İzin Ver</string>
+    <string name="play_along_play">Çal:</string>
+    <string name="play_along_heard">Duyulan:</string>
+    <string name="cd_correct">Doğru</string>
+    <string name="cd_incorrect">Yanlış</string>
+    <string name="play_along_grade">Not</string>
+    <string name="play_along_choose">Bir ton ve ilerleme seçin, ardından gerçek zamanlı akor algılama ile eşlik edin.</string>
+    <string name="play_along_progression">İlerleme</string>
+
+    <!-- ── Başarılar ──────────────────────────────────────────────────── -->
+    <string name="achievements_title">Başarılar</string>
+    <string name="achievements_subtitle">Pratik yaparak ve öğrenerek rozetler kazanın.</string>
+    <string name="achievements_unlocked">%d açıldı</string>
+    <string name="achievements_earned">Kazanıldı</string>
+
+    <!-- ── Yardım ─────────────────────────────────────────────────────── -->
+    <string name="help_title">Yardım</string>
+    <string name="help_subtitle">Nasıl çalıştığını öğrenmek için herhangi bir özelliğe dokunun.</string>
+    <string name="help_section_play">Çal</string>
+    <string name="help_section_create">Oluştur</string>
+    <string name="help_section_learn">Öğren</string>
+    <string name="help_section_reference">Başvuru</string>
+    <string name="help_section_other">Diğer</string>
+
+    <!-- Yardım öğe başlıkları -->
+    <string name="help_explorer">Keşfet</string>
+    <string name="help_tuner">Akort</string>
+    <string name="help_pitch_monitor">Perde İzleyici</string>
+    <string name="help_chords">Akorlar</string>
+    <string name="help_favorites">Favoriler</string>
+    <string name="help_song_finder">Şarkı Bulucu</string>
+    <string name="help_songs">Şarkılar</string>
+    <string name="help_melody_notepad">Melodi Defteri</string>
+    <string name="help_patterns">Kalıplar</string>
+    <string name="help_progressions">İlerlemeler</string>
+    <string name="help_learn_theory">Teori Öğren</string>
+    <string name="help_theory_quiz">Teori Testi</string>
+    <string name="help_interval_trainer">Aralık Eğitimi</string>
+    <string name="help_note_quiz">Nota Testi</string>
+    <string name="help_chord_ear">Akor Kulak Eğitimi</string>
+    <string name="help_scale_practice">Dizi Çalışması</string>
+    <string name="help_progress">İlerleme</string>
+    <string name="help_daily_challenge">Günlük Görev</string>
+    <string name="help_practice_routine">Çalışma Rutini</string>
+    <string name="help_srs_review">SRS Tekrar</string>
+    <string name="help_chord_transitions">Akor Geçişleri</string>
+    <string name="help_play_along">Eşlik Et</string>
+    <string name="help_achievements">Başarılar</string>
+    <string name="help_capo_guide">Kapo Kılavuzu</string>
+    <string name="help_circle_of_fifths">Beşliler Çemberi</string>
+    <string name="help_chord_subs">Akor Değişimleri</string>
+    <string name="help_chords_in_scale">Dizideki Akorlar</string>
+    <string name="help_fretboard_notes">Klavye Notaları</string>
+    <string name="help_glossary">Sözlük</string>
+    <string name="help_settings">Ayarlar</string>
+    <string name="help_sharing">Akor Paylaşma</string>
+    <string name="help_full_screen">Tam Ekran Modu</string>
+
+    <!-- Yardım açıklamaları -->
+    <string name="help_desc_explorer">Akor oluşturmak için perdelere dokunduğunuz etkileşimli klavye. Uygulama çaldığınız akoru algılar ve çevrimleri, aralıkları ve alternatif adları gösterir. Akorların ve dizilerin nasıl bir araya geldiğini keşfetmek için bir kapo seçici ve dizi kaplaması içerir.</string>
+    <string name="help_desc_tuner">Cihazınızın mikrofonunu kullanan kromatik bir akort cihazı. Algılanan notayı, ibre göstergesindeki sent sapmasını ve anlaşılır yönlendirmeleri (\"Yukarı Akort\", \"Akortlu!\") gösterir. Referans tonu için tel düğmelerine dokunun. Birden fazla akort, A4 kalibrasyonu, sesli geri bildirim ve hassas modu destekler.</string>
+    <string name="help_desc_pitch_monitor">Gerçek zamanlı perde görselleştirme aracı. Algılanan perdeyi kayan bir grafikte, geçerli nota adını ve eşleşen akorları gösterir. Melodi çalarken veya bükmeler çalışırken entonasyonu kontrol etmek için kullanışlıdır.</string>
+    <string name="help_desc_chords">Kapsamlı bir akor kütüphanesi. Ukuleledeki tüm çalınabilir seslendirmeleri görmek için bir kök nota ve akor türü seçin. Keşfet klavyesine yüklemek için bir seslendirmeye dokunun veya paylaşmak, favorilere eklemek veya SRS\'ye eklemek için uzun basın. Çevrim karşılaştırma modu içerir.</string>
+    <string name="help_desc_favorites">Klasörlerde düzenlenmiş kaydedilmiş akor seslendirmeleriniz. Klavyede görüntülemek için bir seslendirmeye dokunun, seçenekler için kaydırın veya uzun basın. Belirli şarkılar veya çalışma oturumları için akorları gruplamak üzere klasörleri kullanın.</string>
+    <string name="help_desc_song_finder">Favorilerinizdeki akorlarla zaten çalabileceğiniz şarkıları keşfedin. Ne kadar çok akor kaydederseniz, o kadar çok şarkı açılır. Ayrıca sadece 1-2 akor daha gerektiren şarkıları da gösterir.</string>
+    <string name="help_desc_songs">Akor sayfaları yazmak ve saklamak için kişisel şarkı defteri. Sözleri yazın ve köşeli parantez notasyonuyla akorları ekleyin: \"Gökkuşağı[C]nın üstünde bir[Em]yerde\". Transpoze, kapo önerileri, otomatik kaydırma ve ChordPro dosya içe/dışa aktarımını destekler.</string>
+    <string name="help_desc_melody_notepad">Nota nota melodi bestelemek için basit bir araç. Bir dizi oluşturmak için notalara dokunun, nota süreleri seçin (tam, yarım, çeyrek, sekizlik, onaltılık), duraksama ekleyin ve ayarlanabilir BPM\'de çalın. Melodi fikirleri veya alıştırmaları kaydetmek için idealdir.</string>
+    <string name="help_desc_patterns">Strumming ve fingerpicking kalıplarına göz atın ve oluşturun. Yön değiştirmek (aşağı, yukarı, sustur, duraklat) veya parmaklara tel atamak için vuruş göstergelerine dokunun. Ayarlanabilir tempoda çalın.</string>
+    <string name="help_desc_progressions">Her tonda yaygın akor ilerlemeleri kütüphanesi. Kütüphanede görmek için herhangi bir akora dokunun. Özel ilerlemeler oluşturun, yerleşik metronom çalma ile pratik yapın veya akorlar arası ses yönlendirmeyi keşfedin.</string>
+    <string name="help_desc_learn_theory">Notalar, aralıklar, diziler, akorlar, tonlar ve armoniyi kapsayan yapılandırılmış müzik teorisi dersleri. Her dersin ana noktaları ve devam etmeden önce anlayışınızı doğrulamak için hızlı bir kontrol testi vardır.</string>
+    <string name="help_desc_theory_quiz">Aralıklar, akor yapısı, donanımlar ve dizi dereceleri gibi müzik teorisi kavramları hakkında bilginizi test edin. Ekstra zorluk için Standart mod ve süreli Blitz (60 sn) modu içerir.</string>
+    <string name="help_desc_interval_trainer">Müzik aralıkları için kulak eğitimi. Görsel (klavye) veya işitsel modu seçin, çıkan, inen veya armonik sunumu seçin ve bir zorluk düzeyi belirleyin. Aralığı belirleyin ve göreceli perde becerilerinizi geliştirin.</string>
+    <string name="help_desc_note_quiz">Klavyedeki notaları belirlemenize meydan okuyan süreli bir test. \"Adlandır\" modunda bir pozisyon görüp notayı tahmin edersiniz; \"Bul\" modunda bir nota görüp konumuna dokunursunuz. Zorluk düzeyleri perde aralığını sınırlar.</string>
+    <string name="help_desc_chord_ear">Bir akor dinleyin ve türünü belirleyin (majör, minör, diminish, vb.). Zorluk düzeyleri daha fazla akor kalitesi ekler. Armonik kulağınızı geliştirmenin harika bir yolu.</string>
+    <string name="help_desc_scale_practice">Üç modda klavyede dizi çalışması yapın: Eşlik Et (isteğe bağlı metronom ile rehberli), Test (çalınan diziyi belirleyin) ve Kulak Eğitimi. Tüm dizi türlerini, isteğe bağlı döngüyü ve kompakt klavye görünümünü destekler.</string>
+    <string name="help_desc_progress">Öğrenme istatistiklerinizi gösteren bir pano: çalışma süresi, gün serisi, tamamlanan dersler ve Teori, Aralık, Nota Testi ve Akor Kulak Eğitimi test puanları. Tutarlılığı ve gelişimi zaman içinde takip etmenize yardımcı olur.</string>
+    <string name="help_desc_daily_challenge">Çalışma rutininizi çeşitli tutmak için her gün üretilen üç yeni görev. Her görev farklı bir beceriyi hedefler — akorlar, diziler, kulak eğitimi, teori veya geçişler. Tamamlamak tutarlılık oluşturur.</string>
+    <string name="help_desc_practice_routine">Rehberli çalışma oturumu oluşturucu. Adım adım bir rutin oluşturmak için süre, beceri düzeyi ve odak alanlarını seçin. Uygulama ısınma, teknik, repertuar ve soğuma içeren zamanlı bir alıştırma dizisi oluşturur.</string>
+    <string name="help_desc_srs_review">Akor seslendirmelerini ezberlemek için Aralıklı Tekrar Sistemi. Kütüphaneden akor ekleyin, uygulama her seslendirmeyi ne kadar iyi hatırladığınıza göre artan aralıklarla tekrar planlar. Akor dağarcığınızı verimli şekilde büyütür.</string>
+    <string name="help_desc_chord_transitions">Parmaklarınızın iki akor arasında nasıl hareket ettiğini görselleştirin. İki akor seçin ve parmak hareketlerinin adım adım animasyonunu izleyin. Geçiş sayacı ve BPM kontrolü ile süreli çalışma modu içerir.</string>
+    <string name="help_desc_play_along">Sesli akor algılama ile gerçek zamanlı eşlik pratiği. Bir ton ve ilerleme seçin, ardından uygulama dinlerken ve doğruluğunuzu puanlarken strum yapın. Mikrofon izni gerektirir.</string>
+    <string name="help_desc_achievements">Uygulamayı kullandıkça açabileceğiniz bir başarı galerisi. Çalışma serileri, test puanları, oluşturulan şarkılar, öğrenilen akorlar ve daha fazlası için rozetler kazanın. İlerlemenizi görmek için tekrar kontrol edin.</string>
+    <string name="help_desc_capo_guide">Ukuleledeki kapo kullanımı hakkında eğitici bir kılavuz. Kaponun ne yaptığını açıklar, perdeyi nasıl değiştirdiğini gösterir, yaygın pozisyonları listeler ve referans tablosu ile etkileşimli bir deneme bölümü içerir.</string>
+    <string name="help_desc_circle_of_fifths">Etkileşimli beşliler çemberi diyagramı. Donanımını, bağıl minör/majörünü, diyatonik akorlarını ve yakın ilişkili tonlarını görmek için herhangi bir tona dokunun. Ton ilişkilerini anlamak için temel bir başvuru.</string>
+    <string name="help_desc_chord_subs">Akor değişim seçenekleri için başvuru kılavuzu. Bir kök akor seçin ve hangi akorların onu neden değiştirebileceğini görün — bağıl minör, triton değişimi, modal alışveriş ve daha fazlası. Her değişim arkasındaki teoriyi açıklar.</string>
+    <string name="help_desc_chords_in_scale">Bir dizi seçin ve içinde doğal olarak oluşan tüm akorları görün. Roma rakamı analizi ile diyatonik üçlüleri gösterir. Şarkı yazımı ve herhangi bir tondaki armoniyi anlamak için kullanışlıdır.</string>
+    <string name="help_desc_fretboard_notes">Ukulele klavyesindeki her notayı gösteren görsel bir harita. Tüm pozisyonlarını görmek için belirli bir notayı vurgulayın. Yüksek G ve Düşük G akort destekler. Dinlemek için herhangi bir notaya dokunun.</string>
+    <string name="help_desc_glossary">Müzik teorisi ve ukulele terimlerinin aranabilir sözlüğü — arpejden seslendirmeye. Her giriş kısa bir tanım ve gerektiğinde bir örnek içerir.</string>
+    <string name="help_desc_settings">Uygulama genelindeki tercihleri yapılandırın: ses (ses düzeyi, strum gecikmesi, yön), görünüm (tema), akort (Yüksek G, Düşük G, Bariton, vb.), akort cihazı (sesli geri bildirim, hassas mod, A4 kalibrasyonu), klavye (solak, perde sayısı) ve bildirimler.</string>
+    <string name="help_desc_sharing">Herhangi bir akoru resim olarak paylaşın. Keşfet veya Akor Kütüphanesinde bir akor görüntülerken, arkadaşlarınıza gönderebileceğiniz veya sosyal medyada paylaşabileceğiniz temiz bir akor diyagramı resmi oluşturmak için paylaş simgesine dokunun.</string>
+    <string name="help_desc_full_screen">Yatay tam ekran klavyeye girmek için Keşfet sekmesindeki genişlet simgesine dokunun. Arayüz dikkat dağıtmadan maksimum klavye görünürlüğü istediğiniz çalışma oturumları için idealdir.</string>
+
+    <!-- ── Sözlük ─────────────────────────────────────────────────────── -->
+    <string name="glossary_title">Müzik Sözlüğü</string>
+    <string name="glossary_term_count">Müzik teorisi ve ukulele konusunda %d terim.</string>
+    <string name="glossary_search_hint">Terim ara…</string>
+    <string name="glossary_no_match">Eşleşen terim bulunamadı.</string>
+    <string name="glossary_example">Örnek:</string>
+
+    <!-- ── Beşliler Çemberi ───────────────────────────────────────────── -->
+    <string name="circle_title">Beşliler Çemberi</string>
+    <string name="circle_subtitle">Donanımını ve akorlarını görmek için bir tona dokunun. Komşu tonlar yakın ilişkilidir.</string>
+    <string name="circle_cd_selected">Beşliler çemberi diyagramı, %s seçili. Farklı bir ton seçmek için dokunun.</string>
+    <string name="circle_cd_default">Beşliler çemberi diyagramı. Bir ton seçmek için dokunun.</string>
+    <string name="circle_key_signature">Donanım</string>
+    <string name="circle_relative_minor">Bağıl Minör</string>
+    <string name="circle_relative_major">Bağıl Majör</string>
+    <string name="circle_diatonic_chords">Diyatonik Akorlar</string>
+    <string name="circle_related_keys">Yakın İlişkili Tonlar</string>
+    <string name="circle_same_as">aynısı</string>
+
+    <!-- ── Kapo Kılavuzu ──────────────────────────────────────────────── -->
+    <string name="capo_guide_what">Kapo Nedir?</string>
+    <string name="capo_guide_pitch">Perdeyi Nasıl Değiştirir</string>
+    <string name="capo_guide_positions">Yaygın Kapo Pozisyonları</string>
+    <string name="capo_guide_when">Kapo Ne Zaman Kullanılır</string>
+    <string name="capo_guide_try">Kendin Dene!</string>
+    <string name="capo_guide_ref_table">Hangi şekillerin hangi seslenen tonları ürettiğini gösteren referans tablosu:</string>
+    <string name="capo_guide_open_shapes">Yaygın açık akor şekilleri (kapo ile iyi):</string>
+    <string name="capo_guide_tap_fret">Kapoyu yerleştirmek için bir perdeye dokunun:</string>
+    <string name="capo_guide_no_capo">Kapo yok — standart akort</string>
+    <string name="capo_guide_on_fret">Perde %d\'de kapo</string>
+    <string name="capo_guide_was_note">(%s idi)</string>
+    <string name="capo_guide_shape">Şekil</string>
+    <string name="capo_guide_sounds_as">Olarak duyulur</string>
+    <string name="capo_guide_string">Tel %d</string>
+
+    <!-- ── Kapo Hesaplayıcı ───────────────────────────────────────────── -->
+    <string name="capo_calc_title">Kapo Hesaplayıcı</string>
+    <string name="capo_calc_sounding">Seslenen: %s</string>
+    <string name="capo_calc_hint">Aynı sesi veren daha basit şekiller çalmak için kapo kullanın.</string>
+    <string name="capo_calc_no_capo">Kapo yok</string>
+    <string name="capo_calc_fret">Perde %d</string>
+    <string name="capo_calc_play_shape">Çal: %s</string>
+    <string name="capo_calc_recommended">Önerilen</string>
+    <string name="capo_calc_frets">Perdeler: %s</string>
+    <string name="capo_calc_ease">Kolaylık: %d%%</string>
+    <string name="capo_calc_no_positions">Bu akor için kapo pozisyonu bulunmuyor.</string>
+    <string name="capo_helper_title">Kapo Yardımcısı</string>
+    <string name="capo_helper_hint">Bu ilerleme için en kolay kapo pozisyonunu bulun.</string>
+    <string name="capo_helper_shapes">Şekiller: %s</string>
+    <string name="capo_helper_ease">Genel kolaylık: %d%%</string>
+    <string name="capo_helper_no_positions">Bu ilerleme için kapo pozisyonu bulunmuyor.</string>
+
+    <!-- ── Kapo Görselleştirici ───────────────────────────────────────── -->
+    <string name="capo_viz_title">Kapo Görselleştirici</string>
+    <string name="capo_viz_shape">Şekil: %s</string>
+    <string name="capo_viz_with_capo">Perde %1$d\'de kapo → %2$s olarak duyulur</string>
+    <string name="capo_viz_no_capo">Kapo yok — %s olarak duyulur</string>
+    <string name="capo_viz_position">Kapo Pozisyonu</string>
+    <string name="capo_viz_no_capo_label">Kapo yok</string>
+    <string name="capo_viz_fret">Perde %d</string>
+    <string name="capo_viz_sounding">Seslenen</string>
+    <string name="capo_viz_same">Aynı</string>
+    <string name="capo_viz_tip">İpucu: Perde %1$d\'de kapo ile %2$s şeklini çalarsınız ama %3$s olarak duyulur. Her perde perdeyi bir yarım ton yükseltir.</string>
+
+    <!-- ── Akor Değişimleri ───────────────────────────────────────────── -->
+    <string name="chord_subs_title">Akor Değişimleri</string>
+    <string name="chord_subs_subtitle">Armonik anlam koruyarak farklı renkler ve atmosferler yaratan alternatiflerle akorları nasıl değiştireceğinizi öğrenin.</string>
+    <string name="chord_subs_examples_in">Ton örnekleri:</string>
+    <string name="chord_subs_practice_tip_title">Çalışma İpucu</string>
+    <string name="chord_subs_practice_tip">Diyatonik değişimler ve bağıl majör/minör takaslarıyla başlayın — her zaman iyi duyulurlar. Rahat olduğunuzda daha fazla renk için modal alışverişi deneyin. Triton değişimlerini ve ikincil dominantları caz armonisini keşfetmeye hazır olduğunuzda saklayın.</string>
+    <string name="chord_subs_shared">Ortak: %s</string>
+
+    <!-- ── Dizideki Akorlar Görünümü ──────────────────────────────────── -->
+    <string name="scale_chord_title">Dizideki Akorlar</string>
+    <string name="scale_chord_subtitle">Herhangi bir diziden hangi akorların oluşturulduğunu görün.</string>
+    <string name="scale_chord_notes">Notalar: %s</string>
+    <string name="scale_chord_too_few">Bu dizide standart üçlüler oluşturmak için çok az nota var.</string>
+    <string name="scale_chord_diatonic">Diyatonik Üçlüler</string>
+
+    <!-- ── Klavye Nota Haritası ────────────────────────────────────────── -->
+    <string name="note_map_title">Klavye Nota Haritası</string>
+    <string name="note_map_subtitle">Ukulele klavyesindeki her notayı öğrenin.</string>
+    <string name="note_map_high_g">Standart (Yüksek G)</string>
+    <string name="note_map_low_g">Düşük G</string>
+    <string name="note_map_highlight">Notayı Vurgula</string>
+    <string name="note_map_tips_title">İpuçları</string>
+    <string name="note_map_tip_1">Dinlemek için herhangi bir notaya dokunun</string>
+    <string name="note_map_tip_2">Bir notanın tüm pozisyonlarını bulmak için vurgulama filtresini kullanın</string>
+    <string name="note_map_tip_3">Perde 12, perde 0 ile aynı notalardır (bir oktav yukarıda)</string>
+    <string name="note_map_tip_4">G telinin nasıl değiştiğini görmek için Düşük G\'ye geçin</string>
+    <string name="note_map_string">Tel %d</string>
+
+    <!-- ── Klavye Görünümü ────────────────────────────────────────────── -->
+    <string name="fretboard_string">tel, </string>
+    <string name="fretboard_open">açık</string>
+    <string name="fretboard_fret">perde %d</string>
+    <string name="fretboard_selected">, seçili</string>
+    <string name="fretboard_in_scale">, dizide</string>
+    <string name="fretboard_scale_root">, dizi kökü</string>
+    <string name="fretboard_blocked">, kapo tarafından engellendi</string>
+    <string name="fretboard_blocked_text">Kapo tarafından engellendi</string>
+
+    <!-- ── Dikey Akor Diyagramı ───────────────────────────────────────── -->
+    <string name="diagram_chord_cd">Akor %s</string>
+    <string name="diagram_string_muted">tel susturulmuş</string>
+    <string name="diagram_string_open">tel açık</string>
+    <string name="diagram_string_fret">tel perde %d</string>
+    <string name="diagram_capo_fret">perde %d\'de kapo</string>
+
+    <!-- ── Akor Paylaş ────────────────────────────────────────────────── -->
+    <string name="share_as_image">Resim Olarak Paylaş</string>
+    <string name="share_diagram_attribution">Ukulele Companion</string>
+
+    <!-- ── Melodi Defteri ─────────────────────────────────────────────── -->
+    <string name="melody_title">Melodi Defteri</string>
+    <string name="melody_subtitle">Melodi bestelemek için notalara dokunun. Dinlemek için çal düğmesine basın.</string>
+    <string name="melody_sequence">Dizi (%d nota)</string>
+    <string name="melody_placeholder">Bestelemeye başlamak için aşağıdaki bir notaya dokunun</string>
+    <string name="melody_whole">T</string>
+    <string name="melody_half">Y</string>
+    <string name="melody_quarter">Ç</string>
+    <string name="melody_eighth">8</string>
+    <string name="melody_sixteenth">16</string>
+    <string name="melody_note_duration">Nota Süresi</string>
+    <string name="melody_tap_to_add">Nota Eklemek İçin Dokunun</string>
+    <string name="melody_rest">Sus</string>
+    <string name="cd_delete_note">Notayı sil</string>
+    <string name="cd_play_melody">Melodiyi çal</string>
+    <string name="cd_stop_playing">Çalmayı durdur</string>
+    <string name="cd_clear_all">Tüm notaları temizle</string>
+    <string name="melody_clear">Temizle</string>
+
+    <!-- ── Şarkı Bulucu ───────────────────────────────────────────────── -->
+    <string name="song_finder_title">Şarkı Bulucu</string>
+    <string name="song_finder_subtitle">Bildiğiniz akorlarla çalabileceğiniz şarkıları bulun.</string>
+    <string name="song_finder_no_chords_title">Henüz bilinen akor yok</string>
+    <string name="song_finder_no_chords_message">Favorilere bazı akor seslendirmeleri kaydedin, çalabileceğiniz şarkıları bulalım!</string>
+    <string name="song_finder_your_chords">Akorlarınız (%d)</string>
+    <string name="song_finder_songs_can_play">Çalabileceğiniz Şarkılar (%d)</string>
+    <string name="song_finder_learn_more">1-2 Akor Daha Öğren (%d)</string>
+    <string name="song_finder_hide">Gizle</string>
+    <string name="song_finder_show">Göster</string>
+    <string name="song_finder_keep_learning">Daha fazla şarkı açmak için yeni akorlar öğrenmeye devam edin!</string>
+    <string name="song_finder_learn_prefix">Öğren: </string>
+
+    <!-- ── Ses Yönlendirme ────────────────────────────────────────────── -->
+    <string name="cd_back_progressions">İlerlemelere dön</string>
+    <string name="voice_leading_title">%s içinde ses yönlendirme</string>
+    <string name="voice_leading_common_tones">%d ortak ton</string>
+    <string name="voice_leading_common_tones_plural">%d ortak ton</string>
+    <string name="voice_leading_fret_movement">%d perde toplam hareket</string>
+    <string name="voice_leading_frets_movement">%d perde toplam hareket</string>
+    <string name="voice_leading_stays">kalıyor </string>
+    <string name="voice_leading_muted">susturulmuş</string>
+    <string name="voice_leading_fret_prefix">perde </string>
+    <string name="voice_leading_arrow"> → </string>
+    <string name="voice_leading_tip_singular">İpucu: Parmağınızı %1$s telinde tutun — her iki akorda da aynı nota.</string>
+    <string name="voice_leading_tip_plural">İpucu: Parmaklarınızı %1$s tellerinde tutun — her iki akorda da aynı nota.</string>
+    <string name="voice_leading_total_path">Toplam yol: %2$d geçişte %1$d perde hareket</string>
+    <string name="voice_leading_prev">Önceki</string>
+    <string name="cd_play_all_voice_leadings">Tüm ses yönlendirmeleri çal</string>
+    <string name="voice_leading_play_all">Tümünü Çal</string>
+    <string name="voice_leading_next">Sonraki</string>
+    <string name="voice_leading_step">Adım %1$d / %2$d</string>
+    <string name="voice_leading_single_chord">Bu ilerlemede yalnızca bir akor var.</string>
+
+    <!-- ── Transpoze Kontrolleri ──────────────────────────────────────── -->
+    <string name="transpose_arrow"> → </string>
+    <string name="transpose_capo_prefix">Kapo </string>
+
+    <!-- ── Progression Practice ─────────────────────────────────────── -->
+    <string name="progression_practice_title">Pratik</string>
+    <string name="progression_practice_no_voicing">Pozisyon mevcut değil</string>
+    <string name="cd_previous_voicing">Önceki pozisyon</string>
+    <string name="cd_next_voicing">Sonraki pozisyon</string>
+    <string name="cd_toggle_loop">Döngüyü aç/kapat</string>
+
+    <!-- ── Tap Tempo ──────────────────────────────────────────────────── -->
+    <string name="tap_tempo_label">Dokun</string>
+
+    <!-- ── Tam Ekran Klavye ───────────────────────────────────────────── -->
+    <string name="full_screen_reset">Sıfırla</string>
+
+    <!-- ── Bildirim (Günün Akoru) ─────────────────────────────────────── -->
+    <string name="notif_chord_of_day">Günün Akoru: %s</string>
+    <string name="notif_frets">Perdeler: %1$s — Pratik yapmak için dokunun!</string>
+    <string name="notif_channel_name">Günün Akoru</string>
+    <string name="notif_channel_desc">Günlük ukulele akor önerisi</string>
+
+    <!-- ── Widget ─────────────────────────────────────────────────────── -->
+    <string name="widget_title">Günün Akoru</string>
+</resources>

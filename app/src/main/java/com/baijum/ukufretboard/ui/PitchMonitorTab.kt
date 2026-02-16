@@ -50,8 +50,10 @@ import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.viewmodel.PitchMonitorViewModel
 import com.baijum.ukufretboard.viewmodel.PitchPoint
 import kotlinx.coroutines.android.awaitFrame
@@ -164,6 +166,17 @@ private fun PitchMonitorContent(
         }
     }
 
+    // Pre-compute accessibility strings in composable scope for use in semantics blocks
+    val detectedChordDesc = stringResource(
+        R.string.pitch_monitor_detected_chord,
+        state.detectedChord ?: stringResource(R.string.label_none),
+    )
+    val currentNoteDesc = stringResource(
+        R.string.pitch_monitor_current_note,
+        state.currentNote ?: stringResource(R.string.label_none),
+    )
+    val pitchVizDesc = stringResource(R.string.pitch_monitor_visualization)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -195,14 +208,15 @@ private fun PitchMonitorContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.semantics {
                             liveRegion = LiveRegionMode.Assertive
-                            contentDescription = "Detected chord: ${state.detectedChord ?: "none"}"
+                            contentDescription = detectedChordDesc
                         },
                     )
                 }
                 if (state.detectedChordNotes.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "Notes: ${state.detectedChordNotes.joinToString(" ")}",
+                        text = stringResource(R.string.pitch_monitor_notes_prefix) +
+                            state.detectedChordNotes.joinToString(" "),
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -230,7 +244,7 @@ private fun PitchMonitorContent(
             },
             modifier = Modifier.semantics {
                 liveRegion = LiveRegionMode.Polite
-                contentDescription = "Current note: ${state.currentNote ?: "none"}"
+                contentDescription = currentNoteDesc
             },
         )
 
@@ -252,7 +266,7 @@ private fun PitchMonitorContent(
                 modifier = Modifier
                     .fillMaxSize()
                     .clearAndSetSemantics {
-                        contentDescription = "Pitch visualization showing pitch over time"
+                        contentDescription = pitchVizDesc
                     },
             )
         }
@@ -262,11 +276,11 @@ private fun PitchMonitorContent(
         // --- Guidance text --------------------------------------------------
         Text(
             text = when {
-                !state.isListening -> "Tap Start to begin"
+                !state.isListening -> stringResource(R.string.pitch_monitor_tap_start)
                 state.currentNote != null && state.detectedChord != null ->
-                    "Playing ${state.detectedChord}"
-                state.currentNote != null -> "Detecting pitch..."
-                else -> "Play your ukulele..."
+                    stringResource(R.string.pitch_monitor_playing, state.detectedChord!!)
+                state.currentNote != null -> stringResource(R.string.pitch_monitor_detecting)
+                else -> stringResource(R.string.pitch_monitor_play_ukulele)
             },
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -290,15 +304,15 @@ private fun PitchMonitorContent(
                         containerColor = MaterialTheme.colorScheme.error,
                     ),
                 ) {
-                    Icon(Icons.Filled.MicOff, contentDescription = "Stop listening")
+                    Icon(Icons.Filled.MicOff, contentDescription = stringResource(R.string.cd_stop_listening))
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Stop")
+                    Text(stringResource(R.string.action_stop))
                 }
             } else {
                 Button(onClick = { viewModel.startListening() }) {
-                    Icon(Icons.Filled.Mic, contentDescription = "Start listening")
+                    Icon(Icons.Filled.Mic, contentDescription = stringResource(R.string.cd_start_listening))
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Start")
+                    Text(stringResource(R.string.pitch_monitor_start))
                 }
             }
         }

@@ -38,9 +38,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.domain.VoiceLeading
@@ -144,7 +146,7 @@ fun VoiceLeadingView(
             } else {
                 // Single chord — no transitions to show
                 Text(
-                    text = "This progression has only one chord.",
+                    text = stringResource(R.string.voice_leading_single_chord),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(vertical = 16.dp),
@@ -191,7 +193,7 @@ private fun VoiceLeadingHeader(
         IconButton(onClick = onBack) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back to progressions",
+                contentDescription = stringResource(R.string.cd_back_progressions),
             )
         }
         Column(modifier = Modifier.weight(1f)) {
@@ -201,7 +203,7 @@ private fun VoiceLeadingHeader(
                 fontWeight = FontWeight.Bold,
             )
             Text(
-                text = "Voice Leading in ${Notes.enharmonicForKey(path.keyRoot, path.keyRoot)}",
+                text = stringResource(R.string.voice_leading_title, Notes.enharmonicForKey(path.keyRoot, path.keyRoot)),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -325,7 +327,7 @@ private fun TransitionDiagrams(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.PlayArrow,
-                        contentDescription = "Play ${fromStep.chordName}",
+                        contentDescription = stringResource(R.string.cd_play_item, fromStep.chordName),
                         modifier = Modifier.size(20.dp),
                     )
                 }
@@ -335,7 +337,7 @@ private fun TransitionDiagrams(
         // Arrow
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-            contentDescription = "to",
+            contentDescription = stringResource(R.string.cd_to),
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier
                 .padding(top = 60.dp)
@@ -365,7 +367,7 @@ private fun TransitionDiagrams(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.PlayArrow,
-                        contentDescription = "Play ${toStep.chordName}",
+                        contentDescription = stringResource(R.string.cd_play_item, toStep.chordName),
                         modifier = Modifier.size(20.dp),
                     )
                 }
@@ -389,7 +391,14 @@ private fun TransitionSummaryCard(
     tuning: List<UkuleleString>,
 ) {
     val commonCount = transition.commonToneIndices.size
-    val distLabel = "${transition.totalDistance} fret${if (transition.totalDistance != 1) "s" else ""}"
+    val commonLabel = if (commonCount != 1)
+        stringResource(R.string.voice_leading_common_tones_plural, commonCount)
+    else
+        stringResource(R.string.voice_leading_common_tones, commonCount)
+    val distLabel = if (transition.totalDistance != 1)
+        stringResource(R.string.voice_leading_frets_movement, transition.totalDistance)
+    else
+        stringResource(R.string.voice_leading_fret_movement, transition.totalDistance)
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -401,7 +410,7 @@ private fun TransitionSummaryCard(
         Column(modifier = Modifier.padding(16.dp)) {
             // Summary headline
             Text(
-                text = "$commonCount common tone${if (commonCount != 1) "s" else ""} \u00B7 $distLabel total movement",
+                text = "$commonLabel \u00B7 $distLabel",
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -451,26 +460,26 @@ private fun TransitionSummaryCard(
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         val fretLabel = when (fromFret) {
-                            ChordVoicing.MUTED -> "muted"
-                            0 -> "open"
-                            else -> "fret $fromFret"
+                            ChordVoicing.MUTED -> stringResource(R.string.voice_leading_muted)
+                            0 -> stringResource(R.string.label_open)
+                            else -> stringResource(R.string.voice_leading_fret_prefix) + "$fromFret"
                         }
                         Text(
-                            text = "stays on $fretLabel ($fromNoteName)",
+                            text = stringResource(R.string.voice_leading_stays) + "$fretLabel ($fromNoteName)",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.secondary,
                         )
                     } else {
                         // Moving finger
                         val fromLabel = when (fromFret) {
-                            ChordVoicing.MUTED -> "muted"
-                            0 -> "open"
-                            else -> "fret $fromFret"
+                            ChordVoicing.MUTED -> stringResource(R.string.voice_leading_muted)
+                            0 -> stringResource(R.string.label_open)
+                            else -> stringResource(R.string.voice_leading_fret_prefix) + "$fromFret"
                         }
                         val toLabel = when (toFret) {
-                            ChordVoicing.MUTED -> "muted"
-                            0 -> "open"
-                            else -> "fret $toFret"
+                            ChordVoicing.MUTED -> stringResource(R.string.voice_leading_muted)
+                            0 -> stringResource(R.string.label_open)
+                            else -> stringResource(R.string.voice_leading_fret_prefix) + "$toFret"
                         }
                         val arrow = when {
                             movement > 0 -> "\u2191$movement"  // ↑
@@ -478,7 +487,7 @@ private fun TransitionSummaryCard(
                             else -> ""
                         }
                         Text(
-                            text = "$fromLabel ($fromNoteName) \u2192 $toLabel ($toNoteName)  $arrow",
+                            text = "$fromLabel ($fromNoteName)" + stringResource(R.string.voice_leading_arrow) + "$toLabel ($toNoteName)  $arrow",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -494,8 +503,10 @@ private fun TransitionSummaryCard(
                     .joinToString(", ") { tuning[it].name }
                 val plural = transition.commonToneIndices.size > 1
                 Text(
-                    text = "Tip: Keep your finger${if (plural) "s" else ""} on the $commonStrings " +
-                        "string${if (plural) "s" else ""} \u2014 same note in both chords.",
+                    text = if (plural)
+                        stringResource(R.string.voice_leading_tip_plural, commonStrings)
+                    else
+                        stringResource(R.string.voice_leading_tip_singular, commonStrings),
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.primary,
@@ -523,8 +534,7 @@ private fun TotalPathSummary(path: VoiceLeading.Path) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = "Total path: ${path.totalDistance} frets movement across " +
-                    "$transCount transition${if (transCount != 1) "s" else ""}",
+                text = stringResource(R.string.voice_leading_total_path, path.totalDistance, transCount),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
@@ -558,18 +568,18 @@ private fun BottomControls(
                 onClick = onPrev,
                 enabled = currentStep > 0,
             ) {
-                Text("\u25C0 Prev") // ◀
+                Text("\u25C0 " + stringResource(R.string.voice_leading_prev))
             }
 
             if (onPlayAll != null) {
                 Button(onClick = onPlayAll) {
                     Icon(
                         imageVector = Icons.Filled.PlayArrow,
-                        contentDescription = "Play all voice leadings",
+                        contentDescription = stringResource(R.string.cd_play_all_voice_leadings),
                         modifier = Modifier.size(18.dp),
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Play All")
+                    Text(stringResource(R.string.voice_leading_play_all))
                 }
             }
 
@@ -577,14 +587,14 @@ private fun BottomControls(
                 onClick = onNext,
                 enabled = currentStep < totalTransitions - 1,
             ) {
-                Text("Next \u25B6") // ▶
+                Text(stringResource(R.string.voice_leading_next) + " \u25B6")
             }
         }
 
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = "Step ${currentStep + 1} of $totalTransitions",
+            text = stringResource(R.string.voice_leading_step, currentStep + 1, totalTransitions),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

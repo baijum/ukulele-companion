@@ -29,11 +29,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.domain.NoteQuizGenerator
 import com.baijum.ukufretboard.viewmodel.LearningProgressViewModel
 
@@ -82,13 +84,13 @@ fun NoteQuizView(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
-            text = "Note Quiz",
+            text = stringResource(R.string.note_quiz_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.semantics { heading() },
         )
         Text(
-            text = "Test your knowledge of fretboard notes.",
+            text = stringResource(R.string.note_quiz_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -97,7 +99,7 @@ fun NoteQuizView(
 
         // Mode toggle
         Text(
-            text = "Mode",
+            text = stringResource(R.string.label_mode),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -114,7 +116,7 @@ fun NoteQuizView(
                     findItQuestion = null
                     selectedAnswer = null
                 },
-                label = { Text("Name It") },
+                label = { Text(stringResource(R.string.note_quiz_name_it)) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.primary,
                     selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
@@ -128,7 +130,7 @@ fun NoteQuizView(
                     findItQuestion = null
                     selectedAnswer = null
                 },
-                label = { Text("Find It") },
+                label = { Text(stringResource(R.string.note_quiz_find_it)) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.primary,
                     selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
@@ -140,7 +142,7 @@ fun NoteQuizView(
 
         // Difficulty selector
         Text(
-            text = "Difficulty",
+            text = stringResource(R.string.label_difficulty),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -149,7 +151,11 @@ fun NoteQuizView(
             modifier = Modifier.padding(vertical = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
-            val difficultyNames = listOf("Easy", "Medium", "Hard")
+            val difficultyNames = listOf(
+                stringResource(R.string.label_easy),
+                stringResource(R.string.label_medium),
+                stringResource(R.string.label_hard),
+            )
             difficultyNames.forEachIndexed { index, name ->
                 FilterChip(
                     selected = difficulty == index + 1,
@@ -173,7 +179,7 @@ fun NoteQuizView(
         // Session stats
         if (totalAnswered > 0) {
             Text(
-                text = "This Session",
+                text = stringResource(R.string.label_this_session),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -183,10 +189,10 @@ fun NoteQuizView(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
-                NoteQuizScoreItem(label = "Correct", value = "$totalCorrect/$totalAnswered")
-                NoteQuizScoreItem(label = "Accuracy", value = "${(totalCorrect * 100 / totalAnswered)}%")
-                NoteQuizScoreItem(label = "Streak", value = "$streak")
-                NoteQuizScoreItem(label = "Best", value = "$bestStreak")
+                NoteQuizScoreItem(label = stringResource(R.string.label_correct), value = "$totalCorrect/$totalAnswered")
+                NoteQuizScoreItem(label = stringResource(R.string.label_accuracy), value = "${(totalCorrect * 100 / totalAnswered)}%")
+                NoteQuizScoreItem(label = stringResource(R.string.label_streak), value = "$streak")
+                NoteQuizScoreItem(label = stringResource(R.string.label_best), value = "$bestStreak")
             }
             Spacer(modifier = Modifier.height(12.dp))
         }
@@ -194,7 +200,7 @@ fun NoteQuizView(
         // All-time stats
         if (allTimeStats != null && allTimeStats.total > 0) {
             Text(
-                text = "All Time",
+                text = stringResource(R.string.label_all_time),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -204,9 +210,9 @@ fun NoteQuizView(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
-                NoteQuizScoreItem(label = "Score", value = "${allTimeStats.correct}/${allTimeStats.total}")
-                NoteQuizScoreItem(label = "Accuracy", value = "${allTimeStats.accuracyPercent}%")
-                NoteQuizScoreItem(label = "Best Streak", value = "${allTimeStats.bestStreak}")
+                NoteQuizScoreItem(label = stringResource(R.string.label_score), value = "${allTimeStats.correct}/${allTimeStats.total}")
+                NoteQuizScoreItem(label = stringResource(R.string.label_accuracy), value = "${allTimeStats.accuracyPercent}%")
+                NoteQuizScoreItem(label = stringResource(R.string.label_best_streak), value = "${allTimeStats.bestStreak}")
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -227,7 +233,7 @@ fun NoteQuizView(
                     .fillMaxWidth()
                     .padding(vertical = 16.dp),
             ) {
-                Text(if (totalAnswered == 0) "Start Quiz" else "Next Question")
+                Text(if (totalAnswered == 0) stringResource(R.string.note_quiz_start) else stringResource(R.string.note_quiz_next))
             }
         } else {
             Card(
@@ -243,7 +249,7 @@ fun NoteQuizView(
                         NoteQuizGenerator.Mode.NAME_IT -> {
                             val q = nameItQuestion!!
                             Text(
-                                text = "What note is at this position?",
+                                text = stringResource(R.string.note_quiz_what_note),
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -306,7 +312,7 @@ fun NoteQuizView(
                         NoteQuizGenerator.Mode.FIND_IT -> {
                             val q = findItQuestion!!
                             Text(
-                                text = "Where is this note?",
+                                text = stringResource(R.string.note_quiz_where_is),
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -382,8 +388,9 @@ fun NoteQuizView(
                             }
                         }
                         val isCorrectAnswer = selectedAnswer == correctIndex
+                        val theAnswerIs = stringResource(R.string.label_the_answer_is)
                         Text(
-                            text = if (isCorrectAnswer) "Correct!" else "The answer is $correctAnswer",
+                            text = if (isCorrectAnswer) stringResource(R.string.label_correct_answer) else "$theAnswerIs $correctAnswer",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold,
                             color = if (isCorrectAnswer) {
@@ -405,7 +412,7 @@ fun NoteQuizView(
                             },
                             modifier = Modifier.fillMaxWidth(),
                         ) {
-                            Text("Next Question")
+                            Text(stringResource(R.string.note_quiz_next))
                         }
                     }
                 }

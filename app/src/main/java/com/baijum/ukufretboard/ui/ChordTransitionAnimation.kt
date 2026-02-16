@@ -37,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import com.baijum.ukufretboard.R
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -45,6 +46,7 @@ import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -265,14 +267,14 @@ fun ChordTransitionAnimation(
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
                 Text(
-                    text = "Finger Movements",
+                    text = stringResource(R.string.transition_anim_finger_movements),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 if (movements.isEmpty()) {
                     Text(
-                        text = "No finger movement needed!",
+                        text = stringResource(R.string.transition_anim_no_movement),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -313,7 +315,7 @@ fun ChordTransitionAnimation(
         ) {
             // Speed control
             Text(
-                text = "Speed:",
+                text = stringResource(R.string.transition_anim_speed),
                 style = MaterialTheme.typography.labelSmall,
             )
             Spacer(modifier = Modifier.width(8.dp))
@@ -336,11 +338,11 @@ fun ChordTransitionAnimation(
         ) {
             Icon(
                 Icons.Filled.PlayArrow,
-                contentDescription = "Animate transition",
+                contentDescription = stringResource(R.string.cd_animate_transition),
                 modifier = Modifier.size(18.dp),
             )
             Spacer(modifier = Modifier.width(4.dp))
-            Text("Animate Transition")
+            Text(stringResource(R.string.transition_anim_animate))
         }
 
         Spacer(modifier = Modifier.height(4.dp))
@@ -366,13 +368,13 @@ fun ChordTransitionAnimation(
                 },
                 enabled = currentStep > -1,
             ) {
-                Icon(Icons.Filled.SkipPrevious, contentDescription = "Previous step")
+                Icon(Icons.Filled.SkipPrevious, contentDescription = stringResource(R.string.cd_prev_step))
             }
             Text(
                 text = when {
-                    currentStep < 0 -> "Start shape"
-                    currentStep >= movements.size -> "End shape"
-                    else -> "Step ${currentStep + 1}/${movements.size}"
+                    currentStep < 0 -> stringResource(R.string.transition_anim_start_shape)
+                    currentStep >= movements.size -> stringResource(R.string.transition_anim_end_shape)
+                    else -> stringResource(R.string.transition_anim_step, currentStep + 1, movements.size)
                 },
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier.width(100.dp),
@@ -393,7 +395,7 @@ fun ChordTransitionAnimation(
                 },
                 enabled = currentStep < movements.size,
             ) {
-                Icon(Icons.Filled.SkipNext, contentDescription = "Next step")
+                Icon(Icons.Filled.SkipNext, contentDescription = stringResource(R.string.cd_next_step))
             }
         }
     }

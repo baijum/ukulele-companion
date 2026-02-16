@@ -27,10 +27,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.DailyChallengeGenerator
 
 /**
@@ -68,13 +70,13 @@ fun DailyChallengeView(
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(
-                    text = "Daily Challenges",
+                    text = stringResource(R.string.daily_challenge_title),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.semantics { heading() },
                 )
                 Text(
-                    text = "Complete today's challenges to build your skills!",
+                    text = stringResource(R.string.daily_challenge_subtitle),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -109,20 +111,20 @@ fun DailyChallengeView(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Tip of the Day",
+                    text = stringResource(R.string.daily_challenge_tip_title),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 val tips = listOf(
-                    "Even 5 minutes of daily practice is better than 1 hour once a week.",
-                    "Use a metronome when practising chord changes — start slow and build up.",
-                    "When learning a new chord, play each string individually to check clarity.",
-                    "Try humming along while strumming to develop your musical ear.",
-                    "Practice in front of a mirror to check your hand position.",
-                    "Focus on smooth transitions rather than speed — speed comes with time.",
-                    "Learn songs you love! Motivation makes practice enjoyable.",
+                    stringResource(R.string.daily_tip_1),
+                    stringResource(R.string.daily_tip_2),
+                    stringResource(R.string.daily_tip_3),
+                    stringResource(R.string.daily_tip_4),
+                    stringResource(R.string.daily_tip_5),
+                    stringResource(R.string.daily_tip_6),
+                    stringResource(R.string.daily_tip_7),
                 )
                 val tipIndex = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_YEAR) % tips.size
                 Text(
@@ -193,11 +195,11 @@ private fun ChallengeCard(
             if (challenge.navTarget != null) {
                 Spacer(modifier = Modifier.width(8.dp))
                 FilledTonalButton(onClick = onGo) {
-                    Text("Go")
+                    Text(stringResource(R.string.label_go))
                     Spacer(modifier = Modifier.width(4.dp))
                     Icon(
                         Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = "Go",
+                        contentDescription = stringResource(R.string.label_go),
                         modifier = Modifier.size(16.dp),
                     )
                 }

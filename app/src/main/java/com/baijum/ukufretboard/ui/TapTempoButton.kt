@@ -16,8 +16,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
@@ -75,7 +77,7 @@ fun TapTempoButton(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Text(
-                text = "Tap",
+                text = stringResource(R.string.tap_tempo_label),
                 fontWeight = FontWeight.Bold,
             )
             if (lastDetectedBpm > 0 && tapTimes.size >= 2) {

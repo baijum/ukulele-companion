@@ -43,9 +43,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.platform.LocalContext
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.ChordDegree
 import com.baijum.ukufretboard.data.CustomProgression
 import com.baijum.ukufretboard.data.Notes
@@ -161,7 +163,7 @@ fun ProgressionsTab(
     ) {
         // Key selector
         Text(
-            text = "Key",
+            text = stringResource(R.string.label_key),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -245,11 +247,11 @@ fun ProgressionsTab(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Add,
-                        contentDescription = "Add new progression",
+                        contentDescription = stringResource(R.string.cd_add_progression),
                         modifier = Modifier.size(18.dp),
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("New Progression")
+                    Text(stringResource(R.string.progressions_new))
                 }
             }
 
@@ -257,7 +259,7 @@ fun ProgressionsTab(
             if (filteredCustom.isNotEmpty()) {
                 item {
                     Text(
-                        text = "My Progressions",
+                        text = stringResource(R.string.progressions_my),
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary,
@@ -265,6 +267,7 @@ fun ProgressionsTab(
                     )
                 }
                 items(filteredCustom, key = { it.id }) { custom ->
+                    val copySuffix = stringResource(R.string.progressions_copy_suffix)
                     ProgressionCard(
                         progression = custom.progression,
                         keyRoot = selectedRoot,
@@ -298,7 +301,7 @@ fun ProgressionsTab(
                         onDelete = { onDeleteProgression(custom.id) },
                         onDuplicate = {
                             onSaveProgression(
-                                "${custom.progression.name} (Copy)",
+                                custom.progression.name + copySuffix,
                                 custom.progression.description,
                                 custom.progression.degrees,
                                 custom.progression.scaleType,
@@ -310,7 +313,7 @@ fun ProgressionsTab(
 
                 item {
                     Text(
-                        text = "Presets",
+                        text = stringResource(R.string.label_presets),
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -321,6 +324,7 @@ fun ProgressionsTab(
 
             // Preset progressions
             items(progressions) { progression ->
+                val copySuffix = stringResource(R.string.progressions_copy_suffix)
                 ProgressionCard(
                     progression = progression,
                     keyRoot = selectedRoot,
@@ -353,7 +357,7 @@ fun ProgressionsTab(
                     },
                     onDuplicate = {
                         onSaveProgression(
-                            "${progression.name} (Copy)",
+                            progression.name + copySuffix,
                             progression.description,
                             progression.degrees,
                             progression.scaleType,
@@ -443,7 +447,7 @@ private fun ProgressionCard(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Delete,
-                            contentDescription = "Delete progression",
+                            contentDescription = stringResource(R.string.cd_delete_progression),
                             tint = MaterialTheme.colorScheme.error,
                             modifier = Modifier.size(18.dp),
                         )
@@ -522,18 +526,18 @@ private fun ProgressionCard(
                     IconButton(onClick = onPlay) {
                         Icon(
                             imageVector = Icons.Filled.PlayArrow,
-                            contentDescription = "Play",
+                            contentDescription = stringResource(R.string.action_play),
                             tint = MaterialTheme.colorScheme.primary,
                         )
                     }
                     TextButton(onClick = onPractice) {
-                        Text("Practice")
+                        Text(stringResource(R.string.label_practice))
                     }
                     if (onDuplicate != null) {
                         IconButton(onClick = onDuplicate) {
                             Icon(
                                 imageVector = Icons.Filled.ContentCopy,
-                                contentDescription = "Duplicate",
+                                contentDescription = stringResource(R.string.cd_duplicate_progression),
                                 tint = MaterialTheme.colorScheme.primary,
                             )
                         }
@@ -542,7 +546,7 @@ private fun ProgressionCard(
                         IconButton(onClick = onEdit) {
                             Icon(
                                 imageVector = Icons.Filled.Edit,
-                                contentDescription = "Edit",
+                                contentDescription = stringResource(R.string.action_edit),
                                 tint = MaterialTheme.colorScheme.primary,
                             )
                         }
@@ -557,15 +561,15 @@ private fun ProgressionCard(
                     IconButton(onClick = onShare) {
                         Icon(
                             imageVector = Icons.Filled.Share,
-                            contentDescription = "Share",
+                            contentDescription = stringResource(R.string.action_share),
                             tint = MaterialTheme.colorScheme.primary,
                         )
                     }
                     TextButton(onClick = onCapo) {
-                        Text("Capo")
+                        Text(stringResource(R.string.label_capo))
                     }
                     TextButton(onClick = onVoiceLeading) {
-                        Text("Voice Leading")
+                        Text(stringResource(R.string.progressions_voice_leading))
                     }
                 }
             }

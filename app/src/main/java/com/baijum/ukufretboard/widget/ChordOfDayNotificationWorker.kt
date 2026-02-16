@@ -64,8 +64,8 @@ class ChordOfDayNotificationWorker(
 
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("Chord of the Day: $chordName")
-            .setContentText("Frets: $fingerPositions — Tap to practice!")
+            .setContentTitle(applicationContext.getString(R.string.notif_chord_of_day, chordName))
+            .setContentText(applicationContext.getString(R.string.notif_frets, fingerPositions))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
@@ -80,10 +80,10 @@ class ChordOfDayNotificationWorker(
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
             CHANNEL_ID,
-            "Chord of the Day",
+            applicationContext.getString(R.string.notif_channel_name),
             NotificationManager.IMPORTANCE_DEFAULT,
         ).apply {
-            description = "Daily ukulele chord suggestion"
+            description = applicationContext.getString(R.string.notif_channel_desc)
         }
         val manager = applicationContext.getSystemService(NotificationManager::class.java)
         manager.createNotificationChannel(channel)

@@ -1,0 +1,793 @@
+<resources>
+    <string name="app_name">Uke</string>
+    <string name="app_full_name">Ukulele Companion</string>
+    <string name="widget_description">Muestra un nuevo acorde de ukelele cada día</string>
+
+    <!-- ── Común / Compartido ─────────────────────────────────────────── -->
+    <string name="dialog_cancel">Cancelar</string>
+    <string name="dialog_delete">Eliminar</string>
+    <string name="dialog_save">Guardar</string>
+    <string name="dialog_create">Crear</string>
+    <string name="dialog_rename">Renombrar</string>
+    <string name="dialog_reset">Restablecer</string>
+    <string name="action_back">Atrás</string>
+    <string name="action_play">Reproducir</string>
+    <string name="action_stop">Detener</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_share">Compartir</string>
+    <string name="action_close">Cerrar</string>
+    <string name="label_all">Todos</string>
+    <string name="label_none">ninguno</string>
+    <string name="label_bpm">BPM</string>
+    <string name="label_bpm_value">BPM: %d</string>
+    <string name="label_beats">Pulsos:</string>
+    <string name="label_capo">Cejilla</string>
+    <string name="label_key">Tonalidad</string>
+    <string name="label_scale">Escala</string>
+    <string name="label_correct">Correctas</string>
+    <string name="label_accuracy">Precisión</string>
+    <string name="label_streak">Racha</string>
+    <string name="label_best">Mejor</string>
+    <string name="label_score">Puntuación</string>
+    <string name="label_best_streak">Mejor racha</string>
+    <string name="label_this_session">Esta sesión</string>
+    <string name="label_all_time">Histórico</string>
+    <string name="label_difficulty">Dificultad</string>
+    <string name="label_mode">Modo</string>
+    <string name="label_direction">Dirección</string>
+    <string name="label_category">Categoría</string>
+    <string name="label_easy">Fácil</string>
+    <string name="label_medium">Medio</string>
+    <string name="label_hard">Difícil</string>
+    <string name="label_expert">Experto</string>
+    <string name="label_replay">Repetir</string>
+    <string name="label_correct_answer">¡Correcto!</string>
+    <string name="label_the_answer_is">La respuesta es</string>
+    <string name="label_root">Raíz</string>
+    <string name="label_position">Posición</string>
+    <string name="label_off">Apagado</string>
+    <string name="label_open">Abierta</string>
+    <string name="label_presets">Preajustes</string>
+    <string name="label_practice">Práctica</string>
+    <string name="label_go">Ir</string>
+    <string name="label_done">Listo</string>
+
+    <!-- ── Cajón de navegación ────────────────────────────────────────── -->
+    <string name="nav_section_play">Tocar</string>
+    <string name="nav_section_create">Crear</string>
+    <string name="nav_section_learn">Aprender</string>
+    <string name="nav_section_reference">Referencia</string>
+    <string name="nav_explorer">Explorador</string>
+    <string name="nav_tuner">Afinador</string>
+    <string name="nav_pitch_monitor">Monitor de tono</string>
+    <string name="nav_chords">Acordes</string>
+    <string name="nav_favorites">Favoritos</string>
+    <string name="nav_song_finder">Buscador de canciones</string>
+    <string name="nav_songs">Canciones</string>
+    <string name="nav_melody_notepad">Bloc de melodías</string>
+    <string name="nav_patterns">Patrones</string>
+    <string name="nav_progressions">Progresiones</string>
+    <string name="nav_learn_theory">Aprender teoría</string>
+    <string name="nav_theory_quiz">Quiz de teoría</string>
+    <string name="nav_interval_trainer">Entrenador de intervalos</string>
+    <string name="nav_note_quiz">Quiz de notas</string>
+    <string name="nav_chord_ear_training">Entrenamiento auditivo de acordes</string>
+    <string name="nav_scale_practice">Práctica de escalas</string>
+    <string name="nav_progress">Progreso</string>
+    <string name="nav_daily_challenge">Reto diario</string>
+    <string name="nav_practice_routine">Rutina de práctica</string>
+    <string name="nav_srs_review">Repaso SRS</string>
+    <string name="nav_chord_transitions">Transiciones de acordes</string>
+    <string name="nav_play_along">Tocar junto</string>
+    <string name="nav_achievements">Logros</string>
+    <string name="nav_capo_guide">Guía de cejilla</string>
+    <string name="nav_circle_of_fifths">Círculo de quintas</string>
+    <string name="nav_chord_substitutions">Sustituciones de acordes</string>
+    <string name="nav_chords_in_scale">Acordes en la escala</string>
+    <string name="nav_fretboard_notes">Notas del diapasón</string>
+    <string name="nav_glossary">Glosario</string>
+    <string name="nav_help">Ayuda</string>
+
+    <!-- ── Barra superior / Descripciones de contenido ────────────────── -->
+    <string name="cd_open_nav_menu">Abrir menú de navegación</string>
+    <string name="cd_settings">Ajustes</string>
+    <string name="cd_full_screen">Pantalla completa</string>
+    <string name="cd_exit_full_screen">Salir de pantalla completa</string>
+    <string name="cd_play_chord">Reproducir acorde</string>
+    <string name="cd_play_sound">Reproducir sonido</string>
+    <string name="cd_share_chord_image">Compartir acorde como imagen</string>
+    <string name="cd_remove_favorites">Quitar de favoritos</string>
+    <string name="cd_add_favorites">Añadir a favoritos</string>
+    <string name="cd_replay">Repetir</string>
+
+    <!-- ── Pestaña Explorador ─────────────────────────────────────────── -->
+    <string name="explorer_reset">Restablecer</string>
+    <string name="explorer_scales">Escalas</string>
+    <string name="explorer_hide_scale">Ocultar escala</string>
+    <string name="explorer_tap_frets">Toca los trastes</string>
+    <string name="explorer_capo_off">Apagado</string>
+
+    <!-- ── Resultado de acorde ────────────────────────────────────────── -->
+    <string name="chord_result_tap_fretboard">Toca el diapasón para seleccionar notas</string>
+    <string name="chord_result_single_note">Una sola nota seleccionada</string>
+    <string name="chord_result_incomplete">Acorde incompleto</string>
+    <string name="chord_result_no_match">Sin coincidencia exacta de acorde</string>
+    <string name="chord_result_also">También: </string>
+    <string name="chord_result_intervals">Intervalos</string>
+    <string name="chord_result_formula">Fórmula</string>
+    <string name="chord_result_fingering">Digitación</string>
+    <string name="chord_result_difficulty">Dificultad</string>
+    <string name="chord_result_inversion">Inversión</string>
+    <string name="chord_result_bass">bajo: </string>
+
+    <!-- ── Biblioteca de acordes ──────────────────────────────────────── -->
+    <string name="chord_library_root_note">Nota raíz</string>
+    <string name="chord_library_type">Tipo</string>
+    <string name="chord_library_compare_inversions"> — Comparar inversiones</string>
+    <string name="chord_library_voicings">%d voicings</string>
+    <string name="chord_library_viz">Viz</string>
+    <string name="chord_library_compare">Comparar</string>
+    <string name="cd_play_all_inversions">Reproducir todas las inversiones</string>
+    <string name="chord_library_play_all_inversions">Reproducir todas las inversiones</string>
+    <string name="chord_library_inversion_tip">El mismo acorde, diferente nota en el bajo. Escucha cómo cada inversión tiene un carácter distinto.</string>
+    <string name="chord_library_bass_prefix">Bajo: </string>
+    <string name="chord_library_voicing_singular">%d voicing</string>
+    <string name="chord_library_reentrant_limited">Este acorde solo tiene %d voicings. La afinación reentrante (Sol agudo) limita las inversiones porque la cuerda Do (Do4) casi siempre es el tono más grave. La afinación Sol grave permite más variedad de inversiones.</string>
+    <string name="chord_library_reentrant_empty">En afinación reentrante (Sol agudo), la cuerda Do casi siempre es la nota más grave, así que la mayoría de los voicings son en posición fundamental. Prueba seleccionar \"Todos\" para ver los voicings disponibles.</string>
+    <string name="chord_library_no_voicings">No se encontraron voicings</string>
+
+    <!-- ── Afinador ──────────────────────────────────────────────────── -->
+    <string name="tuner_play_a_string">Toca una cuerda…</string>
+    <string name="tuner_in_tune">¡Afinado!</string>
+    <string name="tuner_almost_up">Casi — sube un poquito</string>
+    <string name="tuner_almost_down">Casi — baja un poquito</string>
+    <string name="tuner_tune_up">Subir</string>
+    <string name="tuner_tune_down">Bajar</string>
+    <string name="tuner_all_tuned">¡Todas las cuerdas afinadas!</string>
+    <string name="tuner_start">Iniciar afinación</string>
+    <string name="tuner_stop">Detener</string>
+    <string name="cd_start_tuning">Iniciar afinación</string>
+    <string name="cd_stop_tuning">Detener afinación</string>
+    <string name="cd_detected_note">Nota detectada: %s</string>
+    <string name="tuner_meter_no_pitch">Medidor de afinación, sin tono detectado</string>
+    <string name="tuner_meter_in_tune">Medidor de afinación, afinado</string>
+    <string name="tuner_meter_close">Medidor de afinación, %1$d cents %2$s, casi afinado</string>
+    <string name="tuner_meter_flat">Medidor de afinación, %d cents bemol</string>
+    <string name="tuner_meter_sharp">Medidor de afinación, %d cents sostenido</string>
+    <string name="tuner_direction_flat">bemol</string>
+    <string name="tuner_direction_sharp">sostenido</string>
+    <string name="tuner_swiftf0_active">SwiftF0 Active</string>
+    <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
+    <string name="tuner_precision_mode">Modo de precisión</string>
+    <string name="tuner_string_tuned">afinada</string>
+    <string name="tuner_string_next">siguiente cuerda por afinar</string>
+    <string name="tuner_string_active">activa</string>
+    <string name="tuner_string_not_tuned">sin afinar</string>
+    <string name="tuner_string_desc">Cuerda %1$s, %2$s, toca para tono de referencia</string>
+    <string name="tuner_check_tuned">Afinada</string>
+
+    <!-- ── Monitor de tono ───────────────────────────────────────────── -->
+    <string name="pitch_monitor_detected_chord">Acorde detectado: %s</string>
+    <string name="pitch_monitor_notes_prefix">Notas: </string>
+    <string name="pitch_monitor_current_note">Nota actual: %s</string>
+    <string name="pitch_monitor_visualization">Visualización de tono mostrando la evolución del tono en el tiempo</string>
+    <string name="pitch_monitor_tap_start">Toca Iniciar para comenzar</string>
+    <string name="pitch_monitor_playing">Reproduciendo %s</string>
+    <string name="pitch_monitor_detecting">Detectando tono…</string>
+    <string name="pitch_monitor_play_ukulele">Toca tu ukelele…</string>
+    <string name="cd_stop_listening">Dejar de escuchar</string>
+    <string name="cd_start_listening">Comenzar a escuchar</string>
+    <string name="pitch_monitor_start">Iniciar</string>
+
+    <!-- ── Favoritos ─────────────────────────────────────────────────── -->
+    <string name="favorites_empty_title">Aún no hay favoritos</string>
+    <string name="favorites_empty_message">Explora la pestaña Acordes y toca el icono de corazón en un voicing para guardarlo aquí.</string>
+    <string name="favorites_all_count">Todos (%d)</string>
+    <string name="favorites_new_folder">Nueva carpeta</string>
+    <string name="favorites_folder_name">Nombre de carpeta</string>
+    <string name="favorites_rename_folder">Renombrar carpeta</string>
+    <string name="favorites_delete_folder">Eliminar carpeta</string>
+    <string name="favorites_delete_folder_msg">¿Eliminar la carpeta \"%s\"? Los voicings de esta carpeta no se eliminarán.</string>
+    <string name="cd_rename_folder">Renombrar carpeta</string>
+    <string name="cd_delete_folder">Eliminar carpeta</string>
+    <string name="cd_manage_folders">Gestionar carpetas</string>
+    <string name="cd_reorder">Reordenar</string>
+
+    <!-- ── Hoja de carpetas de favoritos ──────────────────────────────── -->
+    <string name="folder_sheet_manage">Gestionar carpetas</string>
+    <string name="folder_sheet_save_to">Guardar en carpetas</string>
+    <string name="folder_sheet_no_folders">Aún no hay carpetas. Crea una abajo.</string>
+    <string name="folder_sheet_new_folder">+ Nueva carpeta</string>
+    <string name="folder_sheet_remove">Quitar de favoritos</string>
+
+    <!-- ── Cancionero ────────────────────────────────────────────────── -->
+    <string name="songbook_empty_title">Aún no hay canciones</string>
+    <string name="songbook_empty_message">Toca + para crear tu primera hoja de acordes.\nO importa un archivo ChordPro.</string>
+    <string name="songbook_untitled">Sin título</string>
+    <string name="songbook_share_as_text">Compartir como texto</string>
+    <string name="songbook_chord_sheet">Hoja de acordes</string>
+    <string name="songbook_export_chordpro">Exportar como ChordPro</string>
+    <string name="songbook_export_chooser">Exportar ChordPro</string>
+    <string name="songbook_key_prefix">Tonalidad: </string>
+    <string name="songbook_transpose">Transportar:</string>
+    <string name="songbook_capo_hint">O usa la cejilla en el traste %d con los acordes originales</string>
+    <string name="songbook_field_title">Título</string>
+    <string name="songbook_field_artist">Artista (opcional)</string>
+    <string name="songbook_field_lyrics_hint">Usa [NombreAcorde] para acordes, p. ej. En[C] algún lugar sobre el [Em]arcoíris</string>
+    <string name="songbook_field_lyrics">Letra con [acordes]</string>
+    <string name="cd_import_chordpro">Importar archivo ChordPro</string>
+    <string name="cd_new_chord_sheet">Nueva hoja de acordes</string>
+    <string name="songbook_speed_half">0.5x</string>
+    <string name="songbook_speed_1x">1x</string>
+    <string name="songbook_speed_2x">2x</string>
+    <string name="songbook_speed_3x">3x</string>
+    <string name="cd_stop_scroll">Detener desplazamiento</string>
+    <string name="cd_pause_scroll">Pausar desplazamiento</string>
+    <string name="cd_auto_scroll">Desplazamiento automático</string>
+
+    <!-- ── Progresiones ──────────────────────────────────────────────── -->
+    <string name="progressions_new">Nueva progresión</string>
+    <string name="cd_add_progression">Añadir nueva progresión</string>
+    <string name="progressions_my">Mis progresiones</string>
+    <string name="cd_delete_progression">Eliminar progresión</string>
+    <string name="cd_duplicate_progression">Duplicar</string>
+    <string name="progressions_voice_leading">Conducción de voces</string>
+    <string name="progressions_copy_suffix"> (Copia)</string>
+
+    <!-- ── Hoja de creación de progresión ─────────────────────────────── -->
+    <string name="progression_edit_title">Editar progresión</string>
+    <string name="progression_create_title">Crear progresión</string>
+    <string name="progression_name_label">Nombre de la progresión</string>
+    <string name="progression_desc_label">Descripción (opcional)</string>
+    <string name="progression_chord_quality">Calidad del acorde</string>
+    <string name="progression_triad">Tríada</string>
+    <string name="progression_tap_chords">Toca los acordes para añadir</string>
+    <string name="progression_your_chords">Tu progresión (%d acordes)</string>
+    <string name="progression_placeholder">Toca los acordes de arriba para construir tu progresión</string>
+    <string name="progression_update">Actualizar progresión</string>
+    <string name="progression_save">Guardar progresión</string>
+    <string name="progression_error_min">Añade al menos 2 acordes</string>
+    <string name="cd_remove">Quitar</string>
+
+    <!-- ── Patrones de rasgueo ───────────────────────────────────────── -->
+    <string name="patterns_strumming">Rasgueo</string>
+    <string name="patterns_fingerpicking">Punteo</string>
+    <string name="patterns_my">Mis patrones</string>
+    <string name="cd_create_pattern">Crear patrón</string>
+    <string name="patterns_create_strum">Crear patrón de rasgueo</string>
+    <string name="patterns_pattern_name">Nombre del patrón</string>
+    <string name="patterns_tap_beat">Toca cada pulso para cambiar la dirección</string>
+    <string name="patterns_tap_accent">Toca abajo para activar/desactivar el acento</string>
+    <string name="patterns_custom">Patrón personalizado</string>
+    <string name="patterns_create_fingerpick">Crear patrón de punteo</string>
+    <string name="patterns_steps">%d pasos</string>
+    <string name="patterns_tap_step">Toca un paso y luego selecciona dedo y cuerda abajo</string>
+    <string name="patterns_finger">Dedo</string>
+    <string name="patterns_thumb">Pulgar</string>
+    <string name="patterns_index">Índice</string>
+    <string name="patterns_middle">Medio</string>
+    <string name="patterns_ring">Anular</string>
+    <string name="patterns_string">Cuerda</string>
+
+    <!-- ── Barra de reproducción ─────────────────────────────────────── -->
+    <string name="playback_prefix">Reproducción: </string>
+    <string name="playback_bpm_prefix">BPM: </string>
+    <string name="cd_loop_on">Bucle activado</string>
+    <string name="cd_loop_off">Bucle desactivado</string>
+
+    <!-- ── Selector de escala ────────────────────────────────────────── -->
+    <string name="scale_selector_root">Raíz de escala</string>
+    <string name="scale_selector_chords_in">Acordes en %s</string>
+
+    <!-- ── Ajustes ───────────────────────────────────────────────────── -->
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_sound">Sonido</string>
+    <string name="settings_volume">Volumen</string>
+    <string name="settings_note_duration">Duración de nota</string>
+    <string name="settings_strum_delay">Retardo de rasgueo</string>
+    <string name="settings_strum_direction">Dirección de rasgueo</string>
+    <string name="settings_strum_down">Abajo</string>
+    <string name="settings_strum_up">Arriba</string>
+    <string name="settings_play_on_tap">Reproducir al tocar</string>
+    <string name="settings_display">Pantalla</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_select_language">Seleccionar idioma</string>
+    <string name="settings_tuning">Afinación</string>
+    <string name="settings_tuner">Afinador</string>
+    <string name="settings_spoken_feedback">Retroalimentación hablada</string>
+    <string name="settings_spoken_feedback_desc">Anuncia el nombre de la nota y la desviación en cents con síntesis de voz</string>
+    <string name="settings_precision_mode">Modo de precisión</string>
+    <string name="settings_precision_mode_desc">Reduce la zona de afinación de ±6 cents a ±2 cents</string>
+    <string name="settings_auto_advance">Avance automático</string>
+    <string name="settings_auto_advance_desc">Resalta automáticamente la siguiente cuerda sin afinar</string>
+    <string name="settings_auto_start">Inicio automático</string>
+    <string name="settings_auto_start_desc">Comienza a escuchar automáticamente al abrir la pestaña del afinador</string>
+    <string name="settings_a4_reference">Referencia La4</string>
+    <string name="settings_fretboard">Diapasón</string>
+    <string name="settings_left_handed">Zurdo</string>
+    <string name="settings_show_note_names">Mostrar nombres de notas</string>
+    <string name="settings_allow_muted">Permitir cuerdas silenciadas</string>
+    <string name="settings_frets">Trastes</string>
+    <string name="settings_notifications">Notificaciones</string>
+    <string name="settings_chord_of_day">Acorde del día</string>
+    <string name="settings_about">Acerca de</string>
+    <string name="settings_version">Versión %s</string>
+    <string name="settings_website">Sitio web</string>
+    <string name="settings_credits">Créditos</string>
+    <string name="settings_audio_samples">Muestras de audio</string>
+    <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" por stomachache (Freesound.org)</string>
+    <string name="settings_license">Licencia</string>
+    <string name="settings_license_value">CC BY 3.0</string>
+    <string name="settings_tagline">Tu compañero todo en uno para ukelele: acordes, escalas, teoría musical y composición. Gratis, sin conexión, sin anuncios, sin rastreo.</string>
+    <string name="settings_unknown_version">Desconocida</string>
+
+    <!-- ── Copia de seguridad y restauración ──────────────────────────── -->
+    <string name="backup_title">COPIA DE SEGURIDAD Y RESTAURACIÓN</string>
+    <string name="backup_description">Guarda todos tus datos (favoritos, canciones, progresiones, patrones, ajustes y progreso de aprendizaje) en un archivo, o restaura desde una copia de seguridad.</string>
+    <string name="backup_last">Última copia: %s</string>
+    <string name="cd_backup">Hacer copia de seguridad</string>
+    <string name="backup_button">Copia de seguridad</string>
+    <string name="cd_restore">Restaurar datos</string>
+    <string name="restore_button">Restaurar</string>
+    <string name="restore_dialog_title">¿Restaurar datos?</string>
+    <string name="restore_dialog_message">Esto combinará los favoritos, canciones, progresiones y patrones del archivo de respaldo con tus datos existentes. Los ajustes se reemplazarán con los valores del respaldo.\n\nTus datos existentes no se eliminarán.</string>
+
+    <!-- ── Permiso del micrófono ──────────────────────────────────────── -->
+    <string name="mic_permission_title">Acceso al micrófono</string>
+    <string name="mic_permission_message">El afinador necesita acceso al micrófono para escuchar tu ukelele y detectar el tono de cada cuerda.</string>
+    <string name="mic_permission_allow">Permitir micrófono</string>
+    <string name="mic_permission_denied_title">Micrófono denegado</string>
+    <string name="mic_permission_denied_message">El afinador no puede funcionar sin acceso al micrófono. Por favor, actívalo en los ajustes de la aplicación de tu dispositivo.</string>
+    <string name="mic_permission_open_settings">Abrir ajustes</string>
+
+    <!-- ── Quiz de notas ─────────────────────────────────────────────── -->
+    <string name="note_quiz_title">Quiz de notas</string>
+    <string name="note_quiz_subtitle">Pon a prueba tu conocimiento de las notas del diapasón.</string>
+    <string name="note_quiz_name_it">Nómbrala</string>
+    <string name="note_quiz_find_it">Encuéntrala</string>
+    <string name="note_quiz_start">Iniciar quiz</string>
+    <string name="note_quiz_next">Siguiente pregunta</string>
+    <string name="note_quiz_what_note">¿Qué nota hay en esta posición?</string>
+    <string name="note_quiz_string_fret">cuerda, traste</string>
+    <string name="note_quiz_where_is">¿Dónde está esta nota?</string>
+
+    <!-- ── Quiz de teoría ────────────────────────────────────────────── -->
+    <string name="theory_quiz_title">Quiz de teoría</string>
+    <string name="theory_quiz_subtitle">¡Pon a prueba tus conocimientos de teoría musical!</string>
+    <string name="theory_quiz_standard">Estándar</string>
+    <string name="theory_quiz_blitz">Blitz (60s)</string>
+    <string name="theory_quiz_start_blitz">¡Iniciar Blitz!</string>
+    <string name="theory_quiz_start">Iniciar quiz</string>
+    <string name="theory_quiz_next">Siguiente pregunta</string>
+    <string name="theory_quiz_times_up">¡Se acabó el tiempo!</string>
+    <string name="theory_quiz_final_score">Puntuación: %d</string>
+    <string name="theory_quiz_final_accuracy">Precisión: %s</string>
+    <string name="theory_quiz_play_again">Jugar de nuevo</string>
+
+    <!-- ── Entrenador de intervalos ───────────────────────────────────── -->
+    <string name="interval_title">Entrenador de intervalos</string>
+    <string name="interval_subtitle">Identifica el intervalo entre dos notas.</string>
+    <string name="interval_visual">Visual</string>
+    <string name="interval_audio">Audio</string>
+    <string name="interval_ascending">Ascendente</string>
+    <string name="interval_descending">Descendente</string>
+    <string name="interval_harmonic">Armónico</string>
+    <string name="interval_start">Iniciar entrenamiento</string>
+    <string name="interval_next">Siguiente intervalo</string>
+    <string name="interval_what">¿Qué intervalo es este?</string>
+    <string name="interval_replay">Repetir intervalo</string>
+    <string name="interval_semitone">semitono</string>
+    <string name="interval_semitones_apart">semitonos de distancia</string>
+
+    <!-- ── Entrenamiento auditivo de acordes ──────────────────────────── -->
+    <string name="chord_ear_title">Entrenamiento auditivo de acordes</string>
+    <string name="chord_ear_subtitle">Identifica la calidad del acorde de oído.</string>
+    <string name="chord_ear_start">Iniciar entrenamiento</string>
+    <string name="chord_ear_next">Siguiente acorde</string>
+    <string name="chord_ear_what">¿Qué tipo de acorde es este?</string>
+    <string name="chord_ear_replay">Repetir acorde</string>
+
+    <!-- ── Práctica de escalas ───────────────────────────────────────── -->
+    <string name="scale_practice_title">Práctica de escalas</string>
+    <string name="scale_practice_subtitle">Practica escalas con guía interactiva, quizzes y entrenamiento auditivo.</string>
+    <string name="scale_practice_root">Raíz de escala</string>
+    <string name="scale_practice_options">Opciones</string>
+    <string name="scale_practice_loop">Bucle</string>
+    <string name="scale_practice_fretboard">Diapasón</string>
+    <string name="scale_practice_play">Reproducir escala</string>
+    <string name="scale_practice_resume">Reanudar</string>
+    <string name="scale_practice_now">Ahora:</string>
+    <string name="scale_practice_note_of">Nota %1$d de %2$d</string>
+    <string name="scale_practice_start_quiz">Iniciar quiz</string>
+    <string name="scale_practice_next">Siguiente pregunta</string>
+    <string name="scale_practice_what">¿Qué escala se está reproduciendo?</string>
+    <string name="scale_practice_root_label">Raíz:</string>
+    <string name="scale_practice_replay">Repetir escala</string>
+    <string name="scale_practice_correct">¡Correcto! Esto es</string>
+    <string name="scale_practice_notes_label">Notas:</string>
+    <string name="scale_practice_next_scale">Siguiente escala</string>
+    <string name="scale_practice_start_training">Iniciar entrenamiento</string>
+
+    <!-- ── Lecciones de teoría ───────────────────────────────────────── -->
+    <string name="theory_lessons_title">Aprender teoría musical</string>
+    <string name="theory_lessons_subtitle">Lecciones estructuradas desde los fundamentos hasta la armonía avanzada.</string>
+    <string name="theory_lessons_progress">Progreso</string>
+    <string name="theory_lessons_count">%d lecciones</string>
+    <string name="theory_lessons_key_points">Puntos clave</string>
+    <string name="theory_lessons_quick_check">Verificación rápida</string>
+    <string name="theory_lessons_not_quite">No del todo.</string>
+    <string name="theory_lessons_back">Volver a lecciones</string>
+
+    <!-- ── Progreso de aprendizaje ───────────────────────────────────── -->
+    <string name="progress_title">Progreso de aprendizaje</string>
+    <string name="progress_subtitle">Sigue tu camino en la teoría musical.</string>
+    <string name="progress_practice_time">Tiempo de práctica</string>
+    <string name="progress_today">Hoy</string>
+    <string name="progress_total">Total</string>
+    <string name="progress_sessions">Sesiones</string>
+    <string name="progress_daily_goal">Meta diaria: %d min</string>
+    <string name="progress_day_streak">Racha de días</string>
+    <string name="progress_lessons_done">Lecciones completadas</string>
+    <string name="progress_theory_lessons">Lecciones de teoría</string>
+    <string name="progress_lessons_completed">Lecciones completadas</string>
+    <string name="progress_quizzes_passed">Quizzes aprobados</string>
+    <string name="progress_overall">General</string>
+    <string name="progress_reset">Restablecer todo el progreso</string>
+    <string name="progress_reset_title">¿Restablecer progreso?</string>
+    <string name="progress_reset_message">Esto borrará todo el progreso de aprendizaje, puntuaciones de quizzes, rachas y lecciones completadas. Esta acción no se puede deshacer.</string>
+    <string name="progress_no_attempts">Sin intentos aún.</string>
+
+    <!-- ── Reto diario ───────────────────────────────────────────────── -->
+    <string name="daily_challenge_title">Retos diarios</string>
+    <string name="daily_challenge_subtitle">¡Completa los retos de hoy para mejorar tus habilidades!</string>
+    <string name="daily_challenge_tip_title">Consejo del día</string>
+    <string name="daily_tip_1">Incluso 5 minutos de práctica diaria son mejores que 1 hora una vez a la semana.</string>
+    <string name="daily_tip_2">Usa un metrónomo al practicar cambios de acordes — empieza lento y ve aumentando.</string>
+    <string name="daily_tip_3">Al aprender un acorde nuevo, toca cada cuerda individualmente para verificar la claridad.</string>
+    <string name="daily_tip_4">Intenta tararear mientras rasgueas para desarrollar tu oído musical.</string>
+    <string name="daily_tip_5">Practica frente a un espejo para revisar la posición de tu mano.</string>
+    <string name="daily_tip_6">Concéntrate en transiciones suaves en lugar de velocidad — la velocidad viene con el tiempo.</string>
+    <string name="daily_tip_7">¡Aprende canciones que te gusten! La motivación hace la práctica más agradable.</string>
+
+    <!-- ── Práctica SRS ──────────────────────────────────────────────── -->
+    <string name="srs_title">Repetición espaciada</string>
+    <string name="srs_subtitle">Repasa acordes a intervalos óptimos para la memoria a largo plazo.</string>
+    <string name="srs_due">Pendientes</string>
+    <string name="srs_reviewed">Repasados</string>
+    <string name="srs_total">Total</string>
+    <string name="srs_no_cards">Aún no hay tarjetas</string>
+    <string name="srs_no_cards_message">Añade acordes a tu mazo SRS desde la biblioteca de acordes manteniendo pulsado un voicing y seleccionando \"Añadir a SRS\".</string>
+    <string name="srs_all_caught_up">¡Todo al día!</string>
+    <string name="srs_session_done">Repasaste %1$d %2$s en esta sesión. Vuelve más tarde para más repasos.</string>
+    <string name="srs_card_singular">tarjeta</string>
+    <string name="srs_card_plural">tarjetas</string>
+    <string name="srs_no_due">No hay tarjetas pendientes de repaso ahora. ¡Vuelve más tarde!</string>
+    <string name="srs_card_remaining">Tarjeta %1$d, %2$d restantes</string>
+    <string name="srs_recall_prompt">¿Puedes recordar la digitación?</string>
+    <string name="srs_show_voicing">Mostrar voicing</string>
+    <string name="srs_frets">Trastes: %s</string>
+    <string name="srs_how_well">¿Qué tan bien lo recordaste?</string>
+
+    <!-- ── Rutina de práctica ────────────────────────────────────────── -->
+    <string name="routine_title">Rutina de práctica</string>
+    <string name="routine_subtitle">Configura tu sesión de práctica.</string>
+    <string name="routine_duration">Duración: %d minutos</string>
+    <string name="routine_skill_level">Nivel de habilidad</string>
+    <string name="routine_focus_areas">Áreas de enfoque</string>
+    <string name="routine_start">Iniciar rutina de práctica</string>
+    <string name="cd_start_routine">Iniciar rutina de práctica</string>
+    <string name="routine_total">%1$d min en total, %2$d pasos</string>
+    <string name="cd_new_routine">Nueva rutina</string>
+    <string name="routine_complete_title">¡Práctica completada!</string>
+    <string name="routine_complete_message">¡Gran sesión! Sigue con la práctica diaria.</string>
+    <string name="cd_practice_complete">Práctica completada</string>
+    <string name="cd_completed">Completado</string>
+
+    <!-- ── Entrenador de transiciones de acordes ─────────────────────── -->
+    <string name="chord_transition_title">Entrenador de transiciones de acordes</string>
+    <string name="chord_transition_subtitle">Practica el cambio entre dos acordes a tiempo.</string>
+    <string name="chord_transition_chord_a">Acorde A</string>
+    <string name="chord_transition_chord_b">Acorde B</string>
+    <string name="cd_swap_chords">Intercambiar acordes</string>
+    <string name="chord_transition_switches">Cambios</string>
+    <string name="chord_transition_time">Tiempo</string>
+    <string name="chord_transition_per_min">Por min</string>
+    <string name="cd_reset">Restablecer</string>
+    <string name="cd_start">Iniciar</string>
+    <string name="cd_stop">Detener</string>
+
+    <!-- ── Animación de transición de acordes ─────────────────────────── -->
+    <string name="transition_anim_finger_movements">Movimientos de dedos</string>
+    <string name="transition_anim_no_movement">¡No se necesita movimiento de dedos!</string>
+    <string name="transition_anim_speed">Velocidad:</string>
+    <string name="transition_anim_animate">Animar transición</string>
+    <string name="cd_animate_transition">Animar transición</string>
+    <string name="cd_prev_step">Paso anterior</string>
+    <string name="cd_next_step">Paso siguiente</string>
+    <string name="transition_anim_start_shape">Forma inicial</string>
+    <string name="transition_anim_end_shape">Forma final</string>
+    <string name="transition_anim_step">Paso %1$d/%2$d</string>
+
+    <!-- ── Tocar junto ───────────────────────────────────────────────── -->
+    <string name="play_along_title">Tocar junto</string>
+    <string name="play_along_subtitle">¡Escucha y toca los acordes correctos!</string>
+    <string name="play_along_mic_needed">Se necesita acceso al micrófono para la detección de acordes</string>
+    <string name="cd_grant_permission">Conceder permiso de micrófono</string>
+    <string name="play_along_grant">Conceder permiso</string>
+    <string name="play_along_play">Toca:</string>
+    <string name="play_along_heard">Detectado:</string>
+    <string name="cd_correct">Correcto</string>
+    <string name="cd_incorrect">Incorrecto</string>
+    <string name="play_along_grade">Calificación</string>
+    <string name="play_along_choose">Elige una tonalidad y progresión, luego toca junto con la detección de acordes en tiempo real.</string>
+    <string name="play_along_progression">Progresión</string>
+
+    <!-- ── Logros ────────────────────────────────────────────────────── -->
+    <string name="achievements_title">Logros</string>
+    <string name="achievements_subtitle">Gana insignias practicando y aprendiendo.</string>
+    <string name="achievements_unlocked">%d desbloqueados</string>
+    <string name="achievements_earned">Obtenido</string>
+
+    <!-- ── Ayuda ─────────────────────────────────────────────────────── -->
+    <string name="help_title">Ayuda</string>
+    <string name="help_subtitle">Toca cualquier función para saber más sobre cómo funciona.</string>
+    <string name="help_section_play">Tocar</string>
+    <string name="help_section_create">Crear</string>
+    <string name="help_section_learn">Aprender</string>
+    <string name="help_section_reference">Referencia</string>
+    <string name="help_section_other">Otros</string>
+
+    <!-- Títulos de ayuda (coinciden con las etiquetas de navegación) -->
+    <string name="help_explorer">Explorador</string>
+    <string name="help_tuner">Afinador</string>
+    <string name="help_pitch_monitor">Monitor de tono</string>
+    <string name="help_chords">Acordes</string>
+    <string name="help_favorites">Favoritos</string>
+    <string name="help_song_finder">Buscador de canciones</string>
+    <string name="help_songs">Canciones</string>
+    <string name="help_melody_notepad">Bloc de melodías</string>
+    <string name="help_patterns">Patrones</string>
+    <string name="help_progressions">Progresiones</string>
+    <string name="help_learn_theory">Aprender teoría</string>
+    <string name="help_theory_quiz">Quiz de teoría</string>
+    <string name="help_interval_trainer">Entrenador de intervalos</string>
+    <string name="help_note_quiz">Quiz de notas</string>
+    <string name="help_chord_ear">Entrenamiento auditivo de acordes</string>
+    <string name="help_scale_practice">Práctica de escalas</string>
+    <string name="help_progress">Progreso</string>
+    <string name="help_daily_challenge">Reto diario</string>
+    <string name="help_practice_routine">Rutina de práctica</string>
+    <string name="help_srs_review">Repaso SRS</string>
+    <string name="help_chord_transitions">Transiciones de acordes</string>
+    <string name="help_play_along">Tocar junto</string>
+    <string name="help_achievements">Logros</string>
+    <string name="help_capo_guide">Guía de cejilla</string>
+    <string name="help_circle_of_fifths">Círculo de quintas</string>
+    <string name="help_chord_subs">Sustituciones de acordes</string>
+    <string name="help_chords_in_scale">Acordes en la escala</string>
+    <string name="help_fretboard_notes">Notas del diapasón</string>
+    <string name="help_glossary">Glosario</string>
+    <string name="help_settings">Ajustes</string>
+    <string name="help_sharing">Compartir acordes</string>
+    <string name="help_full_screen">Modo pantalla completa</string>
+
+    <!-- Descripciones de ayuda -->
+    <string name="help_desc_explorer">El diapasón interactivo donde tocas trastes para formar acordes. La aplicación detecta qué acorde estás tocando y muestra inversiones, intervalos y nombres alternativos. Incluye selector de cejilla y superposición de escalas para explorar cómo encajan acordes y escalas.</string>
+    <string name="help_desc_tuner">Un afinador cromático que usa el micrófono de tu dispositivo. Muestra la nota detectada, la desviación en cents en un medidor de aguja e indicaciones claras (\"Subir\", \"¡Afinado!\"). Toca los botones de cuerda para un tono de referencia. Compatible con múltiples afinaciones, calibración de La4, retroalimentación hablada y modo de precisión.</string>
+    <string name="help_desc_pitch_monitor">Una herramienta de visualización de tono en tiempo real. Muestra el tono detectado en un gráfico deslizante, el nombre de la nota actual y resalta los acordes coincidentes. Útil para verificar la entonación al tocar melodías o practicar bendings.</string>
+    <string name="help_desc_chords">Una biblioteca completa de acordes. Elige una nota raíz y un tipo de acorde para ver todos los voicings tocables en el ukelele. Toca un voicing para cargarlo en el diapasón del explorador, o mantén pulsado para compartir, añadir a favoritos o añadir a SRS. Incluye modo de comparación de inversiones.</string>
+    <string name="help_desc_favorites">Tus voicings de acordes guardados, organizados en carpetas. Toca un voicing para verlo en el diapasón, desliza o mantén pulsado para más opciones. Usa carpetas para agrupar acordes por canción o sesión de práctica.</string>
+    <string name="help_desc_song_finder">Descubre canciones que ya puedes tocar con los acordes de tus favoritos. Cuantos más acordes guardes, más canciones se desbloquean. También muestra canciones que necesitan solo 1–2 acordes más.</string>
+    <string name="help_desc_songs">Un cancionero personal para escribir y guardar hojas de acordes. Escribe la letra e inserta acordes con notación de corchetes: \"En[C] algún lugar sobre el [Em]arcoíris\". Compatible con transposición, sugerencias de cejilla, desplazamiento automático e importación/exportación de archivos ChordPro.</string>
+    <string name="help_desc_melody_notepad">Una herramienta sencilla para componer melodías nota por nota. Toca notas para crear una secuencia, elige duraciones (redonda, blanca, negra, corchea, semicorchea), añade silencios y reproduce a BPM ajustable. Ideal para apuntar ideas melódicas o ejercicios.</string>
+    <string name="help_desc_patterns">Explora y crea patrones de rasgueo y punteo. Toca los indicadores de pulso para cambiar la dirección del rasgueo (abajo, arriba, silenciar, pausa) o asigna dedos a cuerdas. Reprodúcelos a tempo ajustable.</string>
+    <string name="help_desc_progressions">Una biblioteca de progresiones de acordes comunes en todas las tonalidades. Toca cualquier acorde para verlo en la biblioteca. Crea tus propias progresiones personalizadas, practícalas con la reproducción del metrónomo integrado o explora la conducción de voces entre acordes.</string>
+    <string name="help_desc_learn_theory">Lecciones estructuradas de teoría musical que cubren notas, intervalos, escalas, acordes, tonalidades y armonía. Cada lección incluye puntos clave y un quiz rápido para verificar tu comprensión antes de avanzar.</string>
+    <string name="help_desc_theory_quiz">Pon a prueba tus conocimientos de conceptos de teoría musical como intervalos, construcción de acordes, armaduras de clave y grados de la escala. Incluye un modo Estándar y un modo Blitz cronometrado (60 s) para un reto extra.</string>
+    <string name="help_desc_interval_trainer">Entrenamiento auditivo de intervalos musicales. Elige modo visual (diapasón) o audio, selecciona presentación ascendente, descendente o armónica, y elige un nivel de dificultad. Identifica el intervalo y desarrolla tu oído relativo.</string>
+    <string name="help_desc_note_quiz">Un quiz cronometrado que te desafía a identificar notas en el diapasón. En el modo \"Nómbrala\" ves una posición y adivinas la nota; en el modo \"Encuéntrala\" ves una nota y tocas su ubicación. Los niveles de dificultad limitan el rango de trastes.</string>
+    <string name="help_desc_chord_ear">Escucha un acorde e identifica su tipo (mayor, menor, disminuido, etc.). Los niveles de dificultad añaden más calidades de acordes. Una excelente forma de desarrollar tu oído armónico.</string>
+    <string name="help_desc_scale_practice">Practica escalas en el diapasón con tres modos: Tocar junto (guiado con metrónomo opcional), Quiz (identifica la escala que suena) y Entrenamiento auditivo. Compatible con todos los tipos de escalas, bucle opcional y vista compacta del diapasón.</string>
+    <string name="help_desc_progress">Un panel que muestra tus estadísticas de aprendizaje: tiempo de práctica, racha de días, lecciones completadas y puntuaciones de quizzes para Teoría, Intervalos, Quiz de notas y Entrenamiento auditivo de acordes. Te ayuda a seguir la constancia y la mejora con el tiempo.</string>
+    <string name="help_desc_daily_challenge">Tres retos nuevos generados cada día para mantener tu rutina de práctica variada. Cada reto se enfoca en una habilidad diferente — acordes, escalas, entrenamiento auditivo, teoría o transiciones. Completarlos fomenta la constancia.</string>
+    <string name="help_desc_practice_routine">Un constructor de sesiones de práctica guiada. Elige duración, nivel de habilidad y áreas de enfoque para generar una rutina paso a paso. La aplicación crea una secuencia cronometrada de ejercicios que incluye calentamiento, técnica, repertorio y enfriamiento.</string>
+    <string name="help_desc_srs_review">Sistema de repetición espaciada para memorizar voicings de acordes. Añade acordes desde la biblioteca y la aplicación programa repasos a intervalos crecientes según qué tan bien recuerdes cada voicing. Mantiene tu vocabulario de acordes creciendo eficientemente.</string>
+    <string name="help_desc_chord_transitions">Visualiza cómo se mueven tus dedos entre dos acordes. Elige dos acordes y observa una animación paso a paso de los movimientos de dedos. Incluye un modo de práctica cronometrado con contador de cambios y control de BPM.</string>
+    <string name="help_desc_play_along">Práctica interactiva con detección de acordes por audio en tiempo real. Elige una tonalidad y progresión, luego rasguea mientras la aplicación escucha y califica tu precisión. Requiere permiso de micrófono.</string>
+    <string name="help_desc_achievements">Una galería de hitos para desbloquear mientras usas la aplicación. Gana insignias por rachas de práctica, puntuaciones de quizzes, canciones creadas, acordes aprendidos y más. Consulta tu progreso aquí.</string>
+    <string name="help_desc_capo_guide">Una guía educativa sobre el uso de la cejilla en el ukelele. Explica qué hace una cejilla, muestra cómo cambia el tono, lista posiciones comunes e incluye una sección interactiva para probar con una tabla de referencia.</string>
+    <string name="help_desc_circle_of_fifths">Un diagrama interactivo del círculo de quintas. Toca cualquier tonalidad para ver su armadura, menor/mayor relativo, acordes diatónicos y tonalidades estrechamente relacionadas. Una referencia fundamental para entender las relaciones entre tonalidades.</string>
+    <string name="help_desc_chord_subs">Una guía de referencia para opciones de sustitución de acordes. Selecciona un acorde raíz y observa qué acordes pueden reemplazarlo y por qué — menor relativo, sustitución tritonal, intercambio modal y más. Cada sustitución explica la teoría detrás.</string>
+    <string name="help_desc_chords_in_scale">Selecciona una escala y observa todos los acordes que se forman naturalmente dentro de ella. Muestra tríadas diatónicas con análisis de números romanos. Útil para composición y comprensión de la armonía en cualquier tonalidad.</string>
+    <string name="help_desc_fretboard_notes">Un mapa visual que muestra cada nota en el diapasón del ukelele. Resalta una nota específica para ver todas sus posiciones. Compatible con afinación Sol agudo y Sol grave. Toca cualquier nota para escucharla.</string>
+    <string name="help_desc_glossary">Un diccionario de términos de teoría musical y ukelele — desde arpegio hasta voicing. Cada entrada incluye una definición concisa y, cuando es útil, un ejemplo.</string>
+    <string name="help_desc_settings">Configura las preferencias generales: sonido (volumen, retardo de rasgueo, dirección), pantalla (tema), afinación (Sol agudo, Sol grave, Barítono, etc.), afinador (retroalimentación hablada, modo de precisión, calibración de La4), diapasón (zurdo, número de trastes) y notificaciones.</string>
+    <string name="help_desc_sharing">Comparte cualquier acorde como imagen. Al ver un acorde en el Explorador o la Biblioteca de acordes, toca el icono de compartir para generar una imagen limpia del diagrama que puedes enviar a amigos o publicar en redes sociales.</string>
+    <string name="help_desc_full_screen">Toca el icono de expandir en la pestaña del Explorador para entrar en un diapasón horizontal a pantalla completa. Ideal para sesiones de práctica donde quieres máxima visibilidad del diapasón sin distracciones de la interfaz.</string>
+
+    <!-- ── Glosario ──────────────────────────────────────────────────── -->
+    <string name="glossary_title">Glosario musical</string>
+    <string name="glossary_term_count">%d términos sobre teoría musical y ukelele.</string>
+    <string name="glossary_search_hint">Buscar términos…</string>
+    <string name="glossary_no_match">No se encontraron términos coincidentes.</string>
+    <string name="glossary_example">Ejemplo:</string>
+
+    <!-- ── Círculo de quintas ────────────────────────────────────────── -->
+    <string name="circle_title">Círculo de quintas</string>
+    <string name="circle_subtitle">Toca una tonalidad para ver su armadura y acordes. Las tonalidades adyacentes están estrechamente relacionadas.</string>
+    <string name="circle_cd_selected">Diagrama del círculo de quintas, %s seleccionada. Toca para seleccionar otra tonalidad.</string>
+    <string name="circle_cd_default">Diagrama del círculo de quintas. Toca para seleccionar una tonalidad.</string>
+    <string name="circle_key_signature">Armadura de clave</string>
+    <string name="circle_relative_minor">Menor relativo</string>
+    <string name="circle_relative_major">Mayor relativo</string>
+    <string name="circle_diatonic_chords">Acordes diatónicos</string>
+    <string name="circle_related_keys">Tonalidades relacionadas</string>
+    <string name="circle_same_as">igual que</string>
+
+    <!-- ── Guía de cejilla ───────────────────────────────────────────── -->
+    <string name="capo_guide_what">¿Qué es una cejilla?</string>
+    <string name="capo_guide_pitch">Cómo cambia el tono</string>
+    <string name="capo_guide_positions">Posiciones comunes de cejilla</string>
+    <string name="capo_guide_when">Cuándo usar una cejilla</string>
+    <string name="capo_guide_try">¡Pruébalo tú mismo!</string>
+    <string name="capo_guide_ref_table">Tabla de referencia que muestra qué formas producen qué tonalidades:</string>
+    <string name="capo_guide_open_shapes">Formas de acordes abiertos comunes (ideales con cejilla):</string>
+    <string name="capo_guide_tap_fret">Toca un traste para colocar la cejilla:</string>
+    <string name="capo_guide_no_capo">Sin cejilla — afinación estándar</string>
+    <string name="capo_guide_on_fret">Cejilla en traste %d</string>
+    <string name="capo_guide_was_note">(era %s)</string>
+    <string name="capo_guide_shape">Forma</string>
+    <string name="capo_guide_sounds_as">Suena como</string>
+    <string name="capo_guide_string">Cuerda %d</string>
+
+    <!-- ── Calculadora de cejilla ────────────────────────────────────── -->
+    <string name="capo_calc_title">Calculadora de cejilla</string>
+    <string name="capo_calc_sounding">Suena: %s</string>
+    <string name="capo_calc_hint">Coloca una cejilla para tocar formas más sencillas que suenan igual.</string>
+    <string name="capo_calc_no_capo">Sin cejilla</string>
+    <string name="capo_calc_fret">Traste %d</string>
+    <string name="capo_calc_play_shape">Toca: %s</string>
+    <string name="capo_calc_recommended">Recomendado</string>
+    <string name="capo_calc_frets">Trastes: %s</string>
+    <string name="capo_calc_ease">Facilidad: %d%%</string>
+    <string name="capo_calc_no_positions">No hay posiciones de cejilla disponibles para este acorde.</string>
+    <string name="capo_helper_title">Asistente de cejilla</string>
+    <string name="capo_helper_hint">Encuentra la posición de cejilla más fácil para esta progresión.</string>
+    <string name="capo_helper_shapes">Formas: %s</string>
+    <string name="capo_helper_ease">Facilidad general: %d%%</string>
+    <string name="capo_helper_no_positions">No hay posiciones de cejilla disponibles para esta progresión.</string>
+
+    <!-- ── Visualizador de cejilla ───────────────────────────────────── -->
+    <string name="capo_viz_title">Visualizador de cejilla</string>
+    <string name="capo_viz_shape">Forma: %s</string>
+    <string name="capo_viz_with_capo">Cejilla en traste %1$d → Suena como %2$s</string>
+    <string name="capo_viz_no_capo">Sin cejilla — suena como %s</string>
+    <string name="capo_viz_position">Posición de cejilla</string>
+    <string name="capo_viz_no_capo_label">Sin cejilla</string>
+    <string name="capo_viz_fret">Traste %d</string>
+    <string name="capo_viz_sounding">Sonando</string>
+    <string name="capo_viz_same">Igual</string>
+    <string name="capo_viz_tip">Consejo: Con la cejilla en el traste %1$d, tocas la forma %2$s pero suena como %3$s. Cada traste sube el tono un semitono.</string>
+
+    <!-- ── Sustituciones de acordes ──────────────────────────────────── -->
+    <string name="chord_subs_title">Sustituciones de acordes</string>
+    <string name="chord_subs_subtitle">Aprende cómo reemplazar acordes con alternativas que crean diferentes colores y estados de ánimo manteniendo el sentido armónico.</string>
+    <string name="chord_subs_examples_in">Ejemplos en la tonalidad de:</string>
+    <string name="chord_subs_practice_tip_title">Consejo de práctica</string>
+    <string name="chord_subs_practice_tip">Empieza con sustituciones diatónicas e intercambios de mayor/menor relativo — siempre suenan bien. Cuando te sientas cómodo, prueba el intercambio modal para más color. Guarda las sustituciones tritonales y dominantes secundarios para cuando estés listo para explorar la armonía del jazz.</string>
+    <string name="chord_subs_shared">Compartidas: %s</string>
+
+    <!-- ── Vista de acordes en escala ─────────────────────────────────── -->
+    <string name="scale_chord_title">Acordes en la escala</string>
+    <string name="scale_chord_subtitle">Observa qué acordes se forman a partir de cualquier escala.</string>
+    <string name="scale_chord_notes">Notas: %s</string>
+    <string name="scale_chord_too_few">Esta escala tiene muy pocas notas para formar tríadas estándar.</string>
+    <string name="scale_chord_diatonic">Tríadas diatónicas</string>
+
+    <!-- ── Mapa de notas del diapasón ────────────────────────────────── -->
+    <string name="note_map_title">Mapa de notas del diapasón</string>
+    <string name="note_map_subtitle">Aprende cada nota en el diapasón del ukelele.</string>
+    <string name="note_map_high_g">Estándar (Sol agudo)</string>
+    <string name="note_map_low_g">Sol grave</string>
+    <string name="note_map_highlight">Resaltar nota</string>
+    <string name="note_map_tips_title">Consejos</string>
+    <string name="note_map_tip_1">Toca cualquier nota para escucharla</string>
+    <string name="note_map_tip_2">Usa el filtro de resaltar para encontrar todas las posiciones de una nota</string>
+    <string name="note_map_tip_3">El traste 12 tiene las mismas notas que el traste 0 (una octava más arriba)</string>
+    <string name="note_map_tip_4">Cambia a Sol grave para ver cómo cambia la cuerda Sol</string>
+    <string name="note_map_string">Cuerda %d</string>
+
+    <!-- ── Vista del diapasón ────────────────────────────────────────── -->
+    <string name="fretboard_string">cuerda, </string>
+    <string name="fretboard_open">abierta</string>
+    <string name="fretboard_fret">traste %d</string>
+    <string name="fretboard_selected">, seleccionada</string>
+    <string name="fretboard_in_scale">, en la escala</string>
+    <string name="fretboard_scale_root">, raíz de la escala</string>
+    <string name="fretboard_blocked">, bloqueado por cejilla</string>
+    <string name="fretboard_blocked_text">Bloqueado por cejilla</string>
+
+    <!-- ── Diagrama de acorde vertical ───────────────────────────────── -->
+    <string name="diagram_chord_cd">Acorde %s</string>
+    <string name="diagram_string_muted">cuerda silenciada</string>
+    <string name="diagram_string_open">cuerda abierta</string>
+    <string name="diagram_string_fret">cuerda traste %d</string>
+    <string name="diagram_capo_fret">cejilla en traste %d</string>
+
+    <!-- ── Compartir acorde ──────────────────────────────────────────── -->
+    <string name="share_as_image">Compartir como imagen</string>
+    <string name="share_diagram_attribution">Ukulele Companion</string>
+
+    <!-- ── Bloc de melodías ──────────────────────────────────────────── -->
+    <string name="melody_title">Bloc de melodías</string>
+    <string name="melody_subtitle">Toca notas para componer una melodía. Pulsa reproducir para escucharla.</string>
+    <string name="melody_sequence">Secuencia (%d notas)</string>
+    <string name="melody_placeholder">Toca una nota abajo para empezar a componer</string>
+    <string name="melody_whole">R</string>
+    <string name="melody_half">B</string>
+    <string name="melody_quarter">N</string>
+    <string name="melody_eighth">C</string>
+    <string name="melody_sixteenth">SC</string>
+    <string name="melody_note_duration">Duración de nota</string>
+    <string name="melody_tap_to_add">Toca para añadir nota</string>
+    <string name="melody_rest">Silencio</string>
+    <string name="cd_delete_note">Eliminar nota</string>
+    <string name="cd_play_melody">Reproducir melodía</string>
+    <string name="cd_stop_playing">Dejar de reproducir</string>
+    <string name="cd_clear_all">Borrar todas las notas</string>
+    <string name="melody_clear">Borrar</string>
+
+    <!-- ── Buscador de canciones ─────────────────────────────────────── -->
+    <string name="song_finder_title">Buscador de canciones</string>
+    <string name="song_finder_subtitle">Encuentra canciones que puedes tocar con los acordes que conoces.</string>
+    <string name="song_finder_no_chords_title">Aún no hay acordes conocidos</string>
+    <string name="song_finder_no_chords_message">¡Guarda algunos voicings de acordes en Favoritos y encontraremos canciones que puedes tocar!</string>
+    <string name="song_finder_your_chords">Tus acordes (%d)</string>
+    <string name="song_finder_songs_can_play">Canciones que puedes tocar (%d)</string>
+    <string name="song_finder_learn_more">Aprende 1–2 acordes más (%d)</string>
+    <string name="song_finder_hide">Ocultar</string>
+    <string name="song_finder_show">Mostrar</string>
+    <string name="song_finder_keep_learning">¡Sigue aprendiendo nuevos acordes para desbloquear más canciones!</string>
+    <string name="song_finder_learn_prefix">Aprende: </string>
+
+    <!-- ── Conducción de voces ───────────────────────────────────────── -->
+    <string name="cd_back_progressions">Volver a progresiones</string>
+    <string name="voice_leading_title">Conducción de voces en %s</string>
+    <string name="voice_leading_common_tones">%d nota común</string>
+    <string name="voice_leading_common_tones_plural">%d notas comunes</string>
+    <string name="voice_leading_fret_movement">%d traste de movimiento total</string>
+    <string name="voice_leading_frets_movement">%d trastes de movimiento total</string>
+    <string name="voice_leading_stays">se queda en </string>
+    <string name="voice_leading_muted">silenciada</string>
+    <string name="voice_leading_fret_prefix">traste </string>
+    <string name="voice_leading_arrow"> → </string>
+    <string name="voice_leading_tip_singular">Consejo: Mantén el dedo en la cuerda %1$s — misma nota en ambos acordes.</string>
+    <string name="voice_leading_tip_plural">Consejo: Mantén los dedos en las cuerdas %1$s — misma nota en ambos acordes.</string>
+    <string name="voice_leading_total_path">Recorrido total: %1$d trastes de movimiento en %2$d transiciones</string>
+    <string name="voice_leading_prev">Anterior</string>
+    <string name="cd_play_all_voice_leadings">Reproducir todas las conducciones de voces</string>
+    <string name="voice_leading_play_all">Reproducir todo</string>
+    <string name="voice_leading_next">Siguiente</string>
+    <string name="voice_leading_step">Paso %1$d de %2$d</string>
+    <string name="voice_leading_single_chord">Esta progresión tiene un solo acorde.</string>
+
+    <!-- ── Controles de transposición ────────────────────────────────── -->
+    <string name="transpose_arrow"> → </string>
+    <string name="transpose_capo_prefix">Cejilla </string>
+
+    <!-- ── Tempo por toque ───────────────────────────────────────────── -->
+    <string name="tap_tempo_label">Toca</string>
+
+    <!-- ── Diapasón a pantalla completa ──────────────────────────────── -->
+    <string name="full_screen_reset">Restablecer</string>
+
+    <!-- ── Notificación (Acorde del día) ─────────────────────────────── -->
+    <string name="notif_chord_of_day">Acorde del día: %s</string>
+    <string name="notif_frets">Trastes: %1$s — ¡Toca para practicar!</string>
+    <string name="notif_channel_name">Acorde del día</string>
+    <string name="notif_channel_desc">Sugerencia diaria de acorde de ukelele</string>
+
+    <!-- ── Widget ────────────────────────────────────────────────────── -->
+    <string name="widget_title">Acorde del día</string>
+</resources>

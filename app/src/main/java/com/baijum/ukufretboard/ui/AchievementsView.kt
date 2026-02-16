@@ -33,10 +33,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.domain.Achievement
 import com.baijum.ukufretboard.domain.AchievementCategory
 import com.baijum.ukufretboard.domain.AchievementChecker
@@ -84,13 +86,13 @@ fun AchievementsView(
     ) {
         // Header
         Text(
-            text = "Achievements",
+            text = stringResource(R.string.achievements_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.semantics { heading() },
         )
         Text(
-            text = "Earn badges by practicing and learning.",
+            text = stringResource(R.string.achievements_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -107,7 +109,7 @@ fun AchievementsView(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "$unlockedCount / $totalCount unlocked",
+                    text = stringResource(R.string.achievements_unlocked, unlockedCount),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -135,7 +137,7 @@ fun AchievementsView(
             FilterChip(
                 selected = selectedCategory == null,
                 onClick = { selectedCategory = null },
-                label = { Text("All") },
+                label = { Text(stringResource(R.string.label_all)) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.primary,
                     selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
@@ -236,7 +238,7 @@ private fun AchievementCard(
             }
             if (isUnlocked) {
                 Text(
-                    text = "Earned",
+                    text = stringResource(R.string.achievements_earned),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
@@ -278,7 +280,7 @@ fun AchievementSummaryCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Achievements",
+                    text = stringResource(R.string.achievements_title),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onTertiaryContainer,

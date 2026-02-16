@@ -1,0 +1,800 @@
+<resources>
+    <string name="app_name">Uke</string>
+    <string name="app_full_name">Ukulele Companion</string>
+    <string name="widget_description">Toont elke dag een nieuw ukulele-akkoord</string>
+
+    <!-- ── Algemeen / Gedeeld ─────────────────────────────────────────── -->
+    <string name="dialog_cancel">Annuleren</string>
+    <string name="dialog_delete">Verwijderen</string>
+    <string name="dialog_save">Opslaan</string>
+    <string name="dialog_create">Aanmaken</string>
+    <string name="dialog_rename">Hernoemen</string>
+    <string name="dialog_reset">Resetten</string>
+    <string name="action_back">Terug</string>
+    <string name="action_play">Afspelen</string>
+    <string name="action_stop">Stoppen</string>
+    <string name="action_edit">Bewerken</string>
+    <string name="action_share">Delen</string>
+    <string name="action_close">Sluiten</string>
+    <string name="label_all">Alle</string>
+    <string name="label_none">geen</string>
+    <string name="label_bpm">BPM</string>
+    <string name="label_bpm_value">BPM: %d</string>
+    <string name="label_beats">Tellen:</string>
+    <string name="label_capo">Capo</string>
+    <string name="label_key">Toonsoort</string>
+    <string name="label_scale">Toonladder</string>
+    <string name="label_correct">Juist</string>
+    <string name="label_accuracy">Nauwkeurigheid</string>
+    <string name="label_streak">Reeks</string>
+    <string name="label_best">Beste</string>
+    <string name="label_score">Score</string>
+    <string name="label_best_streak">Beste reeks</string>
+    <string name="label_this_session">Deze sessie</string>
+    <string name="label_all_time">Aller tijden</string>
+    <string name="label_difficulty">Moeilijkheid</string>
+    <string name="label_mode">Modus</string>
+    <string name="label_direction">Richting</string>
+    <string name="label_category">Categorie</string>
+    <string name="label_easy">Makkelijk</string>
+    <string name="label_medium">Gemiddeld</string>
+    <string name="label_hard">Moeilijk</string>
+    <string name="label_expert">Expert</string>
+    <string name="label_replay">Opnieuw afspelen</string>
+    <string name="label_correct_answer">Juist!</string>
+    <string name="label_the_answer_is">Het antwoord is</string>
+    <string name="label_root">Grondtoon</string>
+    <string name="label_position">Positie</string>
+    <string name="label_off">Uit</string>
+    <string name="label_open">Open</string>
+    <string name="label_presets">Presets</string>
+    <string name="label_practice">Oefenen</string>
+    <string name="label_go">Start</string>
+    <string name="label_done">Klaar</string>
+
+    <!-- ── Navigatielade ──────────────────────────────────────────────── -->
+    <string name="nav_section_play">Spelen</string>
+    <string name="nav_section_create">Creëren</string>
+    <string name="nav_section_learn">Leren</string>
+    <string name="nav_section_reference">Naslagwerk</string>
+    <string name="nav_explorer">Verkenner</string>
+    <string name="nav_tuner">Stemapparaat</string>
+    <string name="nav_pitch_monitor">Toonhoogtemonitor</string>
+    <string name="nav_chords">Akkoorden</string>
+    <string name="nav_favorites">Favorieten</string>
+    <string name="nav_song_finder">Liedzoeker</string>
+    <string name="nav_songs">Liedjes</string>
+    <string name="nav_melody_notepad">Melodieblok</string>
+    <string name="nav_patterns">Patronen</string>
+    <string name="nav_progressions">Progressies</string>
+    <string name="nav_learn_theory">Theorie leren</string>
+    <string name="nav_theory_quiz">Theoriequiz</string>
+    <string name="nav_interval_trainer">Intervaltraining</string>
+    <string name="nav_note_quiz">Notenquiz</string>
+    <string name="nav_chord_ear_training">Akkoord-gehoortraining</string>
+    <string name="nav_scale_practice">Toonladderoefening</string>
+    <string name="nav_progress">Voortgang</string>
+    <string name="nav_daily_challenge">Dagelijkse uitdaging</string>
+    <string name="nav_practice_routine">Oefenroutine</string>
+    <string name="nav_srs_review">SRS-herhaling</string>
+    <string name="nav_chord_transitions">Akkoordovergangen</string>
+    <string name="nav_play_along">Meespelen</string>
+    <string name="nav_achievements">Prestaties</string>
+    <string name="nav_capo_guide">Capogids</string>
+    <string name="nav_circle_of_fifths">Kwintencirkel</string>
+    <string name="nav_chord_substitutions">Akkoordsubstituties</string>
+    <string name="nav_chords_in_scale">Akkoorden in toonladder</string>
+    <string name="nav_fretboard_notes">Toetsenbordnoten</string>
+    <string name="nav_glossary">Woordenlijst</string>
+    <string name="nav_help">Help</string>
+
+    <!-- ── Bovenste balk / Inhoudsbeschrijvingen ──────────────────────── -->
+    <string name="cd_open_nav_menu">Navigatiemenu openen</string>
+    <string name="cd_settings">Instellingen</string>
+    <string name="cd_full_screen">Volledig scherm</string>
+    <string name="cd_exit_full_screen">Volledig scherm verlaten</string>
+    <string name="cd_play_chord">Akkoord afspelen</string>
+    <string name="cd_play_sound">Geluid afspelen</string>
+    <string name="cd_share_chord_image">Akkoord delen als afbeelding</string>
+    <string name="cd_remove_favorites">Verwijderen uit favorieten</string>
+    <string name="cd_add_favorites">Toevoegen aan favorieten</string>
+    <string name="cd_replay">Opnieuw afspelen</string>
+
+    <!-- ── Verkenner-tabblad ──────────────────────────────────────────── -->
+    <string name="explorer_reset">Resetten</string>
+    <string name="explorer_scales">Toonladders</string>
+    <string name="explorer_hide_scale">Toonladder verbergen</string>
+    <string name="explorer_tap_frets">Tik op frets</string>
+    <string name="explorer_capo_off">Uit</string>
+
+    <!-- ── Akkoordresultaat ───────────────────────────────────────────── -->
+    <string name="chord_result_tap_fretboard">Tik op het toetsenbord om noten te selecteren</string>
+    <string name="chord_result_single_note">Enkele noot geselecteerd</string>
+    <string name="chord_result_incomplete">Onvolledig akkoord</string>
+    <string name="chord_result_no_match">Geen exact akkoord gevonden</string>
+    <string name="chord_result_also">Ook: </string>
+    <string name="chord_result_intervals">Intervallen</string>
+    <string name="chord_result_formula">Formule</string>
+    <string name="chord_result_fingering">Vingerzetting</string>
+    <string name="chord_result_difficulty">Moeilijkheid</string>
+    <string name="chord_result_inversion">Omkering</string>
+    <string name="chord_result_bass">bas: </string>
+
+    <!-- ── Akkoordenbibliotheek ───────────────────────────────────────── -->
+    <string name="chord_library_root_note">Grondtoon</string>
+    <string name="chord_library_type">Type</string>
+    <string name="chord_library_compare_inversions"> — Omkeringen vergelijken</string>
+    <string name="chord_library_voicings">%d voicings</string>
+    <string name="chord_library_viz">Vis</string>
+    <string name="chord_library_compare">Vergelijken</string>
+    <string name="cd_play_all_inversions">Alle omkeringen afspelen</string>
+    <string name="chord_library_play_all_inversions">Alle omkeringen afspelen</string>
+    <string name="chord_library_inversion_tip">Hetzelfde akkoord, andere basnoot. Luister hoe elke omkering een eigen karakter heeft.</string>
+    <string name="chord_library_bass_prefix">Bas: </string>
+    <string name="chord_library_voicing_singular">%d voicing</string>
+    <string name="chord_library_reentrant_limited">Dit akkoord heeft slechts %d voicings. Re-entrant stemming (hoge G) beperkt omkeringen omdat de C-snaar (C4) bijna altijd de laagste toon is. Lage G-stemming biedt meer variatie in omkeringen.</string>
+    <string name="chord_library_reentrant_empty">Bij re-entrant stemming (hoge G) is de C-snaar bijna altijd de laagste noot, dus de meeste voicings staan in grondpositie. Probeer \"Alle\" te selecteren om beschikbare voicings te zien.</string>
+    <string name="chord_library_no_voicings">Geen voicings gevonden</string>
+
+    <!-- ── Stemapparaat ───────────────────────────────────────────────── -->
+    <string name="tuner_play_a_string">Speel een snaar…</string>
+    <string name="tuner_in_tune">Op toon!</string>
+    <string name="tuner_almost_up">Bijna — stem iets hoger</string>
+    <string name="tuner_almost_down">Bijna — stem iets lager</string>
+    <string name="tuner_tune_up">Hoger stemmen</string>
+    <string name="tuner_tune_down">Lager stemmen</string>
+    <string name="tuner_all_tuned">Alle snaren gestemd!</string>
+    <string name="tuner_start">Start stemmen</string>
+    <string name="tuner_stop">Stoppen</string>
+    <string name="cd_start_tuning">Start stemmen</string>
+    <string name="cd_stop_tuning">Stop stemmen</string>
+    <string name="cd_detected_note">Gedetecteerde noot: %s</string>
+    <string name="tuner_meter_no_pitch">Stemmeter, geen toonhoogte gedetecteerd</string>
+    <string name="tuner_meter_in_tune">Stemmeter, op toon</string>
+    <string name="tuner_meter_close">Stemmeter, %1$d cent %2$s, bijna op toon</string>
+    <string name="tuner_meter_flat">Stemmeter, %d cent te laag</string>
+    <string name="tuner_meter_sharp">Stemmeter, %d cent te hoog</string>
+    <string name="tuner_direction_flat">te laag</string>
+    <string name="tuner_direction_sharp">te hoog</string>
+    <string name="tuner_swiftf0_active">SwiftF0 Active</string>
+    <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
+    <string name="tuner_precision_mode">Precisiemodus</string>
+    <string name="tuner_string_tuned">gestemd</string>
+    <string name="tuner_string_next">volgende snaar om te stemmen</string>
+    <string name="tuner_string_active">actief</string>
+    <string name="tuner_string_not_tuned">niet gestemd</string>
+    <string name="tuner_string_desc">%1$s snaar, %2$s, tik voor referentietoon</string>
+    <string name="tuner_check_tuned">Gestemd</string>
+
+    <!-- ── Toonhoogtemonitor ──────────────────────────────────────────── -->
+    <string name="pitch_monitor_detected_chord">Gedetecteerd akkoord: %s</string>
+    <string name="pitch_monitor_notes_prefix">Noten: </string>
+    <string name="pitch_monitor_current_note">Huidige noot: %s</string>
+    <string name="pitch_monitor_visualization">Toonhoogtevisualisatie met verloop in de tijd</string>
+    <string name="pitch_monitor_tap_start">Tik op Start om te beginnen</string>
+    <string name="pitch_monitor_playing">%s wordt afgespeeld</string>
+    <string name="pitch_monitor_detecting">Toonhoogte detecteren…</string>
+    <string name="pitch_monitor_play_ukulele">Speel je ukulele…</string>
+    <string name="cd_stop_listening">Stop met luisteren</string>
+    <string name="cd_start_listening">Start met luisteren</string>
+    <string name="pitch_monitor_start">Start</string>
+
+    <!-- ── Favorieten ─────────────────────────────────────────────────── -->
+    <string name="favorites_empty_title">Nog geen favorieten</string>
+    <string name="favorites_empty_message">Blader door het tabblad Akkoorden en tik op het hartje bij een voicing om deze hier op te slaan.</string>
+    <string name="favorites_all_count">Alle (%d)</string>
+    <string name="favorites_new_folder">Nieuwe map</string>
+    <string name="favorites_folder_name">Mapnaam</string>
+    <string name="favorites_rename_folder">Map hernoemen</string>
+    <string name="favorites_delete_folder">Map verwijderen</string>
+    <string name="favorites_delete_folder_msg">Map \"%s\" verwijderen? Voicings in deze map worden niet verwijderd.</string>
+    <string name="cd_rename_folder">Map hernoemen</string>
+    <string name="cd_delete_folder">Map verwijderen</string>
+    <string name="cd_manage_folders">Mappen beheren</string>
+    <string name="cd_reorder">Herschikken</string>
+
+    <!-- ── Favorietenmapblad ──────────────────────────────────────────── -->
+    <string name="folder_sheet_manage">Mappen beheren</string>
+    <string name="folder_sheet_save_to">Opslaan in mappen</string>
+    <string name="folder_sheet_no_folders">Nog geen mappen. Maak er hieronder een aan.</string>
+    <string name="folder_sheet_new_folder">+ Nieuwe map</string>
+    <string name="folder_sheet_remove">Verwijderen uit favorieten</string>
+
+    <!-- ── Liedjesboek ────────────────────────────────────────────────── -->
+    <string name="songbook_empty_title">Nog geen liedjes</string>
+    <string name="songbook_empty_message">Tik op + om je eerste akkoordblad aan te maken.\nOf importeer een ChordPro-bestand.</string>
+    <string name="songbook_untitled">Zonder titel</string>
+    <string name="songbook_share_as_text">Delen als tekst</string>
+    <string name="songbook_chord_sheet">Akkoordblad</string>
+    <string name="songbook_export_chordpro">Exporteren als ChordPro</string>
+    <string name="songbook_export_chooser">ChordPro exporteren</string>
+    <string name="songbook_key_prefix">Toonsoort: </string>
+    <string name="songbook_transpose">Transponeren:</string>
+    <string name="songbook_capo_hint">Of gebruik capo %d met de originele akkoorden</string>
+    <string name="songbook_field_title">Titel</string>
+    <string name="songbook_field_artist">Artiest (optioneel)</string>
+    <string name="songbook_field_lyrics_hint">Gebruik [Akkoordnaam] voor akkoorden, bijv. Er[C]gens over de regen[Em]boog</string>
+    <string name="songbook_field_lyrics">Tekst met [akkoorden]</string>
+    <string name="cd_import_chordpro">ChordPro-bestand importeren</string>
+    <string name="cd_new_chord_sheet">Nieuw akkoordblad</string>
+    <string name="songbook_speed_half">0.5x</string>
+    <string name="songbook_speed_1x">1x</string>
+    <string name="songbook_speed_2x">2x</string>
+    <string name="songbook_speed_3x">3x</string>
+    <string name="cd_stop_scroll">Scrollen stoppen</string>
+    <string name="cd_pause_scroll">Scrollen pauzeren</string>
+    <string name="cd_auto_scroll">Automatisch scrollen</string>
+
+    <!-- ── Progressies ────────────────────────────────────────────────── -->
+    <string name="progressions_new">Nieuwe progressie</string>
+    <string name="cd_add_progression">Nieuwe progressie toevoegen</string>
+    <string name="progressions_my">Mijn progressies</string>
+    <string name="cd_delete_progression">Progressie verwijderen</string>
+    <string name="cd_duplicate_progression">Dupliceren</string>
+    <string name="progressions_voice_leading">Stemvoering</string>
+    <string name="progressions_copy_suffix"> (Kopie)</string>
+
+    <!-- ── Progressie aanmaken ────────────────────────────────────────── -->
+    <string name="progression_edit_title">Progressie bewerken</string>
+    <string name="progression_create_title">Progressie aanmaken</string>
+    <string name="progression_name_label">Progressienaam</string>
+    <string name="progression_desc_label">Beschrijving (optioneel)</string>
+    <string name="progression_chord_quality">Akkoordkwaliteit</string>
+    <string name="progression_triad">Drieklank</string>
+    <string name="progression_tap_chords">Tik op akkoorden om toe te voegen</string>
+    <string name="progression_your_chords">Je progressie (%d akkoorden)</string>
+    <string name="progression_placeholder">Tik op de akkoorden hierboven om je progressie op te bouwen</string>
+    <string name="progression_update">Progressie bijwerken</string>
+    <string name="progression_save">Progressie opslaan</string>
+    <string name="progression_error_min">Voeg minimaal 2 akkoorden toe</string>
+    <string name="cd_remove">Verwijderen</string>
+
+    <!-- ── Tokkelpatronen ─────────────────────────────────────────────── -->
+    <string name="patterns_strumming">Strumming</string>
+    <string name="patterns_fingerpicking">Fingerpicking</string>
+    <string name="patterns_my">Mijn patronen</string>
+    <string name="cd_create_pattern">Patroon aanmaken</string>
+    <string name="patterns_create_strum">Strumpatroon aanmaken</string>
+    <string name="patterns_pattern_name">Patroonnaam</string>
+    <string name="patterns_tap_beat">Tik op elke tel om de richting te wijzigen</string>
+    <string name="patterns_tap_accent">Tik hieronder om accent aan/uit te schakelen</string>
+    <string name="patterns_custom">Aangepast patroon</string>
+    <string name="patterns_create_fingerpick">Fingerpickingpatroon aanmaken</string>
+    <string name="patterns_steps">%d stappen</string>
+    <string name="patterns_tap_step">Tik op een stap, kies dan vinger en snaar hieronder</string>
+    <string name="patterns_finger">Vinger</string>
+    <string name="patterns_thumb">Duim</string>
+    <string name="patterns_index">Wijsvinger</string>
+    <string name="patterns_middle">Middelvinger</string>
+    <string name="patterns_ring">Ringvinger</string>
+    <string name="patterns_string">Snaar</string>
+
+    <!-- ── Afspeelbalk ────────────────────────────────────────────────── -->
+    <string name="playback_prefix">Afspelen: </string>
+    <string name="playback_bpm_prefix">BPM: </string>
+    <string name="cd_loop_on">Herhaling aan</string>
+    <string name="cd_loop_off">Herhaling uit</string>
+
+    <!-- ── Toonladderkiezer ───────────────────────────────────────────── -->
+    <string name="scale_selector_root">Grondtoon toonladder</string>
+    <string name="scale_selector_chords_in">Akkoorden in %s</string>
+
+    <!-- ── Instellingen ───────────────────────────────────────────────── -->
+    <string name="settings_title">Instellingen</string>
+    <string name="settings_sound">Geluid</string>
+    <string name="settings_volume">Volume</string>
+    <string name="settings_note_duration">Notenduur</string>
+    <string name="settings_strum_delay">Strumvertraging</string>
+    <string name="settings_strum_direction">Strumrichting</string>
+    <string name="settings_strum_down">Omlaag</string>
+    <string name="settings_strum_up">Omhoog</string>
+    <string name="settings_play_on_tap">Spelen bij aanraking</string>
+    <string name="settings_display">Weergave</string>
+    <string name="settings_theme">Thema</string>
+    <string name="settings_language">Taal</string>
+    <string name="settings_select_language">Selecteer taal</string>
+    <string name="settings_tuning">Stemming</string>
+    <string name="settings_tuner">Stemapparaat</string>
+    <string name="settings_spoken_feedback">Gesproken feedback</string>
+    <string name="settings_spoken_feedback_desc">Kondigt nootnaam en centafwijking aan via tekst-naar-spraak</string>
+    <string name="settings_precision_mode">Precisiemodus</string>
+    <string name="settings_precision_mode_desc">Verkleint de gestemd-zone van ±6 cent naar ±2 cent</string>
+    <string name="settings_auto_advance">Automatisch doorschakelen</string>
+    <string name="settings_auto_advance_desc">Markeert automatisch de volgende ongestemde snaar</string>
+    <string name="settings_auto_start">Automatisch starten</string>
+    <string name="settings_auto_start_desc">Start automatisch met luisteren wanneer het stemtabblad wordt geopend</string>
+    <string name="settings_a4_reference">A4-referentie</string>
+    <string name="settings_fretboard">Toetsenbord</string>
+    <string name="settings_left_handed">Linkshandig</string>
+    <string name="settings_show_note_names">Nootnamen tonen</string>
+    <string name="settings_allow_muted">Gedempte snaren toestaan</string>
+    <string name="settings_frets">Frets</string>
+    <string name="settings_notifications">Meldingen</string>
+    <string name="settings_chord_of_day">Akkoord van de dag</string>
+    <string name="settings_about">Over</string>
+    <string name="settings_version">Versie %s</string>
+    <string name="settings_website">Website</string>
+    <string name="settings_credits">Credits</string>
+    <string name="settings_audio_samples">Audiosamples</string>
+    <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" door stomachache (Freesound.org)</string>
+    <string name="settings_license">Licentie</string>
+    <string name="settings_license_value">CC BY 3.0</string>
+    <string name="settings_tagline">Je alles-in-één ukulele-metgezel voor akkoorden, toonladders, muziektheorie en compositie. Gratis, offline, geen advertenties, geen tracking.</string>
+    <string name="settings_unknown_version">Onbekend</string>
+
+    <!-- ── Back-up en herstel ─────────────────────────────────────────── -->
+    <string name="backup_title">BACK-UP EN HERSTEL</string>
+    <string name="backup_description">Sla al je gegevens op (favorieten, liedjes, progressies, patronen, instellingen en leervoortgang) in een bestand, of herstel vanuit een back-up.</string>
+    <string name="backup_last">Laatste back-up: %s</string>
+    <string name="cd_backup">Back-up maken</string>
+    <string name="backup_button">Back-up</string>
+    <string name="cd_restore">Gegevens herstellen</string>
+    <string name="restore_button">Herstellen</string>
+    <string name="restore_dialog_title">Gegevens herstellen?</string>
+    <string name="restore_dialog_message">Dit zal favorieten, liedjes, progressies en patronen uit het back-upbestand samenvoegen met je bestaande gegevens. Instellingen worden vervangen door de back-upwaarden.\n\nJe bestaande gegevens worden niet verwijderd.</string>
+
+    <!-- ── Microfoontoestemming ────────────────────────────────────────── -->
+    <string name="mic_permission_title">Microfoontoegang</string>
+    <string name="mic_permission_message">Het stemapparaat heeft microfoontoegang nodig om naar je ukulele te luisteren en de toonhoogte van elke snaar te detecteren.</string>
+    <string name="mic_permission_allow">Microfoon toestaan</string>
+    <string name="mic_permission_denied_title">Microfoon geweigerd</string>
+    <string name="mic_permission_denied_message">Het stemapparaat kan niet werken zonder microfoontoegang. Schakel deze in via de app-instellingen van je apparaat.</string>
+    <string name="mic_permission_open_settings">Instellingen openen</string>
+
+    <!-- ── Notenquiz ──────────────────────────────────────────────────── -->
+    <string name="note_quiz_title">Notenquiz</string>
+    <string name="note_quiz_subtitle">Test je kennis van de noten op het toetsenbord.</string>
+    <string name="note_quiz_name_it">Benoem het</string>
+    <string name="note_quiz_find_it">Vind het</string>
+    <string name="note_quiz_start">Start quiz</string>
+    <string name="note_quiz_next">Volgende vraag</string>
+    <string name="note_quiz_what_note">Welke noot staat op deze positie?</string>
+    <string name="note_quiz_string_fret">snaar, fret</string>
+    <string name="note_quiz_where_is">Waar staat deze noot?</string>
+
+    <!-- ── Theoriequiz ────────────────────────────────────────────────── -->
+    <string name="theory_quiz_title">Theoriequiz</string>
+    <string name="theory_quiz_subtitle">Test je muziektheoretische kennis!</string>
+    <string name="theory_quiz_standard">Standaard</string>
+    <string name="theory_quiz_blitz">Blitz (60s)</string>
+    <string name="theory_quiz_start_blitz">Start Blitz!</string>
+    <string name="theory_quiz_start">Start quiz</string>
+    <string name="theory_quiz_next">Volgende vraag</string>
+    <string name="theory_quiz_times_up">Tijd is om!</string>
+    <string name="theory_quiz_final_score">Score: %d</string>
+    <string name="theory_quiz_final_accuracy">Nauwkeurigheid: %s</string>
+    <string name="theory_quiz_play_again">Opnieuw spelen</string>
+
+    <!-- ── Intervaltraining ───────────────────────────────────────────── -->
+    <string name="interval_title">Intervaltraining</string>
+    <string name="interval_subtitle">Herken het interval tussen twee noten.</string>
+    <string name="interval_visual">Visueel</string>
+    <string name="interval_audio">Audio</string>
+    <string name="interval_ascending">Stijgend</string>
+    <string name="interval_descending">Dalend</string>
+    <string name="interval_harmonic">Harmonisch</string>
+    <string name="interval_start">Start training</string>
+    <string name="interval_next">Volgend interval</string>
+    <string name="interval_what">Welk interval is dit?</string>
+    <string name="interval_replay">Interval opnieuw afspelen</string>
+    <string name="interval_semitone">halve toon</string>
+    <string name="interval_semitones_apart">halve tonen verschil</string>
+
+    <!-- ── Akkoord-gehoortraining ─────────────────────────────────────── -->
+    <string name="chord_ear_title">Akkoord-gehoortraining</string>
+    <string name="chord_ear_subtitle">Herken de akkoordkwaliteit op gehoor.</string>
+    <string name="chord_ear_start">Start training</string>
+    <string name="chord_ear_next">Volgend akkoord</string>
+    <string name="chord_ear_what">Wat voor type akkoord is dit?</string>
+    <string name="chord_ear_replay">Akkoord opnieuw afspelen</string>
+
+    <!-- ── Toonladderoefening ─────────────────────────────────────────── -->
+    <string name="scale_practice_title">Toonladderoefening</string>
+    <string name="scale_practice_subtitle">Oefen toonladders met begeleiding, quizzen en gehoortraining.</string>
+    <string name="scale_practice_root">Grondtoon toonladder</string>
+    <string name="scale_practice_options">Opties</string>
+    <string name="scale_practice_loop">Herhalen</string>
+    <string name="scale_practice_fretboard">Toetsenbord</string>
+    <string name="scale_practice_play">Toonladder afspelen</string>
+    <string name="scale_practice_resume">Hervatten</string>
+    <string name="scale_practice_now">Nu:</string>
+    <string name="scale_practice_note_of">Noot %1$d van %2$d</string>
+    <string name="scale_practice_start_quiz">Start quiz</string>
+    <string name="scale_practice_next">Volgende vraag</string>
+    <string name="scale_practice_what">Welke toonladder wordt gespeeld?</string>
+    <string name="scale_practice_root_label">Grondtoon:</string>
+    <string name="scale_practice_replay">Toonladder opnieuw afspelen</string>
+    <string name="scale_practice_correct">Juist! Dit is</string>
+    <string name="scale_practice_notes_label">Noten:</string>
+    <string name="scale_practice_next_scale">Volgende toonladder</string>
+    <string name="scale_practice_start_training">Start training</string>
+
+    <!-- ── Theorielessen ──────────────────────────────────────────────── -->
+    <string name="theory_lessons_title">Muziektheorie leren</string>
+    <string name="theory_lessons_subtitle">Gestructureerde lessen van basisbegrippen tot geavanceerde harmonie.</string>
+    <string name="theory_lessons_progress">Voortgang</string>
+    <string name="theory_lessons_count">%d lessen</string>
+    <string name="theory_lessons_key_points">Kernpunten</string>
+    <string name="theory_lessons_quick_check">Snelle controle</string>
+    <string name="theory_lessons_not_quite">Niet helemaal.</string>
+    <string name="theory_lessons_back">Terug naar lessen</string>
+
+    <!-- ── Leervoortgang ──────────────────────────────────────────────── -->
+    <string name="progress_title">Leervoortgang</string>
+    <string name="progress_subtitle">Volg je muziektheoretische reis.</string>
+    <string name="progress_practice_time">Oefentijd</string>
+    <string name="progress_today">Vandaag</string>
+    <string name="progress_total">Totaal</string>
+    <string name="progress_sessions">Sessies</string>
+    <string name="progress_daily_goal">Dagelijks doel: %d min</string>
+    <string name="progress_day_streak">Dagenreeks</string>
+    <string name="progress_lessons_done">Lessen afgerond</string>
+    <string name="progress_theory_lessons">Theorielessen</string>
+    <string name="progress_lessons_completed">Lessen voltooid</string>
+    <string name="progress_quizzes_passed">Quizzen gehaald</string>
+    <string name="progress_overall">Totaal</string>
+    <string name="progress_reset">Alle voortgang resetten</string>
+    <string name="progress_reset_title">Voortgang resetten?</string>
+    <string name="progress_reset_message">Dit wist alle leervoortgang, quizscores, reeksen en voltooide lessen. Dit kan niet ongedaan worden gemaakt.</string>
+    <string name="progress_no_attempts">Nog geen pogingen.</string>
+
+    <!-- ── Dagelijkse uitdaging ───────────────────────────────────────── -->
+    <string name="daily_challenge_title">Dagelijkse uitdagingen</string>
+    <string name="daily_challenge_subtitle">Voltooi de uitdagingen van vandaag om je vaardigheden op te bouwen!</string>
+    <string name="daily_challenge_tip_title">Tip van de dag</string>
+    <string name="daily_tip_1">Zelfs 5 minuten dagelijks oefenen is beter dan 1 uur per week.</string>
+    <string name="daily_tip_2">Gebruik een metronoom bij het oefenen van akkoordwisselingen — begin langzaam en bouw op.</string>
+    <string name="daily_tip_3">Bij het leren van een nieuw akkoord, speel elke snaar apart om de helderheid te controleren.</string>
+    <string name="daily_tip_4">Probeer mee te neuriën terwijl je tokkelt om je muzikaal gehoor te ontwikkelen.</string>
+    <string name="daily_tip_5">Oefen voor een spiegel om je handpositie te controleren.</string>
+    <string name="daily_tip_6">Richt je op vloeiende overgangen in plaats van snelheid — snelheid komt met de tijd.</string>
+    <string name="daily_tip_7">Leer liedjes die je leuk vindt! Motivatie maakt oefenen plezierig.</string>
+
+    <!-- ── SRS-oefening ───────────────────────────────────────────────── -->
+    <string name="srs_title">Gespreid herhalen</string>
+    <string name="srs_subtitle">Herhaal akkoorden met optimale intervallen voor langetermijngeheugen.</string>
+    <string name="srs_due">Te doen</string>
+    <string name="srs_reviewed">Herhaald</string>
+    <string name="srs_total">Totaal</string>
+    <string name="srs_no_cards">Nog geen kaarten</string>
+    <string name="srs_no_cards_message">Voeg akkoorden toe aan je SRS-stapel vanuit de Akkoordenbibliotheek door lang op een voicing te drukken en \"Toevoegen aan SRS\" te selecteren.</string>
+    <string name="srs_all_caught_up">Alles bijgewerkt!</string>
+    <string name="srs_session_done">Je hebt %1$d %2$s herhaald deze sessie. Kom later terug voor meer herhalingen.</string>
+    <string name="srs_card_singular">kaart</string>
+    <string name="srs_card_plural">kaarten</string>
+    <string name="srs_no_due">Er zijn momenteel geen kaarten te herhalen. Kom later terug!</string>
+    <string name="srs_card_remaining">Kaart %1$d, %2$d resterend</string>
+    <string name="srs_recall_prompt">Kun je de vingerzetting herinneren?</string>
+    <string name="srs_show_voicing">Voicing tonen</string>
+    <string name="srs_frets">Frets: %s</string>
+    <string name="srs_how_well">Hoe goed herinnerde je het?</string>
+
+    <!-- ── Oefenroutine ───────────────────────────────────────────────── -->
+    <string name="routine_title">Oefenroutine</string>
+    <string name="routine_subtitle">Stel je oefensessie samen.</string>
+    <string name="routine_duration">Duur: %d minuten</string>
+    <string name="routine_skill_level">Vaardigheidsniveau</string>
+    <string name="routine_focus_areas">Aandachtsgebieden</string>
+    <string name="routine_start">Start oefenroutine</string>
+    <string name="cd_start_routine">Start oefenroutine</string>
+    <string name="routine_total">%1$d min totaal, %2$d stappen</string>
+    <string name="cd_new_routine">Nieuwe routine</string>
+    <string name="routine_complete_title">Oefening voltooid!</string>
+    <string name="routine_complete_message">Geweldige sessie! Blijf dagelijks oefenen.</string>
+    <string name="cd_practice_complete">Oefening voltooid</string>
+    <string name="cd_completed">Voltooid</string>
+
+    <!-- ── Akkoordovergang-trainer ────────────────────────────────────── -->
+    <string name="chord_transition_title">Akkoordovergang-trainer</string>
+    <string name="chord_transition_subtitle">Oefen het wisselen tussen twee akkoorden op maat.</string>
+    <string name="chord_transition_chord_a">Akkoord A</string>
+    <string name="chord_transition_chord_b">Akkoord B</string>
+    <string name="cd_swap_chords">Akkoorden wisselen</string>
+    <string name="chord_transition_switches">Wisselingen</string>
+    <string name="chord_transition_time">Tijd</string>
+    <string name="chord_transition_per_min">Per min</string>
+    <string name="cd_reset">Resetten</string>
+    <string name="cd_start">Start</string>
+    <string name="cd_stop">Stoppen</string>
+
+    <!-- ── Akkoordovergang-animatie ───────────────────────────────────── -->
+    <string name="transition_anim_finger_movements">Vingerbewegingen</string>
+    <string name="transition_anim_no_movement">Geen vingerbeweging nodig!</string>
+    <string name="transition_anim_speed">Snelheid:</string>
+    <string name="transition_anim_animate">Overgang animeren</string>
+    <string name="cd_animate_transition">Overgang animeren</string>
+    <string name="cd_prev_step">Vorige stap</string>
+    <string name="cd_next_step">Volgende stap</string>
+    <string name="transition_anim_start_shape">Startvorm</string>
+    <string name="transition_anim_end_shape">Eindvorm</string>
+    <string name="transition_anim_step">Stap %1$d/%2$d</string>
+
+    <!-- ── Meespelen ──────────────────────────────────────────────────── -->
+    <string name="play_along_title">Meespelen</string>
+    <string name="play_along_subtitle">Luister en speel de juiste akkoorden!</string>
+    <string name="play_along_mic_needed">Microfoontoegang nodig voor akkoorddetectie</string>
+    <string name="cd_grant_permission">Microfoontoestemming verlenen</string>
+    <string name="play_along_grant">Toestemming verlenen</string>
+    <string name="play_along_play">Speel:</string>
+    <string name="play_along_heard">Gehoord:</string>
+    <string name="cd_correct">Juist</string>
+    <string name="cd_incorrect">Onjuist</string>
+    <string name="play_along_grade">Beoordeling</string>
+    <string name="play_along_choose">Kies een toonsoort en progressie, en speel dan mee met real-time akkoorddetectie.</string>
+    <string name="play_along_progression">Progressie</string>
+
+    <!-- ── Prestaties ─────────────────────────────────────────────────── -->
+    <string name="achievements_title">Prestaties</string>
+    <string name="achievements_subtitle">Verdien badges door te oefenen en te leren.</string>
+    <string name="achievements_unlocked">%d ontgrendeld</string>
+    <string name="achievements_earned">Behaald</string>
+
+    <!-- ── Help ────────────────────────────────────────────────────────── -->
+    <string name="help_title">Help</string>
+    <string name="help_subtitle">Tik op een functie om meer te leren over hoe het werkt.</string>
+    <string name="help_section_play">Spelen</string>
+    <string name="help_section_create">Creëren</string>
+    <string name="help_section_learn">Leren</string>
+    <string name="help_section_reference">Naslagwerk</string>
+    <string name="help_section_other">Overig</string>
+
+    <!-- Help-itemtitels -->
+    <string name="help_explorer">Verkenner</string>
+    <string name="help_tuner">Stemapparaat</string>
+    <string name="help_pitch_monitor">Toonhoogtemonitor</string>
+    <string name="help_chords">Akkoorden</string>
+    <string name="help_favorites">Favorieten</string>
+    <string name="help_song_finder">Liedzoeker</string>
+    <string name="help_songs">Liedjes</string>
+    <string name="help_melody_notepad">Melodieblok</string>
+    <string name="help_patterns">Patronen</string>
+    <string name="help_progressions">Progressies</string>
+    <string name="help_learn_theory">Theorie leren</string>
+    <string name="help_theory_quiz">Theoriequiz</string>
+    <string name="help_interval_trainer">Intervaltraining</string>
+    <string name="help_note_quiz">Notenquiz</string>
+    <string name="help_chord_ear">Akkoord-gehoortraining</string>
+    <string name="help_scale_practice">Toonladderoefening</string>
+    <string name="help_progress">Voortgang</string>
+    <string name="help_daily_challenge">Dagelijkse uitdaging</string>
+    <string name="help_practice_routine">Oefenroutine</string>
+    <string name="help_srs_review">SRS-herhaling</string>
+    <string name="help_chord_transitions">Akkoordovergangen</string>
+    <string name="help_play_along">Meespelen</string>
+    <string name="help_achievements">Prestaties</string>
+    <string name="help_capo_guide">Capogids</string>
+    <string name="help_circle_of_fifths">Kwintencirkel</string>
+    <string name="help_chord_subs">Akkoordsubstituties</string>
+    <string name="help_chords_in_scale">Akkoorden in toonladder</string>
+    <string name="help_fretboard_notes">Toetsenbordnoten</string>
+    <string name="help_glossary">Woordenlijst</string>
+    <string name="help_settings">Instellingen</string>
+    <string name="help_sharing">Akkoorden delen</string>
+    <string name="help_full_screen">Volledig schermmodus</string>
+
+    <!-- Helpbeschrijvingen -->
+    <string name="help_desc_explorer">Het interactieve toetsenbord waar je op frets tikt om akkoorden op te bouwen. De app herkent welk akkoord je speelt en toont omkeringen, intervallen en alternatieve namen. Bevat een capo-kiezer en toonladderoverlay om te ontdekken hoe akkoorden en toonladders samenvallen.</string>
+    <string name="help_desc_tuner">Een chromatisch stemapparaat dat de microfoon van je apparaat gebruikt. Toont de gedetecteerde noot, centafwijking op een naaldmeter en duidelijke instructies (\"Hoger stemmen\", \"Op toon!\"). Tik op de snaarknoppen voor een referentietoon. Ondersteunt meerdere stemmingen, A4-kalibratie, gesproken feedback en precisiemodus.</string>
+    <string name="help_desc_pitch_monitor">Een real-time toonhoogtevisualisatietool. Toont de gedetecteerde toonhoogte op een scrollende grafiek, de huidige nootnaam en overeenkomende akkoorden. Handig om de intonatie te controleren bij het spelen van melodieën of het oefenen van bends.</string>
+    <string name="help_desc_chords">Een uitgebreide akkoordenbibliotheek. Kies een grondtoon en akkoordtype om alle speelbare voicings op de ukulele te zien. Tik op een voicing om deze op het verkennerstoetsenbord te laden, of houd lang ingedrukt om te delen, toe te voegen aan favorieten of aan SRS. Bevat een omkeringenvergelijkmodus.</string>
+    <string name="help_desc_favorites">Je opgeslagen akkoordvoicings, georganiseerd in mappen. Tik op een voicing om deze op het toetsenbord te bekijken, veeg of houd lang ingedrukt voor opties. Gebruik mappen om akkoorden te groeperen voor specifieke liedjes of oefensessies.</string>
+    <string name="help_desc_song_finder">Ontdek liedjes die je al kunt spelen met de akkoorden in je favorieten. Hoe meer akkoorden je opslaat, hoe meer liedjes worden ontgrendeld. Toont ook liedjes die slechts 1-2 akkoorden meer nodig hebben.</string>
+    <string name="help_desc_songs">Een persoonlijk liedjesboek voor het schrijven en opslaan van akkoordbladen. Typ teksten en voeg akkoorden in met haakjesnotatie: \"Er[C]gens over de regen[Em]boog\". Ondersteunt transponeren, capo-suggesties, automatisch scrollen en importeren/exporteren van ChordPro-bestanden.</string>
+    <string name="help_desc_melody_notepad">Een eenvoudig hulpmiddel om noot voor noot melodieën te componeren. Tik op noten om een reeks op te bouwen, kies nootduur (heel, half, kwart, achtste, zestiende), voeg rusten toe en speel af op instelbare BPM. Ideaal voor het vastleggen van melodische ideeën of oefeningen.</string>
+    <string name="help_desc_patterns">Blader door en maak strum- en fingerpickingpatronen. Tik op de telindicatoren om de richting te wijzigen (omlaag, omhoog, dempen, rust) of wijs vingers toe aan snaren. Speel ze af op instelbaar tempo.</string>
+    <string name="help_desc_progressions">Een bibliotheek van veelgebruikte akkoordprogressies in elke toonsoort. Tik op een akkoord om het in de bibliotheek te bekijken. Maak aangepaste progressies, oefen met de ingebouwde metronoom, of verken stemvoering tussen akkoorden.</string>
+    <string name="help_desc_learn_theory">Gestructureerde muziektheorielessen over noten, intervallen, toonladders, akkoorden, toonsoorten en harmonie. Elke les heeft kernpunten en een snelle controlequiz zodat je je begrip kunt verifiëren voordat je verdergaat.</string>
+    <string name="help_desc_theory_quiz">Test je kennis van muziektheoretische concepten zoals intervallen, akkoordopbouw, toonsoortaanduidingen en toonladdergraden. Bevat een standaardmodus en een getimede Blitz-modus (60 s) voor extra uitdaging.</string>
+    <string name="help_desc_interval_trainer">Gehoortraining voor muzikale intervallen. Kies visuele (toetsenbord) of audiomodus, selecteer stijgende, dalende of harmonische presentatie, en kies een moeilijkheidsgraad. Herken het interval en bouw je relatieve gehoor op.</string>
+    <string name="help_desc_note_quiz">Een getimede quiz die je uitdaagt om noten op het toetsenbord te herkennen. In de modus \"Benoem het\" zie je een positie en raad je de noot; in de modus \"Vind het\" zie je een noot en tik je op de locatie. Moeilijkheidsgraden beperken het fretbereik.</string>
+    <string name="help_desc_chord_ear">Luister naar een akkoord en herken het type (majeur, mineur, verminderd, enz.). Moeilijkheidsgraden voegen meer akkoordkwaliteiten toe. Een uitstekende manier om je harmonisch gehoor te ontwikkelen.</string>
+    <string name="help_desc_scale_practice">Oefen toonladders op het toetsenbord met drie modi: Meespelen (begeleid met optionele metronoom), Quiz (herken de gespeelde toonladder) en Gehoortraining. Ondersteunt alle toonladdertypen, optionele herhaling en een compacte toetsenbordweergave.</string>
+    <string name="help_desc_progress">Een dashboard met je leerstatistieken: oefentijd, dagenreeks, voltooide lessen en quizscores voor Theorie, Intervallen, Notenquiz en Akkoord-gehoortraining. Helpt je om consistentie en verbetering in de tijd bij te houden.</string>
+    <string name="help_desc_daily_challenge">Drie nieuwe uitdagingen die elke dag worden gegenereerd om je oefenroutine gevarieerd te houden. Elke uitdaging richt zich op een andere vaardigheid — akkoorden, toonladders, gehoortraining, theorie of overgangen. Voltooien bouwt consistentie op.</string>
+    <string name="help_desc_practice_routine">Een begeleide oefensessie-samensteller. Kies duur, vaardigheidsniveau en aandachtsgebieden om een stapsgewijze routine te genereren. De app maakt een getimede reeks oefeningen voor warming-up, techniek, repertoire en cooling-down.</string>
+    <string name="help_desc_srs_review">Gespreid Herhalingssysteem voor het onthouden van akkoordvoicings. Voeg akkoorden toe uit de bibliotheek en de app plant herhalingen op toenemende intervallen op basis van hoe goed je elke voicing herinnert. Houdt je akkoordvocabulaire efficiënt groeiend.</string>
+    <string name="help_desc_chord_transitions">Visualiseer hoe je vingers bewegen tussen twee akkoorden. Kies twee akkoorden en bekijk een stapsgewijze animatie van vingerbewegingen. Bevat een getimede oefenmodus met wisselingteller en BPM-regeling.</string>
+    <string name="help_desc_play_along">Real-time meespeelpraktijk met audio-akkoorddetectie. Kies een toonsoort en progressie, en strum dan mee terwijl de app luistert en je nauwkeurigheid beoordeelt. Vereist microfoontoestemming.</string>
+    <string name="help_desc_achievements">Een galerij van mijlpalen om te ontgrendelen terwijl je de app gebruikt. Verdien badges voor oefenreeksen, quizscores, gemaakte liedjes, geleerde akkoorden en meer. Kom terug om je voortgang te bekijken.</string>
+    <string name="help_desc_capo_guide">Een educatieve gids over het gebruik van een capo op de ukulele. Legt uit wat een capo doet, laat zien hoe deze de toonhoogte verandert, noemt veelgebruikte posities en bevat een interactief probeer-het-zelf-gedeelte met een referentietabel.</string>
+    <string name="help_desc_circle_of_fifths">Een interactief kwintencirkeldiagram. Tik op een toonsoort om de toonsoortaanduiding, relatief mineur/majeur, diatonische akkoorden en nauw verwante toonsoorten te zien. Een fundamenteel naslagwerk voor het begrijpen van toonsoortrelaties.</string>
+    <string name="help_desc_chord_subs">Een naslaggids voor akkoordsubstitutieopties. Selecteer een basisakkoord en bekijk welke akkoorden het kunnen vervangen en waarom — relatief mineur, tritonussubstitutie, modale uitwisseling en meer. Elke substitutie legt de achterliggende theorie uit.</string>
+    <string name="help_desc_chords_in_scale">Selecteer een toonladder en bekijk alle akkoorden die er natuurlijk in voorkomen. Toont diatonische drieklanken met Romeinse cijferanalyse. Handig voor songwriting en het begrijpen van harmonie in elke toonsoort.</string>
+    <string name="help_desc_fretboard_notes">Een visuele kaart die elke noot op het ukulele-toetsenbord toont. Markeer een specifieke noot om al zijn posities te zien. Ondersteunt hoge G- en lage G-stemming. Tik op een noot om deze te horen.</string>
+    <string name="help_desc_glossary">Een doorzoekbaar woordenboek van muziektheorie- en ukuleletermen — van arpeggio tot voicing. Elk item bevat een beknopte definitie en, waar nuttig, een voorbeeld.</string>
+    <string name="help_desc_settings">Configureer app-brede voorkeuren: geluid (volume, strumvertraging, richting), weergave (thema), stemming (hoge G, lage G, bariton, enz.), stemapparaat (gesproken feedback, precisiemodus, A4-kalibratie), toetsenbord (linkshandig, aantal frets) en meldingen.</string>
+    <string name="help_desc_sharing">Deel elk akkoord als afbeelding. Wanneer je een akkoord bekijkt in de Verkenner of Akkoordenbibliotheek, tik op het deelpictogram om een nette akkoorddiagramafbeelding te genereren die je naar vrienden kunt sturen of op sociale media kunt plaatsen.</string>
+    <string name="help_desc_full_screen">Tik op het vergroot-pictogram in het Verkenner-tabblad om een liggend volledig scherm toetsenbord te openen. Ideaal voor oefensessies waarbij je maximale zichtbaarheid van het toetsenbord wilt zonder UI-afleidingen.</string>
+
+    <!-- ── Woordenlijst ───────────────────────────────────────────────── -->
+    <string name="glossary_title">Muziekwoordenlijst</string>
+    <string name="glossary_term_count">%d termen over muziektheorie en ukulele.</string>
+    <string name="glossary_search_hint">Zoek termen…</string>
+    <string name="glossary_no_match">Geen overeenkomende termen gevonden.</string>
+    <string name="glossary_example">Voorbeeld:</string>
+
+    <!-- ── Kwintencirkel ──────────────────────────────────────────────── -->
+    <string name="circle_title">Kwintencirkel</string>
+    <string name="circle_subtitle">Tik op een toonsoort om de toonsoortaanduiding en akkoorden te zien. Aangrenzende toonsoorten zijn nauw verwant.</string>
+    <string name="circle_cd_selected">Kwintencirkeldiagram, %s geselecteerd. Tik om een andere toonsoort te selecteren.</string>
+    <string name="circle_cd_default">Kwintencirkeldiagram. Tik om een toonsoort te selecteren.</string>
+    <string name="circle_key_signature">Toonsoortaanduiding</string>
+    <string name="circle_relative_minor">Relatief mineur</string>
+    <string name="circle_relative_major">Relatief majeur</string>
+    <string name="circle_diatonic_chords">Diatonische akkoorden</string>
+    <string name="circle_related_keys">Nauw verwante toonsoorten</string>
+    <string name="circle_same_as">gelijk aan</string>
+
+    <!-- ── Capogids ───────────────────────────────────────────────────── -->
+    <string name="capo_guide_what">Wat is een capo?</string>
+    <string name="capo_guide_pitch">Hoe het de toonhoogte verandert</string>
+    <string name="capo_guide_positions">Veelgebruikte capoposities</string>
+    <string name="capo_guide_when">Wanneer een capo gebruiken</string>
+    <string name="capo_guide_try">Probeer het zelf!</string>
+    <string name="capo_guide_ref_table">Referentietabel die laat zien welke vormen welke klinkende toonsoorten opleveren:</string>
+    <string name="capo_guide_open_shapes">Veelgebruikte open akkoordvormen (goed met capo):</string>
+    <string name="capo_guide_tap_fret">Tik op een fret om de capo te plaatsen:</string>
+    <string name="capo_guide_no_capo">Geen capo — standaardstemming</string>
+    <string name="capo_guide_on_fret">Capo op fret %d</string>
+    <string name="capo_guide_was_note">(was %s)</string>
+    <string name="capo_guide_shape">Vorm</string>
+    <string name="capo_guide_sounds_as">Klinkt als</string>
+    <string name="capo_guide_string">Snaar %d</string>
+
+    <!-- ── Capocalculator ─────────────────────────────────────────────── -->
+    <string name="capo_calc_title">Capocalculator</string>
+    <string name="capo_calc_sounding">Klinkt als: %s</string>
+    <string name="capo_calc_hint">Plaats een capo om eenvoudigere vormen te spelen die hetzelfde klinken.</string>
+    <string name="capo_calc_no_capo">Geen capo</string>
+    <string name="capo_calc_fret">Fret %d</string>
+    <string name="capo_calc_play_shape">Speel: %s</string>
+    <string name="capo_calc_recommended">Aanbevolen</string>
+    <string name="capo_calc_frets">Frets: %s</string>
+    <string name="capo_calc_ease">Gemak: %d%%</string>
+    <string name="capo_calc_no_positions">Geen capoposities beschikbaar voor dit akkoord.</string>
+    <string name="capo_helper_title">Capo-assistent</string>
+    <string name="capo_helper_hint">Vind de gemakkelijkste capopositie voor deze progressie.</string>
+    <string name="capo_helper_shapes">Vormen: %s</string>
+    <string name="capo_helper_ease">Totaal gemak: %d%%</string>
+    <string name="capo_helper_no_positions">Geen capoposities beschikbaar voor deze progressie.</string>
+
+    <!-- ── Capovisualisatie ───────────────────────────────────────────── -->
+    <string name="capo_viz_title">Capovisualisatie</string>
+    <string name="capo_viz_shape">Vorm: %s</string>
+    <string name="capo_viz_with_capo">Capo op fret %1$d → Klinkt als %2$s</string>
+    <string name="capo_viz_no_capo">Geen capo — klinkt als %s</string>
+    <string name="capo_viz_position">Capopositie</string>
+    <string name="capo_viz_no_capo_label">Geen capo</string>
+    <string name="capo_viz_fret">Fret %d</string>
+    <string name="capo_viz_sounding">Klinkend</string>
+    <string name="capo_viz_same">Gelijk</string>
+    <string name="capo_viz_tip">Tip: Met een capo op fret %1$d speel je de %2$s-vorm maar het klinkt als %3$s. Elke fret verhoogt de toonhoogte met een halve toon.</string>
+
+    <!-- ── Akkoordsubstituties ────────────────────────────────────────── -->
+    <string name="chord_subs_title">Akkoordsubstituties</string>
+    <string name="chord_subs_subtitle">Leer hoe je akkoorden vervangt door alternatieven die andere kleuren en stemmingen creëren met behoud van harmonische zin.</string>
+    <string name="chord_subs_examples_in">Voorbeelden in toonsoort:</string>
+    <string name="chord_subs_practice_tip_title">Oefentip</string>
+    <string name="chord_subs_practice_tip">Begin met diatonische substituties en relatief majeur/mineur-wisselingen — die klinken altijd goed. Als je er vertrouwd mee bent, probeer dan modale uitwisseling voor meer kleur. Bewaar tritonussubstituties en secundaire dominanten voor wanneer je klaar bent om jazzharmonie te verkennen.</string>
+    <string name="chord_subs_shared">Gedeeld: %s</string>
+
+    <!-- ── Akkoorden in toonladder ────────────────────────────────────── -->
+    <string name="scale_chord_title">Akkoorden in toonladder</string>
+    <string name="scale_chord_subtitle">Bekijk welke akkoorden er in een toonladder voorkomen.</string>
+    <string name="scale_chord_notes">Noten: %s</string>
+    <string name="scale_chord_too_few">Deze toonladder heeft te weinig noten om standaard drieklanken te bouwen.</string>
+    <string name="scale_chord_diatonic">Diatonische drieklanken</string>
+
+    <!-- ── Toetsenbord-notenkaart ─────────────────────────────────────── -->
+    <string name="note_map_title">Toetsenbord-notenkaart</string>
+    <string name="note_map_subtitle">Leer elke noot op het ukulele-toetsenbord.</string>
+    <string name="note_map_high_g">Standaard (hoge G)</string>
+    <string name="note_map_low_g">Lage G</string>
+    <string name="note_map_highlight">Noot markeren</string>
+    <string name="note_map_tips_title">Tips</string>
+    <string name="note_map_tip_1">Tik op een noot om deze te horen</string>
+    <string name="note_map_tip_2">Gebruik het markeringsfilter om alle posities van een noot te vinden</string>
+    <string name="note_map_tip_3">Fret 12 heeft dezelfde noten als fret 0 (één octaaf hoger)</string>
+    <string name="note_map_tip_4">Schakel naar lage G om te zien hoe de G-snaar verandert</string>
+    <string name="note_map_string">Snaar %d</string>
+
+    <!-- ── Toetsenbordweergave ────────────────────────────────────────── -->
+    <string name="fretboard_string">snaar, </string>
+    <string name="fretboard_open">open</string>
+    <string name="fretboard_fret">fret %d</string>
+    <string name="fretboard_selected">, geselecteerd</string>
+    <string name="fretboard_in_scale">, in toonladder</string>
+    <string name="fretboard_scale_root">, toonladder grondtoon</string>
+    <string name="fretboard_blocked">, geblokkeerd door capo</string>
+    <string name="fretboard_blocked_text">Geblokkeerd door capo</string>
+
+    <!-- ── Verticaal akkoorddiagram ───────────────────────────────────── -->
+    <string name="diagram_chord_cd">Akkoord %s</string>
+    <string name="diagram_string_muted">snaar gedempt</string>
+    <string name="diagram_string_open">snaar open</string>
+    <string name="diagram_string_fret">snaar fret %d</string>
+    <string name="diagram_capo_fret">capo op fret %d</string>
+
+    <!-- ── Akkoord delen ──────────────────────────────────────────────── -->
+    <string name="share_as_image">Delen als afbeelding</string>
+    <string name="share_diagram_attribution">Ukulele Companion</string>
+
+    <!-- ── Melodieblok ────────────────────────────────────────────────── -->
+    <string name="melody_title">Melodieblok</string>
+    <string name="melody_subtitle">Tik op noten om een melodie te componeren. Druk op afspelen om te luisteren.</string>
+    <string name="melody_sequence">Reeks (%d noten)</string>
+    <string name="melody_placeholder">Tik hieronder op een noot om te beginnen met componeren</string>
+    <string name="melody_whole">H</string>
+    <string name="melody_half">½</string>
+    <string name="melody_quarter">K</string>
+    <string name="melody_eighth">8</string>
+    <string name="melody_sixteenth">16</string>
+    <string name="melody_note_duration">Nootduur</string>
+    <string name="melody_tap_to_add">Tik om noot toe te voegen</string>
+    <string name="melody_rest">Rust</string>
+    <string name="cd_delete_note">Noot verwijderen</string>
+    <string name="cd_play_melody">Melodie afspelen</string>
+    <string name="cd_stop_playing">Afspelen stoppen</string>
+    <string name="cd_clear_all">Alle noten wissen</string>
+    <string name="melody_clear">Wissen</string>
+
+    <!-- ── Liedzoeker ─────────────────────────────────────────────────── -->
+    <string name="song_finder_title">Liedzoeker</string>
+    <string name="song_finder_subtitle">Vind liedjes die je kunt spelen met de akkoorden die je kent.</string>
+    <string name="song_finder_no_chords_title">Nog geen bekende akkoorden</string>
+    <string name="song_finder_no_chords_message">Sla enkele akkoordvoicings op in Favorieten, en we vinden liedjes die je kunt spelen!</string>
+    <string name="song_finder_your_chords">Jouw akkoorden (%d)</string>
+    <string name="song_finder_songs_can_play">Liedjes die je kunt spelen (%d)</string>
+    <string name="song_finder_learn_more">Leer 1-2 akkoorden meer (%d)</string>
+    <string name="song_finder_hide">Verbergen</string>
+    <string name="song_finder_show">Tonen</string>
+    <string name="song_finder_keep_learning">Blijf nieuwe akkoorden leren om meer liedjes te ontgrendelen!</string>
+    <string name="song_finder_learn_prefix">Leer: </string>
+
+    <!-- ── Stemvoering ────────────────────────────────────────────────── -->
+    <string name="cd_back_progressions">Terug naar progressies</string>
+    <string name="voice_leading_title">Stemvoering in %s</string>
+    <string name="voice_leading_common_tones">%d gemeenschappelijke toon</string>
+    <string name="voice_leading_common_tones_plural">%d gemeenschappelijke tonen</string>
+    <string name="voice_leading_fret_movement">%d fret totale beweging</string>
+    <string name="voice_leading_frets_movement">%d frets totale beweging</string>
+    <string name="voice_leading_stays">blijft op </string>
+    <string name="voice_leading_muted">gedempt</string>
+    <string name="voice_leading_fret_prefix">fret </string>
+    <string name="voice_leading_arrow"> → </string>
+    <string name="voice_leading_tip_singular">Tip: Houd je vinger op de %1$s snaar — dezelfde noot in beide akkoorden.</string>
+    <string name="voice_leading_tip_plural">Tip: Houd je vingers op de %1$s snaren — dezelfde noot in beide akkoorden.</string>
+    <string name="voice_leading_total_path">Totaal pad: %1$d frets beweging over %2$d overgangen</string>
+    <string name="voice_leading_prev">Vorige</string>
+    <string name="cd_play_all_voice_leadings">Alle stemvoeringen afspelen</string>
+    <string name="voice_leading_play_all">Alles afspelen</string>
+    <string name="voice_leading_next">Volgende</string>
+    <string name="voice_leading_step">Stap %1$d van %2$d</string>
+    <string name="voice_leading_single_chord">Deze progressie heeft slechts één akkoord.</string>
+
+    <!-- ── Transponeerbesturing ───────────────────────────────────────── -->
+    <string name="transpose_arrow"> → </string>
+    <string name="transpose_capo_prefix">Capo </string>
+
+    <!-- ── Progression Practice ─────────────────────────────────────── -->
+    <string name="progression_practice_title">Oefenen</string>
+    <string name="progression_practice_no_voicing">Geen greep beschikbaar</string>
+    <string name="cd_previous_voicing">Vorige greep</string>
+    <string name="cd_next_voicing">Volgende greep</string>
+    <string name="cd_toggle_loop">Herhaling aan/uit</string>
+
+    <!-- ── Tap Tempo ──────────────────────────────────────────────────── -->
+    <string name="tap_tempo_label">Tik</string>
+
+    <!-- ── Volledig scherm toetsenbord ────────────────────────────────── -->
+    <string name="full_screen_reset">Resetten</string>
+
+    <!-- ── Melding (Akkoord van de dag) ───────────────────────────────── -->
+    <string name="notif_chord_of_day">Akkoord van de dag: %s</string>
+    <string name="notif_frets">Frets: %1$s — Tik om te oefenen!</string>
+    <string name="notif_channel_name">Akkoord van de dag</string>
+    <string name="notif_channel_desc">Dagelijkse ukulele-akkoordsuggestie</string>
+
+    <!-- ── Widget ─────────────────────────────────────────────────────── -->
+    <string name="widget_title">Akkoord van de dag</string>
+</resources>
