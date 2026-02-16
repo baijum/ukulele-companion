@@ -139,9 +139,17 @@ object Progressions {
     private val I6_maj  = ChordDegree(0,  "6",    "I6")
     private val iim9    = ChordDegree(2,  "m9",   "iim9")
     private val V9_maj  = ChordDegree(7,  "9",    "V9")
+    // Borrowed chords from parallel minor
+    private val bVI     = ChordDegree(8,  "",     "\u266dVI")
+    private val bVII    = ChordDegree(10, "",     "\u266dVII")
+    // Secondary dominants
+    private val II7     = ChordDegree(2,  "7",    "II7")
+    private val III7    = ChordDegree(4,  "7",    "III7")
+    private val VI7     = ChordDegree(9,  "7",    "VI7")
 
     // ── Extended chord degrees (Minor key) ──
     private val im7      = ChordDegree(0,  "m7",   "im7")
+    private val iim7b5   = ChordDegree(2,  "m7b5", "iim7\u266d5")
     private val ivm7     = ChordDegree(5,  "m7",   "ivm7")
     private val V7_min   = ChordDegree(7,  "7",    "V7")
     private val IIImaj7  = ChordDegree(3,  "maj7", "IIImaj7")
@@ -226,6 +234,50 @@ object Progressions {
             description = "A swinging jazz progression. The 6th chord gives a classic, upbeat swing feel.",
             degrees = listOf(I6_maj, vim7, iim7, V7_maj),
         ),
+        // ── Blues progressions ──
+        Progression(
+            name = "Twelve-Bar Blues",
+            description = "The foundational blues form. Used in thousands of blues, rock, and jazz songs. Each degree represents one bar.",
+            degrees = listOf(I, I, I, I, IV, IV, I, I, V, IV, I, V),
+        ),
+        Progression(
+            name = "Eight-Bar Blues",
+            description = "A compact blues form. \u201cHeartbreak Hotel,\u201d \u201cSitting on Top of the World.\u201d Each degree represents one bar.",
+            degrees = listOf(I, V, IV, IV, I, V, I, V),
+        ),
+        // ── Classic harmonic patterns ──
+        Progression(
+            name = "Circle Progression",
+            description = "A foundational sequence descending in fifths. Smooth harmonic flow found across classical, jazz, and pop.",
+            degrees = listOf(vi, ii, V, I),
+        ),
+        Progression(
+            name = "Blues Turnaround",
+            description = "A simple rock and blues turnaround used at phrase endings to cycle back to the start.",
+            degrees = listOf(V, IV, I),
+        ),
+        Progression(
+            name = "Montgomery-Ward Bridge",
+            description = "A classic bridge formula found in countless pop and jazz standards. Named for its pervasive use.",
+            degrees = listOf(I, IV, ii, V),
+        ),
+        Progression(
+            name = "Ascending Bass",
+            description = "A smooth ascending bass line (1\u20133\u20134\u20135). \u201cCrocodile Rock\u201d by Elton John, \u201cI Feel Fine\u201d by the Beatles.",
+            degrees = listOf(I, iii, IV, V),
+        ),
+        // ── Borrowed chord progressions ──
+        Progression(
+            name = "Rock Cadence",
+            description = "A powerful rock ending using chords borrowed from the parallel minor. \u201cEye of the Tiger,\u201d \u201cLivin\u2019 on a Prayer.\u201d",
+            degrees = listOf(bVI, bVII, I),
+        ),
+        // ── Secondary dominant progressions ──
+        Progression(
+            name = "Ragtime",
+            description = "A chain of secondary dominants descending in fifths. Sophisticated and fun on ukulele.",
+            degrees = listOf(III7, VI7, II7, V7_maj),
+        ),
     )
 
     val MINOR_PROGRESSIONS: List<Progression> = listOf(
@@ -264,6 +316,20 @@ object Progressions {
             name = "Noir Jazz",
             description = "A dark, cinematic progression. Major 7th chords on III and VII add mysterious color.",
             degrees = listOf(im7, VIImaj7, IIImaj7, V7_min),
+            scaleType = ScaleType.MINOR,
+        ),
+        // ── Historical progressions ──
+        Progression(
+            name = "Folia",
+            description = "One of the oldest known chord progressions (15th century). Dramatic and timeless, used from Baroque to modern film scores.",
+            degrees = listOf(i_m, V_m, i_m, VII_m, III_m, VII_m, i_m, V_m, i_m),
+            scaleType = ScaleType.MINOR,
+        ),
+        // ── Minor seventh chord progressions ──
+        Progression(
+            name = "Minor ii\u2013V\u2013I",
+            description = "The minor-key jazz cadence. The half-diminished ii leads through V7 back to the tonic. Essential for jazz in minor keys.",
+            degrees = listOf(iim7b5, V7_min, im7),
             scaleType = ScaleType.MINOR,
         ),
     )
