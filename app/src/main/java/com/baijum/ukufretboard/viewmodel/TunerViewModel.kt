@@ -173,10 +173,13 @@ class TunerViewModel : ViewModel() {
         private const val TELEMETRY_LOG_INTERVAL_FRAMES = 25L
 
         /** Minimum interval between TTS announcements in ms. */
-        private const val TTS_MIN_INTERVAL_MS = 1200L
+        private const val TTS_MIN_INTERVAL_MS = 2000L
 
         /** Longer interval for "in tune" announcements to avoid repetition. */
         private const val TTS_IN_TUNE_INTERVAL_MS = 3000L
+
+        /** Cents must change by at least this amount to re-announce the same note/status. */
+        private const val TTS_CENTS_BUCKET_SIZE = 5
 
         private const val TAG = "TunerViewModel"
     }
@@ -208,6 +211,7 @@ class TunerViewModel : ViewModel() {
     private var lastSpokenTimeMs = 0L
     private var lastSpokenStatus: TuningStatus = TuningStatus.SILENT
     private var lastSpokenNote: String? = null
+    private var lastSpokenCentsBucket: Int = Int.MIN_VALUE
 
     // --- Smoothing state -----------------------------------------------------
 
@@ -792,8 +796,11 @@ class TunerViewModel : ViewModel() {
             lastSpokenTimeMs = now
             lastSpokenStatus = status
             lastSpokenNote = noteName
+            lastSpokenCentsBucket = 0
             return
         }
+
+        val centsBucket = (cents / TTS_CENTS_BUCKET_SIZE).toInt()
 
         val minInterval = if (status == TuningStatus.IN_TUNE) {
             TTS_IN_TUNE_INTERVAL_MS
@@ -802,7 +809,13 @@ class TunerViewModel : ViewModel() {
         }
 
         if (now - lastSpokenTimeMs < minInterval) return
-        if (status == lastSpokenStatus && noteName == lastSpokenNote && status == TuningStatus.IN_TUNE) return
+
+        // Suppress duplicate: same note, same status, and cents haven't shifted
+        // by a meaningful amount (one bucket = TTS_CENTS_BUCKET_SIZE cents).
+        if (status == lastSpokenStatus &&
+            noteName == lastSpokenNote &&
+            centsBucket == lastSpokenCentsBucket
+        ) return
 
         val message = when (status) {
             TuningStatus.SILENT -> return
@@ -826,6 +839,7 @@ class TunerViewModel : ViewModel() {
         lastSpokenTimeMs = now
         lastSpokenStatus = status
         lastSpokenNote = noteName
+        lastSpokenCentsBucket = centsBucket
     }
 
     // --- Auto-advance helpers ------------------------------------------------

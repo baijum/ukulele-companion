@@ -222,7 +222,9 @@ private fun TunerContent(
             ),
             color = noteColor.copy(alpha = noteColor.alpha * confidenceAlpha),
             modifier = Modifier.semantics {
-                liveRegion = LiveRegionMode.Polite
+                if (!tunerSettings.spokenFeedback) {
+                    liveRegion = LiveRegionMode.Polite
+                }
                 contentDescription = detectedNoteDescription
             },
         )
@@ -308,7 +310,9 @@ private fun TunerContent(
             color = noteColor.copy(alpha = noteColor.alpha * confidenceAlpha),
             textAlign = TextAlign.Center,
             modifier = Modifier.semantics {
-                liveRegion = LiveRegionMode.Assertive
+                if (!tunerSettings.spokenFeedback) {
+                    liveRegion = LiveRegionMode.Assertive
+                }
             },
         )
 
