@@ -90,7 +90,97 @@ object SongChordDatabase {
         SongEntry("Don't Worry Be Happy", "Bobby McFerrin", setOf("C", "Dm", "F"), Difficulty.BEGINNER, "Pop"),
         SongEntry("Moon River", "Andy Williams", setOf("C", "Am", "F", "G", "Em", "Dm"), Difficulty.INTERMEDIATE, "Jazz"),
         SongEntry("Take Me Home Country Roads", "John Denver", setOf("G", "Em", "D", "C"), Difficulty.BEGINNER, "Country"),
+
+        // ── Hawaiian / Island ───────────────────────────────────────
+        SongEntry("Aloha Oe", "Queen Lili'uokalani", setOf("C", "F", "G", "G7"), Difficulty.BEGINNER, "Hawaiian"),
+        SongEntry("Hawaiian War Chant", "Traditional", setOf("C", "G7"), Difficulty.BEGINNER, "Hawaiian"),
+        SongEntry("Blue Hawaii", "Elvis Presley", setOf("C", "F", "G7", "A7", "Dm"), Difficulty.INTERMEDIATE, "Hawaiian"),
+        SongEntry("Hanalei Moon", "Bob Nelson", setOf("C", "F", "G7", "C7"), Difficulty.BEGINNER, "Hawaiian"),
+        SongEntry("Lovely Hula Hands", "R. Alex Anderson", setOf("C", "F", "G", "Am"), Difficulty.BEGINNER, "Hawaiian"),
+        SongEntry("White Sandy Beach", "Israel Kamakawiwo'ole", setOf("C", "F", "G", "Am"), Difficulty.BEGINNER, "Hawaiian"),
+        SongEntry("Henehene Kou Aka", "Traditional", setOf("C", "F", "G7"), Difficulty.BEGINNER, "Hawaiian"),
+
+        // ── Jazz Standards ──────────────────────────────────────────
+        SongEntry("Fly Me to the Moon", "Frank Sinatra", setOf("Am", "Dm", "G7", "C", "F", "E7"), Difficulty.INTERMEDIATE, "Jazz"),
+        SongEntry("What a Wonderful World", "Louis Armstrong", setOf("C", "Em", "F", "Am", "Dm", "G"), Difficulty.INTERMEDIATE, "Jazz"),
+        SongEntry("Autumn Leaves", "Joseph Kosma", setOf("Am", "D7", "G", "C", "F", "B7", "Em"), Difficulty.ADVANCED, "Jazz"),
+        SongEntry("The Girl from Ipanema", "Antonio Carlos Jobim", setOf("F", "G7", "Gm7", "Gb7"), Difficulty.ADVANCED, "Jazz"),
+        SongEntry("All of Me", "John Legend", setOf("Am", "F", "C", "G"), Difficulty.BEGINNER, "Jazz"),
+        SongEntry("Dream a Little Dream of Me", "The Mamas & The Papas", setOf("C", "B7", "Am", "G", "F", "E7"), Difficulty.INTERMEDIATE, "Jazz"),
+        SongEntry("Blue Moon", "Rodgers & Hart", setOf("C", "Am", "F", "G"), Difficulty.BEGINNER, "Jazz"),
+        SongEntry("Georgia on My Mind", "Ray Charles", setOf("C", "E7", "Am", "F", "G", "Dm"), Difficulty.ADVANCED, "Jazz"),
+
+        // ── Country ─────────────────────────────────────────────────
+        SongEntry("Jolene", "Dolly Parton", setOf("Am", "C", "G", "Em"), Difficulty.BEGINNER, "Country"),
+        SongEntry("Folsom Prison Blues", "Johnny Cash", setOf("E", "A", "B7"), Difficulty.BEGINNER, "Country"),
+        SongEntry("I Walk the Line", "Johnny Cash", setOf("A", "D", "E"), Difficulty.BEGINNER, "Country"),
+        SongEntry("Tennessee Whiskey", "Chris Stapleton", setOf("A", "Bm", "D", "E"), Difficulty.INTERMEDIATE, "Country"),
+        SongEntry("Friends in Low Places", "Garth Brooks", setOf("A", "Bm", "D", "E"), Difficulty.INTERMEDIATE, "Country"),
+        SongEntry("Hey Good Lookin'", "Hank Williams", setOf("C", "D7", "G"), Difficulty.BEGINNER, "Country"),
+        SongEntry("Your Cheatin' Heart", "Hank Williams", setOf("C", "F", "G7", "D7"), Difficulty.BEGINNER, "Country"),
+
+        // ── Latin / Bossa Nova ──────────────────────────────────────
+        SongEntry("Guantanamera", "Traditional", setOf("C", "F", "G"), Difficulty.BEGINNER, "Latin"),
+        SongEntry("Cielito Lindo", "Traditional", setOf("C", "G7", "F"), Difficulty.BEGINNER, "Latin"),
+        SongEntry("Besame Mucho", "Consuelo Velazquez", setOf("Dm", "A7", "Gm", "D7"), Difficulty.INTERMEDIATE, "Latin"),
+        SongEntry("Oye Como Va", "Santana", setOf("Am", "D"), Difficulty.BEGINNER, "Latin"),
+        SongEntry("Mas Que Nada", "Jorge Ben", setOf("Am", "E7", "Dm", "G"), Difficulty.INTERMEDIATE, "Latin"),
+        SongEntry("De Colores", "Traditional", setOf("C", "F", "G7"), Difficulty.BEGINNER, "Latin"),
+
+        // ── Traditional / Folk ──────────────────────────────────────
+        SongEntry("Amazing Grace", "Traditional", setOf("G", "C", "D"), Difficulty.BEGINNER, "Traditional"),
+        SongEntry("This Land Is Your Land", "Woody Guthrie", setOf("C", "F", "G"), Difficulty.BEGINNER, "Folk"),
+        SongEntry("Home on the Range", "Traditional", setOf("C", "F", "G7", "C7"), Difficulty.BEGINNER, "Traditional"),
+        SongEntry("Oh! Susanna", "Stephen Foster", setOf("C", "F", "G"), Difficulty.BEGINNER, "Traditional"),
+        SongEntry("Kumbaya", "Traditional", setOf("C", "F", "G"), Difficulty.BEGINNER, "Traditional"),
+        SongEntry("Scarborough Fair", "Traditional", setOf("Am", "G", "C", "D"), Difficulty.BEGINNER, "Folk"),
+        SongEntry("Danny Boy", "Traditional", setOf("C", "F", "G", "Am"), Difficulty.BEGINNER, "Traditional"),
+        SongEntry("Greensleeves", "Traditional", setOf("Am", "G", "Em", "C"), Difficulty.INTERMEDIATE, "Traditional"),
+        SongEntry("Auld Lang Syne", "Traditional", setOf("C", "F", "G", "Am"), Difficulty.BEGINNER, "Traditional"),
+        SongEntry("Down in the Valley", "Traditional", setOf("G", "D"), Difficulty.BEGINNER, "Folk"),
+
+        // ── Pop / Modern ────────────────────────────────────────────
+        SongEntry("Thinking Out Loud", "Ed Sheeran", setOf("D", "G", "A", "Bm"), Difficulty.INTERMEDIATE, "Pop"),
+        SongEntry("Shallow", "Lady Gaga & Bradley Cooper", setOf("G", "Am", "C", "D", "Em"), Difficulty.INTERMEDIATE, "Pop"),
+        SongEntry("Shape of You", "Ed Sheeran", setOf("Am", "Dm", "F", "G"), Difficulty.INTERMEDIATE, "Pop"),
+        SongEntry("Let Her Go", "Passenger", setOf("G", "Em", "C", "D"), Difficulty.BEGINNER, "Pop"),
+        SongEntry("Viva la Vida", "Coldplay", setOf("C", "D", "G", "Em"), Difficulty.BEGINNER, "Pop"),
+        SongEntry("Hey There Delilah", "Plain White T's", setOf("D", "F#m", "Bm", "G", "A"), Difficulty.INTERMEDIATE, "Pop"),
+
+        // ── Reggae ──────────────────────────────────────────────────
+        SongEntry("Stir It Up", "Bob Marley", setOf("A", "D", "E"), Difficulty.BEGINNER, "Reggae"),
+        SongEntry("Is This Love", "Bob Marley", setOf("F#m", "D", "A", "E"), Difficulty.INTERMEDIATE, "Reggae"),
+        SongEntry("Red Red Wine", "UB40", setOf("C", "F", "G"), Difficulty.BEGINNER, "Reggae"),
+
+        // ── Soul / R&B ──────────────────────────────────────────────
+        SongEntry("Ain't No Sunshine", "Bill Withers", setOf("Am", "Em", "Dm"), Difficulty.BEGINNER, "Soul"),
+        SongEntry("Sitting on the Dock of the Bay", "Otis Redding", setOf("G", "B7", "C", "A"), Difficulty.INTERMEDIATE, "Soul"),
+        SongEntry("What's Going On", "Marvin Gaye", setOf("E", "C#m", "F#m", "B"), Difficulty.ADVANCED, "Soul"),
+
+        // ── Rock / Classic ──────────────────────────────────────────
+        SongEntry("Knockin' on Heaven's Door", "Bob Dylan", setOf("G", "D", "Am", "C"), Difficulty.BEGINNER, "Rock"),
+        SongEntry("Horse with No Name", "America", setOf("Em", "D6"), Difficulty.BEGINNER, "Rock"),
+        SongEntry("Free Fallin'", "Tom Petty", setOf("D", "G", "A"), Difficulty.BEGINNER, "Rock"),
+        SongEntry("Sweet Home Alabama", "Lynyrd Skynyrd", setOf("D", "C", "G"), Difficulty.BEGINNER, "Rock"),
+        SongEntry("Hotel California", "Eagles", setOf("Am", "E", "G", "D", "F", "C", "Dm"), Difficulty.ADVANCED, "Rock"),
+
+        // ── Advanced ────────────────────────────────────────────────
+        SongEntry("Blackbird", "The Beatles", setOf("G", "Am", "C", "D", "A7", "Cm"), Difficulty.ADVANCED, "Rock"),
+        SongEntry("Tears in Heaven", "Eric Clapton", setOf("A", "E", "F#m", "D", "Bm"), Difficulty.ADVANCED, "Pop"),
+        SongEntry("While My Guitar Gently Weeps", "The Beatles", setOf("Am", "G", "D", "E", "C", "A"), Difficulty.ADVANCED, "Rock"),
     )
+
+    /**
+     * Creates a template [ChordSheet] from a [SongEntry].
+     *
+     * The sheet contains the song's chords as inline markers
+     * with a placeholder for the user to add lyrics.
+     */
+    fun toChordSheetTemplate(song: SongEntry): ChordSheet {
+        val chordLine = song.chords.joinToString("  ") { "[$it]" }
+        val content = "Chords: $chordLine\n\n(Add your lyrics here)"
+        return ChordSheet(title = song.title, artist = song.artist, content = content)
+    }
 
     /**
      * Finds songs that the user can play with their known chords.

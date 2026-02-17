@@ -751,6 +751,25 @@
     <string name="song_finder_show">Show</string>
     <string name="song_finder_keep_learning">Keep learning new chords to unlock more songs!</string>
     <string name="song_finder_learn_prefix">Learn: </string>
+    <string name="song_finder_search">Search songs…</string>
+    <string name="song_finder_filter_all">All</string>
+    <string name="song_finder_added_to_songbook">Chord sheet created in Songbook</string>
+    <string name="cd_chord_known">%s, chord you know</string>
+    <string name="cd_chord_to_learn">%s, chord you need to learn</string>
+    <string name="cd_song_card">%1$s by %2$s, %3$s, %4$s, %5$d chords</string>
+    <string name="cd_showing_songs">Showing songs</string>
+    <string name="cd_songs_hidden">Songs hidden</string>
+    <string name="cd_add_to_songbook">Create chord sheet in songbook</string>
+    <string name="cd_view_chord">View %s chord</string>
+    <string name="song_finder_manage_known_chords">Manage known chords</string>
+    <string name="song_finder_add_chord">Add chord</string>
+    <string name="song_finder_known_chords_section">Known Chords</string>
+    <string name="song_finder_explicit_chords">Chords you marked (%d)</string>
+    <string name="song_finder_from_favorites">From favorites (%d)</string>
+    <string name="cd_remove_known_chord">Remove %s from known chords</string>
+    <string name="cd_add_known_chord">Add %s to known chords</string>
+    <string name="song_finder_select_root">Select root note</string>
+    <string name="song_finder_select_type">Select chord type</string>
 
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">Back to progressions</string>

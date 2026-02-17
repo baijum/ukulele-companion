@@ -32,6 +32,7 @@ data class BackupData(
     val customFingerpickingPatterns: List<BackupFingerpickingPattern> = emptyList(),
     val learningProgress: BackupLearningProgress = BackupLearningProgress(),
     val settings: BackupSettings = BackupSettings(),
+    val knownChords: List<String> = emptyList(),
 ) {
     companion object {
         const val CURRENT_VERSION = 2

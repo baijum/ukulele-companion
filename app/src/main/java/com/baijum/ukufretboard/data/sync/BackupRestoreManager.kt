@@ -8,6 +8,7 @@ import com.baijum.ukufretboard.data.CustomStrumPatternRepository
 import com.baijum.ukufretboard.data.FavoriteFolder
 import com.baijum.ukufretboard.data.FavoriteVoicing
 import com.baijum.ukufretboard.data.FavoritesRepository
+import com.baijum.ukufretboard.data.KnownChordsRepository
 import com.baijum.ukufretboard.data.LearningProgressRepository
 import com.baijum.ukufretboard.data.AppSettings
 import com.baijum.ukufretboard.data.SoundSettings
@@ -43,6 +44,7 @@ class BackupRestoreManager(
     private val strumPatternRepo by lazy { CustomStrumPatternRepository(context) }
     private val fingerpickingRepo by lazy { CustomFingerpickingPatternRepository(context) }
     private val learningProgressRepo by lazy { LearningProgressRepository(context) }
+    private val knownChordsRepo by lazy { KnownChordsRepository(context) }
 
     /**
      * Collects all user data from all repositories and serializes to JSON.
@@ -126,6 +128,7 @@ class BackupRestoreManager(
             learningProgress = BackupLearningProgress(
                 entries = learningProgressRepo.exportAll(),
             ),
+            knownChords = knownChordsRepo.getAll().toList(),
             settings = settingsViewModel.exportSettings().let { s ->
                 BackupSettings(
                     soundEnabled = s.sound.enabled,
@@ -209,6 +212,11 @@ class BackupRestoreManager(
 
         // --- Learning progress ---
         learningProgressRepo.importAll(backup.learningProgress.entries)
+
+        // --- Known chords ---
+        if (backup.knownChords.isNotEmpty()) {
+            knownChordsRepo.importAll(backup.knownChords.toSet())
+        }
 
         // --- Settings (replace) ---
         val bs = backup.settings
