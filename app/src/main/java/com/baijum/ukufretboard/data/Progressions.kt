@@ -81,6 +81,11 @@ object Progressions {
     private val v_d      = ChordDegree(7,  "m",   "v")
     private val viDim_d  = ChordDegree(9,  "dim", "vi\u00B0")
     private val VII_d    = ChordDegree(10, "",    "VII")
+    // Dorian extended (seventh) chords
+    private val im7_d    = ChordDegree(0,  "m7",   "im7")
+    private val iim7_d   = ChordDegree(2,  "m7",   "iim7")
+    private val IIImaj7_d = ChordDegree(3, "maj7", "IIImaj7")
+    private val IV7_d    = ChordDegree(5,  "7",    "IV7")
 
     // ── Phrygian scale degrees ──
     // i=0, II=1, III=3, iv=5, v°=7, VI=8, vii=10
@@ -111,6 +116,9 @@ object Progressions {
     private val v_x      = ChordDegree(7,  "m",   "v")
     private val vi_x     = ChordDegree(9,  "m",   "vi")
     private val VII_x    = ChordDegree(10, "",    "VII")
+    // Mixolydian extended (dominant seventh) chords
+    private val I7_x     = ChordDegree(0,  "7",    "I7")
+    private val IV7_x    = ChordDegree(5,  "7",    "IV7")
 
     // ── Locrian scale degrees ──
     // i°=0, II=1, iii=3, iv=5, V=6, VI=8, vii=10
@@ -236,19 +244,19 @@ object Progressions {
         ),
         // ── Blues progressions ──
         Progression(
-            name = "Twelve-Bar Blues",
+            name = "12-Bar Blues",
             description = "The foundational blues form. Used in thousands of blues, rock, and jazz songs. Each degree represents one bar.",
             degrees = listOf(I, I, I, I, IV, IV, I, I, V, IV, I, V),
         ),
         Progression(
-            name = "Eight-Bar Blues",
-            description = "A compact blues form. \u201cHeartbreak Hotel,\u201d \u201cSitting on Top of the World.\u201d Each degree represents one bar.",
+            name = "8-Bar Blues",
+            description = "A compact blues form. \u201cHeartbreak Hotel.\u201d Each degree represents one bar.",
             degrees = listOf(I, V, IV, IV, I, V, I, V),
         ),
         // ── Classic harmonic patterns ──
         Progression(
-            name = "Circle Progression",
-            description = "A foundational sequence descending in fifths. Smooth harmonic flow found across classical, jazz, and pop.",
+            name = "Circle",
+            description = "Descending fifths. Smooth harmonic flow in classical, jazz, and pop.",
             degrees = listOf(vi, ii, V, I),
         ),
         Progression(
@@ -257,8 +265,8 @@ object Progressions {
             degrees = listOf(V, IV, I),
         ),
         Progression(
-            name = "Montgomery-Ward Bridge",
-            description = "A classic bridge formula found in countless pop and jazz standards. Named for its pervasive use.",
+            name = "Standard Bridge",
+            description = "A common pre-dominant bridge pattern in pop and jazz.",
             degrees = listOf(I, IV, ii, V),
         ),
         Progression(
@@ -274,8 +282,8 @@ object Progressions {
         ),
         // ── Secondary dominant progressions ──
         Progression(
-            name = "Ragtime",
-            description = "A chain of secondary dominants descending in fifths. Sophisticated and fun on ukulele.",
+            name = "Montgomery-Ward",
+            description = "Rhythm changes bridge. A circle-of-fifths chain of secondary dominants.",
             degrees = listOf(III7, VI7, II7, V7_maj),
         ),
     )
@@ -284,11 +292,11 @@ object Progressions {
         Progression(
             name = "Natural Minor",
             description = "A simple descending minor progression. Dark and moody.",
-            degrees = listOf(i_m, VII_m, VI_m, V_m),
+            degrees = listOf(i_m, VII_m, VI_m, VII_m),
             scaleType = ScaleType.MINOR,
         ),
         Progression(
-            name = "Andalusian Cadence",
+            name = "Andalusian",
             description = "A descending flamenco-style progression. Dramatic and passionate.",
             degrees = listOf(i_m, VII_m, VI_m, V_m),
             scaleType = ScaleType.MINOR,
@@ -307,7 +315,7 @@ object Progressions {
         ),
         // ── Minor seventh chord progressions ──
         Progression(
-            name = "Minor Jazz",
+            name = "Minor Jazz (7ths)",
             description = "A minor jazz cycle with seventh chords. The dominant V7 adds harmonic pull back to i.",
             degrees = listOf(im7, ivm7, V7_min, im7),
             scaleType = ScaleType.MINOR,
@@ -320,8 +328,8 @@ object Progressions {
         ),
         // ── Historical progressions ──
         Progression(
-            name = "Folia",
-            description = "One of the oldest known chord progressions (15th century). Dramatic and timeless, used from Baroque to modern film scores.",
+            name = "La Folia",
+            description = "Ancient (15th century) progression. Dramatic and timeless, used from Baroque to modern film scores.",
             degrees = listOf(i_m, V_m, i_m, VII_m, III_m, VII_m, i_m, V_m, i_m),
             scaleType = ScaleType.MINOR,
         ),
@@ -355,8 +363,8 @@ object Progressions {
         ),
         Progression(
             name = "Dorian Jazz",
-            description = "An ascending modal jazz pattern exploring the full Dorian color.",
-            degrees = listOf(i_d, ii_d, III_d, IV_d),
+            description = "Ascending modal pattern with jazz voicings exploring the full Dorian color.",
+            degrees = listOf(im7_d, iim7_d, IIImaj7_d, IV7_d),
             scaleType = ScaleType.DORIAN,
         ),
     )
@@ -418,8 +426,8 @@ object Progressions {
         ),
         Progression(
             name = "Mixolydian Blues",
-            description = "A bluesy shuffle pattern. The dominant quality of every chord creates a raw, rootsy feel.",
-            degrees = listOf(I_x, ii_x, VII_x, IV_x),
+            description = "A bluesy shuffle with dominant 7ths. Raw, rootsy feel.",
+            degrees = listOf(I7_x, ii_x, VII_x, IV7_x),
             scaleType = ScaleType.MIXOLYDIAN,
         ),
     )
