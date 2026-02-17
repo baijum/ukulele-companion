@@ -60,7 +60,7 @@ This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.
 | `domain/` | Pure business logic (chord detection, transposition) |
 | `ui/` | Jetpack Compose screens and components |
 | `viewmodel/` | ViewModels with StateFlow |
-| `widget/` | Chord of the Day Glance widget |
+
 | `docs/` | Feature specs and user manual |
 
 ### Key Architectural Patterns

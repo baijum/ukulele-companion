@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Uke</string>
     <string name="app_full_name">Ukulele Companion</string>
-    <string name="widget_description">Wyświetla nowy akord ukulele każdego dnia</string>
 
     <!-- ── Wspólne / Ogólne ───────────────────────────────────────────── -->
     <string name="dialog_cancel">Anuluj</string>
@@ -309,8 +308,6 @@
     <string name="settings_show_note_names">Pokaż nazwy nut</string>
     <string name="settings_allow_muted">Zezwalaj na wyciszone struny</string>
     <string name="settings_frets">Progi</string>
-    <string name="settings_notifications">Powiadomienia</string>
-    <string name="settings_chord_of_day">Akord dnia</string>
     <string name="settings_about">O aplikacji</string>
     <string name="settings_version">Wersja %s</string>
     <string name="settings_website">Strona internetowa</string>
@@ -766,15 +763,6 @@
 
     <!-- ── Pełnoekranowy gryf ─────────────────────────────────────────── -->
     <string name="full_screen_reset">Resetuj</string>
-
-    <!-- ── Powiadomienie (Akord dnia) ─────────────────────────────────── -->
-    <string name="notif_chord_of_day">Akord dnia: %s</string>
-    <string name="notif_frets">Progi: %1$s — Dotknij, aby poćwiczyć!</string>
-    <string name="notif_channel_name">Akord dnia</string>
-    <string name="notif_channel_desc">Codzienna sugestia akordu ukulele</string>
-
-    <!-- ── Widget ─────────────────────────────────────────────────────── -->
-    <string name="widget_title">Akord dnia</string>
 
     <string name="cd_play_item">Odtwórz %s</string>
     <string name="cd_to">do</string>

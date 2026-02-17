@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Uke</string>
     <string name="app_full_name">Ukulele Companion</string>
-    <string name="widget_description">每天显示一个新的尤克里里和弦</string>
 
     <!-- ── Common / Shared ──────────────────────────────────────────── -->
     <string name="dialog_cancel">取消</string>
@@ -309,8 +308,6 @@
     <string name="settings_show_note_names">显示音符名称</string>
     <string name="settings_allow_muted">允许闷弦</string>
     <string name="settings_frets">品格数</string>
-    <string name="settings_notifications">通知</string>
-    <string name="settings_chord_of_day">每日和弦</string>
     <string name="settings_about">关于</string>
     <string name="settings_version">版本 %s</string>
     <string name="settings_website">网站</string>
@@ -771,12 +768,4 @@
     <!-- ── Full Screen Fretboard ────────────────────────────────────── -->
     <string name="full_screen_reset">重置</string>
 
-    <!-- ── Notification (Chord of the Day) ──────────────────────────── -->
-    <string name="notif_chord_of_day">每日和弦: %s</string>
-    <string name="notif_frets">品格: %1$s — 点击开始练习！</string>
-    <string name="notif_channel_name">每日和弦</string>
-    <string name="notif_channel_desc">每日尤克里里和弦推荐</string>
-
-    <!-- ── Widget ───────────────────────────────────────────────────── -->
-    <string name="widget_title">每日和弦</string>
 </resources>

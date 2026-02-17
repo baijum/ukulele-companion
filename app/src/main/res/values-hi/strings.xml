@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Uke</string>
     <string name="app_full_name">Ukulele Companion</string>
-    <string name="widget_description">हर दिन एक नया यूकुलेले कॉर्ड दिखाता है</string>
 
     <!-- ── Common / Shared ──────────────────────────────────────────── -->
     <string name="dialog_cancel">रद्द करें</string>
@@ -309,8 +308,6 @@
     <string name="settings_show_note_names">नोट के नाम दिखाएँ</string>
     <string name="settings_allow_muted">म्यूटेड तार अनुमति दें</string>
     <string name="settings_frets">फ्रेट्स</string>
-    <string name="settings_notifications">सूचनाएँ</string>
-    <string name="settings_chord_of_day">आज का कॉर्ड</string>
     <string name="settings_about">परिचय</string>
     <string name="settings_version">संस्करण %s</string>
     <string name="settings_website">वेबसाइट</string>
@@ -771,12 +768,4 @@
     <!-- ── Full Screen Fretboard ────────────────────────────────────── -->
     <string name="full_screen_reset">रीसेट</string>
 
-    <!-- ── Notification (Chord of the Day) ──────────────────────────── -->
-    <string name="notif_chord_of_day">आज का कॉर्ड: %s</string>
-    <string name="notif_frets">फ्रेट्स: %1$s — अभ्यास करने के लिए टैप करें!</string>
-    <string name="notif_channel_name">आज का कॉर्ड</string>
-    <string name="notif_channel_desc">दैनिक यूकुलेले कॉर्ड सुझाव</string>
-
-    <!-- ── Widget ───────────────────────────────────────────────────── -->
-    <string name="widget_title">आज का कॉर्ड</string>
 </resources>

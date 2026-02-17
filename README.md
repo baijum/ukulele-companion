@@ -56,8 +56,6 @@ Long-press any voicing in the Chord Library to save it. Access your saved voicin
 ### 📝 Song Chord Sheets
 Create a personal songbook with lyrics and inline chord markers (e.g., `Some[C]where over the [Em]rainbow`). Tap any chord name to view its voicings.
 
-### 📅 Chord of the Day Widget
-A home screen widget that displays a new chord each day with its name, finger positions, and notes.
 
 ### 🔊 Sound Playback
 Hear chords played back using sine wave synthesis. Notes are strummed with a configurable delay between strings.
@@ -128,7 +126,7 @@ Ukulele Companion is designed to be usable by everyone, including blind and visu
 | UI | Jetpack Compose + Material 3 |
 | Architecture | ViewModel + StateFlow |
 | Audio | Android AudioTrack (sine wave synthesis) |
-| Widget | Jetpack Glance |
+
 | Persistence | SharedPreferences |
 | Serialization | Kotlinx Serialization |
 | Neural Inference | ONNX Runtime (SwiftF0 supervisor) |
@@ -164,7 +162,6 @@ com.baijum.ukufretboard
 │   ├── FretboardViewModel, ChordLibraryViewModel
 │   ├── SettingsViewModel, SongbookViewModel
 │   └── TunerViewModel, PitchMonitorViewModel
-└── widget/             # Chord of the Day home screen widget (Glance)
 ```
 
 > **132 Kotlin source files** across 6 packages — a well-organized, single-module Android app.

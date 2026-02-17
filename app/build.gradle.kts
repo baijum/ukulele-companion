@@ -89,9 +89,7 @@ dependencies {
     implementation(libs.material.icons.extended)
     implementation(libs.appcompat)
     implementation(libs.core.ktx)
-    implementation(libs.work.runtime)
-    implementation(libs.glance.appwidget)
-    implementation(libs.glance.material3)
+
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.reorderable)
     implementation(libs.onnxruntime.android)

@@ -196,5 +196,4 @@ data class BackupSettings(
     val leftHanded: Boolean = false,
     val lastFret: Int = 12,
     val showNoteNames: Boolean = true,
-    val chordOfDayEnabled: Boolean = false,
 )

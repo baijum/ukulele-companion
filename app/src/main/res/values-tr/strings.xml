@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Uke</string>
     <string name="app_full_name">Ukulele Companion</string>
-    <string name="widget_description">Her gün yeni bir ukulele akoru gösterir</string>
 
     <!-- ── Ortak / Paylaşılan ─────────────────────────────────────────── -->
     <string name="dialog_cancel">İptal</string>
@@ -309,8 +308,6 @@
     <string name="settings_show_note_names">Nota Adlarını Göster</string>
     <string name="settings_allow_muted">Susturulmuş Tellere İzin Ver</string>
     <string name="settings_frets">Perdeler</string>
-    <string name="settings_notifications">Bildirimler</string>
-    <string name="settings_chord_of_day">Günün Akoru</string>
     <string name="settings_about">Hakkında</string>
     <string name="settings_version">Sürüm %s</string>
     <string name="settings_website">Web sitesi</string>
@@ -766,15 +763,6 @@
 
     <!-- ── Tam Ekran Klavye ───────────────────────────────────────────── -->
     <string name="full_screen_reset">Sıfırla</string>
-
-    <!-- ── Bildirim (Günün Akoru) ─────────────────────────────────────── -->
-    <string name="notif_chord_of_day">Günün Akoru: %s</string>
-    <string name="notif_frets">Perdeler: %1$s — Pratik yapmak için dokunun!</string>
-    <string name="notif_channel_name">Günün Akoru</string>
-    <string name="notif_channel_desc">Günlük ukulele akor önerisi</string>
-
-    <!-- ── Widget ─────────────────────────────────────────────────────── -->
-    <string name="widget_title">Günün Akoru</string>
 
     <string name="cd_play_item">%s oynat</string>
     <string name="cd_to">ile</string>

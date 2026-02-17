@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Uke</string>
     <string name="app_full_name">Ukulele Companion</string>
-    <string name="widget_description">Displays a new ukulele chord each day</string>
 
     <!-- ── Common / Shared ──────────────────────────────────────────── -->
     <string name="dialog_cancel">Cancel</string>
@@ -310,8 +309,7 @@
     <string name="settings_show_note_names">Show Note Names</string>
     <string name="settings_allow_muted">Allow Muted Strings</string>
     <string name="settings_frets">Frets</string>
-    <string name="settings_notifications">Notifications</string>
-    <string name="settings_chord_of_day">Chord of the Day</string>
+
     <string name="settings_about">About</string>
     <string name="settings_version">Version %s</string>
     <string name="settings_website">Website</string>
@@ -795,12 +793,4 @@
     <!-- ── Full Screen Fretboard ────────────────────────────────────── -->
     <string name="full_screen_reset">Reset</string>
 
-    <!-- ── Notification (Chord of the Day) ──────────────────────────── -->
-    <string name="notif_chord_of_day">Chord of the Day: %s</string>
-    <string name="notif_frets">Frets: %1$s — Tap to practice!</string>
-    <string name="notif_channel_name">Chord of the Day</string>
-    <string name="notif_channel_desc">Daily ukulele chord suggestion</string>
-
-    <!-- ── Widget ───────────────────────────────────────────────────── -->
-    <string name="widget_title">Chord of the Day</string>
 </resources>

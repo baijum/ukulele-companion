@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Uke</string>
     <string name="app_full_name">Ukulele Companion</string>
-    <string name="widget_description">Menampilkan akor ukulele baru setiap hari</string>
 
     <!-- ── Umum / Bersama ─────────────────────────────────────────────── -->
     <string name="dialog_cancel">Batal</string>
@@ -309,8 +308,6 @@
     <string name="settings_show_note_names">Tampilkan Nama Not</string>
     <string name="settings_allow_muted">Izinkan Senar Diredam</string>
     <string name="settings_frets">Fret</string>
-    <string name="settings_notifications">Notifikasi</string>
-    <string name="settings_chord_of_day">Akor Hari Ini</string>
     <string name="settings_about">Tentang</string>
     <string name="settings_version">Versi %s</string>
     <string name="settings_website">Situs web</string>
@@ -766,15 +763,6 @@
 
     <!-- ── Fretboard Layar Penuh ──────────────────────────────────────── -->
     <string name="full_screen_reset">Atur ulang</string>
-
-    <!-- ── Notifikasi (Akor Hari Ini) ─────────────────────────────────── -->
-    <string name="notif_chord_of_day">Akor Hari Ini: %s</string>
-    <string name="notif_frets">Fret: %1$s — Ketuk untuk berlatih!</string>
-    <string name="notif_channel_name">Akor Hari Ini</string>
-    <string name="notif_channel_desc">Saran akor ukulele harian</string>
-
-    <!-- ── Widget ─────────────────────────────────────────────────────── -->
-    <string name="widget_title">Akor Hari Ini</string>
 
     <string name="cd_play_item">Putar %s</string>
     <string name="cd_to">ke</string>

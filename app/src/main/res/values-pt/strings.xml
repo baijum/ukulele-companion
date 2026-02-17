@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Uke</string>
     <string name="app_full_name">Ukulele Companion</string>
-    <string name="widget_description">Exibe um novo acorde de ukulele a cada dia</string>
 
     <!-- ── Comum / Compartilhado ──────────────────────────────────────── -->
     <string name="dialog_cancel">Cancelar</string>
@@ -309,8 +308,6 @@
     <string name="settings_show_note_names">Mostrar nomes das notas</string>
     <string name="settings_allow_muted">Permitir cordas abafadas</string>
     <string name="settings_frets">Trastes</string>
-    <string name="settings_notifications">Notificações</string>
-    <string name="settings_chord_of_day">Acorde do dia</string>
     <string name="settings_about">Sobre</string>
     <string name="settings_version">Versão %s</string>
     <string name="settings_website">Site</string>
@@ -759,15 +756,6 @@
 
     <!-- ── Braço em tela cheia ───────────────────────────────────────── -->
     <string name="full_screen_reset">Redefinir</string>
-
-    <!-- ── Notificação (Acorde do dia) ───────────────────────────────── -->
-    <string name="notif_chord_of_day">Acorde do dia: %s</string>
-    <string name="notif_frets">Trastes: %1$s — Toque para praticar!</string>
-    <string name="notif_channel_name">Acorde do dia</string>
-    <string name="notif_channel_desc">Sugestão diária de acorde de ukulele</string>
-
-    <!-- ── Widget ────────────────────────────────────────────────────── -->
-    <string name="widget_title">Acorde do dia</string>
 
     <string name="cd_play_item">Reproduzir %s</string>
     <string name="cd_to">para</string>

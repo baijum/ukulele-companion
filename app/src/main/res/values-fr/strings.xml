@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Uke</string>
     <string name="app_full_name">Ukulele Companion</string>
-    <string name="widget_description">Affiche un nouvel accord de ukulélé chaque jour</string>
 
     <!-- ── Commun / Partagé ───────────────────────────────────────────── -->
     <string name="dialog_cancel">Annuler</string>
@@ -309,8 +308,6 @@
     <string name="settings_show_note_names">Afficher les noms des notes</string>
     <string name="settings_allow_muted">Autoriser les cordes étouffées</string>
     <string name="settings_frets">Frettes</string>
-    <string name="settings_notifications">Notifications</string>
-    <string name="settings_chord_of_day">Accord du jour</string>
     <string name="settings_about">À propos</string>
     <string name="settings_version">Version %s</string>
     <string name="settings_website">Site web</string>
@@ -759,15 +756,6 @@
 
     <!-- ── Manche plein écran ────────────────────────────────────────── -->
     <string name="full_screen_reset">Réinitialiser</string>
-
-    <!-- ── Notification (Accord du jour) ─────────────────────────────── -->
-    <string name="notif_chord_of_day">Accord du jour : %s</string>
-    <string name="notif_frets">Frettes : %1$s — Touchez pour pratiquer !</string>
-    <string name="notif_channel_name">Accord du jour</string>
-    <string name="notif_channel_desc">Suggestion quotidienne d\'accord de ukulélé</string>
-
-    <!-- ── Widget ────────────────────────────────────────────────────── -->
-    <string name="widget_title">Accord du jour</string>
 
     <string name="cd_play_item">Jouer %s</string>
     <string name="cd_to">à</string>

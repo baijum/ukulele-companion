@@ -42,7 +42,7 @@ import androidx.core.os.LocaleListCompat
 import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.DisplaySettings
 import com.baijum.ukufretboard.data.FretboardSettings
-import com.baijum.ukufretboard.data.NotificationSettings
+
 import com.baijum.ukufretboard.data.SoundSettings
 import com.baijum.ukufretboard.data.ThemeMode
 import com.baijum.ukufretboard.data.TunerSettings
@@ -52,7 +52,7 @@ import com.baijum.ukufretboard.data.UkuleleTuning
 /**
  * A modal bottom sheet displaying all app settings, organized by section.
  *
- * Contains Sound, Display, Tuning, Fretboard, and Notification sections.
+ * Contains Sound, Display, Tuning, and Fretboard sections.
  *
  * @param soundSettings The current [SoundSettings] values to display.
  * @param onSoundSettingsChange Callback invoked when the user changes any sound setting.
@@ -75,8 +75,7 @@ fun SettingsSheet(
     onTuningSettingsChange: (TuningSettings) -> Unit,
     fretboardSettings: FretboardSettings,
     onFretboardSettingsChange: (FretboardSettings) -> Unit,
-    notificationSettings: NotificationSettings = NotificationSettings(),
-    onNotificationSettingsChange: (NotificationSettings) -> Unit = {},
+
     tunerSettings: TunerSettings = TunerSettings(),
     onTunerSettingsChange: (TunerSettings) -> Unit = {},
     backupRestoreViewModel: com.baijum.ukufretboard.viewmodel.BackupRestoreViewModel? = null,
@@ -147,13 +146,6 @@ fun SettingsSheet(
                 onSettingsChange = onFretboardSettingsChange,
             )
 
-            // ── Notifications section ──
-            Spacer(modifier = Modifier.height(16.dp))
-            HorizontalDivider()
-            NotificationSection(
-                settings = notificationSettings,
-                onSettingsChange = onNotificationSettingsChange,
-            )
 
             // ── Backup & Restore section ──
             if (backupRestoreViewModel != null) {
@@ -606,22 +598,6 @@ private fun FretboardSection(
     )
 }
 
-/**
- * The Notification settings section.
- */
-@Composable
-private fun NotificationSection(
-    settings: NotificationSettings,
-    onSettingsChange: (NotificationSettings) -> Unit,
-) {
-    SectionHeader(stringResource(R.string.settings_notifications))
-
-    SettingsSwitch(
-        label = stringResource(R.string.settings_chord_of_day),
-        checked = settings.chordOfDayEnabled,
-        onCheckedChange = { onSettingsChange(settings.copy(chordOfDayEnabled = it)) },
-    )
-}
 
 /**
  * A labeled switch row used for boolean settings.

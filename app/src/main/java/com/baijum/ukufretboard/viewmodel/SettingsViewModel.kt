@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.baijum.ukufretboard.data.AppSettings
 import com.baijum.ukufretboard.data.DisplaySettings
 import com.baijum.ukufretboard.data.FretboardSettings
-import com.baijum.ukufretboard.data.NotificationSettings
+
 import com.baijum.ukufretboard.data.ScalePracticeSettings
 import com.baijum.ukufretboard.data.SoundSettings
 import com.baijum.ukufretboard.data.ThemeMode
@@ -82,14 +82,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /**
-     * Updates the notification settings by applying a transformation function.
-     */
-    fun updateNotification(transform: (NotificationSettings) -> NotificationSettings) {
-        _settings.update { current ->
-            current.copy(notification = transform(current.notification)).also { saveSettings(it) }
-        }
-    }
 
     /**
      * Updates the scale practice settings by applying a transformation function.
@@ -143,8 +135,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             .putInt(KEY_LAST_FRET, s.fretboard.lastFret)
             .putBoolean(KEY_SHOW_NOTE_NAMES, s.fretboard.showNoteNames)
             .putBoolean(KEY_ALLOW_MUTED_STRINGS, s.fretboard.allowMutedStrings)
-            // Notification
-            .putBoolean(KEY_CHORD_OF_DAY_ENABLED, s.notification.chordOfDayEnabled)
+
             // Scale Practice
             .putInt(KEY_SCALE_PRACTICE_ROOT, s.scalePractice.lastRoot)
             .putString(KEY_SCALE_PRACTICE_SCALE, s.scalePractice.lastScaleName)
@@ -193,9 +184,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 showNoteNames = prefs.getBoolean(KEY_SHOW_NOTE_NAMES, true),
                 allowMutedStrings = prefs.getBoolean(KEY_ALLOW_MUTED_STRINGS, false),
             ),
-            notification = NotificationSettings(
-                chordOfDayEnabled = prefs.getBoolean(KEY_CHORD_OF_DAY_ENABLED, false),
-            ),
+
             scalePractice = ScalePracticeSettings(
                 lastRoot = prefs.getInt(KEY_SCALE_PRACTICE_ROOT, 0),
                 lastScaleName = prefs.getString(KEY_SCALE_PRACTICE_SCALE, "Major") ?: "Major",
@@ -228,7 +217,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         private const val KEY_LAST_FRET = "last_fret"
         private const val KEY_SHOW_NOTE_NAMES = "show_note_names"
         private const val KEY_ALLOW_MUTED_STRINGS = "allow_muted_strings"
-        private const val KEY_CHORD_OF_DAY_ENABLED = "chord_of_day_enabled"
+
         private const val KEY_SCALE_PRACTICE_ROOT = "scale_practice_root"
         private const val KEY_SCALE_PRACTICE_SCALE = "scale_practice_scale"
         private const val KEY_SCALE_PRACTICE_CATEGORY = "scale_practice_category"

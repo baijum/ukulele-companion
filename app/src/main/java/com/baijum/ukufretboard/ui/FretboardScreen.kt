@@ -680,16 +680,7 @@ fun FretboardScreen(
             onFretboardSettingsChange = { newFretboard ->
                 settingsViewModel.updateFretboard { newFretboard }
             },
-            notificationSettings = appSettings.notification,
-            onNotificationSettingsChange = { newNotification ->
-                settingsViewModel.updateNotification { newNotification }
-                // Schedule or cancel the daily notification worker
-                if (newNotification.chordOfDayEnabled) {
-                    com.baijum.ukufretboard.widget.ChordOfDayNotificationWorker.schedule(context)
-                } else {
-                    com.baijum.ukufretboard.widget.ChordOfDayNotificationWorker.cancel(context)
-                }
-            },
+
             tunerSettings = appSettings.tuner,
             onTunerSettingsChange = { newTuner ->
                 settingsViewModel.updateTuner { newTuner }

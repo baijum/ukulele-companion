@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Uke</string>
     <string name="app_full_name">Ukulele Companion</string>
-    <string name="widget_description">매일 새로운 우쿨렐레 코드를 보여줍니다</string>
 
     <!-- ── Common / Shared ──────────────────────────────────────────── -->
     <string name="dialog_cancel">취소</string>
@@ -309,8 +308,6 @@
     <string name="settings_show_note_names">음 이름 표시</string>
     <string name="settings_allow_muted">뮤트 현 허용</string>
     <string name="settings_frets">프렛</string>
-    <string name="settings_notifications">알림</string>
-    <string name="settings_chord_of_day">오늘의 코드</string>
     <string name="settings_about">앱 정보</string>
     <string name="settings_version">버전 %s</string>
     <string name="settings_website">웹사이트</string>
@@ -771,12 +768,4 @@
     <!-- ── Full Screen Fretboard ────────────────────────────────────── -->
     <string name="full_screen_reset">초기화</string>
 
-    <!-- ── Notification (Chord of the Day) ──────────────────────────── -->
-    <string name="notif_chord_of_day">오늘의 코드: %s</string>
-    <string name="notif_frets">프렛: %1$s — 탭하여 연습!</string>
-    <string name="notif_channel_name">오늘의 코드</string>
-    <string name="notif_channel_desc">매일 우쿨렐레 코드 추천</string>
-
-    <!-- ── Widget ───────────────────────────────────────────────────── -->
-    <string name="widget_title">오늘의 코드</string>
 </resources>

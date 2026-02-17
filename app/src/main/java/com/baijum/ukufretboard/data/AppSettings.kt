@@ -127,14 +127,6 @@ data class FretboardSettings(
     }
 }
 
-/**
- * Settings for daily chord notification.
- *
- * @property chordOfDayEnabled Whether to show a daily chord notification.
- */
-data class NotificationSettings(
-    val chordOfDayEnabled: Boolean = false,
-)
 
 /**
  * Persisted preferences for the Scale Practice screen.
@@ -206,7 +198,7 @@ data class AppSettings(
     val display: DisplaySettings = DisplaySettings(),
     val tuning: TuningSettings = TuningSettings(),
     val fretboard: FretboardSettings = FretboardSettings(),
-    val notification: NotificationSettings = NotificationSettings(),
+
     val scalePractice: ScalePracticeSettings = ScalePracticeSettings(),
     val tuner: TunerSettings = TunerSettings(),
 )

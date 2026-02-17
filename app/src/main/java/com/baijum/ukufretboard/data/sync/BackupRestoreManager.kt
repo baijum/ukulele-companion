@@ -14,7 +14,7 @@ import com.baijum.ukufretboard.data.AppSettings
 import com.baijum.ukufretboard.data.SoundSettings
 import com.baijum.ukufretboard.data.DisplaySettings
 import com.baijum.ukufretboard.data.FretboardSettings
-import com.baijum.ukufretboard.data.NotificationSettings
+
 import com.baijum.ukufretboard.data.ThemeMode
 import com.baijum.ukufretboard.data.TuningSettings
 import com.baijum.ukufretboard.data.UkuleleTuning
@@ -142,7 +142,6 @@ class BackupRestoreManager(
                     leftHanded = s.fretboard.leftHanded,
                     lastFret = s.fretboard.lastFret,
                     showNoteNames = s.fretboard.showNoteNames,
-                    chordOfDayEnabled = s.notification.chordOfDayEnabled,
                 )
             },
         )
@@ -249,7 +248,6 @@ class BackupRestoreManager(
                     lastFret = bs.lastFret,
                     showNoteNames = bs.showNoteNames,
                 ),
-                notification = NotificationSettings(chordOfDayEnabled = bs.chordOfDayEnabled),
             )
         )
     }

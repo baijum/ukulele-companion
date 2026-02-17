@@ -24,8 +24,7 @@ Ukulele Companion is a **free, fully offline** Android app for learning and play
 | Persistence | SharedPreferences + DataStore (no Room) |
 | Serialization | kotlinx-serialization-json |
 | Audio ML | ONNX Runtime (neural pitch supervision) |
-| Widget | Jetpack Glance (Chord of the Day) |
-| Background | WorkManager (daily notification) |
+
 | Build | Gradle 9.3.1, AGP 8.9.1, Kotlin DSL, version catalog (`libs.versions.toml`) |
 
 ## Package Structure
@@ -39,7 +38,7 @@ All source code lives under `app/src/main/java/com/baijum/ukufretboard/`:
 | `domain/` | Pure Kotlin business logic -- chord detection, transposition, pitch detection, scales, music theory. **No Android imports allowed.** |
 | `ui/` | 44+ Compose screens/components. Navigation via `ModalNavigationDrawer` in `FretboardScreen.kt` (no NavHost) |
 | `viewmodel/` | 11 ViewModels exposing `StateFlow` (never `LiveData`) |
-| `widget/` | Glance-based Chord of the Day home screen widget |
+
 | `MainActivity.kt` | Single-activity entry point |
 
 ### ViewModels

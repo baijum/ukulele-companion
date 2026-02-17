@@ -41,7 +41,7 @@ Welcome to **Ukulele Companion**, a free, offline, ad-free Android app for learn
 
   <a href="08-settings/" class="manual-card">
     <h3>Settings</h3>
-    <p>Tuning, themes, sound, notifications, and more.</p>
+    <p>Tuning, themes, sound, and more.</p>
   </a>
 
   <a href="09-learning/" class="manual-card">
