@@ -405,6 +405,106 @@ object TheoryLessons {
             quizCorrectIndex = 2,
             quizExplanation = "In 4/4 time, there are 4 beats per measure. Each beat has 2 eighth notes, so 4 \u00D7 2 = 8 eighth notes.",
         ),
+        TheoryLesson(
+            id = "rhythm_constant_motion",
+            module = "Rhythm",
+            title = "The Constant Motion Principle",
+            content = "The secret to professional rhythm on ukulele is the constant motion principle. " +
+                "Your strumming hand functions as a pendulum, moving down on the beat (1, 2, 3, 4) " +
+                "and up on the off-beat (the \"and\"). This motion never stops.\n\n" +
+                "To create complex rhythms, you don\u2019t stop the hand \u2014 instead, you lift it " +
+                "slightly away from the strings to \"miss\" them on specific beats. These missed " +
+                "strikes are called ghost strums or air strums.\n\n" +
+                "For example, the Island Strum (D - D U - U D U) has a ghost strum on beat 3. " +
+                "The hand still moves down on beat 3 but doesn\u2019t make contact. This ensures the " +
+                "hand is correctly positioned for the upstrum on the \"and\" of 3.\n\n" +
+                "This principle links physical direction to rhythmic time: down is always on the beat, " +
+                "up is always on the off-beat. This somatic link lets you feel the rhythm physically " +
+                "rather than intellectually counting it.",
+            keyPoints = listOf(
+                "The strumming hand never stops moving",
+                "Down strums land on beats, up strums on off-beats",
+                "Ghost strums (air strums) create silence without stopping the hand",
+                "Direction is locked to time: down = beat, up = off-beat",
+            ),
+            quizQuestion = "In the constant motion technique, how do you create silence on a beat?",
+            quizOptions = listOf(
+                "Stop the hand completely",
+                "Move the hand but miss the strings (ghost strum)",
+                "Press the strings against the fretboard",
+                "Slow down the tempo",
+            ),
+            quizCorrectIndex = 1,
+            quizExplanation = "A ghost strum (or air strum) means the hand continues its pendulum motion but lifts away to miss the strings, maintaining the rhythmic pulse without producing sound.",
+        ),
+        TheoryLesson(
+            id = "rhythm_straight_swing",
+            module = "Rhythm",
+            title = "Straight vs. Swing Feel",
+            content = "The subdivision of the beat \u2014 the space between the \"1\" and the \"2\" \u2014 " +
+                "can be interpreted in two distinct ways that radically alter the genre feel.\n\n" +
+                "Straight eighths: The time is divided equally. Each down strum and up strum " +
+                "occupies exactly 50% of the beat. This produces a driving, \"motorik\" feel " +
+                "common in rock, Latin, and modern pop. Vocalize \"1-and-2-and\" with even spacing.\n\n" +
+                "Swing (shuffle) eighths: The first eighth note (down strum) is lengthened and " +
+                "the second (up strum) is shortened. The ratio is approximately 2:1 (based on " +
+                "triplets). This creates a \"loping\" or \"galloping\" feel. Vocalize " +
+                "\"1-a-2-a\" or \"Hump-ty Dump-ty\" to internalize it.\n\n" +
+                "Swing feel is essential for blues, jazz, and traditional Hawaiian swing. " +
+                "Many shuffle patterns in 12/8 time (doo-wop, slow blues, R&B) are built on " +
+                "this same triplet subdivision.",
+            keyPoints = listOf(
+                "Straight = even 50/50 subdivision (rock, pop, Latin)",
+                "Swing = uneven long-short subdivision, roughly 2:1 (jazz, blues)",
+                "Swing is based on triplet subdivision",
+                "Vocalize to internalize: \"1-and\" (straight) vs. \"1-a\" (swing)",
+            ),
+            quizQuestion = "Which feel divides the beat into uneven long-short subdivisions?",
+            quizOptions = listOf(
+                "Straight feel",
+                "Swing feel",
+                "Compound feel",
+                "Syncopated feel",
+            ),
+            quizCorrectIndex = 1,
+            quizExplanation = "Swing feel uses an approximately 2:1 ratio where the downbeat note is lengthened and the upbeat shortened, creating the characteristic \"loping\" sound of jazz and blues.",
+        ),
+        TheoryLesson(
+            id = "rhythm_percussive",
+            module = "Rhythm",
+            title = "Percussive Techniques",
+            content = "The ukulele is a percussive instrument. The body, fretboard, and strings " +
+                "serve as surfaces for rhythmic articulation, allowing you to create a full " +
+                "groove from a single instrument.\n\n" +
+                "The Chuck (also called chunk or palm mute): The ukulele\u2019s snare drum. " +
+                "Execute a downstrum but immediately damp the strings with the edge of the palm. " +
+                "The goal is a sharp \"click\" with no pitched note ringing. Typically placed " +
+                "on beats 2 and 4 to provide a backbeat.\n\n" +
+                "Left-Hand Muting: By relaxing fretting-hand pressure without lifting the " +
+                "fingers, you stop the strings from vibrating, creating a dry staccato sound. " +
+                "Strumming while fully muting produces a percussive \"scratch\" (sometimes called " +
+                "a Z-chord) used in funk and hip-hop styles.\n\n" +
+                "The Slap: Physically hitting the strings or the body of the instrument with " +
+                "the fingertips or thumb to emulate a kick drum or tom-tom. Used in modern " +
+                "fingerstyle percussion playing.\n\n" +
+                "These techniques transform the ukulele from a purely melodic instrument " +
+                "into a rhythmic one.",
+            keyPoints = listOf(
+                "Chuck = palm mute immediately after strumming (the ukulele\u2019s snare drum)",
+                "Left-hand muting creates staccato or scratch effects",
+                "The slap emulates kick drum accents",
+                "Percussive techniques are essential for reggae, blues, and acoustic pop",
+            ),
+            quizQuestion = "What is a 'chuck' on the ukulele?",
+            quizOptions = listOf(
+                "A loud open strum across all strings",
+                "A percussive strum where the palm immediately mutes the strings",
+                "A technique where you pluck individual strings",
+                "A chord played only on the top two strings",
+            ),
+            quizCorrectIndex = 1,
+            quizExplanation = "A chuck (or chunk/palm mute) is a percussive technique where you strum down and immediately damp the strings with the edge of your palm, producing a sharp click that acts like a snare drum hit.",
+        ),
     )
 
     /** Returns lessons grouped by module. */

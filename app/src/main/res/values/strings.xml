@@ -268,6 +268,7 @@
     <string name="patterns_middle">Middle</string>
     <string name="patterns_ring">Ring</string>
     <string name="patterns_string">String</string>
+    <string name="patterns_counting">Counting</string>
 
     <!-- ── Playback Bar ─────────────────────────────────────────────── -->
     <string name="playback_prefix">Playback: </string>

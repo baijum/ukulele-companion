@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -294,6 +296,16 @@ private fun StrumPatternCard(pattern: StrumPattern, onDelete: (() -> Unit)? = nu
                 letterSpacing = 2.sp,
             )
 
+            // Counting hint
+            if (pattern.counting.isNotEmpty()) {
+                Text(
+                    text = pattern.counting,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    letterSpacing = 1.sp,
+                )
+            }
+
             Spacer(modifier = Modifier.height(6.dp))
 
             // Description
@@ -302,6 +314,30 @@ private fun StrumPatternCard(pattern: StrumPattern, onDelete: (() -> Unit)? = nu
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+
+            // Genre tags
+            if (pattern.genres.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(6.dp))
+                @OptIn(ExperimentalLayoutApi::class)
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                ) {
+                    pattern.genres.forEach { genre ->
+                        Text(
+                            text = genre,
+                            style = MaterialTheme.typography.labelSmall,
+                            modifier = Modifier
+                                .background(
+                                    MaterialTheme.colorScheme.secondaryContainer,
+                                    RoundedCornerShape(4.dp),
+                                )
+                                .padding(horizontal = 6.dp, vertical = 2.dp),
+                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        )
+                    }
+                }
+            }
 
             Spacer(modifier = Modifier.height(4.dp))
 
@@ -337,6 +373,7 @@ private fun BeatArrow(beat: StrumBeat) {
     val color = when (beat.direction) {
         StrumDirection.DOWN -> MaterialTheme.colorScheme.primary
         StrumDirection.UP -> MaterialTheme.colorScheme.secondary
+        StrumDirection.CHUCK -> MaterialTheme.colorScheme.error
         StrumDirection.MISS -> MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)
         StrumDirection.PAUSE -> MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
     }
@@ -366,10 +403,12 @@ private fun DifficultyBadge(difficulty: Difficulty) {
     val bgColor = when (difficulty) {
         Difficulty.BEGINNER -> MaterialTheme.colorScheme.primaryContainer
         Difficulty.INTERMEDIATE -> MaterialTheme.colorScheme.secondaryContainer
+        Difficulty.ADVANCED -> MaterialTheme.colorScheme.tertiaryContainer
     }
     val textColor = when (difficulty) {
         Difficulty.BEGINNER -> MaterialTheme.colorScheme.onPrimaryContainer
         Difficulty.INTERMEDIATE -> MaterialTheme.colorScheme.onSecondaryContainer
+        Difficulty.ADVANCED -> MaterialTheme.colorScheme.onTertiaryContainer
     }
 
     Box(

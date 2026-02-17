@@ -34,12 +34,15 @@ object Glossary {
         GlossaryEntry("Cadence", "A chord progression that ends a musical phrase, creating a sense of resolution or pause.", "V → I is a perfect cadence."),
         GlossaryEntry("Capo", "A clamp placed across all strings at a fret to raise the pitch of open strings.", "Capo on fret 2 raises all strings by 2 semitones."),
         GlossaryEntry("Chord", "Three or more notes played simultaneously.", "C major (C-E-G) is a chord."),
+        GlossaryEntry("Chuck", "A percussive strum where the palm damps the strings immediately after striking, producing a sharp click. Also called chunk or chnk.", "Adding a chuck on beats 2 and 4 creates a backbeat like a snare drum."),
+        GlossaryEntry("Constant Motion", "A strumming technique where the hand moves like a pendulum on every beat and off-beat, missing the strings (ghost strums) to create silence rather than stopping.", "The hand always goes down on beats and up on off-beats, even during rests."),
         GlossaryEntry("Chord Formula", "The intervals that define a chord type, expressed as scale degrees.", "Major = 1, 3, 5. Minor = 1, b3, 5."),
         GlossaryEntry("Chord Progression", "A sequence of chords played in order.", "I-IV-V-I in C major = C-F-G-C."),
         GlossaryEntry("Chromatic", "Relating to all 12 notes in Western music, moving by semitones.", "The chromatic scale: C, C#, D, D#, E, F, F#, G, G#, A, A#, B."),
         GlossaryEntry("Consonance", "A combination of notes that sounds stable and pleasing.", "A perfect 5th (C-G) is consonant."),
         // ── D ──
         GlossaryEntry("Degree", "A note's position within a scale, numbered 1 through 7.", "In C major, E is the 3rd degree."),
+        GlossaryEntry("Dynamics", "Variation in loudness during a performance, ranging from pianissimo (very soft) to fortissimo (very loud).", "Playing the chorus louder than the verse adds an emotional arc."),
         GlossaryEntry("Diatonic", "Belonging to or derived from a particular key's scale.", "In C major, Dm is diatonic (built from scale notes)."),
         GlossaryEntry("Diminished", "A chord or interval lowered by a semitone below minor/perfect.", "Bdim = B-D-F. The tritone (b5) is a diminished 5th."),
         GlossaryEntry("Dissonance", "A combination of notes that sounds tense or unstable, wanting to resolve.", "A minor 2nd (C-C#) is dissonant."),
@@ -47,6 +50,8 @@ object Glossary {
         GlossaryEntry("Downbeat", "The first beat of a measure, typically the strongest.", "In 4/4 time, beat 1 is the downbeat."),
         // ── E ──
         GlossaryEntry("Enharmonic", "Two notes that sound the same but are spelled differently.", "C# and Db are enharmonic equivalents."),
+        // ── G ──
+        GlossaryEntry("Ghost Strum", "A strum where the hand moves through the motion but deliberately misses the strings, maintaining the rhythmic pulse without producing sound.", "In the Island Strum, beat 3 is a ghost strum that keeps the hand in position for the next upstroke."),
         // ── F ──
         GlossaryEntry("Fingering", "The specific finger placement used to play a chord or note.", "C major on ukulele: ring finger on fret 3, string A."),
         GlossaryEntry("Flat", "A symbol (b) that lowers a note by one semitone.", "Bb is one semitone below B."),
@@ -76,10 +81,12 @@ object Glossary {
         GlossaryEntry("Octave", "The interval of 12 semitones. Two notes an octave apart sound 'the same' but higher/lower.", "C4 to C5 is one octave."),
         GlossaryEntry("Open Chord", "A chord shape that includes one or more open (unfretted) strings.", "C major (0003) on ukulele is an open chord."),
         // ── P ──
+        GlossaryEntry("Palm Mute", "Resting the edge of the strumming hand on the strings near the bridge to dampen vibration, producing a muted, percussive tone.", "Palm muting while strumming creates a tight, controlled sound often used in rock and blues."),
         GlossaryEntry("Pentatonic", "A five-note scale commonly used in many musical traditions.", "C pentatonic major: C-D-E-G-A."),
         GlossaryEntry("Pitch", "How high or low a note sounds, determined by its frequency.", "A4 = 440 Hz."),
         GlossaryEntry("Pitch Class", "A number (0–11) representing a note regardless of octave. C=0, C#=1, ..., B=11.", "All C notes share pitch class 0."),
         // ── R ──
+        GlossaryEntry("Rasgueado", "A flamenco strumming technique where fingers are flicked out from the palm in rapid succession using extensor muscles, creating an explosive, continuous sheet of sound.", "A 4-stroke rasgueado fans out pinky, ring, middle, then index finger in rapid fire."),
         GlossaryEntry("Re-entrant Tuning", "A tuning where strings are not ordered from lowest to highest pitch. Standard ukulele tuning (G4-C4-E4-A4) is re-entrant because the G string is higher than C.", "The high G gives ukulele its characteristic jangly sound."),
         GlossaryEntry("Resolution", "The movement from a tense or dissonant chord/note to a stable one.", "G7 → C (V7 → I) is a resolution."),
         GlossaryEntry("Roman Numeral", "A notation system for chord degrees in a key. Uppercase = major, lowercase = minor.", "I-IV-V-I = Tonic-Subdominant-Dominant-Tonic."),
@@ -89,9 +96,13 @@ object Glossary {
         GlossaryEntry("Secondary Dominant", "The V chord of a diatonic chord other than I, used for temporary tonicization.", "D7 (V/V) before G in C major."),
         GlossaryEntry("Semitone", "The smallest interval in Western music. One fret on a string instrument.", "C to C# is one semitone."),
         GlossaryEntry("Sharp", "A symbol (#) that raises a note by one semitone.", "F# is one semitone above F."),
+        GlossaryEntry("Skank", "The short, staccato off-beat strum that defines reggae and ska rhythms. Also called the chop.", "The reggae skank leaves downbeats silent for the bass guitar or kick drum."),
+        GlossaryEntry("Straight Feel", "An even subdivision of the beat where down and up strums each occupy exactly 50% of the beat duration. Common in rock, Latin, and modern pop.", "Count \"1-and-2-and\" with equal spacing for straight feel."),
         GlossaryEntry("Strum", "A technique of playing multiple strings in a sweeping motion.", "A down-strum across all 4 ukulele strings."),
         GlossaryEntry("Subdominant", "The 4th degree of a scale, or the harmonic function that creates forward motion.", "F is the subdominant in C major."),
         GlossaryEntry("Suspended Chord", "A chord where the 3rd is replaced by a 2nd (sus2) or 4th (sus4), creating an ambiguous sound.", "Csus4 = C-F-G."),
+        GlossaryEntry("Sweet Spot", "The optimal strumming location where the neck meets the body (around the 12th fret), producing the warmest and most resonant tone.", "Strumming at the sweet spot activates the soundboard most efficiently."),
+        GlossaryEntry("Swing Feel", "An uneven subdivision where the downbeat note is lengthened and the upbeat shortened (approximately 2:1 ratio based on triplets). Essential for jazz, blues, and Hawaiian swing.", "Vocalize \"Hump-ty Dump-ty\" to feel the swing rhythm."),
         GlossaryEntry("Syncopation", "Emphasis on beats or parts of beats that are normally weak.", "Playing on the 'and' instead of the beat."),
         // ── T ──
         GlossaryEntry("Tempo", "The speed of a piece of music, usually measured in BPM.", "Allegro = fast (120–156 BPM)."),
