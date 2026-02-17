@@ -51,7 +51,7 @@ The drawer is organised into four groups:
 | **Progress** | Dashboard with learning stats and practice timer |
 | **Daily Challenge** | Three fresh challenges every day |
 | **Practice Routine** | Guided practice session builder |
-| **SRS Review** | Spaced repetition for chord memorisation |
+
 | **Chord Transitions** | Animated finger movement between chords |
 | **Play Along** | Real-time play-along with chord detection |
 | **Achievements** | Milestone gallery and progress tracking |

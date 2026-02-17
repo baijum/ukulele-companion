@@ -76,7 +76,6 @@
     <string name="nav_progress">진행 상황</string>
     <string name="nav_daily_challenge">일일 도전</string>
     <string name="nav_practice_routine">연습 루틴</string>
-    <string name="nav_srs_review">SRS 복습</string>
     <string name="nav_chord_transitions">코드 전환</string>
     <string name="nav_play_along">함께 연주</string>
     <string name="nav_achievements">업적</string>
@@ -451,25 +450,6 @@
     <string name="daily_tip_6">속도보다 부드러운 전환에 집중하세요 — 속도는 나중에 따라옵니다.</string>
     <string name="daily_tip_7">좋아하는 곡을 배우세요! 동기 부여가 연습을 즐겁게 만듭니다.</string>
 
-    <!-- ── SRS Practice ─────────────────────────────────────────────── -->
-    <string name="srs_title">간격 반복 학습</string>
-    <string name="srs_subtitle">최적의 간격으로 코드를 복습하여 장기 기억에 남기세요.</string>
-    <string name="srs_due">복습 예정</string>
-    <string name="srs_reviewed">복습 완료</string>
-    <string name="srs_total">전체</string>
-    <string name="srs_no_cards">카드가 아직 없습니다</string>
-    <string name="srs_no_cards_message">코드 라이브러리에서 보이싱을 길게 눌러 \"SRS에 추가\"를 선택하면 SRS 덱에 코드를 추가할 수 있습니다.</string>
-    <string name="srs_all_caught_up">모두 완료!</string>
-    <string name="srs_session_done">이번 세션에서 %1$d%2$s를 복습했습니다. 나중에 다시 와서 더 복습하세요.</string>
-    <string name="srs_card_singular">장</string>
-    <string name="srs_card_plural">장</string>
-    <string name="srs_no_due">현재 복습할 카드가 없습니다. 나중에 다시 확인하세요!</string>
-    <string name="srs_card_remaining">카드 %1$d, 남은 %2$d장</string>
-    <string name="srs_recall_prompt">운지법을 기억할 수 있나요?</string>
-    <string name="srs_show_voicing">보이싱 보기</string>
-    <string name="srs_frets">프렛: %s</string>
-    <string name="srs_how_well">얼마나 잘 기억했나요?</string>
-
     <!-- ── Practice Routine ─────────────────────────────────────────── -->
     <string name="routine_title">연습 루틴</string>
     <string name="routine_subtitle">연습 세션을 설정하세요.</string>
@@ -559,7 +539,6 @@
     <string name="help_progress">진행 상황</string>
     <string name="help_daily_challenge">일일 도전</string>
     <string name="help_practice_routine">연습 루틴</string>
-    <string name="help_srs_review">SRS 복습</string>
     <string name="help_chord_transitions">코드 전환</string>
     <string name="help_play_along">함께 연주</string>
     <string name="help_achievements">업적</string>
@@ -577,7 +556,6 @@
     <string name="help_desc_explorer">프렛을 탭하여 코드를 구성하는 인터랙티브 지판입니다. 어떤 코드를 연주하는지 자동으로 감지하여 전위, 음정, 다른 이름을 보여줍니다. 카포 선택기와 스케일 오버레이로 코드와 스케일의 관계를 탐구할 수 있습니다.</string>
     <string name="help_desc_tuner">기기의 마이크를 사용하는 크로매틱 튜너입니다. 감지된 음, 미터의 센트 편차, 이해하기 쉬운 안내(\"높이기\", \"튜닝 완료!\")를 표시합니다. 현 버튼을 탭하면 기준음이 재생됩니다. 다양한 튜닝, A4 보정, 음성 피드백, 정밀 모드를 지원합니다.</string>
     <string name="help_desc_pitch_monitor">실시간 피치 시각화 도구입니다. 스크롤 그래프에 감지된 피치를 표시하고, 현재 음 이름과 일치하는 코드를 강조합니다. 멜로디 연주 시 음정 확인이나 벤딩 연습에 유용합니다.</string>
-    <string name="help_desc_chords">종합 코드 라이브러리입니다. 루트 음과 코드 유형을 선택하여 우쿨렐레에서 연주 가능한 모든 보이싱을 확인할 수 있습니다. 보이싱을 탭하면 탐색기 지판에 표시되고, 길게 눌러 공유, 즐겨찾기 또는 SRS 추가가 가능합니다. 전위 비교 모드도 포함되어 있습니다.</string>
     <string name="help_desc_favorites">폴더로 정리된 저장된 코드 보이싱입니다. 보이싱을 탭하면 지판에 표시되고, 밀거나 길게 눌러 옵션을 확인할 수 있습니다. 폴더를 사용하여 특정 곡이나 연습 세션별로 코드를 분류하세요.</string>
     <string name="help_desc_song_finder">즐겨찾기에 저장된 코드로 연주할 수 있는 곡을 찾아줍니다. 코드를 많이 저장할수록 더 많은 곡을 찾을 수 있습니다. 1~2개의 코드만 더 배우면 연주할 수 있는 곡도 보여줍니다.</string>
     <string name="help_desc_songs">코드 시트를 작성하고 저장하는 개인 곡 목록입니다. 가사를 입력하고 괄호 표기법으로 코드를 삽입하세요: \"무지개[C] 너머 어딘[Em]가에\". 이조, 카포 제안, 자동 스크롤, ChordPro 파일 가져오기/내보내기를 지원합니다.</string>
@@ -593,7 +571,6 @@
     <string name="help_desc_progress">학습 통계를 보여주는 대시보드입니다: 연습 시간, 연속 일수, 완료 레슨, 이론·인터벌·음표 퀴즈·코드 청음 점수. 시간에 따른 일관성과 향상을 추적할 수 있습니다.</string>
     <string name="help_desc_daily_challenge">매일 3개의 새로운 도전으로 연습에 변화를 줍니다. 각 도전은 코드, 스케일, 청음, 이론, 전환 등 다른 기술을 대상으로 합니다. 완료하면 꾸준함이 쌓입니다.</string>
     <string name="help_desc_practice_routine">가이드 연습 세션 빌더입니다. 소요 시간, 실력 수준, 중점 영역을 선택하여 단계별 루틴을 생성합니다. 워밍업, 테크닉, 레퍼토리, 마무리를 포함한 시간 배분 연습 메뉴를 만들어 줍니다.</string>
-    <string name="help_desc_srs_review">코드 보이싱 암기를 위한 간격 반복 시스템입니다. 라이브러리에서 코드를 추가하면 각 보이싱의 기억 정도에 따라 점점 긴 간격으로 복습을 예약합니다. 코드 어휘를 효율적으로 늘려 나갈 수 있습니다.</string>
     <string name="help_desc_chord_transitions">두 코드 사이에서 손가락이 어떻게 움직이는지 시각화합니다. 두 코드를 선택하면 손가락 움직임의 단계별 애니메이션이 표시됩니다. 시간 측정 연습 모드, 전환 카운터, BPM 조절도 포함되어 있습니다.</string>
     <string name="help_desc_play_along">오디오 코드 감지를 통한 실시간 함께 연주 연습입니다. 키와 코드 진행을 선택하고 앱이 듣고 정확도를 평가하는 동안 함께 스트러밍하세요. 마이크 권한이 필요합니다.</string>
     <string name="help_desc_achievements">앱을 사용하면서 달성할 수 있는 마일스톤 갤러리입니다. 연습 연속 일수, 퀴즈 점수, 만든 곡, 배운 코드 등으로 배지를 획득하세요. 진행 상황을 확인하러 와 보세요.</string>

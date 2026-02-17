@@ -69,7 +69,7 @@ import com.baijum.ukufretboard.data.AchievementRepository
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.SongChordDatabase
 import com.baijum.ukufretboard.data.PracticeTimerRepository
-import com.baijum.ukufretboard.data.SrsCardRepository
+
 import com.baijum.ukufretboard.domain.AchievementChecker
 import com.baijum.ukufretboard.domain.ChordInfo
 import com.baijum.ukufretboard.domain.toAchievementContext
@@ -115,7 +115,7 @@ private const val NAV_ACHIEVEMENTS = 23
 private const val NAV_SONG_FINDER = 24
 private const val NAV_CHORD_TRANSITION = 25
 private const val NAV_DAILY_CHALLENGE = 26
-private const val NAV_SRS_PRACTICE = 27
+
 private const val NAV_PRACTICE_ROUTINE = 28
 private const val NAV_PLAY_ALONG = 29
 
@@ -163,7 +163,7 @@ private fun drawerSections(): List<DrawerSection> = listOf(
         DrawerItem(NAV_LEARNING_PROGRESS, stringResource(R.string.nav_progress), Icons.Filled.Favorite),
         DrawerItem(NAV_DAILY_CHALLENGE, stringResource(R.string.nav_daily_challenge), Icons.Filled.Star),
         DrawerItem(NAV_PRACTICE_ROUTINE, stringResource(R.string.nav_practice_routine), Icons.Filled.PlayArrow),
-        DrawerItem(NAV_SRS_PRACTICE, stringResource(R.string.nav_srs_review), Icons.Filled.Refresh),
+
         DrawerItem(NAV_CHORD_TRANSITION, stringResource(R.string.nav_chord_transitions), Icons.Filled.PlayArrow),
         DrawerItem(NAV_PLAY_ALONG, stringResource(R.string.nav_play_along), Icons.Filled.Mic),
         DrawerItem(NAV_ACHIEVEMENTS, stringResource(R.string.nav_achievements), Icons.Filled.Star),
@@ -236,8 +236,6 @@ fun FretboardScreen(
         mutableStateOf(achievementRepository.getUnlocked().keys)
     }
 
-    // SRS (Spaced Repetition) card repository
-    val srsCardRepository = remember { SrsCardRepository(context) }
 
     // Practice session timer — tracks time spent in the app
     val practiceTimerRepository = remember { PracticeTimerRepository(context) }
@@ -599,13 +597,7 @@ fun FretboardScreen(
                             selectedSection = navIndex
                         },
                     )
-                    NAV_SRS_PRACTICE -> SrsPracticeView(
-                        repository = srsCardRepository,
-                        leftHanded = appSettings.fretboard.leftHanded,
-                        onPlayVoicing = { voicing ->
-                            fretboardViewModel.playVoicing(voicing)
-                        },
-                    )
+
                     NAV_DAILY_CHALLENGE -> DailyChallengeView(
                         onNavigate = { navIndex ->
                             selectedSection = navIndex

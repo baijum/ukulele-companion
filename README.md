@@ -63,7 +63,7 @@ A home screen widget that displays a new chord each day with its name, finger po
 Hear chords played back using sine wave synthesis. Notes are strummed with a configurable delay between strings.
 
 ### 🎓 Music Theory & Learning
-Theory lessons, ear training, interval trainer, circle of fifths, glossary, scale practice, spaced repetition, achievements, and more.
+Theory lessons, ear training, interval trainer, circle of fifths, glossary, scale practice, achievements, and more.
 
 </td>
 </tr>
@@ -147,13 +147,13 @@ com.baijum.ukufretboard
 │   └── ToneGenerator.kt
 ├── data/               # Notes, chords, scales, progressions, patterns, persistence
 │   ├── ChordFormulas, Notes, Scales, Progressions, StrumPatterns
-│   ├── Repositories (Favorites, SRS, LearningProgress, Achievements)
+│   ├── Repositories (Favorites, LearningProgress, Achievements)
 │   ├── ChordPro parser/exporter, VoicingGenerator
 │   └── sync/           # Backup & restore
 ├── domain/             # Core business logic
 │   ├── ChordDetector, AudioChordDetector, PitchDetector
 │   ├── Transpose, CapoCalculator, KeyDetector
-│   ├── ScalePracticeGenerator, SrsScheduler
+│   ├── ScalePracticeGenerator
 │   └── VoiceLeading, AchievementChecker
 ├── ui/                 # Compose screens and components (30+ screens)
 │   ├── FretboardScreen (main navigation)
@@ -281,7 +281,7 @@ Looking for a place to start? Here are some areas where contributions would be e
 
 - **UI layer**: 44 Compose files, single-activity architecture via `MainActivity`
 - **ViewModel layer**: 11 ViewModels managing state with `StateFlow`
-- **Domain layer**: Pure Kotlin logic for chord detection, transposition, scales, SRS scheduling
+- **Domain layer**: Pure Kotlin logic for chord detection, transposition, scales
 - **Data layer**: Repositories wrapping SharedPreferences, chord formulas, scale data
 - **Audio layer**: Tone generation, metronome, microphone-based pitch detection
 

@@ -76,7 +76,6 @@
     <string name="nav_progress">Progreso</string>
     <string name="nav_daily_challenge">Reto diario</string>
     <string name="nav_practice_routine">Rutina de práctica</string>
-    <string name="nav_srs_review">Repaso SRS</string>
     <string name="nav_chord_transitions">Transiciones de acordes</string>
     <string name="nav_play_along">Tocar junto</string>
     <string name="nav_achievements">Logros</string>
@@ -451,25 +450,6 @@
     <string name="daily_tip_6">Concéntrate en transiciones suaves en lugar de velocidad — la velocidad viene con el tiempo.</string>
     <string name="daily_tip_7">¡Aprende canciones que te gusten! La motivación hace la práctica más agradable.</string>
 
-    <!-- ── Práctica SRS ──────────────────────────────────────────────── -->
-    <string name="srs_title">Repetición espaciada</string>
-    <string name="srs_subtitle">Repasa acordes a intervalos óptimos para la memoria a largo plazo.</string>
-    <string name="srs_due">Pendientes</string>
-    <string name="srs_reviewed">Repasados</string>
-    <string name="srs_total">Total</string>
-    <string name="srs_no_cards">Aún no hay tarjetas</string>
-    <string name="srs_no_cards_message">Añade acordes a tu mazo SRS desde la biblioteca de acordes manteniendo pulsado un voicing y seleccionando \"Añadir a SRS\".</string>
-    <string name="srs_all_caught_up">¡Todo al día!</string>
-    <string name="srs_session_done">Repasaste %1$d %2$s en esta sesión. Vuelve más tarde para más repasos.</string>
-    <string name="srs_card_singular">tarjeta</string>
-    <string name="srs_card_plural">tarjetas</string>
-    <string name="srs_no_due">No hay tarjetas pendientes de repaso ahora. ¡Vuelve más tarde!</string>
-    <string name="srs_card_remaining">Tarjeta %1$d, %2$d restantes</string>
-    <string name="srs_recall_prompt">¿Puedes recordar la digitación?</string>
-    <string name="srs_show_voicing">Mostrar voicing</string>
-    <string name="srs_frets">Trastes: %s</string>
-    <string name="srs_how_well">¿Qué tan bien lo recordaste?</string>
-
     <!-- ── Rutina de práctica ────────────────────────────────────────── -->
     <string name="routine_title">Rutina de práctica</string>
     <string name="routine_subtitle">Configura tu sesión de práctica.</string>
@@ -559,7 +539,6 @@
     <string name="help_progress">Progreso</string>
     <string name="help_daily_challenge">Reto diario</string>
     <string name="help_practice_routine">Rutina de práctica</string>
-    <string name="help_srs_review">Repaso SRS</string>
     <string name="help_chord_transitions">Transiciones de acordes</string>
     <string name="help_play_along">Tocar junto</string>
     <string name="help_achievements">Logros</string>
@@ -577,7 +556,6 @@
     <string name="help_desc_explorer">El diapasón interactivo donde tocas trastes para formar acordes. La aplicación detecta qué acorde estás tocando y muestra inversiones, intervalos y nombres alternativos. Incluye selector de cejilla y superposición de escalas para explorar cómo encajan acordes y escalas.</string>
     <string name="help_desc_tuner">Un afinador cromático que usa el micrófono de tu dispositivo. Muestra la nota detectada, la desviación en cents en un medidor de aguja e indicaciones claras (\"Subir\", \"¡Afinado!\"). Toca los botones de cuerda para un tono de referencia. Compatible con múltiples afinaciones, calibración de La4, retroalimentación hablada y modo de precisión.</string>
     <string name="help_desc_pitch_monitor">Una herramienta de visualización de tono en tiempo real. Muestra el tono detectado en un gráfico deslizante, el nombre de la nota actual y resalta los acordes coincidentes. Útil para verificar la entonación al tocar melodías o practicar bendings.</string>
-    <string name="help_desc_chords">Una biblioteca completa de acordes. Elige una nota raíz y un tipo de acorde para ver todos los voicings tocables en el ukelele. Toca un voicing para cargarlo en el diapasón del explorador, o mantén pulsado para compartir, añadir a favoritos o añadir a SRS. Incluye modo de comparación de inversiones.</string>
     <string name="help_desc_favorites">Tus voicings de acordes guardados, organizados en carpetas. Toca un voicing para verlo en el diapasón, desliza o mantén pulsado para más opciones. Usa carpetas para agrupar acordes por canción o sesión de práctica.</string>
     <string name="help_desc_song_finder">Descubre canciones que ya puedes tocar con los acordes de tus favoritos. Cuantos más acordes guardes, más canciones se desbloquean. También muestra canciones que necesitan solo 1–2 acordes más.</string>
     <string name="help_desc_songs">Un cancionero personal para escribir y guardar hojas de acordes. Escribe la letra e inserta acordes con notación de corchetes: \"En[C] algún lugar sobre el [Em]arcoíris\". Compatible con transposición, sugerencias de cejilla, desplazamiento automático e importación/exportación de archivos ChordPro.</string>
@@ -593,7 +571,6 @@
     <string name="help_desc_progress">Un panel que muestra tus estadísticas de aprendizaje: tiempo de práctica, racha de días, lecciones completadas y puntuaciones de quizzes para Teoría, Intervalos, Quiz de notas y Entrenamiento auditivo de acordes. Te ayuda a seguir la constancia y la mejora con el tiempo.</string>
     <string name="help_desc_daily_challenge">Tres retos nuevos generados cada día para mantener tu rutina de práctica variada. Cada reto se enfoca en una habilidad diferente — acordes, escalas, entrenamiento auditivo, teoría o transiciones. Completarlos fomenta la constancia.</string>
     <string name="help_desc_practice_routine">Un constructor de sesiones de práctica guiada. Elige duración, nivel de habilidad y áreas de enfoque para generar una rutina paso a paso. La aplicación crea una secuencia cronometrada de ejercicios que incluye calentamiento, técnica, repertorio y enfriamiento.</string>
-    <string name="help_desc_srs_review">Sistema de repetición espaciada para memorizar voicings de acordes. Añade acordes desde la biblioteca y la aplicación programa repasos a intervalos crecientes según qué tan bien recuerdes cada voicing. Mantiene tu vocabulario de acordes creciendo eficientemente.</string>
     <string name="help_desc_chord_transitions">Visualiza cómo se mueven tus dedos entre dos acordes. Elige dos acordes y observa una animación paso a paso de los movimientos de dedos. Incluye un modo de práctica cronometrado con contador de cambios y control de BPM.</string>
     <string name="help_desc_play_along">Práctica interactiva con detección de acordes por audio en tiempo real. Elige una tonalidad y progresión, luego rasguea mientras la aplicación escucha y califica tu precisión. Requiere permiso de micrófono.</string>
     <string name="help_desc_achievements">Una galería de hitos para desbloquear mientras usas la aplicación. Gana insignias por rachas de práctica, puntuaciones de quizzes, canciones creadas, acordes aprendidos y más. Consulta tu progreso aquí.</string>

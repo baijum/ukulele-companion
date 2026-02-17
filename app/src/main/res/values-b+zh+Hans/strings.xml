@@ -76,7 +76,6 @@
     <string name="nav_progress">学习进度</string>
     <string name="nav_daily_challenge">每日挑战</string>
     <string name="nav_practice_routine">练习计划</string>
-    <string name="nav_srs_review">SRS 复习</string>
     <string name="nav_chord_transitions">和弦转换</string>
     <string name="nav_play_along">跟弹练习</string>
     <string name="nav_achievements">成就</string>
@@ -451,25 +450,6 @@
     <string name="daily_tip_6">专注于流畅的转换而不是速度——速度会随时间自然提升。</string>
     <string name="daily_tip_7">学习你喜欢的歌曲！热爱让练习变得愉快。</string>
 
-    <!-- ── SRS Practice ─────────────────────────────────────────────── -->
-    <string name="srs_title">间隔重复</string>
-    <string name="srs_subtitle">以最佳间隔复习和弦，增强长期记忆。</string>
-    <string name="srs_due">待复习</string>
-    <string name="srs_reviewed">已复习</string>
-    <string name="srs_total">总计</string>
-    <string name="srs_no_cards">还没有卡片</string>
-    <string name="srs_no_cards_message">从和弦库中长按指法并选择"添加到 SRS"来将和弦添加到你的 SRS 卡组。</string>
-    <string name="srs_all_caught_up">全部完成！</string>
-    <string name="srs_session_done">本次复习了 %1$d %2$s。稍后再来继续复习。</string>
-    <string name="srs_card_singular">张卡片</string>
-    <string name="srs_card_plural">张卡片</string>
-    <string name="srs_no_due">目前没有需要复习的卡片。稍后再来查看！</string>
-    <string name="srs_card_remaining">第 %1$d 张卡片，剩余 %2$d 张</string>
-    <string name="srs_recall_prompt">你能回忆起指法吗？</string>
-    <string name="srs_show_voicing">显示指法</string>
-    <string name="srs_frets">品格: %s</string>
-    <string name="srs_how_well">你记得有多清楚？</string>
-
     <!-- ── Practice Routine ─────────────────────────────────────────── -->
     <string name="routine_title">练习计划</string>
     <string name="routine_subtitle">设置你的练习环节。</string>
@@ -559,7 +539,6 @@
     <string name="help_progress">学习进度</string>
     <string name="help_daily_challenge">每日挑战</string>
     <string name="help_practice_routine">练习计划</string>
-    <string name="help_srs_review">SRS 复习</string>
     <string name="help_chord_transitions">和弦转换</string>
     <string name="help_play_along">跟弹练习</string>
     <string name="help_achievements">成就</string>
@@ -577,7 +556,6 @@
     <string name="help_desc_explorer">互动指板，点击品格来构建和弦。应用会检测你正在弹奏的和弦，并显示转位、音程和别名。包含变调夹选择器和音阶叠加层，可探索和弦与音阶如何配合。</string>
     <string name="help_desc_tuner">使用设备麦克风的半音调音器。显示检测到的音符、音分偏差（指针表）以及简明指导（"调高"、"已调准！"）。点击弦按钮播放参考音。支持多种调弦方式、A4 校准、语音反馈和精确模式。</string>
     <string name="help_desc_pitch_monitor">实时音高可视化工具。在滚动图表上显示检测到的音高，显示当前音符名称并高亮匹配的和弦。适用于检查演奏旋律或练习推弦时的音准。</string>
-    <string name="help_desc_chords">全面的和弦库。选择根音和和弦类型，查看尤克里里上所有可弹奏的指法。点击指法将其加载到探索器指板上，或长按分享、收藏或添加到 SRS。包含转位比较模式。</string>
     <string name="help_desc_favorites">你保存的和弦指法，按文件夹整理。点击指法在指板上查看，滑动或长按查看选项。使用文件夹将和弦分组用于特定歌曲或练习环节。</string>
     <string name="help_desc_song_finder">发现你可以用收藏中的和弦弹奏的歌曲。你保存的和弦越多，解锁的歌曲就越多。还会显示只需再学 1-2 个和弦就能弹奏的歌曲。</string>
     <string name="help_desc_songs">个人歌曲本，用于编写和存储和弦谱。输入歌词并使用方括号标记和弦: "Some[C]where over the [Em]rainbow"。支持移调、变调夹建议、自动滚动以及 ChordPro 文件的导入/导出。</string>
@@ -593,7 +571,6 @@
     <string name="help_desc_progress">展示你学习统计数据的仪表盘：练习时间、连续天数、已完成课程以及乐理、音程、音符测验和和弦听力训练的测验分数。帮助你追踪持续性和进步。</string>
     <string name="help_desc_daily_challenge">每天生成三个新挑战，让你的练习保持多样化。每个挑战针对不同技能——和弦、音阶、听力训练、乐理或转换。完成它们可以培养持续性。</string>
     <string name="help_desc_practice_routine">引导式练习环节构建器。选择时长、技能水平和重点领域来生成分步计划。应用会创建包含热身、技巧、曲目和放松的定时练习序列。</string>
-    <string name="help_desc_srs_review">用于记忆和弦指法的间隔重复系统。从和弦库添加和弦，应用会根据你回忆每个指法的程度以递增间隔安排复习。有效地扩展你的和弦词汇量。</string>
     <string name="help_desc_chord_transitions">可视化手指在两个和弦之间的移动方式。选择两个和弦，查看手指移动的分步动画。包含带切换计数器和 BPM 控制的限时练习模式。</string>
     <string name="help_desc_play_along">带实时音频和弦检测的跟弹练习。选择一个调和和弦进行，然后跟着弹奏，应用会监听并评估你的准确度。需要麦克风权限。</string>
     <string name="help_desc_achievements">一系列随着你使用应用而解锁的里程碑。通过练习连续天数、测验分数、创建歌曲、学习和弦等获得徽章。随时查看你的进展。</string>

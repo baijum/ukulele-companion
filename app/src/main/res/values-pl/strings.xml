@@ -76,7 +76,6 @@
     <string name="nav_progress">Postępy</string>
     <string name="nav_daily_challenge">Wyzwanie dnia</string>
     <string name="nav_practice_routine">Rutyna ćwiczeń</string>
-    <string name="nav_srs_review">Powtórka SRS</string>
     <string name="nav_chord_transitions">Przejścia akordów</string>
     <string name="nav_play_along">Graj razem</string>
     <string name="nav_achievements">Osiągnięcia</string>
@@ -451,25 +450,6 @@
     <string name="daily_tip_6">Skup się na płynnych przejściach, a nie na szybkości — szybkość przyjdzie z czasem.</string>
     <string name="daily_tip_7">Ucz się piosenek, które lubisz! Motywacja sprawia, że ćwiczenie jest przyjemne.</string>
 
-    <!-- ── Ćwiczenie SRS ──────────────────────────────────────────────── -->
-    <string name="srs_title">Powtórki rozłożone w czasie</string>
-    <string name="srs_subtitle">Powtarzaj akordy w optymalnych odstępach dla pamięci długotrwałej.</string>
-    <string name="srs_due">Do powtórki</string>
-    <string name="srs_reviewed">Powtórzone</string>
-    <string name="srs_total">Razem</string>
-    <string name="srs_no_cards">Brak kart</string>
-    <string name="srs_no_cards_message">Dodaj akordy do talii SRS z Biblioteki akordów, przytrzymując prowadzenie głosów i wybierając \"Dodaj do SRS\".</string>
-    <string name="srs_all_caught_up">Wszystko powtórzone!</string>
-    <string name="srs_session_done">Powtórzono %1$d %2$s w tej sesji. Wróć później po więcej powtórek.</string>
-    <string name="srs_card_singular">kartę</string>
-    <string name="srs_card_plural">kart</string>
-    <string name="srs_no_due">Brak kart do powtórzenia. Sprawdź później!</string>
-    <string name="srs_card_remaining">Karta %1$d, %2$d pozostało</string>
-    <string name="srs_recall_prompt">Czy pamiętasz palcowanie?</string>
-    <string name="srs_show_voicing">Pokaż prowadzenie głosów</string>
-    <string name="srs_frets">Progi: %s</string>
-    <string name="srs_how_well">Jak dobrze to zapamiętałeś?</string>
-
     <!-- ── Rutyna ćwiczeń ─────────────────────────────────────────────── -->
     <string name="routine_title">Rutyna ćwiczeń</string>
     <string name="routine_subtitle">Zaplanuj swoją sesję ćwiczeń.</string>
@@ -559,7 +539,6 @@
     <string name="help_progress">Postępy</string>
     <string name="help_daily_challenge">Wyzwanie dnia</string>
     <string name="help_practice_routine">Rutyna ćwiczeń</string>
-    <string name="help_srs_review">Powtórka SRS</string>
     <string name="help_chord_transitions">Przejścia akordów</string>
     <string name="help_play_along">Graj razem</string>
     <string name="help_achievements">Osiągnięcia</string>
@@ -577,7 +556,6 @@
     <string name="help_desc_explorer">Interaktywny gryf, na którym dotykasz progów, aby budować akordy. Aplikacja rozpoznaje grany akord i pokazuje przewroty, interwały i alternatywne nazwy. Zawiera selektor kapodastru i nakładkę skal do eksploracji, jak akordy i skale pasują do siebie.</string>
     <string name="help_desc_tuner">Chromatyczny tuner wykorzystujący mikrofon urządzenia. Wyświetla wykrytą nutę, odchylenie w centach na wskaźniku igłowym i jasne wskazówki (\"Podwyższ\", \"Nastrojony!\"). Dotknij przycisków strun, aby usłyszeć dźwięk referencyjny. Obsługuje wiele strojów, kalibrację A4, informację głosową i tryb precyzyjny.</string>
     <string name="help_desc_pitch_monitor">Narzędzie do wizualizacji wysokości dźwięku w czasie rzeczywistym. Pokazuje wykrytą wysokość na przewijanym wykresie, bieżącą nazwę nuty i dopasowane akordy. Przydatne do sprawdzania intonacji podczas gry melodii lub ćwiczenia podciągnięć.</string>
-    <string name="help_desc_chords">Obszerna biblioteka akordów. Wybierz nutę podstawową i typ akordu, aby zobaczyć wszystkie grywalne prowadzenia głosów na ukulele. Dotknij prowadzenia głosów, aby załadować je na gryfie eksploratora, lub przytrzymaj, aby udostępnić, dodać do ulubionych lub do SRS. Zawiera tryb porównywania przewrotów.</string>
     <string name="help_desc_favorites">Zapisane prowadzenia głosów akordów, uporządkowane w folderach. Dotknij prowadzenia głosów, aby zobaczyć je na gryfie, przesuń lub przytrzymaj, aby uzyskać opcje. Używaj folderów do grupowania akordów dla konkretnych piosenek lub sesji ćwiczeniowych.</string>
     <string name="help_desc_song_finder">Odkryj piosenki, które możesz już zagrać, korzystając z akordów w swoich ulubionych. Im więcej akordów zapiszesz, tym więcej piosenek się odblokuje. Pokazuje też piosenki wymagające tylko 1-2 dodatkowych akordów.</string>
     <string name="help_desc_songs">Osobisty śpiewnik do pisania i przechowywania kart akordów. Wpisuj tekst i wstawiaj akordy w nawiasach kwadratowych: \"Gdzieś[C] ponad tęczą [Em]tam\". Obsługuje transpozycję, sugestie kapodastru, autoprzewijanie oraz import/eksport plików ChordPro.</string>
@@ -593,7 +571,6 @@
     <string name="help_desc_progress">Panel pokazujący statystyki nauki: czas ćwiczeń, seria dni, ukończone lekcje i wyniki quizów z Teorii, Interwałów, Quizu z nut i Treningu słuchu akordów. Pomaga śledzić regularność i postępy w czasie.</string>
     <string name="help_desc_daily_challenge">Trzy nowe wyzwania generowane codziennie, aby urozmaicić Twoją rutynę ćwiczeń. Każde wyzwanie dotyczy innej umiejętności — akordów, gam, treningu słuchu, teorii lub przejść. Ich ukończenie buduje regularność.</string>
     <string name="help_desc_practice_routine">Kreator sesji ćwiczeniowej z prowadzeniem. Wybierz czas trwania, poziom umiejętności i obszary skupienia, aby wygenerować rutynę krok po kroku. Aplikacja tworzy sekwencję ćwiczeń z rozgrzewką, techniką, repertuarem i zakończeniem.</string>
-    <string name="help_desc_srs_review">System powtórek rozłożonych w czasie do zapamiętywania prowadzeń głosów akordów. Dodaj akordy z biblioteki, a aplikacja zaplanuje powtórki w rosnących odstępach na podstawie tego, jak dobrze pamiętasz każde prowadzenie głosów. Efektywnie poszerza Twój zasób akordów.</string>
     <string name="help_desc_chord_transitions">Wizualizuj, jak palce poruszają się między dwoma akordami. Wybierz dwa akordy i obejrzyj animację krok po kroku ruchów palców. Zawiera tryb ćwiczeniowy z licznikiem zmian i sterowaniem BPM.</string>
     <string name="help_desc_play_along">Ćwiczenie w czasie rzeczywistym z dźwiękowym wykrywaniem akordów. Wybierz tonację i progresję, a następnie graj, podczas gdy aplikacja słucha i ocenia Twoją dokładność. Wymaga uprawnienia do mikrofonu.</string>
     <string name="help_desc_achievements">Galeria kamieni milowych do odblokowania w miarę korzystania z aplikacji. Zdobywaj odznaki za serie ćwiczeń, wyniki quizów, utworzone piosenki, nauczone akordy i więcej. Sprawdzaj swoje postępy.</string>

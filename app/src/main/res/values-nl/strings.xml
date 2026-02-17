@@ -76,7 +76,6 @@
     <string name="nav_progress">Voortgang</string>
     <string name="nav_daily_challenge">Dagelijkse uitdaging</string>
     <string name="nav_practice_routine">Oefenroutine</string>
-    <string name="nav_srs_review">SRS-herhaling</string>
     <string name="nav_chord_transitions">Akkoordovergangen</string>
     <string name="nav_play_along">Meespelen</string>
     <string name="nav_achievements">Prestaties</string>
@@ -451,25 +450,6 @@
     <string name="daily_tip_6">Richt je op vloeiende overgangen in plaats van snelheid — snelheid komt met de tijd.</string>
     <string name="daily_tip_7">Leer liedjes die je leuk vindt! Motivatie maakt oefenen plezierig.</string>
 
-    <!-- ── SRS-oefening ───────────────────────────────────────────────── -->
-    <string name="srs_title">Gespreid herhalen</string>
-    <string name="srs_subtitle">Herhaal akkoorden met optimale intervallen voor langetermijngeheugen.</string>
-    <string name="srs_due">Te doen</string>
-    <string name="srs_reviewed">Herhaald</string>
-    <string name="srs_total">Totaal</string>
-    <string name="srs_no_cards">Nog geen kaarten</string>
-    <string name="srs_no_cards_message">Voeg akkoorden toe aan je SRS-stapel vanuit de Akkoordenbibliotheek door lang op een voicing te drukken en \"Toevoegen aan SRS\" te selecteren.</string>
-    <string name="srs_all_caught_up">Alles bijgewerkt!</string>
-    <string name="srs_session_done">Je hebt %1$d %2$s herhaald deze sessie. Kom later terug voor meer herhalingen.</string>
-    <string name="srs_card_singular">kaart</string>
-    <string name="srs_card_plural">kaarten</string>
-    <string name="srs_no_due">Er zijn momenteel geen kaarten te herhalen. Kom later terug!</string>
-    <string name="srs_card_remaining">Kaart %1$d, %2$d resterend</string>
-    <string name="srs_recall_prompt">Kun je de vingerzetting herinneren?</string>
-    <string name="srs_show_voicing">Voicing tonen</string>
-    <string name="srs_frets">Frets: %s</string>
-    <string name="srs_how_well">Hoe goed herinnerde je het?</string>
-
     <!-- ── Oefenroutine ───────────────────────────────────────────────── -->
     <string name="routine_title">Oefenroutine</string>
     <string name="routine_subtitle">Stel je oefensessie samen.</string>
@@ -559,7 +539,6 @@
     <string name="help_progress">Voortgang</string>
     <string name="help_daily_challenge">Dagelijkse uitdaging</string>
     <string name="help_practice_routine">Oefenroutine</string>
-    <string name="help_srs_review">SRS-herhaling</string>
     <string name="help_chord_transitions">Akkoordovergangen</string>
     <string name="help_play_along">Meespelen</string>
     <string name="help_achievements">Prestaties</string>
@@ -577,7 +556,6 @@
     <string name="help_desc_explorer">Het interactieve toetsenbord waar je op frets tikt om akkoorden op te bouwen. De app herkent welk akkoord je speelt en toont omkeringen, intervallen en alternatieve namen. Bevat een capo-kiezer en toonladderoverlay om te ontdekken hoe akkoorden en toonladders samenvallen.</string>
     <string name="help_desc_tuner">Een chromatisch stemapparaat dat de microfoon van je apparaat gebruikt. Toont de gedetecteerde noot, centafwijking op een naaldmeter en duidelijke instructies (\"Hoger stemmen\", \"Op toon!\"). Tik op de snaarknoppen voor een referentietoon. Ondersteunt meerdere stemmingen, A4-kalibratie, gesproken feedback en precisiemodus.</string>
     <string name="help_desc_pitch_monitor">Een real-time toonhoogtevisualisatietool. Toont de gedetecteerde toonhoogte op een scrollende grafiek, de huidige nootnaam en overeenkomende akkoorden. Handig om de intonatie te controleren bij het spelen van melodieën of het oefenen van bends.</string>
-    <string name="help_desc_chords">Een uitgebreide akkoordenbibliotheek. Kies een grondtoon en akkoordtype om alle speelbare voicings op de ukulele te zien. Tik op een voicing om deze op het verkennerstoetsenbord te laden, of houd lang ingedrukt om te delen, toe te voegen aan favorieten of aan SRS. Bevat een omkeringenvergelijkmodus.</string>
     <string name="help_desc_favorites">Je opgeslagen akkoordvoicings, georganiseerd in mappen. Tik op een voicing om deze op het toetsenbord te bekijken, veeg of houd lang ingedrukt voor opties. Gebruik mappen om akkoorden te groeperen voor specifieke liedjes of oefensessies.</string>
     <string name="help_desc_song_finder">Ontdek liedjes die je al kunt spelen met de akkoorden in je favorieten. Hoe meer akkoorden je opslaat, hoe meer liedjes worden ontgrendeld. Toont ook liedjes die slechts 1-2 akkoorden meer nodig hebben.</string>
     <string name="help_desc_songs">Een persoonlijk liedjesboek voor het schrijven en opslaan van akkoordbladen. Typ teksten en voeg akkoorden in met haakjesnotatie: \"Er[C]gens over de regen[Em]boog\". Ondersteunt transponeren, capo-suggesties, automatisch scrollen en importeren/exporteren van ChordPro-bestanden.</string>
@@ -593,7 +571,6 @@
     <string name="help_desc_progress">Een dashboard met je leerstatistieken: oefentijd, dagenreeks, voltooide lessen en quizscores voor Theorie, Intervallen, Notenquiz en Akkoord-gehoortraining. Helpt je om consistentie en verbetering in de tijd bij te houden.</string>
     <string name="help_desc_daily_challenge">Drie nieuwe uitdagingen die elke dag worden gegenereerd om je oefenroutine gevarieerd te houden. Elke uitdaging richt zich op een andere vaardigheid — akkoorden, toonladders, gehoortraining, theorie of overgangen. Voltooien bouwt consistentie op.</string>
     <string name="help_desc_practice_routine">Een begeleide oefensessie-samensteller. Kies duur, vaardigheidsniveau en aandachtsgebieden om een stapsgewijze routine te genereren. De app maakt een getimede reeks oefeningen voor warming-up, techniek, repertoire en cooling-down.</string>
-    <string name="help_desc_srs_review">Gespreid Herhalingssysteem voor het onthouden van akkoordvoicings. Voeg akkoorden toe uit de bibliotheek en de app plant herhalingen op toenemende intervallen op basis van hoe goed je elke voicing herinnert. Houdt je akkoordvocabulaire efficiënt groeiend.</string>
     <string name="help_desc_chord_transitions">Visualiseer hoe je vingers bewegen tussen twee akkoorden. Kies twee akkoorden en bekijk een stapsgewijze animatie van vingerbewegingen. Bevat een getimede oefenmodus met wisselingteller en BPM-regeling.</string>
     <string name="help_desc_play_along">Real-time meespeelpraktijk met audio-akkoorddetectie. Kies een toonsoort en progressie, en strum dan mee terwijl de app luistert en je nauwkeurigheid beoordeelt. Vereist microfoontoestemming.</string>
     <string name="help_desc_achievements">Een galerij van mijlpalen om te ontgrendelen terwijl je de app gebruikt. Verdien badges voor oefenreeksen, quizscores, gemaakte liedjes, geleerde akkoorden en meer. Kom terug om je voortgang te bekijken.</string>

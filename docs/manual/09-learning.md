@@ -55,7 +55,7 @@ The Practice Routine builder creates a structured, guided session tailored to yo
 
 1. **Duration** — drag the slider to set your available time (5–60 minutes).
 2. **Skill Level** — choose Beginner, Intermediate, or Advanced.
-3. **Focus Areas** — select which skills to include: Chords, Scales, Ear Training, Theory, Songs, SRS.
+3. **Focus Areas** — select which skills to include: Chords, Scales, Ear Training, Theory, Songs.
 4. Tap **Start Practice Routine**.
 
 ### Following the Routine

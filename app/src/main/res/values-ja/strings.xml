@@ -76,7 +76,6 @@
     <string name="nav_progress">進捗</string>
     <string name="nav_daily_challenge">デイリーチャレンジ</string>
     <string name="nav_practice_routine">練習ルーティン</string>
-    <string name="nav_srs_review">SRS復習</string>
     <string name="nav_chord_transitions">コードチェンジ</string>
     <string name="nav_play_along">一緒に演奏</string>
     <string name="nav_achievements">実績</string>
@@ -451,25 +450,6 @@
     <string name="daily_tip_6">スピードより滑らかな移行に集中しましょう — 速さは後からついてきます。</string>
     <string name="daily_tip_7">好きな曲を覚えましょう！モチベーションが練習を楽しくします。</string>
 
-    <!-- ── SRS Practice ─────────────────────────────────────────────── -->
-    <string name="srs_title">間隔反復学習</string>
-    <string name="srs_subtitle">最適な間隔でコードを復習し、長期記憶に定着させましょう。</string>
-    <string name="srs_due">期限</string>
-    <string name="srs_reviewed">復習済み</string>
-    <string name="srs_total">合計</string>
-    <string name="srs_no_cards">カードがまだありません</string>
-    <string name="srs_no_cards_message">コードライブラリでボイシングを長押しし、「SRSに追加」を選択して、SRSデッキにコードを追加しましょう。</string>
-    <string name="srs_all_caught_up">すべて完了!</string>
-    <string name="srs_session_done">今回のセッションで%1$d%2$sを復習しました。また後で戻ってきてください。</string>
-    <string name="srs_card_singular">枚</string>
-    <string name="srs_card_plural">枚</string>
-    <string name="srs_no_due">現在復習が必要なカードはありません。また後で確認してください！</string>
-    <string name="srs_card_remaining">カード%1$d、残り%2$d枚</string>
-    <string name="srs_recall_prompt">運指を思い出せますか？</string>
-    <string name="srs_show_voicing">ボイシングを表示</string>
-    <string name="srs_frets">フレット: %s</string>
-    <string name="srs_how_well">どのくらい覚えていましたか？</string>
-
     <!-- ── Practice Routine ─────────────────────────────────────────── -->
     <string name="routine_title">練習ルーティン</string>
     <string name="routine_subtitle">練習セッションを設定しましょう。</string>
@@ -559,7 +539,6 @@
     <string name="help_progress">進捗</string>
     <string name="help_daily_challenge">デイリーチャレンジ</string>
     <string name="help_practice_routine">練習ルーティン</string>
-    <string name="help_srs_review">SRS復習</string>
     <string name="help_chord_transitions">コードチェンジ</string>
     <string name="help_play_along">一緒に演奏</string>
     <string name="help_achievements">実績</string>
@@ -577,7 +556,6 @@
     <string name="help_desc_explorer">フレットをタップしてコードを組み立てるインタラクティブなフレットボードです。どのコードを弾いているかを自動検出し、転回形、音程、別名を表示します。カポセレクターとスケールオーバーレイで、コードとスケールの関係を探索できます。</string>
     <string name="help_desc_tuner">デバイスのマイクを使用するクロマチックチューナーです。検出された音名、メーター上のセント偏差、わかりやすいガイド（「高くする」「チューニング完了!」）を表示します。弦ボタンをタップすると基準音が鳴ります。複数のチューニング、A4キャリブレーション、音声フィードバック、高精度モードに対応しています。</string>
     <string name="help_desc_pitch_monitor">リアルタイムのピッチ可視化ツールです。スクロールするグラフ上に検出されたピッチを表示し、現在の音名と一致するコードをハイライトします。メロディー演奏やベンド練習時のイントネーション確認に便利です。</string>
-    <string name="help_desc_chords">総合的なコードライブラリです。ルート音とコードタイプを選んで、ウクレレで弾けるすべてのボイシングを表示します。ボイシングをタップしてエクスプローラーのフレットボードに表示したり、長押しで共有、お気に入りやSRSへの追加が可能です。転回形の比較モードもあります。</string>
     <string name="help_desc_favorites">フォルダで整理された、保存済みのコードボイシングです。ボイシングをタップしてフレットボードで表示、スワイプまたは長押しでオプションを表示。フォルダを使って特定の曲や練習セッション用にコードをグループ化できます。</string>
     <string name="help_desc_song_finder">お気に入りに保存したコードで弾ける曲を見つけます。コードを多く保存するほど、より多くの曲が見つかります。あと1〜2個のコードを覚えれば弾ける曲も表示します。</string>
     <string name="help_desc_songs">コードシートを作成・保存できる個人用ソングブックです。歌詞を入力してブラケット記法でコードを挿入：「虹の[C]向こうの[Em]どこかに」。移調、カポ提案、自動スクロール、ChordProファイルのインポート/エクスポートに対応しています。</string>
@@ -593,7 +571,6 @@
     <string name="help_desc_progress">学習統計を表示するダッシュボードです：練習時間、連続日数、完了レッスン、理論・音程・音符クイズ・コード聴音のクイズスコア。一貫性と向上を時間とともに追跡できます。</string>
     <string name="help_desc_daily_challenge">毎日3つの新しいチャレンジで、練習を変化に富んだものにします。各チャレンジはコード、スケール、聴音、理論、チェンジなど異なるスキルを対象としています。達成すると継続性が身につきます。</string>
     <string name="help_desc_practice_routine">ガイド付き練習セッションビルダーです。所要時間、スキルレベル、重点エリアを選んで、ステップバイステップのルーティンを生成します。ウォームアップ、テクニック、レパートリー、クールダウンを含むタイムド練習メニューを作成します。</string>
-    <string name="help_desc_srs_review">コードボイシングを記憶するための間隔反復システムです。ライブラリからコードを追加すると、各ボイシングの思い出しやすさに基づいて復習間隔が徐々に長くなります。コードの語彙を効率的に増やし続けられます。</string>
     <string name="help_desc_chord_transitions">2つのコード間で指がどう動くかを視覚化します。2つのコードを選ぶと、指の動きのステップバイステップアニメーションが表示されます。タイム計測付き練習モード、チェンジカウンター、BPM制御も搭載しています。</string>
     <string name="help_desc_play_along">オーディオコード検出によるリアルタイム演奏練習です。キーとコード進行を選び、アプリが聴いて正確さを評価する中で一緒にストロークしましょう。マイクの許可が必要です。</string>
     <string name="help_desc_achievements">アプリの使用に応じて解除できるマイルストーンギャラリーです。練習の連続日数、クイズのスコア、作成した曲、覚えたコードなどでバッジを獲得できます。進捗を確認しに来てください。</string>

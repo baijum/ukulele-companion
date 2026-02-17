@@ -137,10 +137,7 @@ private fun helpSections(): List<HelpSection> = listOf(
                 title = stringResource(R.string.help_practice_routine),
                 description = stringResource(R.string.help_desc_practice_routine),
             ),
-            HelpEntry(
-                title = stringResource(R.string.help_srs_review),
-                description = stringResource(R.string.help_desc_srs_review),
-            ),
+
             HelpEntry(
                 title = stringResource(R.string.help_chord_transitions),
                 description = stringResource(R.string.help_desc_chord_transitions),

@@ -76,7 +76,6 @@
     <string name="nav_progress">Progressi</string>
     <string name="nav_daily_challenge">Sfida giornaliera</string>
     <string name="nav_practice_routine">Routine di pratica</string>
-    <string name="nav_srs_review">Ripasso SRS</string>
     <string name="nav_chord_transitions">Transizioni accordi</string>
     <string name="nav_play_along">Suona insieme</string>
     <string name="nav_achievements">Traguardi</string>
@@ -451,25 +450,6 @@
     <string name="daily_tip_6">Concentrati sulle transizioni fluide piuttosto che sulla velocità — la velocità arriverà con il tempo.</string>
     <string name="daily_tip_7">Impara canzoni che ami! La motivazione rende la pratica piacevole.</string>
 
-    <!-- ── Pratica SRS ────────────────────────────────────────────────── -->
-    <string name="srs_title">Ripetizione spaziata</string>
-    <string name="srs_subtitle">Ripassa gli accordi a intervalli ottimali per la memoria a lungo termine.</string>
-    <string name="srs_due">In scadenza</string>
-    <string name="srs_reviewed">Ripassati</string>
-    <string name="srs_total">Totale</string>
-    <string name="srs_no_cards">Nessuna scheda</string>
-    <string name="srs_no_cards_message">Aggiungi accordi al tuo mazzo SRS dalla Libreria accordi tenendo premuta una voce e selezionando \"Aggiungi a SRS\".</string>
-    <string name="srs_all_caught_up">Tutto in pari!</string>
-    <string name="srs_session_done">Hai ripassato %1$d %2$s in questa sessione. Torna più tardi per altri ripassi.</string>
-    <string name="srs_card_singular">scheda</string>
-    <string name="srs_card_plural">schede</string>
-    <string name="srs_no_due">Nessuna scheda in scadenza in questo momento. Torna più tardi!</string>
-    <string name="srs_card_remaining">Scheda %1$d, %2$d rimanenti</string>
-    <string name="srs_recall_prompt">Riesci a ricordare la diteggiatura?</string>
-    <string name="srs_show_voicing">Mostra voce</string>
-    <string name="srs_frets">Tasti: %s</string>
-    <string name="srs_how_well">Quanto bene l\'hai ricordato?</string>
-
     <!-- ── Routine di pratica ─────────────────────────────────────────── -->
     <string name="routine_title">Routine di pratica</string>
     <string name="routine_subtitle">Organizza la tua sessione di pratica.</string>
@@ -559,7 +539,6 @@
     <string name="help_progress">Progressi</string>
     <string name="help_daily_challenge">Sfida giornaliera</string>
     <string name="help_practice_routine">Routine di pratica</string>
-    <string name="help_srs_review">Ripasso SRS</string>
     <string name="help_chord_transitions">Transizioni accordi</string>
     <string name="help_play_along">Suona insieme</string>
     <string name="help_achievements">Traguardi</string>
@@ -577,7 +556,6 @@
     <string name="help_desc_explorer">La tastiera interattiva dove tocchi i tasti per costruire accordi. L\'app rileva quale accordo stai suonando e mostra rivolti, intervalli e nomi alternativi. Include un selettore capotasto e un overlay delle scale per esplorare come accordi e scale si combinano.</string>
     <string name="help_desc_tuner">Un accordatore cromatico che usa il microfono del tuo dispositivo. Mostra la nota rilevata, la deviazione in centesimi su un indicatore ad ago e istruzioni chiare (\"Alza\", \"Accordato!\"). Tocca i pulsanti delle corde per un tono di riferimento. Supporta diverse accordature, calibrazione La4, feedback vocale e modalità precisione.</string>
     <string name="help_desc_pitch_monitor">Uno strumento di visualizzazione dell\'altezza in tempo reale. Mostra l\'altezza rilevata su un grafico scorrevole, il nome della nota corrente e gli accordi corrispondenti. Utile per verificare l\'intonazione durante le melodie o l\'esercizio sui bending.</string>
-    <string name="help_desc_chords">Una libreria di accordi completa. Scegli una nota fondamentale e un tipo di accordo per vedere tutte le voci suonabili sull\'ukulele. Tocca una voce per caricarla sulla tastiera dell\'esploratore, oppure tieni premuto per condividere, aggiungere ai preferiti o aggiungere a SRS. Include una modalità di confronto dei rivolti.</string>
     <string name="help_desc_favorites">Le tue voci di accordi salvate, organizzate in cartelle. Tocca una voce per visualizzarla sulla tastiera, scorri o tieni premuto per le opzioni. Usa le cartelle per raggruppare gli accordi per brani specifici o sessioni di pratica.</string>
     <string name="help_desc_song_finder">Scopri i brani che puoi già suonare con gli accordi nei tuoi preferiti. Più accordi salvi, più brani si sbloccano. Mostra anche brani che richiedono solo 1-2 accordi in più.</string>
     <string name="help_desc_songs">Una raccolta personale per scrivere e archiviare schede accordi. Scrivi il testo e inserisci gli accordi con la notazione tra parentesi: \"Da[C]qualche parte sopra l\'arco[Em]baleno\". Supporta trasposizione, suggerimenti capotasto, scorrimento automatico e importazione/esportazione di file ChordPro.</string>
@@ -593,7 +571,6 @@
     <string name="help_desc_progress">Un pannello che mostra le tue statistiche di apprendimento: tempo di pratica, giorni consecutivi, lezioni completate e punteggi dei quiz per Teoria, Intervalli, Quiz note e Ear training accordi. Ti aiuta a monitorare costanza e miglioramenti nel tempo.</string>
     <string name="help_desc_daily_challenge">Tre sfide nuove generate ogni giorno per mantenere varia la tua routine di pratica. Ogni sfida mira a un\'abilità diversa — accordi, scale, ear training, teoria o transizioni. Completarle costruisce costanza.</string>
     <string name="help_desc_practice_routine">Un generatore di sessioni di pratica guidate. Scegli durata, livello di abilità e aree di interesse per generare una routine passo a passo. L\'app crea una sequenza temporizzata di esercizi che copre riscaldamento, tecnica, repertorio e defaticamento.</string>
-    <string name="help_desc_srs_review">Sistema di ripetizione spaziata per memorizzare le voci degli accordi. Aggiungi accordi dalla libreria e l\'app pianifica i ripassi a intervalli crescenti in base a quanto bene ricordi ogni voce. Mantiene il tuo vocabolario di accordi in costante crescita.</string>
     <string name="help_desc_chord_transitions">Visualizza come si muovono le dita tra due accordi. Scegli due accordi e guarda un\'animazione passo a passo dei movimenti delle dita. Include una modalità di pratica a tempo con contatore di cambi e controllo BPM.</string>
     <string name="help_desc_play_along">Pratica dal vivo con rilevamento accordi audio in tempo reale. Scegli una tonalità e una progressione, poi strimpella mentre l\'app ascolta e valuta la tua precisione. Richiede il permesso del microfono.</string>
     <string name="help_desc_achievements">Una galleria di traguardi da sbloccare usando l\'app. Guadagna distintivi per serie di pratica, punteggi quiz, brani creati, accordi imparati e altro. Controlla per vedere i tuoi progressi.</string>

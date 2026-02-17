@@ -51,7 +51,7 @@ Welcome to **Ukulele Companion**, a free, offline, ad-free Android app for learn
 
   <a href="10-play-along/" class="manual-card">
     <h3>Play Along & Chord Training</h3>
-    <p>Real-time play-along with chord detection, spaced repetition, and chord transition animation.</p>
+    <p>Real-time play-along with chord detection and chord transition animation.</p>
   </a>
 
 </div>

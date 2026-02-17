@@ -157,15 +157,7 @@ object PracticeRoutineGenerator {
                 navTarget = 5, // NAV_SONGBOOK
             )
         }
-        StepType.SRS_REVIEW -> {
-            PracticeStep(
-                type = type,
-                title = "SRS Review",
-                description = "Review your spaced repetition chord cards. Grade honestly for best results!",
-                durationMinutes = minutes,
-                navTarget = 27, // NAV_SRS_PRACTICE
-            )
-        }
+
         StepType.WARM_UP, StepType.FREE_PLAY -> {
             // Already handled separately
             PracticeStep(
@@ -188,7 +180,7 @@ object PracticeRoutineGenerator {
         EAR_TRAINING("Ear Training"),
         THEORY_QUIZ("Theory Quiz"),
         SONG_PRACTICE("Song Practice"),
-        SRS_REVIEW("SRS Review"),
+
         FREE_PLAY("Free Play"),
     }
 
@@ -196,7 +188,7 @@ object PracticeRoutineGenerator {
      * Focus areas that map to step types.
      */
     enum class FocusArea(val label: String, val stepTypes: List<StepType>) {
-        CHORDS("Chords", listOf(StepType.CHORD_DRILL, StepType.SRS_REVIEW)),
+        CHORDS("Chords", listOf(StepType.CHORD_DRILL)),
         SCALES("Scales", listOf(StepType.SCALE_PRACTICE)),
         EAR("Ear Training", listOf(StepType.EAR_TRAINING)),
         THEORY("Theory", listOf(StepType.THEORY_QUIZ)),

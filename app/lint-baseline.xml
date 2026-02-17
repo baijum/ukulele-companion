@@ -496,16 +496,6 @@
             column="5"/>
     </issue>
 
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/SrsPracticeView.kt"
-            line="54"
-            column="5"/>
-    </issue>
 
     <issue
         id="ModifierParameter"
@@ -1031,37 +1021,5 @@
             column="9"/>
     </issue>
 
-    <issue
-        id="UseKtx"
-        message="Use the KTX extension function `SharedPreferences.edit` instead?"
-        errorLine1="        prefs.edit().putString(KEY_CARDS, json.encodeToString(cards)).apply()"
-        errorLine2="        ~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/data/SrsCardRepository.kt"
-            line="47"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UseKtx"
-        message="Use the KTX extension function `SharedPreferences.edit` instead?"
-        errorLine1="        prefs.edit().putString(KEY_CARDS, json.encodeToString(cards)).apply()"
-        errorLine2="        ~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/data/SrsCardRepository.kt"
-            line="55"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UseKtx"
-        message="Use the KTX extension function `SharedPreferences.edit` instead?"
-        errorLine1="        prefs.edit().clear().apply()"
-        errorLine2="        ~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/data/SrsCardRepository.kt"
-            line="136"
-            column="9"/>
-    </issue>
 
 </issues>

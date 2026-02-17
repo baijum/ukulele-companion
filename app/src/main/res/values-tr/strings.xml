@@ -76,7 +76,6 @@
     <string name="nav_progress">İlerleme</string>
     <string name="nav_daily_challenge">Günlük Görev</string>
     <string name="nav_practice_routine">Çalışma Rutini</string>
-    <string name="nav_srs_review">SRS Tekrar</string>
     <string name="nav_chord_transitions">Akor Geçişleri</string>
     <string name="nav_play_along">Eşlik Et</string>
     <string name="nav_achievements">Başarılar</string>
@@ -451,25 +450,6 @@
     <string name="daily_tip_6">Hızdan çok akıcı geçişlere odaklanın — hız zamanla gelir.</string>
     <string name="daily_tip_7">Sevdiğiniz şarkıları öğrenin! Motivasyon pratiği keyifli kılar.</string>
 
-    <!-- ── SRS Çalışması ──────────────────────────────────────────────── -->
-    <string name="srs_title">Aralıklı Tekrar</string>
-    <string name="srs_subtitle">Uzun süreli hafıza için akorları en uygun aralıklarla tekrarlayın.</string>
-    <string name="srs_due">Bekleyen</string>
-    <string name="srs_reviewed">Tekrarlanan</string>
-    <string name="srs_total">Toplam</string>
-    <string name="srs_no_cards">Henüz kart yok</string>
-    <string name="srs_no_cards_message">Akor Kütüphanesinden bir seslendirmeye uzun basarak ve \"SRS\'ye Ekle\" seçeneğini seçerek SRS destenize akor ekleyin.</string>
-    <string name="srs_all_caught_up">Hepsini tamamladınız!</string>
-    <string name="srs_session_done">Bu oturumda %1$d %2$s tekrarladınız. Daha fazla tekrar için sonra gelin.</string>
-    <string name="srs_card_singular">kart</string>
-    <string name="srs_card_plural">kart</string>
-    <string name="srs_no_due">Şu anda bekleyen kart yok. Daha sonra tekrar kontrol edin!</string>
-    <string name="srs_card_remaining">Kart %1$d, %2$d kalan</string>
-    <string name="srs_recall_prompt">Parmak pozisyonunu hatırlayabiliyor musunuz?</string>
-    <string name="srs_show_voicing">Seslendirmeyi Göster</string>
-    <string name="srs_frets">Perdeler: %s</string>
-    <string name="srs_how_well">Ne kadar iyi hatırladınız?</string>
-
     <!-- ── Çalışma Rutini ─────────────────────────────────────────────── -->
     <string name="routine_title">Çalışma Rutini</string>
     <string name="routine_subtitle">Çalışma oturumunuzu ayarlayın.</string>
@@ -559,7 +539,6 @@
     <string name="help_progress">İlerleme</string>
     <string name="help_daily_challenge">Günlük Görev</string>
     <string name="help_practice_routine">Çalışma Rutini</string>
-    <string name="help_srs_review">SRS Tekrar</string>
     <string name="help_chord_transitions">Akor Geçişleri</string>
     <string name="help_play_along">Eşlik Et</string>
     <string name="help_achievements">Başarılar</string>
@@ -577,7 +556,6 @@
     <string name="help_desc_explorer">Akor oluşturmak için perdelere dokunduğunuz etkileşimli klavye. Uygulama çaldığınız akoru algılar ve çevrimleri, aralıkları ve alternatif adları gösterir. Akorların ve dizilerin nasıl bir araya geldiğini keşfetmek için bir kapo seçici ve dizi kaplaması içerir.</string>
     <string name="help_desc_tuner">Cihazınızın mikrofonunu kullanan kromatik bir akort cihazı. Algılanan notayı, ibre göstergesindeki sent sapmasını ve anlaşılır yönlendirmeleri (\"Yukarı Akort\", \"Akortlu!\") gösterir. Referans tonu için tel düğmelerine dokunun. Birden fazla akort, A4 kalibrasyonu, sesli geri bildirim ve hassas modu destekler.</string>
     <string name="help_desc_pitch_monitor">Gerçek zamanlı perde görselleştirme aracı. Algılanan perdeyi kayan bir grafikte, geçerli nota adını ve eşleşen akorları gösterir. Melodi çalarken veya bükmeler çalışırken entonasyonu kontrol etmek için kullanışlıdır.</string>
-    <string name="help_desc_chords">Kapsamlı bir akor kütüphanesi. Ukuleledeki tüm çalınabilir seslendirmeleri görmek için bir kök nota ve akor türü seçin. Keşfet klavyesine yüklemek için bir seslendirmeye dokunun veya paylaşmak, favorilere eklemek veya SRS\'ye eklemek için uzun basın. Çevrim karşılaştırma modu içerir.</string>
     <string name="help_desc_favorites">Klasörlerde düzenlenmiş kaydedilmiş akor seslendirmeleriniz. Klavyede görüntülemek için bir seslendirmeye dokunun, seçenekler için kaydırın veya uzun basın. Belirli şarkılar veya çalışma oturumları için akorları gruplamak üzere klasörleri kullanın.</string>
     <string name="help_desc_song_finder">Favorilerinizdeki akorlarla zaten çalabileceğiniz şarkıları keşfedin. Ne kadar çok akor kaydederseniz, o kadar çok şarkı açılır. Ayrıca sadece 1-2 akor daha gerektiren şarkıları da gösterir.</string>
     <string name="help_desc_songs">Akor sayfaları yazmak ve saklamak için kişisel şarkı defteri. Sözleri yazın ve köşeli parantez notasyonuyla akorları ekleyin: \"Gökkuşağı[C]nın üstünde bir[Em]yerde\". Transpoze, kapo önerileri, otomatik kaydırma ve ChordPro dosya içe/dışa aktarımını destekler.</string>
@@ -593,7 +571,6 @@
     <string name="help_desc_progress">Öğrenme istatistiklerinizi gösteren bir pano: çalışma süresi, gün serisi, tamamlanan dersler ve Teori, Aralık, Nota Testi ve Akor Kulak Eğitimi test puanları. Tutarlılığı ve gelişimi zaman içinde takip etmenize yardımcı olur.</string>
     <string name="help_desc_daily_challenge">Çalışma rutininizi çeşitli tutmak için her gün üretilen üç yeni görev. Her görev farklı bir beceriyi hedefler — akorlar, diziler, kulak eğitimi, teori veya geçişler. Tamamlamak tutarlılık oluşturur.</string>
     <string name="help_desc_practice_routine">Rehberli çalışma oturumu oluşturucu. Adım adım bir rutin oluşturmak için süre, beceri düzeyi ve odak alanlarını seçin. Uygulama ısınma, teknik, repertuar ve soğuma içeren zamanlı bir alıştırma dizisi oluşturur.</string>
-    <string name="help_desc_srs_review">Akor seslendirmelerini ezberlemek için Aralıklı Tekrar Sistemi. Kütüphaneden akor ekleyin, uygulama her seslendirmeyi ne kadar iyi hatırladığınıza göre artan aralıklarla tekrar planlar. Akor dağarcığınızı verimli şekilde büyütür.</string>
     <string name="help_desc_chord_transitions">Parmaklarınızın iki akor arasında nasıl hareket ettiğini görselleştirin. İki akor seçin ve parmak hareketlerinin adım adım animasyonunu izleyin. Geçiş sayacı ve BPM kontrolü ile süreli çalışma modu içerir.</string>
     <string name="help_desc_play_along">Sesli akor algılama ile gerçek zamanlı eşlik pratiği. Bir ton ve ilerleme seçin, ardından uygulama dinlerken ve doğruluğunuzu puanlarken strum yapın. Mikrofon izni gerektirir.</string>
     <string name="help_desc_achievements">Uygulamayı kullandıkça açabileceğiniz bir başarı galerisi. Çalışma serileri, test puanları, oluşturulan şarkılar, öğrenilen akorlar ve daha fazlası için rozetler kazanın. İlerlemenizi görmek için tekrar kontrol edin.</string>

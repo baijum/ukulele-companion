@@ -42,34 +42,6 @@ Each beat is scored based on whether the detected chord matches the expected cho
 - **Grade** — a letter grade from S (95%+) to F (below 40%).
 - **Best Streak** — the longest consecutive run of correct beats.
 
-## SRS Review
-
-The Spaced Repetition System helps you memorise chord voicings through optimally-timed reviews.
-
-![SRS Review](screenshots/srs-review.png)
-
-### How It Works
-
-SRS uses the **SM-2 algorithm** (the same method used by popular flashcard apps) to schedule reviews:
-
-1. **Add cards** — from the Chord Library, long-press a voicing and select "Add to SRS". The chord name and fingering are saved as a review card.
-2. **Review due cards** — open SRS Review to see cards that are due. The app shows the chord name and asks you to recall the fingering.
-3. **Reveal and rate** — tap to reveal the chord diagram, then rate your recall:
-   - **Again** — you could not remember. The card will be shown again soon.
-   - **Hard** — you remembered with difficulty. The interval increases slightly.
-   - **Good** — you remembered correctly. The interval increases normally.
-   - **Easy** — you remembered instantly. The interval increases significantly.
-4. **Repeat** — the algorithm schedules each card's next review based on your rating. Cards you struggle with appear more often; cards you know well appear less frequently.
-
-### Dashboard
-
-The SRS Review screen shows:
-
-- **Due** — cards ready for review right now.
-- **Reviewed** — cards reviewed in this session.
-- **Total** — total cards in your deck.
-
-If you have no cards yet, the screen explains how to add them from the Chord Library.
 
 ## Chord Transitions
 
@@ -106,6 +78,5 @@ A text description of each finger movement is shown alongside the animation (e.g
 ## Tips
 
 - Start Play Along at a slow BPM (60–80) and increase as you get comfortable.
-- Add your most-used chords to SRS so you always remember the fingerings.
 - Use Chord Transitions to practise the specific chord changes that give you trouble.
 - Combine these tools: use Chord Transitions to learn a change, then Play Along to practise it in context.

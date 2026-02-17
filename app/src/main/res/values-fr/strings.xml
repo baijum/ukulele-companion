@@ -76,7 +76,6 @@
     <string name="nav_progress">Progression</string>
     <string name="nav_daily_challenge">Défi du jour</string>
     <string name="nav_practice_routine">Routine de pratique</string>
-    <string name="nav_srs_review">Révision SRS</string>
     <string name="nav_chord_transitions">Transitions d\'accords</string>
     <string name="nav_play_along">Jouer ensemble</string>
     <string name="nav_achievements">Succès</string>
@@ -451,25 +450,6 @@
     <string name="daily_tip_6">Concentrez-vous sur des transitions fluides plutôt que sur la vitesse — la vitesse viendra avec le temps.</string>
     <string name="daily_tip_7">Apprenez des chansons que vous aimez ! La motivation rend la pratique agréable.</string>
 
-    <!-- ── Pratique SRS ──────────────────────────────────────────────── -->
-    <string name="srs_title">Répétition espacée</string>
-    <string name="srs_subtitle">Révisez les accords à intervalles optimaux pour une mémorisation à long terme.</string>
-    <string name="srs_due">À réviser</string>
-    <string name="srs_reviewed">Révisés</string>
-    <string name="srs_total">Total</string>
-    <string name="srs_no_cards">Aucune carte pour l\'instant</string>
-    <string name="srs_no_cards_message">Ajoutez des accords à votre paquet SRS depuis la bibliothèque d\'accords en appuyant longuement sur un voicing et en sélectionnant \"Ajouter au SRS\".</string>
-    <string name="srs_all_caught_up">Tout est à jour !</string>
-    <string name="srs_session_done">Vous avez révisé %1$d %2$s cette session. Revenez plus tard pour d\'autres révisions.</string>
-    <string name="srs_card_singular">carte</string>
-    <string name="srs_card_plural">cartes</string>
-    <string name="srs_no_due">Aucune carte n\'est à réviser pour l\'instant. Revenez plus tard !</string>
-    <string name="srs_card_remaining">Carte %1$d, %2$d restantes</string>
-    <string name="srs_recall_prompt">Pouvez-vous vous rappeler le doigté ?</string>
-    <string name="srs_show_voicing">Afficher le voicing</string>
-    <string name="srs_frets">Frettes : %s</string>
-    <string name="srs_how_well">Quelle était la qualité de votre rappel ?</string>
-
     <!-- ── Routine de pratique ────────────────────────────────────────── -->
     <string name="routine_title">Routine de pratique</string>
     <string name="routine_subtitle">Configurez votre session de pratique.</string>
@@ -559,7 +539,6 @@
     <string name="help_progress">Progression</string>
     <string name="help_daily_challenge">Défi du jour</string>
     <string name="help_practice_routine">Routine de pratique</string>
-    <string name="help_srs_review">Révision SRS</string>
     <string name="help_chord_transitions">Transitions d\'accords</string>
     <string name="help_play_along">Jouer ensemble</string>
     <string name="help_achievements">Succès</string>
@@ -577,7 +556,6 @@
     <string name="help_desc_explorer">Le manche interactif où vous touchez les frettes pour former des accords. L\'application détecte l\'accord que vous jouez et affiche les renversements, intervalles et noms alternatifs. Inclut un sélecteur de capo et une superposition de gamme pour explorer comment accords et gammes s\'articulent.</string>
     <string name="help_desc_tuner">Un accordeur chromatique utilisant le microphone de votre appareil. Affiche la note détectée, la déviation en cents sur un indicateur à aiguille et des indications claires (\"Monter\", \"Accordé !\"). Touchez les boutons de corde pour un ton de référence. Compatible avec plusieurs accordages, calibration du La4, retour vocal et mode précision.</string>
     <string name="help_desc_pitch_monitor">Un outil de visualisation de la hauteur en temps réel. Affiche la hauteur détectée sur un graphique défilant, le nom de la note actuelle et met en évidence les accords correspondants. Utile pour vérifier l\'intonation en jouant des mélodies ou en pratiquant des bends.</string>
-    <string name="help_desc_chords">Une bibliothèque complète d\'accords. Choisissez une note fondamentale et un type d\'accord pour voir tous les voicings jouables au ukulélé. Touchez un voicing pour le charger sur le manche de l\'explorateur, ou appuyez longuement pour partager, ajouter aux favoris ou ajouter au SRS. Inclut un mode de comparaison des renversements.</string>
     <string name="help_desc_favorites">Vos voicings d\'accords enregistrés, organisés en dossiers. Touchez un voicing pour le voir sur le manche, glissez ou appuyez longuement pour plus d\'options. Utilisez les dossiers pour regrouper les accords par chanson ou session de pratique.</string>
     <string name="help_desc_song_finder">Découvrez des chansons que vous pouvez déjà jouer avec les accords de vos favoris. Plus vous enregistrez d\'accords, plus de chansons se débloquent. Affiche aussi les chansons qui ne nécessitent que 1–2 accords supplémentaires.</string>
     <string name="help_desc_songs">Un carnet de chansons personnel pour écrire et stocker des grilles d\'accords. Tapez les paroles et insérez des accords avec la notation entre crochets : \"Quel[C]que part au-dessus de l\'arc-[Em]en-ciel\". Compatible avec la transposition, les suggestions de capo, le défilement automatique et l\'import/export de fichiers ChordPro.</string>
@@ -593,7 +571,6 @@
     <string name="help_desc_progress">Un tableau de bord affichant vos statistiques d\'apprentissage : temps de pratique, série de jours, leçons terminées et scores de quiz pour Théorie, Intervalles, Quiz de notes et Entraînement auditif d\'accords. Vous aide à suivre la régularité et l\'amélioration dans le temps.</string>
     <string name="help_desc_daily_challenge">Trois nouveaux défis générés chaque jour pour varier votre routine de pratique. Chaque défi cible une compétence différente — accords, gammes, entraînement auditif, théorie ou transitions. Les compléter renforce la régularité.</string>
     <string name="help_desc_practice_routine">Un générateur de sessions de pratique guidée. Choisissez la durée, le niveau et les domaines de focus pour générer une routine étape par étape. L\'application crée une séquence chronométrée d\'exercices couvrant échauffement, technique, répertoire et récupération.</string>
-    <string name="help_desc_srs_review">Système de répétition espacée pour mémoriser les voicings d\'accords. Ajoutez des accords depuis la bibliothèque et l\'application planifie des révisions à intervalles croissants selon la qualité de votre rappel. Fait croître efficacement votre vocabulaire d\'accords.</string>
     <string name="help_desc_chord_transitions">Visualisez comment vos doigts se déplacent entre deux accords. Choisissez deux accords et observez une animation pas à pas des mouvements de doigts. Inclut un mode de pratique chronométré avec compteur de changements et contrôle BPM.</string>
     <string name="help_desc_play_along">Pratique en temps réel avec détection audio des accords. Choisissez une tonalité et une progression, puis grattez pendant que l\'application écoute et note votre précision. Nécessite l\'accès au microphone.</string>
     <string name="help_desc_achievements">Une galerie de jalons à débloquer au fil de votre utilisation de l\'application. Gagnez des badges pour vos séries de pratique, scores de quiz, chansons créées, accords appris et plus encore. Consultez votre progression ici.</string>

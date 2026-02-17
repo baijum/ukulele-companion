@@ -76,7 +76,6 @@
     <string name="nav_progress">التقدم</string>
     <string name="nav_daily_challenge">التحدي اليومي</string>
     <string name="nav_practice_routine">روتين التمرين</string>
-    <string name="nav_srs_review">مراجعة SRS</string>
     <string name="nav_chord_transitions">انتقالات الأوتار</string>
     <string name="nav_play_along">العزف المصاحب</string>
     <string name="nav_achievements">الإنجازات</string>
@@ -451,25 +450,6 @@
     <string name="daily_tip_6">ركز على الانتقالات السلسة بدلاً من السرعة — السرعة تأتي مع الوقت.</string>
     <string name="daily_tip_7">تعلم أغانٍ تحبها! الشغف يجعل التمرين ممتعاً.</string>
 
-    <!-- ── SRS Practice ─────────────────────────────────────────────── -->
-    <string name="srs_title">التكرار المتباعد</string>
-    <string name="srs_subtitle">راجع الأوتار على فترات مثالية لذاكرة طويلة المدى.</string>
-    <string name="srs_due">مستحق</string>
-    <string name="srs_reviewed">تمت المراجعة</string>
-    <string name="srs_total">الإجمالي</string>
-    <string name="srs_no_cards">لا بطاقات بعد</string>
-    <string name="srs_no_cards_message">أضف أوتاراً إلى مجموعة SRS من مكتبة الأوتار بالضغط المطول على توزيع صوتي واختيار \"إضافة إلى SRS\".</string>
-    <string name="srs_all_caught_up">أنهيت الكل!</string>
-    <string name="srs_session_done">راجعت %1$d %2$s في هذه الجلسة. عد لاحقاً لمزيد من المراجعات.</string>
-    <string name="srs_card_singular">بطاقة</string>
-    <string name="srs_card_plural">بطاقات</string>
-    <string name="srs_no_due">لا توجد بطاقات مستحقة للمراجعة الآن. تحقق لاحقاً!</string>
-    <string name="srs_card_remaining">البطاقة %1$d، %2$d متبقية</string>
-    <string name="srs_recall_prompt">هل تستطيع تذكر وضع الأصابع؟</string>
-    <string name="srs_show_voicing">إظهار التوزيع الصوتي</string>
-    <string name="srs_frets">الحنق: %s</string>
-    <string name="srs_how_well">كم كان تذكرك جيداً؟</string>
-
     <!-- ── Practice Routine ─────────────────────────────────────────── -->
     <string name="routine_title">روتين التمرين</string>
     <string name="routine_subtitle">جهّز جلسة التمرين الخاصة بك.</string>
@@ -559,7 +539,6 @@
     <string name="help_progress">التقدم</string>
     <string name="help_daily_challenge">التحدي اليومي</string>
     <string name="help_practice_routine">روتين التمرين</string>
-    <string name="help_srs_review">مراجعة SRS</string>
     <string name="help_chord_transitions">انتقالات الأوتار</string>
     <string name="help_play_along">العزف المصاحب</string>
     <string name="help_achievements">الإنجازات</string>
@@ -577,7 +556,6 @@
     <string name="help_desc_explorer">لوحة أصابع تفاعلية حيث تنقر على الحنق لبناء الأوتار. يكتشف التطبيق الوتر الذي تعزفه ويعرض الانعكاسات والفواصل والأسماء البديلة. يتضمن محدد كابو وطبقة سلم لاستكشاف تناسق الأوتار والسلالم معاً.</string>
     <string name="help_desc_tuner">موالف لوني يستخدم ميكروفون جهازك. يعرض النوتة المكتشفة وانحراف السنت على مقياس إبري وتوجيهات واضحة (\"ارفع النغمة\"، \"مضبوط!\"). انقر أزرار الأوتار لنغمة مرجعية. يدعم ضبطات متعددة ومعايرة A4 والتعليق الصوتي ووضع الدقة.</string>
     <string name="help_desc_pitch_monitor">أداة عرض مرئي للنغمة في الوقت الحقيقي. تعرض النغمة المكتشفة على رسم بياني متحرك واسم النوتة الحالية وتبرز الأوتار المطابقة. مفيدة للتحقق من دقة النغمة أثناء عزف الألحان أو التمرن على الانحناءات.</string>
-    <string name="help_desc_chords">مكتبة أوتار شاملة. اختر نوتة جذر ونوع وتر لرؤية جميع التوزيعات الصوتية القابلة للعزف على اليوكوليلي. انقر على توزيع لتحميله على لوحة المستكشف، أو اضغط مطولاً للمشاركة أو الإضافة للمفضلة أو الإضافة إلى SRS. يتضمن وضع مقارنة الانعكاسات.</string>
     <string name="help_desc_favorites">توزيعاتك الصوتية المحفوظة، منظمة في مجلدات. انقر على توزيع لعرضه على لوحة الأصابع، أو اسحب أو اضغط مطولاً للخيارات. استخدم المجلدات لتجميع الأوتار لأغانٍ أو جلسات تمرين محددة.</string>
     <string name="help_desc_song_finder">اكتشف أغانٍ يمكنك عزفها بالأوتار الموجودة في مفضلتك. كلما حفظت أوتاراً أكثر، فُتحت أغانٍ أكثر. يعرض أيضاً أغانٍ تحتاج فقط إلى وتر أو اثنين إضافيين.</string>
     <string name="help_desc_songs">دفتر أغانٍ شخصي لكتابة وتخزين أوراق الأوتار. اكتب الكلمات وأدخل الأوتار بين أقواس: \"Some[C]where over the [Em]rainbow\". يدعم تحويل النغمة واقتراحات الكابو والتمرير التلقائي واستيراد/تصدير ملفات ChordPro.</string>
@@ -593,7 +571,6 @@
     <string name="help_desc_progress">لوحة معلومات تعرض إحصائيات التعلم: وقت التمرين، الأيام المتتالية، الدروس المكتملة، ونتائج اختبارات النظرية والفواصل واختبار النوتات وتدريب الأذن. تساعد في تتبع الانتظام والتحسن عبر الوقت.</string>
     <string name="help_desc_daily_challenge">ثلاثة تحديات جديدة تُولَّد كل يوم للحفاظ على تنوع روتين التمرين. كل تحدٍ يستهدف مهارة مختلفة — الأوتار أو السلالم أو تدريب الأذن أو النظرية أو الانتقالات. إكمالها يبني الانتظام.</string>
     <string name="help_desc_practice_routine">منشئ جلسات تمرين موجهة. اختر المدة ومستوى المهارة ومجالات التركيز لإنشاء روتين خطوة بخطوة. ينشئ التطبيق تسلسل تمارين محدد بالوقت يغطي الإحماء والتقنية والمقطوعات والتهدئة.</string>
-    <string name="help_desc_srs_review">نظام التكرار المتباعد لحفظ التوزيعات الصوتية. أضف أوتاراً من المكتبة، ويجدول التطبيق المراجعات بفترات متزايدة بناءً على مدى تذكرك لكل توزيع. يوسع مفرداتك من الأوتار بكفاءة.</string>
     <string name="help_desc_chord_transitions">تصور كيف تتحرك أصابعك بين وترين. اختر وترين وشاهد رسوماً متحركة خطوة بخطوة لحركات الأصابع. يتضمن وضع تمرين محدد بالوقت مع عداد تبديل وتحكم BPM.</string>
     <string name="help_desc_play_along">تمرين عزف مصاحب في الوقت الحقيقي مع اكتشاف الأوتار الصوتية. اختر مفتاحاً وتقدماً لحنياً، ثم اعزف بينما يستمع التطبيق ويقيّم دقتك. يتطلب إذن الميكروفون.</string>
     <string name="help_desc_achievements">معرض إنجازات لفتحها أثناء استخدام التطبيق. احصل على شارات للتمرين المتتالي ونتائج الاختبارات والأغاني المنشأة والأوتار المتعلمة والمزيد. تحقق من تقدمك.</string>

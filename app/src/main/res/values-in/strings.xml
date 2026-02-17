@@ -76,7 +76,6 @@
     <string name="nav_progress">Kemajuan</string>
     <string name="nav_daily_challenge">Tantangan Harian</string>
     <string name="nav_practice_routine">Rutinitas Latihan</string>
-    <string name="nav_srs_review">Ulasan SRS</string>
     <string name="nav_chord_transitions">Transisi Akor</string>
     <string name="nav_play_along">Bermain Bersama</string>
     <string name="nav_achievements">Pencapaian</string>
@@ -451,25 +450,6 @@
     <string name="daily_tip_6">Fokus pada transisi yang mulus daripada kecepatan — kecepatan akan datang seiring waktu.</string>
     <string name="daily_tip_7">Pelajari lagu yang Anda sukai! Motivasi membuat latihan menyenangkan.</string>
 
-    <!-- ── Latihan SRS ────────────────────────────────────────────────── -->
-    <string name="srs_title">Pengulangan Berjarak</string>
-    <string name="srs_subtitle">Ulang akor pada interval optimal untuk memori jangka panjang.</string>
-    <string name="srs_due">Jatuh tempo</string>
-    <string name="srs_reviewed">Diulang</string>
-    <string name="srs_total">Total</string>
-    <string name="srs_no_cards">Belum ada kartu</string>
-    <string name="srs_no_cards_message">Tambahkan akor ke dek SRS Anda dari Perpustakaan Akor dengan menekan lama voicing dan memilih \"Tambah ke SRS\".</string>
-    <string name="srs_all_caught_up">Semua sudah terulang!</string>
-    <string name="srs_session_done">Anda mengulang %1$d %2$s sesi ini. Kembali nanti untuk ulasan lagi.</string>
-    <string name="srs_card_singular">kartu</string>
-    <string name="srs_card_plural">kartu</string>
-    <string name="srs_no_due">Tidak ada kartu yang jatuh tempo saat ini. Periksa lagi nanti!</string>
-    <string name="srs_card_remaining">Kartu %1$d, %2$d tersisa</string>
-    <string name="srs_recall_prompt">Bisakah Anda mengingat penjariannya?</string>
-    <string name="srs_show_voicing">Tampilkan Voicing</string>
-    <string name="srs_frets">Fret: %s</string>
-    <string name="srs_how_well">Seberapa baik Anda mengingatnya?</string>
-
     <!-- ── Rutinitas Latihan ──────────────────────────────────────────── -->
     <string name="routine_title">Rutinitas Latihan</string>
     <string name="routine_subtitle">Atur sesi latihan Anda.</string>
@@ -559,7 +539,6 @@
     <string name="help_progress">Kemajuan</string>
     <string name="help_daily_challenge">Tantangan Harian</string>
     <string name="help_practice_routine">Rutinitas Latihan</string>
-    <string name="help_srs_review">Ulasan SRS</string>
     <string name="help_chord_transitions">Transisi Akor</string>
     <string name="help_play_along">Bermain Bersama</string>
     <string name="help_achievements">Pencapaian</string>
@@ -577,7 +556,6 @@
     <string name="help_desc_explorer">Fretboard interaktif tempat Anda mengetuk fret untuk membangun akor. Aplikasi mendeteksi akor yang Anda mainkan dan menampilkan inversi, interval, dan nama alternatif. Termasuk pemilih capo dan overlay tangga nada untuk mengeksplorasi hubungan akor dan tangga nada.</string>
     <string name="help_desc_tuner">Tuner kromatik yang menggunakan mikrofon perangkat Anda. Menampilkan not terdeteksi, deviasi sen pada pengukur jarum, dan panduan sederhana (\"Naikkan\", \"Sudah pas!\"). Ketuk tombol senar untuk nada referensi. Mendukung berbagai tuning, kalibrasi A4, umpan balik suara, dan mode presisi.</string>
     <string name="help_desc_pitch_monitor">Alat visualisasi nada waktu nyata. Menampilkan nada terdeteksi pada grafik bergulir, nama not saat ini, dan akor yang cocok. Berguna untuk memeriksa intonasi saat memainkan melodi atau berlatih bending.</string>
-    <string name="help_desc_chords">Perpustakaan akor yang lengkap. Pilih not dasar dan jenis akor untuk melihat semua voicing yang dapat dimainkan di ukulele. Ketuk voicing untuk memuatnya di fretboard penjelajah, atau tekan lama untuk berbagi, menambah ke favorit, atau menambah ke SRS. Termasuk mode perbandingan inversi.</string>
     <string name="help_desc_favorites">Voicing akor tersimpan Anda, diatur dalam folder. Ketuk voicing untuk melihatnya di fretboard, geser atau tekan lama untuk opsi. Gunakan folder untuk mengelompokkan akor untuk lagu atau sesi latihan tertentu.</string>
     <string name="help_desc_song_finder">Temukan lagu yang sudah bisa Anda mainkan dengan akor di Favorit Anda. Semakin banyak akor yang disimpan, semakin banyak lagu yang terbuka. Juga menampilkan lagu yang hanya membutuhkan 1-2 akor lagi.</string>
     <string name="help_desc_songs">Buku lagu pribadi untuk menulis dan menyimpan lembar akor. Ketik lirik dan sisipkan akor menggunakan notasi kurung: \"Di[C]suatu tempat di atas pela[Em]ngi\". Mendukung transposisi, saran capo, gulir otomatis, dan impor/ekspor file ChordPro.</string>
@@ -593,7 +571,6 @@
     <string name="help_desc_progress">Dasbor yang menampilkan statistik belajar Anda: waktu latihan, hari beruntun, pelajaran diselesaikan, dan skor kuis untuk Teori, Interval, Kuis Not, dan Latihan Pendengaran Akor. Membantu Anda memantau konsistensi dan peningkatan dari waktu ke waktu.</string>
     <string name="help_desc_daily_challenge">Tiga tantangan baru dihasilkan setiap hari untuk menjaga variasi rutinitas latihan Anda. Setiap tantangan menargetkan kemampuan berbeda — akor, tangga nada, latihan pendengaran, teori, atau transisi. Menyelesaikannya membangun konsistensi.</string>
     <string name="help_desc_practice_routine">Pembuat sesi latihan terpandu. Pilih durasi, tingkat kemampuan, dan area fokus untuk menghasilkan rutinitas langkah demi langkah. Aplikasi membuat urutan latihan berwaktu yang mencakup pemanasan, teknik, repertoar, dan pendinginan.</string>
-    <string name="help_desc_srs_review">Sistem Pengulangan Berjarak untuk menghafal voicing akor. Tambahkan akor dari perpustakaan, dan aplikasi menjadwalkan ulasan pada interval yang meningkat berdasarkan seberapa baik Anda mengingat setiap voicing. Menjaga kosakata akor Anda terus bertumbuh secara efisien.</string>
     <string name="help_desc_chord_transitions">Visualisasikan bagaimana jari Anda bergerak antara dua akor. Pilih dua akor dan lihat animasi langkah demi langkah gerakan jari. Termasuk mode latihan berwaktu dengan penghitung pergantian dan kontrol BPM.</string>
     <string name="help_desc_play_along">Latihan bermain bersama waktu nyata dengan deteksi akor audio. Pilih kunci dan progresi, lalu mainkan strumming sementara aplikasi mendengarkan dan menilai akurasi Anda. Memerlukan izin mikrofon.</string>
     <string name="help_desc_achievements">Galeri pencapaian untuk dibuka saat Anda menggunakan aplikasi. Dapatkan lencana untuk hari beruntun latihan, skor kuis, lagu dibuat, akor dipelajari, dan lainnya. Periksa kembali untuk melihat kemajuan Anda.</string>

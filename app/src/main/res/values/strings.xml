@@ -76,7 +76,7 @@
     <string name="nav_progress">Progress</string>
     <string name="nav_daily_challenge">Daily Challenge</string>
     <string name="nav_practice_routine">Practice Routine</string>
-    <string name="nav_srs_review">SRS Review</string>
+
     <string name="nav_chord_transitions">Chord Transitions</string>
     <string name="nav_play_along">Play Along</string>
     <string name="nav_achievements">Achievements</string>
@@ -451,24 +451,6 @@
     <string name="daily_tip_6">Focus on smooth transitions rather than speed — speed comes with time.</string>
     <string name="daily_tip_7">Learn songs you love! Motivation makes practice enjoyable.</string>
 
-    <!-- ── SRS Practice ─────────────────────────────────────────────── -->
-    <string name="srs_title">Spaced Repetition</string>
-    <string name="srs_subtitle">Review chords at optimal intervals for long-term memory.</string>
-    <string name="srs_due">Due</string>
-    <string name="srs_reviewed">Reviewed</string>
-    <string name="srs_total">Total</string>
-    <string name="srs_no_cards">No cards yet</string>
-    <string name="srs_no_cards_message">Add chords to your SRS deck from the Chord Library by long-pressing a voicing and selecting \"Add to SRS\".</string>
-    <string name="srs_all_caught_up">All caught up!</string>
-    <string name="srs_session_done">You reviewed %1$d %2$s this session. Come back later for more reviews.</string>
-    <string name="srs_card_singular">card</string>
-    <string name="srs_card_plural">cards</string>
-    <string name="srs_no_due">No cards are due for review right now. Check back later!</string>
-    <string name="srs_card_remaining">Card %1$d, %2$d remaining</string>
-    <string name="srs_recall_prompt">Can you recall the fingering?</string>
-    <string name="srs_show_voicing">Show Voicing</string>
-    <string name="srs_frets">Frets: %s</string>
-    <string name="srs_how_well">How well did you remember?</string>
 
     <!-- ── Practice Routine ─────────────────────────────────────────── -->
     <string name="routine_title">Practice Routine</string>
@@ -559,7 +541,7 @@
     <string name="help_progress">Progress</string>
     <string name="help_daily_challenge">Daily Challenge</string>
     <string name="help_practice_routine">Practice Routine</string>
-    <string name="help_srs_review">SRS Review</string>
+
     <string name="help_chord_transitions">Chord Transitions</string>
     <string name="help_play_along">Play Along</string>
     <string name="help_achievements">Achievements</string>
@@ -577,7 +559,7 @@
     <string name="help_desc_explorer">The interactive fretboard where you tap frets to build chords. The app detects which chord you are playing and shows inversions, intervals, and alternate names. Includes a capo selector and scale overlay for exploring how chords and scales fit together.</string>
     <string name="help_desc_tuner">A chromatic tuner that uses your device\'s microphone. Displays the detected note, cents deviation on a needle meter, and plain-English guidance (\"Tune Up\", \"In Tune!\"). Tap the string buttons for a reference tone. Supports multiple tunings, A4 calibration, spoken feedback, and precision mode.</string>
     <string name="help_desc_pitch_monitor">A real-time pitch visualisation tool. Shows the detected pitch on a scrolling graph, displays the current note name, and highlights matched chords. Useful for checking intonation while playing melodies or practising bends.</string>
-    <string name="help_desc_chords">A comprehensive chord library. Pick a root note and chord type to see all playable voicings on the ukulele. Tap a voicing to load it on the explorer fretboard, or long-press to share, add to favorites, or add to SRS. Includes an inversion compare mode.</string>
+    <string name="help_desc_chords">A comprehensive chord library. Pick a root note and chord type to see all playable voicings on the ukulele. Tap a voicing to load it on the explorer fretboard, or long-press to share or add to favorites. Includes an inversion compare mode.</string>
     <string name="help_desc_favorites">Your saved chord voicings, organised into folders. Tap a voicing to view it on the fretboard, swipe or long-press for options. Use folders to group chords for specific songs or practice sessions.</string>
     <string name="help_desc_song_finder">Discover songs you can already play with the chords in your Favorites. The more chords you save, the more songs get unlocked. Also shows songs that need just 1–2 more chords.</string>
     <string name="help_desc_songs">A personal songbook for writing and storing chord sheets. Type lyrics and insert chords using bracket notation: \"Some[C]where over the [Em]rainbow\". Supports transposing, capo suggestions, auto-scroll, and import/export of ChordPro files.</string>
@@ -593,7 +575,7 @@
     <string name="help_desc_progress">A dashboard showing your learning statistics: practice time, day streak, lessons completed, and quiz scores for Theory, Intervals, Note Quiz, and Chord Ear Training. Helps you track consistency and improvement over time.</string>
     <string name="help_desc_daily_challenge">Three fresh challenges generated every day to keep your practice routine varied. Each challenge targets a different skill — chords, scales, ear training, theory, or transitions. Completing them builds consistency.</string>
     <string name="help_desc_practice_routine">A guided practice session builder. Choose duration, skill level, and focus areas to generate a step-by-step routine. The app creates a timed sequence of exercises covering warm-up, technique, repertoire, and cool-down.</string>
-    <string name="help_desc_srs_review">Spaced Repetition System for memorising chord voicings. Add chords from the library, and the app schedules reviews at increasing intervals based on how well you recall each voicing. Keeps your chord vocabulary growing efficiently.</string>
+
     <string name="help_desc_chord_transitions">Visualise how your fingers move between two chords. Pick two chords and see a step-by-step animation of finger movements. Includes a timed practice mode with switch counter and BPM control.</string>
     <string name="help_desc_play_along">Real-time play-along practice with audio chord detection. Pick a key and progression, then strum along while the app listens and grades your accuracy. Requires microphone permission.</string>
     <string name="help_desc_achievements">A gallery of milestones to unlock as you use the app. Earn badges for practice streaks, quiz scores, songs created, chords learned, and more. Check back to see your progress.</string>
