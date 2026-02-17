@@ -268,6 +268,7 @@
     <string name="patterns_middle">中指</string>
     <string name="patterns_ring">薬指</string>
     <string name="patterns_string">弦</string>
+    <string name="patterns_counting">カウント</string>
 
     <!-- ── Playback Bar ─────────────────────────────────────────────── -->
     <string name="playback_prefix">再生: </string>

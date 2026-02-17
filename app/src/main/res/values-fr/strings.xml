@@ -268,6 +268,7 @@
     <string name="patterns_middle">Majeur</string>
     <string name="patterns_ring">Annulaire</string>
     <string name="patterns_string">Corde</string>
+    <string name="patterns_counting">Comptage</string>
 
     <!-- ── Barre de lecture ───────────────────────────────────────────── -->
     <string name="playback_prefix">Lecture : </string>
@@ -790,4 +791,12 @@
 
     <!-- ── Widget ────────────────────────────────────────────────────── -->
     <string name="widget_title">Accord du jour</string>
+
+    <string name="cd_play_item">Jouer %s</string>
+    <string name="cd_to">à</string>
+    <string name="progression_practice_title">Pratique</string>
+    <string name="progression_practice_no_voicing">Aucun voicing disponible</string>
+    <string name="cd_previous_voicing">Voicing précédent</string>
+    <string name="cd_next_voicing">Voicing suivant</string>
+    <string name="cd_toggle_loop">Activer/désactiver la boucle</string>
 </resources>

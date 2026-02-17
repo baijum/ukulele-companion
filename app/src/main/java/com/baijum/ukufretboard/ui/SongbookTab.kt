@@ -271,6 +271,8 @@ private fun SheetViewer(
     onChordTapped: (String) -> Unit,
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
+    val chordSheetLabel = stringResource(R.string.songbook_chord_sheet)
+    val exportChooserLabel = stringResource(R.string.songbook_export_chooser)
 
     Column(
         modifier = Modifier
@@ -310,7 +312,7 @@ private fun SheetViewer(
                             val formatted = ChordSheetFormatter.formatChordsAboveLyrics(sheet)
                             ChordSheetFormatter.shareText(
                                 context = context,
-                                title = sheet.title.ifEmpty { context.getString(R.string.songbook_chord_sheet) },
+                                title = sheet.title.ifEmpty { chordSheetLabel },
                                 text = formatted,
                             )
                         },
@@ -329,7 +331,7 @@ private fun SheetViewer(
                                 )
                             }
                             context.startActivity(
-                                Intent.createChooser(intent, context.getString(R.string.songbook_export_chooser)),
+                                Intent.createChooser(intent, exportChooserLabel),
                             )
                         },
                     )

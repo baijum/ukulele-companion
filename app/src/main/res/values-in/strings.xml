@@ -268,6 +268,7 @@
     <string name="patterns_middle">Tengah</string>
     <string name="patterns_ring">Manis</string>
     <string name="patterns_string">Senar</string>
+    <string name="patterns_counting">Hitungan</string>
 
     <!-- ── Bilah Pemutaran ────────────────────────────────────────────── -->
     <string name="playback_prefix">Pemutaran: </string>
@@ -797,4 +798,7 @@
 
     <!-- ── Widget ─────────────────────────────────────────────────────── -->
     <string name="widget_title">Akor Hari Ini</string>
+
+    <string name="cd_play_item">Putar %s</string>
+    <string name="cd_to">ke</string>
 </resources>

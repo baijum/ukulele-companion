@@ -268,6 +268,7 @@
     <string name="patterns_middle">الوسطى</string>
     <string name="patterns_ring">البنصر</string>
     <string name="patterns_string">الوتر</string>
+    <string name="patterns_counting">العد</string>
 
     <!-- ── Playback Bar ─────────────────────────────────────────────── -->
     <string name="playback_prefix">التشغيل: </string>

@@ -268,6 +268,7 @@
     <string name="patterns_middle">Medio</string>
     <string name="patterns_ring">Anular</string>
     <string name="patterns_string">Cuerda</string>
+    <string name="patterns_counting">Conteo</string>
 
     <!-- ── Barra de reproducción ─────────────────────────────────────── -->
     <string name="playback_prefix">Reproducción: </string>
@@ -790,4 +791,12 @@
 
     <!-- ── Widget ────────────────────────────────────────────────────── -->
     <string name="widget_title">Acorde del día</string>
+
+    <string name="cd_play_item">Reproducir %s</string>
+    <string name="cd_to">a</string>
+    <string name="progression_practice_title">Práctica</string>
+    <string name="progression_practice_no_voicing">Sin posición disponible</string>
+    <string name="cd_previous_voicing">Posición anterior</string>
+    <string name="cd_next_voicing">Siguiente posición</string>
+    <string name="cd_toggle_loop">Alternar bucle</string>
 </resources>

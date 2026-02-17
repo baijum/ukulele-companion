@@ -268,6 +268,7 @@
     <string name="patterns_middle">Środkowy</string>
     <string name="patterns_ring">Serdeczny</string>
     <string name="patterns_string">Struna</string>
+    <string name="patterns_counting">Liczenie</string>
 
     <!-- ── Pasek odtwarzania ──────────────────────────────────────────── -->
     <string name="playback_prefix">Odtwarzanie: </string>
@@ -797,4 +798,7 @@
 
     <!-- ── Widget ─────────────────────────────────────────────────────── -->
     <string name="widget_title">Akord dnia</string>
+
+    <string name="cd_play_item">Odtwórz %s</string>
+    <string name="cd_to">do</string>
 </resources>

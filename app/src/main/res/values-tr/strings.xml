@@ -268,6 +268,7 @@
     <string name="patterns_middle">Orta</string>
     <string name="patterns_ring">Yüzük</string>
     <string name="patterns_string">Tel</string>
+    <string name="patterns_counting">Sayma</string>
 
     <!-- ── Çalma Çubuğu ───────────────────────────────────────────────── -->
     <string name="playback_prefix">Çalma: </string>
@@ -797,4 +798,7 @@
 
     <!-- ── Widget ─────────────────────────────────────────────────────── -->
     <string name="widget_title">Günün Akoru</string>
+
+    <string name="cd_play_item">%s oynat</string>
+    <string name="cd_to">ile</string>
 </resources>

@@ -268,6 +268,7 @@
     <string name="patterns_middle">Medio</string>
     <string name="patterns_ring">Anulare</string>
     <string name="patterns_string">Corda</string>
+    <string name="patterns_counting">Conteggio</string>
 
     <!-- ── Barra di riproduzione ──────────────────────────────────────── -->
     <string name="playback_prefix">Riproduzione: </string>
@@ -797,4 +798,7 @@
 
     <!-- ── Widget ─────────────────────────────────────────────────────── -->
     <string name="widget_title">Accordo del giorno</string>
+
+    <string name="cd_play_item">Riproduci %s</string>
+    <string name="cd_to">a</string>
 </resources>
