@@ -768,4 +768,65 @@
     <!-- ── Full Screen Fretboard ────────────────────────────────────── -->
     <string name="full_screen_reset">リセット</string>
 
+
+    <string name="cd_add_known_chord">Add %s to known chords</string>
+    <string name="cd_add_to_songbook">Create chord sheet in songbook</string>
+    <string name="cd_chord_known">%s, chord you know</string>
+    <string name="cd_chord_to_learn">%s, chord you need to learn</string>
+    <string name="cd_remove_known_chord">Remove %s from known chords</string>
+    <string name="cd_showing_songs">Showing songs</string>
+    <string name="cd_song_card">%1$s by %2$s, %3$s, %4$s, %5$d chords</string>
+    <string name="cd_songs_hidden">Songs hidden</string>
+    <string name="cd_view_chord">View %s chord</string>
+    <string name="explorer_tips_capo">Use the capo slider to simulate a capo and transpose your chords.</string>
+    <string name="explorer_tips_dismiss">Got it</string>
+    <string name="explorer_tips_scales">Tap Scales to overlay scale patterns on the fretboard.</string>
+    <string name="explorer_tips_tap">Tap any fret to select a note. The app detects which chord you\'re building.</string>
+    <string name="explorer_tips_title">Getting started</string>
+    <string name="explorer_try_chords">Try these beginner chords:</string>
+    <string name="help_desc_chords">A comprehensive chord library. Pick a root note and chord type to see all playable voicings on the ukulele. Tap a voicing to load it on the explorer fretboard, or long-press to share or add to favorites. Includes an inversion compare mode.</string>
+    <string name="onboarding_accessibility_contrast">High-contrast theme for better visibility</string>
+    <string name="onboarding_accessibility_spoken">Spoken tuner feedback for hands-free tuning</string>
+    <string name="onboarding_accessibility_talkback">Full TalkBack and screen reader support</string>
+    <string name="onboarding_accessibility_title">Built for everyone</string>
+    <string name="onboarding_back">Back</string>
+    <string name="onboarding_feature_chords">Comprehensive chord library with every voicing</string>
+    <string name="onboarding_feature_fretboard">Interactive fretboard explorer</string>
+    <string name="onboarding_feature_learn">Lessons, quizzes, and ear training</string>
+    <string name="onboarding_feature_songbook">Personal songbook with ChordPro support</string>
+    <string name="onboarding_feature_tuner">Chromatic tuner with real-time pitch detection</string>
+    <string name="onboarding_features_title">Everything you need</string>
+    <string name="onboarding_get_started">Get Started</string>
+    <string name="onboarding_nav_create">Create — Songbook, Melody Notepad, Patterns</string>
+    <string name="onboarding_nav_instruction">Swipe from the left edge or tap the menu icon to open the navigation drawer.</string>
+    <string name="onboarding_nav_learn">Learn — Lessons, Quizzes, Ear Training</string>
+    <string name="onboarding_nav_play">Play — Tuner, Explorer, Chords, Favorites</string>
+    <string name="onboarding_nav_reference">Reference — Capo Guide, Circle of Fifths, Glossary</string>
+    <string name="onboarding_nav_title">Finding your way around</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_page_indicator">Page %1$d of %2$d</string>
+    <string name="onboarding_privacy_no_ads">No ads, no tracking, no account required</string>
+    <string name="onboarding_privacy_offline">Works completely offline — no internet needed</string>
+    <string name="onboarding_privacy_title">Private and offline</string>
+    <string name="onboarding_privacy_yours">Your data stays on your device</string>
+    <string name="onboarding_setup_left_handed">Left-handed</string>
+    <string name="onboarding_setup_subtitle">You can change these anytime in Settings.</string>
+    <string name="onboarding_setup_theme">Theme</string>
+    <string name="onboarding_setup_title">Quick setup</string>
+    <string name="onboarding_setup_tuning">Tuning</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_welcome_subtitle">Your all-in-one ukulele companion for chords, scales, music theory, and composition.</string>
+    <string name="onboarding_welcome_title">Welcome to Ukulele Companion</string>
+    <string name="settings_free_book">Free Ukulele Book (PDF)</string>
+    <string name="song_finder_add_chord">Add chord</string>
+    <string name="song_finder_added_to_songbook">Chord sheet created in Songbook</string>
+    <string name="song_finder_explicit_chords">Chords you marked (%d)</string>
+    <string name="song_finder_filter_all">All</string>
+    <string name="song_finder_from_favorites">From favorites (%d)</string>
+    <string name="song_finder_known_chords_section">Known Chords</string>
+    <string name="song_finder_manage_known_chords">Manage known chords</string>
+    <string name="song_finder_search">Search songs…</string>
+    <string name="song_finder_select_root">Select root note</string>
+    <string name="song_finder_select_type">Select chord type</string>
+
 </resources>
