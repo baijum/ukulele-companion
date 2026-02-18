@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.activity.compose.BackHandler
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Favorite
@@ -213,12 +215,18 @@ fun FretboardScreen(
     scalePracticeViewModel: ScalePracticeViewModel = viewModel(),
 ) {
     var selectedSection by rememberSaveable { mutableIntStateOf(NAV_EXPLORER) }
+    var previousSection by rememberSaveable { mutableStateOf<Int?>(null) }
     var showSettings by remember { mutableStateOf(false) }
     var showFullScreen by rememberSaveable { mutableStateOf(false) }
     var shareChordInfo by remember { mutableStateOf<ShareChordInfo?>(null) }
     // State for the "Save to Folders" bottom sheet (shared between Library and Favorites)
     var sheetVoicing by remember { mutableStateOf<SheetVoicingInfo?>(null) }
     val currentFolders by favoritesViewModel.folders.collectAsState()
+
+    BackHandler(enabled = previousSection != null && selectedSection == NAV_LIBRARY) {
+        selectedSection = previousSection!!
+        previousSection = null
+    }
 
     // Initialize BackupRestoreViewModel with SettingsViewModel reference
     LaunchedEffect(Unit) {
@@ -339,6 +347,7 @@ fun FretboardScreen(
                                 label = { Text(item.label) },
                                 selected = selectedSection == item.index,
                                 onClick = {
+                                    previousSection = null
                                     selectedSection = item.index
                                     scope.launch { drawerState.close() }
                                 },
@@ -354,6 +363,7 @@ fun FretboardScreen(
                         label = { Text(stringResource(R.string.nav_help)) },
                         selected = selectedSection == NAV_HELP,
                         onClick = {
+                            previousSection = null
                             selectedSection = NAV_HELP
                             scope.launch { drawerState.close() }
                         },
@@ -378,11 +388,23 @@ fun FretboardScreen(
                         )
                     },
                     navigationIcon = {
-                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                            Icon(
-                                imageVector = Icons.Filled.Menu,
-                                contentDescription = stringResource(R.string.cd_open_nav_menu),
-                            )
+                        if (previousSection != null && selectedSection == NAV_LIBRARY) {
+                            IconButton(onClick = {
+                                selectedSection = previousSection!!
+                                previousSection = null
+                            }) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = stringResource(R.string.action_back),
+                                )
+                            }
+                        } else {
+                            IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Menu,
+                                    contentDescription = stringResource(R.string.cd_open_nav_menu),
+                                )
+                            }
                         }
                     },
                     actions = {
@@ -427,6 +449,7 @@ fun FretboardScreen(
                             libraryViewModel.selectRoot(rootPitchClass)
                             libraryViewModel.selectCategory(formula.category)
                             libraryViewModel.selectFormula(formula)
+                            previousSection = selectedSection
                             selectedSection = NAV_LIBRARY
                         },
                     )
@@ -506,6 +529,7 @@ fun FretboardScreen(
                                 libraryViewModel.selectCategory(formula.category)
                                 libraryViewModel.selectFormula(formula)
                             }
+                            previousSection = selectedSection
                             selectedSection = NAV_LIBRARY
                         },
                         onSaveProgression = { name, description, degrees, scaleType ->
@@ -541,7 +565,10 @@ fun FretboardScreen(
                     NAV_SONGBOOK -> SongbookTab(
                         viewModel = songbookViewModel,
                         onChordTapped = { chordName ->
-                            navigateToChord(chordName, libraryViewModel) { selectedSection = NAV_LIBRARY }
+                            navigateToChord(chordName, libraryViewModel) {
+                                previousSection = selectedSection
+                                selectedSection = NAV_LIBRARY
+                            }
                         },
                     )
                     NAV_CAPO_GUIDE -> CapoGuideView()
@@ -573,6 +600,7 @@ fun FretboardScreen(
                                 libraryViewModel.selectCategory(formula.category)
                                 libraryViewModel.selectFormula(formula)
                             }
+                            previousSection = selectedSection
                             selectedSection = NAV_LIBRARY
                         },
                     )
