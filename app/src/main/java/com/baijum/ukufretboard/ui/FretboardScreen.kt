@@ -26,7 +26,10 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Equalizer
 import androidx.compose.material.icons.filled.Fullscreen
+import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.TouchApp
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -37,6 +40,9 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
@@ -409,8 +415,11 @@ fun FretboardScreen(
                 when (selectedSection) {
                     NAV_EXPLORER -> ExplorerTabContent(
                         viewModel = fretboardViewModel,
+                        settingsViewModel = settingsViewModel,
                         soundEnabled = appSettings.sound.enabled,
                         leftHanded = appSettings.fretboard.leftHanded,
+                        showTips = !appSettings.explorerTipsDismissed,
+                        onDismissTips = { settingsViewModel.dismissExplorerTips() },
                         onFullScreen = { showFullScreen = true },
                         onShareChord = { voicing, chordName, invLabel ->
                             shareChordInfo = ShareChordInfo(
@@ -783,8 +792,11 @@ private fun navigateToChord(
 @Composable
 private fun ExplorerTabContent(
     viewModel: FretboardViewModel,
+    settingsViewModel: SettingsViewModel,
     soundEnabled: Boolean,
     leftHanded: Boolean = false,
+    showTips: Boolean = false,
+    onDismissTips: () -> Unit = {},
     onFullScreen: () -> Unit = {},
     onShareChord: ((ChordVoicing, String, String?) -> Unit)? = null,
     onShowInLibrary: ((rootPitchClass: Int, formula: com.baijum.ukufretboard.data.ChordFormula) -> Unit)? = null,
@@ -797,6 +809,10 @@ private fun ExplorerTabContent(
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
+        if (showTips) {
+            ExplorerTipsCard(onDismiss = onDismissTips)
+        }
+
         // Scale selector (collapsible)
         ScaleSelector(
             state = uiState.scaleOverlay,
@@ -936,7 +952,85 @@ private fun ExplorerTabContent(
             onAlternateChordTapped = if (onShowInLibrary != null) {
                 { alt -> onShowInLibrary(alt.rootPitchClass, alt.formula) }
             } else null,
+            onSuggestedChordTapped = { rootPitchClass, symbol ->
+                val formula = com.baijum.ukufretboard.data.ChordFormulas.ALL
+                    .firstOrNull { it.symbol == symbol }
+                if (formula != null) {
+                    val voicings = com.baijum.ukufretboard.data.VoicingGenerator.generate(
+                        rootPitchClass = rootPitchClass,
+                        formula = formula,
+                        tuning = currentTuning,
+                    )
+                    voicings.firstOrNull()?.let { viewModel.applyVoicing(it) }
+                }
+            },
             modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
+/**
+ * Dismissible tips card shown on the Explorer screen for first-time users.
+ * Explains tapping, scales, and capo features.
+ */
+@Composable
+private fun ExplorerTipsCard(onDismiss: () -> Unit) {
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp),
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = stringResource(R.string.explorer_tips_title),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.semantics { heading() },
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            TipRow(
+                icon = Icons.Filled.TouchApp,
+                text = stringResource(R.string.explorer_tips_tap),
+            )
+            TipRow(
+                icon = Icons.Filled.MusicNote,
+                text = stringResource(R.string.explorer_tips_scales),
+            )
+            TipRow(
+                icon = Icons.Filled.Equalizer,
+                text = stringResource(R.string.explorer_tips_capo),
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                Button(onClick = onDismiss) {
+                    Text(stringResource(R.string.explorer_tips_dismiss))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TipRow(icon: ImageVector, text: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(24.dp),
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
         )
     }
 }

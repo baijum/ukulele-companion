@@ -6,9 +6,21 @@ Ukulele Companion is available as an Android APK. Install it on any device runni
 
 ## First Launch
 
-When you open the app for the first time, you land on the **Explorer** tab. This is the interactive fretboard where you can tap fret positions and the app will detect chords for you.
+When you open the app for the first time, a short **onboarding wizard** walks you through the key features. The wizard has six pages that you can swipe through or navigate with the Next / Back buttons:
 
-![Explorer screen on first launch](screenshots/explorer-fretboard.png)
+1. **Welcome** — the app name and what it does.
+2. **Features** — a quick overview of the tuner, chord library, fretboard explorer, songbook, and learning tools.
+3. **Accessibility** — TalkBack support, spoken tuner feedback, and the high-contrast theme.
+4. **Privacy** — fully offline, no ads, no tracking, no account required.
+5. **Navigation** — how to open the navigation drawer and what each section contains.
+6. **Quick Setup** — choose your tuning (High-G, Low-G, Baritone, etc.), left-handed mode, and color theme. These choices take effect immediately and can be changed later in Settings.
+
+![Onboarding welcome page](screenshots/onboarding-welcome.png)
+![Onboarding setup page](screenshots/onboarding-setup.png)
+
+Tap **Get Started** on the last page to enter the app. You can also tap **Skip** on any earlier page to go straight to the Explorer.
+
+The wizard only appears once. After that, the app opens directly to the Explorer.
 
 ## Navigating the App
 

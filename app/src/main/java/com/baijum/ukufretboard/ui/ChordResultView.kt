@@ -1,7 +1,10 @@
 package com.baijum.ukufretboard.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -68,6 +72,7 @@ fun ChordResultView(
     onShareChord: (() -> Unit)? = null,
     onShowInLibrary: (() -> Unit)? = null,
     onAlternateChordTapped: ((AlternateChord) -> Unit)? = null,
+    onSuggestedChordTapped: ((rootPitchClass: Int, formulaSymbol: String) -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     val hasNotes = detectionResult !is ChordDetector.DetectionResult.NoSelection
@@ -85,6 +90,9 @@ fun ChordResultView(
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
+                if (onSuggestedChordTapped != null) {
+                    SuggestedChordsSection(onChordTapped = onSuggestedChordTapped)
+                }
             }
 
             is ChordDetector.DetectionResult.SingleNote -> {
@@ -394,6 +402,49 @@ private fun ChordHeadlineWithPlay(
                     modifier = Modifier.size(24.dp),
                 )
             }
+        }
+    }
+}
+
+private data class SuggestedChord(
+    val name: String,
+    val rootPitchClass: Int,
+    val formulaSymbol: String,
+)
+
+private val BEGINNER_CHORDS = listOf(
+    SuggestedChord("C", 0, ""),
+    SuggestedChord("Am", 9, "m"),
+    SuggestedChord("F", 5, ""),
+    SuggestedChord("G7", 7, "7"),
+)
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun SuggestedChordsSection(
+    onChordTapped: (rootPitchClass: Int, formulaSymbol: String) -> Unit,
+) {
+    Spacer(modifier = Modifier.height(16.dp))
+    HorizontalDivider(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        color = MaterialTheme.colorScheme.outlineVariant,
+    )
+    Spacer(modifier = Modifier.height(12.dp))
+    Text(
+        text = stringResource(R.string.explorer_try_chords),
+        style = MaterialTheme.typography.labelLarge,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+    FlowRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        BEGINNER_CHORDS.forEach { chord ->
+            FilterChip(
+                selected = false,
+                onClick = { onChordTapped(chord.rootPitchClass, chord.formulaSymbol) },
+                label = { Text(chord.name) },
+            )
         }
     }
 }

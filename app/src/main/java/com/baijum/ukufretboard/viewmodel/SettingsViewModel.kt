@@ -111,6 +111,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
+     * Dismisses the Explorer tips card so it is not shown again.
+     */
+    fun dismissExplorerTips() {
+        _settings.update { current ->
+            current.copy(explorerTipsDismissed = true).also { saveSettings(it) }
+        }
+    }
+
+    /**
      * Replaces all settings with the given [AppSettings].
      * Used for sync/restore operations.
      */
@@ -160,6 +169,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             .putBoolean(KEY_TUNER_AUTO_START, s.tuner.autoStart)
             // Onboarding
             .putBoolean(KEY_ONBOARDING_COMPLETED, s.onboardingCompleted)
+            .putBoolean(KEY_EXPLORER_TIPS_DISMISSED, s.explorerTipsDismissed)
             .apply()
     }
 
@@ -212,6 +222,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 autoStart = prefs.getBoolean(KEY_TUNER_AUTO_START, false),
             ),
             onboardingCompleted = prefs.getBoolean(KEY_ONBOARDING_COMPLETED, true),
+            explorerTipsDismissed = prefs.getBoolean(KEY_EXPLORER_TIPS_DISMISSED, true),
         )
     }
 
@@ -242,5 +253,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         private const val KEY_TUNER_AUTO_ADVANCE = "tuner_auto_advance"
         private const val KEY_TUNER_AUTO_START = "tuner_auto_start"
         private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
+        private const val KEY_EXPLORER_TIPS_DISMISSED = "explorer_tips_dismissed"
     }
 }

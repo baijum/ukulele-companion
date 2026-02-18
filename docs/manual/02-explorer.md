@@ -4,6 +4,24 @@ The Explorer is the main screen of Ukulele Companion. It shows an interactive fr
 
 ![Explorer fretboard](screenshots/explorer-fretboard.png)
 
+## Tips for First-Time Users
+
+The first time you visit the Explorer, a **tips card** appears at the top of the screen with a brief explanation of the three key features:
+
+- **Tap any fret** to select a note — the app detects which chord you are building.
+- **Tap Scales** to overlay scale patterns on the fretboard.
+- **Use the capo slider** to simulate a capo and transpose your chords.
+
+Tap **Got it** to dismiss the card permanently.
+
+![Explorer with tips card](screenshots/explorer-fretboard.png)
+
+## Suggested Beginner Chords
+
+When no frets are selected, the area below the fretboard shows a **"Try these beginner chords"** section with four common ukulele chords: **C**, **Am**, **F**, and **G7**. Tap any chip to load the chord onto the fretboard instantly. This is a quick way to hear what the chords sound like and see the fingering. Tap **Reset** to clear the fretboard and see the suggestions again.
+
+![Beginner chord suggestions](screenshots/explorer-beginner-chords.png)
+
 ## Tapping Notes
 
 Tap any fret cell on the fretboard to place or remove a finger. The fretboard displays frets 0 through 12 across four strings (G, C, E, A in standard tuning).

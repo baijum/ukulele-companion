@@ -105,6 +105,12 @@
     <string name="explorer_hide_scale">Hide Scale</string>
     <string name="explorer_tap_frets">Tap frets</string>
     <string name="explorer_capo_off">Off</string>
+    <string name="explorer_tips_title">Getting started</string>
+    <string name="explorer_tips_tap">Tap any fret to select a note. The app detects which chord you\'re building.</string>
+    <string name="explorer_tips_scales">Tap Scales to overlay scale patterns on the fretboard.</string>
+    <string name="explorer_tips_capo">Use the capo slider to simulate a capo and transpose your chords.</string>
+    <string name="explorer_tips_dismiss">Got it</string>
+    <string name="explorer_try_chords">Try these beginner chords:</string>
 
     <!-- ── Chord Result ─────────────────────────────────────────────── -->
     <string name="chord_result_tap_fretboard">Tap the fretboard to select notes</string>
