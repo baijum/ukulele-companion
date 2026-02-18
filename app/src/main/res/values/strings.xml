@@ -587,6 +587,40 @@
     <string name="help_desc_sharing">Share any chord as an image. When viewing a chord in the Explorer or Chord Library, tap the share icon to generate a clean chord diagram image that you can send to friends or post on social media.</string>
     <string name="help_desc_full_screen">Tap the expand icon in the Explorer tab to enter a landscape full-screen fretboard. Great for practice sessions where you want maximum fretboard visibility without UI distractions.</string>
 
+    <!-- ── Onboarding ─────────────────────────────────────────────────── -->
+    <string name="onboarding_welcome_title">Welcome to Ukulele Companion</string>
+    <string name="onboarding_welcome_subtitle">Your all-in-one ukulele companion for chords, scales, music theory, and composition.</string>
+    <string name="onboarding_features_title">Everything you need</string>
+    <string name="onboarding_feature_tuner">Chromatic tuner with real-time pitch detection</string>
+    <string name="onboarding_feature_chords">Comprehensive chord library with every voicing</string>
+    <string name="onboarding_feature_fretboard">Interactive fretboard explorer</string>
+    <string name="onboarding_feature_songbook">Personal songbook with ChordPro support</string>
+    <string name="onboarding_feature_learn">Lessons, quizzes, and ear training</string>
+    <string name="onboarding_accessibility_title">Built for everyone</string>
+    <string name="onboarding_accessibility_talkback">Full TalkBack and screen reader support</string>
+    <string name="onboarding_accessibility_spoken">Spoken tuner feedback for hands-free tuning</string>
+    <string name="onboarding_accessibility_contrast">High-contrast theme for better visibility</string>
+    <string name="onboarding_privacy_title">Private and offline</string>
+    <string name="onboarding_privacy_offline">Works completely offline — no internet needed</string>
+    <string name="onboarding_privacy_no_ads">No ads, no tracking, no account required</string>
+    <string name="onboarding_privacy_yours">Your data stays on your device</string>
+    <string name="onboarding_nav_title">Finding your way around</string>
+    <string name="onboarding_nav_instruction">Swipe from the left edge or tap the menu icon to open the navigation drawer.</string>
+    <string name="onboarding_nav_play">Play — Tuner, Explorer, Chords, Favorites</string>
+    <string name="onboarding_nav_create">Create — Songbook, Melody Notepad, Patterns</string>
+    <string name="onboarding_nav_learn">Learn — Lessons, Quizzes, Ear Training</string>
+    <string name="onboarding_nav_reference">Reference — Capo Guide, Circle of Fifths, Glossary</string>
+    <string name="onboarding_setup_title">Quick setup</string>
+    <string name="onboarding_setup_subtitle">You can change these anytime in Settings.</string>
+    <string name="onboarding_setup_tuning">Tuning</string>
+    <string name="onboarding_setup_left_handed">Left-handed</string>
+    <string name="onboarding_setup_theme">Theme</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_back">Back</string>
+    <string name="onboarding_get_started">Get Started</string>
+    <string name="onboarding_page_indicator">Page %1$d of %2$d</string>
+
     <!-- ── Glossary ─────────────────────────────────────────────────── -->
     <string name="glossary_title">Music Glossary</string>
     <string name="glossary_term_count">%d terms covering music theory and ukulele.</string>

@@ -201,4 +201,5 @@ data class AppSettings(
 
     val scalePractice: ScalePracticeSettings = ScalePracticeSettings(),
     val tuner: TunerSettings = TunerSettings(),
+    val onboardingCompleted: Boolean = false,
 )

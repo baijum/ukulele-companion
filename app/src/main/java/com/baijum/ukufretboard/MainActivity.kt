@@ -7,7 +7,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import com.baijum.ukufretboard.ui.FretboardScreen
+import com.baijum.ukufretboard.ui.OnboardingScreen
 import com.baijum.ukufretboard.ui.theme.UkuleleCompanionTheme
 import com.baijum.ukufretboard.viewmodel.SettingsViewModel
 
@@ -33,8 +37,18 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContent {
             val appSettings by settingsViewModel.settings.collectAsState()
+            var onboardingDone by rememberSaveable {
+                mutableStateOf(appSettings.onboardingCompleted)
+            }
             UkuleleCompanionTheme(themeMode = appSettings.display.themeMode) {
-                FretboardScreen(settingsViewModel = settingsViewModel)
+                if (onboardingDone) {
+                    FretboardScreen(settingsViewModel = settingsViewModel)
+                } else {
+                    OnboardingScreen(
+                        settingsViewModel = settingsViewModel,
+                        onFinished = { onboardingDone = true },
+                    )
+                }
             }
         }
     }

@@ -102,6 +102,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
+     * Marks onboarding as completed so the wizard is not shown again.
+     */
+    fun completeOnboarding() {
+        _settings.update { current ->
+            current.copy(onboardingCompleted = true).also { saveSettings(it) }
+        }
+    }
+
+    /**
      * Replaces all settings with the given [AppSettings].
      * Used for sync/restore operations.
      */
@@ -149,6 +158,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             .putFloat(KEY_TUNER_A4_REFERENCE, s.tuner.a4Reference)
             .putBoolean(KEY_TUNER_AUTO_ADVANCE, s.tuner.autoAdvance)
             .putBoolean(KEY_TUNER_AUTO_START, s.tuner.autoStart)
+            // Onboarding
+            .putBoolean(KEY_ONBOARDING_COMPLETED, s.onboardingCompleted)
             .apply()
     }
 
@@ -200,6 +211,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 autoAdvance = prefs.getBoolean(KEY_TUNER_AUTO_ADVANCE, false),
                 autoStart = prefs.getBoolean(KEY_TUNER_AUTO_START, false),
             ),
+            onboardingCompleted = prefs.getBoolean(KEY_ONBOARDING_COMPLETED, true),
         )
     }
 
@@ -229,5 +241,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         private const val KEY_TUNER_A4_REFERENCE = "tuner_a4_reference"
         private const val KEY_TUNER_AUTO_ADVANCE = "tuner_auto_advance"
         private const val KEY_TUNER_AUTO_START = "tuner_auto_start"
+        private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
     }
 }
