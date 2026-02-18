@@ -56,6 +56,12 @@ Welcome to **Ukulele Companion**, a free, offline, ad-free Android app for learn
 
 </div>
 
+## Companion Book
+
+**The Complete Ukulele Learning Book** is a free 185-page PDF covering everything from first strums to jazz voicings and fingerstyle technique. It pairs well with this app as a structured learning path.
+
+[Download from Internet Archive](https://archive.org/details/ukulele-book)
+
 ## About the App
 
 Ukulele Companion is designed with a simple philosophy:

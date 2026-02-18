@@ -704,6 +704,22 @@ private fun AboutSection() {
             context.startActivity(intent)
         },
     )
+    Spacer(modifier = Modifier.height(8.dp))
+    Text(
+        text = stringResource(R.string.settings_free_book),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.clickable {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://archive.org/details/ukulele-book"))
+            context.startActivity(intent)
+        },
+    )
+    Spacer(modifier = Modifier.height(2.dp))
+    Text(
+        text = stringResource(R.string.settings_free_book_desc),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
 
     Spacer(modifier = Modifier.height(16.dp))
 

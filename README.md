@@ -296,6 +296,12 @@ Detailed feature documentation and a user manual are available in the [`docs/`](
 
 ---
 
+## 📖 Companion Book
+
+**[The Complete Ukulele Learning Book](https://archive.org/details/ukulele-book)** is a free 185-page PDF guide covering foundations, developing skills, mastery, and a songbook -- from first strums to jazz voicings and fingerstyle. Designed to pair with Ukulele Companion as a structured learning path.
+
+---
+
 ## 🧪 Beta Testing
 
 Want to try new features before they go live? Join the
