@@ -61,7 +61,6 @@
     <string name="nav_pitch_monitor">音高监测</string>
     <string name="nav_chords">和弦</string>
     <string name="nav_favorites">收藏</string>
-    <string name="nav_song_finder">找歌曲</string>
     <string name="nav_songs">歌曲</string>
     <string name="nav_melody_notepad">旋律记事本</string>
     <string name="nav_patterns">节奏型</string>
@@ -522,7 +521,6 @@
     <string name="help_pitch_monitor">音高监测</string>
     <string name="help_chords">和弦</string>
     <string name="help_favorites">收藏</string>
-    <string name="help_song_finder">找歌曲</string>
     <string name="help_songs">歌曲</string>
     <string name="help_melody_notepad">旋律记事本</string>
     <string name="help_patterns">节奏型</string>
@@ -554,7 +552,6 @@
     <string name="help_desc_tuner">使用设备麦克风的半音调音器。显示检测到的音符、音分偏差（指针表）以及简明指导（"调高"、"已调准！"）。点击弦按钮播放参考音。支持多种调弦方式、A4 校准、语音反馈和精确模式。</string>
     <string name="help_desc_pitch_monitor">实时音高可视化工具。在滚动图表上显示检测到的音高，显示当前音符名称并高亮匹配的和弦。适用于检查演奏旋律或练习推弦时的音准。</string>
     <string name="help_desc_favorites">你保存的和弦指法，按文件夹整理。点击指法在指板上查看，滑动或长按查看选项。使用文件夹将和弦分组用于特定歌曲或练习环节。</string>
-    <string name="help_desc_song_finder">发现你可以用收藏中的和弦弹奏的歌曲。你保存的和弦越多，解锁的歌曲就越多。还会显示只需再学 1-2 个和弦就能弹奏的歌曲。</string>
     <string name="help_desc_songs">个人歌曲本，用于编写和存储和弦谱。输入歌词并使用方括号标记和弦: "Some[C]where over the [Em]rainbow"。支持移调、变调夹建议、自动滚动以及 ChordPro 文件的导入/导出。</string>
     <string name="help_desc_melody_notepad">一个简单的工具，用于逐音符创作旋律。点击音符构建序列，选择音符时值（全音符、二分、四分、八分、十六分），添加休止符，以可调 BPM 回放。适合记录旋律灵感或练习。</string>
     <string name="help_desc_patterns">浏览和创建扫弦和指弹节奏型。点击节拍指示器改变扫弦方向（下扫、上扫、闷音、休止），或为各弦分配手指。可以按可调节的速度播放。</string>
@@ -713,19 +710,6 @@
     <string name="cd_clear_all">清除所有音符</string>
     <string name="melody_clear">清除</string>
 
-    <!-- ── Song Finder ──────────────────────────────────────────────── -->
-    <string name="song_finder_title">找歌曲</string>
-    <string name="song_finder_subtitle">用你会的和弦找到可以弹奏的歌曲。</string>
-    <string name="song_finder_no_chords_title">还没有已知和弦</string>
-    <string name="song_finder_no_chords_message">将一些和弦指法保存到收藏，我们就能为你找到可以弹奏的歌曲！</string>
-    <string name="song_finder_your_chords">你的和弦（%d）</string>
-    <string name="song_finder_songs_can_play">你可以弹奏的歌曲（%d）</string>
-    <string name="song_finder_learn_more">再学 1-2 个和弦（%d）</string>
-    <string name="song_finder_hide">隐藏</string>
-    <string name="song_finder_show">显示</string>
-    <string name="song_finder_keep_learning">继续学习新和弦来解锁更多歌曲！</string>
-    <string name="song_finder_learn_prefix">学习: </string>
-
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">返回和弦进行</string>
     <string name="voice_leading_title">%s 中的声部连接</string>
@@ -770,14 +754,6 @@
 
 
     <string name="cd_add_known_chord">Add %s to known chords</string>
-    <string name="cd_add_to_songbook">Create chord sheet in songbook</string>
-    <string name="cd_chord_known">%s, chord you know</string>
-    <string name="cd_chord_to_learn">%s, chord you need to learn</string>
-    <string name="cd_remove_known_chord">Remove %s from known chords</string>
-    <string name="cd_showing_songs">Showing songs</string>
-    <string name="cd_song_card">%1$s by %2$s, %3$s, %4$s, %5$d chords</string>
-    <string name="cd_songs_hidden">Songs hidden</string>
-    <string name="cd_view_chord">View %s chord</string>
     <string name="explorer_tips_capo">Use the capo slider to simulate a capo and transpose your chords.</string>
     <string name="explorer_tips_dismiss">Got it</string>
     <string name="explorer_tips_scales">Tap Scales to overlay scale patterns on the fretboard.</string>
@@ -818,15 +794,4 @@
     <string name="onboarding_welcome_subtitle">Your all-in-one ukulele companion for chords, scales, music theory, and composition.</string>
     <string name="onboarding_welcome_title">Welcome to Ukulele Companion</string>
     <string name="settings_free_book">Free Ukulele Book (PDF)</string>
-    <string name="song_finder_add_chord">Add chord</string>
-    <string name="song_finder_added_to_songbook">Chord sheet created in Songbook</string>
-    <string name="song_finder_explicit_chords">Chords you marked (%d)</string>
-    <string name="song_finder_filter_all">All</string>
-    <string name="song_finder_from_favorites">From favorites (%d)</string>
-    <string name="song_finder_known_chords_section">Known Chords</string>
-    <string name="song_finder_manage_known_chords">Manage known chords</string>
-    <string name="song_finder_search">Search songs…</string>
-    <string name="song_finder_select_root">Select root note</string>
-    <string name="song_finder_select_type">Select chord type</string>
-
 </resources>

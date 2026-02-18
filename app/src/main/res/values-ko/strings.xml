@@ -61,7 +61,6 @@
     <string name="nav_pitch_monitor">피치 모니터</string>
     <string name="nav_chords">코드</string>
     <string name="nav_favorites">즐겨찾기</string>
-    <string name="nav_song_finder">곡 찾기</string>
     <string name="nav_songs">곡</string>
     <string name="nav_melody_notepad">멜로디 메모장</string>
     <string name="nav_patterns">패턴</string>
@@ -522,7 +521,6 @@
     <string name="help_pitch_monitor">피치 모니터</string>
     <string name="help_chords">코드</string>
     <string name="help_favorites">즐겨찾기</string>
-    <string name="help_song_finder">곡 찾기</string>
     <string name="help_songs">곡</string>
     <string name="help_melody_notepad">멜로디 메모장</string>
     <string name="help_patterns">패턴</string>
@@ -554,7 +552,6 @@
     <string name="help_desc_tuner">기기의 마이크를 사용하는 크로매틱 튜너입니다. 감지된 음, 미터의 센트 편차, 이해하기 쉬운 안내(\"높이기\", \"튜닝 완료!\")를 표시합니다. 현 버튼을 탭하면 기준음이 재생됩니다. 다양한 튜닝, A4 보정, 음성 피드백, 정밀 모드를 지원합니다.</string>
     <string name="help_desc_pitch_monitor">실시간 피치 시각화 도구입니다. 스크롤 그래프에 감지된 피치를 표시하고, 현재 음 이름과 일치하는 코드를 강조합니다. 멜로디 연주 시 음정 확인이나 벤딩 연습에 유용합니다.</string>
     <string name="help_desc_favorites">폴더로 정리된 저장된 코드 보이싱입니다. 보이싱을 탭하면 지판에 표시되고, 밀거나 길게 눌러 옵션을 확인할 수 있습니다. 폴더를 사용하여 특정 곡이나 연습 세션별로 코드를 분류하세요.</string>
-    <string name="help_desc_song_finder">즐겨찾기에 저장된 코드로 연주할 수 있는 곡을 찾아줍니다. 코드를 많이 저장할수록 더 많은 곡을 찾을 수 있습니다. 1~2개의 코드만 더 배우면 연주할 수 있는 곡도 보여줍니다.</string>
     <string name="help_desc_songs">코드 시트를 작성하고 저장하는 개인 곡 목록입니다. 가사를 입력하고 괄호 표기법으로 코드를 삽입하세요: \"무지개[C] 너머 어딘[Em]가에\". 이조, 카포 제안, 자동 스크롤, ChordPro 파일 가져오기/내보내기를 지원합니다.</string>
     <string name="help_desc_melody_notepad">음 하나씩 멜로디를 작곡하는 간단한 도구입니다. 음을 탭하여 시퀀스를 만들고, 음가(온음표, 2분음표, 4분음표, 8분음표, 16분음표)를 선택하고, 쉼표를 추가하여 조절 가능한 BPM으로 재생할 수 있습니다. 멜로디 아이디어나 연습을 메모하기에 좋습니다.</string>
     <string name="help_desc_patterns">스트러밍과 핑거피킹 패턴을 둘러보고 만들 수 있습니다. 박자 표시를 탭하여 방향을 변경(다운, 업, 뮤트, 쉼)하거나 손가락을 현에 지정합니다. 조절 가능한 템포로 재생할 수 있습니다.</string>
@@ -713,19 +710,6 @@
     <string name="cd_clear_all">모든 음 지우기</string>
     <string name="melody_clear">지우기</string>
 
-    <!-- ── Song Finder ──────────────────────────────────────────────── -->
-    <string name="song_finder_title">곡 찾기</string>
-    <string name="song_finder_subtitle">알고 있는 코드로 연주할 수 있는 곡을 찾으세요.</string>
-    <string name="song_finder_no_chords_title">알고 있는 코드가 아직 없습니다</string>
-    <string name="song_finder_no_chords_message">코드 보이싱을 즐겨찾기에 저장하면 연주할 수 있는 곡을 찾아드립니다!</string>
-    <string name="song_finder_your_chords">내 코드 (%d개)</string>
-    <string name="song_finder_songs_can_play">연주할 수 있는 곡 (%d곡)</string>
-    <string name="song_finder_learn_more">1~2개 더 배우면 연주 가능 (%d곡)</string>
-    <string name="song_finder_hide">숨기기</string>
-    <string name="song_finder_show">보기</string>
-    <string name="song_finder_keep_learning">새로운 코드를 계속 배워서 더 많은 곡을 연주하세요!</string>
-    <string name="song_finder_learn_prefix">배우기: </string>
-
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">코드 진행으로 돌아가기</string>
     <string name="voice_leading_title">%s의 보이스 리딩</string>
@@ -770,14 +754,6 @@
 
 
     <string name="cd_add_known_chord">Add %s to known chords</string>
-    <string name="cd_add_to_songbook">Create chord sheet in songbook</string>
-    <string name="cd_chord_known">%s, chord you know</string>
-    <string name="cd_chord_to_learn">%s, chord you need to learn</string>
-    <string name="cd_remove_known_chord">Remove %s from known chords</string>
-    <string name="cd_showing_songs">Showing songs</string>
-    <string name="cd_song_card">%1$s by %2$s, %3$s, %4$s, %5$d chords</string>
-    <string name="cd_songs_hidden">Songs hidden</string>
-    <string name="cd_view_chord">View %s chord</string>
     <string name="explorer_tips_capo">Use the capo slider to simulate a capo and transpose your chords.</string>
     <string name="explorer_tips_dismiss">Got it</string>
     <string name="explorer_tips_scales">Tap Scales to overlay scale patterns on the fretboard.</string>
@@ -818,15 +794,5 @@
     <string name="onboarding_welcome_subtitle">Your all-in-one ukulele companion for chords, scales, music theory, and composition.</string>
     <string name="onboarding_welcome_title">Welcome to Ukulele Companion</string>
     <string name="settings_free_book">Free Ukulele Book (PDF)</string>
-    <string name="song_finder_add_chord">Add chord</string>
-    <string name="song_finder_added_to_songbook">Chord sheet created in Songbook</string>
-    <string name="song_finder_explicit_chords">Chords you marked (%d)</string>
-    <string name="song_finder_filter_all">All</string>
-    <string name="song_finder_from_favorites">From favorites (%d)</string>
-    <string name="song_finder_known_chords_section">Known Chords</string>
-    <string name="song_finder_manage_known_chords">Manage known chords</string>
-    <string name="song_finder_search">Search songs…</string>
-    <string name="song_finder_select_root">Select root note</string>
-    <string name="song_finder_select_type">Select chord type</string>
 
 </resources>

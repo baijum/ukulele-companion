@@ -61,7 +61,6 @@
     <string name="nav_pitch_monitor">Toonhoogtemonitor</string>
     <string name="nav_chords">Akkoorden</string>
     <string name="nav_favorites">Favorieten</string>
-    <string name="nav_song_finder">Liedzoeker</string>
     <string name="nav_songs">Liedjes</string>
     <string name="nav_melody_notepad">Melodieblok</string>
     <string name="nav_patterns">Patronen</string>
@@ -522,7 +521,6 @@
     <string name="help_pitch_monitor">Toonhoogtemonitor</string>
     <string name="help_chords">Akkoorden</string>
     <string name="help_favorites">Favorieten</string>
-    <string name="help_song_finder">Liedzoeker</string>
     <string name="help_songs">Liedjes</string>
     <string name="help_melody_notepad">Melodieblok</string>
     <string name="help_patterns">Patronen</string>
@@ -554,7 +552,6 @@
     <string name="help_desc_tuner">Een chromatisch stemapparaat dat de microfoon van je apparaat gebruikt. Toont de gedetecteerde noot, centafwijking op een naaldmeter en duidelijke instructies (\"Hoger stemmen\", \"Op toon!\"). Tik op de snaarknoppen voor een referentietoon. Ondersteunt meerdere stemmingen, A4-kalibratie, gesproken feedback en precisiemodus.</string>
     <string name="help_desc_pitch_monitor">Een real-time toonhoogtevisualisatietool. Toont de gedetecteerde toonhoogte op een scrollende grafiek, de huidige nootnaam en overeenkomende akkoorden. Handig om de intonatie te controleren bij het spelen van melodieën of het oefenen van bends.</string>
     <string name="help_desc_favorites">Je opgeslagen akkoordvoicings, georganiseerd in mappen. Tik op een voicing om deze op het toetsenbord te bekijken, veeg of houd lang ingedrukt voor opties. Gebruik mappen om akkoorden te groeperen voor specifieke liedjes of oefensessies.</string>
-    <string name="help_desc_song_finder">Ontdek liedjes die je al kunt spelen met de akkoorden in je favorieten. Hoe meer akkoorden je opslaat, hoe meer liedjes worden ontgrendeld. Toont ook liedjes die slechts 1-2 akkoorden meer nodig hebben.</string>
     <string name="help_desc_songs">Een persoonlijk liedjesboek voor het schrijven en opslaan van akkoordbladen. Typ teksten en voeg akkoorden in met haakjesnotatie: \"Er[C]gens over de regen[Em]boog\". Ondersteunt transponeren, capo-suggesties, automatisch scrollen en importeren/exporteren van ChordPro-bestanden.</string>
     <string name="help_desc_melody_notepad">Een eenvoudig hulpmiddel om noot voor noot melodieën te componeren. Tik op noten om een reeks op te bouwen, kies nootduur (heel, half, kwart, achtste, zestiende), voeg rusten toe en speel af op instelbare BPM. Ideaal voor het vastleggen van melodische ideeën of oefeningen.</string>
     <string name="help_desc_patterns">Blader door en maak strum- en fingerpickingpatronen. Tik op de telindicatoren om de richting te wijzigen (omlaag, omhoog, dempen, rust) of wijs vingers toe aan snaren. Speel ze af op instelbaar tempo.</string>
@@ -713,19 +710,6 @@
     <string name="cd_clear_all">Alle noten wissen</string>
     <string name="melody_clear">Wissen</string>
 
-    <!-- ── Liedzoeker ─────────────────────────────────────────────────── -->
-    <string name="song_finder_title">Liedzoeker</string>
-    <string name="song_finder_subtitle">Vind liedjes die je kunt spelen met de akkoorden die je kent.</string>
-    <string name="song_finder_no_chords_title">Nog geen bekende akkoorden</string>
-    <string name="song_finder_no_chords_message">Sla enkele akkoordvoicings op in Favorieten, en we vinden liedjes die je kunt spelen!</string>
-    <string name="song_finder_your_chords">Jouw akkoorden (%d)</string>
-    <string name="song_finder_songs_can_play">Liedjes die je kunt spelen (%d)</string>
-    <string name="song_finder_learn_more">Leer 1-2 akkoorden meer (%d)</string>
-    <string name="song_finder_hide">Verbergen</string>
-    <string name="song_finder_show">Tonen</string>
-    <string name="song_finder_keep_learning">Blijf nieuwe akkoorden leren om meer liedjes te ontgrendelen!</string>
-    <string name="song_finder_learn_prefix">Leer: </string>
-
     <!-- ── Stemvoering ────────────────────────────────────────────────── -->
     <string name="cd_back_progressions">Terug naar progressies</string>
     <string name="voice_leading_title">Stemvoering in %s</string>
@@ -768,14 +752,6 @@
     <string name="cd_to">naar</string>
 
     <string name="cd_add_known_chord">Add %s to known chords</string>
-    <string name="cd_add_to_songbook">Create chord sheet in songbook</string>
-    <string name="cd_chord_known">%s, chord you know</string>
-    <string name="cd_chord_to_learn">%s, chord you need to learn</string>
-    <string name="cd_remove_known_chord">Remove %s from known chords</string>
-    <string name="cd_showing_songs">Showing songs</string>
-    <string name="cd_song_card">%1$s by %2$s, %3$s, %4$s, %5$d chords</string>
-    <string name="cd_songs_hidden">Songs hidden</string>
-    <string name="cd_view_chord">View %s chord</string>
     <string name="explorer_tips_capo">Use the capo slider to simulate a capo and transpose your chords.</string>
     <string name="explorer_tips_dismiss">Got it</string>
     <string name="explorer_tips_scales">Tap Scales to overlay scale patterns on the fretboard.</string>
@@ -816,15 +792,5 @@
     <string name="onboarding_welcome_subtitle">Your all-in-one ukulele companion for chords, scales, music theory, and composition.</string>
     <string name="onboarding_welcome_title">Welcome to Ukulele Companion</string>
     <string name="settings_free_book">Free Ukulele Book (PDF)</string>
-    <string name="song_finder_add_chord">Add chord</string>
-    <string name="song_finder_added_to_songbook">Chord sheet created in Songbook</string>
-    <string name="song_finder_explicit_chords">Chords you marked (%d)</string>
-    <string name="song_finder_filter_all">All</string>
-    <string name="song_finder_from_favorites">From favorites (%d)</string>
-    <string name="song_finder_known_chords_section">Known Chords</string>
-    <string name="song_finder_manage_known_chords">Manage known chords</string>
-    <string name="song_finder_search">Search songs…</string>
-    <string name="song_finder_select_root">Select root note</string>
-    <string name="song_finder_select_type">Select chord type</string>
 
 </resources>

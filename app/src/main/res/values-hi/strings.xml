@@ -61,7 +61,6 @@
     <string name="nav_pitch_monitor">पिच मॉनिटर</string>
     <string name="nav_chords">कॉर्ड्स</string>
     <string name="nav_favorites">पसंदीदा</string>
-    <string name="nav_song_finder">गाना खोजें</string>
     <string name="nav_songs">गाने</string>
     <string name="nav_melody_notepad">मेलोडी नोटपैड</string>
     <string name="nav_patterns">पैटर्न</string>
@@ -522,7 +521,6 @@
     <string name="help_pitch_monitor">पिच मॉनिटर</string>
     <string name="help_chords">कॉर्ड्स</string>
     <string name="help_favorites">पसंदीदा</string>
-    <string name="help_song_finder">गाना खोजें</string>
     <string name="help_songs">गाने</string>
     <string name="help_melody_notepad">मेलोडी नोटपैड</string>
     <string name="help_patterns">पैटर्न</string>
@@ -554,7 +552,6 @@
     <string name="help_desc_tuner">आपके डिवाइस के माइक्रोफ़ोन का उपयोग करने वाला क्रोमैटिक ट्यूनर। पहचाने गए नोट, सुई मीटर पर सेंट विचलन और सरल मार्गदर्शन (\"ऊपर ट्यून करें\", \"ट्यून में है!\") दिखाता है। संदर्भ टोन के लिए तार बटन टैप करें। कई ट्यूनिंग, A4 कैलिब्रेशन, बोली प्रतिक्रिया और प्रिसिज़न मोड का समर्थन करता है।</string>
     <string name="help_desc_pitch_monitor">रियल-टाइम पिच विज़ुअलाइज़ेशन टूल। एक स्क्रॉलिंग ग्राफ पर पहचानी गई पिच दिखाता है, वर्तमान नोट नाम प्रदर्शित करता है और मिलान कॉर्ड हाइलाइट करता है। मेलोडी बजाते या बेंड का अभ्यास करते समय इंटोनेशन जाँचने के लिए उपयोगी।</string>
     <string name="help_desc_favorites">आपकी सहेजी गई कॉर्ड वॉइसिंग, फोल्डर में व्यवस्थित। फ्रेटबोर्ड पर देखने के लिए वॉइसिंग टैप करें, विकल्पों के लिए स्वाइप या लंबे समय दबाएँ। विशिष्ट गानों या अभ्यास सत्रों के लिए कॉर्ड को फोल्डर में समूहित करें।</string>
-    <string name="help_desc_song_finder">अपने पसंदीदा में कॉर्ड से बजा सकने वाले गाने खोजें। आप जितने अधिक कॉर्ड सहेजेंगे, उतने अधिक गाने अनलॉक होंगे। ऐसे गाने भी दिखाता है जिनके लिए बस 1-2 और कॉर्ड चाहिए।</string>
     <string name="help_desc_songs">कॉर्ड शीट लिखने और संग्रहीत करने के लिए व्यक्तिगत गानों की किताब। बोल टाइप करें और ब्रैकेट नोटेशन से कॉर्ड डालें: \"Some[C]where over the [Em]rainbow\"। ट्रांसपोज़, कैपो सुझाव, ऑटो-स्क्रॉल और ChordPro फ़ाइलों का आयात/निर्यात समर्थित।</string>
     <string name="help_desc_melody_notepad">नोट-दर-नोट मेलोडी रचने का एक सरल टूल। नोट टैप करके सीक्वेंस बनाएँ, नोट अवधि (पूर्ण, आधा, चौथाई, आठवाँ, सोलहवाँ) चुनें, विराम जोड़ें, और एडजस्टेबल BPM पर वापस सुनें। मेलोडी विचार या अभ्यास नोट करने के लिए बढ़िया।</string>
     <string name="help_desc_patterns">स्ट्रमिंग और फिंगरपिकिंग पैटर्न ब्राउज़ करें और बनाएँ। स्ट्रम दिशा (नीचे, ऊपर, म्यूट, विराम) बदलने के लिए बीट इंडिकेटर टैप करें या तारों को उँगलियाँ असाइन करें। एडजस्टेबल टेम्पो पर चलाएँ।</string>
@@ -713,19 +710,6 @@
     <string name="cd_clear_all">सभी नोट साफ़ करें</string>
     <string name="melody_clear">साफ़ करें</string>
 
-    <!-- ── Song Finder ──────────────────────────────────────────────── -->
-    <string name="song_finder_title">गाना खोजें</string>
-    <string name="song_finder_subtitle">अपने ज्ञात कॉर्ड से बजा सकने वाले गाने खोजें।</string>
-    <string name="song_finder_no_chords_title">अभी कोई ज्ञात कॉर्ड नहीं</string>
-    <string name="song_finder_no_chords_message">कुछ कॉर्ड वॉइसिंग पसंदीदा में सहेजें, और हम आपके बजा सकने वाले गाने खोजेंगे!</string>
-    <string name="song_finder_your_chords">आपके कॉर्ड (%d)</string>
-    <string name="song_finder_songs_can_play">आप बजा सकते हैं (%d)</string>
-    <string name="song_finder_learn_more">1-2 और कॉर्ड सीखें (%d)</string>
-    <string name="song_finder_hide">छिपाएँ</string>
-    <string name="song_finder_show">दिखाएँ</string>
-    <string name="song_finder_keep_learning">और गाने अनलॉक करने के लिए नए कॉर्ड सीखते रहें!</string>
-    <string name="song_finder_learn_prefix">सीखें: </string>
-
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">प्रोग्रेशन पर वापस जाएँ</string>
     <string name="voice_leading_title">%s में वॉइस लीडिंग</string>
@@ -770,14 +754,6 @@
 
 
     <string name="cd_add_known_chord">Add %s to known chords</string>
-    <string name="cd_add_to_songbook">Create chord sheet in songbook</string>
-    <string name="cd_chord_known">%s, chord you know</string>
-    <string name="cd_chord_to_learn">%s, chord you need to learn</string>
-    <string name="cd_remove_known_chord">Remove %s from known chords</string>
-    <string name="cd_showing_songs">Showing songs</string>
-    <string name="cd_song_card">%1$s by %2$s, %3$s, %4$s, %5$d chords</string>
-    <string name="cd_songs_hidden">Songs hidden</string>
-    <string name="cd_view_chord">View %s chord</string>
     <string name="explorer_tips_capo">Use the capo slider to simulate a capo and transpose your chords.</string>
     <string name="explorer_tips_dismiss">Got it</string>
     <string name="explorer_tips_scales">Tap Scales to overlay scale patterns on the fretboard.</string>
@@ -818,15 +794,5 @@
     <string name="onboarding_welcome_subtitle">Your all-in-one ukulele companion for chords, scales, music theory, and composition.</string>
     <string name="onboarding_welcome_title">Welcome to Ukulele Companion</string>
     <string name="settings_free_book">Free Ukulele Book (PDF)</string>
-    <string name="song_finder_add_chord">Add chord</string>
-    <string name="song_finder_added_to_songbook">Chord sheet created in Songbook</string>
-    <string name="song_finder_explicit_chords">Chords you marked (%d)</string>
-    <string name="song_finder_filter_all">All</string>
-    <string name="song_finder_from_favorites">From favorites (%d)</string>
-    <string name="song_finder_known_chords_section">Known Chords</string>
-    <string name="song_finder_manage_known_chords">Manage known chords</string>
-    <string name="song_finder_search">Search songs…</string>
-    <string name="song_finder_select_root">Select root note</string>
-    <string name="song_finder_select_type">Select chord type</string>
 
 </resources>

@@ -71,10 +71,6 @@ private fun helpSections(): List<HelpSection> = listOf(
                 title = stringResource(R.string.help_favorites),
                 description = stringResource(R.string.help_desc_favorites),
             ),
-            HelpEntry(
-                title = stringResource(R.string.help_song_finder),
-                description = stringResource(R.string.help_desc_song_finder),
-            ),
         ),
     ),
     HelpSection(

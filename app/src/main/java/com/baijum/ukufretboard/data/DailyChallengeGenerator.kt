@@ -99,25 +99,12 @@ object DailyChallengeGenerator {
             )
         }
         ChallengeType.PRACTICE_SONG -> {
-            val songs = SongChordDatabase.SONGS.filter {
-                it.difficulty == SongChordDatabase.Difficulty.BEGINNER
-            }
-            if (songs.isNotEmpty()) {
-                val song = songs[random.nextInt(songs.size)]
-                DailyChallenge(
-                    type = type,
-                    title = "Practice: ${song.title}",
-                    description = "Practice playing \"${song.title}\" by ${song.artist}.",
-                    navTarget = 5, // NAV_SONGBOOK
-                )
-            } else {
-                DailyChallenge(
-                    type = type,
-                    title = "Practice a Song",
-                    description = "Open the songbook and practice any song for 5 minutes.",
-                    navTarget = 5, // NAV_SONGBOOK
-                )
-            }
+            DailyChallenge(
+                type = type,
+                title = "Practice a Song",
+                description = "Open the songbook and practice any song for 5 minutes.",
+                navTarget = 5, // NAV_SONGBOOK
+            )
         }
         ChallengeType.SCALE_PRACTICE -> {
             val scales = listOf("Major", "Minor", "Pentatonic Major", "Pentatonic Minor", "Blues")

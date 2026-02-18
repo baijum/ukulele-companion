@@ -73,7 +73,6 @@ import kotlinx.coroutines.launch
 import com.baijum.ukufretboard.audio.ToneGenerator
 import com.baijum.ukufretboard.data.AchievementRepository
 import com.baijum.ukufretboard.data.Notes
-import com.baijum.ukufretboard.data.SongChordDatabase
 import com.baijum.ukufretboard.data.PracticeTimerRepository
 
 import com.baijum.ukufretboard.domain.AchievementChecker
@@ -83,7 +82,6 @@ import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.viewmodel.ChordLibraryViewModel
 import com.baijum.ukufretboard.viewmodel.CustomProgressionViewModel
 import com.baijum.ukufretboard.viewmodel.FavoritesViewModel
-import com.baijum.ukufretboard.viewmodel.KnownChordsViewModel
 import com.baijum.ukufretboard.viewmodel.FretboardViewModel
 import com.baijum.ukufretboard.viewmodel.SettingsViewModel
 import com.baijum.ukufretboard.viewmodel.SongbookViewModel
@@ -118,7 +116,6 @@ private const val NAV_HELP = 20
 private const val NAV_PITCH_MONITOR = 21
 private const val NAV_SCALE_PRACTICE = 22
 private const val NAV_ACHIEVEMENTS = 23
-private const val NAV_SONG_FINDER = 24
 private const val NAV_CHORD_TRANSITION = 25
 private const val NAV_DAILY_CHALLENGE = 26
 
@@ -151,7 +148,6 @@ private fun drawerSections(): List<DrawerSection> = listOf(
         DrawerItem(NAV_PITCH_MONITOR, stringResource(R.string.nav_pitch_monitor), Icons.Filled.Equalizer),
         DrawerItem(NAV_LIBRARY, stringResource(R.string.nav_chords), Icons.Filled.Search),
         DrawerItem(NAV_FAVORITES, stringResource(R.string.nav_favorites), Icons.Filled.Favorite),
-        DrawerItem(NAV_SONG_FINDER, stringResource(R.string.nav_song_finder), Icons.AutoMirrored.Filled.QueueMusic),
     )),
     DrawerSection(stringResource(R.string.nav_section_create), listOf(
         DrawerItem(NAV_SONGBOOK, stringResource(R.string.nav_songs), Icons.Filled.Create),
@@ -215,7 +211,6 @@ fun FretboardScreen(
     pitchMonitorViewModel: PitchMonitorViewModel = viewModel(),
     learningProgressViewModel: LearningProgressViewModel = viewModel(),
     scalePracticeViewModel: ScalePracticeViewModel = viewModel(),
-    knownChordsViewModel: KnownChordsViewModel = viewModel(),
 ) {
     var selectedSection by rememberSaveable { mutableIntStateOf(NAV_EXPLORER) }
     var showSettings by remember { mutableStateOf(false) }
@@ -618,19 +613,6 @@ fun FretboardScreen(
                         leftHanded = appSettings.fretboard.leftHanded,
                         onPlayVoicing = { voicing ->
                             fretboardViewModel.playVoicing(voicing)
-                        },
-                    )
-                    NAV_SONG_FINDER -> SongFinderView(
-                        favoritesViewModel = favoritesViewModel,
-                        knownChordsViewModel = knownChordsViewModel,
-                        onChordTapped = { chordName ->
-                            navigateToChord(chordName, libraryViewModel) { selectedSection = NAV_LIBRARY }
-                        },
-                        onAddToSongbook = { songEntry ->
-                            val template = SongChordDatabase.toChordSheetTemplate(songEntry)
-                            songbookViewModel.startEditing()
-                            songbookViewModel.saveSheet(template.title, template.artist, template.content)
-                            selectedSection = NAV_SONGBOOK
                         },
                     )
                     NAV_PLAY_ALONG -> PlayAlongSetup(

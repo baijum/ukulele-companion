@@ -61,7 +61,6 @@
     <string name="nav_pitch_monitor">Pitch Monitor</string>
     <string name="nav_chords">Chords</string>
     <string name="nav_favorites">Favorites</string>
-    <string name="nav_song_finder">Song Finder</string>
     <string name="nav_songs">Songs</string>
     <string name="nav_melody_notepad">Melody Notepad</string>
     <string name="nav_patterns">Patterns</string>
@@ -532,7 +531,6 @@
     <string name="help_pitch_monitor">Pitch Monitor</string>
     <string name="help_chords">Chords</string>
     <string name="help_favorites">Favorites</string>
-    <string name="help_song_finder">Song Finder</string>
     <string name="help_songs">Songs</string>
     <string name="help_melody_notepad">Melody Notepad</string>
     <string name="help_patterns">Patterns</string>
@@ -566,7 +564,6 @@
     <string name="help_desc_pitch_monitor">A real-time pitch visualisation tool. Shows the detected pitch on a scrolling graph, displays the current note name, and highlights matched chords. Useful for checking intonation while playing melodies or practising bends.</string>
     <string name="help_desc_chords">A comprehensive chord library. Pick a root note and chord type to see all playable voicings on the ukulele. Tap a voicing to load it on the explorer fretboard, or long-press to share or add to favorites. Includes an inversion compare mode.</string>
     <string name="help_desc_favorites">Your saved chord voicings, organised into folders. Tap a voicing to view it on the fretboard, swipe or long-press for options. Use folders to group chords for specific songs or practice sessions.</string>
-    <string name="help_desc_song_finder">Discover songs you can already play with the chords in your Favorites. The more chords you save, the more songs get unlocked. Also shows songs that need just 1–2 more chords.</string>
     <string name="help_desc_songs">A personal songbook for writing and storing chord sheets. Type lyrics and insert chords using bracket notation: \"Some[C]where over the [Em]rainbow\". Supports transposing, capo suggestions, auto-scroll, and import/export of ChordPro files.</string>
     <string name="help_desc_melody_notepad">A simple tool for composing melodies note by note. Tap notes to build a sequence, choose note durations (whole, half, quarter, eighth, sixteenth), add rests, and play back at adjustable BPM. Great for jotting down melodic ideas or exercises.</string>
     <string name="help_desc_patterns">Browse and create strumming and fingerpicking patterns. Tap the beat indicators to change strum direction (down, up, mute, rest) or assign fingers to strings. Play them back at adjustable tempo.</string>
@@ -760,37 +757,7 @@
     <string name="cd_clear_all">Clear all notes</string>
     <string name="melody_clear">Clear</string>
 
-    <!-- ── Song Finder ──────────────────────────────────────────────── -->
-    <string name="song_finder_title">Song Finder</string>
-    <string name="song_finder_subtitle">Find songs you can play with chords you know.</string>
-    <string name="song_finder_no_chords_title">No known chords yet</string>
-    <string name="song_finder_no_chords_message">Save some chord voicings to Favorites, and we\'ll find songs you can play!</string>
-    <string name="song_finder_your_chords">Your chords (%d)</string>
-    <string name="song_finder_songs_can_play">Songs You Can Play (%d)</string>
-    <string name="song_finder_learn_more">Learn 1–2 More Chords (%d)</string>
-    <string name="song_finder_hide">Hide</string>
-    <string name="song_finder_show">Show</string>
-    <string name="song_finder_keep_learning">Keep learning new chords to unlock more songs!</string>
-    <string name="song_finder_learn_prefix">Learn: </string>
-    <string name="song_finder_search">Search songs…</string>
-    <string name="song_finder_filter_all">All</string>
-    <string name="song_finder_added_to_songbook">Chord sheet created in Songbook</string>
-    <string name="cd_chord_known">%s, chord you know</string>
-    <string name="cd_chord_to_learn">%s, chord you need to learn</string>
-    <string name="cd_song_card">%1$s by %2$s, %3$s, %4$s, %5$d chords</string>
-    <string name="cd_showing_songs">Showing songs</string>
-    <string name="cd_songs_hidden">Songs hidden</string>
-    <string name="cd_add_to_songbook">Create chord sheet in songbook</string>
-    <string name="cd_view_chord">View %s chord</string>
-    <string name="song_finder_manage_known_chords">Manage known chords</string>
-    <string name="song_finder_add_chord">Add chord</string>
-    <string name="song_finder_known_chords_section">Known Chords</string>
-    <string name="song_finder_explicit_chords">Chords you marked (%d)</string>
-    <string name="song_finder_from_favorites">From favorites (%d)</string>
-    <string name="cd_remove_known_chord">Remove %s from known chords</string>
     <string name="cd_add_known_chord">Add %s to known chords</string>
-    <string name="song_finder_select_root">Select root note</string>
-    <string name="song_finder_select_type">Select chord type</string>
 
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">Back to progressions</string>

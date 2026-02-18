@@ -61,7 +61,6 @@
     <string name="nav_pitch_monitor">مراقب النغمة</string>
     <string name="nav_chords">الأوتار</string>
     <string name="nav_favorites">المفضلة</string>
-    <string name="nav_song_finder">البحث عن أغانٍ</string>
     <string name="nav_songs">الأغاني</string>
     <string name="nav_melody_notepad">دفتر الألحان</string>
     <string name="nav_patterns">الأنماط</string>
@@ -522,7 +521,6 @@
     <string name="help_pitch_monitor">مراقب النغمة</string>
     <string name="help_chords">الأوتار</string>
     <string name="help_favorites">المفضلة</string>
-    <string name="help_song_finder">البحث عن أغانٍ</string>
     <string name="help_songs">الأغاني</string>
     <string name="help_melody_notepad">دفتر الألحان</string>
     <string name="help_patterns">الأنماط</string>
@@ -554,7 +552,6 @@
     <string name="help_desc_tuner">موالف لوني يستخدم ميكروفون جهازك. يعرض النوتة المكتشفة وانحراف السنت على مقياس إبري وتوجيهات واضحة (\"ارفع النغمة\"، \"مضبوط!\"). انقر أزرار الأوتار لنغمة مرجعية. يدعم ضبطات متعددة ومعايرة A4 والتعليق الصوتي ووضع الدقة.</string>
     <string name="help_desc_pitch_monitor">أداة عرض مرئي للنغمة في الوقت الحقيقي. تعرض النغمة المكتشفة على رسم بياني متحرك واسم النوتة الحالية وتبرز الأوتار المطابقة. مفيدة للتحقق من دقة النغمة أثناء عزف الألحان أو التمرن على الانحناءات.</string>
     <string name="help_desc_favorites">توزيعاتك الصوتية المحفوظة، منظمة في مجلدات. انقر على توزيع لعرضه على لوحة الأصابع، أو اسحب أو اضغط مطولاً للخيارات. استخدم المجلدات لتجميع الأوتار لأغانٍ أو جلسات تمرين محددة.</string>
-    <string name="help_desc_song_finder">اكتشف أغانٍ يمكنك عزفها بالأوتار الموجودة في مفضلتك. كلما حفظت أوتاراً أكثر، فُتحت أغانٍ أكثر. يعرض أيضاً أغانٍ تحتاج فقط إلى وتر أو اثنين إضافيين.</string>
     <string name="help_desc_songs">دفتر أغانٍ شخصي لكتابة وتخزين أوراق الأوتار. اكتب الكلمات وأدخل الأوتار بين أقواس: \"Some[C]where over the [Em]rainbow\". يدعم تحويل النغمة واقتراحات الكابو والتمرير التلقائي واستيراد/تصدير ملفات ChordPro.</string>
     <string name="help_desc_melody_notepad">أداة بسيطة لتأليف الألحان نوتة بنوتة. انقر النوتات لبناء تسلسل، اختر مدد النوتات (كاملة، نصفية، ربعية، ثمنية، سادس عشرية)، أضف سكتات، وشغّل بسرعة BPM قابلة للتعديل. رائعة لتدوين الأفكار اللحنية أو التمارين.</string>
     <string name="help_desc_patterns">تصفح وأنشئ أنماط نقر وعزف بالأصابع. انقر مؤشرات النبض لتغيير اتجاه النقر (لأسفل، لأعلى، كتم، سكتة) أو خصص الأصابع للأوتار. شغّلها بسرعة قابلة للتعديل.</string>
@@ -713,19 +710,6 @@
     <string name="cd_clear_all">مسح جميع النوتات</string>
     <string name="melody_clear">مسح</string>
 
-    <!-- ── Song Finder ──────────────────────────────────────────────── -->
-    <string name="song_finder_title">البحث عن أغانٍ</string>
-    <string name="song_finder_subtitle">اعثر على أغانٍ يمكنك عزفها بالأوتار التي تعرفها.</string>
-    <string name="song_finder_no_chords_title">لا أوتار معروفة بعد</string>
-    <string name="song_finder_no_chords_message">احفظ بعض التوزيعات الصوتية في المفضلة، وسنجد لك أغانٍ يمكنك عزفها!</string>
-    <string name="song_finder_your_chords">أوتارك (%d)</string>
-    <string name="song_finder_songs_can_play">أغانٍ يمكنك عزفها (%d)</string>
-    <string name="song_finder_learn_more">تعلم وتراً أو اثنين إضافيين (%d)</string>
-    <string name="song_finder_hide">إخفاء</string>
-    <string name="song_finder_show">إظهار</string>
-    <string name="song_finder_keep_learning">واصل تعلم أوتار جديدة لفتح المزيد من الأغاني!</string>
-    <string name="song_finder_learn_prefix">تعلم: </string>
-
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">العودة إلى التقدمات اللحنية</string>
     <string name="voice_leading_title">قيادة الأصوات في %s</string>
@@ -770,14 +754,6 @@
 
 
     <string name="cd_add_known_chord">Add %s to known chords</string>
-    <string name="cd_add_to_songbook">Create chord sheet in songbook</string>
-    <string name="cd_chord_known">%s, chord you know</string>
-    <string name="cd_chord_to_learn">%s, chord you need to learn</string>
-    <string name="cd_remove_known_chord">Remove %s from known chords</string>
-    <string name="cd_showing_songs">Showing songs</string>
-    <string name="cd_song_card">%1$s by %2$s, %3$s, %4$s, %5$d chords</string>
-    <string name="cd_songs_hidden">Songs hidden</string>
-    <string name="cd_view_chord">View %s chord</string>
     <string name="explorer_tips_capo">Use the capo slider to simulate a capo and transpose your chords.</string>
     <string name="explorer_tips_dismiss">Got it</string>
     <string name="explorer_tips_scales">Tap Scales to overlay scale patterns on the fretboard.</string>
@@ -818,15 +794,4 @@
     <string name="onboarding_welcome_subtitle">Your all-in-one ukulele companion for chords, scales, music theory, and composition.</string>
     <string name="onboarding_welcome_title">Welcome to Ukulele Companion</string>
     <string name="settings_free_book">Free Ukulele Book (PDF)</string>
-    <string name="song_finder_add_chord">Add chord</string>
-    <string name="song_finder_added_to_songbook">Chord sheet created in Songbook</string>
-    <string name="song_finder_explicit_chords">Chords you marked (%d)</string>
-    <string name="song_finder_filter_all">All</string>
-    <string name="song_finder_from_favorites">From favorites (%d)</string>
-    <string name="song_finder_known_chords_section">Known Chords</string>
-    <string name="song_finder_manage_known_chords">Manage known chords</string>
-    <string name="song_finder_search">Search songs…</string>
-    <string name="song_finder_select_root">Select root note</string>
-    <string name="song_finder_select_type">Select chord type</string>
-
 </resources>

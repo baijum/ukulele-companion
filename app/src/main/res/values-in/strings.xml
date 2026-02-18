@@ -61,7 +61,6 @@
     <string name="nav_pitch_monitor">Monitor Nada</string>
     <string name="nav_chords">Akor</string>
     <string name="nav_favorites">Favorit</string>
-    <string name="nav_song_finder">Pencari Lagu</string>
     <string name="nav_songs">Lagu</string>
     <string name="nav_melody_notepad">Catatan Melodi</string>
     <string name="nav_patterns">Pola</string>
@@ -522,7 +521,6 @@
     <string name="help_pitch_monitor">Monitor Nada</string>
     <string name="help_chords">Akor</string>
     <string name="help_favorites">Favorit</string>
-    <string name="help_song_finder">Pencari Lagu</string>
     <string name="help_songs">Lagu</string>
     <string name="help_melody_notepad">Catatan Melodi</string>
     <string name="help_patterns">Pola</string>
@@ -554,7 +552,6 @@
     <string name="help_desc_tuner">Tuner kromatik yang menggunakan mikrofon perangkat Anda. Menampilkan not terdeteksi, deviasi sen pada pengukur jarum, dan panduan sederhana (\"Naikkan\", \"Sudah pas!\"). Ketuk tombol senar untuk nada referensi. Mendukung berbagai tuning, kalibrasi A4, umpan balik suara, dan mode presisi.</string>
     <string name="help_desc_pitch_monitor">Alat visualisasi nada waktu nyata. Menampilkan nada terdeteksi pada grafik bergulir, nama not saat ini, dan akor yang cocok. Berguna untuk memeriksa intonasi saat memainkan melodi atau berlatih bending.</string>
     <string name="help_desc_favorites">Voicing akor tersimpan Anda, diatur dalam folder. Ketuk voicing untuk melihatnya di fretboard, geser atau tekan lama untuk opsi. Gunakan folder untuk mengelompokkan akor untuk lagu atau sesi latihan tertentu.</string>
-    <string name="help_desc_song_finder">Temukan lagu yang sudah bisa Anda mainkan dengan akor di Favorit Anda. Semakin banyak akor yang disimpan, semakin banyak lagu yang terbuka. Juga menampilkan lagu yang hanya membutuhkan 1-2 akor lagi.</string>
     <string name="help_desc_songs">Buku lagu pribadi untuk menulis dan menyimpan lembar akor. Ketik lirik dan sisipkan akor menggunakan notasi kurung: \"Di[C]suatu tempat di atas pela[Em]ngi\". Mendukung transposisi, saran capo, gulir otomatis, dan impor/ekspor file ChordPro.</string>
     <string name="help_desc_melody_notepad">Alat sederhana untuk menggubah melodi not per not. Ketuk not untuk membangun urutan, pilih durasi (penuh, setengah, seperempat, seperdelapan, seperenambelas), tambahkan jeda, dan putar ulang pada BPM yang dapat disesuaikan. Bagus untuk mencatat ide melodi atau latihan.</string>
     <string name="help_desc_patterns">Jelajahi dan buat pola strumming dan fingerpicking. Ketuk indikator ketukan untuk mengubah arah (turun, naik, redam, jeda) atau tetapkan jari ke senar. Putar pada tempo yang dapat disesuaikan.</string>
@@ -713,19 +710,6 @@
     <string name="cd_clear_all">Hapus semua not</string>
     <string name="melody_clear">Hapus</string>
 
-    <!-- ── Pencari Lagu ───────────────────────────────────────────────── -->
-    <string name="song_finder_title">Pencari Lagu</string>
-    <string name="song_finder_subtitle">Temukan lagu yang bisa Anda mainkan dengan akor yang Anda ketahui.</string>
-    <string name="song_finder_no_chords_title">Belum ada akor yang diketahui</string>
-    <string name="song_finder_no_chords_message">Simpan beberapa voicing akor ke Favorit, dan kami akan menemukan lagu yang bisa Anda mainkan!</string>
-    <string name="song_finder_your_chords">Akor Anda (%d)</string>
-    <string name="song_finder_songs_can_play">Lagu yang Bisa Anda Mainkan (%d)</string>
-    <string name="song_finder_learn_more">Pelajari 1-2 Akor Lagi (%d)</string>
-    <string name="song_finder_hide">Sembunyikan</string>
-    <string name="song_finder_show">Tampilkan</string>
-    <string name="song_finder_keep_learning">Terus pelajari akor baru untuk membuka lebih banyak lagu!</string>
-    <string name="song_finder_learn_prefix">Pelajari: </string>
-
     <!-- ── Voice Leading ──────────────────────────────────────────────── -->
     <string name="cd_back_progressions">Kembali ke progresi</string>
     <string name="voice_leading_title">Voice Leading dalam %s</string>
@@ -768,14 +752,6 @@
     <string name="cd_to">ke</string>
 
     <string name="cd_add_known_chord">Add %s to known chords</string>
-    <string name="cd_add_to_songbook">Create chord sheet in songbook</string>
-    <string name="cd_chord_known">%s, chord you know</string>
-    <string name="cd_chord_to_learn">%s, chord you need to learn</string>
-    <string name="cd_remove_known_chord">Remove %s from known chords</string>
-    <string name="cd_showing_songs">Showing songs</string>
-    <string name="cd_song_card">%1$s by %2$s, %3$s, %4$s, %5$d chords</string>
-    <string name="cd_songs_hidden">Songs hidden</string>
-    <string name="cd_view_chord">View %s chord</string>
     <string name="explorer_tips_capo">Use the capo slider to simulate a capo and transpose your chords.</string>
     <string name="explorer_tips_dismiss">Got it</string>
     <string name="explorer_tips_scales">Tap Scales to overlay scale patterns on the fretboard.</string>
@@ -816,15 +792,5 @@
     <string name="onboarding_welcome_subtitle">Your all-in-one ukulele companion for chords, scales, music theory, and composition.</string>
     <string name="onboarding_welcome_title">Welcome to Ukulele Companion</string>
     <string name="settings_free_book">Free Ukulele Book (PDF)</string>
-    <string name="song_finder_add_chord">Add chord</string>
-    <string name="song_finder_added_to_songbook">Chord sheet created in Songbook</string>
-    <string name="song_finder_explicit_chords">Chords you marked (%d)</string>
-    <string name="song_finder_filter_all">All</string>
-    <string name="song_finder_from_favorites">From favorites (%d)</string>
-    <string name="song_finder_known_chords_section">Known Chords</string>
-    <string name="song_finder_manage_known_chords">Manage known chords</string>
-    <string name="song_finder_search">Search songs…</string>
-    <string name="song_finder_select_root">Select root note</string>
-    <string name="song_finder_select_type">Select chord type</string>
 
 </resources>

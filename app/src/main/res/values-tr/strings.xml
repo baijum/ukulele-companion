@@ -61,7 +61,6 @@
     <string name="nav_pitch_monitor">Perde İzleyici</string>
     <string name="nav_chords">Akorlar</string>
     <string name="nav_favorites">Favoriler</string>
-    <string name="nav_song_finder">Şarkı Bulucu</string>
     <string name="nav_songs">Şarkılar</string>
     <string name="nav_melody_notepad">Melodi Defteri</string>
     <string name="nav_patterns">Kalıplar</string>
@@ -522,7 +521,6 @@
     <string name="help_pitch_monitor">Perde İzleyici</string>
     <string name="help_chords">Akorlar</string>
     <string name="help_favorites">Favoriler</string>
-    <string name="help_song_finder">Şarkı Bulucu</string>
     <string name="help_songs">Şarkılar</string>
     <string name="help_melody_notepad">Melodi Defteri</string>
     <string name="help_patterns">Kalıplar</string>
@@ -554,7 +552,6 @@
     <string name="help_desc_tuner">Cihazınızın mikrofonunu kullanan kromatik bir akort cihazı. Algılanan notayı, ibre göstergesindeki sent sapmasını ve anlaşılır yönlendirmeleri (\"Yukarı Akort\", \"Akortlu!\") gösterir. Referans tonu için tel düğmelerine dokunun. Birden fazla akort, A4 kalibrasyonu, sesli geri bildirim ve hassas modu destekler.</string>
     <string name="help_desc_pitch_monitor">Gerçek zamanlı perde görselleştirme aracı. Algılanan perdeyi kayan bir grafikte, geçerli nota adını ve eşleşen akorları gösterir. Melodi çalarken veya bükmeler çalışırken entonasyonu kontrol etmek için kullanışlıdır.</string>
     <string name="help_desc_favorites">Klasörlerde düzenlenmiş kaydedilmiş akor seslendirmeleriniz. Klavyede görüntülemek için bir seslendirmeye dokunun, seçenekler için kaydırın veya uzun basın. Belirli şarkılar veya çalışma oturumları için akorları gruplamak üzere klasörleri kullanın.</string>
-    <string name="help_desc_song_finder">Favorilerinizdeki akorlarla zaten çalabileceğiniz şarkıları keşfedin. Ne kadar çok akor kaydederseniz, o kadar çok şarkı açılır. Ayrıca sadece 1-2 akor daha gerektiren şarkıları da gösterir.</string>
     <string name="help_desc_songs">Akor sayfaları yazmak ve saklamak için kişisel şarkı defteri. Sözleri yazın ve köşeli parantez notasyonuyla akorları ekleyin: \"Gökkuşağı[C]nın üstünde bir[Em]yerde\". Transpoze, kapo önerileri, otomatik kaydırma ve ChordPro dosya içe/dışa aktarımını destekler.</string>
     <string name="help_desc_melody_notepad">Nota nota melodi bestelemek için basit bir araç. Bir dizi oluşturmak için notalara dokunun, nota süreleri seçin (tam, yarım, çeyrek, sekizlik, onaltılık), duraksama ekleyin ve ayarlanabilir BPM\'de çalın. Melodi fikirleri veya alıştırmaları kaydetmek için idealdir.</string>
     <string name="help_desc_patterns">Strumming ve fingerpicking kalıplarına göz atın ve oluşturun. Yön değiştirmek (aşağı, yukarı, sustur, duraklat) veya parmaklara tel atamak için vuruş göstergelerine dokunun. Ayarlanabilir tempoda çalın.</string>
@@ -713,19 +710,6 @@
     <string name="cd_clear_all">Tüm notaları temizle</string>
     <string name="melody_clear">Temizle</string>
 
-    <!-- ── Şarkı Bulucu ───────────────────────────────────────────────── -->
-    <string name="song_finder_title">Şarkı Bulucu</string>
-    <string name="song_finder_subtitle">Bildiğiniz akorlarla çalabileceğiniz şarkıları bulun.</string>
-    <string name="song_finder_no_chords_title">Henüz bilinen akor yok</string>
-    <string name="song_finder_no_chords_message">Favorilere bazı akor seslendirmeleri kaydedin, çalabileceğiniz şarkıları bulalım!</string>
-    <string name="song_finder_your_chords">Akorlarınız (%d)</string>
-    <string name="song_finder_songs_can_play">Çalabileceğiniz Şarkılar (%d)</string>
-    <string name="song_finder_learn_more">1-2 Akor Daha Öğren (%d)</string>
-    <string name="song_finder_hide">Gizle</string>
-    <string name="song_finder_show">Göster</string>
-    <string name="song_finder_keep_learning">Daha fazla şarkı açmak için yeni akorlar öğrenmeye devam edin!</string>
-    <string name="song_finder_learn_prefix">Öğren: </string>
-
     <!-- ── Ses Yönlendirme ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">İlerlemelere dön</string>
     <string name="voice_leading_title">%s içinde ses yönlendirme</string>
@@ -768,14 +752,6 @@
     <string name="cd_to">ile</string>
 
     <string name="cd_add_known_chord">Add %s to known chords</string>
-    <string name="cd_add_to_songbook">Create chord sheet in songbook</string>
-    <string name="cd_chord_known">%s, chord you know</string>
-    <string name="cd_chord_to_learn">%s, chord you need to learn</string>
-    <string name="cd_remove_known_chord">Remove %s from known chords</string>
-    <string name="cd_showing_songs">Showing songs</string>
-    <string name="cd_song_card">%1$s by %2$s, %3$s, %4$s, %5$d chords</string>
-    <string name="cd_songs_hidden">Songs hidden</string>
-    <string name="cd_view_chord">View %s chord</string>
     <string name="explorer_tips_capo">Use the capo slider to simulate a capo and transpose your chords.</string>
     <string name="explorer_tips_dismiss">Got it</string>
     <string name="explorer_tips_scales">Tap Scales to overlay scale patterns on the fretboard.</string>
@@ -816,15 +792,5 @@
     <string name="onboarding_welcome_subtitle">Your all-in-one ukulele companion for chords, scales, music theory, and composition.</string>
     <string name="onboarding_welcome_title">Welcome to Ukulele Companion</string>
     <string name="settings_free_book">Free Ukulele Book (PDF)</string>
-    <string name="song_finder_add_chord">Add chord</string>
-    <string name="song_finder_added_to_songbook">Chord sheet created in Songbook</string>
-    <string name="song_finder_explicit_chords">Chords you marked (%d)</string>
-    <string name="song_finder_filter_all">All</string>
-    <string name="song_finder_from_favorites">From favorites (%d)</string>
-    <string name="song_finder_known_chords_section">Known Chords</string>
-    <string name="song_finder_manage_known_chords">Manage known chords</string>
-    <string name="song_finder_search">Search songs…</string>
-    <string name="song_finder_select_root">Select root note</string>
-    <string name="song_finder_select_type">Select chord type</string>
 
 </resources>

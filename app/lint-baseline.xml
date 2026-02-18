@@ -491,18 +491,6 @@
         errorLine1="    modifier: Modifier = Modifier,"
         errorLine2="    ~~~~~~~~">
         <location
-            file="src/main/java/com/baijum/ukufretboard/ui/SongFinderView.kt"
-            line="58"
-            column="5"/>
-    </issue>
-
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
             file="src/main/java/com/baijum/ukufretboard/ui/TheoryLessonsView.kt"
             line="54"
             column="5"/>

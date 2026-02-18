@@ -61,7 +61,6 @@
     <string name="nav_pitch_monitor">Монитор высоты</string>
     <string name="nav_chords">Аккорды</string>
     <string name="nav_favorites">Избранное</string>
-    <string name="nav_song_finder">Поиск песен</string>
     <string name="nav_songs">Песни</string>
     <string name="nav_melody_notepad">Блокнот мелодий</string>
     <string name="nav_patterns">Ритмы</string>
@@ -522,7 +521,6 @@
     <string name="help_pitch_monitor">Монитор высоты</string>
     <string name="help_chords">Аккорды</string>
     <string name="help_favorites">Избранное</string>
-    <string name="help_song_finder">Поиск песен</string>
     <string name="help_songs">Песни</string>
     <string name="help_melody_notepad">Блокнот мелодий</string>
     <string name="help_patterns">Ритмы</string>
@@ -554,7 +552,6 @@
     <string name="help_desc_tuner">Хроматический тюнер, использующий микрофон устройства. Показывает определённую ноту, отклонение в центах на стрелочном индикаторе и простые подсказки («Подтяните», «Настроено!»). Нажмите кнопки струн для эталонного звука. Поддерживает различные строи, калибровку A4, голосовую обратную связь и точный режим.</string>
     <string name="help_desc_pitch_monitor">Инструмент визуализации высоты звука в реальном времени. Показывает определённую высоту на прокручиваемом графике, отображает текущую ноту и выделяет совпадающие аккорды. Полезен для проверки интонации при игре мелодий или отработке бендов.</string>
     <string name="help_desc_favorites">Сохранённые варианты аккордов, организованные по папкам. Нажмите на вариант, чтобы увидеть его на грифе, проведите или удерживайте для вариантов. Используйте папки для группировки аккордов для конкретных песен или занятий.</string>
-    <string name="help_desc_song_finder">Находите песни, которые вы уже можете играть с аккордами из избранного. Чем больше аккордов вы сохраните, тем больше песен откроется. Также показывает песни, для которых нужно выучить всего 1–2 дополнительных аккорда.</string>
     <string name="help_desc_songs">Личный песенник для записи и хранения аккордных таблиц. Вводите текст и вставляйте аккорды в скобках: «Some[C]where over the [Em]rainbow». Поддерживает транспонирование, подсказки для каподастра, автопрокрутку и импорт/экспорт файлов ChordPro.</string>
     <string name="help_desc_melody_notepad">Простой инструмент для сочинения мелодий нота за нотой. Нажимайте ноты для создания последовательности, выбирайте длительность (целая, половинная, четвертная, восьмая, шестнадцатая), добавляйте паузы и воспроизводите с настраиваемым BPM. Отлично подходит для записи мелодических идей или упражнений.</string>
     <string name="help_desc_patterns">Просматривайте и создавайте ритмы боя и перебора. Нажимайте на индикаторы доли для смены направления (вниз, вверх, приглушение, пауза) или назначайте пальцы на струны. Воспроизводите с настраиваемым темпом.</string>
@@ -713,19 +710,6 @@
     <string name="cd_clear_all">Очистить все ноты</string>
     <string name="melody_clear">Очистить</string>
 
-    <!-- ── Song Finder ──────────────────────────────────────────────── -->
-    <string name="song_finder_title">Поиск песен</string>
-    <string name="song_finder_subtitle">Найдите песни, которые можно сыграть знакомыми аккордами.</string>
-    <string name="song_finder_no_chords_title">Пока нет известных аккордов</string>
-    <string name="song_finder_no_chords_message">Сохраните несколько аккордов в избранное, и мы найдём песни, которые вы сможете играть!</string>
-    <string name="song_finder_your_chords">Ваши аккорды (%d)</string>
-    <string name="song_finder_songs_can_play">Песни, которые вы можете играть (%d)</string>
-    <string name="song_finder_learn_more">Выучите ещё 1–2 аккорда (%d)</string>
-    <string name="song_finder_hide">Скрыть</string>
-    <string name="song_finder_show">Показать</string>
-    <string name="song_finder_keep_learning">Учите новые аккорды, чтобы открыть ещё больше песен!</string>
-    <string name="song_finder_learn_prefix">Выучить: </string>
-
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">Назад к прогрессиям</string>
     <string name="voice_leading_title">Голосоведение в %s</string>
@@ -770,14 +754,6 @@
 
 
     <string name="cd_add_known_chord">Add %s to known chords</string>
-    <string name="cd_add_to_songbook">Create chord sheet in songbook</string>
-    <string name="cd_chord_known">%s, chord you know</string>
-    <string name="cd_chord_to_learn">%s, chord you need to learn</string>
-    <string name="cd_remove_known_chord">Remove %s from known chords</string>
-    <string name="cd_showing_songs">Showing songs</string>
-    <string name="cd_song_card">%1$s by %2$s, %3$s, %4$s, %5$d chords</string>
-    <string name="cd_songs_hidden">Songs hidden</string>
-    <string name="cd_view_chord">View %s chord</string>
     <string name="explorer_tips_capo">Use the capo slider to simulate a capo and transpose your chords.</string>
     <string name="explorer_tips_dismiss">Got it</string>
     <string name="explorer_tips_scales">Tap Scales to overlay scale patterns on the fretboard.</string>
@@ -818,15 +794,5 @@
     <string name="onboarding_welcome_subtitle">Your all-in-one ukulele companion for chords, scales, music theory, and composition.</string>
     <string name="onboarding_welcome_title">Welcome to Ukulele Companion</string>
     <string name="settings_free_book">Free Ukulele Book (PDF)</string>
-    <string name="song_finder_add_chord">Add chord</string>
-    <string name="song_finder_added_to_songbook">Chord sheet created in Songbook</string>
-    <string name="song_finder_explicit_chords">Chords you marked (%d)</string>
-    <string name="song_finder_filter_all">All</string>
-    <string name="song_finder_from_favorites">From favorites (%d)</string>
-    <string name="song_finder_known_chords_section">Known Chords</string>
-    <string name="song_finder_manage_known_chords">Manage known chords</string>
-    <string name="song_finder_search">Search songs…</string>
-    <string name="song_finder_select_root">Select root note</string>
-    <string name="song_finder_select_type">Select chord type</string>
 
 </resources>
