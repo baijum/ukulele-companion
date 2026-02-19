@@ -202,12 +202,12 @@ data class PitchMonitorSettings(
     val noiseGateSensitivity: Float = DEFAULT_SENSITIVITY,
 ) {
     companion object {
-        const val DEFAULT_SENSITIVITY = 0.5f
+        const val DEFAULT_SENSITIVITY = 0.0f
         const val MIN_SENSITIVITY = 0.0f
         const val MAX_SENSITIVITY = 1.0f
 
         fun sensitivityToRms(sensitivity: Float): Float =
-            0.02f - (sensitivity.coerceIn(MIN_SENSITIVITY, MAX_SENSITIVITY) * 0.019f)
+            0.04f - (sensitivity.coerceIn(MIN_SENSITIVITY, MAX_SENSITIVITY) * 0.037f)
     }
 }
 
