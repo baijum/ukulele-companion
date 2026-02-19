@@ -1,10 +1,9 @@
 package com.baijum.ukufretboard.ui
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mic
@@ -36,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
@@ -45,14 +46,11 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.viewmodel.PitchMonitorViewModel
 import com.baijum.ukufretboard.viewmodel.PitchPoint
@@ -76,6 +74,9 @@ private val PitchTraceColor = Color(0xFF4499FF)
 
 /** Label text color (matching the gold theme). */
 private val LabelColor = Color(0xFFAAAA60)
+
+/** Warm amber glow for active chromagram pitch lanes. */
+private val ChromaGlowColor = Color(0xFFFFAA33)
 
 // =============================================================================
 // Note range: C3 (MIDI 48) to C6 (MIDI 84) = 36 semitones
@@ -166,14 +167,13 @@ private fun PitchMonitorContent(
         }
     }
 
-    // Pre-compute accessibility strings in composable scope for use in semantics blocks
     val detectedChordDesc = stringResource(
         R.string.pitch_monitor_detected_chord,
         state.detectedChord ?: stringResource(R.string.label_none),
     )
-    val currentNoteDesc = stringResource(
+    val recentNotesDesc = stringResource(
         R.string.pitch_monitor_current_note,
-        state.currentNote ?: stringResource(R.string.label_none),
+        state.recentNotes.lastOrNull() ?: stringResource(R.string.label_none),
     )
     val pitchVizDesc = stringResource(R.string.pitch_monitor_visualization)
 
@@ -183,70 +183,100 @@ private fun PitchMonitorContent(
             .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        // --- Chord display --------------------------------------------------
-        AnimatedVisibility(
-            visible = state.detectedChord != null,
-            enter = fadeIn(),
-            exit = fadeOut(),
+        // --- Note history (left) + Chord name (right) -----------------------
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(72.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
+            // Left: horizontally scrolling recent notes
+            val scrollState = rememberScrollState()
+            LaunchedEffect(state.recentNotes.size) {
+                scrollState.animateScrollTo(scrollState.maxValue)
+            }
+
+            Row(
+                modifier = Modifier
+                    .weight(1f)
+                    .horizontalScroll(scrollState)
+                    .semantics {
+                        liveRegion = LiveRegionMode.Polite
+                        contentDescription = recentNotesDesc
+                    },
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                state.recentNotes.forEachIndexed { index, note ->
+                    val isLatest = index == state.recentNotes.lastIndex
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                color = if (isLatest) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    MaterialTheme.colorScheme.surfaceVariant
+                                },
+                                shape = RoundedCornerShape(8.dp),
+                            )
+                            .padding(horizontal = 10.dp, vertical = 6.dp),
+                    ) {
+                        Text(
+                            text = note,
+                            style = MaterialTheme.typography.labelLarge.copy(
+                                fontWeight = if (isLatest) FontWeight.Bold else FontWeight.Normal,
+                            ),
+                            color = if (isLatest) {
+                                MaterialTheme.colorScheme.onPrimary
+                            } else {
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            },
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            // Right: detected chord name
             Column(
+                modifier = Modifier
+                    .background(
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = RoundedCornerShape(12.dp),
+                    )
+                    .padding(horizontal = 20.dp, vertical = 8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Box(
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colorScheme.primaryContainer,
-                            shape = RoundedCornerShape(12.dp),
-                        )
-                        .padding(horizontal = 24.dp, vertical = 8.dp),
-                ) {
+                AnimatedContent(
+                    targetState = state.detectedChord,
+                    label = "chord",
+                ) { chord ->
                     Text(
-                        text = state.detectedChord ?: "",
-                        style = MaterialTheme.typography.displayMedium.copy(
+                        text = chord ?: "—",
+                        style = MaterialTheme.typography.headlineMedium.copy(
                             fontWeight = FontWeight.Bold,
                         ),
-                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        color = if (chord != null) {
+                            MaterialTheme.colorScheme.onPrimaryContainer
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        },
                         modifier = Modifier.semantics {
                             liveRegion = LiveRegionMode.Assertive
                             contentDescription = detectedChordDesc
                         },
                     )
                 }
-                if (state.detectedChordNotes.isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(4.dp))
+                if (state.isArpeggioChord && state.detectedChord != null) {
                     Text(
-                        text = stringResource(R.string.pitch_monitor_notes_prefix) +
-                            state.detectedChordNotes.joinToString(" "),
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        text = stringResource(R.string.pitch_monitor_arpeggio_label),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f),
                     )
                 }
             }
         }
-
-        if (state.detectedChord == null) {
-            // Reserve space so the layout doesn't jump
-            Spacer(modifier = Modifier.height(80.dp))
-        }
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        // --- Current note ---------------------------------------------------
-        Text(
-            text = state.currentNote ?: "—",
-            style = MaterialTheme.typography.headlineMedium.copy(
-                fontWeight = FontWeight.SemiBold,
-            ),
-            color = if (state.currentNote != null) {
-                MaterialTheme.colorScheme.primary
-            } else {
-                MaterialTheme.colorScheme.onSurfaceVariant
-            },
-            modifier = Modifier.semantics {
-                liveRegion = LiveRegionMode.Polite
-                contentDescription = currentNoteDesc
-            },
-        )
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -263,6 +293,7 @@ private fun PitchMonitorContent(
             PitchCanvas(
                 pitchHistory = state.pitchHistory,
                 currentTimeMs = frameTime,
+                chromaEnergy = state.chromaEnergy,
                 modifier = Modifier
                     .fillMaxSize()
                     .clearAndSetSemantics {
@@ -270,25 +301,6 @@ private fun PitchMonitorContent(
                     },
             )
         }
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // --- Guidance text --------------------------------------------------
-        Text(
-            text = when {
-                !state.isListening -> stringResource(R.string.pitch_monitor_tap_start)
-                state.currentNote != null && state.detectedChord != null ->
-                    stringResource(R.string.pitch_monitor_playing, state.detectedChord!!)
-                state.currentNote != null -> stringResource(R.string.pitch_monitor_detecting)
-                else -> stringResource(R.string.pitch_monitor_play_ukulele)
-            },
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.semantics {
-                liveRegion = LiveRegionMode.Polite
-            },
-        )
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -338,6 +350,7 @@ private fun PitchMonitorContent(
 private fun PitchCanvas(
     pitchHistory: List<PitchPoint>,
     currentTimeMs: Long,
+    chromaEnergy: FloatArray,
     modifier: Modifier = Modifier,
 ) {
     Canvas(modifier = modifier) {
@@ -345,12 +358,22 @@ private fun PitchCanvas(
         val canvasH = size.height
         val plotLeft = LABEL_MARGIN_PX
         val plotWidth = canvasW - plotLeft
-        val plotTop = 8f
-        val plotBottom = canvasH - 8f
+        val plotTop = 20f
+        val plotBottom = canvasH - 16f
         val plotHeight = plotBottom - plotTop
 
         // --- Draw grid lines and labels -------------------------------------
         drawNoteGrid(
+            plotLeft = plotLeft,
+            plotWidth = plotWidth,
+            plotTop = plotTop,
+            plotBottom = plotBottom,
+            plotHeight = plotHeight,
+        )
+
+        // --- Draw chromagram glow on active pitch lanes ---------------------
+        drawChromaGlow(
+            chromaEnergy = chromaEnergy,
             plotLeft = plotLeft,
             plotWidth = plotWidth,
             plotTop = plotTop,
@@ -416,6 +439,38 @@ private fun DrawScope.drawNoteGrid(
                 },
             )
         }
+    }
+}
+
+/**
+ * Draws semi-transparent glowing bands on swimlanes whose pitch class has
+ * energy in the chromagram. Intensity is proportional to chromagram energy.
+ */
+private fun DrawScope.drawChromaGlow(
+    chromaEnergy: FloatArray,
+    plotLeft: Float,
+    plotWidth: Float,
+    plotTop: Float,
+    plotBottom: Float,
+    plotHeight: Float,
+) {
+    val midiRange = MAX_MIDI - MIN_MIDI
+    val bandHeight = plotHeight / midiRange
+
+    for (midi in MIN_MIDI..MAX_MIDI) {
+        val pitchClass = midi % 12
+        val energy = chromaEnergy.getOrElse(pitchClass) { 0f }
+        if (energy <= 0.05f) continue
+
+        val fraction = (midi - MIN_MIDI).toFloat() / midiRange
+        val y = plotBottom - fraction * plotHeight
+        val alpha = (energy * 2.5f).coerceAtMost(0.4f)
+
+        drawRect(
+            color = ChromaGlowColor.copy(alpha = alpha),
+            topLeft = Offset(plotLeft, y - bandHeight / 2f),
+            size = Size(plotWidth, bandHeight),
+        )
     }
 }
 

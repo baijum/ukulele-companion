@@ -34,6 +34,7 @@ object AudioChordDetector {
         val detection: ChordDetector.DetectionResult,
         val confidence: Float,
         val activePitchClasses: Set<Int>,
+        val chromagram: FloatArray,
     )
 
     /**
@@ -100,6 +101,7 @@ object AudioChordDetector {
                 detection = ChordDetector.DetectionResult.NoSelection,
                 confidence = 0f,
                 activePitchClasses = emptySet(),
+                chromagram = FloatArray(12),
             )
         }
 
@@ -128,6 +130,7 @@ object AudioChordDetector {
             detection = detection,
             confidence = confidence,
             activePitchClasses = activePitchClasses,
+            chromagram = chroma,
         )
     }
 }

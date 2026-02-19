@@ -182,6 +182,7 @@
     <string name="cd_stop_listening">Stop listening</string>
     <string name="cd_start_listening">Start listening</string>
     <string name="pitch_monitor_start">Start</string>
+    <string name="pitch_monitor_arpeggio_label">arpeggio</string>
 
     <!-- ── Favorites ────────────────────────────────────────────────── -->
     <string name="favorites_empty_title">No favorites yet</string>

@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.baijum.ukufretboard.audio.AudioCaptureEngine
+import com.baijum.ukufretboard.domain.ArpeggioDetector
 import com.baijum.ukufretboard.domain.AudioChordDetector
 import com.baijum.ukufretboard.domain.ChordDetector
 import com.baijum.ukufretboard.domain.NeuralPitchResult
@@ -55,6 +56,15 @@ data class PitchMonitorUiState(
 
     /** Confidence of the chord detection (0.0 .. 1.0). */
     val chordConfidence: Float = 0f,
+
+    /** Rolling history of recently detected note names, deduped on consecutive repeats. */
+    val recentNotes: List<String> = emptyList(),
+
+    /** True when the displayed chord was detected via arpeggio (sequential notes). */
+    val isArpeggioChord: Boolean = false,
+
+    /** 12-bin chromagram energy (C=0 .. B=11), normalized 0..1. Used for canvas glow. */
+    val chromaEnergy: FloatArray = FloatArray(12),
 )
 
 /**
@@ -105,6 +115,13 @@ class PitchMonitorViewModel : ViewModel() {
          * This avoids UI dropouts between strums and brief noisy frames.
          */
         private const val CHORD_MISS_TOLERANCE = 3
+
+        /**
+         * Consecutive arpeggio detections required before showing the chord.
+         * Lower than [CHORD_HOLD_FRAMES] because arpeggios inherently
+         * accumulate over time and don't need as much confirmation.
+         */
+        private const val ARPEGGIO_HOLD_FRAMES = 2
 
         /**
          * RMS ratio threshold for onset (pluck) detection.
@@ -173,6 +190,24 @@ class PitchMonitorViewModel : ViewModel() {
     /** Frame counter for throttling chord detection to every Nth frame. */
     private var chordFrameCounter = 0
 
+    /** Most recent chromagram from chord detection, kept across throttled frames. */
+    private var lastChromaEnergy = FloatArray(12)
+
+    // --- Arpeggio detection state --------------------------------------------
+
+    private val arpeggioDetector = ArpeggioDetector(windowMs = 3_000L)
+
+    private var lastArpeggioChordName: String? = null
+    private var arpeggioHoldCount = 0
+    private var displayedArpeggioChord: String? = null
+    private var displayedArpeggioChordNotes: List<String> = emptyList()
+
+    /** Timestamp of the most recent simultaneous chord confirmation. */
+    private var lastSimultaneousChordMs = 0L
+
+    /** Timestamp of the most recent arpeggio chord confirmation. */
+    private var lastArpeggioChordMs = 0L
+
     /** Application context used to initialize optional neural supervisor. */
     private var appContext: Context? = null
 
@@ -222,6 +257,14 @@ class PitchMonitorViewModel : ViewModel() {
         lastChordConfidence = 0f
         chordMissCount = 0
         chordFrameCounter = 0
+        lastChromaEnergy = FloatArray(12)
+        arpeggioDetector.clear()
+        lastArpeggioChordName = null
+        arpeggioHoldCount = 0
+        displayedArpeggioChord = null
+        displayedArpeggioChordNotes = emptyList()
+        lastSimultaneousChordMs = 0L
+        lastArpeggioChordMs = 0L
         previousRms = 0f
         blankingFramesRemaining = 0
         previousFrequency = null
@@ -259,6 +302,9 @@ class PitchMonitorViewModel : ViewModel() {
                 detectedChord = null,
                 detectedChordNotes = emptyList(),
                 chordConfidence = 0f,
+                recentNotes = emptyList(),
+                isArpeggioChord = false,
+                chromaEnergy = FloatArray(12),
             )
         }
     }
@@ -363,6 +409,12 @@ class PitchMonitorViewModel : ViewModel() {
 
         val newPoint = PitchPoint(timestampMs = now, midiNote = midiNote)
 
+        // Feed detected pitch to the arpeggio detector
+        if (midiNote != null) {
+            val pitchClass = midiNote.roundToInt() % 12
+            arpeggioDetector.addNote(now, pitchClass)
+        }
+
         // =====================================================================
         // PATH 2: Chord detection (FFT → Chromagram → ChordDetector)
         // Throttled to every CHORD_DETECTION_INTERVAL frames to avoid
@@ -375,6 +427,7 @@ class PitchMonitorViewModel : ViewModel() {
                 preferredRootPitchClass = preferredRootPitchClass,
             )
             lastChordConfidence = chordResult.confidence
+            lastChromaEnergy = chordResult.chromagram
 
             val rawChordName = when (val det = chordResult.detection) {
                 is ChordDetector.DetectionResult.ChordFound -> det.result.name
@@ -398,8 +451,8 @@ class PitchMonitorViewModel : ViewModel() {
             if (chordHoldCount >= CHORD_HOLD_FRAMES) {
                 displayedChord = rawChordName
                 displayedChordNotes = rawChordNotes
+                if (rawChordName != null) lastSimultaneousChordMs = now
             } else if (rawChordName == null && chordMissCount > CHORD_MISS_TOLERANCE) {
-                // Clear only after repeated misses to reduce flicker/dropouts.
                 displayedChord = null
                 displayedChordNotes = emptyList()
                 lastChordName = null
@@ -408,19 +461,81 @@ class PitchMonitorViewModel : ViewModel() {
         }
 
         // =====================================================================
+        // PATH 3: Arpeggio detection (accumulated pitch classes → ChordDetector)
+        // =====================================================================
+        val arpeggioResult = arpeggioDetector.detect(now)
+        val rawArpChordName = arpeggioResult?.result?.name
+        val rawArpChordNotes = arpeggioResult?.result?.notes?.map { it.name } ?: emptyList()
+
+        if (rawArpChordName == lastArpeggioChordName && rawArpChordName != null) {
+            arpeggioHoldCount++
+        } else {
+            lastArpeggioChordName = rawArpChordName
+            arpeggioHoldCount = if (rawArpChordName != null) 1 else 0
+        }
+
+        if (arpeggioHoldCount >= ARPEGGIO_HOLD_FRAMES) {
+            displayedArpeggioChord = rawArpChordName
+            displayedArpeggioChordNotes = rawArpChordNotes
+            if (rawArpChordName != null) lastArpeggioChordMs = now
+        } else if (rawArpChordName == null) {
+            displayedArpeggioChord = null
+            displayedArpeggioChordNotes = emptyList()
+        }
+
+        // =====================================================================
+        // Merge: most-recent-wins between simultaneous and arpeggio detection
+        // =====================================================================
+        val finalChord: String?
+        val finalChordNotes: List<String>
+        val finalIsArpeggio: Boolean
+
+        if (displayedChord != null && displayedArpeggioChord != null) {
+            if (lastSimultaneousChordMs >= lastArpeggioChordMs) {
+                finalChord = displayedChord
+                finalChordNotes = displayedChordNotes
+                finalIsArpeggio = false
+            } else {
+                finalChord = displayedArpeggioChord
+                finalChordNotes = displayedArpeggioChordNotes
+                finalIsArpeggio = true
+            }
+        } else if (displayedChord != null) {
+            finalChord = displayedChord
+            finalChordNotes = displayedChordNotes
+            finalIsArpeggio = false
+        } else if (displayedArpeggioChord != null) {
+            finalChord = displayedArpeggioChord
+            finalChordNotes = displayedArpeggioChordNotes
+            finalIsArpeggio = true
+        } else {
+            finalChord = null
+            finalChordNotes = emptyList()
+            finalIsArpeggio = false
+        }
+
+        // =====================================================================
         // Update UI state
         // =====================================================================
         _uiState.update { current ->
-            // Trim old points beyond the history window
             val cutoff = now - HISTORY_DURATION_MS
             val trimmed = current.pitchHistory.dropWhile { it.timestampMs < cutoff }
+
+            val updatedNotes = if (currentNote != null && currentNote != current.recentNotes.lastOrNull()) {
+                (current.recentNotes + currentNote).takeLast(20)
+            } else {
+                current.recentNotes
+            }
 
             current.copy(
                 pitchHistory = trimmed + newPoint,
                 currentNote = currentNote,
-                detectedChord = displayedChord,
-                detectedChordNotes = displayedChordNotes,
-                chordConfidence = if (displayedChord != null) lastChordConfidence else 0f,
+                detectedChord = finalChord,
+                detectedChordNotes = finalChordNotes,
+                chordConfidence = if (finalChord != null) lastChordConfidence else 0f,
+                recentNotes = updatedNotes,
+                isArpeggioChord = finalIsArpeggio,
+                chromaEnergy = lastChromaEnergy.copyOf(),
             )
         }
 
