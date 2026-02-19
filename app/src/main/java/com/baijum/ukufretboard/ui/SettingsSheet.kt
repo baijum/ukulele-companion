@@ -43,6 +43,7 @@ import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.DisplaySettings
 import com.baijum.ukufretboard.data.FretboardSettings
 
+import com.baijum.ukufretboard.data.PitchMonitorSettings
 import com.baijum.ukufretboard.data.SoundSettings
 import com.baijum.ukufretboard.data.ThemeMode
 import com.baijum.ukufretboard.data.TunerSettings
@@ -78,6 +79,8 @@ fun SettingsSheet(
 
     tunerSettings: TunerSettings = TunerSettings(),
     onTunerSettingsChange: (TunerSettings) -> Unit = {},
+    pitchMonitorSettings: PitchMonitorSettings = PitchMonitorSettings(),
+    onPitchMonitorSettingsChange: (PitchMonitorSettings) -> Unit = {},
     backupRestoreViewModel: com.baijum.ukufretboard.viewmodel.BackupRestoreViewModel? = null,
     onDismiss: () -> Unit,
 ) {
@@ -136,6 +139,14 @@ fun SettingsSheet(
             TunerSection(
                 settings = tunerSettings,
                 onSettingsChange = onTunerSettingsChange,
+            )
+
+            // ── Pitch Monitor section ──
+            Spacer(modifier = Modifier.height(16.dp))
+            HorizontalDivider()
+            PitchMonitorSection(
+                settings = pitchMonitorSettings,
+                onSettingsChange = onPitchMonitorSettingsChange,
             )
 
             // ── Fretboard section ──
@@ -563,6 +574,36 @@ private fun TunerSection(
         onValueChange = {
             onSettingsChange(settings.copy(a4Reference = (it * 10).toInt() / 10f))
         },
+    )
+}
+
+/**
+ * The Pitch Monitor settings section with noise gate sensitivity slider.
+ */
+@Composable
+private fun PitchMonitorSection(
+    settings: PitchMonitorSettings,
+    onSettingsChange: (PitchMonitorSettings) -> Unit,
+) {
+    SectionHeader(stringResource(R.string.settings_pitch_monitor))
+
+    SettingsSlider(
+        label = stringResource(R.string.settings_noise_gate_sensitivity),
+        value = settings.noiseGateSensitivity,
+        valueRange = PitchMonitorSettings.MIN_SENSITIVITY..PitchMonitorSettings.MAX_SENSITIVITY,
+        valueLabel = "${(settings.noiseGateSensitivity * 100).toInt()}%",
+        enabled = true,
+        onValueChange = {
+            onSettingsChange(settings.copy(noiseGateSensitivity = (it * 100).toInt() / 100f))
+        },
+    )
+
+    Spacer(modifier = Modifier.height(4.dp))
+
+    Text(
+        text = stringResource(R.string.settings_noise_gate_desc),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
 }
 

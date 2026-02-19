@@ -191,6 +191,27 @@ data class TunerSettings(
 }
 
 /**
+ * Settings for the Pitch Monitor feature.
+ *
+ * @property noiseGateSensitivity Controls how aggressively background noise
+ *   is filtered. 0.0 = most filtering (only loud sounds), 1.0 = least
+ *   filtering (picks up quiet sounds). Maps to an RMS energy threshold
+ *   used in the audio processing pipeline.
+ */
+data class PitchMonitorSettings(
+    val noiseGateSensitivity: Float = DEFAULT_SENSITIVITY,
+) {
+    companion object {
+        const val DEFAULT_SENSITIVITY = 0.5f
+        const val MIN_SENSITIVITY = 0.0f
+        const val MAX_SENSITIVITY = 1.0f
+
+        fun sensitivityToRms(sensitivity: Float): Float =
+            0.02f - (sensitivity.coerceIn(MIN_SENSITIVITY, MAX_SENSITIVITY) * 0.019f)
+    }
+}
+
+/**
  * Top-level container for all app settings, organized by section.
  *
  * Each section is a nested data class with its own defaults.
@@ -204,6 +225,7 @@ data class AppSettings(
 
     val scalePractice: ScalePracticeSettings = ScalePracticeSettings(),
     val tuner: TunerSettings = TunerSettings(),
+    val pitchMonitor: PitchMonitorSettings = PitchMonitorSettings(),
     val onboardingCompleted: Boolean = false,
     val explorerTipsDismissed: Boolean = false,
 )

@@ -7,6 +7,7 @@ import com.baijum.ukufretboard.data.AppSettings
 import com.baijum.ukufretboard.data.DisplaySettings
 import com.baijum.ukufretboard.data.FretboardSettings
 
+import com.baijum.ukufretboard.data.PitchMonitorSettings
 import com.baijum.ukufretboard.data.ScalePracticeSettings
 import com.baijum.ukufretboard.data.SoundSettings
 import com.baijum.ukufretboard.data.ThemeMode
@@ -102,6 +103,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
+     * Updates the pitch monitor settings by applying a transformation function.
+     */
+    fun updatePitchMonitor(transform: (PitchMonitorSettings) -> PitchMonitorSettings) {
+        _settings.update { current ->
+            current.copy(pitchMonitor = transform(current.pitchMonitor)).also { saveSettings(it) }
+        }
+    }
+
+    /**
      * Marks onboarding as completed so the wizard is not shown again.
      */
     fun completeOnboarding() {
@@ -168,6 +178,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             .putFloat(KEY_TUNER_A4_REFERENCE, s.tuner.a4Reference)
             .putBoolean(KEY_TUNER_AUTO_ADVANCE, s.tuner.autoAdvance)
             .putBoolean(KEY_TUNER_AUTO_START, s.tuner.autoStart)
+            // Pitch Monitor
+            .putFloat(KEY_PM_NOISE_GATE_SENSITIVITY, s.pitchMonitor.noiseGateSensitivity)
             // Onboarding
             .putBoolean(KEY_ONBOARDING_COMPLETED, s.onboardingCompleted)
             .putBoolean(KEY_EXPLORER_TIPS_DISMISSED, s.explorerTipsDismissed)
@@ -223,6 +235,9 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 autoAdvance = prefs.getBoolean(KEY_TUNER_AUTO_ADVANCE, false),
                 autoStart = prefs.getBoolean(KEY_TUNER_AUTO_START, false),
             ),
+            pitchMonitor = PitchMonitorSettings(
+                noiseGateSensitivity = prefs.getFloat(KEY_PM_NOISE_GATE_SENSITIVITY, PitchMonitorSettings.DEFAULT_SENSITIVITY),
+            ),
             onboardingCompleted = prefs.getBoolean(KEY_ONBOARDING_COMPLETED, true),
             explorerTipsDismissed = prefs.getBoolean(KEY_EXPLORER_TIPS_DISMISSED, true),
         )
@@ -254,6 +269,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         private const val KEY_TUNER_A4_REFERENCE = "tuner_a4_reference"
         private const val KEY_TUNER_AUTO_ADVANCE = "tuner_auto_advance"
         private const val KEY_TUNER_AUTO_START = "tuner_auto_start"
+        private const val KEY_PM_NOISE_GATE_SENSITIVITY = "pm_noise_gate_sensitivity"
         private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
         private const val KEY_EXPLORER_TIPS_DISMISSED = "explorer_tips_dismissed"
         private const val KEY_SHOW_EXPLORER_TIPS = "show_explorer_tips"
