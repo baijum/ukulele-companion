@@ -98,7 +98,7 @@ class PitchMonitorViewModel : ViewModel() {
          * the chord in the UI. Lower than before to make live feedback
          * responsive for short ukulele strums.
          */
-        private const val CHORD_HOLD_FRAMES = 4
+        private const val CHORD_HOLD_FRAMES = 2
 
         /**
          * Run chord detection (FFT + Chromagram) every Nth frame.

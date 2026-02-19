@@ -200,6 +200,7 @@ private fun PitchMonitorContent(
                 modifier = Modifier
                     .weight(1f)
                     .horizontalScroll(scrollState)
+                    .padding(end = 4.dp)
                     .semantics {
                         liveRegion = LiveRegionMode.Polite
                         contentDescription = recentNotesDesc
