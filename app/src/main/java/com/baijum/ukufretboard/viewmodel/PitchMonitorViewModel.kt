@@ -124,6 +124,15 @@ class PitchMonitorViewModel : ViewModel() {
         private const val ARPEGGIO_HOLD_FRAMES = 2
 
         /**
+         * Minimum RMS energy to consider a frame as intentional audio.
+         * Frames below this are treated as silence, suppressing spurious
+         * pitch detections, arpeggio accumulation, and chromagram glow
+         * from background noise. Typical room noise is 0.001--0.003;
+         * a soft ukulele pluck is ~0.01+.
+         */
+        private const val NOISE_GATE_RMS = 0.005f
+
+        /**
          * RMS ratio threshold for onset (pluck) detection.
          *
          * When the current frame's RMS exceeds the previous frame's RMS by
@@ -368,6 +377,25 @@ class PitchMonitorViewModel : ViewModel() {
         }
 
         val now = System.currentTimeMillis()
+
+        // --- Noise gate ---------------------------------------------------------
+        // Suppress all detection when the frame is too quiet (background noise).
+        if (currentRms < NOISE_GATE_RMS) {
+            previousFrequency = null
+            recentFrequencies.clear()
+            lastChromaEnergy = FloatArray(12)
+            val newPoint = PitchPoint(timestampMs = now, midiNote = null)
+            _uiState.update { current ->
+                val cutoff = now - HISTORY_DURATION_MS
+                val trimmed = current.pitchHistory.dropWhile { it.timestampMs < cutoff }
+                current.copy(
+                    pitchHistory = trimmed + newPoint,
+                    currentNote = null,
+                    chromaEnergy = FloatArray(12),
+                )
+            }
+            return
+        }
 
         // =====================================================================
         // PATH 1: Pitch detection (YIN) → scrolling visualization

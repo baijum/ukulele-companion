@@ -460,7 +460,7 @@ private fun DrawScope.drawChromaGlow(
     for (midi in MIN_MIDI..MAX_MIDI) {
         val pitchClass = midi % 12
         val energy = chromaEnergy.getOrElse(pitchClass) { 0f }
-        if (energy <= 0.05f) continue
+        if (energy <= 0.10f) continue
 
         val fraction = (midi - MIN_MIDI).toFloat() / midiRange
         val y = plotBottom - fraction * plotHeight
