@@ -48,9 +48,12 @@ enum class ThemeMode(val label: String) {
  * Settings for display preferences (theme).
  *
  * @property themeMode The app color theme: Light, Dark, or follow the System setting.
+ * @property showExplorerTips When true, a rotating "Did you know?" card is shown
+ *   on the Explorer tab when no chord is selected.
  */
 data class DisplaySettings(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
+    val showExplorerTips: Boolean = true,
 )
 
 /**

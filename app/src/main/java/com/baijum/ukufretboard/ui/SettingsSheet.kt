@@ -315,6 +315,14 @@ private fun DisplaySection(
             )
         }
     }
+
+    Spacer(modifier = Modifier.height(12.dp))
+
+    SettingsSwitch(
+        label = stringResource(R.string.settings_show_explorer_tips),
+        checked = settings.showExplorerTips,
+        onCheckedChange = { onSettingsChange(settings.copy(showExplorerTips = it)) },
+    )
 }
 
 /**

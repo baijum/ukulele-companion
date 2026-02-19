@@ -192,6 +192,7 @@ data class BackupSettings(
     val strumDown: Boolean = true,
     val playOnTap: Boolean = false,
     val themeMode: String = "SYSTEM",
+    val showExplorerTips: Boolean = true,
     val tuning: String = "HIGH_G",
     val leftHanded: Boolean = false,
     val lastFret: Int = 12,

@@ -146,6 +146,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             .putBoolean(KEY_PLAY_ON_TAP, s.sound.playOnTap)
             // Display
             .putString(KEY_THEME_MODE, s.display.themeMode.name)
+            .putBoolean(KEY_SHOW_EXPLORER_TIPS, s.display.showExplorerTips)
             // Tuning
             .putString(KEY_TUNING, s.tuning.tuning.name)
             // Fretboard
@@ -191,6 +192,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 } catch (_: Exception) {
                     ThemeMode.SYSTEM
                 },
+                showExplorerTips = prefs.getBoolean(KEY_SHOW_EXPLORER_TIPS, true),
             ),
             tuning = TuningSettings(
                 tuning = try {
@@ -254,5 +256,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         private const val KEY_TUNER_AUTO_START = "tuner_auto_start"
         private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
         private const val KEY_EXPLORER_TIPS_DISMISSED = "explorer_tips_dismissed"
+        private const val KEY_SHOW_EXPLORER_TIPS = "show_explorer_tips"
     }
 }

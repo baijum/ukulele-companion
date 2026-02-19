@@ -110,6 +110,8 @@
     <string name="explorer_tips_capo">Use the capo slider to simulate a capo and transpose your chords.</string>
     <string name="explorer_tips_dismiss">Got it</string>
     <string name="explorer_try_chords">Try these beginner chords:</string>
+    <string name="explorer_did_you_know_title">Did you know?</string>
+    <string name="explorer_did_you_know_next">Next tip</string>
 
     <!-- ── Chord Result ─────────────────────────────────────────────── -->
     <string name="chord_result_tap_fretboard">Tap the fretboard to select notes</string>
@@ -297,6 +299,7 @@
     <string name="settings_play_on_tap">Play on Tap</string>
     <string name="settings_display">Display</string>
     <string name="settings_theme">Theme</string>
+    <string name="settings_show_explorer_tips">Show explorer tips</string>
     <string name="settings_language">Language</string>
     <string name="settings_select_language">Select language</string>
     <string name="settings_tuning">Tuning</string>

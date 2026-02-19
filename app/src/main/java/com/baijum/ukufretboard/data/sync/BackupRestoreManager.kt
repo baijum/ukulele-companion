@@ -134,6 +134,7 @@ class BackupRestoreManager(
                     strumDown = s.sound.strumDown,
                     playOnTap = s.sound.playOnTap,
                     themeMode = s.display.themeMode.name,
+                    showExplorerTips = s.display.showExplorerTips,
                     tuning = s.tuning.tuning.name,
                     leftHanded = s.fretboard.leftHanded,
                     lastFret = s.fretboard.lastFret,
@@ -226,6 +227,7 @@ class BackupRestoreManager(
                     } catch (_: Exception) {
                         ThemeMode.SYSTEM
                     },
+                    showExplorerTips = bs.showExplorerTips,
                 ),
                 tuning = TuningSettings(
                     tuning = try {

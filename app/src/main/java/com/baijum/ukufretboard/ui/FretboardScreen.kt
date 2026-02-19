@@ -436,6 +436,7 @@ fun FretboardScreen(
                         soundEnabled = appSettings.sound.enabled,
                         leftHanded = appSettings.fretboard.leftHanded,
                         showTips = !appSettings.explorerTipsDismissed,
+                        showDidYouKnow = appSettings.display.showExplorerTips,
                         onDismissTips = { settingsViewModel.dismissExplorerTips() },
                         onFullScreen = { showFullScreen = true },
                         onShareChord = { voicing, chordName, invLabel ->
@@ -806,6 +807,7 @@ private fun ExplorerTabContent(
     soundEnabled: Boolean,
     leftHanded: Boolean = false,
     showTips: Boolean = false,
+    showDidYouKnow: Boolean = true,
     onDismissTips: () -> Unit = {},
     onFullScreen: () -> Unit = {},
     onShareChord: ((ChordVoicing, String, String?) -> Unit)? = null,
@@ -974,6 +976,7 @@ private fun ExplorerTabContent(
                     voicings.firstOrNull()?.let { viewModel.applyVoicing(it) }
                 }
             },
+            showDidYouKnow = showDidYouKnow,
             modifier = Modifier.fillMaxWidth(),
         )
     }

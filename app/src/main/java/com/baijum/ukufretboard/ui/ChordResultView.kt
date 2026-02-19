@@ -12,9 +12,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -22,15 +26,25 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
+import com.baijum.ukufretboard.data.ExplorerTips
 import com.baijum.ukufretboard.domain.AlternateChord
 import com.baijum.ukufretboard.domain.ChordDetector
 import com.baijum.ukufretboard.domain.ChordInfo
@@ -73,6 +87,7 @@ fun ChordResultView(
     onShowInLibrary: (() -> Unit)? = null,
     onAlternateChordTapped: ((AlternateChord) -> Unit)? = null,
     onSuggestedChordTapped: ((rootPitchClass: Int, formulaSymbol: String) -> Unit)? = null,
+    showDidYouKnow: Boolean = true,
     modifier: Modifier = Modifier,
 ) {
     val hasNotes = detectionResult !is ChordDetector.DetectionResult.NoSelection
@@ -92,6 +107,9 @@ fun ChordResultView(
                 )
                 if (onSuggestedChordTapped != null) {
                     SuggestedChordsSection(onChordTapped = onSuggestedChordTapped)
+                }
+                if (showDidYouKnow) {
+                    ExplorerDidYouKnowCard()
                 }
             }
 
@@ -445,6 +463,61 @@ private fun SuggestedChordsSection(
                 onClick = { onChordTapped(chord.rootPitchClass, chord.formulaSymbol) },
                 label = { Text(chord.name) },
             )
+        }
+    }
+}
+
+@Composable
+private fun ExplorerDidYouKnowCard() {
+    val tips = ExplorerTips.ALL
+    var tipIndex by rememberSaveable {
+        mutableIntStateOf((System.currentTimeMillis() % tips.size).toInt())
+    }
+
+    Spacer(modifier = Modifier.height(20.dp))
+    HorizontalDivider(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        color = MaterialTheme.colorScheme.outlineVariant,
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        ),
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Filled.Lightbulb,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(
+                    text = stringResource(R.string.explorer_did_you_know_title),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.semantics { heading() },
+                )
+            }
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                text = tips[tipIndex],
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            TextButton(
+                onClick = { tipIndex = (tipIndex + 1) % tips.size },
+            ) {
+                Text(stringResource(R.string.explorer_did_you_know_next))
+            }
         }
     }
 }

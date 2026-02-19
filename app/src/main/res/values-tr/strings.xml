@@ -279,6 +279,7 @@
 
     <!-- ── Ayarlar ────────────────────────────────────────────────────── -->
     <string name="settings_title">Ayarlar</string>
+    <string name="settings_show_explorer_tips">Show explorer tips</string>
     <string name="settings_sound">Ses</string>
     <string name="settings_volume">Ses Düzeyi</string>
     <string name="settings_note_duration">Nota Süresi</string>
@@ -752,6 +753,8 @@
     <string name="cd_to">ile</string>
 
     <string name="cd_add_known_chord">Add %s to known chords</string>
+    <string name="explorer_did_you_know_next">Next tip</string>
+    <string name="explorer_did_you_know_title">Did you know?</string>
     <string name="explorer_tips_capo">Use the capo slider to simulate a capo and transpose your chords.</string>
     <string name="explorer_tips_dismiss">Got it</string>
     <string name="explorer_tips_scales">Tap Scales to overlay scale patterns on the fretboard.</string>
