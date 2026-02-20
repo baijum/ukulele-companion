@@ -694,9 +694,9 @@
 
     <!-- ── Bloc-notes mélodie ────────────────────────────────────────── -->
     <string name="melody_title">Bloc-notes mélodie</string>
-    <string name="melody_subtitle">Touchez des notes pour composer une mélodie. Appuyez sur lecture pour l\'écouter.</string>
+    <string name="melody_subtitle">Appuyez sur les notes ou enregistrez depuis votre ukulélé</string>
     <string name="melody_sequence">Séquence (%d notes)</string>
-    <string name="melody_placeholder">Touchez une note ci-dessous pour commencer à composer</string>
+    <string name="melody_placeholder">Appuyez sur une note ou enregistrez depuis votre ukulélé pour commencer</string>
     <string name="melody_whole">R</string>
     <string name="melody_half">B</string>
     <string name="melody_quarter">N</string>
@@ -710,6 +710,42 @@
     <string name="cd_stop_playing">Arrêter la lecture</string>
     <string name="cd_clear_all">Tout effacer</string>
     <string name="melody_clear">Effacer</string>
+    <string name="melody_input_tap">Appuyer</string>
+    <string name="melody_input_record">Enregistrer</string>
+    <string name="melody_octave">Octave</string>
+    <string name="cd_decrease_octave">Baisser l\'octave</string>
+    <string name="cd_increase_octave">Monter l\'octave</string>
+    <string name="cd_octave_value">Octave %d</string>
+    <string name="melody_start_recording">Démarrer l\'enregistrement</string>
+    <string name="melody_stop_recording">Arrêter l\'enregistrement</string>
+    <string name="melody_listening">Écoute en cours…</string>
+    <string name="melody_detected_note">Détecté : %s</string>
+    <string name="melody_stabilizing">Stabilisation…</string>
+    <string name="melody_added_note">Note %1$s %2$s ajoutée</string>
+    <string name="melody_no_sound">Jouez une note sur votre ukulélé</string>
+    <string name="melody_save">Enregistrer</string>
+    <string name="melody_save_as">Enregistrer sous…</string>
+    <string name="melody_load">Charger une mélodie</string>
+    <string name="melody_rename">Renommer</string>
+    <string name="melody_new">Nouvelle mélodie</string>
+    <string name="melody_save_dialog_title">Enregistrer la mélodie</string>
+    <string name="melody_name_hint">Nom de la mélodie</string>
+    <string name="melody_load_dialog_title">Mélodies enregistrées</string>
+    <string name="melody_load_empty">Aucune mélodie enregistrée</string>
+    <string name="melody_note_info">%1$s notes · %2$d BPM</string>
+    <string name="melody_discard_title">Modifications non enregistrées</string>
+    <string name="melody_discard_message">Vous avez des modifications non enregistrées. Les abandonner ?</string>
+    <string name="melody_delete_title">Supprimer la mélodie</string>
+    <string name="melody_delete_message">Supprimer \"%s\" ?</string>
+    <string name="melody_unsaved"> (modifications non enregistrées)</string>
+    <string name="melody_current">Actuelle : %s</string>
+    <string name="cd_save_melody">Enregistrer la mélodie</string>
+    <string name="cd_more_options">Plus d\'options</string>
+    <string name="cd_note_position">Note %1$s %2$s, position %3$d</string>
+    <string name="cd_rest_position">Silence, %1$s, position %2$d</string>
+    <string name="cd_start_recording">Enregistrer des notes depuis le ukulélé</string>
+    <string name="cd_stop_recording">Arrêter l\'enregistrement</string>
+    <string name="melody_rename_dialog_title">Renommer la mélodie</string>
 
     <!-- ── Conduite des voix ─────────────────────────────────────────── -->
     <string name="cd_back_progressions">Retour aux progressions</string>

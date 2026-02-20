@@ -694,9 +694,9 @@
 
     <!-- ── Bloco de melodias ─────────────────────────────────────────── -->
     <string name="melody_title">Bloco de melodias</string>
-    <string name="melody_subtitle">Toque em notas para compor uma melodia. Pressione tocar para ouvi-la.</string>
+    <string name="melody_subtitle">Toque notas ou grave do seu ukulele</string>
     <string name="melody_sequence">Sequência (%d notas)</string>
-    <string name="melody_placeholder">Toque em uma nota abaixo para começar a compor</string>
+    <string name="melody_placeholder">Toque uma nota ou grave do seu ukulele para começar a compor</string>
     <string name="melody_whole">S</string>
     <string name="melody_half">M</string>
     <string name="melody_quarter">Sm</string>
@@ -710,6 +710,42 @@
     <string name="cd_stop_playing">Parar reprodução</string>
     <string name="cd_clear_all">Limpar todas as notas</string>
     <string name="melody_clear">Limpar</string>
+    <string name="melody_input_tap">Tocar</string>
+    <string name="melody_input_record">Gravar</string>
+    <string name="melody_octave">Oitava</string>
+    <string name="cd_decrease_octave">Diminuir oitava</string>
+    <string name="cd_increase_octave">Aumentar oitava</string>
+    <string name="cd_octave_value">Oitava %d</string>
+    <string name="melody_start_recording">Iniciar gravação</string>
+    <string name="melody_stop_recording">Parar gravação</string>
+    <string name="melody_listening">Ouvindo…</string>
+    <string name="melody_detected_note">Detectado: %s</string>
+    <string name="melody_stabilizing">Estabilizando…</string>
+    <string name="melody_added_note">Nota %1$s %2$s adicionada</string>
+    <string name="melody_no_sound">Toque uma nota no seu ukulele</string>
+    <string name="melody_save">Salvar</string>
+    <string name="melody_save_as">Salvar como…</string>
+    <string name="melody_load">Carregar melodia</string>
+    <string name="melody_rename">Renomear</string>
+    <string name="melody_new">Nova melodia</string>
+    <string name="melody_save_dialog_title">Salvar Melodia</string>
+    <string name="melody_name_hint">Nome da melodia</string>
+    <string name="melody_load_dialog_title">Melodias Salvas</string>
+    <string name="melody_load_empty">Nenhuma melodia salva ainda</string>
+    <string name="melody_note_info">%1$s notas · %2$d BPM</string>
+    <string name="melody_discard_title">Alterações Não Salvas</string>
+    <string name="melody_discard_message">Você tem alterações não salvas. Descartar?</string>
+    <string name="melody_delete_title">Excluir Melodia</string>
+    <string name="melody_delete_message">Excluir \"%s\"?</string>
+    <string name="melody_unsaved"> (alterações não salvas)</string>
+    <string name="melody_current">Atual: %s</string>
+    <string name="cd_save_melody">Salvar melodia</string>
+    <string name="cd_more_options">Mais opções</string>
+    <string name="cd_note_position">Nota %1$s %2$s, posição %3$d</string>
+    <string name="cd_rest_position">Pausa, %1$s, posição %2$d</string>
+    <string name="cd_start_recording">Gravar notas do ukulele</string>
+    <string name="cd_stop_recording">Parar gravação</string>
+    <string name="melody_rename_dialog_title">Renomear Melodia</string>
 
     <!-- ── Condução de vozes ─────────────────────────────────────────── -->
     <string name="cd_back_progressions">Voltar às progressões</string>

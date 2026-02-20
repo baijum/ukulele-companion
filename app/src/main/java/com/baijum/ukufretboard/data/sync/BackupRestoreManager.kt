@@ -9,6 +9,10 @@ import com.baijum.ukufretboard.data.FavoriteFolder
 import com.baijum.ukufretboard.data.FavoriteVoicing
 import com.baijum.ukufretboard.data.FavoritesRepository
 import com.baijum.ukufretboard.data.LearningProgressRepository
+import com.baijum.ukufretboard.data.Melody
+import com.baijum.ukufretboard.data.MelodyNote
+import com.baijum.ukufretboard.data.MelodyRepository
+import com.baijum.ukufretboard.data.NoteDuration
 import com.baijum.ukufretboard.data.AppSettings
 import com.baijum.ukufretboard.data.SoundSettings
 import com.baijum.ukufretboard.data.DisplaySettings
@@ -43,6 +47,7 @@ class BackupRestoreManager(
     private val strumPatternRepo by lazy { CustomStrumPatternRepository(context) }
     private val fingerpickingRepo by lazy { CustomFingerpickingPatternRepository(context) }
     private val learningProgressRepo by lazy { LearningProgressRepository(context) }
+    private val melodyRepo by lazy { MelodyRepository(context) }
     /**
      * Collects all user data from all repositories and serializes to JSON.
      *
@@ -120,6 +125,23 @@ class BackupRestoreManager(
                         )
                     },
                     createdAt = cfp.createdAt,
+                )
+            },
+            melodies = melodyRepo.getAll().map { melody ->
+                BackupMelody(
+                    id = melody.id,
+                    name = melody.name,
+                    notes = melody.notes.map { n ->
+                        BackupMelodyNote(
+                            pitchClass = n.pitchClass,
+                            octave = n.octave,
+                            duration = n.duration.name,
+                            stringIndex = n.stringIndex,
+                            fret = n.fret,
+                        )
+                    },
+                    bpm = melody.bpm,
+                    createdAt = melody.createdAt,
                 )
             },
             learningProgress = BackupLearningProgress(
@@ -207,6 +229,9 @@ class BackupRestoreManager(
 
         // --- Custom fingerpicking patterns ---
         importFingerpickingPatterns(backup.customFingerpickingPatterns)
+
+        // --- Melodies ---
+        importMelodies(backup.melodies)
 
         // --- Learning progress ---
         learningProgressRepo.importAll(backup.learningProgress.entries)
@@ -340,5 +365,30 @@ class BackupRestoreManager(
             }
         }
         fingerpickingRepo.importAll(domainItems)
+    }
+
+    private fun importMelodies(items: List<BackupMelody>) {
+        val domainItems = items.mapNotNull { bm ->
+            try {
+                Melody(
+                    id = bm.id,
+                    name = bm.name,
+                    notes = bm.notes.map { n ->
+                        MelodyNote(
+                            pitchClass = n.pitchClass,
+                            octave = n.octave,
+                            duration = NoteDuration.valueOf(n.duration),
+                            stringIndex = n.stringIndex,
+                            fret = n.fret,
+                        )
+                    },
+                    bpm = bm.bpm,
+                    createdAt = bm.createdAt,
+                )
+            } catch (_: Exception) {
+                null
+            }
+        }
+        melodyRepo.importAll(domainItems)
     }
 }

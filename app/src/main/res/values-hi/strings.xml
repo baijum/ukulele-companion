@@ -694,9 +694,9 @@
 
     <!-- ── Melody Notepad ───────────────────────────────────────────── -->
     <string name="melody_title">मेलोडी नोटपैड</string>
-    <string name="melody_subtitle">मेलोडी बनाने के लिए नोट टैप करें। सुनने के लिए प्ले दबाएँ।</string>
+    <string name="melody_subtitle">नोट्स टैप करें या अपने यूकुलेले से रिकॉर्ड करें</string>
     <string name="melody_sequence">सीक्वेंस (%d नोट)</string>
-    <string name="melody_placeholder">रचना शुरू करने के लिए नीचे कोई नोट टैप करें</string>
+    <string name="melody_placeholder">कंपोज़ शुरू करने के लिए नोट टैप करें या यूकुलेले से रिकॉर्ड करें</string>
     <string name="melody_whole">पूर्ण</string>
     <string name="melody_half">आधा</string>
     <string name="melody_quarter">चौथाई</string>
@@ -710,6 +710,42 @@
     <string name="cd_stop_playing">चलाना बंद करें</string>
     <string name="cd_clear_all">सभी नोट साफ़ करें</string>
     <string name="melody_clear">साफ़ करें</string>
+    <string name="melody_input_tap">टैप</string>
+    <string name="melody_input_record">रिकॉर्ड</string>
+    <string name="melody_octave">सप्तक</string>
+    <string name="cd_decrease_octave">सप्तक कम करें</string>
+    <string name="cd_increase_octave">सप्तक बढ़ाएं</string>
+    <string name="cd_octave_value">सप्तक %d</string>
+    <string name="melody_start_recording">रिकॉर्डिंग शुरू करें</string>
+    <string name="melody_stop_recording">रिकॉर्डिंग बंद करें</string>
+    <string name="melody_listening">सुन रहे हैं…</string>
+    <string name="melody_detected_note">पहचाना: %s</string>
+    <string name="melody_stabilizing">स्थिर हो रहा है…</string>
+    <string name="melody_added_note">%1$s %2$s नोट जोड़ा गया</string>
+    <string name="melody_no_sound">अपने यूकुलेले पर एक नोट बजाएं</string>
+    <string name="melody_save">सहेजें</string>
+    <string name="melody_save_as">इस रूप में सहेजें…</string>
+    <string name="melody_load">मेलोडी लोड करें</string>
+    <string name="melody_rename">नाम बदलें</string>
+    <string name="melody_new">नई मेलोडी</string>
+    <string name="melody_save_dialog_title">मेलोडी सहेजें</string>
+    <string name="melody_name_hint">मेलोडी का नाम</string>
+    <string name="melody_load_dialog_title">सहेजी गई मेलोडी</string>
+    <string name="melody_load_empty">अभी तक कोई मेलोडी सहेजी नहीं गई</string>
+    <string name="melody_note_info">%1$s नोट्स · %2$d BPM</string>
+    <string name="melody_discard_title">बिना सहेजे बदलाव</string>
+    <string name="melody_discard_message">आपके पास बिना सहेजे बदलाव हैं। छोड़ दें?</string>
+    <string name="melody_delete_title">मेलोडी हटाएं</string>
+    <string name="melody_delete_message">\"%s\" हटाएं?</string>
+    <string name="melody_unsaved"> (बिना सहेजे बदलाव)</string>
+    <string name="melody_current">वर्तमान: %s</string>
+    <string name="cd_save_melody">मेलोडी सहेजें</string>
+    <string name="cd_more_options">अधिक विकल्प</string>
+    <string name="cd_note_position">%1$s %2$s नोट, स्थिति %3$d</string>
+    <string name="cd_rest_position">विराम, %1$s, स्थिति %2$d</string>
+    <string name="cd_start_recording">यूकुलेले से नोट्स रिकॉर्ड करें</string>
+    <string name="cd_stop_recording">रिकॉर्डिंग बंद करें</string>
+    <string name="melody_rename_dialog_title">मेलोडी का नाम बदलें</string>
 
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">प्रोग्रेशन पर वापस जाएँ</string>

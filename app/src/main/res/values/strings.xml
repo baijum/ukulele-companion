@@ -754,9 +754,9 @@
 
     <!-- ── Melody Notepad ───────────────────────────────────────────── -->
     <string name="melody_title">Melody Notepad</string>
-    <string name="melody_subtitle">Tap notes to compose a melody. Press play to hear it.</string>
+    <string name="melody_subtitle">Tap notes or record from your ukulele</string>
     <string name="melody_sequence">Sequence (%d notes)</string>
-    <string name="melody_placeholder">Tap a note below to start composing</string>
+    <string name="melody_placeholder">Tap a note or record from your ukulele to start composing</string>
     <string name="melody_whole">W</string>
     <string name="melody_half">H</string>
     <string name="melody_quarter">Q</string>
@@ -770,6 +770,42 @@
     <string name="cd_stop_playing">Stop playing</string>
     <string name="cd_clear_all">Clear all notes</string>
     <string name="melody_clear">Clear</string>
+    <string name="melody_input_tap">Tap</string>
+    <string name="melody_input_record">Record</string>
+    <string name="melody_octave">Octave</string>
+    <string name="cd_decrease_octave">Decrease octave</string>
+    <string name="cd_increase_octave">Increase octave</string>
+    <string name="cd_octave_value">Octave %d</string>
+    <string name="melody_start_recording">Start recording</string>
+    <string name="melody_stop_recording">Stop recording</string>
+    <string name="melody_listening">Listening…</string>
+    <string name="melody_detected_note">Detected: %s</string>
+    <string name="melody_stabilizing">Stabilizing…</string>
+    <string name="melody_added_note">Added %1$s %2$s note</string>
+    <string name="melody_no_sound">Play a note on your ukulele</string>
+    <string name="melody_save">Save</string>
+    <string name="melody_save_as">Save as…</string>
+    <string name="melody_load">Load melody</string>
+    <string name="melody_rename">Rename</string>
+    <string name="melody_new">New melody</string>
+    <string name="melody_save_dialog_title">Save Melody</string>
+    <string name="melody_name_hint">Melody name</string>
+    <string name="melody_load_dialog_title">Saved Melodies</string>
+    <string name="melody_load_empty">No saved melodies yet</string>
+    <string name="melody_note_info">%1$s notes · %2$d BPM</string>
+    <string name="melody_discard_title">Unsaved Changes</string>
+    <string name="melody_discard_message">You have unsaved changes. Discard them?</string>
+    <string name="melody_delete_title">Delete Melody</string>
+    <string name="melody_delete_message">Delete \"%s\"?</string>
+    <string name="melody_unsaved"> (unsaved changes)</string>
+    <string name="melody_current">Current: %s</string>
+    <string name="cd_save_melody">Save melody</string>
+    <string name="cd_more_options">More options</string>
+    <string name="cd_note_position">%1$s %2$s note, position %3$d</string>
+    <string name="cd_rest_position">Rest, %1$s, position %2$d</string>
+    <string name="cd_start_recording">Record notes from ukulele</string>
+    <string name="cd_stop_recording">Stop recording</string>
+    <string name="melody_rename_dialog_title">Rename Melody</string>
 
     <string name="cd_add_known_chord">Add %s to known chords</string>
 

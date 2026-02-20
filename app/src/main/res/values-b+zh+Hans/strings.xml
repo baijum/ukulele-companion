@@ -694,9 +694,9 @@
 
     <!-- ── Melody Notepad ───────────────────────────────────────────── -->
     <string name="melody_title">旋律记事本</string>
-    <string name="melody_subtitle">点击音符创作旋律。按播放键聆听。</string>
+    <string name="melody_subtitle">点按音符或从尤克里里录音</string>
     <string name="melody_sequence">序列（%d 个音符）</string>
-    <string name="melody_placeholder">点击下方的音符开始创作</string>
+    <string name="melody_placeholder">点按音符或从尤克里里录音以开始创作</string>
     <string name="melody_whole">全</string>
     <string name="melody_half">二分</string>
     <string name="melody_quarter">四分</string>
@@ -710,6 +710,42 @@
     <string name="cd_stop_playing">停止播放</string>
     <string name="cd_clear_all">清除所有音符</string>
     <string name="melody_clear">清除</string>
+    <string name="melody_input_tap">点按</string>
+    <string name="melody_input_record">录音</string>
+    <string name="melody_octave">八度</string>
+    <string name="cd_decrease_octave">降低八度</string>
+    <string name="cd_increase_octave">升高八度</string>
+    <string name="cd_octave_value">八度 %d</string>
+    <string name="melody_start_recording">开始录音</string>
+    <string name="melody_stop_recording">停止录音</string>
+    <string name="melody_listening">正在聆听…</string>
+    <string name="melody_detected_note">检测到：%s</string>
+    <string name="melody_stabilizing">正在稳定…</string>
+    <string name="melody_added_note">已添加 %1$s %2$s 音符</string>
+    <string name="melody_no_sound">在尤克里里上弹奏一个音符</string>
+    <string name="melody_save">保存</string>
+    <string name="melody_save_as">另存为…</string>
+    <string name="melody_load">加载旋律</string>
+    <string name="melody_rename">重命名</string>
+    <string name="melody_new">新建旋律</string>
+    <string name="melody_save_dialog_title">保存旋律</string>
+    <string name="melody_name_hint">旋律名称</string>
+    <string name="melody_load_dialog_title">已保存的旋律</string>
+    <string name="melody_load_empty">暂无已保存的旋律</string>
+    <string name="melody_note_info">%1$s 个音符 · %2$d BPM</string>
+    <string name="melody_discard_title">未保存的更改</string>
+    <string name="melody_discard_message">您有未保存的更改。要放弃吗？</string>
+    <string name="melody_delete_title">删除旋律</string>
+    <string name="melody_delete_message">删除「%s」？</string>
+    <string name="melody_unsaved"> (未保存的更改)</string>
+    <string name="melody_current">当前：%s</string>
+    <string name="cd_save_melody">保存旋律</string>
+    <string name="cd_more_options">更多选项</string>
+    <string name="cd_note_position">%1$s %2$s 音符，位置 %3$d</string>
+    <string name="cd_rest_position">休止符，%1$s，位置 %2$d</string>
+    <string name="cd_start_recording">从尤克里里录制音符</string>
+    <string name="cd_stop_recording">停止录音</string>
+    <string name="melody_rename_dialog_title">重命名旋律</string>
 
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">返回和弦进行</string>

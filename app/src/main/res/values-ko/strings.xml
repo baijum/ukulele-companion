@@ -694,9 +694,9 @@
 
     <!-- ── Melody Notepad ───────────────────────────────────────────── -->
     <string name="melody_title">멜로디 메모장</string>
-    <string name="melody_subtitle">음을 탭하여 멜로디를 작곡하세요. 재생 버튼으로 들을 수 있습니다.</string>
+    <string name="melody_subtitle">음표를 탭하거나 우쿨렐레에서 녹음하세요</string>
     <string name="melody_sequence">시퀀스 (%d음)</string>
-    <string name="melody_placeholder">아래의 음을 탭하여 작곡을 시작하세요</string>
+    <string name="melody_placeholder">음표를 탭하거나 우쿨렐레에서 녹음하여 작곡을 시작하세요</string>
     <string name="melody_whole">온</string>
     <string name="melody_half">2분</string>
     <string name="melody_quarter">4분</string>
@@ -710,6 +710,42 @@
     <string name="cd_stop_playing">재생 정지</string>
     <string name="cd_clear_all">모든 음 지우기</string>
     <string name="melody_clear">지우기</string>
+    <string name="melody_input_tap">탭</string>
+    <string name="melody_input_record">녹음</string>
+    <string name="melody_octave">옥타브</string>
+    <string name="cd_decrease_octave">옥타브 낮추기</string>
+    <string name="cd_increase_octave">옥타브 올리기</string>
+    <string name="cd_octave_value">옥타브 %d</string>
+    <string name="melody_start_recording">녹음 시작</string>
+    <string name="melody_stop_recording">녹음 중지</string>
+    <string name="melody_listening">듣는 중…</string>
+    <string name="melody_detected_note">감지됨: %s</string>
+    <string name="melody_stabilizing">안정화 중…</string>
+    <string name="melody_added_note">%1$s %2$s 음표 추가됨</string>
+    <string name="melody_no_sound">우쿨렐레에서 음을 연주하세요</string>
+    <string name="melody_save">저장</string>
+    <string name="melody_save_as">다른 이름으로 저장…</string>
+    <string name="melody_load">멜로디 불러오기</string>
+    <string name="melody_rename">이름 바꾸기</string>
+    <string name="melody_new">새 멜로디</string>
+    <string name="melody_save_dialog_title">멜로디 저장</string>
+    <string name="melody_name_hint">멜로디 이름</string>
+    <string name="melody_load_dialog_title">저장된 멜로디</string>
+    <string name="melody_load_empty">저장된 멜로디가 없습니다</string>
+    <string name="melody_note_info">%1$s 음표 · %2$d BPM</string>
+    <string name="melody_discard_title">저장되지 않은 변경</string>
+    <string name="melody_discard_message">저장되지 않은 변경 사항이 있습니다. 삭제하시겠습니까?</string>
+    <string name="melody_delete_title">멜로디 삭제</string>
+    <string name="melody_delete_message">\"%s\" 삭제하시겠습니까?</string>
+    <string name="melody_unsaved"> (저장되지 않은 변경)</string>
+    <string name="melody_current">현재: %s</string>
+    <string name="cd_save_melody">멜로디 저장</string>
+    <string name="cd_more_options">더 많은 옵션</string>
+    <string name="cd_note_position">%1$s %2$s 음표, 위치 %3$d</string>
+    <string name="cd_rest_position">쉼표, %1$s, 위치 %2$d</string>
+    <string name="cd_start_recording">우쿨렐레에서 음표 녹음</string>
+    <string name="cd_stop_recording">녹음 중지</string>
+    <string name="melody_rename_dialog_title">멜로디 이름 바꾸기</string>
 
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">코드 진행으로 돌아가기</string>

@@ -694,9 +694,9 @@
 
     <!-- ── Melody Notepad ───────────────────────────────────────────── -->
     <string name="melody_title">دفتر الألحان</string>
-    <string name="melody_subtitle">انقر النوتات لتأليف لحن. اضغط تشغيل للاستماع.</string>
+    <string name="melody_subtitle">انقر على النوتات أو سجل من اليوكيليلي</string>
     <string name="melody_sequence">التسلسل (%d نوتة)</string>
-    <string name="melody_placeholder">انقر نوتة أدناه لبدء التأليف</string>
+    <string name="melody_placeholder">انقر على نوتة أو سجل من اليوكيليلي لبدء التأليف</string>
     <string name="melody_whole">ك</string>
     <string name="melody_half">ن</string>
     <string name="melody_quarter">ر</string>
@@ -710,6 +710,42 @@
     <string name="cd_stop_playing">إيقاف التشغيل</string>
     <string name="cd_clear_all">مسح جميع النوتات</string>
     <string name="melody_clear">مسح</string>
+    <string name="melody_input_tap">نقر</string>
+    <string name="melody_input_record">تسجيل</string>
+    <string name="melody_octave">الأوكتاف</string>
+    <string name="cd_decrease_octave">خفض الأوكتاف</string>
+    <string name="cd_increase_octave">رفع الأوكتاف</string>
+    <string name="cd_octave_value">الأوكتاف %d</string>
+    <string name="melody_start_recording">بدء التسجيل</string>
+    <string name="melody_stop_recording">إيقاف التسجيل</string>
+    <string name="melody_listening">جارٍ الاستماع…</string>
+    <string name="melody_detected_note">تم الكشف: %s</string>
+    <string name="melody_stabilizing">جارٍ التثبيت…</string>
+    <string name="melody_added_note">تمت إضافة نوتة %1$s %2$s</string>
+    <string name="melody_no_sound">اعزف نوتة على اليوكيليلي</string>
+    <string name="melody_save">حفظ</string>
+    <string name="melody_save_as">حفظ باسم…</string>
+    <string name="melody_load">تحميل لحن</string>
+    <string name="melody_rename">إعادة تسمية</string>
+    <string name="melody_new">لحن جديد</string>
+    <string name="melody_save_dialog_title">حفظ اللحن</string>
+    <string name="melody_name_hint">اسم اللحن</string>
+    <string name="melody_load_dialog_title">الألحان المحفوظة</string>
+    <string name="melody_load_empty">لا توجد ألحان محفوظة بعد</string>
+    <string name="melody_note_info">%1$s نوتات · %2$d BPM</string>
+    <string name="melody_discard_title">تغييرات غير محفوظة</string>
+    <string name="melody_discard_message">لديك تغييرات غير محفوظة. هل تريد تجاهلها؟</string>
+    <string name="melody_delete_title">حذف اللحن</string>
+    <string name="melody_delete_message">حذف \"%s\"؟</string>
+    <string name="melody_unsaved"> (تغييرات غير محفوظة)</string>
+    <string name="melody_current">الحالي: %s</string>
+    <string name="cd_save_melody">حفظ اللحن</string>
+    <string name="cd_more_options">خيارات إضافية</string>
+    <string name="cd_note_position">نوتة %1$s %2$s، الموضع %3$d</string>
+    <string name="cd_rest_position">سكتة، %1$s، الموضع %2$d</string>
+    <string name="cd_start_recording">تسجيل نوتات من اليوكيليلي</string>
+    <string name="cd_stop_recording">إيقاف التسجيل</string>
+    <string name="melody_rename_dialog_title">إعادة تسمية اللحن</string>
 
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">العودة إلى التقدمات اللحنية</string>

@@ -694,9 +694,9 @@
 
     <!-- ── Catatan Melodi ─────────────────────────────────────────────── -->
     <string name="melody_title">Catatan Melodi</string>
-    <string name="melody_subtitle">Ketuk not untuk menggubah melodi. Tekan putar untuk mendengarnya.</string>
+    <string name="melody_subtitle">Ketuk not atau rekam dari ukulele Anda</string>
     <string name="melody_sequence">Urutan (%d not)</string>
-    <string name="melody_placeholder">Ketuk not di bawah untuk mulai menggubah</string>
+    <string name="melody_placeholder">Ketuk not atau rekam dari ukulele untuk mulai menulis</string>
     <string name="melody_whole">P</string>
     <string name="melody_half">S</string>
     <string name="melody_quarter">E</string>
@@ -710,6 +710,42 @@
     <string name="cd_stop_playing">Berhenti memutar</string>
     <string name="cd_clear_all">Hapus semua not</string>
     <string name="melody_clear">Hapus</string>
+    <string name="melody_input_tap">Ketuk</string>
+    <string name="melody_input_record">Rekam</string>
+    <string name="melody_octave">Oktaf</string>
+    <string name="cd_decrease_octave">Turunkan oktaf</string>
+    <string name="cd_increase_octave">Naikkan oktaf</string>
+    <string name="cd_octave_value">Oktaf %d</string>
+    <string name="melody_start_recording">Mulai merekam</string>
+    <string name="melody_stop_recording">Hentikan rekaman</string>
+    <string name="melody_listening">Mendengarkan…</string>
+    <string name="melody_detected_note">Terdeteksi: %s</string>
+    <string name="melody_stabilizing">Menstabilkan…</string>
+    <string name="melody_added_note">Not %1$s %2$s ditambahkan</string>
+    <string name="melody_no_sound">Mainkan sebuah not di ukulele Anda</string>
+    <string name="melody_save">Simpan</string>
+    <string name="melody_save_as">Simpan sebagai…</string>
+    <string name="melody_load">Muat melodi</string>
+    <string name="melody_rename">Ubah nama</string>
+    <string name="melody_new">Melodi baru</string>
+    <string name="melody_save_dialog_title">Simpan Melodi</string>
+    <string name="melody_name_hint">Nama melodi</string>
+    <string name="melody_load_dialog_title">Melodi Tersimpan</string>
+    <string name="melody_load_empty">Belum ada melodi tersimpan</string>
+    <string name="melody_note_info">%1$s not · %2$d BPM</string>
+    <string name="melody_discard_title">Perubahan Belum Disimpan</string>
+    <string name="melody_discard_message">Anda memiliki perubahan yang belum disimpan. Buang?</string>
+    <string name="melody_delete_title">Hapus Melodi</string>
+    <string name="melody_delete_message">Hapus \"%s\"?</string>
+    <string name="melody_unsaved"> (perubahan belum disimpan)</string>
+    <string name="melody_current">Saat ini: %s</string>
+    <string name="cd_save_melody">Simpan melodi</string>
+    <string name="cd_more_options">Opsi lainnya</string>
+    <string name="cd_note_position">Not %1$s %2$s, posisi %3$d</string>
+    <string name="cd_rest_position">Istirahat, %1$s, posisi %2$d</string>
+    <string name="cd_start_recording">Rekam not dari ukulele</string>
+    <string name="cd_stop_recording">Hentikan rekaman</string>
+    <string name="melody_rename_dialog_title">Ubah Nama Melodi</string>
 
     <!-- ── Voice Leading ──────────────────────────────────────────────── -->
     <string name="cd_back_progressions">Kembali ke progresi</string>

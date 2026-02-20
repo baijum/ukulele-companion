@@ -99,6 +99,7 @@ import com.baijum.ukufretboard.viewmodel.BackupRestoreViewModel
 import com.baijum.ukufretboard.viewmodel.TunerViewModel
 import com.baijum.ukufretboard.viewmodel.PitchMonitorViewModel
 import com.baijum.ukufretboard.viewmodel.LearningProgressViewModel
+import com.baijum.ukufretboard.viewmodel.MelodyViewModel
 import com.baijum.ukufretboard.viewmodel.ScalePracticeViewModel
 
 /** Navigation section indices. */
@@ -221,6 +222,7 @@ fun FretboardScreen(
     pitchMonitorViewModel: PitchMonitorViewModel = viewModel(),
     learningProgressViewModel: LearningProgressViewModel = viewModel(),
     scalePracticeViewModel: ScalePracticeViewModel = viewModel(),
+    melodyViewModel: MelodyViewModel = viewModel(),
 ) {
     var selectedSection by rememberSaveable { mutableIntStateOf(NAV_EXPLORER) }
     var previousSection by rememberSaveable { mutableStateOf<Int?>(null) }
@@ -285,6 +287,12 @@ fun FretboardScreen(
     // Keep FretboardViewModel in sync with sound settings
     LaunchedEffect(appSettings.sound) {
         fretboardViewModel.setSoundSettings(appSettings.sound)
+        melodyViewModel.setSoundSettings(appSettings.sound)
+    }
+
+    // Initialize MelodyViewModel with application context
+    LaunchedEffect(Unit) {
+        melodyViewModel.setApplicationContext(context)
     }
 
     // Sync tuning settings
@@ -644,9 +652,7 @@ fun FretboardScreen(
                         practiceStats = practiceStats,
                     )
                     NAV_MELODY_NOTEPAD -> MelodyNotepadView(
-                        onPlayNote = { pitchClass ->
-                            fretboardViewModel.playMelodyNote(pitchClass)
-                        },
+                        viewModel = melodyViewModel,
                     )
                     NAV_CIRCLE_OF_FIFTHS -> CircleOfFifthsView(
                         onChordTapped = { rootPitchClass, quality ->

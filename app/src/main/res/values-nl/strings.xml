@@ -694,9 +694,9 @@
 
     <!-- ── Melodieblok ────────────────────────────────────────────────── -->
     <string name="melody_title">Melodieblok</string>
-    <string name="melody_subtitle">Tik op noten om een melodie te componeren. Druk op afspelen om te luisteren.</string>
+    <string name="melody_subtitle">Tik op noten of neem op van je ukulele</string>
     <string name="melody_sequence">Reeks (%d noten)</string>
-    <string name="melody_placeholder">Tik hieronder op een noot om te beginnen met componeren</string>
+    <string name="melody_placeholder">Tik op een noot of neem op van je ukulele om te beginnen</string>
     <string name="melody_whole">H</string>
     <string name="melody_half">½</string>
     <string name="melody_quarter">K</string>
@@ -710,6 +710,42 @@
     <string name="cd_stop_playing">Afspelen stoppen</string>
     <string name="cd_clear_all">Alle noten wissen</string>
     <string name="melody_clear">Wissen</string>
+    <string name="melody_input_tap">Tikken</string>
+    <string name="melody_input_record">Opnemen</string>
+    <string name="melody_octave">Octaaf</string>
+    <string name="cd_decrease_octave">Octaaf verlagen</string>
+    <string name="cd_increase_octave">Octaaf verhogen</string>
+    <string name="cd_octave_value">Octaaf %d</string>
+    <string name="melody_start_recording">Opname starten</string>
+    <string name="melody_stop_recording">Opname stoppen</string>
+    <string name="melody_listening">Luisteren…</string>
+    <string name="melody_detected_note">Gedetecteerd: %s</string>
+    <string name="melody_stabilizing">Stabiliseren…</string>
+    <string name="melody_added_note">%1$s %2$s noot toegevoegd</string>
+    <string name="melody_no_sound">Speel een noot op je ukulele</string>
+    <string name="melody_save">Opslaan</string>
+    <string name="melody_save_as">Opslaan als…</string>
+    <string name="melody_load">Melodie laden</string>
+    <string name="melody_rename">Hernoemen</string>
+    <string name="melody_new">Nieuwe melodie</string>
+    <string name="melody_save_dialog_title">Melodie opslaan</string>
+    <string name="melody_name_hint">Melodienaam</string>
+    <string name="melody_load_dialog_title">Opgeslagen melodieën</string>
+    <string name="melody_load_empty">Nog geen opgeslagen melodieën</string>
+    <string name="melody_note_info">%1$s noten · %2$d BPM</string>
+    <string name="melody_discard_title">Niet-opgeslagen wijzigingen</string>
+    <string name="melody_discard_message">Je hebt niet-opgeslagen wijzigingen. Verwerpen?</string>
+    <string name="melody_delete_title">Melodie verwijderen</string>
+    <string name="melody_delete_message">\"%s\" verwijderen?</string>
+    <string name="melody_unsaved"> (niet-opgeslagen wijzigingen)</string>
+    <string name="melody_current">Huidig: %s</string>
+    <string name="cd_save_melody">Melodie opslaan</string>
+    <string name="cd_more_options">Meer opties</string>
+    <string name="cd_note_position">%1$s %2$s noot, positie %3$d</string>
+    <string name="cd_rest_position">Rust, %1$s, positie %2$d</string>
+    <string name="cd_start_recording">Noten opnemen van ukulele</string>
+    <string name="cd_stop_recording">Opname stoppen</string>
+    <string name="melody_rename_dialog_title">Melodie hernoemen</string>
 
     <!-- ── Stemvoering ────────────────────────────────────────────────── -->
     <string name="cd_back_progressions">Terug naar progressies</string>

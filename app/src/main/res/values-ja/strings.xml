@@ -694,9 +694,9 @@
 
     <!-- ── Melody Notepad ───────────────────────────────────────────── -->
     <string name="melody_title">メロディーメモ</string>
-    <string name="melody_subtitle">音符をタップしてメロディーを作曲。再生ボタンで聴けます。</string>
+    <string name="melody_subtitle">ノートをタップするか、ウクレレから録音</string>
     <string name="melody_sequence">シーケンス（%d音）</string>
-    <string name="melody_placeholder">下の音符をタップして作曲を始めましょう</string>
+    <string name="melody_placeholder">ノートをタップするかウクレレから録音して作曲を始めましょう</string>
     <string name="melody_whole">全</string>
     <string name="melody_half">2分</string>
     <string name="melody_quarter">4分</string>
@@ -710,6 +710,42 @@
     <string name="cd_stop_playing">再生を停止</string>
     <string name="cd_clear_all">すべての音を消去</string>
     <string name="melody_clear">消去</string>
+    <string name="melody_input_tap">タップ</string>
+    <string name="melody_input_record">録音</string>
+    <string name="melody_octave">オクターブ</string>
+    <string name="cd_decrease_octave">オクターブを下げる</string>
+    <string name="cd_increase_octave">オクターブを上げる</string>
+    <string name="cd_octave_value">オクターブ %d</string>
+    <string name="melody_start_recording">録音を開始</string>
+    <string name="melody_stop_recording">録音を停止</string>
+    <string name="melody_listening">聴いています…</string>
+    <string name="melody_detected_note">検出: %s</string>
+    <string name="melody_stabilizing">安定化中…</string>
+    <string name="melody_added_note">%1$s %2$s ノートを追加しました</string>
+    <string name="melody_no_sound">ウクレレでノートを弾いてください</string>
+    <string name="melody_save">保存</string>
+    <string name="melody_save_as">名前を付けて保存…</string>
+    <string name="melody_load">メロディーを読み込む</string>
+    <string name="melody_rename">名前を変更</string>
+    <string name="melody_new">新しいメロディー</string>
+    <string name="melody_save_dialog_title">メロディーを保存</string>
+    <string name="melody_name_hint">メロディー名</string>
+    <string name="melody_load_dialog_title">保存されたメロディー</string>
+    <string name="melody_load_empty">保存されたメロディーはありません</string>
+    <string name="melody_note_info">%1$s ノート · %2$d BPM</string>
+    <string name="melody_discard_title">未保存の変更</string>
+    <string name="melody_discard_message">未保存の変更があります。破棄しますか？</string>
+    <string name="melody_delete_title">メロディーを削除</string>
+    <string name="melody_delete_message">「%s」を削除しますか？</string>
+    <string name="melody_unsaved"> (未保存の変更)</string>
+    <string name="melody_current">現在: %s</string>
+    <string name="cd_save_melody">メロディーを保存</string>
+    <string name="cd_more_options">その他のオプション</string>
+    <string name="cd_note_position">%1$s %2$s ノート、位置 %3$d</string>
+    <string name="cd_rest_position">休符、%1$s、位置 %2$d</string>
+    <string name="cd_start_recording">ウクレレからノートを録音</string>
+    <string name="cd_stop_recording">録音を停止</string>
+    <string name="melody_rename_dialog_title">メロディーの名前を変更</string>
 
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">コード進行に戻る</string>

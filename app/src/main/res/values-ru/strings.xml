@@ -694,9 +694,9 @@
 
     <!-- ── Melody Notepad ───────────────────────────────────────────── -->
     <string name="melody_title">Блокнот мелодий</string>
-    <string name="melody_subtitle">Нажимайте ноты для создания мелодии. Нажмите «Воспроизвести» для прослушивания.</string>
+    <string name="melody_subtitle">Нажимайте ноты или записывайте с укулеле</string>
     <string name="melody_sequence">Последовательность (%d нот)</string>
-    <string name="melody_placeholder">Нажмите на ноту ниже, чтобы начать</string>
+    <string name="melody_placeholder">Нажмите ноту или запишите с укулеле, чтобы начать сочинять</string>
     <string name="melody_whole">Ц</string>
     <string name="melody_half">П</string>
     <string name="melody_quarter">Ч</string>
@@ -710,6 +710,42 @@
     <string name="cd_stop_playing">Остановить воспроизведение</string>
     <string name="cd_clear_all">Очистить все ноты</string>
     <string name="melody_clear">Очистить</string>
+    <string name="melody_input_tap">Нажатие</string>
+    <string name="melody_input_record">Запись</string>
+    <string name="melody_octave">Октава</string>
+    <string name="cd_decrease_octave">Понизить октаву</string>
+    <string name="cd_increase_octave">Повысить октаву</string>
+    <string name="cd_octave_value">Октава %d</string>
+    <string name="melody_start_recording">Начать запись</string>
+    <string name="melody_stop_recording">Остановить запись</string>
+    <string name="melody_listening">Слушаем…</string>
+    <string name="melody_detected_note">Обнаружено: %s</string>
+    <string name="melody_stabilizing">Стабилизация…</string>
+    <string name="melody_added_note">Добавлена нота %1$s %2$s</string>
+    <string name="melody_no_sound">Сыграйте ноту на укулеле</string>
+    <string name="melody_save">Сохранить</string>
+    <string name="melody_save_as">Сохранить как…</string>
+    <string name="melody_load">Загрузить мелодию</string>
+    <string name="melody_rename">Переименовать</string>
+    <string name="melody_new">Новая мелодия</string>
+    <string name="melody_save_dialog_title">Сохранить мелодию</string>
+    <string name="melody_name_hint">Название мелодии</string>
+    <string name="melody_load_dialog_title">Сохранённые мелодии</string>
+    <string name="melody_load_empty">Нет сохранённых мелодий</string>
+    <string name="melody_note_info">%1$s нот · %2$d BPM</string>
+    <string name="melody_discard_title">Несохранённые изменения</string>
+    <string name="melody_discard_message">У вас есть несохранённые изменения. Отменить?</string>
+    <string name="melody_delete_title">Удалить мелодию</string>
+    <string name="melody_delete_message">Удалить \"%s\"?</string>
+    <string name="melody_unsaved"> (несохранённые изменения)</string>
+    <string name="melody_current">Текущая: %s</string>
+    <string name="cd_save_melody">Сохранить мелодию</string>
+    <string name="cd_more_options">Дополнительные опции</string>
+    <string name="cd_note_position">Нота %1$s %2$s, позиция %3$d</string>
+    <string name="cd_rest_position">Пауза, %1$s, позиция %2$d</string>
+    <string name="cd_start_recording">Записать ноты с укулеле</string>
+    <string name="cd_stop_recording">Остановить запись</string>
+    <string name="melody_rename_dialog_title">Переименовать мелодию</string>
 
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">Назад к прогрессиям</string>

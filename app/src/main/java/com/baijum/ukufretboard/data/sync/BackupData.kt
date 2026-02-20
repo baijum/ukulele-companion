@@ -30,12 +30,13 @@ data class BackupData(
     val customProgressions: List<BackupProgression> = emptyList(),
     val customStrumPatterns: List<BackupStrumPattern> = emptyList(),
     val customFingerpickingPatterns: List<BackupFingerpickingPattern> = emptyList(),
+    val melodies: List<BackupMelody> = emptyList(),
     val learningProgress: BackupLearningProgress = BackupLearningProgress(),
     val settings: BackupSettings = BackupSettings(),
     val knownChords: List<String> = emptyList(),
 ) {
     companion object {
-        const val CURRENT_VERSION = 2
+        const val CURRENT_VERSION = 3
     }
 }
 
@@ -158,6 +159,34 @@ data class BackupFingerpickStep(
     val finger: String,
     val stringIndex: Int,
     val emphasis: Boolean,
+)
+
+// =============================================================================
+// Melodies
+// =============================================================================
+
+/**
+ * Serializable representation of a melody for backup.
+ */
+@Serializable
+data class BackupMelody(
+    val id: String,
+    val name: String,
+    val notes: List<BackupMelodyNote>,
+    val bpm: Int,
+    val createdAt: Long,
+)
+
+/**
+ * Serializable representation of a single melody note for backup.
+ */
+@Serializable
+data class BackupMelodyNote(
+    val pitchClass: Int? = null,
+    val octave: Int = 4,
+    val duration: String = "QUARTER",
+    val stringIndex: Int? = null,
+    val fret: Int? = null,
 )
 
 // =============================================================================

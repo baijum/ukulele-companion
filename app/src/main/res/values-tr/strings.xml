@@ -694,9 +694,9 @@
 
     <!-- ── Melodi Defteri ─────────────────────────────────────────────── -->
     <string name="melody_title">Melodi Defteri</string>
-    <string name="melody_subtitle">Melodi bestelemek için notalara dokunun. Dinlemek için çal düğmesine basın.</string>
+    <string name="melody_subtitle">Notalara dokunun veya ukulelenizden kaydedin</string>
     <string name="melody_sequence">Dizi (%d nota)</string>
-    <string name="melody_placeholder">Bestelemeye başlamak için aşağıdaki bir notaya dokunun</string>
+    <string name="melody_placeholder">Besteye başlamak için nota dokunun veya ukulelenizden kaydedin</string>
     <string name="melody_whole">T</string>
     <string name="melody_half">Y</string>
     <string name="melody_quarter">Ç</string>
@@ -710,6 +710,42 @@
     <string name="cd_stop_playing">Çalmayı durdur</string>
     <string name="cd_clear_all">Tüm notaları temizle</string>
     <string name="melody_clear">Temizle</string>
+    <string name="melody_input_tap">Dokun</string>
+    <string name="melody_input_record">Kaydet</string>
+    <string name="melody_octave">Oktav</string>
+    <string name="cd_decrease_octave">Oktavı düşür</string>
+    <string name="cd_increase_octave">Oktavı yükselt</string>
+    <string name="cd_octave_value">Oktav %d</string>
+    <string name="melody_start_recording">Kaydı başlat</string>
+    <string name="melody_stop_recording">Kaydı durdur</string>
+    <string name="melody_listening">Dinleniyor…</string>
+    <string name="melody_detected_note">Algılandı: %s</string>
+    <string name="melody_stabilizing">Stabilize ediliyor…</string>
+    <string name="melody_added_note">%1$s %2$s nota eklendi</string>
+    <string name="melody_no_sound">Ukulelenizde bir nota çalın</string>
+    <string name="melody_save">Kaydet</string>
+    <string name="melody_save_as">Farklı kaydet…</string>
+    <string name="melody_load">Melodi yükle</string>
+    <string name="melody_rename">Yeniden adlandır</string>
+    <string name="melody_new">Yeni melodi</string>
+    <string name="melody_save_dialog_title">Melodiyi Kaydet</string>
+    <string name="melody_name_hint">Melodi adı</string>
+    <string name="melody_load_dialog_title">Kayıtlı Melodiler</string>
+    <string name="melody_load_empty">Henüz kayıtlı melodi yok</string>
+    <string name="melody_note_info">%1$s nota · %2$d BPM</string>
+    <string name="melody_discard_title">Kaydedilmemiş Değişiklikler</string>
+    <string name="melody_discard_message">Kaydedilmemiş değişiklikleriniz var. Vazgeçilsin mi?</string>
+    <string name="melody_delete_title">Melodiyi Sil</string>
+    <string name="melody_delete_message">\"%s\" silinsin mi?</string>
+    <string name="melody_unsaved"> (kaydedilmemiş değişiklikler)</string>
+    <string name="melody_current">Mevcut: %s</string>
+    <string name="cd_save_melody">Melodiyi kaydet</string>
+    <string name="cd_more_options">Daha fazla seçenek</string>
+    <string name="cd_note_position">%1$s %2$s nota, konum %3$d</string>
+    <string name="cd_rest_position">Sus, %1$s, konum %2$d</string>
+    <string name="cd_start_recording">Ukuleleden notaları kaydet</string>
+    <string name="cd_stop_recording">Kaydı durdur</string>
+    <string name="melody_rename_dialog_title">Melodiyi Yeniden Adlandır</string>
 
     <!-- ── Ses Yönlendirme ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">İlerlemelere dön</string>
