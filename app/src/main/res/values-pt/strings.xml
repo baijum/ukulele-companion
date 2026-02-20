@@ -793,5 +793,11 @@
     <string name="onboarding_welcome_subtitle">Your all-in-one ukulele companion for chords, scales, music theory, and composition.</string>
     <string name="onboarding_welcome_title">Welcome to Ukulele Companion</string>
     <string name="settings_free_book">Free Ukulele Book (PDF)</string>
-
+    <string name="pitch_monitor_arpeggio_label">arpejo</string>
+    <string name="cd_play_pattern">Reproduzir %s</string>
+    <string name="cd_stop_pattern">Parar %s</string>
+    <string name="patterns_tempo">Tempo</string>
+    <string name="settings_pitch_monitor">Monitor de tom</string>
+    <string name="settings_noise_gate_sensitivity">Sensibilidade do filtro de ruído</string>
+    <string name="settings_noise_gate_desc">Controla a quantidade de ruído de fundo filtrado. Valores mais baixos ignoram mais ruído; valores mais altos captam sons mais suaves.</string>
 </resources>

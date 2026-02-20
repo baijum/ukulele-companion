@@ -795,5 +795,11 @@
     <string name="onboarding_welcome_subtitle">Your all-in-one ukulele companion for chords, scales, music theory, and composition.</string>
     <string name="onboarding_welcome_title">Welcome to Ukulele Companion</string>
     <string name="settings_free_book">Free Ukulele Book (PDF)</string>
-
+    <string name="pitch_monitor_arpeggio_label">arpej</string>
+    <string name="cd_play_pattern">%s oynat</string>
+    <string name="cd_stop_pattern">%s durdur</string>
+    <string name="patterns_tempo">Tempo</string>
+    <string name="settings_pitch_monitor">Perde izleyici</string>
+    <string name="settings_noise_gate_sensitivity">Gürültü kapısı hassasiyeti</string>
+    <string name="settings_noise_gate_desc">Arka plan gürültüsünün ne kadar filtreleneceğini kontrol eder. Düşük değerler daha fazla gürültüyü yoksayar; yüksek değerler daha sessiz sesleri algılar.</string>
 </resources>
