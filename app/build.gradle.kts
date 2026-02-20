@@ -28,8 +28,8 @@ android {
         applicationId = "com.baijum.ukufretboard"
         minSdk = 26
         targetSdk = 35
-        versionCode = 73
-        versionName = "7.8.0"
+        versionCode = 74
+        versionName = "7.8.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
