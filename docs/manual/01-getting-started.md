@@ -28,7 +28,9 @@ The app uses a **navigation drawer** to move between sections. Tap the hamburger
 
 ![Navigation drawer](screenshots/navigation-drawer.png)
 
-The drawer is organised into four groups:
+The drawer is organised into four collapsible groups. Tap any section header (Play, Create, Learn, Reference) to expand or collapse it, reducing clutter. The Learn and Reference sections can also be hidden entirely from Settings > Display.
+
+The four groups are:
 
 ### Play
 

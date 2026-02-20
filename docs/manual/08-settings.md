@@ -19,11 +19,7 @@ Control how the app plays back chords and notes.
 
 ## Display
 
-Customize the app's appearance and notation style.
-
-### Note Names
-
-Toggle between **sharp** (C#, D#, F#, etc.) and **flat** (Db, Eb, Gb, etc.) note name display. This affects all chord names, fretboard labels, and progression displays throughout the app.
+Customize the app's appearance and navigation.
 
 ### Theme
 
@@ -35,6 +31,14 @@ Choose from four theme options:
 | **Dark** | Dark background with light text, easier on the eyes in dim environments. |
 | **System** | Follows your device's system-wide light/dark mode setting. |
 | **High Contrast** | An accessibility-focused theme with stronger color contrast, making text and UI elements easier to read. Adapts to your system light/dark preference. |
+
+### Navigation Sections
+
+| Setting | Description |
+|---------|------------|
+| **Show explorer tips** | When enabled, a rotating "Did you know?" card appears on the Explorer tab. |
+| **Show Learn section** | When enabled, the Learn section (Theory, Quizzes, Ear Training, etc.) is visible in the navigation drawer. Disable to simplify the drawer for experienced players. |
+| **Show Reference section** | When enabled, the Reference section (Capo Guide, Circle of Fifths, Glossary, etc.) is visible in the navigation drawer. |
 
 ## Tuning
 
@@ -53,12 +57,6 @@ Select the tuning for your ukulele. The app adjusts the fretboard, chord detecti
 |---------|------------|
 | **Left-Handed** | Mirrors the fretboard so the nut appears on the right side, matching a left-handed player's perspective. |
 
-## Notifications
-
-| Setting | Description |
-|---------|------------|
-| **Chord of the Day** | Enable a daily notification that shows you a new chord to learn each day. The notification includes the chord name and finger positions. Tap the notification to open the app. |
-
 ![Settings — more sections](screenshots/settings-panel-more.png)
 
 ## Tips
@@ -66,4 +64,4 @@ Select the tuning for your ukulele. The app adjusts the fretboard, chord detecti
 - If you play a baritone ukulele, switch to the **Baritone (DGBE)** tuning so chord detection and playback match your instrument.
 - Try the **High Contrast** theme if you find the default colors hard to read, especially in bright sunlight.
 - Adjust the **volume slider** independently from your device volume for finer control over playback loudness.
-- Enable **Chord of the Day** notifications to build a daily practice habit.
+- Disable the **Learn** and **Reference** sections if you want a simpler navigation drawer focused on playing and creating.

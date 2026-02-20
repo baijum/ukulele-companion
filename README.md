@@ -38,8 +38,8 @@ Shift chords up or down by semitones with +/- buttons. Shows the capo equivalent
 ### 🧠 Neural-Powered Tuner
 The tuner now uses a hybrid pipeline: fast YIN pitch tracking on every frame, supervised by SwiftF0 neural inference at intervals. This improves robustness against octave mistakes and unstable frames while preserving responsive needle movement.
 
-### 🥁 Strumming Patterns
-A reference guide with 8 common ukulele strumming patterns — from beginner (All Downs, Island Strum) to intermediate (Calypso, Ska). Each pattern includes visual beat arrows, notation, description, and suggested tempo.
+### 🥁 Strumming & Fingerpicking Patterns
+A reference guide with 13 strumming and 8 fingerpicking patterns — from beginner to advanced. Each pattern includes visual beat/step display, notation, description, and a **play button with adjustable tempo** so you can hear what each pattern sounds like. The active beat highlights during playback.
 
 ### 🎶 Chord Progressions
 Common chord progressions for any key, in both major and minor scales. Includes Pop, Classic Rock, 50s, Folk, Jazz ii-V-I, Reggae, and more. Tap any chord chip to jump to its voicings.
@@ -89,10 +89,10 @@ Theory lessons, ear training, interval trainer, circle of fifths, glossary, scal
 
 ### ⚙️ Settings
 
-- **Display**: Sharp/Flat note names, Light/Dark/System/High Contrast theme
-- **Tuning**: High-G (standard), Low-G, Baritone, D-Tuning
+- **Display**: Light/Dark/System/High Contrast theme, show/hide Learn and Reference sections
+- **Tuning**: High-G (standard), Low-G, Baritone, D-Tuning, and more
 - **Fretboard**: Left-handed mode (mirrors the fretboard)
-- **Sound**: Enable/disable, strum delay, note duration
+- **Sound**: Enable/disable, volume, strum delay, note duration, play on tap
 
 ### ♿ Accessibility
 
