@@ -1,5 +1,6 @@
 package com.baijum.ukufretboard.ui
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,6 +23,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,15 +35,20 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +61,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baijum.ukufretboard.R
+import com.baijum.ukufretboard.audio.PatternPlayer
 import com.baijum.ukufretboard.data.CustomFingerpickingPattern
 import com.baijum.ukufretboard.data.CustomFingerpickingPatternRepository
 import com.baijum.ukufretboard.data.CustomStrumPattern
@@ -66,6 +75,7 @@ import com.baijum.ukufretboard.data.StrumBeat
 import com.baijum.ukufretboard.data.StrumDirection
 import com.baijum.ukufretboard.data.StrumPattern
 import com.baijum.ukufretboard.data.StrumPatterns
+import com.baijum.ukufretboard.data.UkuleleTuning
 
 private const val TAB_STRUMMING = 0
 private const val TAB_FINGERPICKING = 1
@@ -78,9 +88,11 @@ private const val TAB_FINGERPICKING = 1
  */
 @Composable
 fun StrumPatternsTab(
+    tuning: UkuleleTuning,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val strumRepo = remember { CustomStrumPatternRepository(context) }
     val fingerpickRepo = remember { CustomFingerpickingPatternRepository(context) }
     var customStrumPatterns by remember { mutableStateOf(strumRepo.getAll()) }
@@ -88,6 +100,15 @@ fun StrumPatternsTab(
     var selectedTab by remember { mutableIntStateOf(TAB_STRUMMING) }
     var showCreateStrumSheet by remember { mutableStateOf(false) }
     var showCreateFingerpickSheet by remember { mutableStateOf(false) }
+
+    val patternPlayer = remember { PatternPlayer() }
+    val isPlaying by patternPlayer.isPlaying.collectAsState()
+    val activeBeatIndex by patternPlayer.currentIndex.collectAsState()
+    var playingPatternName by remember { mutableStateOf<String?>(null) }
+
+    DisposableEffect(Unit) {
+        onDispose { patternPlayer.stop() }
+    }
 
     Box(
         modifier = modifier.fillMaxSize(),
@@ -121,7 +142,6 @@ fun StrumPatternsTab(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 12.dp),
                 ) {
-                    // Custom patterns section
                     if (customStrumPatterns.isNotEmpty()) {
                         item {
                             Text(
@@ -135,7 +155,15 @@ fun StrumPatternsTab(
                         items(customStrumPatterns, key = { it.id }) { custom ->
                             StrumPatternCard(
                                 pattern = custom.pattern,
+                                isPlaying = isPlaying && playingPatternName == custom.pattern.name,
+                                activeBeatIndex = if (isPlaying && playingPatternName == custom.pattern.name) activeBeatIndex else -1,
+                                onPlay = { bpm ->
+                                    playingPatternName = custom.pattern.name
+                                    patternPlayer.playStrum(scope, custom.pattern, bpm, tuning)
+                                },
+                                onStop = { patternPlayer.stop(); playingPatternName = null },
                                 onDelete = {
+                                    patternPlayer.stop(); playingPatternName = null
                                     strumRepo.delete(custom.id)
                                     customStrumPatterns = strumRepo.getAll()
                                 },
@@ -153,14 +181,22 @@ fun StrumPatternsTab(
                         }
                     }
                     items(StrumPatterns.ALL) { pattern ->
-                        StrumPatternCard(pattern = pattern)
+                        StrumPatternCard(
+                            pattern = pattern,
+                            isPlaying = isPlaying && playingPatternName == pattern.name,
+                            activeBeatIndex = if (isPlaying && playingPatternName == pattern.name) activeBeatIndex else -1,
+                            onPlay = { bpm ->
+                                playingPatternName = pattern.name
+                                patternPlayer.playStrum(scope, pattern, bpm, tuning)
+                            },
+                            onStop = { patternPlayer.stop(); playingPatternName = null },
+                        )
                     }
                 }
                 TAB_FINGERPICKING -> LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 12.dp),
                 ) {
-                    // Custom fingerpicking patterns section
                     if (customFingerpickPatterns.isNotEmpty()) {
                         item {
                             Text(
@@ -174,7 +210,15 @@ fun StrumPatternsTab(
                         items(customFingerpickPatterns, key = { it.id }) { custom ->
                             FingerpickingPatternCard(
                                 pattern = custom.pattern,
+                                isPlaying = isPlaying && playingPatternName == custom.pattern.name,
+                                activeStepIndex = if (isPlaying && playingPatternName == custom.pattern.name) activeBeatIndex else -1,
+                                onPlay = { bpm ->
+                                    playingPatternName = custom.pattern.name
+                                    patternPlayer.playFingerpick(scope, custom.pattern, bpm, tuning)
+                                },
+                                onStop = { patternPlayer.stop(); playingPatternName = null },
                                 onDelete = {
+                                    patternPlayer.stop(); playingPatternName = null
                                     fingerpickRepo.delete(custom.id)
                                     customFingerpickPatterns = fingerpickRepo.getAll()
                                 },
@@ -192,7 +236,16 @@ fun StrumPatternsTab(
                         }
                     }
                     items(FingerpickingPatterns.ALL) { pattern ->
-                        FingerpickingPatternCard(pattern = pattern)
+                        FingerpickingPatternCard(
+                            pattern = pattern,
+                            isPlaying = isPlaying && playingPatternName == pattern.name,
+                            activeStepIndex = if (isPlaying && playingPatternName == pattern.name) activeBeatIndex else -1,
+                            onPlay = { bpm ->
+                                playingPatternName = pattern.name
+                                patternPlayer.playFingerpick(scope, pattern, bpm, tuning)
+                            },
+                            onStop = { patternPlayer.stop(); playingPatternName = null },
+                        )
                     }
                 }
             }
@@ -238,12 +291,26 @@ fun StrumPatternsTab(
 }
 
 /**
- * A card displaying a single strumming pattern.
+ * A card displaying a single strumming pattern with play/stop controls.
  *
+ * @param isPlaying Whether this specific pattern is currently playing.
+ * @param activeBeatIndex The beat index currently sounding, or -1.
+ * @param onPlay Called with the selected BPM to start playback.
+ * @param onStop Called to stop playback.
  * @param onDelete If non-null, a delete button is shown (for custom patterns).
  */
 @Composable
-private fun StrumPatternCard(pattern: StrumPattern, onDelete: (() -> Unit)? = null) {
+private fun StrumPatternCard(
+    pattern: StrumPattern,
+    isPlaying: Boolean = false,
+    activeBeatIndex: Int = -1,
+    onPlay: (bpm: Int) -> Unit = {},
+    onStop: () -> Unit = {},
+    onDelete: (() -> Unit)? = null,
+) {
+    val midBpm = (pattern.suggestedBpm.first + pattern.suggestedBpm.last) / 2
+    var bpm by remember(pattern.name) { mutableFloatStateOf(midBpm.toFloat()) }
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -255,7 +322,6 @@ private fun StrumPatternCard(pattern: StrumPattern, onDelete: (() -> Unit)? = nu
         Column(
             modifier = Modifier.padding(16.dp),
         ) {
-            // Header: name + difficulty badge + optional delete
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -269,6 +335,20 @@ private fun StrumPatternCard(pattern: StrumPattern, onDelete: (() -> Unit)? = nu
                     modifier = Modifier.weight(1f),
                 )
                 DifficultyBadge(difficulty = pattern.difficulty)
+                IconButton(
+                    onClick = { if (isPlaying) onStop() else onPlay(bpm.toInt()) },
+                ) {
+                    Icon(
+                        imageVector = if (isPlaying) Icons.Filled.Stop else Icons.Filled.PlayArrow,
+                        contentDescription = if (isPlaying) {
+                            stringResource(R.string.cd_stop_pattern, pattern.name)
+                        } else {
+                            stringResource(R.string.cd_play_pattern, pattern.name)
+                        },
+                        tint = if (isPlaying) MaterialTheme.colorScheme.error
+                        else MaterialTheme.colorScheme.primary,
+                    )
+                }
                 if (onDelete != null) {
                     IconButton(onClick = onDelete) {
                         Icon(
@@ -282,12 +362,10 @@ private fun StrumPatternCard(pattern: StrumPattern, onDelete: (() -> Unit)? = nu
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Visual beat display
-            BeatDisplay(beats = pattern.beats)
+            BeatDisplay(beats = pattern.beats, activeBeatIndex = activeBeatIndex)
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            // Notation text
             Text(
                 text = pattern.notation,
                 style = MaterialTheme.typography.bodyMedium,
@@ -296,7 +374,6 @@ private fun StrumPatternCard(pattern: StrumPattern, onDelete: (() -> Unit)? = nu
                 letterSpacing = 2.sp,
             )
 
-            // Counting hint
             if (pattern.counting.isNotEmpty()) {
                 Text(
                     text = pattern.counting,
@@ -308,14 +385,12 @@ private fun StrumPatternCard(pattern: StrumPattern, onDelete: (() -> Unit)? = nu
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            // Description
             Text(
                 text = pattern.description,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
 
-            // Genre tags
             if (pattern.genres.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(6.dp))
                 @OptIn(ExperimentalLayoutApi::class)
@@ -339,38 +414,53 @@ private fun StrumPatternCard(pattern: StrumPattern, onDelete: (() -> Unit)? = nu
                 }
             }
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
-            // Tempo range
-            Text(
-                text = "${pattern.suggestedBpm.first}–${pattern.suggestedBpm.last} ${stringResource(R.string.label_bpm)}",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.outline,
-            )
+            // BPM slider and tempo label
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "${bpm.toInt()} ${stringResource(R.string.label_bpm)}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.outline,
+                    modifier = Modifier.width(56.dp),
+                )
+                Slider(
+                    value = bpm,
+                    onValueChange = { bpm = it },
+                    onValueChangeFinished = {
+                        if (isPlaying) onPlay(bpm.toInt())
+                    },
+                    valueRange = 40f..220f,
+                    modifier = Modifier.weight(1f),
+                )
+            }
         }
     }
 }
 
 /**
- * Visual display of beat arrows in a row.
+ * Visual display of beat arrows in a row, with optional active-beat highlighting.
  */
 @Composable
-private fun BeatDisplay(beats: List<StrumBeat>) {
+private fun BeatDisplay(beats: List<StrumBeat>, activeBeatIndex: Int = -1) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(2.dp),
     ) {
-        beats.forEach { beat ->
-            BeatArrow(beat = beat)
+        beats.forEachIndexed { index, beat ->
+            BeatArrow(beat = beat, isActive = index == activeBeatIndex)
         }
     }
 }
 
 /**
- * A single beat arrow indicator.
+ * A single beat arrow indicator with optional active highlight.
  */
 @Composable
-private fun BeatArrow(beat: StrumBeat) {
-    val color = when (beat.direction) {
+private fun BeatArrow(beat: StrumBeat, isActive: Boolean = false) {
+    val baseColor = when (beat.direction) {
         StrumDirection.DOWN -> MaterialTheme.colorScheme.primary
         StrumDirection.UP -> MaterialTheme.colorScheme.secondary
         StrumDirection.CHUCK -> MaterialTheme.colorScheme.error
@@ -380,16 +470,23 @@ private fun BeatArrow(beat: StrumBeat) {
     val fontWeight = if (beat.emphasis) FontWeight.ExtraBold else FontWeight.Normal
     val fontSize = if (beat.emphasis) 20.sp else 16.sp
 
+    val bgColor by animateColorAsState(
+        targetValue = if (isActive) MaterialTheme.colorScheme.primaryContainer
+        else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0f),
+        label = "beatHighlight",
+    )
+
     Box(
         modifier = Modifier
-            .size(width = 32.dp, height = 32.dp),
+            .size(width = 32.dp, height = 32.dp)
+            .background(bgColor, RoundedCornerShape(6.dp)),
         contentAlignment = Alignment.Center,
     ) {
         Text(
             text = beat.direction.symbol,
             fontSize = fontSize,
             fontWeight = fontWeight,
-            color = color,
+            color = baseColor,
             textAlign = TextAlign.Center,
         )
     }
@@ -428,12 +525,26 @@ private fun DifficultyBadge(difficulty: Difficulty) {
 // ── Fingerpicking ───────────────────────────────────────────────────
 
 /**
- * A card displaying a single fingerpicking pattern.
+ * A card displaying a single fingerpicking pattern with play/stop controls.
  *
+ * @param isPlaying Whether this specific pattern is currently playing.
+ * @param activeStepIndex The step index currently sounding, or -1.
+ * @param onPlay Called with the selected BPM to start playback.
+ * @param onStop Called to stop playback.
  * @param onDelete If non-null, a delete button is shown (for custom patterns).
  */
 @Composable
-private fun FingerpickingPatternCard(pattern: FingerpickingPattern, onDelete: (() -> Unit)? = null) {
+private fun FingerpickingPatternCard(
+    pattern: FingerpickingPattern,
+    isPlaying: Boolean = false,
+    activeStepIndex: Int = -1,
+    onPlay: (bpm: Int) -> Unit = {},
+    onStop: () -> Unit = {},
+    onDelete: (() -> Unit)? = null,
+) {
+    val midBpm = (pattern.suggestedBpm.first + pattern.suggestedBpm.last) / 2
+    var bpm by remember(pattern.name) { mutableFloatStateOf(midBpm.toFloat()) }
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -445,7 +556,6 @@ private fun FingerpickingPatternCard(pattern: FingerpickingPattern, onDelete: ((
         Column(
             modifier = Modifier.padding(16.dp),
         ) {
-            // Header: name + difficulty badge + optional delete
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -459,6 +569,20 @@ private fun FingerpickingPatternCard(pattern: FingerpickingPattern, onDelete: ((
                     modifier = Modifier.weight(1f),
                 )
                 DifficultyBadge(difficulty = pattern.difficulty)
+                IconButton(
+                    onClick = { if (isPlaying) onStop() else onPlay(bpm.toInt()) },
+                ) {
+                    Icon(
+                        imageVector = if (isPlaying) Icons.Filled.Stop else Icons.Filled.PlayArrow,
+                        contentDescription = if (isPlaying) {
+                            stringResource(R.string.cd_stop_pattern, pattern.name)
+                        } else {
+                            stringResource(R.string.cd_play_pattern, pattern.name)
+                        },
+                        tint = if (isPlaying) MaterialTheme.colorScheme.error
+                        else MaterialTheme.colorScheme.primary,
+                    )
+                }
                 if (onDelete != null) {
                     IconButton(onClick = onDelete) {
                         Icon(
@@ -472,12 +596,10 @@ private fun FingerpickingPatternCard(pattern: FingerpickingPattern, onDelete: ((
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Visual finger step display
-            FingerpickStepDisplay(steps = pattern.steps)
+            FingerpickStepDisplay(steps = pattern.steps, activeStepIndex = activeStepIndex)
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            // Notation text
             Text(
                 text = pattern.notation,
                 style = MaterialTheme.typography.bodyMedium,
@@ -488,45 +610,57 @@ private fun FingerpickingPatternCard(pattern: FingerpickingPattern, onDelete: ((
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            // Description
             Text(
                 text = pattern.description,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
-            // Tempo range
-            Text(
-                text = "${pattern.suggestedBpm.first}–${pattern.suggestedBpm.last} ${stringResource(R.string.label_bpm)}",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.outline,
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "${bpm.toInt()} ${stringResource(R.string.label_bpm)}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.outline,
+                    modifier = Modifier.width(56.dp),
+                )
+                Slider(
+                    value = bpm,
+                    onValueChange = { bpm = it },
+                    onValueChangeFinished = {
+                        if (isPlaying) onPlay(bpm.toInt())
+                    },
+                    valueRange = 40f..220f,
+                    modifier = Modifier.weight(1f),
+                )
+            }
         }
     }
 }
 
 /**
- * Visual display of fingerpicking steps showing finger labels and target strings.
+ * Visual display of fingerpicking steps with optional active-step highlighting.
  */
 @Composable
-private fun FingerpickStepDisplay(steps: List<FingerpickStep>) {
+private fun FingerpickStepDisplay(steps: List<FingerpickStep>, activeStepIndex: Int = -1) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(2.dp),
     ) {
-        steps.forEach { step ->
-            FingerpickStepIndicator(step = step)
+        steps.forEachIndexed { index, step ->
+            FingerpickStepIndicator(step = step, isActive = index == activeStepIndex)
         }
     }
 }
 
 /**
- * A single fingerpicking step indicator showing the finger label
- * and target string name.
+ * A single fingerpicking step indicator with optional active highlight.
  */
 @Composable
-private fun FingerpickStepIndicator(step: FingerpickStep) {
+private fun FingerpickStepIndicator(step: FingerpickStep, isActive: Boolean = false) {
     val fingerColor = when (step.finger) {
         Finger.THUMB -> MaterialTheme.colorScheme.primary
         Finger.INDEX -> MaterialTheme.colorScheme.secondary
@@ -535,9 +669,16 @@ private fun FingerpickStepIndicator(step: FingerpickStep) {
     }
     val fontWeight = if (step.emphasis) FontWeight.ExtraBold else FontWeight.Normal
 
+    val bgColor by animateColorAsState(
+        targetValue = if (isActive) MaterialTheme.colorScheme.primaryContainer
+        else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0f),
+        label = "stepHighlight",
+    )
+
     Column(
         modifier = Modifier
-            .size(width = 36.dp, height = 40.dp),
+            .size(width = 36.dp, height = 40.dp)
+            .background(bgColor, RoundedCornerShape(6.dp)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {

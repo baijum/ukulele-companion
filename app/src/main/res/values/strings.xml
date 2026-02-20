@@ -276,6 +276,9 @@
     <string name="patterns_ring">Ring</string>
     <string name="patterns_string">String</string>
     <string name="patterns_counting">Counting</string>
+    <string name="cd_play_pattern">Play %s</string>
+    <string name="cd_stop_pattern">Stop %s</string>
+    <string name="patterns_tempo">Tempo</string>
 
     <!-- ── Playback Bar ─────────────────────────────────────────────── -->
     <string name="playback_prefix">Playback: </string>

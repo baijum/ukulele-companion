@@ -205,6 +205,58 @@ object ToneGenerator {
     }
 
     /**
+     * Triggers a single note without acquiring the playback mutex or waiting.
+     *
+     * Intended for callers (e.g. [PatternPlayer]) that manage their own
+     * timing and need to fire notes in rapid succession.
+     *
+     * @param pitchClass The pitch class (0–11).
+     * @param octave The octave (typically 3–5 for ukulele).
+     * @param volume Playback volume 0..1.
+     */
+    fun fireNote(pitchClass: Int, octave: Int, volume: Float = 1f) {
+        val sp = soundPool ?: return
+        val sampleId = sampleIds[pitchClass % 12]
+        if (sampleId == 0) return
+        val rate = playbackRate(octave)
+        val vol = volume.coerceIn(0f, 1f)
+        sp.play(sampleId, vol, vol, 1, 0, rate)
+    }
+
+    /**
+     * Triggers a chord strum without acquiring the playback mutex or waiting.
+     *
+     * Fires all notes with the given inter-string delay on [Dispatchers.Default].
+     * Intended for callers that manage their own beat timing externally.
+     *
+     * @param notes A list of (pitchClass, octave) pairs in strum order.
+     * @param strumDelayMs Delay between successive string plucks.
+     * @param volume Playback volume 0..1.
+     */
+    suspend fun fireChord(
+        notes: List<Pair<Int, Int>>,
+        strumDelayMs: Int = DEFAULT_STRUM_DELAY_MS,
+        volume: Float = 1f,
+    ) {
+        if (notes.isEmpty()) return
+        val sp = soundPool ?: return
+        val vol = volume.coerceIn(0f, 1f)
+
+        withContext(Dispatchers.Default) {
+            notes.forEachIndexed { index, (pitchClass, octave) ->
+                val sampleId = sampleIds[pitchClass % 12]
+                if (sampleId != 0) {
+                    val rate = playbackRate(octave)
+                    sp.play(sampleId, vol, vol, 1, 0, rate)
+                }
+                if (index < notes.size - 1) {
+                    delay(strumDelayMs.toLong())
+                }
+            }
+        }
+    }
+
+    /**
      * Computes the SoundPool playback rate for a target octave.
      *
      * The rate doubles per octave up and halves per octave down, relative to

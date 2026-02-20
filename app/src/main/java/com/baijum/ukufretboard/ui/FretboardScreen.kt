@@ -524,7 +524,9 @@ fun FretboardScreen(
                         },
                         leftHanded = appSettings.fretboard.leftHanded,
                     )
-                    NAV_PATTERNS -> StrumPatternsTab()
+                    NAV_PATTERNS -> StrumPatternsTab(
+                        tuning = appSettings.tuning.tuning,
+                    )
                     NAV_PROGRESSIONS -> ProgressionsTab(
                         leftHanded = appSettings.fretboard.leftHanded,
                         tuning = fretboardViewModel.tuning,
