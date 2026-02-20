@@ -804,4 +804,8 @@
     <string name="settings_pitch_monitor">مراقب النغمة</string>
     <string name="settings_noise_gate_sensitivity">حساسية بوابة الضوضاء</string>
     <string name="settings_noise_gate_desc">يتحكم في مقدار ضوضاء الخلفية التي يتم تصفيتها. القيم المنخفضة تتجاهل المزيد من الضوضاء؛ القيم العالية تلتقط الأصوات الأكثر هدوءًا.</string>
+    <string name="settings_show_learn_section">إظهار قسم التعلم</string>
+    <string name="settings_show_reference_section">إظهار قسم المرجع</string>
+    <string name="cd_collapse_section">طي %s</string>
+    <string name="cd_expand_section">توسيع %s</string>
 </resources>

@@ -1,5 +1,9 @@
 package com.baijum.ukufretboard.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +31,8 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Equalizer
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Fullscreen
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Settings
@@ -264,8 +270,8 @@ fun FretboardScreen(
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val sections = drawerSections()
-    val allItems = sections.flatMap { it.items }
+    val allSections = drawerSections()
+    val allItems = allSections.flatMap { it.items }
 
     val appSettings by settingsViewModel.settings.collectAsState()
 
@@ -323,6 +329,19 @@ fun FretboardScreen(
         return
     }
 
+    val learnTitle = stringResource(R.string.nav_section_learn)
+    val referenceTitle = stringResource(R.string.nav_section_reference)
+    val visibleSections = remember(allSections, appSettings.display) {
+        allSections.filter { section ->
+            when (section.title) {
+                learnTitle -> appSettings.display.showLearnSection
+                referenceTitle -> appSettings.display.showReferenceSection
+                else -> true
+            }
+        }
+    }
+    val expandedState = rememberSaveable { mutableMapOf<String, Boolean>() }
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -337,34 +356,60 @@ fun FretboardScreen(
                             .padding(horizontal = 28.dp, vertical = 24.dp)
                             .semantics { heading() },
                     )
-                    sections.forEachIndexed { sectionIndex, section ->
+                    visibleSections.forEachIndexed { sectionIndex, section ->
                         if (sectionIndex > 0) {
                             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                         }
-                        Text(
-                            text = section.title,
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        val expanded = expandedState.getOrPut(section.title) { true }
+                        Row(
                             modifier = Modifier
-                                .padding(horizontal = 28.dp, vertical = 8.dp)
-                                .semantics { heading() },
-                        )
-                        section.items.forEach { item ->
-                            NavigationDrawerItem(
-                                icon = { Icon(item.icon, contentDescription = item.label) },
-                                label = { Text(item.label) },
-                                selected = selectedSection == item.index,
-                                onClick = {
-                                    previousSection = null
-                                    selectedSection = item.index
-                                    scope.launch { drawerState.close() }
-                                },
-                                modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                                .fillMaxWidth()
+                                .clickable { expandedState[section.title] = !expanded }
+                                .padding(horizontal = 28.dp, vertical = 8.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = section.title,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.semantics { heading() },
                             )
+                            Icon(
+                                imageVector = if (expanded) Icons.Filled.ExpandLess
+                                else Icons.Filled.ExpandMore,
+                                contentDescription = if (expanded) {
+                                    stringResource(R.string.cd_collapse_section, section.title)
+                                } else {
+                                    stringResource(R.string.cd_expand_section, section.title)
+                                },
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(20.dp),
+                            )
+                        }
+                        AnimatedVisibility(
+                            visible = expanded,
+                            enter = expandVertically(),
+                            exit = shrinkVertically(),
+                        ) {
+                            Column {
+                                section.items.forEach { item ->
+                                    NavigationDrawerItem(
+                                        icon = { Icon(item.icon, contentDescription = item.label) },
+                                        label = { Text(item.label) },
+                                        selected = selectedSection == item.index,
+                                        onClick = {
+                                            previousSection = null
+                                            selectedSection = item.index
+                                            scope.launch { drawerState.close() }
+                                        },
+                                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                                    )
+                                }
+                            }
                         }
                     }
 
-                    // Help item below all section groups
                     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                     NavigationDrawerItem(
                         icon = { Icon(Icons.Filled.Info, contentDescription = stringResource(R.string.nav_help)) },

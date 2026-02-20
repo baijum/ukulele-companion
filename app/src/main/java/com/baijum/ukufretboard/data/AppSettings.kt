@@ -50,10 +50,14 @@ enum class ThemeMode(val label: String) {
  * @property themeMode The app color theme: Light, Dark, or follow the System setting.
  * @property showExplorerTips When true, a rotating "Did you know?" card is shown
  *   on the Explorer tab when no chord is selected.
+ * @property showLearnSection When true, the Learn section is visible in the nav drawer.
+ * @property showReferenceSection When true, the Reference section is visible in the nav drawer.
  */
 data class DisplaySettings(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val showExplorerTips: Boolean = true,
+    val showLearnSection: Boolean = true,
+    val showReferenceSection: Boolean = true,
 )
 
 /**

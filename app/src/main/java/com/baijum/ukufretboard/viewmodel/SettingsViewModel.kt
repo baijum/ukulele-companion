@@ -157,6 +157,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             // Display
             .putString(KEY_THEME_MODE, s.display.themeMode.name)
             .putBoolean(KEY_SHOW_EXPLORER_TIPS, s.display.showExplorerTips)
+            .putBoolean(KEY_SHOW_LEARN_SECTION, s.display.showLearnSection)
+            .putBoolean(KEY_SHOW_REFERENCE_SECTION, s.display.showReferenceSection)
             // Tuning
             .putString(KEY_TUNING, s.tuning.tuning.name)
             // Fretboard
@@ -205,6 +207,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                     ThemeMode.SYSTEM
                 },
                 showExplorerTips = prefs.getBoolean(KEY_SHOW_EXPLORER_TIPS, true),
+                showLearnSection = prefs.getBoolean(KEY_SHOW_LEARN_SECTION, true),
+                showReferenceSection = prefs.getBoolean(KEY_SHOW_REFERENCE_SECTION, true),
             ),
             tuning = TuningSettings(
                 tuning = try {
@@ -273,5 +277,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
         private const val KEY_EXPLORER_TIPS_DISMISSED = "explorer_tips_dismissed"
         private const val KEY_SHOW_EXPLORER_TIPS = "show_explorer_tips"
+        private const val KEY_SHOW_LEARN_SECTION = "show_learn_section"
+        private const val KEY_SHOW_REFERENCE_SECTION = "show_reference_section"
     }
 }

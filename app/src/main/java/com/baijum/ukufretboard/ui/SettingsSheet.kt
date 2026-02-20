@@ -334,6 +334,18 @@ private fun DisplaySection(
         checked = settings.showExplorerTips,
         onCheckedChange = { onSettingsChange(settings.copy(showExplorerTips = it)) },
     )
+
+    SettingsSwitch(
+        label = stringResource(R.string.settings_show_learn_section),
+        checked = settings.showLearnSection,
+        onCheckedChange = { onSettingsChange(settings.copy(showLearnSection = it)) },
+    )
+
+    SettingsSwitch(
+        label = stringResource(R.string.settings_show_reference_section),
+        checked = settings.showReferenceSection,
+        onCheckedChange = { onSettingsChange(settings.copy(showReferenceSection = it)) },
+    )
 }
 
 /**

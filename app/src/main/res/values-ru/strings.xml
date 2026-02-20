@@ -804,4 +804,8 @@
     <string name="settings_pitch_monitor">Монитор высоты тона</string>
     <string name="settings_noise_gate_sensitivity">Чувствительность шумоподавления</string>
     <string name="settings_noise_gate_desc">Определяет степень фильтрации фонового шума. Низкие значения игнорируют больше шума; высокие значения улавливают более тихие звуки.</string>
+    <string name="settings_show_learn_section">Показать раздел Обучение</string>
+    <string name="settings_show_reference_section">Показать раздел Справочник</string>
+    <string name="cd_collapse_section">Свернуть %s</string>
+    <string name="cd_expand_section">Развернуть %s</string>
 </resources>

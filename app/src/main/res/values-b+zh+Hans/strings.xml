@@ -804,4 +804,8 @@
     <string name="settings_pitch_monitor">音高监测</string>
     <string name="settings_noise_gate_sensitivity">噪声门灵敏度</string>
     <string name="settings_noise_gate_desc">控制过滤多少背景噪音。较低的值忽略更多噪音；较高的值捕捉更安静的声音。</string>
+    <string name="settings_show_learn_section">显示学习部分</string>
+    <string name="settings_show_reference_section">显示参考部分</string>
+    <string name="cd_collapse_section">折叠%s</string>
+    <string name="cd_expand_section">展开%s</string>
 </resources>

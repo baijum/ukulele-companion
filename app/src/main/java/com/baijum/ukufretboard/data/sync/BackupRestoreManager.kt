@@ -135,6 +135,8 @@ class BackupRestoreManager(
                     playOnTap = s.sound.playOnTap,
                     themeMode = s.display.themeMode.name,
                     showExplorerTips = s.display.showExplorerTips,
+                    showLearnSection = s.display.showLearnSection,
+                    showReferenceSection = s.display.showReferenceSection,
                     tuning = s.tuning.tuning.name,
                     leftHanded = s.fretboard.leftHanded,
                     lastFret = s.fretboard.lastFret,
@@ -228,6 +230,8 @@ class BackupRestoreManager(
                         ThemeMode.SYSTEM
                     },
                     showExplorerTips = bs.showExplorerTips,
+                    showLearnSection = bs.showLearnSection,
+                    showReferenceSection = bs.showReferenceSection,
                 ),
                 tuning = TuningSettings(
                     tuning = try {

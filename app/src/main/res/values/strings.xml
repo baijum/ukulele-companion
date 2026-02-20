@@ -303,6 +303,10 @@
     <string name="settings_display">Display</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_show_explorer_tips">Show explorer tips</string>
+    <string name="settings_show_learn_section">Show Learn section</string>
+    <string name="settings_show_reference_section">Show Reference section</string>
+    <string name="cd_collapse_section">Collapse %s</string>
+    <string name="cd_expand_section">Expand %s</string>
     <string name="settings_language">Language</string>
     <string name="settings_select_language">Select language</string>
     <string name="settings_tuning">Tuning</string>

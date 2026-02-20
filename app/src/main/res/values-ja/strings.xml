@@ -804,4 +804,8 @@
     <string name="settings_pitch_monitor">ピッチモニター</string>
     <string name="settings_noise_gate_sensitivity">ノイズゲート感度</string>
     <string name="settings_noise_gate_desc">背景ノイズのフィルタリング量を制御します。低い値はより多くのノイズを無視し、高い値はより小さな音を拾います。</string>
+    <string name="settings_show_learn_section">学習セクションを表示</string>
+    <string name="settings_show_reference_section">リファレンスセクションを表示</string>
+    <string name="cd_collapse_section">%sを折りたたむ</string>
+    <string name="cd_expand_section">%sを展開</string>
 </resources>

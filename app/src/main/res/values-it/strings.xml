@@ -802,4 +802,8 @@
     <string name="settings_pitch_monitor">Monitor dell\'intonazione</string>
     <string name="settings_noise_gate_sensitivity">Sensibilità del filtro rumore</string>
     <string name="settings_noise_gate_desc">Controlla quanto rumore di fondo viene filtrato. Valori più bassi ignorano più rumore; valori più alti catturano suoni più deboli.</string>
+    <string name="settings_show_learn_section">Mostra sezione Impara</string>
+    <string name="settings_show_reference_section">Mostra sezione Riferimento</string>
+    <string name="cd_collapse_section">Comprimi %s</string>
+    <string name="cd_expand_section">Espandi %s</string>
 </resources>

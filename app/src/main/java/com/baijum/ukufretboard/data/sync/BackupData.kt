@@ -193,6 +193,8 @@ data class BackupSettings(
     val playOnTap: Boolean = false,
     val themeMode: String = "SYSTEM",
     val showExplorerTips: Boolean = true,
+    val showLearnSection: Boolean = true,
+    val showReferenceSection: Boolean = true,
     val tuning: String = "HIGH_G",
     val leftHanded: Boolean = false,
     val lastFret: Int = 12,
