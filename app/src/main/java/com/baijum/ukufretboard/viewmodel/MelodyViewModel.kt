@@ -88,12 +88,16 @@ class MelodyViewModel : ViewModel() {
     private var soundSettings: SoundSettings = SoundSettings()
 
     // --- Recording state ---
+    @Volatile
+    private var noiseGateRms = 0.04f
+
     private var previousRms = 0f
     private var blankingFramesRemaining = 0
     private var previousFrequency: Double? = null
     private val recentFrequencies = ArrayDeque<Double>(SMOOTHING_WINDOW)
     private var stableNoteInfo: NoteInfo? = null
     private var stabilizationFrames = 0
+    private var awaitingSilence = false
 
     fun setApplicationContext(context: Context) {
         if (repository == null) {
@@ -104,6 +108,10 @@ class MelodyViewModel : ViewModel() {
 
     fun setSoundSettings(settings: SoundSettings) {
         soundSettings = settings
+    }
+
+    fun setNoiseGateRms(rms: Float) {
+        noiseGateRms = rms
     }
 
     // --- Note composition ---
@@ -370,6 +378,7 @@ class MelodyViewModel : ViewModel() {
         recentFrequencies.clear()
         stableNoteInfo = null
         stabilizationFrames = 0
+        awaitingSilence = false
     }
 
     private fun processRecordingBuffer(samples: FloatArray) {
@@ -384,6 +393,18 @@ class MelodyViewModel : ViewModel() {
             return
         }
 
+        if (currentRms < noiseGateRms) {
+            previousFrequency = null
+            recentFrequencies.clear()
+            stableNoteInfo = null
+            stabilizationFrames = 0
+            awaitingSilence = false
+            _uiState.update {
+                it.copy(detectedNote = null, stabilizationProgress = 0f)
+            }
+            return
+        }
+
         val result = PitchDetector.detect(
             samples,
             AudioCaptureEngine.SAMPLE_RATE,
@@ -395,6 +416,7 @@ class MelodyViewModel : ViewModel() {
             recentFrequencies.clear()
             stableNoteInfo = null
             stabilizationFrames = 0
+            awaitingSilence = false
             _uiState.update {
                 it.copy(detectedNote = null, stabilizationProgress = 0f)
             }
@@ -438,7 +460,9 @@ class MelodyViewModel : ViewModel() {
         }
 
         if (stabilizationFrames >= STABILIZATION_FRAMES) {
-            acceptRecordedNote(noteInfo)
+            if (!awaitingSilence) {
+                acceptRecordedNote(noteInfo)
+            }
             stableNoteInfo = null
             stabilizationFrames = 0
             recentFrequencies.clear()
@@ -456,6 +480,8 @@ class MelodyViewModel : ViewModel() {
         val noteName = Notes.pitchClassToName(noteInfo.pitchClass)
         val durationLabel = state.selectedDuration.label.lowercase()
         val feedback = "$noteName${noteInfo.octave} $durationLabel"
+
+        awaitingSilence = true
 
         _uiState.update {
             it.copy(

@@ -837,7 +837,7 @@
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Monitor nada</string>
     <string name="settings_noise_gate_sensitivity">Sensitivitas gerbang kebisingan</string>
-    <string name="settings_noise_gate_desc">Mengatur berapa banyak kebisingan latar belakang yang disaring. Nilai lebih rendah mengabaikan lebih banyak kebisingan; nilai lebih tinggi menangkap suara yang lebih pelan.</string>
+    <string name="settings_noise_gate_desc">Mengontrol seberapa banyak kebisingan latar belakang disaring untuk Tuner, Monitor Nada, dan Notepad Melodi. Nilai lebih rendah mengabaikan lebih banyak kebisingan; nilai lebih tinggi menangkap suara yang lebih pelan.</string>
     <string name="settings_show_learn_section">Tampilkan bagian Belajar</string>
     <string name="settings_show_reference_section">Tampilkan bagian Referensi</string>
     <string name="cd_collapse_section">Ciutkan %s</string>

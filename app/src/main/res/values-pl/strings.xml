@@ -837,7 +837,7 @@
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Monitor wysokości dźwięku</string>
     <string name="settings_noise_gate_sensitivity">Czułość bramki szumów</string>
-    <string name="settings_noise_gate_desc">Kontroluje ilość filtrowanego szumu tła. Niższe wartości ignorują więcej szumu; wyższe wartości wychwytują cichsze dźwięki.</string>
+    <string name="settings_noise_gate_desc">Kontroluje, ile szumu tła jest filtrowane dla stroika, monitora wysokości dźwięku i notatnika melodii. Niższe wartości ignorują więcej szumu; wyższe wartości wychwytują cichsze dźwięki.</string>
     <string name="settings_show_learn_section">Pokaż sekcję Nauka</string>
     <string name="settings_show_reference_section">Pokaż sekcję Materiały</string>
     <string name="cd_collapse_section">Zwiń %s</string>

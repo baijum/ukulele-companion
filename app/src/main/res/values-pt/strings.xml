@@ -835,7 +835,7 @@
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Monitor de tom</string>
     <string name="settings_noise_gate_sensitivity">Sensibilidade do filtro de ruído</string>
-    <string name="settings_noise_gate_desc">Controla a quantidade de ruído de fundo filtrado. Valores mais baixos ignoram mais ruído; valores mais altos captam sons mais suaves.</string>
+    <string name="settings_noise_gate_desc">Controla quanto ruído de fundo é filtrado para o afinador, monitor de tom e bloco de notas de melodia. Valores mais baixos ignoram mais ruído; valores mais altos captam sons mais suaves.</string>
     <string name="settings_show_learn_section">Mostrar secção Aprender</string>
     <string name="settings_show_reference_section">Mostrar secção Referência</string>
     <string name="cd_collapse_section">Recolher %s</string>

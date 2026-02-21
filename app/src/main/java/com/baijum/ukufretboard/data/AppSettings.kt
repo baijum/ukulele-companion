@@ -18,6 +18,7 @@ data class SoundSettings(
     val strumDelayMs: Int = DEFAULT_STRUM_DELAY_MS,
     val strumDown: Boolean = true,
     val playOnTap: Boolean = false,
+    val noiseGateSensitivity: Float = DEFAULT_NOISE_GATE_SENSITIVITY,
 ) {
     companion object {
         const val MIN_VOLUME = 0f
@@ -31,6 +32,13 @@ data class SoundSettings(
         const val MIN_STRUM_DELAY_MS = 0
         const val MAX_STRUM_DELAY_MS = 150
         const val DEFAULT_STRUM_DELAY_MS = 50
+
+        const val DEFAULT_NOISE_GATE_SENSITIVITY = 0.0f
+        const val MIN_NOISE_GATE_SENSITIVITY = 0.0f
+        const val MAX_NOISE_GATE_SENSITIVITY = 1.0f
+
+        fun sensitivityToRms(sensitivity: Float): Float =
+            0.04f - (sensitivity.coerceIn(MIN_NOISE_GATE_SENSITIVITY, MAX_NOISE_GATE_SENSITIVITY) * 0.037f)
     }
 }
 
@@ -197,23 +205,12 @@ data class TunerSettings(
 /**
  * Settings for the Pitch Monitor feature.
  *
- * @property noiseGateSensitivity Controls how aggressively background noise
- *   is filtered. 0.0 = most filtering (only loud sounds), 1.0 = least
- *   filtering (picks up quiet sounds). Maps to an RMS energy threshold
- *   used in the audio processing pipeline.
+ * Note: the noise gate sensitivity has been moved to [SoundSettings] so it
+ * applies globally to all recording features (Tuner, Pitch Monitor, Melody Notepad).
  */
 data class PitchMonitorSettings(
-    val noiseGateSensitivity: Float = DEFAULT_SENSITIVITY,
-) {
-    companion object {
-        const val DEFAULT_SENSITIVITY = 0.0f
-        const val MIN_SENSITIVITY = 0.0f
-        const val MAX_SENSITIVITY = 1.0f
-
-        fun sensitivityToRms(sensitivity: Float): Float =
-            0.04f - (sensitivity.coerceIn(MIN_SENSITIVITY, MAX_SENSITIVITY) * 0.037f)
-    }
-}
+    val placeholder: Boolean = false,
+)
 
 /**
  * Top-level container for all app settings, organized by section.

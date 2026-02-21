@@ -195,6 +195,15 @@ class TunerViewModel : ViewModel() {
     private var ttsReady = false
     private val ttsThrottler = TtsAnnouncementThrottler()
 
+    // --- Noise gate ----------------------------------------------------------
+
+    @Volatile
+    private var noiseGateRms = 0.04f
+
+    fun setNoiseGateRms(rms: Float) {
+        noiseGateRms = rms
+    }
+
     // --- Smoothing state -----------------------------------------------------
 
     /** Ring buffer of recent frequency readings for median smoothing. */
@@ -382,6 +391,27 @@ class TunerViewModel : ViewModel() {
         if (blankingFramesRemaining > 0) {
             blankingFramesRemaining--
             return // skip — likely attack transient
+        }
+
+        if (currentRms < noiseGateRms) {
+            lostSignalFrames = 0
+            previousFrequency = null
+            recentFrequencies.clear()
+            inTuneFrames = 0
+            inTuneStringIndex = -1
+            displayCentsFiltered = 0.0
+            _uiState.update {
+                it.copy(
+                    tuningStatus = TuningStatus.SILENT,
+                    detectedNote = null,
+                    centsDeviation = 0.0,
+                    displayCentsDeviation = 0.0,
+                    confidence = 1.0,
+                    targetString = null,
+                    noteInfo = null,
+                )
+            }
+            return
         }
 
         val result = PitchDetector.detect(

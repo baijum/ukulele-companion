@@ -154,6 +154,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             .putInt(KEY_STRUM_DELAY, s.sound.strumDelayMs)
             .putBoolean(KEY_STRUM_DOWN, s.sound.strumDown)
             .putBoolean(KEY_PLAY_ON_TAP, s.sound.playOnTap)
+            .putFloat(KEY_PM_NOISE_GATE_SENSITIVITY, s.sound.noiseGateSensitivity)
             // Display
             .putString(KEY_THEME_MODE, s.display.themeMode.name)
             .putBoolean(KEY_SHOW_EXPLORER_TIPS, s.display.showExplorerTips)
@@ -180,8 +181,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             .putFloat(KEY_TUNER_A4_REFERENCE, s.tuner.a4Reference)
             .putBoolean(KEY_TUNER_AUTO_ADVANCE, s.tuner.autoAdvance)
             .putBoolean(KEY_TUNER_AUTO_START, s.tuner.autoStart)
-            // Pitch Monitor
-            .putFloat(KEY_PM_NOISE_GATE_SENSITIVITY, s.pitchMonitor.noiseGateSensitivity)
             // Onboarding
             .putBoolean(KEY_ONBOARDING_COMPLETED, s.onboardingCompleted)
             .putBoolean(KEY_EXPLORER_TIPS_DISMISSED, s.explorerTipsDismissed)
@@ -199,6 +198,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 strumDelayMs = prefs.getInt(KEY_STRUM_DELAY, SoundSettings.DEFAULT_STRUM_DELAY_MS),
                 strumDown = prefs.getBoolean(KEY_STRUM_DOWN, true),
                 playOnTap = prefs.getBoolean(KEY_PLAY_ON_TAP, false),
+                noiseGateSensitivity = prefs.getFloat(KEY_PM_NOISE_GATE_SENSITIVITY, SoundSettings.DEFAULT_NOISE_GATE_SENSITIVITY),
             ),
             display = DisplaySettings(
                 themeMode = try {
@@ -239,9 +239,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 autoAdvance = prefs.getBoolean(KEY_TUNER_AUTO_ADVANCE, false),
                 autoStart = prefs.getBoolean(KEY_TUNER_AUTO_START, false),
             ),
-            pitchMonitor = PitchMonitorSettings(
-                noiseGateSensitivity = prefs.getFloat(KEY_PM_NOISE_GATE_SENSITIVITY, PitchMonitorSettings.DEFAULT_SENSITIVITY),
-            ),
+            pitchMonitor = PitchMonitorSettings(),
             onboardingCompleted = prefs.getBoolean(KEY_ONBOARDING_COMPLETED, true),
             explorerTipsDismissed = prefs.getBoolean(KEY_EXPLORER_TIPS_DISMISSED, true),
         )

@@ -313,7 +313,7 @@
     <string name="settings_tuner">Tuner</string>
     <string name="settings_pitch_monitor">Pitch Monitor</string>
     <string name="settings_noise_gate_sensitivity">Noise gate sensitivity</string>
-    <string name="settings_noise_gate_desc">Controls how much background noise is filtered. Lower values ignore more noise; higher values pick up quieter sounds.</string>
+    <string name="settings_noise_gate_desc">Controls how much background noise is filtered for the Tuner, Pitch Monitor, and Melody Notepad. Lower values ignore more noise; higher values pick up quieter sounds.</string>
     <string name="settings_spoken_feedback">Spoken Feedback</string>
     <string name="settings_spoken_feedback_desc">Announces note name and cents deviation using text-to-speech</string>
     <string name="settings_precision_mode">Precision Mode</string>

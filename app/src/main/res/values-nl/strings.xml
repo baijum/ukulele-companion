@@ -837,7 +837,7 @@
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Toonhoogtemonitor</string>
     <string name="settings_noise_gate_sensitivity">Gevoeligheid ruisonderdrukking</string>
-    <string name="settings_noise_gate_desc">Bepaalt hoeveel achtergrondgeluid wordt gefilterd. Lagere waarden negeren meer geluid; hogere waarden vangen zachtere geluiden op.</string>
+    <string name="settings_noise_gate_desc">Regelt hoeveel achtergrondgeluid wordt gefilterd voor de stemmer, toonhoogtemonitor en melodie-notitieblok. Lagere waarden negeren meer ruis; hogere waarden vangen stillere geluiden op.</string>
     <string name="settings_show_learn_section">Sectie Leren tonen</string>
     <string name="settings_show_reference_section">Sectie Naslagwerk tonen</string>
     <string name="cd_collapse_section">%s inklappen</string>

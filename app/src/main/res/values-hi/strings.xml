@@ -839,7 +839,7 @@
     <string name="patterns_tempo">गति</string>
     <string name="settings_pitch_monitor">पिच मॉनिटर</string>
     <string name="settings_noise_gate_sensitivity">शोर गेट संवेदनशीलता</string>
-    <string name="settings_noise_gate_desc">पृष्ठभूमि शोर को कितना फ़िल्टर किया जाए यह नियंत्रित करता है। कम मान अधिक शोर को अनदेखा करते हैं; उच्च मान शांत ध्वनियों को पकड़ते हैं।</string>
+    <string name="settings_noise_gate_desc">ट्यूनर, पिच मॉनिटर और मेलोडी नोटपैड के लिए पृष्ठभूमि शोर को कितना फ़िल्टर किया जाए यह नियंत्रित करता है। कम मान अधिक शोर को अनदेखा करते हैं; अधिक मान शांत ध्वनियाँ कैप्चर करते हैं।</string>
     <string name="settings_show_learn_section">सीखें अनुभाग दिखाएं</string>
     <string name="settings_show_reference_section">संदर्भ अनुभाग दिखाएं</string>
     <string name="cd_collapse_section">%s संकुचित करें</string>

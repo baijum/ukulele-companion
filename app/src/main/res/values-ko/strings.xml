@@ -839,7 +839,7 @@
     <string name="patterns_tempo">템포</string>
     <string name="settings_pitch_monitor">음높이 모니터</string>
     <string name="settings_noise_gate_sensitivity">노이즈 게이트 감도</string>
-    <string name="settings_noise_gate_desc">배경 소음의 필터링 정도를 조절합니다. 낮은 값은 더 많은 소음을 무시하고, 높은 값은 더 작은 소리를 감지합니다.</string>
+    <string name="settings_noise_gate_desc">튜너, 피치 모니터, 멜로디 메모장의 배경 소음 필터링 정도를 제어합니다. 낮은 값은 더 많은 소음을 무시하고, 높은 값은 더 조용한 소리를 감지합니다.</string>
     <string name="settings_show_learn_section">학습 섹션 표시</string>
     <string name="settings_show_reference_section">참고 섹션 표시</string>
     <string name="cd_collapse_section">%s 접기</string>

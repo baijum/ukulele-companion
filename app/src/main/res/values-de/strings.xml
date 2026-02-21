@@ -839,7 +839,7 @@
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Tonhöhenmonitor</string>
     <string name="settings_noise_gate_sensitivity">Empfindlichkeit des Rauschfilters</string>
-    <string name="settings_noise_gate_desc">Steuert, wie viel Hintergrundgeräusche gefiltert werden. Niedrigere Werte ignorieren mehr Geräusche; höhere Werte erfassen leisere Töne.</string>
+    <string name="settings_noise_gate_desc">Steuert, wie viel Hintergrundgeräusche für Stimmgerät, Tonhöhenmonitor und Melodie-Notizblock gefiltert werden. Niedrigere Werte ignorieren mehr Geräusche; höhere Werte erfassen leisere Töne.</string>
     <string name="settings_show_learn_section">Bereich Lernen anzeigen</string>
     <string name="settings_show_reference_section">Bereich Nachschlagewerk anzeigen</string>
     <string name="cd_collapse_section">%s einklappen</string>

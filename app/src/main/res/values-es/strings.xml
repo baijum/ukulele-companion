@@ -835,7 +835,7 @@
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Monitor de tono</string>
     <string name="settings_noise_gate_sensitivity">Sensibilidad de la puerta de ruido</string>
-    <string name="settings_noise_gate_desc">Controla cuánto ruido de fondo se filtra. Los valores más bajos ignoran más ruido; los valores más altos captan sonidos más suaves.</string>
+    <string name="settings_noise_gate_desc">Controla cuánto ruido de fondo se filtra para el afinador, el monitor de tono y el bloc de melodías. Los valores más bajos ignoran más ruido; los más altos captan sonidos más suaves.</string>
     <string name="settings_show_learn_section">Mostrar sección Aprender</string>
     <string name="settings_show_reference_section">Mostrar sección Referencia</string>
     <string name="cd_collapse_section">Contraer %s</string>

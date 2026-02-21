@@ -82,7 +82,7 @@ import kotlinx.coroutines.launch
 import com.baijum.ukufretboard.audio.ToneGenerator
 import com.baijum.ukufretboard.data.AchievementRepository
 import com.baijum.ukufretboard.data.Notes
-import com.baijum.ukufretboard.data.PitchMonitorSettings
+import com.baijum.ukufretboard.data.SoundSettings
 import com.baijum.ukufretboard.data.PracticeTimerRepository
 
 import com.baijum.ukufretboard.domain.AchievementChecker
@@ -315,11 +315,12 @@ fun FretboardScreen(
         fretboardViewModel.setShowNoteNames(appSettings.fretboard.showNoteNames)
     }
 
-    // Sync noise gate sensitivity to Pitch Monitor
-    LaunchedEffect(appSettings.pitchMonitor.noiseGateSensitivity) {
-        pitchMonitorViewModel.setNoiseGateRms(
-            PitchMonitorSettings.sensitivityToRms(appSettings.pitchMonitor.noiseGateSensitivity)
-        )
+    // Sync noise gate sensitivity to all recording features
+    LaunchedEffect(appSettings.sound.noiseGateSensitivity) {
+        val rms = SoundSettings.sensitivityToRms(appSettings.sound.noiseGateSensitivity)
+        tunerViewModel.setNoiseGateRms(rms)
+        pitchMonitorViewModel.setNoiseGateRms(rms)
+        melodyViewModel.setNoiseGateRms(rms)
     }
 
     // Restore scale practice settings once
@@ -766,10 +767,6 @@ fun FretboardScreen(
             tunerSettings = appSettings.tuner,
             onTunerSettingsChange = { newTuner ->
                 settingsViewModel.updateTuner { newTuner }
-            },
-            pitchMonitorSettings = appSettings.pitchMonitor,
-            onPitchMonitorSettingsChange = { newPm ->
-                settingsViewModel.updatePitchMonitor { newPm }
             },
             backupRestoreViewModel = backupRestoreViewModel,
             onDismiss = { showSettings = false },

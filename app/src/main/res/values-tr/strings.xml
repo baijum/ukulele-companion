@@ -837,7 +837,7 @@
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Perde izleyici</string>
     <string name="settings_noise_gate_sensitivity">Gürültü kapısı hassasiyeti</string>
-    <string name="settings_noise_gate_desc">Arka plan gürültüsünün ne kadar filtreleneceğini kontrol eder. Düşük değerler daha fazla gürültüyü yoksayar; yüksek değerler daha sessiz sesleri algılar.</string>
+    <string name="settings_noise_gate_desc">Akort cihazı, perde monitörü ve melodi not defteri için arka plan gürültüsünün ne kadar filtreleneceğini kontrol eder. Düşük değerler daha fazla gürültüyü yok sayar; yüksek değerler daha sessiz sesleri algılar.</string>
     <string name="settings_show_learn_section">Öğren bölümünü göster</string>
     <string name="settings_show_reference_section">Başvuru bölümünü göster</string>
     <string name="cd_collapse_section">%s daralt</string>
