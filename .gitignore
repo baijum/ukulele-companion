@@ -12,6 +12,7 @@
 .cxx
 /keystore.properties
 *.jks
+play-service-account.json
 .kotlin/
 docs/manual/ukulele-companion-manual.pdf
 store-listing/

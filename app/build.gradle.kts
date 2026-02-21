@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.play.publisher)
 }
 
 kotlin {
@@ -76,6 +77,12 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
+
+play {
+    track.set("internal")
+    defaultToAppBundles.set(true)
+    serviceAccountCredentials.set(file("play-service-account.json"))
 }
 
 dependencies {
