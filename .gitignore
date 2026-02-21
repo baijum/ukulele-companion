@@ -13,6 +13,7 @@
 /keystore.properties
 *.jks
 play-service-account.json
+app/src/main/play/
 .kotlin/
 docs/manual/ukulele-companion-manual.pdf
 store-listing/
