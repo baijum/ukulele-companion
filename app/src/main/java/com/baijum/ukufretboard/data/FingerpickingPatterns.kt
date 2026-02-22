@@ -160,6 +160,43 @@ object FingerpickingPatterns {
             suggestedBpm = 60..100,
         ),
         FingerpickingPattern(
+            name = "6/8 Arpeggio",
+            description = "A flowing six-note arpeggio in compound time. The thumb walks up " +
+                "the bass strings while fingers pick the melody, then descend back. The natural " +
+                "accent on beats 1 and 4 creates a gentle wave-like motion. Classic pattern for " +
+                "ballads like \"House of the Rising Sun.\"",
+            difficulty = Difficulty.BEGINNER,
+            timeSignature = "6/8",
+            steps = listOf(
+                FingerpickStep(Finger.THUMB, 0, emphasis = true),
+                FingerpickStep(Finger.THUMB, 1),
+                FingerpickStep(Finger.INDEX, 2),
+                FingerpickStep(Finger.MIDDLE, 3, emphasis = true),
+                FingerpickStep(Finger.INDEX, 2),
+                FingerpickStep(Finger.THUMB, 1),
+            ),
+            notation = "T(G) T(C) I(E) M(A) I(E) T(C)",
+            suggestedBpm = 40..80,
+        ),
+        FingerpickingPattern(
+            name = "Pinch Roll",
+            description = "Opens with a simultaneous thumb-and-middle pinch for a full sound, " +
+                "then flows into a rolling arpeggio. The compound-time feel creates a dreamy, " +
+                "harp-like quality. Ideal for slow ballads and Hawaiian-style accompaniment.",
+            difficulty = Difficulty.INTERMEDIATE,
+            timeSignature = "6/8",
+            steps = listOf(
+                FingerpickStep(Finger.THUMB, 0, emphasis = true),
+                FingerpickStep(Finger.MIDDLE, 3, emphasis = true),
+                FingerpickStep(Finger.INDEX, 2),
+                FingerpickStep(Finger.THUMB, 1, emphasis = true),
+                FingerpickStep(Finger.THUMB, 0),
+                FingerpickStep(Finger.INDEX, 2),
+            ),
+            notation = "T+M  I(E)  T(C)  T(G)  I(E)",
+            suggestedBpm = 40..70,
+        ),
+        FingerpickingPattern(
             name = "Clawhammer",
             description = "A banjo-inspired technique adapted for ukulele. Thumb plays melody on inner strings, index strums down.",
             difficulty = Difficulty.INTERMEDIATE,
