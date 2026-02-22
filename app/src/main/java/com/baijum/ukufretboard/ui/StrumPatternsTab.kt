@@ -81,6 +81,8 @@ import com.baijum.ukufretboard.data.UkuleleTuning
 private const val TAB_STRUMMING = 0
 private const val TAB_FINGERPICKING = 1
 
+private val TIME_SIGNATURES = listOf("2/4", "3/4", "4/4", "6/8", "9/8", "12/8")
+
 /**
  * Tab showing a reference list of common ukulele strumming and fingerpicking patterns.
  *
@@ -335,7 +337,7 @@ private fun StrumPatternCard(
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f),
                 )
-                TimeSignatureBadge(beatsPerMeasure = pattern.beatsPerMeasure)
+                TimeSignatureBadge(timeSignature = pattern.timeSignature)
                 Spacer(modifier = Modifier.width(4.dp))
                 DifficultyBadge(difficulty = pattern.difficulty)
                 IconButton(
@@ -526,12 +528,10 @@ private fun DifficultyBadge(difficulty: Difficulty) {
 }
 
 /**
- * A small badge showing the time signature (e.g. "4/4" or "3/4").
+ * A small badge showing the time signature (e.g. "4/4", "3/4", "6/8").
  */
 @Composable
-private fun TimeSignatureBadge(beatsPerMeasure: Int) {
-    val label = "$beatsPerMeasure/4"
-    val a11yLabel = "$beatsPerMeasure/4 time"
+private fun TimeSignatureBadge(timeSignature: String) {
     Box(
         modifier = Modifier
             .background(
@@ -539,10 +539,10 @@ private fun TimeSignatureBadge(beatsPerMeasure: Int) {
                 RoundedCornerShape(8.dp),
             )
             .padding(horizontal = 8.dp, vertical = 2.dp)
-            .semantics { contentDescription = a11yLabel },
+            .semantics { contentDescription = "$timeSignature time" },
     ) {
         Text(
-            text = label,
+            text = timeSignature,
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Medium,
             color = MaterialTheme.colorScheme.onTertiaryContainer,
@@ -596,7 +596,7 @@ private fun FingerpickingPatternCard(
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f),
                 )
-                TimeSignatureBadge(beatsPerMeasure = pattern.beatsPerMeasure)
+                TimeSignatureBadge(timeSignature = pattern.timeSignature)
                 Spacer(modifier = Modifier.width(4.dp))
                 DifficultyBadge(difficulty = pattern.difficulty)
                 IconButton(
@@ -744,6 +744,7 @@ private fun CreateStrumPatternSheet(
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var patternName by remember { mutableStateOf("") }
+    var timeSignature by remember { mutableStateOf("4/4") }
     val customPatternDesc = stringResource(R.string.patterns_custom)
     val beats = remember {
         mutableStateListOf(
@@ -782,6 +783,28 @@ private fun CreateStrumPatternSheet(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = stringResource(R.string.patterns_time_signature),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = 4.dp),
+            )
+            @OptIn(ExperimentalLayoutApi::class)
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                TIME_SIGNATURES.forEach { ts ->
+                    FilterChip(
+                        selected = timeSignature == ts,
+                        onClick = { timeSignature = ts },
+                        label = { Text(ts) },
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -885,6 +908,7 @@ private fun CreateStrumPatternSheet(
                                     name = patternName.trim(),
                                     description = customPatternDesc,
                                     difficulty = Difficulty.BEGINNER,
+                                    timeSignature = timeSignature,
                                     beats = beats.toList(),
                                     notation = notation,
                                     suggestedBpm = 80..120,
@@ -917,7 +941,7 @@ private fun CreateFingerpickingPatternSheet(
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var patternName by remember { mutableStateOf("") }
-    var beatsPerMeasure by remember { mutableIntStateOf(4) }
+    var timeSignature by remember { mutableStateOf("4/4") }
     val customPatternDesc = stringResource(R.string.patterns_custom)
     val steps = remember {
         mutableStateListOf(
@@ -962,14 +986,16 @@ private fun CreateFingerpickingPatternSheet(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(bottom = 4.dp),
             )
-            Row(
+            @OptIn(ExperimentalLayoutApi::class)
+            FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                listOf(3, 4).forEach { beats ->
+                TIME_SIGNATURES.forEach { ts ->
                     FilterChip(
-                        selected = beatsPerMeasure == beats,
-                        onClick = { beatsPerMeasure = beats },
-                        label = { Text("$beats/4") },
+                        selected = timeSignature == ts,
+                        onClick = { timeSignature = ts },
+                        label = { Text(ts) },
                     )
                 }
             }
@@ -1195,7 +1221,7 @@ private fun CreateFingerpickingPatternSheet(
                                     name = patternName.trim(),
                                     description = customPatternDesc,
                                     difficulty = Difficulty.BEGINNER,
-                                    beatsPerMeasure = beatsPerMeasure,
+                                    timeSignature = timeSignature,
                                     steps = steps.toList(),
                                     notation = notation,
                                     suggestedBpm = 60..100,

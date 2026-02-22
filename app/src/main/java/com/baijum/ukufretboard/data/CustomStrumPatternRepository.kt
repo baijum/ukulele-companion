@@ -22,9 +22,10 @@ data class CustomStrumPattern(
  *
  * Serialization format:
  * ```
- * id|||name|||beats|||createdAt
+ * id|||name|||beats|||createdAt|||timeSignature
  * ```
- * Where each beat is: `direction:emphasis` (e.g., "DOWN:true;UP:false;PAUSE:false")
+ * Where each beat is: `direction:emphasis` (e.g., "DOWN:true;UP:false;PAUSE:false").
+ * The `timeSignature` field was added later; older entries with only 4 fields default to "4/4".
  */
 class CustomStrumPatternRepository(context: Context) {
 
@@ -60,7 +61,7 @@ class CustomStrumPatternRepository(context: Context) {
             "${b.direction.name}:${b.emphasis}"
         }
         val safeName = p.name.replace("|", "\\|")
-        return "${custom.id}|||$safeName|||$beatsStr|||${custom.createdAt}"
+        return "${custom.id}|||$safeName|||$beatsStr|||${custom.createdAt}|||${p.timeSignature}"
     }
 
     private fun deserialize(value: String?): CustomStrumPattern? {
@@ -78,6 +79,7 @@ class CustomStrumPatternRepository(context: Context) {
                 )
             }
             val createdAt = parts[3].toLong()
+            val timeSignature = if (parts.size >= 5) parts[4] else "4/4"
             val notation = beats.joinToString(" ") { b ->
                 if (b.emphasis) b.direction.symbol.uppercase()
                 else b.direction.symbol
@@ -88,6 +90,7 @@ class CustomStrumPatternRepository(context: Context) {
                     name = name,
                     description = "Custom pattern",
                     difficulty = Difficulty.BEGINNER,
+                    timeSignature = timeSignature,
                     beats = beats,
                     notation = notation,
                     suggestedBpm = 80..120,
