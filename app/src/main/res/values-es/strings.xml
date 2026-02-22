@@ -740,6 +740,12 @@
     <string name="melody_discard_message">Tienes cambios sin guardar. ¿Descartarlos?</string>
     <string name="melody_delete_title">Eliminar melodía</string>
     <string name="melody_delete_message">¿Eliminar \"%s\"?</string>
+    <string name="pattern_delete_title">Eliminar patrón</string>
+    <string name="pattern_delete_message">¿Eliminar \"%s\"?</string>
+    <string name="progression_delete_title">Eliminar progresión</string>
+    <string name="progression_delete_message">¿Eliminar \"%s\"?</string>
+    <string name="song_delete_title">Eliminar canción</string>
+    <string name="song_delete_message">¿Eliminar \"%s\"?</string>
     <string name="melody_unsaved"> (cambios sin guardar)</string>
     <string name="melody_current">Actual: %s</string>
     <string name="cd_save_melody">Guardar melodía</string>

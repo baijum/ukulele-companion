@@ -740,6 +740,12 @@
     <string name="melody_discard_message">У вас есть несохранённые изменения. Отменить?</string>
     <string name="melody_delete_title">Удалить мелодию</string>
     <string name="melody_delete_message">Удалить \"%s\"?</string>
+    <string name="pattern_delete_title">Удалить паттерн</string>
+    <string name="pattern_delete_message">Удалить \"%s\"?</string>
+    <string name="progression_delete_title">Удалить прогрессию</string>
+    <string name="progression_delete_message">Удалить \"%s\"?</string>
+    <string name="song_delete_title">Удалить песню</string>
+    <string name="song_delete_message">Удалить \"%s\"?</string>
     <string name="melody_unsaved"> (несохранённые изменения)</string>
     <string name="melody_current">Текущая: %s</string>
     <string name="cd_save_melody">Сохранить мелодию</string>

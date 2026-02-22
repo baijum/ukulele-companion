@@ -740,6 +740,12 @@
     <string name="melody_discard_message">Du hast ungespeicherte Änderungen. Verwerfen?</string>
     <string name="melody_delete_title">Melodie löschen</string>
     <string name="melody_delete_message">\"%s\" löschen?</string>
+    <string name="pattern_delete_title">Muster löschen</string>
+    <string name="pattern_delete_message">\"%s\" löschen?</string>
+    <string name="progression_delete_title">Progression löschen</string>
+    <string name="progression_delete_message">\"%s\" löschen?</string>
+    <string name="song_delete_title">Lied löschen</string>
+    <string name="song_delete_message">\"%s\" löschen?</string>
     <string name="melody_unsaved"> (ungespeicherte Änderungen)</string>
     <string name="melody_current">Aktuell: %s</string>
     <string name="cd_save_melody">Melodie speichern</string>

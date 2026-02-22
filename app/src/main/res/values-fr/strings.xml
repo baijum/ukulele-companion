@@ -740,6 +740,12 @@
     <string name="melody_discard_message">Vous avez des modifications non enregistrées. Les abandonner ?</string>
     <string name="melody_delete_title">Supprimer la mélodie</string>
     <string name="melody_delete_message">Supprimer \"%s\" ?</string>
+    <string name="pattern_delete_title">Supprimer le motif</string>
+    <string name="pattern_delete_message">Supprimer \"%s\" ?</string>
+    <string name="progression_delete_title">Supprimer la progression</string>
+    <string name="progression_delete_message">Supprimer \"%s\" ?</string>
+    <string name="song_delete_title">Supprimer le morceau</string>
+    <string name="song_delete_message">Supprimer \"%s\" ?</string>
     <string name="melody_unsaved"> (modifications non enregistrées)</string>
     <string name="melody_current">Actuelle : %s</string>
     <string name="cd_save_melody">Enregistrer la mélodie</string>

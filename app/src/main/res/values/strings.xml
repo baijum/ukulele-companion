@@ -801,6 +801,12 @@
     <string name="melody_discard_message">You have unsaved changes. Discard them?</string>
     <string name="melody_delete_title">Delete Melody</string>
     <string name="melody_delete_message">Delete \"%s\"?</string>
+    <string name="pattern_delete_title">Delete Pattern</string>
+    <string name="pattern_delete_message">Delete \"%s\"?</string>
+    <string name="progression_delete_title">Delete Progression</string>
+    <string name="progression_delete_message">Delete \"%s\"?</string>
+    <string name="song_delete_title">Delete Song</string>
+    <string name="song_delete_message">Delete \"%s\"?</string>
     <string name="melody_unsaved"> (unsaved changes)</string>
     <string name="melody_current">Current: %s</string>
     <string name="cd_save_melody">Save melody</string>

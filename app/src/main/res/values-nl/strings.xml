@@ -740,6 +740,12 @@
     <string name="melody_discard_message">Je hebt niet-opgeslagen wijzigingen. Verwerpen?</string>
     <string name="melody_delete_title">Melodie verwijderen</string>
     <string name="melody_delete_message">\"%s\" verwijderen?</string>
+    <string name="pattern_delete_title">Patroon verwijderen</string>
+    <string name="pattern_delete_message">\"%s\" verwijderen?</string>
+    <string name="progression_delete_title">Progressie verwijderen</string>
+    <string name="progression_delete_message">\"%s\" verwijderen?</string>
+    <string name="song_delete_title">Nummer verwijderen</string>
+    <string name="song_delete_message">\"%s\" verwijderen?</string>
     <string name="melody_unsaved"> (niet-opgeslagen wijzigingen)</string>
     <string name="melody_current">Huidig: %s</string>
     <string name="cd_save_melody">Melodie opslaan</string>

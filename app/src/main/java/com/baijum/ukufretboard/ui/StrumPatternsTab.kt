@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -108,6 +109,8 @@ fun StrumPatternsTab(
     var showCreateFingerpickSheet by remember { mutableStateOf(false) }
     var editingStrumPattern by remember { mutableStateOf<CustomStrumPattern?>(null) }
     var editingFingerpickPattern by remember { mutableStateOf<CustomFingerpickingPattern?>(null) }
+    var deletingStrumPattern by remember { mutableStateOf<CustomStrumPattern?>(null) }
+    var deletingFingerpickPattern by remember { mutableStateOf<CustomFingerpickingPattern?>(null) }
 
     val patternPlayer = remember { PatternPlayer() }
     val isPlaying by patternPlayer.isPlaying.collectAsState()
@@ -175,11 +178,7 @@ fun StrumPatternsTab(
                                     customStrumPatterns = strumRepo.getAll()
                                 },
                                 onEdit = { editingStrumPattern = custom },
-                                onDelete = {
-                                    patternPlayer.stop(); playingPatternName = null
-                                    strumRepo.delete(custom.id)
-                                    customStrumPatterns = strumRepo.getAll()
-                                },
+                                onDelete = { deletingStrumPattern = custom },
                             )
                         }
                         item {
@@ -239,11 +238,7 @@ fun StrumPatternsTab(
                                     customFingerpickPatterns = fingerpickRepo.getAll()
                                 },
                                 onEdit = { editingFingerpickPattern = custom },
-                                onDelete = {
-                                    patternPlayer.stop(); playingPatternName = null
-                                    fingerpickRepo.delete(custom.id)
-                                    customFingerpickPatterns = fingerpickRepo.getAll()
-                                },
+                                onDelete = { deletingFingerpickPattern = custom },
                             )
                         }
                         item {
@@ -352,6 +347,63 @@ fun StrumPatternsTab(
             },
         )
     }
+
+    deletingStrumPattern?.let { custom ->
+        DeletePatternDialog(
+            patternName = custom.pattern.name,
+            onDismiss = { deletingStrumPattern = null },
+            onConfirm = {
+                patternPlayer.stop(); playingPatternName = null
+                strumRepo.delete(custom.id)
+                customStrumPatterns = strumRepo.getAll()
+                deletingStrumPattern = null
+            },
+        )
+    }
+
+    deletingFingerpickPattern?.let { custom ->
+        DeletePatternDialog(
+            patternName = custom.pattern.name,
+            onDismiss = { deletingFingerpickPattern = null },
+            onConfirm = {
+                patternPlayer.stop(); playingPatternName = null
+                fingerpickRepo.delete(custom.id)
+                customFingerpickPatterns = fingerpickRepo.getAll()
+                deletingFingerpickPattern = null
+            },
+        )
+    }
+}
+
+@Composable
+private fun DeletePatternDialog(
+    patternName: String,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                stringResource(R.string.pattern_delete_title),
+                modifier = Modifier.semantics { heading() },
+            )
+        },
+        text = { Text(stringResource(R.string.pattern_delete_message, patternName)) },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text(
+                    stringResource(R.string.dialog_delete),
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.dialog_cancel))
+            }
+        },
+    )
 }
 
 /**

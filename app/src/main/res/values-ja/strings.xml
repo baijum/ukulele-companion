@@ -740,6 +740,12 @@
     <string name="melody_discard_message">未保存の変更があります。破棄しますか？</string>
     <string name="melody_delete_title">メロディーを削除</string>
     <string name="melody_delete_message">「%s」を削除しますか？</string>
+    <string name="pattern_delete_title">パターンを削除</string>
+    <string name="pattern_delete_message">「%s」を削除しますか？</string>
+    <string name="progression_delete_title">進行を削除</string>
+    <string name="progression_delete_message">「%s」を削除しますか？</string>
+    <string name="song_delete_title">曲を削除</string>
+    <string name="song_delete_message">「%s」を削除しますか？</string>
     <string name="melody_unsaved"> (未保存の変更)</string>
     <string name="melody_current">現在: %s</string>
     <string name="cd_save_melody">メロディーを保存</string>
