@@ -181,6 +181,26 @@ object StrumPatterns {
             counting = "1, 2 &, 3 &",
             genres = listOf("Waltz", "Folk", "Ballad"),
         ),
+        StrumPattern(
+            name = "6/8 Ballad",
+            description = "A flowing compound-time pattern felt as two groups of three. " +
+                "The emphasis on beats 1 and 4 creates a gentle rocking motion. Used in " +
+                "slow ballads, Irish folk tunes, and songs like \"House of the Rising Sun.\"",
+            difficulty = Difficulty.BEGINNER,
+            timeSignature = "6/8",
+            beats = listOf(
+                StrumBeat(StrumDirection.DOWN, emphasis = true),
+                StrumBeat(StrumDirection.PAUSE),
+                StrumBeat(StrumDirection.DOWN),
+                StrumBeat(StrumDirection.UP),
+                StrumBeat(StrumDirection.DOWN),
+                StrumBeat(StrumDirection.UP),
+            ),
+            notation = "D - d u d u",
+            suggestedBpm = 40..80,
+            counting = "1, 2, 3, 4, 5, 6",
+            genres = listOf("Ballad", "Folk", "Irish"),
+        ),
         // ── Intermediate ────────────────────────────────────────────
         StrumPattern(
             name = "Calypso",
