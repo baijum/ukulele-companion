@@ -709,6 +709,8 @@ private fun VoicingGrid(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
+            val chordName = Notes.pitchClassToName(rootPitchClass) + (formula?.symbol ?: "")
+
             items(voicings) { voicing ->
                 // Compute inversion info for this voicing
                 val inversionLabel = formula?.let {
@@ -722,6 +724,7 @@ private fun VoicingGrid(
                     voicing = voicing,
                     onClick = { onVoicingSelected(voicing) },
                     onLongClick = onVoicingLongPressed?.let { callback -> { callback(voicing) } },
+                    chordName = chordName,
                     leftHanded = leftHanded,
                     inversionLabel = inversionLabel,
                     bassStringIndex = bassIndex,

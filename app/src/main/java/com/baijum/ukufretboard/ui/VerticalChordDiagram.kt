@@ -5,13 +5,17 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -98,6 +102,7 @@ fun VerticalChordDiagram(
     voicing: ChordVoicing,
     onClick: () -> Unit,
     onLongClick: (() -> Unit)? = null,
+    chordName: String? = null,
     leftHanded: Boolean = false,
     inversionLabel: String? = null,
     bassStringIndex: Int? = null,
@@ -164,7 +169,7 @@ fun VerticalChordDiagram(
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
     ) {
-        Box {
+        Box(modifier = Modifier.fillMaxWidth()) {
             Column(
                 modifier = Modifier.padding(10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -183,16 +188,49 @@ fun VerticalChordDiagram(
 
                 Spacer(modifier = Modifier.height(6.dp))
 
-                // Note names below (show sounding notes if capo is active)
-                Text(
-                    text = soundingNotes ?: voicing.notes.joinToString(" ") { it?.name ?: "x" },
-                    style = MaterialTheme.typography.labelSmall,
-                    color = if (soundingNotes != null)
-                        MaterialTheme.colorScheme.primary
-                    else
-                        MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = TextAlign.Center,
-                )
+                // Note names and fret numbers aligned to string positions
+                val noteItems = soundingNotes?.split(" ")
+                    ?: voicing.notes.map { it?.name ?: "x" }
+                val noteColor = if (soundingNotes != null)
+                    MaterialTheme.colorScheme.primary
+                else
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                val displayIndices = if (leftHanded) {
+                    (STRING_COUNT - 1 downTo 0).toList()
+                } else {
+                    (0 until STRING_COUNT).toList()
+                }
+
+                Row {
+                    Spacer(modifier = Modifier.width(POSITION_LABEL_WIDTH - STRING_SPACING / 2))
+                    displayIndices.forEachIndexed { visualIdx, logicalIdx ->
+                        val itemWidth = if (visualIdx < STRING_COUNT - 1) STRING_SPACING
+                            else STRING_SPACING / 2 + RIGHT_PADDING
+                        Text(
+                            text = noteItems.getOrElse(logicalIdx) { "?" },
+                            modifier = Modifier.width(itemWidth),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = noteColor,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
+                }
+
+                Row {
+                    Spacer(modifier = Modifier.width(POSITION_LABEL_WIDTH - STRING_SPACING / 2))
+                    displayIndices.forEachIndexed { visualIdx, logicalIdx ->
+                        val itemWidth = if (visualIdx < STRING_COUNT - 1) STRING_SPACING
+                            else STRING_SPACING / 2 + RIGHT_PADDING
+                        val fret = voicing.frets[logicalIdx]
+                        Text(
+                            text = if (fret == ChordVoicing.MUTED) "x" else "$fret",
+                            modifier = Modifier.width(itemWidth),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                            textAlign = TextAlign.Center,
+                        )
+                    }
+                }
 
                 // Inversion label
                 if (inversionLabel != null) {
@@ -204,6 +242,19 @@ fun VerticalChordDiagram(
                         textAlign = TextAlign.Center,
                     )
                 }
+            }
+
+            // Chord name at top-right inside the card
+            if (chordName != null) {
+                Text(
+                    text = chordName,
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(6.dp),
+                )
             }
 
             // Favorite heart icon at top-left inside the card
@@ -221,6 +272,23 @@ fun VerticalChordDiagram(
                         else stringResource(R.string.cd_add_favorites),
                         tint = if (isFavorite) MaterialTheme.colorScheme.error
                         else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                        modifier = Modifier.size(18.dp),
+                    )
+                }
+            }
+
+            // Share icon at bottom-right inside the card
+            if (onLongClick != null) {
+                IconButton(
+                    onClick = onLongClick,
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .size(28.dp),
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Share,
+                        contentDescription = stringResource(R.string.cd_share_chord_image),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                         modifier = Modifier.size(18.dp),
                     )
                 }
