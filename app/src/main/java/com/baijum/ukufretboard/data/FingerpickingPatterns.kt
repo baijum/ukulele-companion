@@ -29,6 +29,7 @@ data class FingerpickStep(
  * @property name Human-readable name of the pattern.
  * @property description Brief description of the pattern and its use.
  * @property difficulty Skill level required.
+ * @property beatsPerMeasure Time signature numerator (e.g., 4 for 4/4 time).
  * @property steps The sequence of picking steps.
  * @property notation Compact text notation showing finger labels.
  * @property suggestedBpm Recommended tempo range in BPM.
@@ -37,6 +38,7 @@ data class FingerpickingPattern(
     val name: String,
     val description: String,
     val difficulty: Difficulty,
+    val beatsPerMeasure: Int = 4,
     val steps: List<FingerpickStep>,
     val notation: String,
     val suggestedBpm: IntRange,
@@ -161,6 +163,7 @@ object FingerpickingPatterns {
             name = "Clawhammer",
             description = "A banjo-inspired technique adapted for ukulele. Thumb plays melody on inner strings, index strums down.",
             difficulty = Difficulty.INTERMEDIATE,
+            beatsPerMeasure = 3,
             steps = listOf(
                 FingerpickStep(Finger.INDEX, 3, emphasis = true),
                 FingerpickStep(Finger.INDEX, 2),

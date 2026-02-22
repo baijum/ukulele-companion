@@ -53,6 +53,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -334,6 +335,8 @@ private fun StrumPatternCard(
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f),
                 )
+                TimeSignatureBadge(beatsPerMeasure = pattern.beatsPerMeasure)
+                Spacer(modifier = Modifier.width(4.dp))
                 DifficultyBadge(difficulty = pattern.difficulty)
                 IconButton(
                     onClick = { if (isPlaying) onStop() else onPlay(bpm.toInt()) },
@@ -522,6 +525,31 @@ private fun DifficultyBadge(difficulty: Difficulty) {
     }
 }
 
+/**
+ * A small badge showing the time signature (e.g. "4/4" or "3/4").
+ */
+@Composable
+private fun TimeSignatureBadge(beatsPerMeasure: Int) {
+    val label = "$beatsPerMeasure/4"
+    val a11yLabel = "$beatsPerMeasure/4 time"
+    Box(
+        modifier = Modifier
+            .background(
+                MaterialTheme.colorScheme.tertiaryContainer,
+                RoundedCornerShape(8.dp),
+            )
+            .padding(horizontal = 8.dp, vertical = 2.dp)
+            .semantics { contentDescription = a11yLabel },
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onTertiaryContainer,
+        )
+    }
+}
+
 // ── Fingerpicking ───────────────────────────────────────────────────
 
 /**
@@ -568,6 +596,8 @@ private fun FingerpickingPatternCard(
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f),
                 )
+                TimeSignatureBadge(beatsPerMeasure = pattern.beatsPerMeasure)
+                Spacer(modifier = Modifier.width(4.dp))
                 DifficultyBadge(difficulty = pattern.difficulty)
                 IconButton(
                     onClick = { if (isPlaying) onStop() else onPlay(bpm.toInt()) },
@@ -887,6 +917,7 @@ private fun CreateFingerpickingPatternSheet(
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var patternName by remember { mutableStateOf("") }
+    var beatsPerMeasure by remember { mutableIntStateOf(4) }
     val customPatternDesc = stringResource(R.string.patterns_custom)
     val steps = remember {
         mutableStateListOf(
@@ -922,6 +953,26 @@ private fun CreateFingerpickingPatternSheet(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = stringResource(R.string.patterns_time_signature),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = 4.dp),
+            )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                listOf(3, 4).forEach { beats ->
+                    FilterChip(
+                        selected = beatsPerMeasure == beats,
+                        onClick = { beatsPerMeasure = beats },
+                        label = { Text("$beats/4") },
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -1144,6 +1195,7 @@ private fun CreateFingerpickingPatternSheet(
                                     name = patternName.trim(),
                                     description = customPatternDesc,
                                     difficulty = Difficulty.BEGINNER,
+                                    beatsPerMeasure = beatsPerMeasure,
                                     steps = steps.toList(),
                                     notation = notation,
                                     suggestedBpm = 60..100,

@@ -266,6 +266,7 @@
     <string name="patterns_ring">薬指</string>
     <string name="patterns_string">弦</string>
     <string name="patterns_counting">カウント</string>
+    <string name="patterns_time_signature">拍子</string>
 
     <!-- ── Playback Bar ─────────────────────────────────────────────── -->
     <string name="playback_prefix">再生: </string>

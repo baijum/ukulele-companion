@@ -266,6 +266,7 @@
     <string name="patterns_ring">Annulaire</string>
     <string name="patterns_string">Corde</string>
     <string name="patterns_counting">Comptage</string>
+    <string name="patterns_time_signature">Mesure</string>
 
     <!-- ── Barre de lecture ───────────────────────────────────────────── -->
     <string name="playback_prefix">Lecture : </string>

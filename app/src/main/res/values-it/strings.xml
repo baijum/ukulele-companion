@@ -266,6 +266,7 @@
     <string name="patterns_ring">Anulare</string>
     <string name="patterns_string">Corda</string>
     <string name="patterns_counting">Conteggio</string>
+    <string name="patterns_time_signature">Tempo</string>
 
     <!-- ── Barra di riproduzione ──────────────────────────────────────── -->
     <string name="playback_prefix">Riproduzione: </string>

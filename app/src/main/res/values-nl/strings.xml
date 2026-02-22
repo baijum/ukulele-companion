@@ -266,6 +266,7 @@
     <string name="patterns_ring">Ringvinger</string>
     <string name="patterns_string">Snaar</string>
     <string name="patterns_counting">Telling</string>
+    <string name="patterns_time_signature">Maatsoort</string>
 
     <!-- ── Afspeelbalk ────────────────────────────────────────────────── -->
     <string name="playback_prefix">Afspelen: </string>

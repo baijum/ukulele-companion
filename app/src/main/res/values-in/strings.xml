@@ -266,6 +266,7 @@
     <string name="patterns_ring">Manis</string>
     <string name="patterns_string">Senar</string>
     <string name="patterns_counting">Hitungan</string>
+    <string name="patterns_time_signature">Birama</string>
 
     <!-- ── Bilah Pemutaran ────────────────────────────────────────────── -->
     <string name="playback_prefix">Pemutaran: </string>

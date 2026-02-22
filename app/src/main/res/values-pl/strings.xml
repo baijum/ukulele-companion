@@ -266,6 +266,7 @@
     <string name="patterns_ring">Serdeczny</string>
     <string name="patterns_string">Struna</string>
     <string name="patterns_counting">Liczenie</string>
+    <string name="patterns_time_signature">Metrum</string>
 
     <!-- ── Pasek odtwarzania ──────────────────────────────────────────── -->
     <string name="playback_prefix">Odtwarzanie: </string>

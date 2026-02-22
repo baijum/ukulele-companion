@@ -149,6 +149,7 @@ data class BackupFingerpickingPattern(
     val name: String,
     val steps: List<BackupFingerpickStep>,
     val createdAt: Long,
+    val beatsPerMeasure: Int = 4,
 )
 
 /**

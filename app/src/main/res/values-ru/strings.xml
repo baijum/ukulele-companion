@@ -266,6 +266,7 @@
     <string name="patterns_ring">Безымянный</string>
     <string name="patterns_string">Струна</string>
     <string name="patterns_counting">Счёт</string>
+    <string name="patterns_time_signature">Размер</string>
 
     <!-- ── Playback Bar ─────────────────────────────────────────────── -->
     <string name="playback_prefix">Воспроизведение: </string>

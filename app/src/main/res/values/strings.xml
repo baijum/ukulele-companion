@@ -276,6 +276,7 @@
     <string name="patterns_ring">Ring</string>
     <string name="patterns_string">String</string>
     <string name="patterns_counting">Counting</string>
+    <string name="patterns_time_signature">Time signature</string>
     <string name="cd_play_pattern">Play %s</string>
     <string name="cd_stop_pattern">Stop %s</string>
     <string name="patterns_tempo">Tempo</string>

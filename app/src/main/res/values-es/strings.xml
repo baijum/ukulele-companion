@@ -266,6 +266,7 @@
     <string name="patterns_ring">Anular</string>
     <string name="patterns_string">Cuerda</string>
     <string name="patterns_counting">Conteo</string>
+    <string name="patterns_time_signature">Compás</string>
 
     <!-- ── Barra de reproducción ─────────────────────────────────────── -->
     <string name="playback_prefix">Reproducción: </string>
