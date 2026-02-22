@@ -606,7 +606,7 @@ private fun BeatArrow(beat: StrumBeat, isActive: Boolean = false) {
         StrumDirection.PAUSE -> MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
     }
     val fontWeight = if (beat.emphasis) FontWeight.ExtraBold else FontWeight.Normal
-    val fontSize = if (beat.emphasis) 20.sp else 16.sp
+    val fontSize = if (beat.emphasis) 20.sp else 18.sp
 
     val bgColor by animateColorAsState(
         targetValue = if (isActive) MaterialTheme.colorScheme.primaryContainer
