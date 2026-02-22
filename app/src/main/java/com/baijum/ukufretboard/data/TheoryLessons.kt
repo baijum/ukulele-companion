@@ -505,6 +505,57 @@ object TheoryLessons {
             quizCorrectIndex = 1,
             quizExplanation = "A chuck (or chunk/palm mute) is a percussive technique where you strum down and immediately damp the strings with the edge of your palm, producing a sharp click that acts like a snare drum hit.",
         ),
+        TheoryLesson(
+            id = "rhythm_world",
+            module = "Rhythm",
+            title = "World Rhythms",
+            content = "Western music mostly uses 4/4, 3/4, and 6/8, but musical traditions around " +
+                "the world have developed rich rhythmic systems that go far beyond these meters. " +
+                "Understanding them can inspire new ways to think about rhythm on the ukulele.\n\n" +
+                "Indian Tala: In both Hindustani (North Indian) and Carnatic (South Indian) " +
+                "classical music, rhythm is organized into tala \u2014 repeating cycles of beats " +
+                "with specific accent patterns. Teental has 16 beats grouped as 4+4+4+4. " +
+                "Rupak has 7 beats grouped as 3+2+2. Dadra has 6 beats grouped as 3+3. " +
+                "Each cycle has a sam (the first beat, where musicians \u201Cmeet\u201D), " +
+                "taali (clapped/accented beats), and khali (waved/unaccented beats). " +
+                "The asymmetric groupings of talas like Rupak (7 beats) and Jhaptal (10 beats) " +
+                "are the origin of what Western musicians call \u201Codd time signatures.\u201D\n\n" +
+                "African Polyrhythm: West and Central African music is built on polyrhythm \u2014 " +
+                "multiple interlocking rhythmic patterns played simultaneously. Rather than one " +
+                "complex pattern, the groove emerges from the interplay of simple repeating " +
+                "figures (often in 4/4 or 12/8). A timeline pattern like the bell pattern in " +
+                "Afro-Cuban music provides a shared reference point. The emphasis is on " +
+                "collective groove rather than individual complexity.\n\n" +
+                "Middle Eastern Usul: Turkish, Arabic, and Persian music use usul (or iqa\u2019) " +
+                "\u2014 rhythmic cycles built from heavy (dum) and light (tek) drum strokes. " +
+                "Common usul meters include 7/8 (grouped 2+2+3, as in Turkish aksak), " +
+                "9/8 (2+2+2+3, as in the Turkish zeybek dance), and 10/8 (3+2+2+3). " +
+                "These asymmetric groupings create a lopsided, driving feel that is " +
+                "distinct from Western meters.\n\n" +
+                "Japanese Ma: Traditional Japanese music (shamisen, koto, shakuhachi) uses " +
+                "the concept of ma \u2014 the meaningful use of silence and space between notes. " +
+                "Rather than strict metered time, many pieces use free rhythm where the " +
+                "spacing of notes is guided by breath and feeling. When Western notation is " +
+                "used, Japanese music may employ 6/8, 3/4, or even 9/16.\n\n" +
+                "You can experiment with these ideas using the custom pattern creator " +
+                "and the expanded time signature picker (5/4, 7/8, 9/8, and more) " +
+                "to create patterns inspired by these world traditions.",
+            keyPoints = listOf(
+                "Indian tala: cyclic beat patterns (7, 10, 16 beats) with accented and unaccented positions",
+                "African polyrhythm: interlocking simple patterns that create complex grooves",
+                "Middle Eastern usul: asymmetric groupings like 7/8 and 9/8 with dum/tek accents",
+                "Japanese ma: silence as an expressive element, free rhythm guided by breath",
+            ),
+            quizQuestion = "In Indian classical music, what is a tala?",
+            quizOptions = listOf(
+                "A type of melodic scale",
+                "A repeating cycle of beats with specific accent patterns",
+                "A stringed instrument similar to the ukulele",
+                "A vocal improvisation technique",
+            ),
+            quizCorrectIndex = 1,
+            quizExplanation = "A tala is a repeating rhythmic cycle that organizes beats into groups with specific accented (taali) and unaccented (khali) positions. Common talas include Teental (16 beats) and Rupak (7 beats).",
+        ),
     )
 
     /** Returns lessons grouped by module. */
