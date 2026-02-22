@@ -252,11 +252,13 @@
     <string name="patterns_my">Kalıplarım</string>
     <string name="cd_create_pattern">Kalıp Oluştur</string>
     <string name="patterns_create_strum">Strumming Kalıbı Oluştur</string>
+    <string name="patterns_edit_strum">Strumming Kalıbını Düzenle</string>
     <string name="patterns_pattern_name">Kalıp Adı</string>
     <string name="patterns_tap_beat">Yön değiştirmek için her vuruşa dokunun</string>
     <string name="patterns_tap_accent">Vurgu açıp kapatmak için aşağıya dokunun</string>
     <string name="patterns_custom">Özel kalıp</string>
     <string name="patterns_create_fingerpick">Fingerpicking Kalıbı Oluştur</string>
+    <string name="patterns_edit_fingerpick">Fingerpicking Kalıbını Düzenle</string>
     <string name="patterns_steps">%d adım</string>
     <string name="patterns_tap_step">Bir adıma dokunun, sonra aşağıdan parmak ve tel seçin</string>
     <string name="patterns_finger">Parmak</string>
@@ -835,6 +837,7 @@
     <string name="pitch_monitor_arpeggio_label">arpej</string>
     <string name="cd_play_pattern">%s oynat</string>
     <string name="cd_stop_pattern">%s durdur</string>
+    <string name="cd_duplicate_pattern">Kopyala</string>
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Perde izleyici</string>
     <string name="settings_noise_gate_sensitivity">Gürültü kapısı hassasiyeti</string>

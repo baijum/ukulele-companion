@@ -252,11 +252,13 @@
     <string name="patterns_my">我的节奏型</string>
     <string name="cd_create_pattern">创建节奏型</string>
     <string name="patterns_create_strum">创建扫弦节奏</string>
+    <string name="patterns_edit_strum">编辑扫弦节奏</string>
     <string name="patterns_pattern_name">节奏型名称</string>
     <string name="patterns_tap_beat">点击每个节拍以改变方向</string>
     <string name="patterns_tap_accent">点击下方切换重音</string>
     <string name="patterns_custom">自定义节奏型</string>
     <string name="patterns_create_fingerpick">创建指弹节奏</string>
+    <string name="patterns_edit_fingerpick">编辑指弹节奏</string>
     <string name="patterns_steps">%d 步</string>
     <string name="patterns_tap_step">点击一个步骤，然后在下方选择手指和弦</string>
     <string name="patterns_finger">手指</string>
@@ -837,6 +839,7 @@
     <string name="pitch_monitor_arpeggio_label">琶音</string>
     <string name="cd_play_pattern">播放%s</string>
     <string name="cd_stop_pattern">停止%s</string>
+    <string name="cd_duplicate_pattern">复制</string>
     <string name="patterns_tempo">速度</string>
     <string name="settings_pitch_monitor">音高监测</string>
     <string name="settings_noise_gate_sensitivity">噪声门灵敏度</string>

@@ -252,11 +252,13 @@
     <string name="patterns_my">Mes motifs</string>
     <string name="cd_create_pattern">Créer un motif</string>
     <string name="patterns_create_strum">Créer un motif de grattage</string>
+    <string name="patterns_edit_strum">Modifier le motif de grattage</string>
     <string name="patterns_pattern_name">Nom du motif</string>
     <string name="patterns_tap_beat">Touchez chaque temps pour changer la direction</string>
     <string name="patterns_tap_accent">Touchez ci-dessous pour activer/désactiver l\'accent</string>
     <string name="patterns_custom">Motif personnalisé</string>
     <string name="patterns_create_fingerpick">Créer un motif d\'arpège</string>
+    <string name="patterns_edit_fingerpick">Modifier le motif d\'arpège</string>
     <string name="patterns_steps">%d étapes</string>
     <string name="patterns_tap_step">Touchez une étape, puis choisissez le doigt et la corde ci-dessous</string>
     <string name="patterns_finger">Doigt</string>
@@ -833,6 +835,7 @@
     <string name="pitch_monitor_arpeggio_label">arpège</string>
     <string name="cd_play_pattern">Lire %s</string>
     <string name="cd_stop_pattern">Arrêter %s</string>
+    <string name="cd_duplicate_pattern">Dupliquer</string>
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Moniteur de hauteur</string>
     <string name="settings_noise_gate_sensitivity">Sensibilité du filtre de bruit</string>

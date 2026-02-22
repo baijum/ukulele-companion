@@ -252,11 +252,13 @@
     <string name="patterns_my">Mis patrones</string>
     <string name="cd_create_pattern">Crear patrón</string>
     <string name="patterns_create_strum">Crear patrón de rasgueo</string>
+    <string name="patterns_edit_strum">Editar patrón de rasgueo</string>
     <string name="patterns_pattern_name">Nombre del patrón</string>
     <string name="patterns_tap_beat">Toca cada pulso para cambiar la dirección</string>
     <string name="patterns_tap_accent">Toca abajo para activar/desactivar el acento</string>
     <string name="patterns_custom">Patrón personalizado</string>
     <string name="patterns_create_fingerpick">Crear patrón de punteo</string>
+    <string name="patterns_edit_fingerpick">Editar patrón de punteo</string>
     <string name="patterns_steps">%d pasos</string>
     <string name="patterns_tap_step">Toca un paso y luego selecciona dedo y cuerda abajo</string>
     <string name="patterns_finger">Dedo</string>
@@ -833,6 +835,7 @@
     <string name="pitch_monitor_arpeggio_label">arpegio</string>
     <string name="cd_play_pattern">Reproducir %s</string>
     <string name="cd_stop_pattern">Detener %s</string>
+    <string name="cd_duplicate_pattern">Duplicar</string>
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Monitor de tono</string>
     <string name="settings_noise_gate_sensitivity">Sensibilidad de la puerta de ruido</string>

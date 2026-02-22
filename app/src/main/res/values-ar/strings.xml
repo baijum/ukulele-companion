@@ -252,11 +252,13 @@
     <string name="patterns_my">أنماطي</string>
     <string name="cd_create_pattern">إنشاء نمط</string>
     <string name="patterns_create_strum">إنشاء نمط نقر</string>
+    <string name="patterns_edit_strum">تعديل نمط نقر</string>
     <string name="patterns_pattern_name">اسم النمط</string>
     <string name="patterns_tap_beat">انقر على كل نبضة لتغيير الاتجاه</string>
     <string name="patterns_tap_accent">انقر أدناه لتبديل النبر</string>
     <string name="patterns_custom">نمط مخصص</string>
     <string name="patterns_create_fingerpick">إنشاء نمط عزف بالأصابع</string>
+    <string name="patterns_edit_fingerpick">تعديل نمط عزف بالأصابع</string>
     <string name="patterns_steps">%d خطوة</string>
     <string name="patterns_tap_step">انقر على خطوة، ثم اختر الإصبع والوتر أدناه</string>
     <string name="patterns_finger">الإصبع</string>
@@ -837,6 +839,7 @@
     <string name="pitch_monitor_arpeggio_label">أربيجيو</string>
     <string name="cd_play_pattern">تشغيل %s</string>
     <string name="cd_stop_pattern">إيقاف %s</string>
+    <string name="cd_duplicate_pattern">تكرار</string>
     <string name="patterns_tempo">الإيقاع</string>
     <string name="settings_pitch_monitor">مراقب النغمة</string>
     <string name="settings_noise_gate_sensitivity">حساسية بوابة الضوضاء</string>

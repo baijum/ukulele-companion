@@ -252,11 +252,13 @@
     <string name="patterns_my">Mijn patronen</string>
     <string name="cd_create_pattern">Patroon aanmaken</string>
     <string name="patterns_create_strum">Strumpatroon aanmaken</string>
+    <string name="patterns_edit_strum">Strumpatroon bewerken</string>
     <string name="patterns_pattern_name">Patroonnaam</string>
     <string name="patterns_tap_beat">Tik op elke tel om de richting te wijzigen</string>
     <string name="patterns_tap_accent">Tik hieronder om accent aan/uit te schakelen</string>
     <string name="patterns_custom">Aangepast patroon</string>
     <string name="patterns_create_fingerpick">Fingerpickingpatroon aanmaken</string>
+    <string name="patterns_edit_fingerpick">Fingerpickingpatroon bewerken</string>
     <string name="patterns_steps">%d stappen</string>
     <string name="patterns_tap_step">Tik op een stap, kies dan vinger en snaar hieronder</string>
     <string name="patterns_finger">Vinger</string>
@@ -835,6 +837,7 @@
     <string name="pitch_monitor_arpeggio_label">arpeggio</string>
     <string name="cd_play_pattern">%s afspelen</string>
     <string name="cd_stop_pattern">%s stoppen</string>
+    <string name="cd_duplicate_pattern">Dupliceren</string>
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Toonhoogtemonitor</string>
     <string name="settings_noise_gate_sensitivity">Gevoeligheid ruisonderdrukking</string>

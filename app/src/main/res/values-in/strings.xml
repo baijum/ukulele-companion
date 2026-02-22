@@ -252,11 +252,13 @@
     <string name="patterns_my">Pola Saya</string>
     <string name="cd_create_pattern">Buat Pola</string>
     <string name="patterns_create_strum">Buat Pola Strumming</string>
+    <string name="patterns_edit_strum">Edit Pola Strumming</string>
     <string name="patterns_pattern_name">Nama Pola</string>
     <string name="patterns_tap_beat">Ketuk setiap ketukan untuk mengubah arah</string>
     <string name="patterns_tap_accent">Ketuk di bawah untuk mengaktifkan/menonaktifkan aksen</string>
     <string name="patterns_custom">Pola kustom</string>
     <string name="patterns_create_fingerpick">Buat Pola Fingerpicking</string>
+    <string name="patterns_edit_fingerpick">Edit Pola Fingerpicking</string>
     <string name="patterns_steps">%d langkah</string>
     <string name="patterns_tap_step">Ketuk langkah, lalu pilih jari dan senar di bawah</string>
     <string name="patterns_finger">Jari</string>
@@ -835,6 +837,7 @@
     <string name="pitch_monitor_arpeggio_label">arpeggio</string>
     <string name="cd_play_pattern">Putar %s</string>
     <string name="cd_stop_pattern">Hentikan %s</string>
+    <string name="cd_duplicate_pattern">Duplikat</string>
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Monitor nada</string>
     <string name="settings_noise_gate_sensitivity">Sensitivitas gerbang kebisingan</string>

@@ -252,11 +252,13 @@
     <string name="patterns_my">Мои ритмы</string>
     <string name="cd_create_pattern">Создать ритм</string>
     <string name="patterns_create_strum">Создать ритм боя</string>
+    <string name="patterns_edit_strum">Изменить ритм боя</string>
     <string name="patterns_pattern_name">Название ритма</string>
     <string name="patterns_tap_beat">Нажмите на каждую долю для смены направления</string>
     <string name="patterns_tap_accent">Нажмите ниже для переключения акцента</string>
     <string name="patterns_custom">Свой ритм</string>
     <string name="patterns_create_fingerpick">Создать ритм перебора</string>
+    <string name="patterns_edit_fingerpick">Изменить ритм перебора</string>
     <string name="patterns_steps">%d шагов</string>
     <string name="patterns_tap_step">Нажмите на шаг, затем выберите палец и струну ниже</string>
     <string name="patterns_finger">Палец</string>
@@ -837,6 +839,7 @@
     <string name="pitch_monitor_arpeggio_label">арпеджио</string>
     <string name="cd_play_pattern">Воспроизвести %s</string>
     <string name="cd_stop_pattern">Остановить %s</string>
+    <string name="cd_duplicate_pattern">Дублировать</string>
     <string name="patterns_tempo">Темп</string>
     <string name="settings_pitch_monitor">Монитор высоты тона</string>
     <string name="settings_noise_gate_sensitivity">Чувствительность шумоподавления</string>

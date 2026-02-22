@@ -252,11 +252,13 @@
     <string name="patterns_my">Meus padrões</string>
     <string name="cd_create_pattern">Criar padrão</string>
     <string name="patterns_create_strum">Criar padrão de batida</string>
+    <string name="patterns_edit_strum">Editar padrão de batida</string>
     <string name="patterns_pattern_name">Nome do padrão</string>
     <string name="patterns_tap_beat">Toque em cada batida para mudar a direção</string>
     <string name="patterns_tap_accent">Toque abaixo para alternar o acento</string>
     <string name="patterns_custom">Padrão personalizado</string>
     <string name="patterns_create_fingerpick">Criar padrão de dedilhado</string>
+    <string name="patterns_edit_fingerpick">Editar padrão de dedilhado</string>
     <string name="patterns_steps">%d passos</string>
     <string name="patterns_tap_step">Toque em um passo e depois escolha dedo e corda abaixo</string>
     <string name="patterns_finger">Dedo</string>
@@ -833,6 +835,7 @@
     <string name="pitch_monitor_arpeggio_label">arpejo</string>
     <string name="cd_play_pattern">Reproduzir %s</string>
     <string name="cd_stop_pattern">Parar %s</string>
+    <string name="cd_duplicate_pattern">Duplicar</string>
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Monitor de tom</string>
     <string name="settings_noise_gate_sensitivity">Sensibilidade do filtro de ruído</string>

@@ -252,11 +252,13 @@
     <string name="patterns_my">マイパターン</string>
     <string name="cd_create_pattern">パターンを作成</string>
     <string name="patterns_create_strum">ストロークパターンを作成</string>
+    <string name="patterns_edit_strum">ストロークパターンを編集</string>
     <string name="patterns_pattern_name">パターン名</string>
     <string name="patterns_tap_beat">各ビートをタップして方向を変更</string>
     <string name="patterns_tap_accent">下をタップしてアクセントを切り替え</string>
     <string name="patterns_custom">カスタムパターン</string>
     <string name="patterns_create_fingerpick">フィンガーピッキングパターンを作成</string>
+    <string name="patterns_edit_fingerpick">フィンガーピッキングパターンを編集</string>
     <string name="patterns_steps">%dステップ</string>
     <string name="patterns_tap_step">ステップをタップし、下で指と弦を選択</string>
     <string name="patterns_finger">指</string>
@@ -837,6 +839,7 @@
     <string name="pitch_monitor_arpeggio_label">アルペジオ</string>
     <string name="cd_play_pattern">%sを再生</string>
     <string name="cd_stop_pattern">%sを停止</string>
+    <string name="cd_duplicate_pattern">複製</string>
     <string name="patterns_tempo">テンポ</string>
     <string name="settings_pitch_monitor">ピッチモニター</string>
     <string name="settings_noise_gate_sensitivity">ノイズゲート感度</string>

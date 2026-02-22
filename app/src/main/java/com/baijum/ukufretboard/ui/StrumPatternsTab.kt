@@ -22,7 +22,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.Card
@@ -81,7 +83,7 @@ import com.baijum.ukufretboard.data.UkuleleTuning
 private const val TAB_STRUMMING = 0
 private const val TAB_FINGERPICKING = 1
 
-private val TIME_SIGNATURES = listOf("2/4", "3/4", "4/4", "6/8", "9/8", "12/8")
+private val TIME_SIGNATURES = listOf("2/2", "2/4", "3/4", "4/4", "5/4", "7/4", "6/8", "7/8", "9/8", "11/8", "12/8")
 
 /**
  * Tab showing a reference list of common ukulele strumming and fingerpicking patterns.
@@ -96,6 +98,7 @@ fun StrumPatternsTab(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val copySuffix = stringResource(R.string.progressions_copy_suffix)
     val strumRepo = remember { CustomStrumPatternRepository(context) }
     val fingerpickRepo = remember { CustomFingerpickingPatternRepository(context) }
     var customStrumPatterns by remember { mutableStateOf(strumRepo.getAll()) }
@@ -103,6 +106,8 @@ fun StrumPatternsTab(
     var selectedTab by remember { mutableIntStateOf(TAB_STRUMMING) }
     var showCreateStrumSheet by remember { mutableStateOf(false) }
     var showCreateFingerpickSheet by remember { mutableStateOf(false) }
+    var editingStrumPattern by remember { mutableStateOf<CustomStrumPattern?>(null) }
+    var editingFingerpickPattern by remember { mutableStateOf<CustomFingerpickingPattern?>(null) }
 
     val patternPlayer = remember { PatternPlayer() }
     val isPlaying by patternPlayer.isPlaying.collectAsState()
@@ -165,6 +170,11 @@ fun StrumPatternsTab(
                                     patternPlayer.playStrum(scope, custom.pattern, bpm, tuning)
                                 },
                                 onStop = { patternPlayer.stop(); playingPatternName = null },
+                                onDuplicate = {
+                                    strumRepo.save(CustomStrumPattern(pattern = custom.pattern.copy(name = custom.pattern.name + copySuffix)))
+                                    customStrumPatterns = strumRepo.getAll()
+                                },
+                                onEdit = { editingStrumPattern = custom },
                                 onDelete = {
                                     patternPlayer.stop(); playingPatternName = null
                                     strumRepo.delete(custom.id)
@@ -193,6 +203,10 @@ fun StrumPatternsTab(
                                 patternPlayer.playStrum(scope, pattern, bpm, tuning)
                             },
                             onStop = { patternPlayer.stop(); playingPatternName = null },
+                            onDuplicate = {
+                                strumRepo.save(CustomStrumPattern(pattern = pattern.copy(name = pattern.name + copySuffix)))
+                                customStrumPatterns = strumRepo.getAll()
+                            },
                         )
                     }
                 }
@@ -220,6 +234,11 @@ fun StrumPatternsTab(
                                     patternPlayer.playFingerpick(scope, custom.pattern, bpm, tuning)
                                 },
                                 onStop = { patternPlayer.stop(); playingPatternName = null },
+                                onDuplicate = {
+                                    fingerpickRepo.save(CustomFingerpickingPattern(pattern = custom.pattern.copy(name = custom.pattern.name + copySuffix)))
+                                    customFingerpickPatterns = fingerpickRepo.getAll()
+                                },
+                                onEdit = { editingFingerpickPattern = custom },
                                 onDelete = {
                                     patternPlayer.stop(); playingPatternName = null
                                     fingerpickRepo.delete(custom.id)
@@ -248,6 +267,10 @@ fun StrumPatternsTab(
                                 patternPlayer.playFingerpick(scope, pattern, bpm, tuning)
                             },
                             onStop = { patternPlayer.stop(); playingPatternName = null },
+                            onDuplicate = {
+                                fingerpickRepo.save(CustomFingerpickingPattern(pattern = pattern.copy(name = pattern.name + copySuffix)))
+                                customFingerpickPatterns = fingerpickRepo.getAll()
+                            },
                         )
                     }
                 }
@@ -291,6 +314,44 @@ fun StrumPatternsTab(
             },
         )
     }
+
+    val editingStrum = editingStrumPattern
+    if (editingStrum != null) {
+        CreateStrumPatternSheet(
+            initialPattern = editingStrum.pattern,
+            onDismiss = { editingStrumPattern = null },
+            onSave = { pattern ->
+                strumRepo.save(
+                    CustomStrumPattern(
+                        id = editingStrum.id,
+                        pattern = pattern,
+                        createdAt = editingStrum.createdAt,
+                    ),
+                )
+                customStrumPatterns = strumRepo.getAll()
+                editingStrumPattern = null
+            },
+        )
+    }
+
+    val editingFingerpick = editingFingerpickPattern
+    if (editingFingerpick != null) {
+        CreateFingerpickingPatternSheet(
+            initialPattern = editingFingerpick.pattern,
+            onDismiss = { editingFingerpickPattern = null },
+            onSave = { pattern ->
+                fingerpickRepo.save(
+                    CustomFingerpickingPattern(
+                        id = editingFingerpick.id,
+                        pattern = pattern,
+                        createdAt = editingFingerpick.createdAt,
+                    ),
+                )
+                customFingerpickPatterns = fingerpickRepo.getAll()
+                editingFingerpickPattern = null
+            },
+        )
+    }
 }
 
 /**
@@ -300,6 +361,8 @@ fun StrumPatternsTab(
  * @param activeBeatIndex The beat index currently sounding, or -1.
  * @param onPlay Called with the selected BPM to start playback.
  * @param onStop Called to stop playback.
+ * @param onDuplicate If non-null, a duplicate button is shown.
+ * @param onEdit If non-null, an edit button is shown (for custom patterns).
  * @param onDelete If non-null, a delete button is shown (for custom patterns).
  */
 @Composable
@@ -309,6 +372,8 @@ private fun StrumPatternCard(
     activeBeatIndex: Int = -1,
     onPlay: (bpm: Int) -> Unit = {},
     onStop: () -> Unit = {},
+    onDuplicate: (() -> Unit)? = null,
+    onEdit: (() -> Unit)? = null,
     onDelete: (() -> Unit)? = null,
 ) {
     val midBpm = (pattern.suggestedBpm.first + pattern.suggestedBpm.last) / 2
@@ -353,6 +418,22 @@ private fun StrumPatternCard(
                         tint = if (isPlaying) MaterialTheme.colorScheme.error
                         else MaterialTheme.colorScheme.primary,
                     )
+                }
+                if (onDuplicate != null) {
+                    IconButton(onClick = onDuplicate) {
+                        Icon(
+                            Icons.Filled.ContentCopy,
+                            contentDescription = stringResource(R.string.cd_duplicate_pattern),
+                        )
+                    }
+                }
+                if (onEdit != null) {
+                    IconButton(onClick = onEdit) {
+                        Icon(
+                            Icons.Filled.Edit,
+                            contentDescription = stringResource(R.string.action_edit),
+                        )
+                    }
                 }
                 if (onDelete != null) {
                     IconButton(onClick = onDelete) {
@@ -559,6 +640,8 @@ private fun TimeSignatureBadge(timeSignature: String) {
  * @param activeStepIndex The step index currently sounding, or -1.
  * @param onPlay Called with the selected BPM to start playback.
  * @param onStop Called to stop playback.
+ * @param onDuplicate If non-null, a duplicate button is shown.
+ * @param onEdit If non-null, an edit button is shown (for custom patterns).
  * @param onDelete If non-null, a delete button is shown (for custom patterns).
  */
 @Composable
@@ -568,6 +651,8 @@ private fun FingerpickingPatternCard(
     activeStepIndex: Int = -1,
     onPlay: (bpm: Int) -> Unit = {},
     onStop: () -> Unit = {},
+    onDuplicate: (() -> Unit)? = null,
+    onEdit: (() -> Unit)? = null,
     onDelete: (() -> Unit)? = null,
 ) {
     val midBpm = (pattern.suggestedBpm.first + pattern.suggestedBpm.last) / 2
@@ -612,6 +697,22 @@ private fun FingerpickingPatternCard(
                         tint = if (isPlaying) MaterialTheme.colorScheme.error
                         else MaterialTheme.colorScheme.primary,
                     )
+                }
+                if (onDuplicate != null) {
+                    IconButton(onClick = onDuplicate) {
+                        Icon(
+                            Icons.Filled.ContentCopy,
+                            contentDescription = stringResource(R.string.cd_duplicate_pattern),
+                        )
+                    }
+                }
+                if (onEdit != null) {
+                    IconButton(onClick = onEdit) {
+                        Icon(
+                            Icons.Filled.Edit,
+                            contentDescription = stringResource(R.string.action_edit),
+                        )
+                    }
                 }
                 if (onDelete != null) {
                     IconButton(onClick = onDelete) {
@@ -741,22 +842,28 @@ private fun FingerpickStepIndicator(step: FingerpickStep, isActive: Boolean = fa
 private fun CreateStrumPatternSheet(
     onDismiss: () -> Unit,
     onSave: (StrumPattern) -> Unit,
+    initialPattern: StrumPattern? = null,
 ) {
+    val isEditMode = initialPattern != null
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    var patternName by remember { mutableStateOf("") }
-    var timeSignature by remember { mutableStateOf("4/4") }
+    var patternName by remember { mutableStateOf(initialPattern?.name ?: "") }
+    var timeSignature by remember { mutableStateOf(initialPattern?.timeSignature ?: "4/4") }
     val customPatternDesc = stringResource(R.string.patterns_custom)
     val beats = remember {
-        mutableStateListOf(
-            StrumBeat(StrumDirection.DOWN, emphasis = true),
-            StrumBeat(StrumDirection.UP),
-            StrumBeat(StrumDirection.DOWN),
-            StrumBeat(StrumDirection.UP),
-            StrumBeat(StrumDirection.DOWN),
-            StrumBeat(StrumDirection.UP),
-            StrumBeat(StrumDirection.DOWN),
-            StrumBeat(StrumDirection.UP),
-        )
+        mutableStateListOf<StrumBeat>().also {
+            it.addAll(
+                initialPattern?.beats ?: listOf(
+                    StrumBeat(StrumDirection.DOWN, emphasis = true),
+                    StrumBeat(StrumDirection.UP),
+                    StrumBeat(StrumDirection.DOWN),
+                    StrumBeat(StrumDirection.UP),
+                    StrumBeat(StrumDirection.DOWN),
+                    StrumBeat(StrumDirection.UP),
+                    StrumBeat(StrumDirection.DOWN),
+                    StrumBeat(StrumDirection.UP),
+                ),
+            )
+        }
     }
 
     ModalBottomSheet(
@@ -770,7 +877,9 @@ private fun CreateStrumPatternSheet(
                 .padding(bottom = 32.dp),
         ) {
             Text(
-                text = stringResource(R.string.patterns_create_strum),
+                text = stringResource(
+                    if (isEditMode) R.string.patterns_edit_strum else R.string.patterns_create_strum,
+                ),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp).semantics { heading() },
@@ -938,18 +1047,24 @@ private fun CreateStrumPatternSheet(
 private fun CreateFingerpickingPatternSheet(
     onDismiss: () -> Unit,
     onSave: (FingerpickingPattern) -> Unit,
+    initialPattern: FingerpickingPattern? = null,
 ) {
+    val isEditMode = initialPattern != null
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    var patternName by remember { mutableStateOf("") }
-    var timeSignature by remember { mutableStateOf("4/4") }
+    var patternName by remember { mutableStateOf(initialPattern?.name ?: "") }
+    var timeSignature by remember { mutableStateOf(initialPattern?.timeSignature ?: "4/4") }
     val customPatternDesc = stringResource(R.string.patterns_custom)
     val steps = remember {
-        mutableStateListOf(
-            FingerpickStep(Finger.THUMB, 0, emphasis = true),
-            FingerpickStep(Finger.THUMB, 1),
-            FingerpickStep(Finger.INDEX, 2),
-            FingerpickStep(Finger.MIDDLE, 3),
-        )
+        mutableStateListOf<FingerpickStep>().also {
+            it.addAll(
+                initialPattern?.steps ?: listOf(
+                    FingerpickStep(Finger.THUMB, 0, emphasis = true),
+                    FingerpickStep(Finger.THUMB, 1),
+                    FingerpickStep(Finger.INDEX, 2),
+                    FingerpickStep(Finger.MIDDLE, 3),
+                ),
+            )
+        }
     }
     var selectedStepIndex by remember { mutableIntStateOf(0) }
 
@@ -964,7 +1079,9 @@ private fun CreateFingerpickingPatternSheet(
                 .padding(bottom = 32.dp),
         ) {
             Text(
-                text = stringResource(R.string.patterns_create_fingerpick),
+                text = stringResource(
+                    if (isEditMode) R.string.patterns_edit_fingerpick else R.string.patterns_create_fingerpick,
+                ),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp).semantics { heading() },
