@@ -125,6 +125,7 @@ class BackupRestoreManager(
                         )
                     },
                     createdAt = cfp.createdAt,
+                    beatsPerMeasure = cfp.pattern.beatsPerMeasure,
                 )
             },
             melodies = melodyRepo.getAll().map { melody ->
@@ -354,6 +355,7 @@ class BackupRestoreManager(
                         name = bfp.name,
                         description = "Custom pattern",
                         difficulty = com.baijum.ukufretboard.data.Difficulty.BEGINNER,
+                        beatsPerMeasure = bfp.beatsPerMeasure,
                         steps = steps,
                         notation = notation,
                         suggestedBpm = 60..100,

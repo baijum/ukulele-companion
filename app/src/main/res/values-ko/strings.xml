@@ -266,6 +266,7 @@
     <string name="patterns_ring">약지</string>
     <string name="patterns_string">현</string>
     <string name="patterns_counting">카운팅</string>
+    <string name="patterns_time_signature">박자</string>
 
     <!-- ── Playback Bar ─────────────────────────────────────────────── -->
     <string name="playback_prefix">재생: </string>

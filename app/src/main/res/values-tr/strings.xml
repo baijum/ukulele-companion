@@ -266,6 +266,7 @@
     <string name="patterns_ring">Yüzük</string>
     <string name="patterns_string">Tel</string>
     <string name="patterns_counting">Sayma</string>
+    <string name="patterns_time_signature">Ölçü</string>
 
     <!-- ── Çalma Çubuğu ───────────────────────────────────────────────── -->
     <string name="playback_prefix">Çalma: </string>

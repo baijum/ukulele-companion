@@ -266,6 +266,7 @@
     <string name="patterns_ring">البنصر</string>
     <string name="patterns_string">الوتر</string>
     <string name="patterns_counting">العد</string>
+    <string name="patterns_time_signature">الميزان</string>
 
     <!-- ── Playback Bar ─────────────────────────────────────────────── -->
     <string name="playback_prefix">التشغيل: </string>

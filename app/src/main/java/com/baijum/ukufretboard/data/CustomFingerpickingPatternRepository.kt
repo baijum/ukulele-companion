@@ -22,9 +22,10 @@ data class CustomFingerpickingPattern(
  *
  * Serialization format:
  * ```
- * id|||name|||steps|||createdAt
+ * id|||name|||steps|||createdAt|||beatsPerMeasure
  * ```
- * Where each step is: `finger:stringIndex:emphasis` (e.g., "THUMB:0:true;INDEX:2:false")
+ * Where each step is: `finger:stringIndex:emphasis` (e.g., "THUMB:0:true;INDEX:2:false").
+ * The `beatsPerMeasure` field was added later; older entries with only 4 fields default to 4.
  */
 class CustomFingerpickingPatternRepository(context: Context) {
 
@@ -60,7 +61,7 @@ class CustomFingerpickingPatternRepository(context: Context) {
             "${s.finger.name}:${s.stringIndex}:${s.emphasis}"
         }
         val safeName = p.name.replace("|", "\\|")
-        return "${custom.id}|||$safeName|||$stepsStr|||${custom.createdAt}"
+        return "${custom.id}|||$safeName|||$stepsStr|||${custom.createdAt}|||${p.beatsPerMeasure}"
     }
 
     private fun deserialize(value: String?): CustomFingerpickingPattern? {
@@ -79,6 +80,7 @@ class CustomFingerpickingPatternRepository(context: Context) {
                 )
             }
             val createdAt = parts[3].toLong()
+            val beatsPerMeasure = if (parts.size >= 5) parts[4].toIntOrNull() ?: 4 else 4
             val notation = steps.joinToString(" ") { s ->
                 val stringName = FingerpickingPatterns.STRING_NAMES[s.stringIndex]
                 "${s.finger.label}($stringName)"
@@ -89,6 +91,7 @@ class CustomFingerpickingPatternRepository(context: Context) {
                     name = name,
                     description = "Custom pattern",
                     difficulty = Difficulty.BEGINNER,
+                    beatsPerMeasure = beatsPerMeasure,
                     steps = steps,
                     notation = notation,
                     suggestedBpm = 60..100,
