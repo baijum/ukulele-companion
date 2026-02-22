@@ -252,11 +252,13 @@
     <string name="patterns_my">Moje wzorce</string>
     <string name="cd_create_pattern">Utwórz wzorzec</string>
     <string name="patterns_create_strum">Utwórz wzorzec strumowania</string>
+    <string name="patterns_edit_strum">Edytuj wzorzec strumowania</string>
     <string name="patterns_pattern_name">Nazwa wzorca</string>
     <string name="patterns_tap_beat">Dotknij każdego uderzenia, aby zmienić kierunek</string>
     <string name="patterns_tap_accent">Dotknij poniżej, aby włączyć/wyłączyć akcent</string>
     <string name="patterns_custom">Własny wzorzec</string>
     <string name="patterns_create_fingerpick">Utwórz wzorzec fingerpickingu</string>
+    <string name="patterns_edit_fingerpick">Edytuj wzorzec fingerpickingu</string>
     <string name="patterns_steps">%d kroków</string>
     <string name="patterns_tap_step">Dotknij kroku, następnie wybierz palec i strunę poniżej</string>
     <string name="patterns_finger">Palec</string>
@@ -835,6 +837,7 @@
     <string name="pitch_monitor_arpeggio_label">arpeggio</string>
     <string name="cd_play_pattern">Odtwórz %s</string>
     <string name="cd_stop_pattern">Zatrzymaj %s</string>
+    <string name="cd_duplicate_pattern">Duplikuj</string>
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Monitor wysokości dźwięku</string>
     <string name="settings_noise_gate_sensitivity">Czułość bramki szumów</string>

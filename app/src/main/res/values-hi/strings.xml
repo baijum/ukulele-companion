@@ -252,11 +252,13 @@
     <string name="patterns_my">मेरे पैटर्न</string>
     <string name="cd_create_pattern">पैटर्न बनाएँ</string>
     <string name="patterns_create_strum">स्ट्रम पैटर्न बनाएँ</string>
+    <string name="patterns_edit_strum">स्ट्रम पैटर्न संपादित करें</string>
     <string name="patterns_pattern_name">पैटर्न का नाम</string>
     <string name="patterns_tap_beat">दिशा बदलने के लिए हर बीट टैप करें</string>
     <string name="patterns_tap_accent">एक्सेंट टॉगल करने के लिए नीचे टैप करें</string>
     <string name="patterns_custom">कस्टम पैटर्न</string>
     <string name="patterns_create_fingerpick">फिंगरपिकिंग पैटर्न बनाएँ</string>
+    <string name="patterns_edit_fingerpick">फिंगरपिकिंग पैटर्न संपादित करें</string>
     <string name="patterns_steps">%d स्टेप</string>
     <string name="patterns_tap_step">एक स्टेप टैप करें, फिर नीचे उँगली और तार चुनें</string>
     <string name="patterns_finger">उँगली</string>
@@ -837,6 +839,7 @@
     <string name="pitch_monitor_arpeggio_label">अर्पेजियो</string>
     <string name="cd_play_pattern">%s चलाएं</string>
     <string name="cd_stop_pattern">%s रोकें</string>
+    <string name="cd_duplicate_pattern">डुप्लिकेट</string>
     <string name="patterns_tempo">गति</string>
     <string name="settings_pitch_monitor">पिच मॉनिटर</string>
     <string name="settings_noise_gate_sensitivity">शोर गेट संवेदनशीलता</string>

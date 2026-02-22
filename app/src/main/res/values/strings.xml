@@ -262,11 +262,13 @@
     <string name="patterns_my">My Patterns</string>
     <string name="cd_create_pattern">Create Pattern</string>
     <string name="patterns_create_strum">Create Strum Pattern</string>
+    <string name="patterns_edit_strum">Edit Strum Pattern</string>
     <string name="patterns_pattern_name">Pattern Name</string>
     <string name="patterns_tap_beat">Tap each beat to change direction</string>
     <string name="patterns_tap_accent">Tap below to toggle accent</string>
     <string name="patterns_custom">Custom pattern</string>
     <string name="patterns_create_fingerpick">Create Fingerpicking Pattern</string>
+    <string name="patterns_edit_fingerpick">Edit Fingerpicking Pattern</string>
     <string name="patterns_steps">%d steps</string>
     <string name="patterns_tap_step">Tap a step, then pick finger and string below</string>
     <string name="patterns_finger">Finger</string>
@@ -279,6 +281,7 @@
     <string name="patterns_time_signature">Time signature</string>
     <string name="cd_play_pattern">Play %s</string>
     <string name="cd_stop_pattern">Stop %s</string>
+    <string name="cd_duplicate_pattern">Duplicate</string>
     <string name="patterns_tempo">Tempo</string>
 
     <!-- ── Playback Bar ─────────────────────────────────────────────── -->

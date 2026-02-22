@@ -252,11 +252,13 @@
     <string name="patterns_my">I miei pattern</string>
     <string name="cd_create_pattern">Crea pattern</string>
     <string name="patterns_create_strum">Crea pattern di strumming</string>
+    <string name="patterns_edit_strum">Modifica pattern di strumming</string>
     <string name="patterns_pattern_name">Nome del pattern</string>
     <string name="patterns_tap_beat">Tocca ogni battito per cambiare direzione</string>
     <string name="patterns_tap_accent">Tocca sotto per attivare/disattivare l\'accento</string>
     <string name="patterns_custom">Pattern personalizzato</string>
     <string name="patterns_create_fingerpick">Crea pattern di fingerpicking</string>
+    <string name="patterns_edit_fingerpick">Modifica pattern di fingerpicking</string>
     <string name="patterns_steps">%d passi</string>
     <string name="patterns_tap_step">Tocca un passo, poi scegli dito e corda qui sotto</string>
     <string name="patterns_finger">Dito</string>
@@ -835,6 +837,7 @@
     <string name="pitch_monitor_arpeggio_label">arpeggio</string>
     <string name="cd_play_pattern">Riproduci %s</string>
     <string name="cd_stop_pattern">Ferma %s</string>
+    <string name="cd_duplicate_pattern">Duplica</string>
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Monitor dell\'intonazione</string>
     <string name="settings_noise_gate_sensitivity">Sensibilità del filtro rumore</string>

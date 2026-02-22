@@ -252,11 +252,13 @@
     <string name="patterns_my">Meine Muster</string>
     <string name="cd_create_pattern">Muster erstellen</string>
     <string name="patterns_create_strum">Schlagmuster erstellen</string>
+    <string name="patterns_edit_strum">Schlagmuster bearbeiten</string>
     <string name="patterns_pattern_name">Mustername</string>
     <string name="patterns_tap_beat">Tippe auf jeden Schlag, um die Richtung zu ändern</string>
     <string name="patterns_tap_accent">Tippe unten, um Akzent umzuschalten</string>
     <string name="patterns_custom">Eigenes Muster</string>
     <string name="patterns_create_fingerpick">Fingerpicking-Muster erstellen</string>
+    <string name="patterns_edit_fingerpick">Fingerpicking-Muster bearbeiten</string>
     <string name="patterns_steps">%d Schritte</string>
     <string name="patterns_tap_step">Tippe auf einen Schritt, dann wähle Finger und Saite unten</string>
     <string name="patterns_finger">Finger</string>
@@ -837,6 +839,7 @@
     <string name="pitch_monitor_arpeggio_label">Arpeggio</string>
     <string name="cd_play_pattern">%s abspielen</string>
     <string name="cd_stop_pattern">%s stoppen</string>
+    <string name="cd_duplicate_pattern">Duplizieren</string>
     <string name="patterns_tempo">Tempo</string>
     <string name="settings_pitch_monitor">Tonhöhenmonitor</string>
     <string name="settings_noise_gate_sensitivity">Empfindlichkeit des Rauschfilters</string>

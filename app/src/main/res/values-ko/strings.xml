@@ -252,11 +252,13 @@
     <string name="patterns_my">내 패턴</string>
     <string name="cd_create_pattern">패턴 만들기</string>
     <string name="patterns_create_strum">스트럼 패턴 만들기</string>
+    <string name="patterns_edit_strum">스트럼 패턴 편집</string>
     <string name="patterns_pattern_name">패턴 이름</string>
     <string name="patterns_tap_beat">각 박자를 탭하여 방향을 변경하세요</string>
     <string name="patterns_tap_accent">아래를 탭하여 악센트를 전환하세요</string>
     <string name="patterns_custom">커스텀 패턴</string>
     <string name="patterns_create_fingerpick">핑거피킹 패턴 만들기</string>
+    <string name="patterns_edit_fingerpick">핑거피킹 패턴 편집</string>
     <string name="patterns_steps">%d단계</string>
     <string name="patterns_tap_step">단계를 탭한 뒤, 아래에서 손가락과 현을 선택하세요</string>
     <string name="patterns_finger">손가락</string>
@@ -837,6 +839,7 @@
     <string name="pitch_monitor_arpeggio_label">아르페지오</string>
     <string name="cd_play_pattern">%s 재생</string>
     <string name="cd_stop_pattern">%s 정지</string>
+    <string name="cd_duplicate_pattern">복제</string>
     <string name="patterns_tempo">템포</string>
     <string name="settings_pitch_monitor">음높이 모니터</string>
     <string name="settings_noise_gate_sensitivity">노이즈 게이트 감도</string>
