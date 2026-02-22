@@ -125,6 +125,7 @@ data class BackupStrumPattern(
     val name: String,
     val beats: List<BackupStrumBeat>,
     val createdAt: Long,
+    val timeSignature: String = "4/4",
 )
 
 /**
@@ -149,7 +150,7 @@ data class BackupFingerpickingPattern(
     val name: String,
     val steps: List<BackupFingerpickStep>,
     val createdAt: Long,
-    val beatsPerMeasure: Int = 4,
+    val timeSignature: String = "4/4",
 )
 
 /**

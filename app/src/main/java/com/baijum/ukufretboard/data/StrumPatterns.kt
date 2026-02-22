@@ -37,7 +37,7 @@ data class StrumBeat(
  * @property name Human-readable name of the pattern.
  * @property description Brief description of when/how to use the pattern.
  * @property difficulty Skill level required.
- * @property beatsPerMeasure Time signature numerator (e.g., 4 for 4/4 time).
+ * @property timeSignature Time signature label (e.g., "4/4", "3/4", "6/8").
  * @property beats The sequence of strum beats.
  * @property notation Compact text notation (e.g., "D - D U - U D U").
  * @property suggestedBpm Recommended tempo range in BPM.
@@ -46,7 +46,7 @@ data class StrumPattern(
     val name: String,
     val description: String,
     val difficulty: Difficulty,
-    val beatsPerMeasure: Int = 4,
+    val timeSignature: String = "4/4",
     val beats: List<StrumBeat>,
     val notation: String,
     val suggestedBpm: IntRange,
@@ -167,7 +167,7 @@ object StrumPatterns {
                 "the linear feel of 4/4 time. Essential for waltzes, some ballads, and " +
                 "traditional folk songs.",
             difficulty = Difficulty.BEGINNER,
-            beatsPerMeasure = 3,
+            timeSignature = "3/4",
             beats = listOf(
                 StrumBeat(StrumDirection.DOWN, emphasis = true),
                 StrumBeat(StrumDirection.PAUSE),
