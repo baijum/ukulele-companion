@@ -740,6 +740,12 @@
     <string name="melody_discard_message">Anda memiliki perubahan yang belum disimpan. Buang?</string>
     <string name="melody_delete_title">Hapus Melodi</string>
     <string name="melody_delete_message">Hapus \"%s\"?</string>
+    <string name="pattern_delete_title">Hapus Pola</string>
+    <string name="pattern_delete_message">Hapus \"%s\"?</string>
+    <string name="progression_delete_title">Hapus Progresi</string>
+    <string name="progression_delete_message">Hapus \"%s\"?</string>
+    <string name="song_delete_title">Hapus Lagu</string>
+    <string name="song_delete_message">Hapus \"%s\"?</string>
     <string name="melody_unsaved"> (perubahan belum disimpan)</string>
     <string name="melody_current">Saat ini: %s</string>
     <string name="cd_save_melody">Simpan melodi</string>

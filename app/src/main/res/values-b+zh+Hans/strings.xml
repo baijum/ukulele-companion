@@ -740,6 +740,12 @@
     <string name="melody_discard_message">您有未保存的更改。要放弃吗？</string>
     <string name="melody_delete_title">删除旋律</string>
     <string name="melody_delete_message">删除「%s」？</string>
+    <string name="pattern_delete_title">删除节奏</string>
+    <string name="pattern_delete_message">删除「%s」？</string>
+    <string name="progression_delete_title">删除和弦进行</string>
+    <string name="progression_delete_message">删除「%s」？</string>
+    <string name="song_delete_title">删除歌曲</string>
+    <string name="song_delete_message">删除「%s」？</string>
     <string name="melody_unsaved"> (未保存的更改)</string>
     <string name="melody_current">当前：%s</string>
     <string name="cd_save_melody">保存旋律</string>

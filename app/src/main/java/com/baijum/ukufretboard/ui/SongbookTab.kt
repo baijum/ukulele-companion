@@ -29,6 +29,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.FileOpen
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
@@ -273,6 +274,7 @@ private fun SheetViewer(
     val context = androidx.compose.ui.platform.LocalContext.current
     val chordSheetLabel = stringResource(R.string.songbook_chord_sheet)
     val exportChooserLabel = stringResource(R.string.songbook_export_chooser)
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -340,9 +342,20 @@ private fun SheetViewer(
             IconButton(onClick = onEdit) {
                 Icon(Icons.Filled.Edit, contentDescription = stringResource(R.string.action_edit))
             }
-            IconButton(onClick = onDelete) {
+            IconButton(onClick = { showDeleteDialog = true }) {
                 Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.dialog_delete))
             }
+        }
+
+        if (showDeleteDialog) {
+            DeleteSongDialog(
+                songName = sheet.title.ifEmpty { stringResource(R.string.songbook_untitled) },
+                onDismiss = { showDeleteDialog = false },
+                onConfirm = {
+                    showDeleteDialog = false
+                    onDelete()
+                },
+            )
         }
 
         if (sheet.artist.isNotEmpty()) {
@@ -639,4 +652,35 @@ private fun SheetEditor(
             }
         }
     }
+}
+
+@Composable
+private fun DeleteSongDialog(
+    songName: String,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                stringResource(R.string.song_delete_title),
+                modifier = Modifier.semantics { heading() },
+            )
+        },
+        text = { Text(stringResource(R.string.song_delete_message, songName)) },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text(
+                    stringResource(R.string.dialog_delete),
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.dialog_cancel))
+            }
+        },
+    )
 }

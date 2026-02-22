@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,6 +46,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
@@ -107,6 +110,7 @@ fun ProgressionsTab(
     var voiceLeadingPath by remember { mutableStateOf<VoiceLeading.Path?>(null) }
     var showCreateSheet by remember { mutableStateOf(false) }
     var editingProgression by remember { mutableStateOf<CustomProgression?>(null) }
+    var deletingProgression by remember { mutableStateOf<CustomProgression?>(null) }
     var capoResults by remember { mutableStateOf<List<CapoCalculator.ProgressionResult>?>(null) }
     var playbackProgression by remember { mutableStateOf<Progression?>(null) }
     var practiceProgression by remember { mutableStateOf<Progression?>(null) }
@@ -298,7 +302,7 @@ fun ProgressionsTab(
                             practiceProgression = custom.progression
                             practiceKeyRoot = selectedRoot
                         },
-                        onDelete = { onDeleteProgression(custom.id) },
+                        onDelete = { deletingProgression = custom },
                         onDuplicate = {
                             onSaveProgression(
                                 custom.progression.name + copySuffix,
@@ -398,6 +402,48 @@ fun ProgressionsTab(
             onDismiss = { editingProgression = null },
         )
     }
+
+    deletingProgression?.let { custom ->
+        DeleteProgressionDialog(
+            progressionName = custom.progression.name,
+            onDismiss = { deletingProgression = null },
+            onConfirm = {
+                onDeleteProgression(custom.id)
+                deletingProgression = null
+            },
+        )
+    }
+}
+
+@Composable
+private fun DeleteProgressionDialog(
+    progressionName: String,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                stringResource(R.string.progression_delete_title),
+                modifier = Modifier.semantics { heading() },
+            )
+        },
+        text = { Text(stringResource(R.string.progression_delete_message, progressionName)) },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text(
+                    stringResource(R.string.dialog_delete),
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.dialog_cancel))
+            }
+        },
+    )
 }
 
 /**

@@ -740,6 +740,12 @@
     <string name="melody_discard_message">لديك تغييرات غير محفوظة. هل تريد تجاهلها؟</string>
     <string name="melody_delete_title">حذف اللحن</string>
     <string name="melody_delete_message">حذف \"%s\"؟</string>
+    <string name="pattern_delete_title">حذف النمط</string>
+    <string name="pattern_delete_message">حذف \"%s\"؟</string>
+    <string name="progression_delete_title">حذف التقدم</string>
+    <string name="progression_delete_message">حذف \"%s\"؟</string>
+    <string name="song_delete_title">حذف الأغنية</string>
+    <string name="song_delete_message">حذف \"%s\"؟</string>
     <string name="melody_unsaved"> (تغييرات غير محفوظة)</string>
     <string name="melody_current">الحالي: %s</string>
     <string name="cd_save_melody">حفظ اللحن</string>

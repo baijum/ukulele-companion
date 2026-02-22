@@ -740,6 +740,12 @@
     <string name="melody_discard_message">Kaydedilmemiş değişiklikleriniz var. Vazgeçilsin mi?</string>
     <string name="melody_delete_title">Melodiyi Sil</string>
     <string name="melody_delete_message">\"%s\" silinsin mi?</string>
+    <string name="pattern_delete_title">Kalıbı Sil</string>
+    <string name="pattern_delete_message">\"%s\" silinsin mi?</string>
+    <string name="progression_delete_title">İlerlemeyi Sil</string>
+    <string name="progression_delete_message">\"%s\" silinsin mi?</string>
+    <string name="song_delete_title">Şarkıyı Sil</string>
+    <string name="song_delete_message">\"%s\" silinsin mi?</string>
     <string name="melody_unsaved"> (kaydedilmemiş değişiklikler)</string>
     <string name="melody_current">Mevcut: %s</string>
     <string name="cd_save_melody">Melodiyi kaydet</string>

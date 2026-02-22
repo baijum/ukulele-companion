@@ -740,6 +740,12 @@
     <string name="melody_discard_message">Masz niezapisane zmiany. Odrzucić?</string>
     <string name="melody_delete_title">Usuń melodię</string>
     <string name="melody_delete_message">Usunąć \"%s\"?</string>
+    <string name="pattern_delete_title">Usuń wzorzec</string>
+    <string name="pattern_delete_message">Usunąć \"%s\"?</string>
+    <string name="progression_delete_title">Usuń progresję</string>
+    <string name="progression_delete_message">Usunąć \"%s\"?</string>
+    <string name="song_delete_title">Usuń utwór</string>
+    <string name="song_delete_message">Usunąć \"%s\"?</string>
     <string name="melody_unsaved"> (niezapisane zmiany)</string>
     <string name="melody_current">Bieżąca: %s</string>
     <string name="cd_save_melody">Zapisz melodię</string>

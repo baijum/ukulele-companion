@@ -740,6 +740,12 @@
     <string name="melody_discard_message">저장되지 않은 변경 사항이 있습니다. 삭제하시겠습니까?</string>
     <string name="melody_delete_title">멜로디 삭제</string>
     <string name="melody_delete_message">\"%s\" 삭제하시겠습니까?</string>
+    <string name="pattern_delete_title">패턴 삭제</string>
+    <string name="pattern_delete_message">\"%s\" 삭제하시겠습니까?</string>
+    <string name="progression_delete_title">진행 삭제</string>
+    <string name="progression_delete_message">\"%s\" 삭제하시겠습니까?</string>
+    <string name="song_delete_title">곡 삭제</string>
+    <string name="song_delete_message">\"%s\" 삭제하시겠습니까?</string>
     <string name="melody_unsaved"> (저장되지 않은 변경)</string>
     <string name="melody_current">현재: %s</string>
     <string name="cd_save_melody">멜로디 저장</string>

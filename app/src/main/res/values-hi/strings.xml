@@ -740,6 +740,12 @@
     <string name="melody_discard_message">आपके पास बिना सहेजे बदलाव हैं। छोड़ दें?</string>
     <string name="melody_delete_title">मेलोडी हटाएं</string>
     <string name="melody_delete_message">\"%s\" हटाएं?</string>
+    <string name="pattern_delete_title">पैटर्न हटाएं</string>
+    <string name="pattern_delete_message">\"%s\" हटाएं?</string>
+    <string name="progression_delete_title">प्रगति हटाएं</string>
+    <string name="progression_delete_message">\"%s\" हटाएं?</string>
+    <string name="song_delete_title">गाना हटाएं</string>
+    <string name="song_delete_message">\"%s\" हटाएं?</string>
     <string name="melody_unsaved"> (बिना सहेजे बदलाव)</string>
     <string name="melody_current">वर्तमान: %s</string>
     <string name="cd_save_melody">मेलोडी सहेजें</string>
