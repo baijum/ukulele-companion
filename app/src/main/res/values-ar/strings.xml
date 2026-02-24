@@ -110,6 +110,7 @@
     <string name="chord_result_incomplete">وتر غير مكتمل</string>
     <string name="chord_result_no_match">لا يوجد تطابق دقيق للوتر</string>
     <string name="chord_result_also">أيضاً: </string>
+    <string name="chord_result_also_written_as">يُكتب أيضاً</string>
     <string name="chord_result_intervals">الفواصل</string>
     <string name="chord_result_formula">الصيغة</string>
     <string name="chord_result_fingering">وضع الأصابع</string>

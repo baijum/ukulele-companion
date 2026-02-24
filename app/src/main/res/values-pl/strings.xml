@@ -110,6 +110,7 @@
     <string name="chord_result_incomplete">Niekompletny akord</string>
     <string name="chord_result_no_match">Brak dokładnego dopasowania</string>
     <string name="chord_result_also">Również: </string>
+    <string name="chord_result_also_written_as">Zapisywany też jako</string>
     <string name="chord_result_intervals">Interwały</string>
     <string name="chord_result_formula">Formuła</string>
     <string name="chord_result_fingering">Palcowanie</string>

@@ -110,6 +110,7 @@
     <string name="chord_result_incomplete">不完全なコード</string>
     <string name="chord_result_no_match">一致するコードが見つかりません</string>
     <string name="chord_result_also">他: </string>
+    <string name="chord_result_also_written_as">別の表記</string>
     <string name="chord_result_intervals">音程</string>
     <string name="chord_result_formula">構成音</string>
     <string name="chord_result_fingering">運指</string>

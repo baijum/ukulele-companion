@@ -28,6 +28,9 @@ enum class ChordCategory(val label: String) {
  * @property omittable Intervals that may be dropped when there are fewer strings than notes
  *   (e.g., the perfect fifth in a 9th chord on a 4-string ukulele). Empty for chords
  *   with 4 or fewer notes.
+ * @property aliases Alternate notational symbols for this chord type used in different
+ *   musical traditions (e.g., "°" for diminished, "Δ7" for major seventh). These are
+ *   suffixes only — the root note is prepended at display time.
  */
 data class ChordFormula(
     val symbol: String,
@@ -35,6 +38,7 @@ data class ChordFormula(
     val category: ChordCategory,
     val intervals: Set<Int>,
     val omittable: Set<Int> = emptySet(),
+    val aliases: List<String> = emptyList(),
 )
 
 /**
@@ -56,24 +60,28 @@ object ChordFormulas {
             quality = "Major",
             category = ChordCategory.TRIAD,
             intervals = setOf(0, 4, 7),
+            aliases = listOf("M", "maj"),
         ),
         ChordFormula(
             symbol = "m",
             quality = "Minor",
             category = ChordCategory.TRIAD,
             intervals = setOf(0, 3, 7),
+            aliases = listOf("min", "mi", "\u2212"),
         ),
         ChordFormula(
             symbol = "dim",
             quality = "Diminished",
             category = ChordCategory.TRIAD,
             intervals = setOf(0, 3, 6),
+            aliases = listOf("\u00B0"),
         ),
         ChordFormula(
             symbol = "aug",
             quality = "Augmented",
             category = ChordCategory.TRIAD,
             intervals = setOf(0, 4, 8),
+            aliases = listOf("+"),
         ),
         // --- Suspended ---
         ChordFormula(
@@ -100,36 +108,42 @@ object ChordFormulas {
             quality = "Dominant 7th",
             category = ChordCategory.SEVENTH,
             intervals = setOf(0, 4, 7, 10),
+            aliases = listOf("dom7"),
         ),
         ChordFormula(
             symbol = "m7",
             quality = "Minor 7th",
             category = ChordCategory.SEVENTH,
             intervals = setOf(0, 3, 7, 10),
+            aliases = listOf("min7", "mi7", "\u22127"),
         ),
         ChordFormula(
             symbol = "maj7",
             quality = "Major 7th",
             category = ChordCategory.SEVENTH,
             intervals = setOf(0, 4, 7, 11),
+            aliases = listOf("M7", "\u03947", "^7"),
         ),
         ChordFormula(
             symbol = "aug7",
             quality = "Augmented 7th",
             category = ChordCategory.SEVENTH,
             intervals = setOf(0, 4, 8, 10),
+            aliases = listOf("+7"),
         ),
         ChordFormula(
             symbol = "dim7",
             quality = "Diminished 7th",
             category = ChordCategory.SEVENTH,
             intervals = setOf(0, 3, 6, 9),
+            aliases = listOf("\u00B07"),
         ),
         ChordFormula(
             symbol = "m(Maj7)",
             quality = "Minor Major 7th",
             category = ChordCategory.SEVENTH,
             intervals = setOf(0, 3, 7, 11),
+            aliases = listOf("mM7", "m\u03947"),
         ),
         // --- Extended chords ---
         ChordFormula(

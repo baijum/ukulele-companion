@@ -110,6 +110,7 @@
     <string name="chord_result_incomplete">Onvolledig akkoord</string>
     <string name="chord_result_no_match">Geen exact akkoord gevonden</string>
     <string name="chord_result_also">Ook: </string>
+    <string name="chord_result_also_written_as">Ook geschreven als</string>
     <string name="chord_result_intervals">Intervallen</string>
     <string name="chord_result_formula">Formule</string>
     <string name="chord_result_fingering">Vingerzetting</string>

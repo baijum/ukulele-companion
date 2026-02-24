@@ -110,6 +110,7 @@
     <string name="chord_result_incomplete">Accord incomplet</string>
     <string name="chord_result_no_match">Aucune correspondance exacte</string>
     <string name="chord_result_also">Aussi : </string>
+    <string name="chord_result_also_written_as">Aussi noté</string>
     <string name="chord_result_intervals">Intervalles</string>
     <string name="chord_result_formula">Formule</string>
     <string name="chord_result_fingering">Doigté</string>

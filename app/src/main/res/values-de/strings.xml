@@ -110,6 +110,7 @@
     <string name="chord_result_incomplete">Unvollständiger Akkord</string>
     <string name="chord_result_no_match">Keine genaue Übereinstimmung</string>
     <string name="chord_result_also">Auch: </string>
+    <string name="chord_result_also_written_as">Auch geschrieben als</string>
     <string name="chord_result_intervals">Intervalle</string>
     <string name="chord_result_formula">Formel</string>
     <string name="chord_result_fingering">Fingersatz</string>

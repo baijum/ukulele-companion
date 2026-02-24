@@ -110,6 +110,7 @@
     <string name="chord_result_incomplete">Неполный аккорд</string>
     <string name="chord_result_no_match">Точное совпадение не найдено</string>
     <string name="chord_result_also">Также: </string>
+    <string name="chord_result_also_written_as">Также пишется как</string>
     <string name="chord_result_intervals">Интервалы</string>
     <string name="chord_result_formula">Формула</string>
     <string name="chord_result_fingering">Аппликатура</string>
