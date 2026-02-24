@@ -59,6 +59,7 @@
     <string name="nav_explorer">Explorador</string>
     <string name="nav_tuner">Afinador</string>
     <string name="nav_pitch_monitor">Monitor de afinação</string>
+    <string name="nav_metronome">Metrônomo</string>
     <string name="nav_chords">Acordes</string>
     <string name="nav_favorites">Favoritos</string>
     <string name="nav_songs">Músicas</string>
@@ -851,4 +852,18 @@
     <string name="settings_show_reference_section">Mostrar secção Referência</string>
     <string name="cd_collapse_section">Recolher %s</string>
     <string name="cd_expand_section">Expandir %s</string>
+    <string name="metronome_bpm">BPM</string>
+    <string name="metronome_decrease_bpm">Diminuir andamento</string>
+    <string name="metronome_increase_bpm">Aumentar andamento</string>
+    <string name="metronome_time_signature">Fórmula de compasso</string>
+    <string name="metronome_accent_pattern">Padrão de acentuação</string>
+    <string name="metronome_tap_to_change">Toque em uma batida para alternar acentuação</string>
+    <string name="metronome_subdivision">Subdivisão</string>
+    <string name="metronome_quarter">Semínima</string>
+    <string name="metronome_eighth">Colcheia</string>
+    <string name="metronome_triplet">Tercina</string>
+    <string name="metronome_sixteenth">Semicolcheia</string>
+    <string name="cd_start_metronome">Iniciar metrônomo</string>
+    <string name="cd_stop_metronome">Parar metrônomo</string>
+    <string name="metronome_measure_count">Compasso: %1$d</string>
 </resources>

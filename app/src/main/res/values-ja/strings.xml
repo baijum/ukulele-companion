@@ -59,6 +59,7 @@
     <string name="nav_explorer">エクスプローラー</string>
     <string name="nav_tuner">チューナー</string>
     <string name="nav_pitch_monitor">ピッチモニター</string>
+    <string name="nav_metronome">メトロノーム</string>
     <string name="nav_chords">コード</string>
     <string name="nav_favorites">お気に入り</string>
     <string name="nav_songs">曲</string>
@@ -855,4 +856,18 @@
     <string name="settings_show_reference_section">リファレンスセクションを表示</string>
     <string name="cd_collapse_section">%sを折りたたむ</string>
     <string name="cd_expand_section">%sを展開</string>
+    <string name="metronome_bpm">BPM</string>
+    <string name="metronome_decrease_bpm">テンポを下げる</string>
+    <string name="metronome_increase_bpm">テンポを上げる</string>
+    <string name="metronome_time_signature">拍子</string>
+    <string name="metronome_accent_pattern">アクセントパターン</string>
+    <string name="metronome_tap_to_change">拍をタップしてアクセントを変更</string>
+    <string name="metronome_subdivision">分割</string>
+    <string name="metronome_quarter">4分</string>
+    <string name="metronome_eighth">8分</string>
+    <string name="metronome_triplet">3連</string>
+    <string name="metronome_sixteenth">16分</string>
+    <string name="cd_start_metronome">メトロノーム開始</string>
+    <string name="cd_stop_metronome">メトロノーム停止</string>
+    <string name="metronome_measure_count">小節: %1$d</string>
 </resources>

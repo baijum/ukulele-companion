@@ -59,6 +59,7 @@
     <string name="nav_explorer">Обозреватель</string>
     <string name="nav_tuner">Тюнер</string>
     <string name="nav_pitch_monitor">Монитор высоты</string>
+    <string name="nav_metronome">Метроном</string>
     <string name="nav_chords">Аккорды</string>
     <string name="nav_favorites">Избранное</string>
     <string name="nav_songs">Песни</string>
@@ -855,4 +856,18 @@
     <string name="settings_show_reference_section">Показать раздел Справочник</string>
     <string name="cd_collapse_section">Свернуть %s</string>
     <string name="cd_expand_section">Развернуть %s</string>
+    <string name="metronome_bpm">BPM</string>
+    <string name="metronome_decrease_bpm">Уменьшить темп</string>
+    <string name="metronome_increase_bpm">Увеличить темп</string>
+    <string name="metronome_time_signature">Размер</string>
+    <string name="metronome_accent_pattern">Схема акцентов</string>
+    <string name="metronome_tap_to_change">Нажмите на долю, чтобы изменить акцент</string>
+    <string name="metronome_subdivision">Подразделение</string>
+    <string name="metronome_quarter">Четверть</string>
+    <string name="metronome_eighth">Восьмая</string>
+    <string name="metronome_triplet">Триоль</string>
+    <string name="metronome_sixteenth">Шестнадцатая</string>
+    <string name="cd_start_metronome">Запустить метроном</string>
+    <string name="cd_stop_metronome">Остановить метроном</string>
+    <string name="metronome_measure_count">Такт: %1$d</string>
 </resources>

@@ -59,6 +59,7 @@
     <string name="nav_explorer">Explorer</string>
     <string name="nav_tuner">Tuner</string>
     <string name="nav_pitch_monitor">Pitch Monitor</string>
+    <string name="nav_metronome">Metronome</string>
     <string name="nav_chords">Chords</string>
     <string name="nav_favorites">Favorites</string>
     <string name="nav_songs">Songs</string>
@@ -858,6 +859,22 @@
 
     <!-- ── Tap Tempo ────────────────────────────────────────────────── -->
     <string name="tap_tempo_label">Tap</string>
+
+    <!-- ── Metronome ─────────────────────────────────────────────────── -->
+    <string name="metronome_bpm">BPM</string>
+    <string name="metronome_decrease_bpm">Decrease tempo</string>
+    <string name="metronome_increase_bpm">Increase tempo</string>
+    <string name="metronome_time_signature">Time signature</string>
+    <string name="metronome_accent_pattern">Accent pattern</string>
+    <string name="metronome_tap_to_change">Tap a beat to toggle accent, normal, or mute</string>
+    <string name="metronome_subdivision">Subdivision</string>
+    <string name="metronome_quarter">Quarter</string>
+    <string name="metronome_eighth">Eighth</string>
+    <string name="metronome_triplet">Triplet</string>
+    <string name="metronome_sixteenth">16th</string>
+    <string name="cd_start_metronome">Start metronome</string>
+    <string name="cd_stop_metronome">Stop metronome</string>
+    <string name="metronome_measure_count">Measure: %1$d</string>
 
     <!-- ── Full Screen Fretboard ────────────────────────────────────── -->
     <string name="full_screen_reset">Reset</string>

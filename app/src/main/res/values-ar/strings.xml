@@ -59,6 +59,7 @@
     <string name="nav_explorer">المستكشف</string>
     <string name="nav_tuner">الموالف</string>
     <string name="nav_pitch_monitor">مراقب النغمة</string>
+    <string name="nav_metronome">المسرع الموسيقي</string>
     <string name="nav_chords">الأوتار</string>
     <string name="nav_favorites">المفضلة</string>
     <string name="nav_songs">الأغاني</string>
@@ -855,4 +856,18 @@
     <string name="settings_show_reference_section">إظهار قسم المرجع</string>
     <string name="cd_collapse_section">طي %s</string>
     <string name="cd_expand_section">توسيع %s</string>
+    <string name="metronome_bpm">BPM</string>
+    <string name="metronome_decrease_bpm">تقليل السرعة</string>
+    <string name="metronome_increase_bpm">زيادة السرعة</string>
+    <string name="metronome_time_signature">الميزان</string>
+    <string name="metronome_accent_pattern">نمط التشديد</string>
+    <string name="metronome_tap_to_change">انقر على نبضة لتغيير التشديد</string>
+    <string name="metronome_subdivision">تقسيم فرعي</string>
+    <string name="metronome_quarter">ربع</string>
+    <string name="metronome_eighth">ثمن</string>
+    <string name="metronome_triplet">ثلاثي</string>
+    <string name="metronome_sixteenth">سادس عشر</string>
+    <string name="cd_start_metronome">بدء المسرع</string>
+    <string name="cd_stop_metronome">إيقاف المسرع</string>
+    <string name="metronome_measure_count">المازورة: %1$d</string>
 </resources>
