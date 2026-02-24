@@ -24,7 +24,7 @@
 
 <table>
 <tr>
-<td width="50%">
+<td width="50%" valign="top">
 
 ### 🎸 Interactive Fretboard Explorer
 Tap fret positions on a visual ukulele fretboard (standard GCEA tuning, frets 0–12) and the app instantly detects and displays the chord. Supports 20 chord types across triads, sevenths, suspended, and extended chords. Shows alternate notational symbols ("Also written as") so you can recognize chords written in different styles.
@@ -45,7 +45,7 @@ A reference guide with 15 strumming and 11 fingerpicking patterns — from begin
 Common chord progressions for any key across seven modes (Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian). Includes Pop, Classic Rock, 50s, Folk, Jazz ii-V-I, Reggae, and more. Create custom progressions, duplicate presets, and use tap tempo for practice.
 
 </td>
-<td width="50%">
+<td width="50%" valign="top">
 
 ### 🎼 Scale Overlay
 Highlight notes from any of 38 scales (Major, Natural/Harmonic/Melodic Minor, Pentatonic, Blues, modes, Bebop, Diminished, and more) directly on the fretboard. Filter by fret position and see the diatonic chords for each scale.
@@ -56,9 +56,14 @@ Long-press any voicing in the Chord Library to save it. Access your saved voicin
 ### 📝 Song Chord Sheets
 Create a personal songbook with lyrics and inline chord markers (e.g., `Some[C]where over the [Em]rainbow`). Tap any chord name to view its voicings.
 
+### 🎵 Metronome
+A standalone practice metronome with adjustable BPM (30–300), tap tempo, time signatures (2/4 to 7/4), customizable accent patterns, and subdivisions (quarter, eighth, triplet, sixteenth). Visual beat indicators pulse in time.
+
+### 🎹 Melody Notepad
+Compose short melodies by tapping notes or recording from your ukulele's microphone. Choose note durations, set the octave, and play back at any tempo. Save and load multiple melodies.
 
 ### 🔊 Sound Playback
-Hear chords played back using sine wave synthesis. Notes are strummed with a configurable delay between strings.
+Hear chords played back using sampled ukulele audio. Notes are strummed with a configurable delay between strings.
 
 ### 🎓 Music Theory & Learning
 Theory lessons, ear training, interval trainer, circle of fifths, glossary, scale practice, achievements, and more.
