@@ -26,9 +26,24 @@ When no frets are selected, the area below the fretboard shows a **"Try these be
 
 Tap any fret cell on the fretboard to place or remove a finger. The fretboard displays frets 0 through 12 across four strings (G, C, E, A in standard tuning).
 
-As you tap frets, the app analyzes the selected notes and shows the detected chord name above the fretboard. The app recognizes 9 chord types: Major, Minor, Dom7, Min7, Maj7, Diminished, Augmented, Sus2, and Sus4.
+As you tap frets, the app analyzes the selected notes and shows the detected chord name above the fretboard. The app recognizes 20 chord types across four categories:
+
+- **Triads** — Major, Minor, Diminished, Augmented
+- **Seventh** — Dom7, Min7, Maj7, Aug7, Dim7, Minor Major 7th
+- **Suspended** — Sus2, Sus4, 7sus4
+- **Extended** — 6, Min6, 9, Min9, Add9
 
 ![Chord detected on fretboard](screenshots/explorer-chord-detected.png)
+
+### Chord Detail Info
+
+When a chord is detected, the area below the fretboard shows detailed information:
+
+- **Chord name** — with slash notation for inversions (e.g., C/E).
+- **Quality** — e.g., "Major", "Minor 7th (1st Inv)".
+- **Also written as** — alternate notational symbols used in different musical traditions. For example, detecting "Cdim" also shows "C°", and "Cmaj7" also shows "CM7, CΔ7, C^7". This helps you recognize the same chord written in different styles across books, apps, and sheet music.
+- **Alternate interpretations** — when the same set of notes can form a different chord (e.g., Am7 and C6 share the same notes).
+- **Intervals, Formula, Fingering, Difficulty, Inversion** — detailed music theory breakdown.
 
 ## Transpose
 
@@ -40,10 +55,9 @@ The scale overlay highlights notes from a selected scale directly on the fretboa
 
 To use the scale overlay:
 
-1. Scroll down below the fretboard to find the **Scale** section.
-2. Toggle the scale overlay on.
-3. Select a **root note** (e.g., C, G, D).
-4. Select a **scale type** (Major, Minor, Pentatonic Major, Pentatonic Minor, Blues, Dorian, or Mixolydian).
+1. Tap the **Scales** button below the fretboard.
+2. Select a **root note** (e.g., C, G, D).
+3. Select a **scale type** (Major, Natural Minor, Harmonic Minor, Melodic Minor, Pentatonic Major, Pentatonic Minor, Blues, Dorian, Mixolydian, or Lydian).
 
 Scale notes are highlighted on the fretboard, with the root note shown in a distinct color.
 
@@ -65,6 +79,15 @@ When a scale overlay is active, the fretboard automatically uses the correct not
 ### Chords in This Scale
 
 Below the position chips, the app lists the **chords that naturally occur** in the selected scale. Tap any chord chip to jump to its voicings in the Chord Library.
+
+## Did You Know?
+
+When no frets are selected, the Explorer shows a rotating **"Did you know?"** card with tips about ukulele history, music theory, chord notation, and practice techniques. Tap **Next tip** to see another one. These tips cover topics like:
+
+- Ukulele facts and history (origins, tuning, famous players).
+- Music theory nuggets (intervals, chord construction, the Circle of Fifths).
+- Chord notation conventions (what symbols like °, +, and Δ7 mean).
+- Practice advice (using a metronome, fingerpicking, recording yourself).
 
 ## Sound Playback
 
