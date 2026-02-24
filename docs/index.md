@@ -93,6 +93,16 @@ hide:
   </figure>
 </div>
 
+## See it in action
+
+<p align="center">
+  <a href="https://youtube.com/shorts/-RXPvWyTNIE">
+    <img src="https://img.youtube.com/vi/-RXPvWyTNIE/0.jpg" width="40%" alt="Watch the walkthrough video" style="border-radius: 12px;">
+  </a>
+  <br>
+  <sub>Tap to watch a quick walkthrough of the app</sub>
+</p>
+
 <section class="cta-panel">
   <h2>Start playing better in minutes</h2>
   <p>Use the manual to get up and running, then explore the feature that matches your current goal.</p>
