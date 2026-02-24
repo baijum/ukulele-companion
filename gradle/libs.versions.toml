@@ -4,7 +4,7 @@ kotlin = "2.3.10"
 composeBom = "2026.02.00"
 activityCompose = "1.12.4"
 lifecycleViewmodelCompose = "2.10.0"
-appcompat = "1.7.0"
+appcompat = "1.7.1"
 coreKtx = "1.17.0"
 
 kotlinxSerializationJson = "1.10.0"
