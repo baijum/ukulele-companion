@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="6" by="lint 8.9.1" type="baseline" client="gradle" dependencies="false" name="AGP (8.9.1)" variant="all" version="8.9.1">
+<issues format="6" by="lint 9.0.1" type="baseline" client="gradle" dependencies="false" name="AGP (9.0.1)" variant="all" version="9.0.1">
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
+        errorLine1="                text = &quot;${String.format(&quot;%.1f&quot;, animationSpeed)}x&quot;,"
+        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/ChordTransitionAnimation.kt"
+            line="329"
+            column="27"/>
+    </issue>
 
     <issue
         id="InlinedApi"
@@ -8,7 +19,18 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/FullScreenFretboard.kt"
-            line="91"
+            line="93"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="InlinedApi"
+        message="Field requires API level 30 (current min is 26): `android.view.WindowInsetsController#BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE`"
+        errorLine1="                WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/FullScreenFretboard.kt"
+            line="93"
             column="17"/>
     </issue>
 
@@ -19,7 +41,7 @@
         errorLine2="                                       ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/FullScreenFretboard.kt"
-            line="87"
+            line="89"
             column="40"/>
     </issue>
 
@@ -30,8 +52,41 @@
         errorLine2="                                                   ~~~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/FullScreenFretboard.kt"
-            line="89"
+            line="91"
             column="52"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        message="Call requires API level 30 (current min is 26): `android.view.WindowInsetsController#hide`"
+        errorLine1="            it.hide(android.view.WindowInsets.Type.systemBars())"
+        errorLine2="               ~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/FullScreenFretboard.kt"
+            line="91"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        message="Call requires API level 30 (current min is 26): `android.view.WindowInsetsController#setSystemBarsBehavior`"
+        errorLine1="            it.systemBarsBehavior ="
+        errorLine2="               ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/FullScreenFretboard.kt"
+            line="92"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        message="Call requires API level 30 (current min is 26): `android.view.WindowInsetsController#setSystemBarsBehavior`"
+        errorLine1="            it.systemBarsBehavior ="
+        errorLine2="                                  ~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/FullScreenFretboard.kt"
+            line="92"
+            column="35"/>
     </issue>
 
     <issue
@@ -41,7 +96,7 @@
         errorLine2="                                                                  ~~~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/FullScreenFretboard.kt"
-            line="99"
+            line="101"
             column="67"/>
     </issue>
 
@@ -52,7 +107,7 @@
         errorLine2="                              ~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/FullScreenFretboard.kt"
-            line="99"
+            line="101"
             column="31"/>
     </issue>
 
@@ -68,102 +123,14 @@
     </issue>
 
     <issue
-        id="AndroidGradlePluginVersion"
-        message="A newer version of com.android.application than 8.9.1 is available: 9.0.0. (There is also a newer version of 8.9.𝑥 available, if upgrading to 9.0.0 is difficult: 8.9.3)"
-        errorLine1="agp = &quot;8.9.1&quot;"
-        errorLine2="      ~~~~~~~">
+        id="UnusedAttribute"
+        message="Attribute `localeConfig` is only used in API level 33 and higher (current min is 26)"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
-            line="2"
-            column="7"/>
-    </issue>
-
-    <issue
-        id="AndroidGradlePluginVersion"
-        message="A newer version of com.android.application than 8.9.1 is available: 9.0.0. (There is also a newer version of 8.9.𝑥 available, if upgrading to 9.0.0 is difficult: 8.9.3)"
-        errorLine1="agp = &quot;8.9.1&quot;"
-        errorLine2="      ~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
-            line="2"
-            column="7"/>
-    </issue>
-
-    <issue
-        id="AndroidGradlePluginVersion"
-        message="A newer version of com.android.application than 8.9.1 is available: 9.0.0. (There is also a newer version of 8.9.𝑥 available, if upgrading to 9.0.0 is difficult: 8.9.3)"
-        errorLine1="agp = &quot;8.9.1&quot;"
-        errorLine2="      ~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
-            line="2"
-            column="7"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose:compose-bom than 2024.12.01 is available: 2026.02.00"
-        errorLine1="composeBom = &quot;2024.12.01&quot;"
-        errorLine2="             ~~~~~~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
-            line="4"
-            column="14"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose:compose-bom than 2024.12.01 is available: 2026.02.00"
-        errorLine1="composeBom = &quot;2024.12.01&quot;"
-        errorLine2="             ~~~~~~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
-            line="4"
-            column="14"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose:compose-bom than 2024.12.01 is available: 2026.02.00"
-        errorLine1="composeBom = &quot;2024.12.01&quot;"
-        errorLine2="             ~~~~~~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
-            line="4"
-            column="14"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.work:work-runtime-ktx than 2.10.0 is available: 2.11.1"
-        errorLine1="workRuntime = &quot;2.10.0&quot;"
-        errorLine2="              ~~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
-            line="9"
-            column="15"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.work:work-runtime-ktx than 2.10.0 is available: 2.11.1"
-        errorLine1="workRuntime = &quot;2.10.0&quot;"
-        errorLine2="              ~~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
-            line="9"
-            column="15"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.work:work-runtime-ktx than 2.10.0 is available: 2.11.1"
-        errorLine1="workRuntime = &quot;2.10.0&quot;"
-        errorLine2="              ~~~~~~~~">
-        <location
-            file="$HOME/baijum/ukulele-companion/gradle/libs.versions.toml"
-            line="9"
-            column="15"/>
+            file="src/main/AndroidManifest.xml"
+            line="18"
+            column="9"/>
     </issue>
 
     <issue
@@ -173,7 +140,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/AchievementsView.kt"
-            line="62"
+            line="68"
             column="5"/>
     </issue>
 
@@ -184,7 +151,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/CapoCalculatorView.kt"
-            line="49"
+            line="51"
             column="5"/>
     </issue>
 
@@ -195,7 +162,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/CapoCalculatorView.kt"
-            line="130"
+            line="132"
             column="5"/>
     </issue>
 
@@ -206,7 +173,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/CapoVisualizerView.kt"
-            line="61"
+            line="63"
             column="5"/>
     </issue>
 
@@ -228,7 +195,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/ChordEarTrainingView.kt"
-            line="54"
+            line="58"
             column="5"/>
     </issue>
 
@@ -239,7 +206,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/ChordLibraryTab.kt"
-            line="81"
+            line="83"
             column="5"/>
     </issue>
 
@@ -250,7 +217,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/ChordLibraryTab.kt"
-            line="674"
+            line="678"
             column="5"/>
     </issue>
 
@@ -261,7 +228,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/ChordResultView.kt"
-            line="69"
+            line="91"
             column="5"/>
     </issue>
 
@@ -272,17 +239,6 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/ChordTransitionAnimation.kt"
-            line="74"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/ChordTransitionView.kt"
             line="76"
             column="5"/>
     </issue>
@@ -293,8 +249,19 @@
         errorLine1="    modifier: Modifier = Modifier,"
         errorLine2="    ~~~~~~~~">
         <location
+            file="src/main/java/com/baijum/ukufretboard/ui/ChordTransitionView.kt"
+            line="80"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
             file="src/main/java/com/baijum/ukufretboard/ui/CircleOfFifthsView.kt"
-            line="59"
+            line="67"
             column="5"/>
     </issue>
 
@@ -305,105 +272,6 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/DailyChallengeView.kt"
-            line="46"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/FavoritesTab.kt"
-            line="72"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/FretboardNoteMapView.kt"
-            line="56"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/FretboardScreen.kt"
-            line="945"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/FretboardView.kt"
-            line="111"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/FretboardView.kt"
-            line="323"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/IntervalTrainerView.kt"
-            line="59"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/LearningProgressView.kt"
-            line="46"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/MelodyNotepadView.kt"
-            line="70"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/NoteQuizView.kt"
             line="50"
             column="5"/>
     </issue>
@@ -414,62 +282,7 @@
         errorLine1="    modifier: Modifier = Modifier,"
         errorLine2="    ~~~~~~~~">
         <location
-            file="src/main/java/com/baijum/ukufretboard/ui/PlayAlongView.kt"
-            line="92"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/PlayAlongView.kt"
-            line="509"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/PracticeRoutineView.kt"
-            line="59"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/ProgressionPracticeView.kt"
-            line="90"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/ProgressionsTab.kt"
-            line="100"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ModifierParameter"
-        message="Modifier parameter should be the first optional parameter"
-        errorLine1="    modifier: Modifier = Modifier,"
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/ScalePracticeView.kt"
+            file="src/main/java/com/baijum/ukufretboard/ui/FavoritesTab.kt"
             line="74"
             column="5"/>
     </issue>
@@ -480,8 +293,8 @@
         errorLine1="    modifier: Modifier = Modifier,"
         errorLine2="    ~~~~~~~~">
         <location
-            file="src/main/java/com/baijum/ukufretboard/ui/ShareableChordDiagram.kt"
-            line="64"
+            file="src/main/java/com/baijum/ukufretboard/ui/FretboardNoteMapView.kt"
+            line="58"
             column="5"/>
     </issue>
 
@@ -491,7 +304,62 @@
         errorLine1="    modifier: Modifier = Modifier,"
         errorLine2="    ~~~~~~~~">
         <location
-            file="src/main/java/com/baijum/ukufretboard/ui/TheoryLessonsView.kt"
+            file="src/main/java/com/baijum/ukufretboard/ui/FretboardScreen.kt"
+            line="1124"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/FretboardView.kt"
+            line="119"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/FretboardView.kt"
+            line="365"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/IntervalTrainerView.kt"
+            line="63"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/LearningProgressView.kt"
+            line="50"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/NoteQuizView.kt"
             line="54"
             column="5"/>
     </issue>
@@ -502,8 +370,107 @@
         errorLine1="    modifier: Modifier = Modifier,"
         errorLine2="    ~~~~~~~~">
         <location
+            file="src/main/java/com/baijum/ukufretboard/ui/PlayAlongView.kt"
+            line="94"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/PlayAlongView.kt"
+            line="511"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/PracticeRoutineView.kt"
+            line="65"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/ProgressionPracticeView.kt"
+            line="92"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/ProgressionsTab.kt"
+            line="105"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/ScalePracticeView.kt"
+            line="78"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/ShareableChordDiagram.kt"
+            line="66"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/TheoryLessonsView.kt"
+            line="58"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
             file="src/main/java/com/baijum/ukufretboard/ui/TheoryQuizView.kt"
-            line="52"
+            line="56"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        message="Modifier parameter should be the first optional parameter"
+        errorLine1="    modifier: Modifier = Modifier,"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/TunerTab.kt"
+            line="466"
             column="5"/>
     </issue>
 
@@ -514,7 +481,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/VerticalChordDiagram.kt"
-            line="104"
+            line="114"
             column="5"/>
     </issue>
 
@@ -525,7 +492,260 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/VoiceLeadingView.kt"
-            line="74"
+            line="76"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Typos"
+        message="Repeated word &quot;ayrı&quot; in message: possible typo"
+        errorLine1="    &lt;string name=&quot;daily_tip_3&quot;>Yeni bir akor öğrenirken netliği kontrol etmek için her teli ayrı ayrı çalın.&lt;/string>"
+        errorLine2="                                                                                            ~~~~~~~~~">
+        <location
+            file="src/main/res/values-tr/strings.xml"
+            line="448"
+            column="93"/>
+    </issue>
+
+    <issue
+        id="Typos"
+        message="Repeated word &quot;das&quot; in message: possible typo"
+        errorLine1="    &lt;string name=&quot;help_desc_tuner&quot;>Ein chromatisches Stimmgerät, das das Mikrofon deines Geräts nutzt. Zeigt die erkannte Note, die Cent-Abweichung auf einer Nadelanzeige und verständliche Hinweise (\&quot;Höher stimmen\&quot;, \&quot;Gestimmt!\&quot;) an. Tippe auf die Saitentasten für einen Referenzton. Unterstützt verschiedene Stimmungen, A4-Kalibrierung, Sprachfeedback und Präzisionsmodus.&lt;/string>"
+        errorLine2="                                                                 ~~~~~~~">
+        <location
+            file="src/main/res/values-de/strings.xml"
+            line="557"
+            column="66"/>
+    </issue>
+
+    <issue
+        id="Typos"
+        message="Repeated word &quot;adım&quot; in message: possible typo"
+        errorLine1="    &lt;string name=&quot;help_desc_chord_transitions&quot;>Parmaklarınızın iki akor arasında nasıl hareket ettiğini görselleştirin. İki akor seçin ve parmak hareketlerinin adım adım animasyonunu izleyin. Geçiş sayacı ve BPM kontrolü ile süreli çalışma modu içerir.&lt;/string>"
+        errorLine2="                                                                                                                                                                ~~~~~~~~~">
+        <location
+            file="src/main/res/values-tr/strings.xml"
+            line="573"
+            column="161"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;voicings&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;chord_library_voicings&quot;>%d voicings&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="134"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;voicing&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;chord_library_voicing_singular&quot;>%d voicing&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="141"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;voicings&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;chord_library_reentrant_limited&quot;>This chord only has %d voicings. Re-entrant tuning (High-G) limits inversions because the C string (C4) is almost always the lowest pitch. Low-G tuning allows more inversion variety.&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="142"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;cents&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;tuner_meter_close&quot;>Tuning meter, %1$d cents %2$s, almost in tune&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="161"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;cents&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;tuner_meter_flat&quot;>Tuning meter, %d cents flat&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="162"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;cents&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;tuner_meter_sharp&quot;>Tuning meter, %d cents sharp&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="163"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;with&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;songbook_capo_hint&quot;>Or use Capo %d with original chords&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="221"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;chords&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;progression_your_chords&quot;>Your progression (%d chords)&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="253"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;steps&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;patterns_steps&quot;>%d steps&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="273"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;lessons&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;theory_lessons_count&quot;>%d lessons&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="440"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;minutes&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;routine_duration&quot;>Duration: %d minutes&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="481"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;steps&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;routine_total&quot;>%1$d min total, %2$d steps&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="486"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;unlocked&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;achievements_unlocked&quot;>%d unlocked&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="535"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;terms&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;glossary_term_count&quot;>%d terms covering music theory and ukulele.&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="649"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;notes&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;melody_sequence&quot;>Sequence (%d notes)&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="763"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;common&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;voice_leading_common_tones&quot;>%d common tone&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="826"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;common&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;voice_leading_common_tones_plural&quot;>%d common tones&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="827"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;fret&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;voice_leading_fret_movement&quot;>%d fret total movement&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="828"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;frets&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;voice_leading_frets_movement&quot;>%d frets total movement&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="829"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;frets&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;voice_leading_total_path&quot;>Total path: %1$d frets movement across %2$d transitions&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="836"
             column="5"/>
     </issue>
 
@@ -543,8 +763,19 @@
         errorLine2="                                             ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/ui/SongbookTab.kt"
-            line="367"
+            line="386"
             column="46"/>
+    </issue>
+
+    <issue
+        id="AutoboxingStateCreation"
+        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
+        errorLine1="    var previousTunedCount by remember { mutableStateOf(0) }"
+        errorLine2="                                         ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/TunerTab.kt"
+            line="153"
+            column="42"/>
     </issue>
 
     <issue
@@ -567,6 +798,369 @@
             file="src/main/res/values/colors.xml"
             line="4"
             column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.label_off` appears to be unused"
+        errorLine1="    &lt;string name=&quot;label_off&quot;>Off&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="47"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.cd_replay` appears to be unused"
+        errorLine1="    &lt;string name=&quot;cd_replay&quot;>Replay&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="99"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.pitch_monitor_notes_prefix` appears to be unused"
+        errorLine1="    &lt;string name=&quot;pitch_monitor_notes_prefix&quot;>Notes: &lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="178"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.pitch_monitor_tap_start` appears to be unused"
+        errorLine1="    &lt;string name=&quot;pitch_monitor_tap_start&quot;>Tap Start to begin&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="181"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.pitch_monitor_playing` appears to be unused"
+        errorLine1="    &lt;string name=&quot;pitch_monitor_playing&quot;>Playing %s&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="182"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.pitch_monitor_detecting` appears to be unused"
+        errorLine1="    &lt;string name=&quot;pitch_monitor_detecting&quot;>Detecting pitch…&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="183"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.pitch_monitor_play_ukulele` appears to be unused"
+        errorLine1="    &lt;string name=&quot;pitch_monitor_play_ukulele&quot;>Play your ukulele…&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="184"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.songbook_speed_half` appears to be unused"
+        errorLine1="    &lt;string name=&quot;songbook_speed_half&quot;>0.5x&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="228"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.songbook_speed_1x` appears to be unused"
+        errorLine1="    &lt;string name=&quot;songbook_speed_1x&quot;>1x&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="229"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.songbook_speed_2x` appears to be unused"
+        errorLine1="    &lt;string name=&quot;songbook_speed_2x&quot;>2x&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="230"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.songbook_speed_3x` appears to be unused"
+        errorLine1="    &lt;string name=&quot;songbook_speed_3x&quot;>3x&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="231"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.patterns_counting` appears to be unused"
+        errorLine1="    &lt;string name=&quot;patterns_counting&quot;>Counting&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="281"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.patterns_tempo` appears to be unused"
+        errorLine1="    &lt;string name=&quot;patterns_tempo&quot;>Tempo&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="286"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.settings_pitch_monitor` appears to be unused"
+        errorLine1="    &lt;string name=&quot;settings_pitch_monitor&quot;>Pitch Monitor&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="319"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.note_quiz_string_fret` appears to be unused"
+        errorLine1="    &lt;string name=&quot;note_quiz_string_fret&quot;>string, fret&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="376"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.interval_semitone` appears to be unused"
+        errorLine1="    &lt;string name=&quot;interval_semitone&quot;>semitone&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="404"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.interval_semitones_apart` appears to be unused"
+        errorLine1="    &lt;string name=&quot;interval_semitones_apart&quot;>semitones apart&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="405"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.progress_daily_goal` appears to be unused"
+        errorLine1="    &lt;string name=&quot;progress_daily_goal&quot;>Daily goal: %d min&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="453"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.routine_total` appears to be unused"
+        errorLine1="    &lt;string name=&quot;routine_total&quot;>%1$d min total, %2$d steps&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="486"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.note_map_string` appears to be unused"
+        errorLine1="    &lt;string name=&quot;note_map_string&quot;>String %d&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="737"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.cd_decrease_octave` appears to be unused"
+        errorLine1="    &lt;string name=&quot;cd_decrease_octave&quot;>Decrease octave&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="781"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.cd_increase_octave` appears to be unused"
+        errorLine1="    &lt;string name=&quot;cd_increase_octave&quot;>Increase octave&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="782"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.cd_octave_value` appears to be unused"
+        errorLine1="    &lt;string name=&quot;cd_octave_value&quot;>Octave %d&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="783"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.melody_detected_note` appears to be unused"
+        errorLine1="    &lt;string name=&quot;melody_detected_note&quot;>Detected: %s&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="787"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.melody_added_note` appears to be unused"
+        errorLine1="    &lt;string name=&quot;melody_added_note&quot;>Added %1$s %2$s note&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="789"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.melody_note_info` appears to be unused"
+        errorLine1="    &lt;string name=&quot;melody_note_info&quot;>%1$s notes · %2$d BPM&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="800"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.melody_unsaved` appears to be unused"
+        errorLine1="    &lt;string name=&quot;melody_unsaved&quot;> (unsaved changes)&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="811"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.melody_current` appears to be unused"
+        errorLine1="    &lt;string name=&quot;melody_current&quot;>Current: %s&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="812"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.cd_note_position` appears to be unused"
+        errorLine1="    &lt;string name=&quot;cd_note_position&quot;>%1$s %2$s note, position %3$d&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="815"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.cd_rest_position` appears to be unused"
+        errorLine1="    &lt;string name=&quot;cd_rest_position&quot;>Rest, %1$s, position %2$d&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="816"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.cd_start_recording` appears to be unused"
+        errorLine1="    &lt;string name=&quot;cd_start_recording&quot;>Record notes from ukulele&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="817"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.cd_stop_recording` appears to be unused"
+        errorLine1="    &lt;string name=&quot;cd_stop_recording&quot;>Stop recording&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="818"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.cd_add_known_chord` appears to be unused"
+        errorLine1="    &lt;string name=&quot;cd_add_known_chord&quot;>Add %s to known chords&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="821"
+            column="13"/>
     </issue>
 
     <issue
@@ -664,7 +1258,7 @@
         errorLine2="        ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/data/CustomFingerpickingPatternRepository.kt"
-            line="47"
+            line="49"
             column="9"/>
     </issue>
 
@@ -675,7 +1269,7 @@
         errorLine2="        ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/data/CustomFingerpickingPatternRepository.kt"
-            line="54"
+            line="56"
             column="9"/>
     </issue>
 
@@ -686,7 +1280,7 @@
         errorLine2="                     ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/data/CustomFingerpickingPatternRepository.kt"
-            line="108"
+            line="115"
             column="22"/>
     </issue>
 
@@ -730,7 +1324,7 @@
         errorLine2="        ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/data/CustomStrumPatternRepository.kt"
-            line="47"
+            line="48"
             column="9"/>
     </issue>
 
@@ -741,7 +1335,7 @@
         errorLine2="        ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/data/CustomStrumPatternRepository.kt"
-            line="54"
+            line="55"
             column="9"/>
     </issue>
 
@@ -752,7 +1346,7 @@
         errorLine2="                     ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/data/CustomStrumPatternRepository.kt"
-            line="107"
+            line="110"
             column="22"/>
     </issue>
 
@@ -968,12 +1562,34 @@
     <issue
         id="UseKtx"
         message="Use the KTX extension function `SharedPreferences.edit` instead?"
-        errorLine1="        prefs.edit().apply {"
+        errorLine1="        prefs.edit().putString(melody.id, serialize(melody)).apply()"
         errorLine2="        ~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/baijum/ukufretboard/data/PracticeTimerRepository.kt"
+            file="src/main/java/com/baijum/ukufretboard/data/MelodyRepository.kt"
+            line="29"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        prefs.edit().remove(id).apply()"
+        errorLine2="        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/MelodyRepository.kt"
             line="33"
             column="9"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="        val editor = prefs.edit()"
+        errorLine2="                     ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/data/MelodyRepository.kt"
+            line="42"
+            column="22"/>
     </issue>
 
     <issue
@@ -1000,14 +1616,35 @@
 
     <issue
         id="UseKtx"
+        message="Use the KTX extension function `String.toUri` instead?"
+        errorLine1="            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(&quot;https://baijum.github.io/ukulele-companion&quot;))"
+        errorLine2="                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/SettingsSheet.kt"
+            line="748"
+            column="53"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `String.toUri` instead?"
+        errorLine1="            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(&quot;https://archive.org/details/ukulele-book&quot;))"
+        errorLine2="                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/baijum/ukufretboard/ui/SettingsSheet.kt"
+            line="758"
+            column="53"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
         message="Use the KTX extension function `SharedPreferences.edit` instead?"
         errorLine1="        prefs.edit()"
         errorLine2="        ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/baijum/ukufretboard/viewmodel/SettingsViewModel.kt"
-            line="119"
+            line="149"
             column="9"/>
     </issue>
-
 
 </issues>
