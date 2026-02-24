@@ -16,5 +16,6 @@ play-service-account.json
 app/src/main/play/
 .kotlin/
 docs/manual/ukulele-companion-manual.pdf
+docs/walkthrough.mp4
 store-listing/
 site/
