@@ -14,19 +14,40 @@ The app displays all available voicings as mini fretboard diagrams in a grid.
 
 ## Voicing Diagrams
 
-Each diagram shows:
+Each voicing card shows:
 
-- The fret positions for each string.
-- Open strings (played but not fretted) and muted strings.
-- A small play button to hear the voicing.
+- **Chord name** — displayed in bold at the top-right corner (e.g., "C", "Am").
+- **Fret diagram** — a mini fretboard showing finger positions, open strings, and muted strings.
+- **Note names** — the notes for each string shown below the diagram (e.g., G C E C).
+- **Fret numbers** — the fret number for each string aligned below the note names (e.g., 0 0 0 3).
+- **Inversion label** — Root, 1st Inv, 2nd Inv, etc.
+- **Favorite icon** — a heart at the top-left to save/remove from favorites.
+- **Share icon** — a share button at the bottom-right to export the voicing as an image.
 
 **Tap** a voicing to load it onto the Explorer fretboard, where you can see it in full size.
 
+## Inversion Filters
+
+Above the voicing grid, filter chips let you narrow voicings by inversion type:
+
+- **All** — shows every voicing with a count (e.g., "All (15)").
+- **Root**, **1st Inv**, **2nd Inv**, **3rd Inv** — each shows how many voicings match.
+
+Additional action buttons:
+
+- **Capo** — opens the capo calculator to find equivalent voicings with a capo.
+- **Viz** — opens the capo visualizer.
+- **Compare** — groups voicings by inversion for side-by-side comparison.
+
 ## Saving Favorites
 
-**Long-press** any voicing diagram to save it to your Favorites. A heart icon appears on voicings that are already saved. Tap the heart to remove it from favorites.
+Tap the **heart icon** on any voicing card to save it to your Favorites. A filled heart indicates a saved voicing. Tap again to remove it.
 
 See [Favorites](06-favorites.md) for more about managing your saved voicings.
+
+## Sharing Voicings
+
+Tap the **share icon** on any voicing card to export it as an image you can send to others.
 
 ## Playing Voicings
 
