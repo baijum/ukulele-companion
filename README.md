@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://kotlinlang.org"><img src="https://img.shields.io/badge/Kotlin-2.0-blue.svg?logo=kotlin" alt="Kotlin"></a>
+  <a href="https://kotlinlang.org"><img src="https://img.shields.io/badge/Kotlin-2.3-blue.svg?logo=kotlin" alt="Kotlin"></a>
   <a href="https://developer.android.com/compose"><img src="https://img.shields.io/badge/Jetpack%20Compose-Material3-green.svg?logo=jetpackcompose" alt="Jetpack Compose"></a>
   <a href="https://developer.android.com/about/versions/oreo"><img src="https://img.shields.io/badge/Min%20SDK-26-orange.svg" alt="Min SDK"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
@@ -27,7 +27,7 @@
 <td width="50%">
 
 ### 🎸 Interactive Fretboard Explorer
-Tap fret positions on a visual ukulele fretboard (standard GCEA tuning, frets 0–12) and the app instantly detects and displays the chord. Supports 9 chord types: Major, Minor, Dom7, Min7, Maj7, Diminished, Augmented, Sus2, and Sus4.
+Tap fret positions on a visual ukulele fretboard (standard GCEA tuning, frets 0–12) and the app instantly detects and displays the chord. Supports 20 chord types across triads, sevenths, suspended, and extended chords. Shows alternate notational symbols ("Also written as") so you can recognize chords written in different styles.
 
 ### 📚 Chord Library
 Browse playable voicings for any chord. Select a root note, category (Triad, Seventh, Suspended, Extended), and chord type to see algorithmically generated voicings displayed as mini fretboard diagrams.
@@ -39,16 +39,16 @@ Shift chords up or down by semitones with +/- buttons. Shows the capo equivalent
 The tuner now uses a hybrid pipeline: fast YIN pitch tracking on every frame, supervised by SwiftF0 neural inference at intervals. This improves robustness against octave mistakes and unstable frames while preserving responsive needle movement.
 
 ### 🥁 Strumming & Fingerpicking Patterns
-A reference guide with 13 strumming and 8 fingerpicking patterns — from beginner to advanced. Each pattern includes visual beat/step display, notation, description, and a **play button with adjustable tempo** so you can hear what each pattern sounds like. The active beat highlights during playback.
+A reference guide with 15 strumming and 11 fingerpicking patterns — from beginner to advanced — in 4/4, 3/4, and 6/8 time. Each pattern includes visual beat/step display, notation, description, and a **play button with adjustable tempo** so you can hear what each pattern sounds like. Duplicate any preset to create your own variations.
 
 ### 🎶 Chord Progressions
-Common chord progressions for any key, in both major and minor scales. Includes Pop, Classic Rock, 50s, Folk, Jazz ii-V-I, Reggae, and more. Tap any chord chip to jump to its voicings.
+Common chord progressions for any key across seven modes (Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian). Includes Pop, Classic Rock, 50s, Folk, Jazz ii-V-I, Reggae, and more. Create custom progressions, duplicate presets, and use tap tempo for practice.
 
 </td>
 <td width="50%">
 
 ### 🎼 Scale Overlay
-Highlight notes from any of 7 scales (Major, Minor, Pentatonic Major/Minor, Blues, Dorian, Mixolydian) directly on the fretboard. Root notes shown with a distinct color.
+Highlight notes from any of 38 scales (Major, Natural/Harmonic/Melodic Minor, Pentatonic, Blues, modes, Bebop, Diminished, and more) directly on the fretboard. Filter by fret position and see the diatonic chords for each scale.
 
 ### ⭐ Favorites
 Long-press any voicing in the Chord Library to save it. Access your saved voicings from the dedicated Favorites tab.
@@ -122,14 +122,14 @@ Ukulele Companion is designed to be usable by everyone, including blind and visu
 
 | Component | Technology |
 |-----------|-----------|
-| Language | Kotlin 2.0 |
+| Language | Kotlin 2.3 |
 | UI | Jetpack Compose + Material 3 |
 | Architecture | ViewModel + StateFlow |
-| Audio | Android AudioTrack (sine wave synthesis) |
-
-| Persistence | SharedPreferences |
+| Audio | SoundPool with OGG ukulele samples |
+| Persistence | SharedPreferences + DataStore |
 | Serialization | Kotlinx Serialization |
 | Neural Inference | ONNX Runtime (SwiftF0 supervisor) |
+| Build | Gradle 9.3, AGP 9.0, Kotlin DSL |
 | Min SDK | 26 (Android 8.0) |
 | Target SDK | 35 |
 
@@ -139,7 +139,7 @@ Ukulele Companion is designed to be usable by everyone, including blind and visu
 
 ```
 com.baijum.ukufretboard
-├── audio/              # Sine wave tone generation, metronome, audio capture
+├── audio/              # SoundPool playback, metronome, audio capture
 │   ├── AudioCaptureEngine.kt
 │   ├── MetronomeEngine.kt
 │   └── ToneGenerator.kt
@@ -153,7 +153,7 @@ com.baijum.ukufretboard
 │   ├── Transpose, CapoCalculator, KeyDetector
 │   ├── ScalePracticeGenerator
 │   └── VoiceLeading, AchievementChecker
-├── ui/                 # Compose screens and components (30+ screens)
+├── ui/                 # Compose screens and components (50+ files)
 │   ├── FretboardScreen (main navigation)
 │   ├── Tabs: ChordLibrary, Favorites, Progressions, Songbook, Tuner
 │   ├── Views: CircleOfFifths, TheoryQuiz, EarTraining, PlayAlong
@@ -164,7 +164,7 @@ com.baijum.ukufretboard
 │   └── TunerViewModel, PitchMonitorViewModel
 ```
 
-> **132 Kotlin source files** across 6 packages — a well-organized, single-module Android app.
+> **133 Kotlin source files** across 6 packages — a well-organized, single-module Android app.
 
 ---
 
@@ -276,7 +276,7 @@ Looking for a place to start? Here are some areas where contributions would be e
                     └──────────────┘     └─────────────┘
 ```
 
-- **UI layer**: 44 Compose files, single-activity architecture via `MainActivity`
+- **UI layer**: 51 Compose files, single-activity architecture via `MainActivity`
 - **ViewModel layer**: 11 ViewModels managing state with `StateFlow`
 - **Domain layer**: Pure Kotlin logic for chord detection, transposition, scales
 - **Data layer**: Repositories wrapping SharedPreferences, chord formulas, scale data
