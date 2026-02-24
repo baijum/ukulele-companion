@@ -2,7 +2,7 @@
 
 The Favorites section stores your saved chord voicings for quick access. You can organize them into folders for better management.
 
-![Favorites](screenshots/favorites-empty.png)
+![Favorites](screenshots/favorites.png)
 
 ## Saving a Favorite
 

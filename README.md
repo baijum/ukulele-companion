@@ -75,8 +75,18 @@ Theory lessons, ear training, interval trainer, circle of fifths, glossary, scal
   <img src="docs/screenshots/scale-overlay.png" width="30%" alt="Scale Overlay">
 </p>
 <p align="center">
+  <img src="docs/screenshots/tuner.png" width="30%" alt="Tuner">
+  <img src="docs/screenshots/metronome.png" width="30%" alt="Metronome">
+  <img src="docs/screenshots/pitch-monitor.png" width="30%" alt="Pitch Monitor">
+</p>
+<p align="center">
   <img src="docs/screenshots/strumming-patterns.png" width="30%" alt="Strumming Patterns">
   <img src="docs/screenshots/chord-progressions.png" width="30%" alt="Chord Progressions">
+  <img src="docs/screenshots/melody-notepad.png" width="30%" alt="Melody Notepad">
+</p>
+<p align="center">
+  <img src="docs/screenshots/favorites.png" width="30%" alt="Favorites">
+  <img src="docs/screenshots/songs.png" width="30%" alt="Songs">
   <img src="docs/screenshots/circle-of-fifths.png" width="30%" alt="Circle of Fifths">
 </p>
 <p align="center">

@@ -2,7 +2,7 @@
 
 The Songs section is your personal songbook. Create chord sheets with lyrics and inline chord markers, then use them as a reference while playing.
 
-![Songs list](screenshots/songs-list.png)
+![Songs list](screenshots/songs.png)
 
 ## Creating a Chord Sheet
 

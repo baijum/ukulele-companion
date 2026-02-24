@@ -54,6 +54,26 @@ Welcome to **Ukulele Companion**, a free, offline, ad-free Android app for learn
     <p>Real-time play-along with chord detection and chord transition animation.</p>
   </a>
 
+  <a href="11-tuner/" class="manual-card">
+    <h3>Tuner</h3>
+    <p>Chromatic tuner with needle meter, string buttons, and neural pitch detection.</p>
+  </a>
+
+  <a href="12-pitch-monitor/" class="manual-card">
+    <h3>Pitch Monitor</h3>
+    <p>Real-time scrolling pitch visualization with chord detection.</p>
+  </a>
+
+  <a href="13-metronome/" class="manual-card">
+    <h3>Metronome</h3>
+    <p>Adjustable tempo, time signatures, accent patterns, and subdivisions.</p>
+  </a>
+
+  <a href="14-melody-notepad/" class="manual-card">
+    <h3>Melody Notepad</h3>
+    <p>Compose melodies by tapping notes or recording from your ukulele.</p>
+  </a>
+
 </div>
 
 ## Companion Book
