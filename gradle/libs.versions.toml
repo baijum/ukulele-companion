@@ -10,7 +10,7 @@ coreKtx = "1.17.0"
 kotlinxSerializationJson = "1.10.0"
 kotlinxSerialization = "2.3.10"
 reorderable = "3.0.0"
-onnxruntime = "1.23.2"
+onnxruntime = "1.24.2"
 playPublisher = "3.13.0"
 junit = "4.13.2"
 
