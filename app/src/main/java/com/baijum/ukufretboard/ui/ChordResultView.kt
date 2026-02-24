@@ -284,6 +284,16 @@ fun ChordResultView(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
 
+                // Alternate notation symbols
+                if (formula.aliases.isNotEmpty()) {
+                    val rootName = result.name.removeSuffix(formula.symbol)
+                    val aliasText = formula.aliases.joinToString(", ") { rootName + it }
+                    ChordInfoRow(
+                        label = stringResource(R.string.chord_result_also_written_as),
+                        value = aliasText,
+                    )
+                }
+
                 // Intervals
                 ChordInfoRow(
                     label = stringResource(R.string.chord_result_intervals),

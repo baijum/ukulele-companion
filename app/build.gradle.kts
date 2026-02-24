@@ -29,8 +29,8 @@ android {
         applicationId = "com.baijum.ukufretboard"
         minSdk = 26
         targetSdk = 35
-        versionCode = 83
-        versionName = "7.14.0"
+        versionCode = 84
+        versionName = "7.15.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

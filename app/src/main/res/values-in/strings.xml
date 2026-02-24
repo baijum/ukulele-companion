@@ -110,6 +110,7 @@
     <string name="chord_result_incomplete">Akor tidak lengkap</string>
     <string name="chord_result_no_match">Tidak ada akor yang cocok</string>
     <string name="chord_result_also">Juga: </string>
+    <string name="chord_result_also_written_as">Juga ditulis sebagai</string>
     <string name="chord_result_intervals">Interval</string>
     <string name="chord_result_formula">Formula</string>
     <string name="chord_result_fingering">Penjarian</string>

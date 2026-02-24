@@ -29,6 +29,13 @@ object ExplorerTips {
         "An interval is the distance between two notes. Learning to hear intervals is one of the most powerful ear-training skills.",
         "Transposing a song means shifting every note up or down by the same interval, changing the key without altering the melody.",
 
+        // ── Chord notation ──
+        "The \u00B0 symbol means diminished \u2014 Cdim and C\u00B0 are the same chord.",
+        "The + symbol means augmented \u2014 Caug and C+ are the same chord.",
+        "Major seventh chords can be written as maj7, M7, or with the triangle symbol \u03947 \u2014 they all mean the same thing.",
+        "Minor chords can be written as Cm, Cmin, or Cmi \u2014 different books and apps use different styles.",
+        "In some notation, a minus sign (\u2212) means minor \u2014 so C\u22127 is the same as Cm7.",
+
         // ── Practice & playing tips ──
         "When learning a new chord shape, play each string one at a time to make sure every note rings clearly.",
         "Practice chord transitions slowly at first — smooth changes at a slow tempo build muscle memory faster than rushing.",

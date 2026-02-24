@@ -119,6 +119,7 @@
     <string name="chord_result_incomplete">Incomplete chord</string>
     <string name="chord_result_no_match">No exact chord match</string>
     <string name="chord_result_also">Also: </string>
+    <string name="chord_result_also_written_as">Also written as</string>
     <string name="chord_result_intervals">Intervals</string>
     <string name="chord_result_formula">Formula</string>
     <string name="chord_result_fingering">Fingering</string>

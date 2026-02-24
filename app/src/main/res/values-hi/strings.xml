@@ -110,6 +110,7 @@
     <string name="chord_result_incomplete">अपूर्ण कॉर्ड</string>
     <string name="chord_result_no_match">कोई सटीक कॉर्ड मेल नहीं</string>
     <string name="chord_result_also">अन्य: </string>
+    <string name="chord_result_also_written_as">इसे ऐसे भी लिखा जाता है</string>
     <string name="chord_result_intervals">इंटरवल</string>
     <string name="chord_result_formula">फॉर्मूला</string>
     <string name="chord_result_fingering">फिंगरिंग</string>

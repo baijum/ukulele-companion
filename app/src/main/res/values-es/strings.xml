@@ -110,6 +110,7 @@
     <string name="chord_result_incomplete">Acorde incompleto</string>
     <string name="chord_result_no_match">Sin coincidencia exacta de acorde</string>
     <string name="chord_result_also">También: </string>
+    <string name="chord_result_also_written_as">También escrito como</string>
     <string name="chord_result_intervals">Intervalos</string>
     <string name="chord_result_formula">Fórmula</string>
     <string name="chord_result_fingering">Digitación</string>

@@ -110,6 +110,7 @@
     <string name="chord_result_incomplete">불완전한 코드</string>
     <string name="chord_result_no_match">일치하는 코드가 없습니다</string>
     <string name="chord_result_also">다른 이름: </string>
+    <string name="chord_result_also_written_as">다른 표기법</string>
     <string name="chord_result_intervals">음정</string>
     <string name="chord_result_formula">구성음</string>
     <string name="chord_result_fingering">운지법</string>

@@ -110,6 +110,7 @@
     <string name="chord_result_incomplete">Eksik akor</string>
     <string name="chord_result_no_match">Tam eşleşme bulunamadı</string>
     <string name="chord_result_also">Ayrıca: </string>
+    <string name="chord_result_also_written_as">Şu şekilde de yazılır</string>
     <string name="chord_result_intervals">Aralıklar</string>
     <string name="chord_result_formula">Formül</string>
     <string name="chord_result_fingering">Parmak pozisyonu</string>
