@@ -25,7 +25,7 @@ Ukulele Companion is a **free, fully offline** Android app for learning and play
 | Serialization | kotlinx-serialization-json |
 | Audio ML | ONNX Runtime (neural pitch supervision) |
 
-| Build | Gradle 9.3.1, AGP 8.9.1, Kotlin DSL, version catalog (`libs.versions.toml`) |
+| Build | Gradle 9.3.1, AGP 9.0.1, Kotlin DSL, version catalog (`libs.versions.toml`) |
 
 ## Package Structure
 
