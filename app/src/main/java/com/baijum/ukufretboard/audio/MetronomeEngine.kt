@@ -6,11 +6,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
+/** The type of a beat in a metronome accent pattern. */
+enum class BeatType { ACCENT, NORMAL, MUTE }
+
 /**
- * A coroutine-based metronome engine that plays chord progressions at a steady tempo.
- *
- * The engine fires a callback on each beat, advancing to the next chord
- * after [beatsPerChord] beats. It loops continuously if [loop] is true.
+ * A coroutine-based metronome engine that supports both chord-progression playback
+ * and standalone metronome mode with subdivisions and accent patterns.
  *
  * This uses `delay()` for timing, which provides sufficient accuracy
  * for a practice metronome (within ~10ms precision).
@@ -72,6 +73,55 @@ class MetronomeEngine {
                     }
                 }
                 onBeat(chordIndex, beat)
+            }
+        }
+    }
+
+    /**
+     * Starts a standalone metronome with subdivision and accent pattern support.
+     *
+     * @param scope The coroutine scope to launch in.
+     * @param bpm Beats per minute (40–300).
+     * @param beatsPerMeasure Number of beats in each measure.
+     * @param subdivision Number of ticks per beat (1 = quarter, 2 = eighth, 3 = triplet, 4 = sixteenth).
+     * @param accentPattern [BeatType] for each beat in the measure. Size must equal [beatsPerMeasure].
+     * @param onTick Callback fired on each tick with (beat 0-based, subBeat 0-based, type).
+     *   On the main beat (subBeat == 0), type comes from [accentPattern].
+     *   On subdivision ticks (subBeat > 0), type is always [BeatType.NORMAL].
+     * @param onMeasure Callback fired at the start of each new measure with the measure count (1-based).
+     */
+    fun startMetronome(
+        scope: CoroutineScope,
+        bpm: Int,
+        beatsPerMeasure: Int,
+        subdivision: Int,
+        accentPattern: List<BeatType>,
+        onTick: (beat: Int, subBeat: Int, type: BeatType) -> Unit,
+        onMeasure: (measureCount: Int) -> Unit = {},
+    ) {
+        stop()
+
+        val tickDurationMs = 60_000L / (bpm.coerceIn(30, 300).toLong() * subdivision.coerceIn(1, 4))
+
+        job = scope.launch {
+            var measureCount = 1
+            onMeasure(measureCount)
+
+            while (isActive) {
+                for (beat in 0 until beatsPerMeasure) {
+                    for (sub in 0 until subdivision) {
+                        if (!isActive) return@launch
+                        val type = if (sub == 0) {
+                            accentPattern.getOrElse(beat) { BeatType.NORMAL }
+                        } else {
+                            BeatType.NORMAL
+                        }
+                        onTick(beat, sub, type)
+                        delay(tickDurationMs)
+                    }
+                }
+                measureCount++
+                onMeasure(measureCount)
             }
         }
     }

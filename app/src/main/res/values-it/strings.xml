@@ -59,6 +59,7 @@
     <string name="nav_explorer">Esploratore</string>
     <string name="nav_tuner">Accordatore</string>
     <string name="nav_pitch_monitor">Monitor tonale</string>
+    <string name="nav_metronome">Metronomo</string>
     <string name="nav_chords">Accordi</string>
     <string name="nav_favorites">Preferiti</string>
     <string name="nav_songs">Brani</string>
@@ -853,4 +854,18 @@
     <string name="settings_show_reference_section">Mostra sezione Riferimento</string>
     <string name="cd_collapse_section">Comprimi %s</string>
     <string name="cd_expand_section">Espandi %s</string>
+    <string name="metronome_bpm">BPM</string>
+    <string name="metronome_decrease_bpm">Diminuisci il tempo</string>
+    <string name="metronome_increase_bpm">Aumenta il tempo</string>
+    <string name="metronome_time_signature">Tempo in chiave</string>
+    <string name="metronome_accent_pattern">Schema di accenti</string>
+    <string name="metronome_tap_to_change">Tocca un battito per cambiare l\'accento</string>
+    <string name="metronome_subdivision">Suddivisione</string>
+    <string name="metronome_quarter">Semiminima</string>
+    <string name="metronome_eighth">Croma</string>
+    <string name="metronome_triplet">Terzina</string>
+    <string name="metronome_sixteenth">Semicroma</string>
+    <string name="cd_start_metronome">Avvia metronomo</string>
+    <string name="cd_stop_metronome">Ferma metronomo</string>
+    <string name="metronome_measure_count">Misura: %1$d</string>
 </resources>

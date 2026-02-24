@@ -59,6 +59,7 @@
     <string name="nav_explorer">探索器</string>
     <string name="nav_tuner">调音器</string>
     <string name="nav_pitch_monitor">音高监测</string>
+    <string name="nav_metronome">节拍器</string>
     <string name="nav_chords">和弦</string>
     <string name="nav_favorites">收藏</string>
     <string name="nav_songs">歌曲</string>
@@ -855,4 +856,18 @@
     <string name="settings_show_reference_section">显示参考部分</string>
     <string name="cd_collapse_section">折叠%s</string>
     <string name="cd_expand_section">展开%s</string>
+    <string name="metronome_bpm">BPM</string>
+    <string name="metronome_decrease_bpm">降低速度</string>
+    <string name="metronome_increase_bpm">提高速度</string>
+    <string name="metronome_time_signature">拍号</string>
+    <string name="metronome_accent_pattern">重音模式</string>
+    <string name="metronome_tap_to_change">点击节拍切换重音</string>
+    <string name="metronome_subdivision">细分</string>
+    <string name="metronome_quarter">四分</string>
+    <string name="metronome_eighth">八分</string>
+    <string name="metronome_triplet">三连</string>
+    <string name="metronome_sixteenth">十六分</string>
+    <string name="cd_start_metronome">启动节拍器</string>
+    <string name="cd_stop_metronome">停止节拍器</string>
+    <string name="metronome_measure_count">小节：%1$d</string>
 </resources>

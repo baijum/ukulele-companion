@@ -59,6 +59,7 @@
     <string name="nav_explorer">탐색기</string>
     <string name="nav_tuner">튜너</string>
     <string name="nav_pitch_monitor">피치 모니터</string>
+    <string name="nav_metronome">메트로놈</string>
     <string name="nav_chords">코드</string>
     <string name="nav_favorites">즐겨찾기</string>
     <string name="nav_songs">곡</string>
@@ -855,4 +856,18 @@
     <string name="settings_show_reference_section">참고 섹션 표시</string>
     <string name="cd_collapse_section">%s 접기</string>
     <string name="cd_expand_section">%s 펼치기</string>
+    <string name="metronome_bpm">BPM</string>
+    <string name="metronome_decrease_bpm">템포 감소</string>
+    <string name="metronome_increase_bpm">템포 증가</string>
+    <string name="metronome_time_signature">박자</string>
+    <string name="metronome_accent_pattern">강세 패턴</string>
+    <string name="metronome_tap_to_change">박자를 탭하여 강세 변경</string>
+    <string name="metronome_subdivision">세분화</string>
+    <string name="metronome_quarter">4분음표</string>
+    <string name="metronome_eighth">8분음표</string>
+    <string name="metronome_triplet">셋잇단</string>
+    <string name="metronome_sixteenth">16분음표</string>
+    <string name="cd_start_metronome">메트로놈 시작</string>
+    <string name="cd_stop_metronome">메트로놈 정지</string>
+    <string name="metronome_measure_count">마디: %1$d</string>
 </resources>

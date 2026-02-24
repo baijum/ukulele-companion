@@ -36,6 +36,7 @@ import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Fullscreen
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -100,6 +101,7 @@ import com.baijum.ukufretboard.viewmodel.TunerViewModel
 import com.baijum.ukufretboard.viewmodel.PitchMonitorViewModel
 import com.baijum.ukufretboard.viewmodel.LearningProgressViewModel
 import com.baijum.ukufretboard.viewmodel.MelodyViewModel
+import com.baijum.ukufretboard.viewmodel.MetronomeViewModel
 import com.baijum.ukufretboard.viewmodel.ScalePracticeViewModel
 
 /** Navigation section indices. */
@@ -132,6 +134,7 @@ private const val NAV_DAILY_CHALLENGE = 26
 
 private const val NAV_PRACTICE_ROUTINE = 28
 private const val NAV_PLAY_ALONG = 29
+private const val NAV_METRONOME = 30
 
 /**
  * Drawer navigation item metadata.
@@ -157,6 +160,7 @@ private fun drawerSections(): List<DrawerSection> = listOf(
         DrawerItem(NAV_EXPLORER, stringResource(R.string.nav_explorer), Icons.Filled.Home),
         DrawerItem(NAV_TUNER, stringResource(R.string.nav_tuner), Icons.Filled.Mic),
         DrawerItem(NAV_PITCH_MONITOR, stringResource(R.string.nav_pitch_monitor), Icons.Filled.Equalizer),
+        DrawerItem(NAV_METRONOME, stringResource(R.string.nav_metronome), Icons.Filled.Speed),
         DrawerItem(NAV_LIBRARY, stringResource(R.string.nav_chords), Icons.Filled.Search),
         DrawerItem(NAV_FAVORITES, stringResource(R.string.nav_favorites), Icons.Filled.Favorite),
     )),
@@ -223,6 +227,7 @@ fun FretboardScreen(
     learningProgressViewModel: LearningProgressViewModel = viewModel(),
     scalePracticeViewModel: ScalePracticeViewModel = viewModel(),
     melodyViewModel: MelodyViewModel = viewModel(),
+    metronomeViewModel: MetronomeViewModel = viewModel(),
 ) {
     var selectedSection by rememberSaveable { mutableIntStateOf(NAV_EXPLORER) }
     var previousSection by rememberSaveable { mutableStateOf<Int?>(null) }
@@ -526,6 +531,9 @@ fun FretboardScreen(
                     )
                     NAV_PITCH_MONITOR -> PitchMonitorTab(
                         viewModel = pitchMonitorViewModel,
+                    )
+                    NAV_METRONOME -> MetronomeTab(
+                        viewModel = metronomeViewModel,
                     )
                     NAV_LIBRARY -> ChordLibraryTab(
                         viewModel = libraryViewModel,

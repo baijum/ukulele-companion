@@ -59,6 +59,7 @@
     <string name="nav_explorer">एक्सप्लोरर</string>
     <string name="nav_tuner">ट्यूनर</string>
     <string name="nav_pitch_monitor">पिच मॉनिटर</string>
+    <string name="nav_metronome">मेट्रोनोम</string>
     <string name="nav_chords">कॉर्ड्स</string>
     <string name="nav_favorites">पसंदीदा</string>
     <string name="nav_songs">गाने</string>
@@ -855,4 +856,18 @@
     <string name="settings_show_reference_section">संदर्भ अनुभाग दिखाएं</string>
     <string name="cd_collapse_section">%s संकुचित करें</string>
     <string name="cd_expand_section">%s विस्तारित करें</string>
+    <string name="metronome_bpm">BPM</string>
+    <string name="metronome_decrease_bpm">गति कम करें</string>
+    <string name="metronome_increase_bpm">गति बढ़ाएं</string>
+    <string name="metronome_time_signature">ताल चिह्न</string>
+    <string name="metronome_accent_pattern">बल प्रारूप</string>
+    <string name="metronome_tap_to_change">बल बदलने के लिए बीट पर टैप करें</string>
+    <string name="metronome_subdivision">उपविभाजन</string>
+    <string name="metronome_quarter">चौथाई</string>
+    <string name="metronome_eighth">आठवीं</string>
+    <string name="metronome_triplet">तिहरा</string>
+    <string name="metronome_sixteenth">सोलहवीं</string>
+    <string name="cd_start_metronome">मेट्रोनोम शुरू करें</string>
+    <string name="cd_stop_metronome">मेट्रोनोम बंद करें</string>
+    <string name="metronome_measure_count">माप: %1$d</string>
 </resources>

@@ -59,6 +59,7 @@
     <string name="nav_explorer">Keşfet</string>
     <string name="nav_tuner">Akort</string>
     <string name="nav_pitch_monitor">Perde İzleyici</string>
+    <string name="nav_metronome">Metronom</string>
     <string name="nav_chords">Akorlar</string>
     <string name="nav_favorites">Favoriler</string>
     <string name="nav_songs">Şarkılar</string>
@@ -853,4 +854,18 @@
     <string name="settings_show_reference_section">Başvuru bölümünü göster</string>
     <string name="cd_collapse_section">%s daralt</string>
     <string name="cd_expand_section">%s genişlet</string>
+    <string name="metronome_bpm">BPM</string>
+    <string name="metronome_decrease_bpm">Tempoyu düşür</string>
+    <string name="metronome_increase_bpm">Tempoyu artır</string>
+    <string name="metronome_time_signature">Ölçü işareti</string>
+    <string name="metronome_accent_pattern">Vurgu deseni</string>
+    <string name="metronome_tap_to_change">Vurguyu değiştirmek için bir vuruşa dokunun</string>
+    <string name="metronome_subdivision">Alt bölüm</string>
+    <string name="metronome_quarter">Dörtlük</string>
+    <string name="metronome_eighth">Sekizlik</string>
+    <string name="metronome_triplet">Üçleme</string>
+    <string name="metronome_sixteenth">On altılık</string>
+    <string name="cd_start_metronome">Metronom başlat</string>
+    <string name="cd_stop_metronome">Metronom durdur</string>
+    <string name="metronome_measure_count">Ölçü: %1$d</string>
 </resources>

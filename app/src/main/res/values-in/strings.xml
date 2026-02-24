@@ -59,6 +59,7 @@
     <string name="nav_explorer">Penjelajah</string>
     <string name="nav_tuner">Tuner</string>
     <string name="nav_pitch_monitor">Monitor Nada</string>
+    <string name="nav_metronome">Metronom</string>
     <string name="nav_chords">Akor</string>
     <string name="nav_favorites">Favorit</string>
     <string name="nav_songs">Lagu</string>
@@ -853,4 +854,18 @@
     <string name="settings_show_reference_section">Tampilkan bagian Referensi</string>
     <string name="cd_collapse_section">Ciutkan %s</string>
     <string name="cd_expand_section">Perluas %s</string>
+    <string name="metronome_bpm">BPM</string>
+    <string name="metronome_decrease_bpm">Kurangi tempo</string>
+    <string name="metronome_increase_bpm">Tambah tempo</string>
+    <string name="metronome_time_signature">Tanda birama</string>
+    <string name="metronome_accent_pattern">Pola aksen</string>
+    <string name="metronome_tap_to_change">Ketuk ketukan untuk mengubah aksen</string>
+    <string name="metronome_subdivision">Subdivisi</string>
+    <string name="metronome_quarter">Seperempat</string>
+    <string name="metronome_eighth">Seperdelapan</string>
+    <string name="metronome_triplet">Triplet</string>
+    <string name="metronome_sixteenth">Seperenam belas</string>
+    <string name="cd_start_metronome">Mulai metronom</string>
+    <string name="cd_stop_metronome">Hentikan metronom</string>
+    <string name="metronome_measure_count">Birama: %1$d</string>
 </resources>

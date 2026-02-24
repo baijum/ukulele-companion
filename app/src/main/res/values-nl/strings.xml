@@ -59,6 +59,7 @@
     <string name="nav_explorer">Verkenner</string>
     <string name="nav_tuner">Stemapparaat</string>
     <string name="nav_pitch_monitor">Toonhoogtemonitor</string>
+    <string name="nav_metronome">Metronoom</string>
     <string name="nav_chords">Akkoorden</string>
     <string name="nav_favorites">Favorieten</string>
     <string name="nav_songs">Liedjes</string>
@@ -853,4 +854,18 @@
     <string name="settings_show_reference_section">Sectie Naslagwerk tonen</string>
     <string name="cd_collapse_section">%s inklappen</string>
     <string name="cd_expand_section">%s uitklappen</string>
+    <string name="metronome_bpm">BPM</string>
+    <string name="metronome_decrease_bpm">Tempo verlagen</string>
+    <string name="metronome_increase_bpm">Tempo verhogen</string>
+    <string name="metronome_time_signature">Maatsoort</string>
+    <string name="metronome_accent_pattern">Accentpatroon</string>
+    <string name="metronome_tap_to_change">Tik op een tel om het accent te wijzigen</string>
+    <string name="metronome_subdivision">Onderverdeling</string>
+    <string name="metronome_quarter">Kwartnoot</string>
+    <string name="metronome_eighth">Achtste noot</string>
+    <string name="metronome_triplet">Triool</string>
+    <string name="metronome_sixteenth">Zestiende noot</string>
+    <string name="cd_start_metronome">Metronoom starten</string>
+    <string name="cd_stop_metronome">Metronoom stoppen</string>
+    <string name="metronome_measure_count">Maat: %1$d</string>
 </resources>

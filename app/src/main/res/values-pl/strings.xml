@@ -59,6 +59,7 @@
     <string name="nav_explorer">Eksplorator</string>
     <string name="nav_tuner">Tuner</string>
     <string name="nav_pitch_monitor">Monitor wysokości</string>
+    <string name="nav_metronome">Metronom</string>
     <string name="nav_chords">Akordy</string>
     <string name="nav_favorites">Ulubione</string>
     <string name="nav_songs">Piosenki</string>
@@ -853,4 +854,18 @@
     <string name="settings_show_reference_section">Pokaż sekcję Materiały</string>
     <string name="cd_collapse_section">Zwiń %s</string>
     <string name="cd_expand_section">Rozwiń %s</string>
+    <string name="metronome_bpm">BPM</string>
+    <string name="metronome_decrease_bpm">Zmniejsz tempo</string>
+    <string name="metronome_increase_bpm">Zwiększ tempo</string>
+    <string name="metronome_time_signature">Metrum</string>
+    <string name="metronome_accent_pattern">Wzorzec akcentów</string>
+    <string name="metronome_tap_to_change">Dotknij uderzenia, aby zmienić akcent</string>
+    <string name="metronome_subdivision">Podział</string>
+    <string name="metronome_quarter">Ćwierćnuta</string>
+    <string name="metronome_eighth">Ósemka</string>
+    <string name="metronome_triplet">Triola</string>
+    <string name="metronome_sixteenth">Szesnastka</string>
+    <string name="cd_start_metronome">Uruchom metronom</string>
+    <string name="cd_stop_metronome">Zatrzymaj metronom</string>
+    <string name="metronome_measure_count">Takt: %1$d</string>
 </resources>
