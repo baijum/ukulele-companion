@@ -19,7 +19,7 @@ name = "overview"
 video = "clips/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
-min_clip_duration = 25
+min_clip_duration = 28
 recording_notes = """
 Navigate to Metronome via drawer. Show the full screen. Tap increase tempo a few times, then drag slider briefly. Tap play briefly (3s), then stop. Scroll screen slightly. Wait. Do NOT leave the Metronome screen.
 """
@@ -27,7 +27,8 @@ narration = """
 The Metronome is your built-in practice timekeeper. It runs \
 completely offline with no ads or distractions. You can set \
 any tempo from thirty to three hundred beats per minute, \
-choose your time signature, customize accent patterns, and \
+choose from simple and compound time signatures including \
+six-eight and twelve-eight, customize accent patterns, and \
 add subdivisions. It's designed to help you build rock-solid \
 rhythm for strumming and fingerpicking.
 """
@@ -38,6 +39,7 @@ video = "clips/02-bpm-control.mp4"
 audio = "audio/02-bpm-control.mp3"
 delay = 1.0
 min_clip_duration = 24
+
 recording_notes = """
 Stay on Metronome. Drag slider from left to right (~200,738 to 700,738). Tap decrease button (~432,591) 5 times with 1s gaps. Tap increase (~649,591) 3 times. Tap tap-tempo button (~540,886) 4 times at ~0.7s intervals. Wait.
 """
@@ -55,17 +57,21 @@ name = "time-signature"
 video = "clips/03-time-signature.mp4"
 audio = "audio/03-time-signature.mp3"
 delay = 1.0
-min_clip_duration = 24
+min_clip_duration = 31
 recording_notes = """
-Stay on Metronome. Tap through time signatures: 2/4, 3/4, 4/4, 5/4, 6/4, 7/4 with 3s between each. Return to 4/4. Wait.
+Stay on Metronome. Tap through time signatures: 3/4 (wait 2s), 4/4 (wait 2s), \
+7/4 (wait 2s -- notice FlowRow wrapping), then tap 6/8 (wait 3s -- notice \
+subdivision chips become disabled and only 2 beat circles show), then 12/8 \
+(wait 3s -- 4 beat circles, subdivision still locked to triplet). Return to 4/4. Wait.
 """
 narration = """
 Below the BPM slider, you'll find time signature chips. Choose \
-from common options like two-four, three-four, four-four, \
-five-four, six-four, and seven-four. The beat indicator circles \
-update to match your selection, showing exactly how many beats \
-are in each measure. This helps you practice songs in waltz \
-time, standard time, or any odd meter.
+from simple meters like three-four, four-four, or seven-four, and \
+the beat indicators update to match. For compound meters, select \
+six-eight or twelve-eight. Compound meters automatically lock the \
+subdivision to triplet and show only the main beats -- two circles \
+for six-eight and four for twelve-eight. This is perfect for \
+practicing jigs, slow blues, or any song with a lilting triplet feel.
 """
 
 [[scene]]
@@ -74,6 +80,7 @@ video = "clips/04-accent-patterns.mp4"
 audio = "audio/04-accent-patterns.mp3"
 delay = 1.0
 min_clip_duration = 24
+
 recording_notes = """
 Stay on Metronome, 4/4 selected. Tap beat 2 (~461,1459), beat 3 (~619,1459) twice to cycle to mute, beat 4 (~777,1459), beat 1 (~303,1459) twice. Show different accent states. Wait. Do NOT change time signature.
 """
@@ -91,16 +98,19 @@ name = "subdivisions-and-play"
 video = "clips/05-subdivisions-and-play.mp4"
 audio = "audio/05-subdivisions-and-play.mp3"
 delay = 1.0
-min_clip_duration = 29
+min_clip_duration = 33
 recording_notes = """
-Stay on Metronome. Tap Eighth (~460,1762), then Triplet (~670,1762), then 16th (~865,1762), then back to Quarter (~240,1762). Wait 2s. Tap play (~540,2003). Let it run 8s with beat indicators pulsing. Tap Eighth subdivision while playing. After 5 more seconds, stop (~540,2003). Wait.
+Stay on Metronome in 4/4. Tap Eighth, then Triplet, then 16th, then back to Quarter. \
+Wait 2s. Tap play. Let it run 8s with beat indicators pulsing. Tap Eighth subdivision \
+while playing. After 5 more seconds, stop. Wait.
 """
 narration = """
 Subdivision chips let you add clicks between the main beats. \
 Choose quarter notes for simple clicks, eighth notes for twice \
 as many, triplets for swing feel, or sixteenth notes for rapid \
-subdivisions. When you're ready, tap the play button and the \
-beat indicators pulse in time. The measure counter tracks your \
-practice session. Pair the Metronome with Chord Progressions \
-for a complete practice routine.
+subdivisions. Note that when a compound meter like six-eight is \
+selected, the subdivision is automatically locked to triplet. \
+Tap play and the beat indicators pulse in time. The measure \
+counter tracks your practice session. Pair the Metronome with \
+Chord Progressions for a complete practice routine.
 """
