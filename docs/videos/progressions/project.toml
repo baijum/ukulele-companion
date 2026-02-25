@@ -82,9 +82,11 @@ audio = "audio/04-practice-mode.mp3"
 delay = 1.0
 min_clip_duration = 25
 recording_notes = """
-Stay on Progressions with a card expanded. Look for a practice/play-along button (use uiautomator).
-Tap it. Let it run 8s showing chord highlighting. Adjust BPM if controls are visible.
-After 8s, stop. Wait. Do NOT navigate away.
+Stay on Progressions. Tap Practice button on the first card (~770,1325).
+Let it run 10s showing chord highlighting and diagrams.
+Tap the screen gently to keep frames alive. Wait until clip ends.
+Do NOT press back (may exit the app entirely).
+Do NOT open the drawer during practice mode.
 """
 narration = """
 Enter practice mode to play along with the progression at a \
@@ -102,9 +104,15 @@ audio = "audio/05-custom-and-voice-leading.mp3"
 delay = 1.0
 min_clip_duration = 27
 recording_notes = """
-Stay on Progressions. Look for custom progression creation button (use uiautomator). Tap it.
-Select a few chords. Wait 3s. Look for voice leading toggle. Tap it. Wait 3s.
-Scroll to show results. Wait. If custom creation is not easily found, just browse more preset progressions.
+Navigate to Progressions via drawer (do NOT press back -- it may exit the app).
+Show the progression list. Scroll down to browse more progressions.
+1. Tap a progression card to expand -- wait 3s
+2. Scroll down (swipe Y 1500->800) -- wait 3s
+3. Tap another card -- wait 3s
+4. Scroll further -- wait 3s
+5. Scroll back up -- wait 3s
+6. Wait until clip ends
+Do NOT press back. Do NOT open the drawer during recording.
 """
 narration = """
 Create your own custom progressions by selecting chords one by \

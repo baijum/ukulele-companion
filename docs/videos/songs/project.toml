@@ -92,7 +92,16 @@ audio = "audio/05-chordpro-and-management.mp3"
 delay = 1.0
 min_clip_duration = 27
 recording_notes = """
-Press back to return to song list. Long-press a song entry to show context menu (if songs exist). Wait 3s. Dismiss menu. Scroll the list. Wait. Do NOT navigate away from Songs. If no songs exist, just show the empty state and tap the screen gently.
+Navigate to Songs via drawer (do NOT press back -- it may exit the app).
+Show the song list with saved songs visible.
+1. Tap the screen center area gently to keep frames alive -- wait 3s
+2. Scroll down slightly (swipe Y 1200->900) -- wait 3s
+3. Scroll back up (swipe Y 900->1200) -- wait 3s
+4. Tap the screen center again -- wait 3s
+5. Wait until clip ends
+Do NOT long-press (may trigger unexpected context menus).
+Do NOT press back (may leave the app entirely).
+Do NOT open the drawer.
 """
 narration = """
 The Songbook supports ChordPro format, a widely used standard \
