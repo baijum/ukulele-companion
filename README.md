@@ -95,11 +95,11 @@ Theory lessons, ear training, interval trainer, circle of fifths, glossary, scal
   <img src="docs/screenshots/circle-of-fifths.png" width="30%" alt="Circle of Fifths">
 </p>
 <p align="center">
-  <a href="https://youtube.com/shorts/-RXPvWyTNIE">
-    <img src="https://img.youtube.com/vi/-RXPvWyTNIE/0.jpg" width="30%" alt="Watch demo video">
+  <a href="https://www.youtube.com/playlist?list=PL4GycHdD--uonaifRHrBvNU7ym5jAVs8c">
+    <img src="https://img.youtube.com/vi/-RXPvWyTNIE/0.jpg" width="30%" alt="Watch feature guide playlist">
   </a>
   <br>
-  <sub>Tap to watch the demo video</sub>
+  <sub>Watch the feature guide playlist</sub>
 </p>
 
 ### ⚙️ Settings

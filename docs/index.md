@@ -96,11 +96,11 @@ hide:
 ## See it in action
 
 <p align="center">
-  <a href="https://youtube.com/shorts/-RXPvWyTNIE">
-    <img src="https://img.youtube.com/vi/-RXPvWyTNIE/0.jpg" width="40%" alt="Watch the walkthrough video" style="border-radius: 12px;">
+  <a href="https://www.youtube.com/playlist?list=PL4GycHdD--uonaifRHrBvNU7ym5jAVs8c">
+    <img src="https://img.youtube.com/vi/-RXPvWyTNIE/0.jpg" width="40%" alt="Watch feature guide playlist" style="border-radius: 12px;">
   </a>
   <br>
-  <sub>Tap to watch a quick walkthrough of the app</sub>
+  <sub>Watch the feature guide playlist</sub>
 </p>
 
 <section class="cta-panel">
