@@ -487,37 +487,66 @@ private fun SheetViewer(
                     )
                 } else {
                     val chordColor = MaterialTheme.colorScheme.primary
-                    val annotated = buildAnnotatedString {
-                        segments.forEach { segment ->
-                            when (segment) {
-                                is ChordParser.TextSegment.PlainText -> {
-                                    append(segment.text)
-                                }
-                                is ChordParser.TextSegment.Chord -> {
-                                    val chordName = segment.name
-                                    withLink(
-                                        LinkAnnotation.Clickable(
-                                            tag = chordName,
-                                            styles = TextLinkStyles(
-                                                style = SpanStyle(
-                                                    color = chordColor,
-                                                    fontWeight = FontWeight.Bold,
-                                                ),
-                                            ),
-                                            linkInteractionListener = {
-                                                onChordTapped(chordName)
-                                            },
-                                        )
-                                    ) {
-                                        append(chordName)
-                                    }
-                                }
+                    val chordPositions = mutableListOf<Pair<Int, String>>()
+                    val lyricLine = StringBuilder()
+                    var hasChords = false
+
+                    segments.forEach { segment ->
+                        when (segment) {
+                            is ChordParser.TextSegment.PlainText -> {
+                                lyricLine.append(segment.text)
+                            }
+                            is ChordParser.TextSegment.Chord -> {
+                                hasChords = true
+                                chordPositions.add(lyricLine.length to segment.name)
                             }
                         }
                     }
 
+                    if (hasChords) {
+                        val chordLineStr = StringBuilder()
+                        chordPositions.forEach { (pos, name) ->
+                            while (chordLineStr.length < pos) chordLineStr.append(' ')
+                            chordLineStr.append(name)
+                        }
+
+                        val chordAnnotated = buildAnnotatedString {
+                            var cursor = 0
+                            chordPositions.forEach { (pos, name) ->
+                                if (pos > cursor) {
+                                    append(" ".repeat(pos - cursor))
+                                    cursor = pos
+                                }
+                                withLink(
+                                    LinkAnnotation.Clickable(
+                                        tag = name,
+                                        styles = TextLinkStyles(
+                                            style = SpanStyle(
+                                                color = chordColor,
+                                                fontWeight = FontWeight.Bold,
+                                            ),
+                                        ),
+                                        linkInteractionListener = {
+                                            onChordTapped(name)
+                                        },
+                                    )
+                                ) {
+                                    append(name)
+                                }
+                                cursor += name.length
+                            }
+                        }
+
+                        Text(
+                            text = chordAnnotated,
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontFamily = FontFamily.Monospace,
+                            ),
+                        )
+                    }
+
                     Text(
-                        text = annotated,
+                        text = lyricLine.toString(),
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontFamily = FontFamily.Monospace,
                             color = MaterialTheme.colorScheme.onSurface,
