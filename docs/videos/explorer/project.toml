@@ -1,0 +1,103 @@
+[project]
+title = "Explorer - Ukulele Companion"
+description = "A detailed walkthrough of the interactive fretboard Explorer"
+output = "../../feature-videos/explorer.mp4"
+resolution = "1080x2424"
+
+[branding]
+intro = "../../jingle-intro.wav"
+outro = "../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+# ── Scene 1: Empty Explorer ──────────────────────────────────
+[[scene]]
+name = "empty-explorer"
+video = "clips/01-empty-explorer.mp4"
+audio = "audio/01-empty-explorer.mp3"
+delay = 2.0
+narration = """
+The Explorer is the heart of Ukulele Companion. It's an interactive \
+fretboard where you tap fret positions and the app instantly tells \
+you what chord you're playing. Whether you're a complete beginner \
+or an experienced player exploring new voicings, this is where \
+you'll spend most of your time.
+"""
+
+# ── Scene 2: Build C Major Chord ─────────────────────────────
+[[scene]]
+name = "c-major-chord"
+video = "clips/02-c-major-chord.mp4"
+audio = "audio/02-c-major-chord.mp3"
+delay = 1.0
+narration = """
+Let's build a C major chord. Tap the open G string, then open C, \
+open E, and fret three on the A string. As soon as we have enough \
+notes, the app detects the chord and shows the name right below \
+the fretboard. You can also see the quality label and a play \
+button to hear the chord strummed.
+"""
+
+# ── Scene 3: Chord Detail Info ───────────────────────────────
+[[scene]]
+name = "chord-details"
+video = "clips/03-chord-details.mp4"
+audio = "audio/03-chord-details.mp3"
+delay = 1.0
+narration = """
+Scroll down and you'll find detailed music theory information. \
+The Also Written As section shows alternate symbols, like C M or \
+C maj, so you can recognize the same chord no matter how it's \
+written in different books or apps. Below that, you'll see the \
+interval breakdown, the formula, suggested fingering, difficulty \
+rating, and the inversion type.
+"""
+
+# ── Scene 4: Other Chords ────────────────────────────────────
+[[scene]]
+name = "other-chords"
+video = "clips/04-other-chords.mp4"
+audio = "audio/04-other-chords.mp3"
+delay = 1.0
+narration = """
+Let's try some other chords. Here's A minor, with just one finger \
+on fret two of the G string. And here's F major, a common chord \
+that uses three fingers. Each time, the app instantly updates the \
+detection result. The Explorer supports twenty chord types across \
+triads, sevenths, suspended, and extended chords.
+"""
+
+# ── Scene 5: Scale Overlay ───────────────────────────────────
+[[scene]]
+name = "scale-overlay"
+video = "clips/05-scale-overlay.mp4"
+audio = "audio/05-scale-overlay.mp3"
+delay = 1.0
+narration = """
+Now let's look at the Scale Overlay. Tap the Scales button and \
+select Major. The fretboard lights up with all the notes of the \
+C Major scale, with the root notes highlighted in a distinct color. \
+You can filter by position to focus on specific fret ranges, and \
+see which chords naturally belong to the key. The app supports \
+thirty-eight scales including modes, pentatonics, blues, and more.
+"""
+
+# ── Scene 6: Tips and Closing ────────────────────────────────
+[[scene]]
+name = "tips-and-closing"
+video = "clips/06-tips-and-closing.mp4"
+audio = "audio/06-tips-and-closing.mp3"
+delay = 1.0
+narration = """
+When no notes are selected, the Explorer shows beginner chord \
+suggestions and a rotating Did You Know section with tips about \
+ukulele history, music theory, and practice advice. Tap Next Tip \
+to cycle through them. The Explorer also includes a built-in capo \
+simulator and connects directly to the Chord Library and Scale \
+Practice features. It's your starting point for everything in \
+the app.
+"""
