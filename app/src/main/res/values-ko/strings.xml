@@ -871,4 +871,5 @@
     <string name="cd_start_metronome">메트로놈 시작</string>
     <string name="cd_stop_metronome">메트로놈 정지</string>
     <string name="metronome_measure_count">마디: %1$d</string>
+    <string name="metronome_compound_subdivision_locked">셋잇단 세분화는 박자표에 의해 설정됩니다</string>
 </resources>

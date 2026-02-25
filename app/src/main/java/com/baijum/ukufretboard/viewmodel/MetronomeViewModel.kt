@@ -45,18 +45,53 @@ class MetronomeViewModel(application: Application) : AndroidViewModel(applicatio
     private val _measureCount = MutableStateFlow(0)
     val measureCount: StateFlow<Int> = _measureCount.asStateFlow()
 
+    private val _isCompound = MutableStateFlow(false)
+    val isCompound: StateFlow<Boolean> = _isCompound.asStateFlow()
+
+    private val _timeSignatureLabel = MutableStateFlow("4/4")
+    val timeSignatureLabel: StateFlow<String> = _timeSignatureLabel.asStateFlow()
+
     fun setBpm(value: Int) {
         _bpm.value = value.coerceIn(30, 300)
         if (_isPlaying.value) restartEngine()
     }
 
+    fun setTimeSignature(label: String) {
+        _timeSignatureLabel.value = label
+        when (label) {
+            "6/8" -> {
+                _isCompound.value = true
+                _beatsPerMeasure.value = 2
+                _subdivision.value = 3
+                _accentPattern.value = defaultAccentPattern(2)
+            }
+            "12/8" -> {
+                _isCompound.value = true
+                _beatsPerMeasure.value = 4
+                _subdivision.value = 3
+                _accentPattern.value = defaultAccentPattern(4)
+            }
+            else -> {
+                _isCompound.value = false
+                val beats = label.substringBefore("/").toIntOrNull()?.coerceIn(2, 7) ?: 4
+                _beatsPerMeasure.value = beats
+                _subdivision.value = 1
+                _accentPattern.value = defaultAccentPattern(beats)
+            }
+        }
+        stop()
+    }
+
     fun setBeatsPerMeasure(value: Int) {
         _beatsPerMeasure.value = value.coerceIn(2, 7)
         _accentPattern.value = defaultAccentPattern(value)
+        _isCompound.value = false
+        _timeSignatureLabel.value = "$value/4"
         stop()
     }
 
     fun setSubdivision(value: Int) {
+        if (_isCompound.value) return
         _subdivision.value = value.coerceIn(1, 4)
         stop()
     }

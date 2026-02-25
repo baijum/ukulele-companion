@@ -867,4 +867,5 @@
     <string name="cd_start_metronome">Démarrer le métronome</string>
     <string name="cd_stop_metronome">Arrêter le métronome</string>
     <string name="metronome_measure_count">Mesure : %1$d</string>
+    <string name="metronome_compound_subdivision_locked">La subdivision en triolet est définie par la mesure</string>
 </resources>

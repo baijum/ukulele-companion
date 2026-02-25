@@ -871,4 +871,5 @@
     <string name="cd_start_metronome">Metronom starten</string>
     <string name="cd_stop_metronome">Metronom stoppen</string>
     <string name="metronome_measure_count">Takt: %1$d</string>
+    <string name="metronome_compound_subdivision_locked">Triolenunterteilung wird durch die Taktart bestimmt</string>
 </resources>

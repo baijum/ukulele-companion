@@ -871,4 +871,5 @@
     <string name="cd_start_metronome">メトロノーム開始</string>
     <string name="cd_stop_metronome">メトロノーム停止</string>
     <string name="metronome_measure_count">小節: %1$d</string>
+    <string name="metronome_compound_subdivision_locked">3連符の分割は拍子記号により設定されています</string>
 </resources>

@@ -876,6 +876,7 @@
     <string name="cd_start_metronome">Start metronome</string>
     <string name="cd_stop_metronome">Stop metronome</string>
     <string name="metronome_measure_count">Measure: %1$d</string>
+    <string name="metronome_compound_subdivision_locked">Triplet subdivision is set by the time signature</string>
 
     <!-- ── Full Screen Fretboard ────────────────────────────────────── -->
     <string name="full_screen_reset">Reset</string>

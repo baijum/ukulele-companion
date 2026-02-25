@@ -871,4 +871,5 @@
     <string name="cd_start_metronome">بدء المسرع</string>
     <string name="cd_stop_metronome">إيقاف المسرع</string>
     <string name="metronome_measure_count">المازورة: %1$d</string>
+    <string name="metronome_compound_subdivision_locked">تقسيم ثلاثي محدد بواسطة الميزان</string>
 </resources>

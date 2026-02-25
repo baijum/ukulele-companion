@@ -73,6 +73,8 @@ fun MetronomeTab(
     val isPlaying by viewModel.isPlaying.collectAsState()
     val currentBeat by viewModel.currentBeat.collectAsState()
     val measureCount by viewModel.measureCount.collectAsState()
+    val isCompound by viewModel.isCompound.collectAsState()
+    val timeSignatureLabel by viewModel.timeSignatureLabel.collectAsState()
 
     Column(
         modifier = modifier
@@ -143,14 +145,15 @@ fun MetronomeTab(
         )
         Spacer(modifier = Modifier.height(8.dp))
 
+        val timeSignatures = listOf("2/4", "3/4", "4/4", "5/4", "6/4", "7/4", "6/8", "12/8")
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            for (beats in 2..7) {
+            timeSignatures.forEach { label ->
                 FilterChip(
-                    selected = beatsPerMeasure == beats,
-                    onClick = { viewModel.setBeatsPerMeasure(beats) },
-                    label = { Text("$beats/4") },
+                    selected = timeSignatureLabel == label,
+                    onClick = { viewModel.setTimeSignature(label) },
+                    label = { Text(label) },
                 )
             }
         }
@@ -171,9 +174,9 @@ fun MetronomeTab(
         )
         Spacer(modifier = Modifier.height(12.dp))
 
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
             accentPattern.forEachIndexed { index, type ->
                 BeatIndicator(
@@ -209,9 +212,18 @@ fun MetronomeTab(
                 FilterChip(
                     selected = subdivision == value,
                     onClick = { viewModel.setSubdivision(value) },
+                    enabled = !isCompound,
                     label = { Text(label) },
                 )
             }
+        }
+        if (isCompound) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = stringResource(R.string.metronome_compound_subdivision_locked),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
 
         Spacer(modifier = Modifier.height(32.dp))
