@@ -20,6 +20,7 @@ name = "empty-explorer"
 video = "clips/01-empty-explorer.mp4"
 audio = "audio/01-empty-explorer.mp3"
 delay = 2.0
+min_clip_duration = 23
 narration = """
 The Explorer is the heart of Ukulele Companion. It's an interactive \
 fretboard where you tap fret positions and the app instantly tells \
@@ -34,6 +35,7 @@ name = "c-major-chord"
 video = "clips/02-c-major-chord.mp4"
 audio = "audio/02-c-major-chord.mp3"
 delay = 1.0
+min_clip_duration = 22
 narration = """
 Let's build a C major chord. Tap the open G string, then open C, \
 open E, and fret three on the A string. As soon as we have enough \
@@ -48,6 +50,7 @@ name = "chord-details"
 video = "clips/03-chord-details.mp4"
 audio = "audio/03-chord-details.mp3"
 delay = 1.0
+min_clip_duration = 26
 narration = """
 Scroll down and you'll find detailed music theory information. \
 The Also Written As section shows alternate symbols, like C M or \
@@ -63,6 +66,7 @@ name = "other-chords"
 video = "clips/04-other-chords.mp4"
 audio = "audio/04-other-chords.mp3"
 delay = 1.0
+min_clip_duration = 23
 narration = """
 Let's try some other chords. Here's A minor, with just one finger \
 on fret two of the G string. And here's F major, a common chord \
@@ -77,6 +81,7 @@ name = "scale-overlay"
 video = "clips/05-scale-overlay.mp4"
 audio = "audio/05-scale-overlay.mp3"
 delay = 1.0
+min_clip_duration = 28
 narration = """
 Now let's look at the Scale Overlay. Tap the Scales button and \
 select Major. The fretboard lights up with all the notes of the \
@@ -92,6 +97,7 @@ name = "tips-and-closing"
 video = "clips/06-tips-and-closing.mp4"
 audio = "audio/06-tips-and-closing.mp3"
 delay = 1.0
+min_clip_duration = 28
 narration = """
 When no notes are selected, the Explorer shows beginner chord \
 suggestions and a rotating Did You Know section with tips about \
