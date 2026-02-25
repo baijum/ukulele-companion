@@ -1,0 +1,74 @@
+[project]
+title = "Pitch Monitor - Ukulele Companion"
+description = "Real-time scrolling pitch visualization for checking intonation"
+output = "../../feature-videos/pitch-monitor.mp4"
+resolution = "1080x2424"
+
+[branding]
+intro = "../../jingle-intro.wav"
+outro = "../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+[[scene]]
+name = "overview"
+video = "clips/01-overview.mp4"
+audio = "audio/01-overview.mp3"
+delay = 2.0
+min_clip_duration = 20
+narration = """
+The Pitch Monitor gives you a real-time scrolling view of your \
+pitch as you play. Think of it as a piano roll that draws your \
+notes over time. It's perfect for checking intonation, practicing \
+scales, and seeing how steady your pitch is across different \
+fret positions.
+"""
+
+[[scene]]
+name = "canvas-display"
+video = "clips/02-canvas-display.mp4"
+audio = "audio/02-canvas-display.mp3"
+delay = 1.0
+min_clip_duration = 24
+narration = """
+The main display is a dark scrolling canvas. The vertical axis \
+shows note names from C three to C six, covering the full ukulele \
+range. Gold horizontal lines mark natural notes, and red lines \
+mark C notes for octave reference. As time passes, the canvas \
+scrolls from right to left, showing about eight seconds of \
+history at a time.
+"""
+
+[[scene]]
+name = "pitch-trace"
+video = "clips/03-pitch-trace.mp4"
+audio = "audio/03-pitch-trace.mp3"
+delay = 1.0
+min_clip_duration = 25
+narration = """
+When you tap Start and play a note, a blue trace line appears \
+connecting the detected pitch points over time. This shows your \
+pitch trajectory, so you can see if you're hitting notes cleanly \
+or wobbling between positions. Amber glow bands show the \
+chromagram energy, highlighting which pitch classes are ringing \
+strongest at any moment.
+"""
+
+[[scene]]
+name = "chord-detection-and-tips"
+video = "clips/04-chord-detection-and-tips.mp4"
+audio = "audio/04-chord-detection-and-tips.mp3"
+delay = 1.0
+min_clip_duration = 26
+narration = """
+As you play multiple notes, the Pitch Monitor collects them and \
+identifies chords. The chord name appears prominently above the \
+canvas. If notes are played one at a time rather than together, \
+an arpeggio label appears. Use the Pitch Monitor alongside the \
+Tuner to develop accurate fretting, or pair it with Scale Practice \
+to check your melodic accuracy across the fretboard.
+"""

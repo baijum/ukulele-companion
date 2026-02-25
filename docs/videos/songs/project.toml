@@ -1,0 +1,89 @@
+[project]
+title = "Songbook - Ukulele Companion"
+description = "Create, store, and transpose songs with inline chord annotations"
+output = "../../feature-videos/songs.mp4"
+resolution = "1080x2424"
+
+[branding]
+intro = "../../jingle-intro.wav"
+outro = "../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+[[scene]]
+name = "overview"
+video = "clips/01-overview.mp4"
+audio = "audio/01-overview.mp3"
+delay = 2.0
+min_clip_duration = 23
+narration = """
+The Songbook is your personal collection of songs with chord \
+annotations. Create lead sheets right on your phone, complete \
+with lyrics, chord names above the words, and section markers. \
+Everything is stored offline so your songs are always available, \
+whether you're at a jam session or practicing at home.
+"""
+
+[[scene]]
+name = "creating-a-song"
+video = "clips/02-creating-a-song.mp4"
+audio = "audio/02-creating-a-song.mp3"
+delay = 1.0
+min_clip_duration = 23
+narration = """
+Tap the plus button to start a new song. Give it a title and \
+optionally set the artist and key. The editor opens with a \
+blank canvas where you type your lyrics line by line. The \
+interface is designed to be simple, letting you focus on the \
+content rather than formatting. Songs are automatically saved \
+as you type.
+"""
+
+[[scene]]
+name = "inline-chords"
+video = "clips/03-inline-chords.mp4"
+audio = "audio/03-inline-chords.mp3"
+delay = 1.0
+min_clip_duration = 24
+narration = """
+To add chords, use square bracket notation. Type an opening \
+bracket, the chord name, and a closing bracket directly in \
+your lyrics. For example, bracket C bracket means a C major \
+chord at that position. The viewer renders chords above the \
+lyrics in a contrasting color, creating a clean lead sheet \
+that's easy to read while playing.
+"""
+
+[[scene]]
+name = "transpose-and-key"
+video = "clips/04-transpose-and-key.mp4"
+audio = "audio/04-transpose-and-key.mp3"
+delay = 1.0
+min_clip_duration = 24
+narration = """
+Need the song in a different key? The transpose controls let \
+you shift all chords up or down by any number of semitones with \
+one tap. The key detection feature analyzes the chords in your \
+song and suggests the likely musical key. This is helpful when \
+you're transcribing a song by ear and want to confirm the key \
+before sharing your chart.
+"""
+
+[[scene]]
+name = "chordpro-and-management"
+video = "clips/05-chordpro-and-management.mp4"
+audio = "audio/05-chordpro-and-management.mp3"
+delay = 1.0
+min_clip_duration = 27
+narration = """
+The Songbook supports ChordPro format, a widely used standard \
+for chord charts. Import existing ChordPro files or export your \
+songs to share with others. The song list shows all your entries \
+with titles and keys at a glance. Long press any song to rename, \
+delete, or duplicate it. Combine the Songbook with Chord \
+Progressions to build a complete practice and performance toolkit.
+"""

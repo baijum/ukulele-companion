@@ -1,0 +1,90 @@
+[project]
+title = "Strumming Patterns - Ukulele Companion"
+description = "Learn and practice strumming and fingerpicking patterns with animated playback"
+output = "../../feature-videos/patterns.mp4"
+resolution = "1080x2424"
+
+[branding]
+intro = "../../jingle-intro.wav"
+outro = "../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+[[scene]]
+name = "overview"
+video = "clips/01-overview.mp4"
+audio = "audio/01-overview.mp3"
+delay = 2.0
+min_clip_duration = 24
+narration = """
+Strumming Patterns is your guide to ukulele rhythm techniques. \
+It includes a curated collection of strumming and fingerpicking \
+patterns that cover everything from basic down-up strums to \
+syncopated island-style rhythms. Each pattern is displayed as \
+an animated notation so you can see and hear exactly how to \
+play it.
+"""
+
+[[scene]]
+name = "pattern-list"
+video = "clips/02-pattern-list.mp4"
+audio = "audio/02-pattern-list.mp3"
+delay = 1.0
+min_clip_duration = 24
+narration = """
+The main screen shows a scrollable list of patterns organized \
+by difficulty and style. Each entry shows the pattern name and \
+a compact notation preview. Patterns range from simple \
+quarter-note downstrokes to complex calypso and reggae \
+rhythms. Tap any pattern to open the detail view where you \
+can study and practice it at your own pace.
+"""
+
+[[scene]]
+name = "pattern-detail"
+video = "clips/03-pattern-detail.mp4"
+audio = "audio/03-pattern-detail.mp3"
+delay = 1.0
+min_clip_duration = 24
+narration = """
+The detail view shows the pattern as a row of arrows and \
+symbols. Down arrows represent downstrokes, up arrows are \
+upstrokes, and dots indicate muted ghost strums. Below the \
+notation you'll find a description of the pattern's style \
+and suggested songs where it works well. This context helps \
+you connect the pattern to real music.
+"""
+
+[[scene]]
+name = "fingerpicking"
+video = "clips/04-fingerpicking.mp4"
+audio = "audio/04-fingerpicking.mp3"
+delay = 1.0
+min_clip_duration = 26
+narration = """
+Fingerpicking patterns use a different notation showing which \
+string to pluck on each beat. The thumb handles the fourth and \
+third strings while the index, middle, and ring fingers cover \
+the upper strings. Patterns like Travis picking and arpeggios \
+are included, each with string-by-string breakdowns that make \
+complex fingerstyle techniques approachable for beginners.
+"""
+
+[[scene]]
+name = "playback-and-practice"
+video = "clips/05-playback-and-practice.mp4"
+audio = "audio/05-playback-and-practice.mp3"
+delay = 1.0
+min_clip_duration = 26
+narration = """
+Tap the play button to hear the pattern with ukulele samples \
+at the current tempo. The notation highlights each beat as it \
+plays, so you can follow along visually. Adjust the speed with \
+the BPM control to start slow and gradually build up to full \
+tempo. Combine Strumming Patterns with the Metronome and Chord \
+Progressions for a structured rhythm practice session.
+"""

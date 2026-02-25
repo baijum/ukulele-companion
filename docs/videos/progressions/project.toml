@@ -1,0 +1,91 @@
+[project]
+title = "Chord Progressions - Ukulele Companion"
+description = "Practice common progressions with playback, custom sequences, and voice leading"
+output = "../../feature-videos/progressions.mp4"
+resolution = "1080x2424"
+
+[branding]
+intro = "../../jingle-intro.wav"
+outro = "../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+[[scene]]
+name = "overview"
+video = "clips/01-overview.mp4"
+audio = "audio/01-overview.mp3"
+delay = 2.0
+min_clip_duration = 25
+narration = """
+Chord Progressions helps you practice the most common chord \
+sequences used in popular music. Browse progressions organized \
+by mode, from major and minor to Dorian, Mixolydian, and beyond. \
+Each progression includes Roman numeral analysis and translates \
+instantly to any key, so you can practice the same pattern \
+across the fretboard.
+"""
+
+[[scene]]
+name = "modes-and-browsing"
+video = "clips/02-modes-and-browsing.mp4"
+audio = "audio/02-modes-and-browsing.mp3"
+delay = 1.0
+min_clip_duration = 25
+narration = """
+The mode selector at the top lets you filter progressions by \
+musical mode. Major mode shows classics like the one-five-six-four \
+and the twelve-bar blues. Minor mode features progressions common \
+in ballads and rock. Modal options like Dorian and Mixolydian \
+unlock jazz and folk progressions. Select a key below the mode \
+to transpose everything at once.
+"""
+
+[[scene]]
+name = "progression-cards"
+video = "clips/03-progression-cards.mp4"
+audio = "audio/03-progression-cards.mp3"
+delay = 1.0
+min_clip_duration = 23
+narration = """
+Each progression appears as a card showing the Roman numeral \
+sequence and the corresponding chord names in your selected key. \
+Tap a card to expand it and see chord diagrams for each position. \
+The play button plays through the entire progression with \
+ukulele samples, giving you an audio preview before you pick \
+up your instrument.
+"""
+
+[[scene]]
+name = "practice-mode"
+video = "clips/04-practice-mode.mp4"
+audio = "audio/04-practice-mode.mp3"
+delay = 1.0
+min_clip_duration = 25
+narration = """
+Enter practice mode to play along with the progression at a \
+set tempo. The current chord is highlighted and advances \
+automatically on each beat. You can adjust the beats per chord \
+and overall BPM to match your skill level. Start slow and \
+increase the speed as your chord changes become smoother. The \
+metronome clicks keep you locked in time.
+"""
+
+[[scene]]
+name = "custom-and-voice-leading"
+video = "clips/05-custom-and-voice-leading.mp4"
+audio = "audio/05-custom-and-voice-leading.mp3"
+delay = 1.0
+min_clip_duration = 27
+narration = """
+Create your own custom progressions by selecting chords one by \
+one. The voice leading feature suggests voicings that minimize \
+finger movement between chords, making transitions smooth and \
+musical. Save your custom progressions for future practice \
+sessions. Combine Chord Progressions with the Metronome and \
+Strumming Patterns to build a complete, structured practice \
+routine.
+"""

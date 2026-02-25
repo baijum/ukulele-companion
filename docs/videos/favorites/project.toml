@@ -1,0 +1,74 @@
+[project]
+title = "Favorites - Ukulele Companion"
+description = "Save, organize, and quickly recall your go-to chord voicings"
+output = "../../feature-videos/favorites.mp4"
+resolution = "1080x2424"
+
+[branding]
+intro = "../../jingle-intro.wav"
+outro = "../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+[[scene]]
+name = "overview"
+video = "clips/01-overview.mp4"
+audio = "audio/01-overview.mp3"
+delay = 2.0
+min_clip_duration = 23
+narration = """
+Favorites is where you keep your go-to chord voicings for \
+instant access. Instead of searching the full Chord Library \
+every time, save the shapes you use most and find them in one \
+tap. It's especially handy when you're learning a new song and \
+want to bookmark the exact voicings that work best together.
+"""
+
+[[scene]]
+name = "saving-voicings"
+video = "clips/02-saving-voicings.mp4"
+audio = "audio/02-saving-voicings.mp3"
+delay = 1.0
+min_clip_duration = 24
+narration = """
+To save a voicing, open the Chord Library, find a shape you \
+like, and tap the heart icon on the card. A filled heart means \
+it's saved. You can also save voicings directly from the \
+Explorer when the chord detector identifies what you're playing. \
+Every saved voicing keeps its diagram, fret positions, and \
+note information intact.
+"""
+
+[[scene]]
+name = "browsing-and-playback"
+video = "clips/03-browsing-and-playback.mp4"
+audio = "audio/03-browsing-and-playback.mp3"
+delay = 1.0
+min_clip_duration = 25
+narration = """
+Open the Favorites screen to see all your saved voicings in a \
+scrollable grid. Each card shows the chord name and diagram at \
+a glance. Tap any card to hear the chord played back, just like \
+in the Chord Library. This makes Favorites a quick way to \
+audition several voicings when building a chord progression or \
+choosing substitutions for a song.
+"""
+
+[[scene]]
+name = "managing-favorites"
+video = "clips/04-managing-favorites.mp4"
+audio = "audio/04-managing-favorites.mp3"
+delay = 1.0
+min_clip_duration = 26
+narration = """
+To remove a voicing, tap the heart icon again and it returns to \
+unfilled, clearing it from the list. Your favorites are stored \
+locally on the device and persist across app restarts. They're \
+also included in the backup and restore feature, so you won't \
+lose them if you switch phones. Pair Favorites with the Songbook \
+to create a personalized chord sheet workflow.
+"""

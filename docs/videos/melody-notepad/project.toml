@@ -1,0 +1,89 @@
+[project]
+title = "Melody Notepad - Ukulele Companion"
+description = "Capture melodies by tapping the fretboard or recording from the microphone"
+output = "../../feature-videos/melody-notepad.mp4"
+resolution = "1080x2424"
+
+[branding]
+intro = "../../jingle-intro.wav"
+outro = "../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+[[scene]]
+name = "overview"
+video = "clips/01-overview.mp4"
+audio = "audio/01-overview.mp3"
+delay = 2.0
+min_clip_duration = 24
+narration = """
+Melody Notepad lets you capture musical ideas quickly before \
+they slip away. Enter notes by tapping the on-screen fretboard \
+or by recording from your microphone. The app converts your \
+input into a sequence of note names that you can save, play \
+back, and revisit anytime. It's like a voice memo, but for \
+melodies.
+"""
+
+[[scene]]
+name = "tap-input"
+video = "clips/02-tap-input.mp4"
+audio = "audio/02-tap-input.mp3"
+delay = 1.0
+min_clip_duration = 25
+narration = """
+In tap mode, the fretboard appears at the bottom of the screen. \
+Tap any fret position and the corresponding note is added to \
+your melody sequence. Each note appears as a chip showing its \
+name and octave. You can hear each note as you tap it, so you \
+can compose by ear directly on the virtual fretboard without \
+needing your physical ukulele in hand.
+"""
+
+[[scene]]
+name = "record-input"
+video = "clips/03-record-input.mp4"
+audio = "audio/03-record-input.mp3"
+delay = 1.0
+min_clip_duration = 26
+narration = """
+Switch to record mode and tap the microphone button to start \
+listening. Play notes on your real ukulele and the pitch \
+detection engine identifies each note in real time, adding \
+them to the sequence automatically. The confidence threshold \
+filters out background noise, so only clearly played notes \
+are captured. Tap stop when you've finished your phrase.
+"""
+
+[[scene]]
+name = "save-and-load"
+video = "clips/04-save-and-load.mp4"
+audio = "audio/04-save-and-load.mp3"
+delay = 1.0
+min_clip_duration = 23
+narration = """
+Once you've captured a melody, save it with a descriptive name. \
+The melody list shows all your saved ideas with note counts and \
+timestamps. Tap any saved melody to reload it for editing or \
+playback. Melodies are stored locally and included in backup \
+and restore, so they survive app updates and device changes.
+"""
+
+[[scene]]
+name = "playback-and-tips"
+video = "clips/05-playback-and-tips.mp4"
+audio = "audio/05-playback-and-tips.mp3"
+delay = 1.0
+min_clip_duration = 25
+narration = """
+Hit the play button to hear your entire melody played back \
+with ukulele samples. You can delete individual notes by \
+tapping the X on any chip, or clear the whole sequence to \
+start fresh. Use Melody Notepad alongside Scale Practice to \
+check if your melody fits a particular scale, or pair it with \
+Chord Progressions to build accompaniment for your tune.
+"""
