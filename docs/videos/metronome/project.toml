@@ -1,0 +1,91 @@
+[project]
+title = "Metronome - Ukulele Companion"
+description = "Standalone practice metronome with tap tempo, time signatures, accents, and subdivisions"
+output = "../../feature-videos/metronome.mp4"
+resolution = "1080x2424"
+
+[branding]
+intro = "../../jingle-intro.wav"
+outro = "../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+[[scene]]
+name = "overview"
+video = "clips/01-overview.mp4"
+audio = "audio/01-overview.mp3"
+delay = 2.0
+min_clip_duration = 25
+narration = """
+The Metronome is your built-in practice timekeeper. It runs \
+completely offline with no ads or distractions. You can set \
+any tempo from thirty to three hundred beats per minute, \
+choose your time signature, customize accent patterns, and \
+add subdivisions. It's designed to help you build rock-solid \
+rhythm for strumming and fingerpicking.
+"""
+
+[[scene]]
+name = "bpm-control"
+video = "clips/02-bpm-control.mp4"
+audio = "audio/02-bpm-control.mp3"
+delay = 1.0
+min_clip_duration = 24
+narration = """
+The large BPM display sits at the top of the screen. Drag the \
+slider to set your tempo quickly, or use the plus and minus \
+buttons for precise one-BPM adjustments. For a more natural \
+approach, use tap tempo. Just tap the button at the speed you \
+want, and the metronome calculates your tempo from the last \
+several taps automatically.
+"""
+
+[[scene]]
+name = "time-signature"
+video = "clips/03-time-signature.mp4"
+audio = "audio/03-time-signature.mp3"
+delay = 1.0
+min_clip_duration = 24
+narration = """
+Below the BPM slider, you'll find time signature chips. Choose \
+from common options like two-four, three-four, four-four, \
+five-four, six-four, and seven-four. The beat indicator circles \
+update to match your selection, showing exactly how many beats \
+are in each measure. This helps you practice songs in waltz \
+time, standard time, or any odd meter.
+"""
+
+[[scene]]
+name = "accent-patterns"
+video = "clips/04-accent-patterns.mp4"
+audio = "audio/04-accent-patterns.mp3"
+delay = 1.0
+min_clip_duration = 24
+narration = """
+Each beat circle is tappable. Cycle through three states: \
+accent for a strong click, normal for a regular click, and \
+mute for silence. Create patterns like accenting beats one \
+and three in four-four time, or build a bossa nova feel by \
+muting selected beats. The accent pattern resets to defaults \
+when you change the time signature.
+"""
+
+[[scene]]
+name = "subdivisions-and-play"
+video = "clips/05-subdivisions-and-play.mp4"
+audio = "audio/05-subdivisions-and-play.mp3"
+delay = 1.0
+min_clip_duration = 29
+narration = """
+Subdivision chips let you add clicks between the main beats. \
+Choose quarter notes for simple clicks, eighth notes for twice \
+as many, triplets for swing feel, or sixteenth notes for rapid \
+subdivisions. When you're ready, tap the play button and the \
+beat indicators pulse in time. The measure counter tracks your \
+practice session. Pair the Metronome with Chord Progressions \
+for a complete practice routine.
+"""

@@ -1,0 +1,89 @@
+[project]
+title = "Chord Library - Ukulele Companion"
+description = "Browse voicings for 20 chord types across all 12 root notes"
+output = "../../feature-videos/chords.mp4"
+resolution = "1080x2424"
+
+[branding]
+intro = "../../jingle-intro.wav"
+outro = "../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+[[scene]]
+name = "overview"
+video = "clips/01-overview.mp4"
+audio = "audio/01-overview.mp3"
+delay = 2.0
+min_clip_duration = 24
+narration = """
+The Chord Library is your complete reference for ukulele chords. \
+It covers twenty chord types across all twelve root notes, giving \
+you hundreds of voicings at your fingertips. Whether you need a \
+simple C major or a jazz-flavored D minor nine, everything is \
+organized and easy to browse with no internet required.
+"""
+
+[[scene]]
+name = "root-and-category"
+video = "clips/02-root-and-category.mp4"
+audio = "audio/02-root-and-category.mp3"
+delay = 1.0
+min_clip_duration = 23
+narration = """
+Start by selecting a root note from the top row. All twelve \
+notes are listed, including sharps and flats. Next, choose a \
+chord category: basic types like major, minor, and seventh, \
+or extended types like ninth, eleventh, and thirteenth chords. \
+The grid below instantly updates to show every playable voicing \
+for your selection.
+"""
+
+[[scene]]
+name = "voicing-cards"
+video = "clips/03-voicing-cards.mp4"
+audio = "audio/03-voicing-cards.mp3"
+delay = 1.0
+min_clip_duration = 24
+narration = """
+Each voicing appears as a card showing a chord diagram with \
+fret positions, finger dots, and open or muted string markers. \
+Tap any card to hear the chord played with realistic ukulele \
+samples. The card expands to show fret numbers, interval labels, \
+and note names for each string, helping you understand the \
+theory behind each shape.
+"""
+
+[[scene]]
+name = "inversions-and-filters"
+video = "clips/04-inversions-and-filters.mp4"
+audio = "audio/04-inversions-and-filters.mp3"
+delay = 1.0
+min_clip_duration = 24
+narration = """
+Use the inversion filter to narrow results. Root position shows \
+voicings with the root note in the bass. First and second \
+inversions put different chord tones on bottom, creating smoother \
+voice leading between chords. You can also tap Play All \
+Inversions to hear every voicing in sequence and compare their \
+sounds side by side.
+"""
+
+[[scene]]
+name = "favorites-and-sharing"
+video = "clips/05-favorites-and-sharing.mp4"
+audio = "audio/05-favorites-and-sharing.mp3"
+delay = 1.0
+min_clip_duration = 25
+narration = """
+Found a voicing you love? Tap the heart icon to save it to your \
+Favorites for quick access later. The share button copies the \
+chord diagram as text, perfect for sending to bandmates or \
+pasting into song notes. The Chord Library also shows alternate \
+names for chords, so you'll know that C diminished and C with \
+the degree symbol are the same chord.
+"""
