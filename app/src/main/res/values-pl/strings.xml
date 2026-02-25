@@ -869,4 +869,5 @@
     <string name="cd_start_metronome">Uruchom metronom</string>
     <string name="cd_stop_metronome">Zatrzymaj metronom</string>
     <string name="metronome_measure_count">Takt: %1$d</string>
+    <string name="metronome_compound_subdivision_locked">Podział triolowy jest ustawiany przez metrum</string>
 </resources>

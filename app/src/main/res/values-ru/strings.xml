@@ -871,4 +871,5 @@
     <string name="cd_start_metronome">Запустить метроном</string>
     <string name="cd_stop_metronome">Остановить метроном</string>
     <string name="metronome_measure_count">Такт: %1$d</string>
+    <string name="metronome_compound_subdivision_locked">Триольное подразделение задаётся размером</string>
 </resources>

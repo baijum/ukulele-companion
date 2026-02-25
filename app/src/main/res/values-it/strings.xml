@@ -869,4 +869,5 @@
     <string name="cd_start_metronome">Avvia metronomo</string>
     <string name="cd_stop_metronome">Ferma metronomo</string>
     <string name="metronome_measure_count">Misura: %1$d</string>
+    <string name="metronome_compound_subdivision_locked">La suddivisione in terzine è impostata dal tempo</string>
 </resources>

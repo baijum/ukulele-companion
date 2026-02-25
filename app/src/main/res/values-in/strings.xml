@@ -869,4 +869,5 @@
     <string name="cd_start_metronome">Mulai metronom</string>
     <string name="cd_stop_metronome">Hentikan metronom</string>
     <string name="metronome_measure_count">Birama: %1$d</string>
+    <string name="metronome_compound_subdivision_locked">Subdivisi triplet ditentukan oleh tanda birama</string>
 </resources>

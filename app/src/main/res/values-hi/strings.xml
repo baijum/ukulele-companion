@@ -871,4 +871,5 @@
     <string name="cd_start_metronome">मेट्रोनोम शुरू करें</string>
     <string name="cd_stop_metronome">मेट्रोनोम बंद करें</string>
     <string name="metronome_measure_count">माप: %1$d</string>
+    <string name="metronome_compound_subdivision_locked">तिहाई उपविभाजन ताल चिह्न द्वारा निर्धारित है</string>
 </resources>
