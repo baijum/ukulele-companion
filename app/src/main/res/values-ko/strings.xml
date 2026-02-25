@@ -844,6 +844,7 @@
     <string name="onboarding_welcome_subtitle">Your all-in-one ukulele companion for chords, scales, music theory, and composition.</string>
     <string name="onboarding_welcome_title">Welcome to Ukulele Companion</string>
     <string name="settings_free_book">Free Ukulele Book (PDF)</string>
+    <string name="settings_video_guide">기능 가이드 동영상</string>
     <string name="pitch_monitor_arpeggio_label">아르페지오</string>
     <string name="cd_play_pattern">%s 재생</string>
     <string name="cd_stop_pattern">%s 정지</string>
