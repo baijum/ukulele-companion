@@ -20,6 +20,9 @@ video = "clips/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 24
+recording_notes = """
+Navigate to Patterns via drawer. Show the default Strumming tab with pattern list. Scroll down to show more patterns (swipe Y 1500->800). Scroll back up. Wait. Do NOT tap any pattern yet.
+"""
 narration = """
 Strumming Patterns is your guide to ukulele rhythm techniques. \
 It includes a curated collection of strumming and fingerpicking \
@@ -35,6 +38,9 @@ video = "clips/02-pattern-list.mp4"
 audio = "audio/02-pattern-list.mp3"
 delay = 1.0
 min_clip_duration = 24
+recording_notes = """
+Stay on Patterns, Strumming tab. Scroll down slowly through the list (swipe Y 1500->900). Wait 3s. Scroll more. Wait 3s. Scroll back to top. Wait. Do NOT leave the screen.
+"""
 narration = """
 The main screen shows a scrollable list of patterns organized \
 by difficulty and style. Each entry shows the pattern name and \
@@ -50,6 +56,9 @@ video = "clips/03-pattern-detail.mp4"
 audio = "audio/03-pattern-detail.mp3"
 delay = 1.0
 min_clip_duration = 24
+recording_notes = """
+Tap the first pattern in the list to open detail view. Wait 3s. Show the arrow notation. Scroll down to see description. Wait 3s. Scroll back up. Wait. Do NOT navigate away.
+"""
 narration = """
 The detail view shows the pattern as a row of arrows and \
 symbols. Down arrows represent downstrokes, up arrows are \
@@ -65,6 +74,9 @@ video = "clips/04-fingerpicking.mp4"
 audio = "audio/04-fingerpicking.mp3"
 delay = 1.0
 min_clip_duration = 26
+recording_notes = """
+Press back to return to pattern list. Look for a Fingerpicking tab (use uiautomator). Tap it. Wait 3s. Scroll through fingerpicking patterns. Wait 3s. Tap one to see details. Wait 3s. Press back. Wait.
+"""
 narration = """
 Fingerpicking patterns use a different notation showing which \
 string to pluck on each beat. The thumb handles the fourth and \
@@ -80,6 +92,9 @@ video = "clips/05-playback-and-practice.mp4"
 audio = "audio/05-playback-and-practice.mp3"
 delay = 1.0
 min_clip_duration = 26
+recording_notes = """
+Open a pattern detail view (tap any pattern). Look for a play button. Tap play. Let it run 5-8s. Look for BPM controls and adjust if visible. Tap play again. Wait. Do NOT open drawer.
+"""
 narration = """
 Tap the play button to hear the pattern with ukulele samples \
 at the current tempo. The notation highlights each beat as it \

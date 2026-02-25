@@ -33,6 +33,7 @@ Parse the `project.toml` to get the scene list. For each scene, note:
 - `name` -- what the scene shows
 - `video` -- where to save the clip
 - `min_clip_duration` -- minimum recording length (or use 30s default)
+- `recording_notes` -- **step-by-step instructions** for what to do on screen during recording. Follow these precisely to avoid navigating away from the target screen or triggering unwanted intents. If `recording_notes` is absent, infer interactions from the `narration` text.
 
 ### Step 2: Prepare the app
 
@@ -48,11 +49,12 @@ sleep 3
 
 For each scene:
 
-1. Navigate to the correct screen state (use drawer + uiautomator)
-2. Set up the initial state for the scene
-3. Start recording with the scene's `min_clip_duration` as the time limit
-4. Perform the scene's demo interactions
-5. Stop recording and pull the file
+1. Read the scene's `recording_notes` field for explicit interaction instructions
+2. Navigate to the correct screen state (use drawer + uiautomator)
+3. Set up the initial state described in `recording_notes`
+4. Start recording with the scene's `min_clip_duration` as the time limit
+5. Perform the interactions listed in `recording_notes` (respect any "Do NOT" warnings)
+6. Stop recording and pull the file
 
 ```bash
 # Navigate to screen (use uiautomator to find coordinates)
@@ -117,7 +119,9 @@ $ADB shell input tap 1007 200
 
 ## Tips
 
+- **Follow `recording_notes` precisely** -- These instructions prevent common errors like accidentally navigating away from the screen, tapping share buttons that launch intent pickers, or ending up on the home screen.
 - **Always record longer than needed** -- the assembler pads clips with `tpad` if they're short, but clips that are too short (< 3s) may be corrupt.
 - **Add interaction to static screens** -- Screens like the Tuner or Pitch Monitor at rest produce very few frames. Touch the screen or scroll slightly to ensure the recording is valid.
 - **Use `--time-limit` generously** -- Set it to `min_clip_duration + 5` for safety. You can always `kill` the recording early if the interactions finish sooner.
 - **Re-record individual scenes** -- One of the key benefits of the TOML project system. Just re-record the one clip and re-run `python3 scripts/assemble_video.py project.toml`.
+- **Respect "Do NOT" warnings** -- Some scenes warn against tapping specific buttons (e.g., share buttons that launch Android intent pickers). Ignoring these will navigate away from the app.

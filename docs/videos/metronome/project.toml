@@ -20,6 +20,9 @@ video = "clips/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 25
+recording_notes = """
+Navigate to Metronome via drawer. Show the full screen. Tap increase tempo a few times, then drag slider briefly. Tap play briefly (3s), then stop. Scroll screen slightly. Wait. Do NOT leave the Metronome screen.
+"""
 narration = """
 The Metronome is your built-in practice timekeeper. It runs \
 completely offline with no ads or distractions. You can set \
@@ -35,6 +38,9 @@ video = "clips/02-bpm-control.mp4"
 audio = "audio/02-bpm-control.mp3"
 delay = 1.0
 min_clip_duration = 24
+recording_notes = """
+Stay on Metronome. Drag slider from left to right (~200,738 to 700,738). Tap decrease button (~432,591) 5 times with 1s gaps. Tap increase (~649,591) 3 times. Tap tap-tempo button (~540,886) 4 times at ~0.7s intervals. Wait.
+"""
 narration = """
 The large BPM display sits at the top of the screen. Drag the \
 slider to set your tempo quickly, or use the plus and minus \
@@ -50,6 +56,9 @@ video = "clips/03-time-signature.mp4"
 audio = "audio/03-time-signature.mp3"
 delay = 1.0
 min_clip_duration = 24
+recording_notes = """
+Stay on Metronome. Tap through time signatures: 2/4, 3/4, 4/4, 5/4, 6/4, 7/4 with 3s between each. Return to 4/4. Wait.
+"""
 narration = """
 Below the BPM slider, you'll find time signature chips. Choose \
 from common options like two-four, three-four, four-four, \
@@ -65,6 +74,9 @@ video = "clips/04-accent-patterns.mp4"
 audio = "audio/04-accent-patterns.mp3"
 delay = 1.0
 min_clip_duration = 24
+recording_notes = """
+Stay on Metronome, 4/4 selected. Tap beat 2 (~461,1459), beat 3 (~619,1459) twice to cycle to mute, beat 4 (~777,1459), beat 1 (~303,1459) twice. Show different accent states. Wait. Do NOT change time signature.
+"""
 narration = """
 Each beat circle is tappable. Cycle through three states: \
 accent for a strong click, normal for a regular click, and \
@@ -80,6 +92,9 @@ video = "clips/05-subdivisions-and-play.mp4"
 audio = "audio/05-subdivisions-and-play.mp3"
 delay = 1.0
 min_clip_duration = 29
+recording_notes = """
+Stay on Metronome. Tap Eighth (~460,1762), then Triplet (~670,1762), then 16th (~865,1762), then back to Quarter (~240,1762). Wait 2s. Tap play (~540,2003). Let it run 8s with beat indicators pulsing. Tap Eighth subdivision while playing. After 5 more seconds, stop (~540,2003). Wait.
+"""
 narration = """
 Subdivision chips let you add clicks between the main beats. \
 Choose quarter notes for simple clicks, eighth notes for twice \

@@ -21,6 +21,11 @@ video = "clips/01-tuner-overview.mp4"
 audio = "audio/01-tuner-overview.mp3"
 delay = 2.0
 min_clip_duration = 22
+recording_notes = """
+Navigate to Tuner via drawer. Show the idle tuner screen with meter, note display, and string buttons.
+Tap the screen center to keep frames alive. Wait.
+Do NOT tap Start or string buttons yet.
+"""
 narration = """
 The Tuner helps you get your ukulele perfectly in tune before \
 you play. It uses a hybrid pitch detection system that combines \
@@ -36,6 +41,11 @@ video = "clips/02-tuning-meter.mp4"
 audio = "audio/02-tuning-meter.mp3"
 delay = 1.0
 min_clip_duration = 30
+recording_notes = """
+Stay on Tuner. Tap Start to begin listening. Wait 5s -- meter stays idle (emulator has no mic).
+Tap a string button (G) to play reference pitch. Wait 3s. Tap another string (C). Wait 3s.
+Tap Stop. Wait. The meter won't move without real audio, but the reference sounds play.
+"""
 narration = """
 The main display is a semicircular needle meter. When you play \
 a string, the needle swings to show how sharp or flat the pitch \
@@ -53,6 +63,11 @@ video = "clips/03-string-buttons.mp4"
 audio = "audio/03-string-buttons.mp3"
 delay = 1.0
 min_clip_duration = 25
+recording_notes = """
+Stay on Tuner. Tap G string button (~180,2100 area, use uiautomator). Wait 3s -- reference pitch plays.
+Tap C button. Wait 3s. Tap E button. Wait 3s. Tap A button. Wait 3s.
+Wait until clip ends.
+"""
 narration = """
 At the bottom of the screen, four buttons represent the open \
 strings of your ukulele: G, C, E, and A in standard High G \
@@ -69,6 +84,11 @@ video = "clips/04-neural-detection.mp4"
 audio = "audio/04-neural-detection.mp3"
 delay = 1.0
 min_clip_duration = 26
+recording_notes = """
+Stay on Tuner. Look for SwiftF0 badge at top. Tap Start to begin listening. Wait 5s.
+Tap screen center to keep frames alive. Tap a string button to play reference. Wait 5s.
+Tap Stop. Wait. The badge should be visible throughout.
+"""
 narration = """
 Notice the Swift F zero Active badge at the top of the screen. \
 This indicates that the neural pitch supervisor is running \
@@ -85,6 +105,11 @@ video = "clips/05-tuning-modes.mp4"
 audio = "audio/05-tuning-modes.mp3"
 delay = 1.0
 min_clip_duration = 34
+recording_notes = """
+Stay on Tuner. Tap a few string buttons. Wait 3s each. Scroll the tuner area slightly.
+Tap Start, wait 5s, tap Stop. Wait. Show the screen idling.
+Do NOT navigate to Settings (that would change screens). Wait until clip ends.
+"""
 narration = """
 The tuner adapts to whichever tuning you have selected in \
 Settings. Beyond standard High G, you can choose Low G for \

@@ -21,6 +21,11 @@ video = "clips/01-empty-explorer.mp4"
 audio = "audio/01-empty-explorer.mp3"
 delay = 2.0
 min_clip_duration = 23
+recording_notes = """
+Navigate to Explorer via drawer (it's the default screen). Show the empty fretboard with no notes selected.
+Scroll down to show the "Did You Know" tips. Scroll back up. Wait.
+Do NOT tap any frets.
+"""
 narration = """
 The Explorer is the heart of Ukulele Companion. It's an interactive \
 fretboard where you tap fret positions and the app instantly tells \
@@ -36,6 +41,12 @@ video = "clips/02-c-major-chord.mp4"
 audio = "audio/02-c-major-chord.mp3"
 delay = 1.0
 min_clip_duration = 22
+recording_notes = """
+Tap Reset if any notes are selected. Tap open G string (fret 0, string 1). Wait 1s.
+Tap open C (fret 0, string 2). Wait 1s. Tap open E (fret 0, string 3). Wait 1s.
+Tap fret 3 on A string (string 4, fret 3). Wait 3s -- chord detects as C Major.
+Tap the play button to hear it. Wait.
+"""
 narration = """
 Let's build a C major chord. Tap the open G string, then open C, \
 open E, and fret three on the A string. As soon as we have enough \
@@ -51,6 +62,11 @@ video = "clips/03-chord-details.mp4"
 audio = "audio/03-chord-details.mp3"
 delay = 1.0
 min_clip_duration = 26
+recording_notes = """
+With C Major chord still selected, scroll down below the fretboard (swipe Y 1500->800) to reveal
+the detail info section: intervals, formula, "Also written as", fingering. Wait 5s.
+Scroll down more. Wait 3s. Scroll back up. Wait.
+"""
 narration = """
 Scroll down and you'll find detailed music theory information. \
 The Also Written As section shows alternate symbols, like C M or \
@@ -67,6 +83,11 @@ video = "clips/04-other-chords.mp4"
 audio = "audio/04-other-chords.mp3"
 delay = 1.0
 min_clip_duration = 23
+recording_notes = """
+Tap Reset. Build A minor: tap fret 2 on G string, open C, open E, open A. Wait 3s.
+Tap Reset. Build F major: tap fret 2 on G, fret 0 on C, fret 1 on E, fret 0 on A. Wait 3s.
+Tap Reset. Wait.
+"""
 narration = """
 Let's try some other chords. Here's A minor, with just one finger \
 on fret two of the G string. And here's F major, a common chord \
@@ -82,6 +103,11 @@ video = "clips/05-scale-overlay.mp4"
 audio = "audio/05-scale-overlay.mp3"
 delay = 1.0
 min_clip_duration = 28
+recording_notes = """
+Look for "Scales" button (use uiautomator). Tap it. Select "Major" scale. Wait 3s -- fretboard
+highlights scale notes. Scroll or interact with scale controls. Tap a fret to see how it relates.
+Wait. Close scale overlay or wait.
+"""
 narration = """
 Now let's look at the Scale Overlay. Tap the Scales button and \
 select Major. The fretboard lights up with all the notes of the \
@@ -98,6 +124,11 @@ video = "clips/06-tips-and-closing.mp4"
 audio = "audio/06-tips-and-closing.mp3"
 delay = 1.0
 min_clip_duration = 28
+recording_notes = """
+Tap Reset to clear all notes. Scroll down to show the "Did You Know" section and beginner chord suggestions.
+Tap "Next Tip" button a few times. Wait 3s between taps. Scroll back up. Wait.
+Do NOT open drawer.
+"""
 narration = """
 When no notes are selected, the Explorer shows beginner chord \
 suggestions and a rotating Did You Know section with tips about \
