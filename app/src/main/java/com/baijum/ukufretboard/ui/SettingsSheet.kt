@@ -759,6 +759,19 @@ private fun AboutSection() {
             context.startActivity(intent)
         },
     )
+    Spacer(modifier = Modifier.height(8.dp))
+    Text(
+        text = stringResource(R.string.settings_video_guide),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.clickable {
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://www.youtube.com/playlist?list=PL4GycHdD--uonaifRHrBvNU7ym5jAVs8c"),
+            )
+            context.startActivity(intent)
+        },
+    )
 
     Spacer(modifier = Modifier.height(16.dp))
 

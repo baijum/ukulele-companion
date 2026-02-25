@@ -844,6 +844,7 @@
     <string name="onboarding_welcome_subtitle">Your all-in-one ukulele companion for chords, scales, music theory, and composition.</string>
     <string name="onboarding_welcome_title">Welcome to Ukulele Companion</string>
     <string name="settings_free_book">Free Ukulele Book (PDF)</string>
+    <string name="settings_video_guide">सुविधा गाइड वीडियो</string>
     <string name="pitch_monitor_arpeggio_label">अर्पेजियो</string>
     <string name="cd_play_pattern">%s चलाएं</string>
     <string name="cd_stop_pattern">%s रोकें</string>
