@@ -1,0 +1,93 @@
+[project]
+title = "Tuner - Ukulele Companion"
+description = "A detailed walkthrough of the chromatic tuner with neural pitch detection"
+output = "../../feature-videos/tuner.mp4"
+resolution = "1080x2424"
+
+[branding]
+intro = "../../jingle-intro.wav"
+outro = "../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+# ── Scene 1: Tuner Overview ─────────────────────────────────
+[[scene]]
+name = "tuner-overview"
+video = "clips/01-tuner-overview.mp4"
+audio = "audio/01-tuner-overview.mp3"
+delay = 2.0
+narration = """
+The Tuner helps you get your ukulele perfectly in tune before \
+you play. It uses a hybrid pitch detection system that combines \
+a fast YIN algorithm with neural inference from Swift F zero, \
+giving you accurate, responsive readings even with difficult \
+harmonics or noisy environments.
+"""
+
+# ── Scene 2: Tuning Meter ───────────────────────────────────
+[[scene]]
+name = "tuning-meter"
+video = "clips/02-tuning-meter.mp4"
+audio = "audio/02-tuning-meter.mp3"
+delay = 1.0
+narration = """
+The main display is a semicircular needle meter. When you play \
+a string, the needle swings to show how sharp or flat the pitch \
+is, measured in cents. The detected note name appears large and \
+color-coded: green means you're in tune, yellow means you're \
+close, and red means the string needs more adjustment. Below \
+the meter, a numeric cents display gives you the precise reading, \
+and guidance text tells you whether to tune up or tune down.
+"""
+
+# ── Scene 3: String Buttons ─────────────────────────────────
+[[scene]]
+name = "string-buttons"
+video = "clips/03-string-buttons.mp4"
+audio = "audio/03-string-buttons.mp3"
+delay = 1.0
+narration = """
+At the bottom of the screen, four buttons represent the open \
+strings of your ukulele: G, C, E, and A in standard High G \
+tuning. Tap any string button to hear its reference pitch \
+played through the speaker, so you know exactly what the string \
+should sound like. As you successfully tune each string, a \
+checkmark appears on its button to track your progress.
+"""
+
+# ── Scene 4: Neural Detection ────────────────────────────────
+[[scene]]
+name = "neural-detection"
+video = "clips/04-neural-detection.mp4"
+audio = "audio/04-neural-detection.mp3"
+delay = 1.0
+narration = """
+Notice the Swift F zero Active badge at the top of the screen. \
+This indicates that the neural pitch supervisor is running \
+alongside the standard algorithm. The neural model helps prevent \
+octave errors and handles unstable frames more gracefully, which \
+is especially useful when tuning in noisy rooms or with older \
+strings that produce weaker harmonics.
+"""
+
+# ── Scene 5: Tuning Modes and Tips ───────────────────────────
+[[scene]]
+name = "tuning-modes"
+video = "clips/05-tuning-modes.mp4"
+audio = "audio/05-tuning-modes.mp3"
+delay = 1.0
+narration = """
+The tuner adapts to whichever tuning you have selected in \
+Settings. Beyond standard High G, you can choose Low G for \
+a deeper range, Baritone tuning, D tuning, and several other \
+variants. The string buttons and reference pitches update \
+automatically. For the best results, tune in a quiet \
+environment, play each string firmly and let it ring, and \
+always tune from below the target pitch upward for better \
+stability. The tuner is your starting point before every \
+practice session.
+"""
