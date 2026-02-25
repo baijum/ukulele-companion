@@ -20,6 +20,7 @@ name = "tuner-overview"
 video = "clips/01-tuner-overview.mp4"
 audio = "audio/01-tuner-overview.mp3"
 delay = 2.0
+min_clip_duration = 22
 narration = """
 The Tuner helps you get your ukulele perfectly in tune before \
 you play. It uses a hybrid pitch detection system that combines \
@@ -34,6 +35,7 @@ name = "tuning-meter"
 video = "clips/02-tuning-meter.mp4"
 audio = "audio/02-tuning-meter.mp3"
 delay = 1.0
+min_clip_duration = 30
 narration = """
 The main display is a semicircular needle meter. When you play \
 a string, the needle swings to show how sharp or flat the pitch \
@@ -50,6 +52,7 @@ name = "string-buttons"
 video = "clips/03-string-buttons.mp4"
 audio = "audio/03-string-buttons.mp3"
 delay = 1.0
+min_clip_duration = 25
 narration = """
 At the bottom of the screen, four buttons represent the open \
 strings of your ukulele: G, C, E, and A in standard High G \
@@ -65,6 +68,7 @@ name = "neural-detection"
 video = "clips/04-neural-detection.mp4"
 audio = "audio/04-neural-detection.mp3"
 delay = 1.0
+min_clip_duration = 26
 narration = """
 Notice the Swift F zero Active badge at the top of the screen. \
 This indicates that the neural pitch supervisor is running \
@@ -80,6 +84,7 @@ name = "tuning-modes"
 video = "clips/05-tuning-modes.mp4"
 audio = "audio/05-tuning-modes.mp3"
 delay = 1.0
+min_clip_duration = 34
 narration = """
 The tuner adapts to whichever tuning you have selected in \
 Settings. Beyond standard High G, you can choose Low G for \
