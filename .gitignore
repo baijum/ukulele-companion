@@ -4,6 +4,7 @@
 /.idea
 .vscode
 .cursor/
+!.cursor/skills/
 .DS_Store
 /build
 /app/build
