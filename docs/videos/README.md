@@ -8,11 +8,11 @@ This directory contains TOML project files that define narrated feature videos f
 |---------|-----------|--------|--------|
 | Explorer | [explorer/](explorer/) | 6 | Ready |
 | Tuner | [tuner/](tuner/) | 5 | Ready |
-| Pitch Monitor | [pitch-monitor/](pitch-monitor/) | 4 | TOML ready |
-| Metronome | [metronome/](metronome/) | 5 | TOML ready |
-| Chord Library | [chords/](chords/) | 5 | TOML ready |
-| Favorites | [favorites/](favorites/) | 4 | TOML ready |
-| Songbook | [songs/](songs/) | 5 | TOML ready |
+| Pitch Monitor | [pitch-monitor/](pitch-monitor/) | 4 | Ready |
+| Metronome | [metronome/](metronome/) | 5 | Ready |
+| Chord Library | [chords/](chords/) | 5 | Ready |
+| Favorites | [favorites/](favorites/) | 4 | Ready |
+| Songbook | [songs/](songs/) | 5 | Ready |
 | Melody Notepad | [melody-notepad/](melody-notepad/) | 5 | TOML ready |
 | Strumming Patterns | [patterns/](patterns/) | 5 | TOML ready |
 | Chord Progressions | [progressions/](progressions/) | 5 | TOML ready |
@@ -96,6 +96,12 @@ video = "clips/01-scene.mp4"
 audio = "audio/01-scene.mp3"
 delay = 1.0
 min_clip_duration = 25
+recording_notes = """
+Step-by-step instructions for the recording agent.
+1. Stay on this screen, do not navigate away
+2. Tap element X at (~x,y) -- wait 3s
+3. Do NOT tap the share button (launches intent picker)
+"""
 narration = """
 Narration text for this scene. The assembler generates TTS
 audio from this text if the audio file doesn't exist yet.
@@ -111,6 +117,7 @@ audio from this text if the audio file doesn't exist yet.
 | `voiceover.volume_boost` | Multiplier applied to voiceover volume during assembly |
 | `scene.delay` | Seconds of silence before narration starts in this scene |
 | `scene.min_clip_duration` | Minimum recording length in seconds (calculated from audio duration + delay + 2s buffer) |
+| `scene.recording_notes` | Step-by-step ADB interaction instructions for the recording agent. Describes what to tap, swipe, and what NOT to do. Ignored by the assembler script. |
 | `scene.narration` | Text sent to OpenAI TTS to generate the voiceover audio |
 
 ## Creating a New Video Project

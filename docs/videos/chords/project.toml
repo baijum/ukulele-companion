@@ -20,6 +20,15 @@ video = "clips/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 24
+recording_notes = """
+Navigate to Chords via drawer. Stay on the Chords screen the entire clip.
+1. Show the default state (C Major selected, Basic category)
+2. Slowly scroll down to reveal voicing cards (swipe Y 1500->900)
+3. Wait 3s
+4. Scroll back up (swipe Y 900->1500)
+5. Wait until clip ends
+Do NOT tap any buttons -- just show the screen layout.
+"""
 narration = """
 The Chord Library is your complete reference for ukulele chords. \
 It covers twenty chord types across all twelve root notes, giving \
@@ -34,6 +43,17 @@ video = "clips/02-root-and-category.mp4"
 audio = "audio/02-root-and-category.mp3"
 delay = 1.0
 min_clip_duration = 23
+recording_notes = """
+Stay on Chords screen. Demonstrate root note and category selection.
+1. Tap root note D (~384,438) -- wait 2s
+2. Tap root note E (~668,438) -- wait 2s
+3. Tap root note C (~95,438) to return -- wait 2s
+4. Tap category "Seventh" (~324,640) -- wait 3s
+5. Tap category "Suspended" (~581,640) -- wait 3s
+6. Tap category "Extended" (~847,640) -- wait 3s
+7. Tap back to first category (Basic, first chip ~95,640) -- wait 3s
+Do NOT open the drawer or navigate away.
+"""
 narration = """
 Start by selecting a root note from the top row. All twelve \
 notes are listed, including sharps and flats. Next, choose a \
@@ -49,6 +69,16 @@ video = "clips/03-voicing-cards.mp4"
 audio = "audio/03-voicing-cards.mp3"
 delay = 1.0
 min_clip_duration = 24
+recording_notes = """
+Stay on Chords screen, C Major / Basic category selected.
+1. Tap the first voicing card (~283,1600) to play it -- wait 3s
+2. Scroll down to show more cards (swipe Y 1800->1200) -- wait 3s
+3. Tap the second visible card to play it -- wait 3s
+4. Scroll back up (swipe Y 1200->1800) -- wait 3s
+5. Tap first card again -- wait until clip ends
+Do NOT tap the share button or heart icon in this scene.
+Do NOT open the drawer.
+"""
 narration = """
 Each voicing appears as a card showing a chord diagram with \
 fret positions, finger dots, and open or muted string markers. \
@@ -64,6 +94,17 @@ video = "clips/04-inversions-and-filters.mp4"
 audio = "audio/04-inversions-and-filters.mp3"
 delay = 1.0
 min_clip_duration = 24
+recording_notes = """
+Stay on Chords screen, C Major selected. Demonstrate inversion filters.
+1. Tap "Root" filter chip (~396,1148) -- wait 3s
+2. Tap "1st Inv" filter chip (~677,1148) -- wait 3s
+3. Tap "2nd Inv" filter chip (~970,1148) -- wait 3s
+4. Tap "All" filter chip (~136,1148) to reset -- wait 3s
+5. Tap "Root" again (~396,1148) -- wait 2s
+6. Tap a voicing card to play it -- wait 3s
+7. Tap "All" to reset -- wait until clip ends
+Do NOT open drawer or navigate away.
+"""
 narration = """
 Use the inversion filter to narrow results. Root position shows \
 voicings with the root note in the bass. First and second \
@@ -79,6 +120,19 @@ video = "clips/05-favorites-and-sharing.mp4"
 audio = "audio/05-favorites-and-sharing.mp3"
 delay = 1.0
 min_clip_duration = 25
+recording_notes = """
+Stay on Chords screen, C Major / Basic / All inversions.
+1. Tap heart icon on first voicing card (~79,1405) -- wait 2s (heart fills)
+2. Tap heart on second voicing card (~593,1405) -- wait 2s
+3. Scroll down slightly (swipe Y 1600->1300) to show detail area -- wait 3s
+4. Scroll back up (swipe Y 1300->1600) -- wait 2s
+5. Tap first heart again to unfavorite (~79,1405) -- wait 2s
+6. Tap second heart to unfavorite (~593,1405) -- wait 2s
+7. Wait until clip ends
+CRITICAL: Do NOT tap the share button -- it launches an Android
+intent picker that navigates away from the app to the home screen.
+Do NOT open the drawer.
+"""
 narration = """
 Found a voicing you love? Tap the heart icon to save it to your \
 Favorites for quick access later. The share button copies the \

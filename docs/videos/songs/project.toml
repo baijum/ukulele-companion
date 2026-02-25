@@ -20,6 +20,9 @@ video = "clips/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 23
+recording_notes = """
+Navigate to Songs via drawer. Show the song list (may be empty with "Tap + to create" message). Tap the screen center to keep frames alive. Scroll if songs exist. Wait. Do NOT tap the + button yet.
+"""
 narration = """
 The Songbook is your personal collection of songs with chord \
 annotations. Create lead sheets right on your phone, complete \
@@ -34,6 +37,9 @@ video = "clips/02-creating-a-song.mp4"
 audio = "audio/02-creating-a-song.mp3"
 delay = 1.0
 min_clip_duration = 23
+recording_notes = """
+On Songs screen, tap the + FAB button (~964,2245). A new song editor opens. Tap the title field and type a short title via `adb shell input text`. Wait 3s. Tap in the text area. Wait. Do NOT press back or navigate away.
+"""
 narration = """
 Tap the plus button to start a new song. Give it a title and \
 optionally set the artist and key. The editor opens with a \
@@ -49,6 +55,9 @@ video = "clips/03-inline-chords.mp4"
 audio = "audio/03-inline-chords.mp3"
 delay = 1.0
 min_clip_duration = 24
+recording_notes = """
+Stay in the song editor. Tap the text area. Type a sample line with chords like "[C]Amazing [F]Grace". Wait 3s. Scroll down if the view mode is visible. Wait. Do NOT navigate away. Do NOT press back.
+"""
 narration = """
 To add chords, use square bracket notation. Type an opening \
 bracket, the chord name, and a closing bracket directly in \
@@ -64,6 +73,9 @@ video = "clips/04-transpose-and-key.mp4"
 audio = "audio/04-transpose-and-key.mp3"
 delay = 1.0
 min_clip_duration = 24
+recording_notes = """
+Stay in song editor/viewer. Look for transpose controls (find via uiautomator). Tap transpose up a few times. Wait 3s. Tap transpose down. Wait 3s. Look for key detection button and tap it. Wait until clip ends.
+"""
 narration = """
 Need the song in a different key? The transpose controls let \
 you shift all chords up or down by any number of semitones with \
@@ -79,6 +91,9 @@ video = "clips/05-chordpro-and-management.mp4"
 audio = "audio/05-chordpro-and-management.mp3"
 delay = 1.0
 min_clip_duration = 27
+recording_notes = """
+Press back to return to song list. Long-press a song entry to show context menu (if songs exist). Wait 3s. Dismiss menu. Scroll the list. Wait. Do NOT navigate away from Songs. If no songs exist, just show the empty state and tap the screen gently.
+"""
 narration = """
 The Songbook supports ChordPro format, a widely used standard \
 for chord charts. Import existing ChordPro files or export your \

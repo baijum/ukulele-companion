@@ -20,6 +20,9 @@ video = "clips/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 24
+recording_notes = """
+Navigate to Melody Notepad via drawer. Show the empty state. Tap the screen center to keep frames alive. Scroll slightly if content exists. Wait. Do NOT tap fretboard notes yet.
+"""
 narration = """
 Melody Notepad lets you capture musical ideas quickly before \
 they slip away. Enter notes by tapping the on-screen fretboard \
@@ -35,6 +38,9 @@ video = "clips/02-tap-input.mp4"
 audio = "audio/02-tap-input.mp3"
 delay = 1.0
 min_clip_duration = 25
+recording_notes = """
+Stay on Melody Notepad. Tap several fret positions on the bottom fretboard area to add notes. Wait 1-2s between taps. Each tap adds a note chip. Add 5-6 notes total. Wait. Do NOT navigate away.
+"""
 narration = """
 In tap mode, the fretboard appears at the bottom of the screen. \
 Tap any fret position and the corresponding note is added to \
@@ -50,6 +56,9 @@ video = "clips/03-record-input.mp4"
 audio = "audio/03-record-input.mp3"
 delay = 1.0
 min_clip_duration = 26
+recording_notes = """
+Stay on Melody Notepad. Look for a record/microphone button (use uiautomator to find). Tap it to start recording mode. Wait 5s (emulator has no mic input, so minimal detection). Tap stop. Wait. If no record button is visible, just show the current state and tap screen.
+"""
 narration = """
 Switch to record mode and tap the microphone button to start \
 listening. Play notes on your real ukulele and the pitch \
@@ -65,6 +74,9 @@ video = "clips/04-save-and-load.mp4"
 audio = "audio/04-save-and-load.mp3"
 delay = 1.0
 min_clip_duration = 23
+recording_notes = """
+Stay on Melody Notepad with notes entered. Look for a save button (use uiautomator). Tap save. Wait 3s. Look for a load/list button. Tap it. Wait 3s. Tap a saved entry if one exists. Wait. Do NOT navigate away.
+"""
 narration = """
 Once you've captured a melody, save it with a descriptive name. \
 The melody list shows all your saved ideas with note counts and \
@@ -79,6 +91,9 @@ video = "clips/05-playback-and-tips.mp4"
 audio = "audio/05-playback-and-tips.mp3"
 delay = 1.0
 min_clip_duration = 25
+recording_notes = """
+Stay on Melody Notepad with notes entered. Look for a play button. Tap play to hear the melody. Wait 5s. Tap X on one note chip to delete it. Wait 2s. Tap play again. Wait. Do NOT navigate away or open drawer.
+"""
 narration = """
 Hit the play button to hear your entire melody played back \
 with ukulele samples. You can delete individual notes by \

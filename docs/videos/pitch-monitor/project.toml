@@ -20,6 +20,9 @@ video = "clips/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 20
+recording_notes = """
+Show the Pitch Monitor idle screen. Tap the canvas area gently to keep frames alive. Do NOT tap Start. Slowly scroll/swipe the screen area. Wait.
+"""
 narration = """
 The Pitch Monitor gives you a real-time scrolling view of your \
 pitch as you play. Think of it as a piano roll that draws your \
@@ -34,6 +37,9 @@ video = "clips/02-canvas-display.mp4"
 audio = "audio/02-canvas-display.mp3"
 delay = 1.0
 min_clip_duration = 24
+recording_notes = """
+Stay on Pitch Monitor, still idle. Tap canvas center (~540,1200) a few times to generate frame changes. Swipe slightly up/down on canvas area. Show the note labels on Y axis. Do NOT tap Start yet.
+"""
 narration = """
 The main display is a dark scrolling canvas. The vertical axis \
 shows note names from C three to C six, covering the full ukulele \
@@ -49,6 +55,9 @@ video = "clips/03-pitch-trace.mp4"
 audio = "audio/03-pitch-trace.mp3"
 delay = 1.0
 min_clip_duration = 25
+recording_notes = """
+Tap Start button (~540,2235) to begin listening. Wait 5s for trace to appear (emulator has no real audio, so trace may be minimal). Tap the canvas gently to keep frames alive. After ~18s, tap Stop (~540,2235). Wait.
+"""
 narration = """
 When you tap Start and play a note, a blue trace line appears \
 connecting the detected pitch points over time. This shows your \
@@ -64,6 +73,9 @@ video = "clips/04-chord-detection-and-tips.mp4"
 audio = "audio/04-chord-detection-and-tips.mp3"
 delay = 1.0
 min_clip_duration = 26
+recording_notes = """
+Tap Start (~540,2235). Wait for any chord detection display above canvas. Tap canvas area periodically to keep frames flowing. After ~20s, tap Stop. Wait. Do NOT open drawer.
+"""
 narration = """
 As you play multiple notes, the Pitch Monitor collects them and \
 identifies chords. The chord name appears prominently above the \

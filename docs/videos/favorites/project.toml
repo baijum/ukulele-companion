@@ -20,6 +20,9 @@ video = "clips/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 23
+recording_notes = """
+Navigate to Favorites via drawer. Show the Favorites screen (may have saved voicings or be empty). Tap the screen center gently to keep frames alive. Scroll if there are cards. Wait. Do NOT navigate away.
+"""
 narration = """
 Favorites is where you keep your go-to chord voicings for \
 instant access. Instead of searching the full Chord Library \
@@ -34,6 +37,9 @@ video = "clips/02-saving-voicings.mp4"
 audio = "audio/02-saving-voicings.mp3"
 delay = 1.0
 min_clip_duration = 24
+recording_notes = """
+Navigate to Chords via drawer. Show C Major voicing grid. Tap heart on first card (~79,1405) -- wait 2s. Tap heart on second card (~593,1405) -- wait 2s. Change root to D (~384,438) -- tap heart on a card -- wait 2s. Change back to C (~95,438). Wait. Do NOT tap the share button (launches intent picker that leaves the app).
+"""
 narration = """
 To save a voicing, open the Chord Library, find a shape you \
 like, and tap the heart icon on the card. A filled heart means \
@@ -49,6 +55,9 @@ video = "clips/03-browsing-and-playback.mp4"
 audio = "audio/03-browsing-and-playback.mp3"
 delay = 1.0
 min_clip_duration = 25
+recording_notes = """
+Navigate to Favorites via drawer. Show saved voicings grid. Tap a card to play it -- wait 3s. Tap another card -- wait 3s. Scroll if enough cards. Tap another card. Wait. Do NOT navigate away.
+"""
 narration = """
 Open the Favorites screen to see all your saved voicings in a \
 scrollable grid. Each card shows the chord name and diagram at \
@@ -64,6 +73,9 @@ video = "clips/04-managing-favorites.mp4"
 audio = "audio/04-managing-favorites.mp3"
 delay = 1.0
 min_clip_duration = 26
+recording_notes = """
+Stay on Favorites screen. Tap a card to play -- wait 2s. Scroll slightly -- wait 2s. Tap another card -- wait 2s. Scroll back. Tap the screen center periodically to keep frames flowing. Wait until clip ends. Do NOT open drawer.
+"""
 narration = """
 To remove a voicing, tap the heart icon again and it returns to \
 unfilled, clearing it from the list. Your favorites are stored \
