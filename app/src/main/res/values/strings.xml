@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Uke</string>
     <string name="app_full_name">Ukulele Companion</string>
-    <string name="drawer_byline" translatable="false">by Baiju Muthukadan</string>
+    <string name="drawer_copyright" translatable="false">\u00A9 Baiju Muthukadan</string>
 
     <!-- ── Common / Shared ──────────────────────────────────────────── -->
     <string name="dialog_cancel">Cancel</string>
