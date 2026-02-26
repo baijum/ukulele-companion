@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Uke</string>
     <string name="app_full_name">Ukulele Companion</string>
+    <string name="drawer_byline" translatable="false">by Baiju Muthukadan</string>
 
     <!-- ── Common / Shared ──────────────────────────────────────────── -->
     <string name="dialog_cancel">Cancel</string>
@@ -337,6 +338,7 @@
 
     <string name="settings_about">About</string>
     <string name="settings_version">Version %s</string>
+    <string name="settings_developer" translatable="false">Made by Baiju Muthukadan</string>
     <string name="settings_website">Website</string>
     <string name="settings_free_book">Free Ukulele Book (PDF)</string>
     <string name="settings_video_guide">Feature Guide Videos</string>

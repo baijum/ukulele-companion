@@ -113,4 +113,7 @@ hide:
   <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.8;">
     <a href="privacy-policy/">Privacy Policy</a>
   </p>
+  <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.6;">
+    Made with care by Baiju Muthukadan
+  </p>
 </section>

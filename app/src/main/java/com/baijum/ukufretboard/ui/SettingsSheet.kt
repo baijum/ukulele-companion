@@ -741,6 +741,12 @@ private fun AboutSection() {
     )
     Spacer(modifier = Modifier.height(4.dp))
     Text(
+        text = stringResource(R.string.settings_developer),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
+    Spacer(modifier = Modifier.height(4.dp))
+    Text(
         text = stringResource(R.string.settings_website),
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.primary,
