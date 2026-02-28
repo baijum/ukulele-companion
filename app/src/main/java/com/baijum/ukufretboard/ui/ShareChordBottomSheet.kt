@@ -39,6 +39,7 @@ data class ShareChordInfo(
     val voicing: ChordVoicing,
     val chordName: String,
     val inversionLabel: String? = null,
+    val tuningPitchClasses: List<Int> = listOf(7, 0, 4, 9),
 )
 
 /**
@@ -78,6 +79,7 @@ fun ShareChordBottomSheet(
                 voicing = info.voicing,
                 chordName = info.chordName,
                 inversionLabel = info.inversionLabel,
+                tuningPitchClasses = info.tuningPitchClasses,
                 modifier = Modifier.drawWithContent {
                     graphicsLayer.record {
                         this@drawWithContent.drawContent()

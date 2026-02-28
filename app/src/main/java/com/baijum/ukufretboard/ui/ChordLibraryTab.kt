@@ -52,7 +52,7 @@ import com.baijum.ukufretboard.domain.CapoCalculator
 import com.baijum.ukufretboard.domain.ChordInfo
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.viewmodel.ChordLibraryViewModel
-import com.baijum.ukufretboard.viewmodel.FretboardViewModel
+import com.baijum.ukufretboard.viewmodel.UkuleleString
 
 /**
  * The chord library tab content.
@@ -73,6 +73,7 @@ import com.baijum.ukufretboard.viewmodel.FretboardViewModel
 @Composable
 fun ChordLibraryTab(
     viewModel: ChordLibraryViewModel,
+    tuning: List<UkuleleString>,
     onVoicingSelected: (ChordVoicing) -> Unit,
     onVoicingLongPressed: ((ChordVoicing) -> Unit)? = null,
     isFavorite: ((ChordVoicing) -> Boolean)? = null,
@@ -83,7 +84,6 @@ fun ChordLibraryTab(
     modifier: Modifier = Modifier,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val tuning = FretboardViewModel.STANDARD_TUNING
 
     // Inversion filter state: null = show all
     var inversionFilter by remember { mutableStateOf<ChordInfo.Inversion?>(null) }
@@ -181,6 +181,7 @@ fun ChordLibraryTab(
 
                 InversionCompareView(
                     grouped = grouped,
+                    tuning = tuning,
                     rootPitchClass = uiState.selectedRoot,
                     formula = uiState.selectedFormula!!,
                     onVoicingSelected = onVoicingSelected,
@@ -288,6 +289,7 @@ fun ChordLibraryTab(
 
                 VoicingGrid(
                     voicings = filteredVoicings,
+                    tuning = tuning,
                     onVoicingSelected = onVoicingSelected,
                     onVoicingLongPressed = onVoicingLongPressed,
                     isFavorite = isFavorite,
@@ -308,6 +310,7 @@ fun ChordLibraryTab(
             // No voicings / no formula selected
             VoicingGrid(
                 voicings = uiState.voicings,
+                tuning = tuning,
                 onVoicingSelected = onVoicingSelected,
                 onVoicingLongPressed = onVoicingLongPressed,
                 isFavorite = isFavorite,
@@ -514,6 +517,7 @@ private fun InversionFilterChips(
 @Composable
 private fun InversionCompareView(
     grouped: Map<ChordInfo.Inversion, List<ChordVoicing>>,
+    tuning: List<UkuleleString>,
     rootPitchClass: Int,
     formula: ChordFormula,
     onVoicingSelected: (ChordVoicing) -> Unit,
@@ -523,8 +527,6 @@ private fun InversionCompareView(
     onExitCompare: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val tuning = FretboardViewModel.STANDARD_TUNING
-
     // Ordered list of inversions that actually have voicings
     val availableInversions = ChordInfo.Inversion.entries.filter { grouped.containsKey(it) }
 
@@ -666,6 +668,7 @@ private fun InversionCompareView(
 @Composable
 private fun VoicingGrid(
     voicings: List<ChordVoicing>,
+    tuning: List<UkuleleString>,
     onVoicingSelected: (ChordVoicing) -> Unit,
     onVoicingLongPressed: ((ChordVoicing) -> Unit)? = null,
     isFavorite: ((ChordVoicing) -> Boolean)? = null,
@@ -677,8 +680,6 @@ private fun VoicingGrid(
     emptySubtitle: String? = null,
     modifier: Modifier = Modifier,
 ) {
-    val tuning = FretboardViewModel.STANDARD_TUNING
-
     if (voicings.isEmpty()) {
         Column(
             modifier = modifier

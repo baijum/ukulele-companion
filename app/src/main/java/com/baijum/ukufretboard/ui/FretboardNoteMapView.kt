@@ -41,29 +41,32 @@ import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.audio.ToneGenerator
 import com.baijum.ukufretboard.data.Notes
+import com.baijum.ukufretboard.data.UkuleleTuning
 import kotlinx.coroutines.launch
 
 /**
  * Fretboard Note Map — displays all note names on the ukulele fretboard.
  *
  * Features:
- * - Standard (G4-C4-E4-A4) and Low-G (G3-C4-E4-A4) tuning support
+ * - Uses the currently selected app tuning
+ * - Optional quick toggle between High-G and Low-G when applicable
  * - Highlight a specific note across all positions
  * - Tap any note to hear it
  * - Shows frets 0–12
  */
 @Composable
 fun FretboardNoteMapView(
+    tuning: UkuleleTuning,
     lastFret: Int = 12,
     modifier: Modifier = Modifier,
 ) {
-    // Standard ukulele tuning: G4=7, C4=0, E4=4, A4=9
-    val standardTuning = listOf(7, 0, 4, 9) // G, C, E, A (pitch classes)
-    val standardOctaves = listOf(4, 4, 4, 4)
-    val lowGOctaves = listOf(3, 4, 4, 4)
-    val stringNames = listOf("G", "C", "E", "A")
-
-    var isLowG by remember { mutableStateOf(false) }
+    val canToggleHighLow = tuning == UkuleleTuning.HIGH_G || tuning == UkuleleTuning.LOW_G
+    var isLowG by remember(tuning) { mutableStateOf(tuning == UkuleleTuning.LOW_G) }
+    val effectiveTuning = if (canToggleHighLow) {
+        if (isLowG) UkuleleTuning.LOW_G else UkuleleTuning.HIGH_G
+    } else {
+        tuning
+    }
     var highlightNote by remember { mutableIntStateOf(-1) } // -1 = none
     val scope = rememberCoroutineScope()
     val maxFret = lastFret
@@ -87,30 +90,38 @@ fun FretboardNoteMapView(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Tuning selector
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            FilterChip(
-                selected = !isLowG,
-                onClick = { isLowG = false },
-                label = { Text(stringResource(R.string.note_map_high_g)) },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = MaterialTheme.colorScheme.primary,
-                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-                ),
-            )
-            FilterChip(
-                selected = isLowG,
-                onClick = { isLowG = true },
-                label = { Text(stringResource(R.string.note_map_low_g)) },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = MaterialTheme.colorScheme.primary,
-                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-                ),
-            )
+        // Tuning selector (shown only when the current setting is High-G/Low-G)
+        if (canToggleHighLow) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                FilterChip(
+                    selected = !isLowG,
+                    onClick = { isLowG = false },
+                    label = { Text(stringResource(R.string.note_map_high_g)) },
+                    colors = FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = MaterialTheme.colorScheme.primary,
+                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                    ),
+                )
+                FilterChip(
+                    selected = isLowG,
+                    onClick = { isLowG = true },
+                    label = { Text(stringResource(R.string.note_map_low_g)) },
+                    colors = FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = MaterialTheme.colorScheme.primary,
+                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                    ),
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
         }
 
+        Text(
+            text = effectiveTuning.label,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
         Spacer(modifier = Modifier.height(8.dp))
 
         // Highlight filter
@@ -158,7 +169,9 @@ fun FretboardNoteMapView(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         ) {
             Column(modifier = Modifier.padding(8.dp)) {
-                val octaves = if (isLowG) lowGOctaves else standardOctaves
+                val tuningPitchClasses = effectiveTuning.pitchClasses
+                val octaves = effectiveTuning.octaves
+                val stringNames = effectiveTuning.stringNames
 
                 // Header row: fret numbers
                 Row(
@@ -184,8 +197,8 @@ fun FretboardNoteMapView(
                 }
 
                 // String rows (reversed: A, E, C, G top-to-bottom)
-                standardTuning.indices.reversed().forEach { stringIndex ->
-                    val openPc = standardTuning[stringIndex]
+                tuningPitchClasses.indices.reversed().forEach { stringIndex ->
+                    val openPc = tuningPitchClasses[stringIndex]
                     val baseOctave = octaves[stringIndex]
                     Row(
                         modifier = Modifier

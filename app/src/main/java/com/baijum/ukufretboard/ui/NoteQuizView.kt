@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
+import com.baijum.ukufretboard.data.UkuleleTuning
 import com.baijum.ukufretboard.domain.NoteQuizGenerator
 import com.baijum.ukufretboard.viewmodel.LearningProgressViewModel
 
@@ -50,6 +51,7 @@ import com.baijum.ukufretboard.viewmodel.LearningProgressViewModel
  */
 @Composable
 fun NoteQuizView(
+    tuning: UkuleleTuning,
     progressViewModel: LearningProgressViewModel? = null,
     modifier: Modifier = Modifier,
 ) {
@@ -224,9 +226,16 @@ fun NoteQuizView(
                     selectedAnswer = null
                     when (mode) {
                         NoteQuizGenerator.Mode.NAME_IT ->
-                            nameItQuestion = NoteQuizGenerator.generateNameIt(difficulty)
+                            nameItQuestion = NoteQuizGenerator.generateNameIt(
+                                difficulty = difficulty,
+                                stringOpenNotes = tuning.pitchClasses,
+                            )
                         NoteQuizGenerator.Mode.FIND_IT ->
-                            findItQuestion = NoteQuizGenerator.generateFindIt(difficulty)
+                            findItQuestion = NoteQuizGenerator.generateFindIt(
+                                difficulty = difficulty,
+                                stringOpenNotes = tuning.pitchClasses,
+                                stringNames = tuning.stringNames,
+                            )
                     }
                 },
                 modifier = Modifier
@@ -257,7 +266,7 @@ fun NoteQuizView(
 
                             // Show the position
                             Text(
-                                text = "${NoteQuizGenerator.STRING_NAMES[q.string]} string, fret ${q.fret}",
+                                text = "${tuning.stringNames[q.string]} string, fret ${q.fret}",
                                 style = MaterialTheme.typography.headlineSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.primary,
@@ -384,7 +393,7 @@ fun NoteQuizView(
                             NoteQuizGenerator.Mode.NAME_IT -> nameItQuestion!!.correctNote
                             NoteQuizGenerator.Mode.FIND_IT -> {
                                 val q = findItQuestion!!
-                                "${NoteQuizGenerator.STRING_NAMES[q.correctString]} string, fret ${q.correctFret}"
+                                "${tuning.stringNames[q.correctString]} string, fret ${q.correctFret}"
                             }
                         }
                         val isCorrectAnswer = selectedAnswer == correctIndex
@@ -405,9 +414,16 @@ fun NoteQuizView(
                                 selectedAnswer = null
                                 when (mode) {
                                     NoteQuizGenerator.Mode.NAME_IT ->
-                                        nameItQuestion = NoteQuizGenerator.generateNameIt(difficulty)
+                                        nameItQuestion = NoteQuizGenerator.generateNameIt(
+                                            difficulty = difficulty,
+                                            stringOpenNotes = tuning.pitchClasses,
+                                        )
                                     NoteQuizGenerator.Mode.FIND_IT ->
-                                        findItQuestion = NoteQuizGenerator.generateFindIt(difficulty)
+                                        findItQuestion = NoteQuizGenerator.generateFindIt(
+                                            difficulty = difficulty,
+                                            stringOpenNotes = tuning.pitchClasses,
+                                            stringNames = tuning.stringNames,
+                                        )
                                 }
                             },
                             modifier = Modifier.fillMaxWidth(),

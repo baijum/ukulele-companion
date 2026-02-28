@@ -54,6 +54,7 @@ import com.baijum.ukufretboard.data.FavoriteVoicing
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.viewmodel.FavoritesViewModel
+import com.baijum.ukufretboard.viewmodel.UkuleleString
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
 
@@ -68,6 +69,7 @@ private const val FILTER_ALL = "__all__"
 @Composable
 fun FavoritesTab(
     viewModel: FavoritesViewModel,
+    tuning: List<UkuleleString>,
     onVoicingSelected: (ChordVoicing) -> Unit,
     onShareVoicing: ((ChordVoicing, String) -> Unit)? = null,
     leftHanded: Boolean = false,
@@ -172,6 +174,7 @@ fun FavoritesTab(
                     voicings = filtered,
                     folderId = selectedFilter,
                     viewModel = viewModel,
+                    tuning = tuning,
                     onVoicingSelected = onVoicingSelected,
                     onShareVoicing = onShareVoicing,
                     leftHanded = leftHanded,
@@ -189,6 +192,7 @@ fun FavoritesTab(
                         FavoriteVoicingCard(
                             favorite = favorite,
                             viewModel = viewModel,
+                            tuning = tuning,
                             onVoicingSelected = onVoicingSelected,
                             onShareVoicing = onShareVoicing,
                             leftHanded = leftHanded,
@@ -322,6 +326,7 @@ private fun ReorderableFavoritesGrid(
     voicings: List<FavoriteVoicing>,
     folderId: String,
     viewModel: FavoritesViewModel,
+    tuning: List<UkuleleString>,
     onVoicingSelected: (ChordVoicing) -> Unit,
     onShareVoicing: ((ChordVoicing, String) -> Unit)?,
     leftHanded: Boolean,
@@ -361,6 +366,7 @@ private fun ReorderableFavoritesGrid(
                     FavoriteVoicingCard(
                         favorite = favorite,
                         viewModel = viewModel,
+                        tuning = tuning,
                         onVoicingSelected = onVoicingSelected,
                         onShareVoicing = onShareVoicing,
                         leftHanded = leftHanded,
@@ -403,13 +409,14 @@ private fun ReorderableFavoritesGrid(
 private fun FavoriteVoicingCard(
     favorite: FavoriteVoicing,
     viewModel: FavoritesViewModel,
+    tuning: List<UkuleleString>,
     onVoicingSelected: (ChordVoicing) -> Unit,
     onShareVoicing: ((ChordVoicing, String) -> Unit)?,
     leftHanded: Boolean,
     onShowFolderSheet: (FavoriteVoicing) -> Unit,
     dragHandle: @Composable (() -> Unit)? = null,
 ) {
-    val voicing = viewModel.toChordVoicing(favorite)
+    val voicing = viewModel.toChordVoicing(favorite, tuning)
     val chordName = Notes.pitchClassToName(favorite.rootPitchClass) + favorite.chordSymbol
 
     Box {

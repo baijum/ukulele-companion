@@ -310,6 +310,7 @@ fun FretboardScreen(
     // Sync tuning settings
     LaunchedEffect(appSettings.tuning) {
         fretboardViewModel.setTuningSettings(appSettings.tuning)
+        libraryViewModel.setTuning(fretboardViewModel.tuning)
     }
 
     // Sync fret count setting
@@ -544,6 +545,7 @@ fun FretboardScreen(
                                 voicing = voicing,
                                 chordName = chordName,
                                 inversionLabel = invLabel,
+                                tuningPitchClasses = fretboardViewModel.tuning.map { it.openPitchClass },
                             )
                         },
                         onShowInLibrary = { rootPitchClass, formula ->
@@ -569,6 +571,7 @@ fun FretboardScreen(
                     )
                     NAV_LIBRARY -> ChordLibraryTab(
                         viewModel = libraryViewModel,
+                        tuning = fretboardViewModel.tuning,
                         onVoicingSelected = { voicing ->
                             val state = libraryViewModel.uiState.value
                             fretboardViewModel.applyVoicing(
@@ -582,7 +585,7 @@ fun FretboardScreen(
                             val state = libraryViewModel.uiState.value
                             val rootName = Notes.pitchClassToName(state.selectedRoot)
                             val symbol = state.selectedFormula?.symbol ?: ""
-                            val tuning = FretboardViewModel.STANDARD_TUNING
+                            val tuning = fretboardViewModel.tuning
                             val invLabel = state.selectedFormula?.let { formula ->
                                 val inv = ChordInfo.determineInversion(
                                     voicing.frets, state.selectedRoot, formula, tuning,
@@ -593,6 +596,7 @@ fun FretboardScreen(
                                 voicing = voicing,
                                 chordName = "$rootName$symbol",
                                 inversionLabel = invLabel,
+                                tuningPitchClasses = fretboardViewModel.tuning.map { it.openPitchClass },
                             )
                         },
                     isFavorite = { voicing ->
@@ -656,6 +660,7 @@ fun FretboardScreen(
                     )
                     NAV_FAVORITES -> FavoritesTab(
                         viewModel = favoritesViewModel,
+                        tuning = fretboardViewModel.tuning,
                         onVoicingSelected = { voicing ->
                             fretboardViewModel.applyVoicing(voicing)
                             selectedSection = NAV_EXPLORER
@@ -664,6 +669,7 @@ fun FretboardScreen(
                             shareChordInfo = ShareChordInfo(
                                 voicing = voicing,
                                 chordName = chordName,
+                                tuningPitchClasses = fretboardViewModel.tuning.map { it.openPitchClass },
                             )
                         },
                         leftHanded = appSettings.fretboard.leftHanded,
@@ -677,7 +683,9 @@ fun FretboardScreen(
                             }
                         },
                     )
-                    NAV_CAPO_GUIDE -> CapoGuideView()
+                    NAV_CAPO_GUIDE -> CapoGuideView(
+                        tuning = appSettings.tuning.tuning,
+                    )
                     NAV_THEORY_QUIZ -> TheoryQuizView(
                         progressViewModel = learningProgressViewModel,
                     )
@@ -709,6 +717,7 @@ fun FretboardScreen(
                         },
                     )
                     NAV_NOTE_QUIZ -> NoteQuizView(
+                        tuning = appSettings.tuning.tuning,
                         progressViewModel = learningProgressViewModel,
                     )
                     NAV_CHORD_EAR -> ChordEarTrainingView(
@@ -726,6 +735,7 @@ fun FretboardScreen(
                     NAV_SCALE_CHORDS -> ScaleChordView()
                     NAV_GLOSSARY -> GlossaryView()
                     NAV_NOTE_MAP -> FretboardNoteMapView(
+                        tuning = appSettings.tuning.tuning,
                         lastFret = appSettings.fretboard.lastFret,
                     )
                     NAV_PRACTICE_ROUTINE -> PracticeRoutineView(
