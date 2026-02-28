@@ -211,7 +211,7 @@ private fun CapoResultCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.Top,
         ) {
             // Capo fret label
             Column(
@@ -232,7 +232,7 @@ private fun CapoResultCard(
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            // Shape info
+            // Shape info — takes remaining horizontal space
             Column(modifier = Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
@@ -255,7 +255,6 @@ private fun CapoResultCard(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                // Simple score indicator
                 val ease = if (maxScore > 0) (result.score * 100 / maxScore) else 0
                 Text(
                     text = stringResource(R.string.capo_calc_ease, ease),
@@ -264,12 +263,13 @@ private fun CapoResultCard(
                 )
             }
 
-            // Mini diagram
+            // Diagram on the right, constrained to its natural content width
+            // (canvas 124dp + 10dp padding each side = 144dp)
             VerticalChordDiagram(
                 voicing = result.bestVoicing,
                 onClick = {},
                 leftHanded = leftHanded,
-                modifier = Modifier.width(120.dp),
+                modifier = Modifier.width(144.dp),
             )
         }
     }

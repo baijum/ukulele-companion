@@ -313,9 +313,9 @@ private fun VerticalChordCanvas(
     capoFret: Int?,
 ) {
     // Resolve theme colors in composable scope for use inside Canvas
-    val stringColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
-    val fretColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f)
-    val nutColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+    val stringColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+    val fretColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+    val nutColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
     val dotColor = MaterialTheme.colorScheme.primary
     val bassDotColor = MaterialTheme.colorScheme.tertiary
     val commonToneColor = MaterialTheme.colorScheme.secondary
@@ -382,7 +382,7 @@ private fun VerticalChordCanvas(
                 color = fretColor,
                 start = Offset(slotX.first(), y),
                 end = Offset(slotX.last(), y),
-                strokeWidth = 1.5f,
+                strokeWidth = 2f,
             )
         }
 
@@ -392,7 +392,7 @@ private fun VerticalChordCanvas(
                 color = stringColor,
                 start = Offset(x, gridTop),
                 end = Offset(x, gridTop + fretRowCount * fretSpacePx),
-                strokeWidth = 1.5f,
+                strokeWidth = 2f,
             )
         }
 
