@@ -51,9 +51,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
@@ -383,7 +383,7 @@ private fun SheetViewer(
         }
 
         // Transpose controls
-        var transposeSemitones by remember { mutableStateOf(0) }
+        var transposeSemitones by rememberSaveable { mutableStateOf(0) }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -444,8 +444,8 @@ private fun SheetViewer(
         }
 
         // Auto-scroll state
-        var autoScrolling by remember { mutableStateOf(false) }
-        var scrollSpeed by remember { mutableFloatStateOf(1f) } // 1x, 2x, 3x
+        var autoScrolling by rememberSaveable { mutableStateOf(false) }
+        var scrollSpeed by rememberSaveable { mutableStateOf(1f) } // 1x, 2x, 3x
         val scrollState = rememberScrollState()
 
         // Auto-scroll effect

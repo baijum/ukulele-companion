@@ -38,9 +38,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -105,16 +105,16 @@ fun ProgressionsTab(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    var selectedRoot by remember { mutableIntStateOf(0) } // C
-    var selectedScale by remember { mutableStateOf(ScaleType.MAJOR) }
+    var selectedRoot by rememberSaveable { mutableStateOf(0) } // C
+    var selectedScale by rememberSaveable(stateSaver = enumSaver<ScaleType>()) { mutableStateOf(ScaleType.MAJOR) }
     var voiceLeadingPath by remember { mutableStateOf<VoiceLeading.Path?>(null) }
     var showCreateSheet by remember { mutableStateOf(false) }
     var editingProgression by remember { mutableStateOf<CustomProgression?>(null) }
     var deletingProgression by remember { mutableStateOf<CustomProgression?>(null) }
     var capoResults by remember { mutableStateOf<List<CapoCalculator.ProgressionResult>?>(null) }
     var playbackProgression by remember { mutableStateOf<Progression?>(null) }
-    var practiceProgression by remember { mutableStateOf<Progression?>(null) }
-    var practiceKeyRoot by remember { mutableIntStateOf(0) }
+    var practiceProgression by rememberSaveable(stateSaver = ProgressionSaver) { mutableStateOf<Progression?>(null) }
+    var practiceKeyRoot by rememberSaveable { mutableStateOf(0) }
 
     val progressions = Progressions.forScale(selectedScale)
     // Custom progressions filtered by current scale type
