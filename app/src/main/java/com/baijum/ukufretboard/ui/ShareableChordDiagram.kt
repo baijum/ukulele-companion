@@ -63,6 +63,7 @@ fun ShareableChordCard(
     voicing: ChordVoicing,
     chordName: String,
     inversionLabel: String? = null,
+    tuningPitchClasses: List<Int> = STANDARD_OPEN_PITCH_CLASSES,
     modifier: Modifier = Modifier,
 ) {
     // Determine fret range
@@ -83,15 +84,6 @@ fun ShareableChordCard(
 
     // Compute finger numbers
     val fingering = ChordInfo.suggestFingering(voicing.frets)
-
-    // Compute per-string note names from tuning + fret positions
-    val perStringNotes = voicing.frets.mapIndexed { index, fret ->
-        if (fret == ChordVoicing.MUTED) "x"
-        else {
-            val pitchClass = (STANDARD_OPEN_PITCH_CLASSES[index] + fret) % PITCH_CLASS_COUNT
-            Notes.pitchClassToName(pitchClass)
-        }
-    }
 
     Column(
         modifier = modifier
@@ -117,7 +109,7 @@ fun ShareableChordCard(
             startFret = startFret,
             fretRowCount = fretRowCount,
             isAtNut = isAtNut,
-            perStringNotes = perStringNotes,
+            tuningPitchClasses = tuningPitchClasses,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -155,7 +147,7 @@ private fun ShareableChordCanvas(
     startFret: Int,
     fretRowCount: Int,
     isAtNut: Boolean,
-    perStringNotes: List<String>,
+    tuningPitchClasses: List<Int> = STANDARD_OPEN_PITCH_CLASSES,
 ) {
     // Sizing constants (in dp, converted to px inside DrawScope)
     val stringSpacing = 36.dp
@@ -316,11 +308,16 @@ private fun ShareableChordCanvas(
             }
 
             stringXPositions.forEachIndexed { index, x ->
+                val fret = voicing.frets[index]
+                val openPitch = tuningPitchClasses.getOrElse(index) { STANDARD_OPEN_PITCH_CLASSES[index] }
+                val noteName = if (fret == ChordVoicing.MUTED) "x" else {
+                    val pitchClass = (openPitch + fret) % PITCH_CLASS_COUNT
+                    Notes.pitchClassToName(pitchClass)
+                }
                 // Note name (e.g., "G", "C", "E", "C") or "x" for muted
-                drawText(perStringNotes[index], x, noteNameY, notePaint)
+                drawText(noteName, x, noteNameY, notePaint)
                 // Fret number (e.g., "0", "0", "0", "3") or "x" for muted
-                val fretLabel = if (voicing.frets[index] == ChordVoicing.MUTED) "x"
-                    else "${voicing.frets[index]}"
+                val fretLabel = if (fret == ChordVoicing.MUTED) "x" else "$fret"
                 drawText(fretLabel, x, fretNumberY, fretPaint)
             }
         }

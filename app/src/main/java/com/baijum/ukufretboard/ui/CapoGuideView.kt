@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.CapoReference
 import com.baijum.ukufretboard.data.Notes
+import com.baijum.ukufretboard.data.UkuleleTuning
 
 /**
  * Educational Capo Guide — interactive lessons explaining what a capo does
@@ -55,6 +56,7 @@ import com.baijum.ukufretboard.data.Notes
  */
 @Composable
 fun CapoGuideView(
+    tuning: UkuleleTuning,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -88,7 +90,7 @@ fun CapoGuideView(
                     color = MaterialTheme.colorScheme.onSurface,
                 )
                 Spacer(modifier = Modifier.height(12.dp))
-                InteractiveCapoDemo()
+                InteractiveCapoDemo(tuning = tuning)
             }
         }
 
@@ -276,7 +278,7 @@ private fun LessonSection(
  * and sees the open string pitches update in real time.
  */
 @Composable
-private fun InteractiveCapoDemo() {
+private fun InteractiveCapoDemo(tuning: UkuleleTuning) {
     var selectedCapoFret by remember { mutableIntStateOf(0) }
 
     Column {
@@ -347,9 +349,9 @@ private fun InteractiveCapoDemo() {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
-                    CapoReference.STANDARD_OPEN_PITCHES.forEachIndexed { index, openPitch ->
+                    tuning.pitchClasses.forEachIndexed { index, openPitch ->
                         val effectivePitch = (openPitch + selectedCapoFret) % Notes.PITCH_CLASS_COUNT
-                        val originalName = CapoReference.STRING_NAMES[index]
+                        val originalName = tuning.stringNames[index]
                         val effectiveName = Notes.pitchClassToName(effectivePitch)
 
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {

@@ -20,10 +20,10 @@ object NoteQuizGenerator {
     enum class Mode { NAME_IT, FIND_IT }
 
     /** Open-string pitch classes for standard high-G tuning: G, C, E, A. */
-    private val STRING_OPEN_NOTES = listOf(7, 0, 4, 9)
+    private val STANDARD_STRING_OPEN_NOTES = listOf(7, 0, 4, 9)
 
     /** String display names in standard tuning order. */
-    val STRING_NAMES = listOf("G", "C", "E", "A")
+    private val STANDARD_STRING_NAMES = listOf("G", "C", "E", "A")
 
     /** Max fret by difficulty level (1=Easy, 2=Medium, 3=Hard). */
     private val DIFFICULTY_MAX_FRET = mapOf(1 to 5, 2 to 9, 3 to 12)
@@ -71,11 +71,17 @@ object NoteQuizGenerator {
      *
      * @param difficulty 1=Easy, 2=Medium, 3=Hard.
      */
-    fun generateNameIt(difficulty: Int = 2): NameItQuestion {
+    fun generateNameIt(
+        difficulty: Int = 2,
+        stringOpenNotes: List<Int> = STANDARD_STRING_OPEN_NOTES,
+    ): NameItQuestion {
+        val openNotes = List(4) { index ->
+            stringOpenNotes.getOrElse(index) { STANDARD_STRING_OPEN_NOTES[index] }
+        }
         val maxFret = DIFFICULTY_MAX_FRET[difficulty.coerceIn(1, 3)] ?: 12
         val string = (0..3).random()
         val fret = (0..maxFret).random()
-        val pitchClass = (STRING_OPEN_NOTES[string] + fret) % 12
+        val pitchClass = (openNotes[string] + fret) % 12
         val correctNote = Notes.pitchClassToName(pitchClass)
 
         // 3 wrong answers: other note names not equal to the correct one
@@ -100,26 +106,36 @@ object NoteQuizGenerator {
      *
      * @param difficulty 1=Easy, 2=Medium, 3=Hard.
      */
-    fun generateFindIt(difficulty: Int = 2): FindItQuestion {
+    fun generateFindIt(
+        difficulty: Int = 2,
+        stringOpenNotes: List<Int> = STANDARD_STRING_OPEN_NOTES,
+        stringNames: List<String> = STANDARD_STRING_NAMES,
+    ): FindItQuestion {
+        val openNotes = List(4) { index ->
+            stringOpenNotes.getOrElse(index) { STANDARD_STRING_OPEN_NOTES[index] }
+        }
+        val displayStringNames = List(4) { index ->
+            stringNames.getOrElse(index) { STANDARD_STRING_NAMES[index] }
+        }
         val maxFret = DIFFICULTY_MAX_FRET[difficulty.coerceIn(1, 3)] ?: 12
 
         // Pick a random target position
         val correctString = (0..3).random()
         val correctFret = (0..maxFret).random()
-        val targetPc = (STRING_OPEN_NOTES[correctString] + correctFret) % 12
+        val targetPc = (openNotes[correctString] + correctFret) % 12
         val targetNote = Notes.pitchClassToName(targetPc)
 
-        val correctLabel = "${STRING_NAMES[correctString]} string, fret $correctFret"
+        val correctLabel = "${displayStringNames[correctString]} string, fret $correctFret"
 
         // Generate 3 wrong positions (different from the correct one)
         val wrongPositions = mutableSetOf<String>()
         while (wrongPositions.size < 3) {
             val s = (0..3).random()
             val f = (0..maxFret).random()
-            val pc = (STRING_OPEN_NOTES[s] + f) % 12
+            val pc = (openNotes[s] + f) % 12
             // Must not be the same position and must not be the same note
             if ((s != correctString || f != correctFret) && pc != targetPc) {
-                wrongPositions.add("${STRING_NAMES[s]} string, fret $f")
+                wrongPositions.add("${displayStringNames[s]} string, fret $f")
             }
         }
 

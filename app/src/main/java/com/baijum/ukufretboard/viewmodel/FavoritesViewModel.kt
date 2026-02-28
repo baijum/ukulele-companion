@@ -115,8 +115,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     /**
      * Converts a [FavoriteVoicing] to a [ChordVoicing] for display and application.
      */
-    fun toChordVoicing(favorite: FavoriteVoicing): ChordVoicing {
-        val tuning = FretboardViewModel.STANDARD_TUNING
+    fun toChordVoicing(favorite: FavoriteVoicing, tuning: List<UkuleleString>): ChordVoicing {
         val notes = favorite.frets.mapIndexed { i, fret ->
             if (fret == ChordVoicing.MUTED) null
             else {

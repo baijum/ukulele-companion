@@ -38,7 +38,7 @@ data class ChordLibraryUiState(
 class ChordLibraryViewModel : ViewModel() {
 
     /** The tuning used for voicing generation. */
-    private val tuning = FretboardViewModel.STANDARD_TUNING
+    private var tuning = FretboardViewModel.STANDARD_TUNING
 
     /** Whether the voicing generator may include voicings with muted strings. */
     private var allowMutedStrings: Boolean = false
@@ -64,6 +64,19 @@ class ChordLibraryViewModel : ViewModel() {
 
     /** Observable UI state for the chord library tab. */
     val uiState: StateFlow<ChordLibraryUiState> = _uiState.asStateFlow()
+
+    /**
+     * Updates the tuning used by voicing generation and refreshes current results.
+     */
+    fun setTuning(tuning: List<UkuleleString>) {
+        if (this.tuning == tuning) return
+        this.tuning = tuning
+        _uiState.update { current ->
+            current.copy(
+                voicings = generateVoicings(current.selectedRoot, current.selectedFormula),
+            )
+        }
+    }
 
     /**
      * Selects a root note and regenerates voicings.
