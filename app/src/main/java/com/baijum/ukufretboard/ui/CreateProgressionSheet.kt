@@ -34,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -83,9 +84,9 @@ fun CreateProgressionSheet(
     val isEditMode = initialName.isNotEmpty() || initialDegrees.isNotEmpty()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    var name by remember { mutableStateOf(initialName) }
-    var description by remember { mutableStateOf(initialDescription) }
-    var scaleType by remember { mutableStateOf(initialScaleType ?: selectedScale) }
+    var name by rememberSaveable { mutableStateOf(initialName) }
+    var description by rememberSaveable { mutableStateOf(initialDescription) }
+    var scaleType by rememberSaveable(stateSaver = enumSaver<ScaleType>()) { mutableStateOf(initialScaleType ?: selectedScale) }
     val chosenDegrees = remember { mutableStateListOf<ChordDegree>().also { it.addAll(initialDegrees) } }
     var selectedQuality by remember { mutableStateOf<ChordFormula?>(null) }
 

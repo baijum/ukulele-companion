@@ -26,9 +26,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -62,13 +61,13 @@ fun ChordEarTrainingView(
     val progressState = progressViewModel?.state?.collectAsState()
     val allTimeStats = progressViewModel?.chordEarStats()
 
-    var level by remember { mutableIntStateOf(1) }
-    var question by remember { mutableStateOf<ChordEarTrainer.ChordEarQuestion?>(null) }
-    var selectedAnswer by remember { mutableStateOf<Int?>(null) }
-    var totalCorrect by remember { mutableIntStateOf(0) }
-    var totalAnswered by remember { mutableIntStateOf(0) }
-    var streak by remember { mutableIntStateOf(0) }
-    var bestStreak by remember { mutableIntStateOf(0) }
+    var level by rememberSaveable { mutableStateOf(1) }
+    var question by rememberSaveable(stateSaver = ChordEarQuestionSaver) { mutableStateOf<ChordEarTrainer.ChordEarQuestion?>(null) }
+    var selectedAnswer by rememberSaveable { mutableStateOf<Int?>(null) }
+    var totalCorrect by rememberSaveable { mutableStateOf(0) }
+    var totalAnswered by rememberSaveable { mutableStateOf(0) }
+    var streak by rememberSaveable { mutableStateOf(0) }
+    var bestStreak by rememberSaveable { mutableStateOf(0) }
     val scope = rememberCoroutineScope()
 
     Column(

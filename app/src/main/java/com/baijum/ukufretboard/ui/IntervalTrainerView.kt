@@ -29,9 +29,8 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,15 +64,15 @@ fun IntervalTrainerView(
     // Observe persisted stats to trigger recomposition
     val progressState = progressViewModel?.state?.collectAsState()
     val allTimeStats = progressViewModel?.intervalStats()
-    var isAudioMode by remember { mutableStateOf(false) }
-    var direction by remember { mutableStateOf(IntervalTrainer.IntervalDirection.ASCENDING) }
-    var level by remember { mutableIntStateOf(1) }
-    var question by remember { mutableStateOf<IntervalTrainer.IntervalQuestion?>(null) }
-    var selectedAnswer by remember { mutableStateOf<Int?>(null) }
-    var totalCorrect by remember { mutableIntStateOf(0) }
-    var totalAnswered by remember { mutableIntStateOf(0) }
-    var streak by remember { mutableIntStateOf(0) }
-    var bestStreak by remember { mutableIntStateOf(0) }
+    var isAudioMode by rememberSaveable { mutableStateOf(false) }
+    var direction by rememberSaveable(stateSaver = enumSaver<IntervalTrainer.IntervalDirection>()) { mutableStateOf(IntervalTrainer.IntervalDirection.ASCENDING) }
+    var level by rememberSaveable { mutableStateOf(1) }
+    var question by rememberSaveable(stateSaver = IntervalQuestionSaver) { mutableStateOf<IntervalTrainer.IntervalQuestion?>(null) }
+    var selectedAnswer by rememberSaveable { mutableStateOf<Int?>(null) }
+    var totalCorrect by rememberSaveable { mutableStateOf(0) }
+    var totalAnswered by rememberSaveable { mutableStateOf(0) }
+    var streak by rememberSaveable { mutableStateOf(0) }
+    var bestStreak by rememberSaveable { mutableStateOf(0) }
     val scope = rememberCoroutineScope()
 
     Column(
