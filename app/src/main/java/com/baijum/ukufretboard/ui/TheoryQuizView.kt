@@ -14,7 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableLongStateOf
 import kotlinx.coroutines.delay
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -25,9 +24,8 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,20 +56,20 @@ fun TheoryQuizView(
     // Observe persisted stats to trigger recomposition
     val progressState = progressViewModel?.state?.collectAsState()
     val allTimeStats = progressViewModel?.quizStats()
-    var selectedCategory by remember { mutableStateOf<QuizGenerator.QuizCategory?>(null) }
-    var currentQuestion by remember { mutableStateOf<QuizGenerator.QuizQuestion?>(null) }
-    var selectedAnswer by remember { mutableStateOf<Int?>(null) }
-    var totalCorrect by remember { mutableIntStateOf(0) }
-    var totalAnswered by remember { mutableIntStateOf(0) }
-    var streak by remember { mutableIntStateOf(0) }
-    var bestStreak by remember { mutableIntStateOf(0) }
+    var selectedCategory by rememberSaveable(stateSaver = nullableEnumSaver<QuizGenerator.QuizCategory>()) { mutableStateOf<QuizGenerator.QuizCategory?>(null) }
+    var currentQuestion by rememberSaveable(stateSaver = QuizQuestionSaver) { mutableStateOf<QuizGenerator.QuizQuestion?>(null) }
+    var selectedAnswer by rememberSaveable { mutableStateOf<Int?>(null) }
+    var totalCorrect by rememberSaveable { mutableStateOf(0) }
+    var totalAnswered by rememberSaveable { mutableStateOf(0) }
+    var streak by rememberSaveable { mutableStateOf(0) }
+    var bestStreak by rememberSaveable { mutableStateOf(0) }
 
     // Blitz mode state
-    var isBlitzMode by remember { mutableStateOf(false) }
-    var blitzActive by remember { mutableStateOf(false) }
-    var blitzTimeMs by remember { mutableLongStateOf(BLITZ_DURATION_MS) }
-    var blitzScore by remember { mutableIntStateOf(0) }
-    var blitzFinished by remember { mutableStateOf(false) }
+    var isBlitzMode by rememberSaveable { mutableStateOf(false) }
+    var blitzActive by rememberSaveable { mutableStateOf(false) }
+    var blitzTimeMs by rememberSaveable { mutableStateOf(BLITZ_DURATION_MS) }
+    var blitzScore by rememberSaveable { mutableStateOf(0) }
+    var blitzFinished by rememberSaveable { mutableStateOf(false) }
 
     // Blitz countdown timer
     LaunchedEffect(blitzActive) {

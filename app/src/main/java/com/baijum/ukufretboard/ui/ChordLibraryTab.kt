@@ -37,6 +37,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -86,9 +87,9 @@ fun ChordLibraryTab(
     val uiState by viewModel.uiState.collectAsState()
 
     // Inversion filter state: null = show all
-    var inversionFilter by remember { mutableStateOf<ChordInfo.Inversion?>(null) }
+    var inversionFilter by rememberSaveable(stateSaver = nullableEnumSaver<ChordInfo.Inversion>()) { mutableStateOf<ChordInfo.Inversion?>(null) }
     // Compare mode toggle
-    var compareMode by remember { mutableStateOf(false) }
+    var compareMode by rememberSaveable { mutableStateOf(false) }
     // Capo calculator mode
     var capoResults by remember { mutableStateOf<List<CapoCalculator.SingleChordResult>?>(null) }
     // Capo visualizer mode — stores the voicing to visualize

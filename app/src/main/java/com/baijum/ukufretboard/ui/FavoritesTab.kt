@@ -39,6 +39,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
@@ -77,7 +78,7 @@ fun FavoritesTab(
 ) {
     val favorites by viewModel.favorites.collectAsState()
     val folders by viewModel.folders.collectAsState()
-    var selectedFilter by remember { mutableStateOf(FILTER_ALL) }
+    var selectedFilter by rememberSaveable { mutableStateOf(FILTER_ALL) }
     var showCreateFolderDialog by remember { mutableStateOf(false) }
     var showFolderSheet by remember { mutableStateOf<FavoriteVoicing?>(null) }
     var renamingFolder by remember { mutableStateOf<FavoriteFolder?>(null) }
