@@ -134,6 +134,9 @@
     <string name="chord_library_reentrant_limited">Bu akorun yalnızca %d seslendirmesi var. Yeniden giriş akort (Yüksek G), C teli (C4) neredeyse her zaman en düşük perde olduğu için çevrimleri sınırlar. Düşük G akort daha fazla çevrim çeşitliliği sağlar.</string>
     <string name="chord_library_reentrant_empty">Yeniden giriş akordunda (Yüksek G), C teli neredeyse her zaman en düşük notadır, bu yüzden çoğu seslendirme kök pozisyondadır. Mevcut seslendirmeleri görmek için \"Tümü\" seçeneğini deneyin.</string>
     <string name="chord_library_no_voicings">Seslendirme bulunamadı</string>
+    <string name="chord_library_search_hint">Akor ara (ör. Cm7, C/E)</string>
+    <string name="chord_library_search_clear">Aramayı temizle</string>
+    <string name="chord_library_search_no_results">Eşleşen akor bulunamadı</string>
 
     <!-- ── Akort ──────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Bir tel çalın…</string>

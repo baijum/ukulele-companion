@@ -60,14 +60,14 @@ object ChordFormulas {
             quality = "Major",
             category = ChordCategory.TRIAD,
             intervals = setOf(0, 4, 7),
-            aliases = listOf("M", "maj"),
+            aliases = listOf("M", "maj", "ma"),
         ),
         ChordFormula(
             symbol = "m",
             quality = "Minor",
             category = ChordCategory.TRIAD,
             intervals = setOf(0, 3, 7),
-            aliases = listOf("min", "mi", "\u2212"),
+            aliases = listOf("min", "mi", "\u2212", "-"),
         ),
         ChordFormula(
             symbol = "dim",
@@ -115,14 +115,14 @@ object ChordFormulas {
             quality = "Minor 7th",
             category = ChordCategory.SEVENTH,
             intervals = setOf(0, 3, 7, 10),
-            aliases = listOf("min7", "mi7", "\u22127"),
+            aliases = listOf("min7", "mi7", "\u22127", "-7"),
         ),
         ChordFormula(
             symbol = "maj7",
             quality = "Major 7th",
             category = ChordCategory.SEVENTH,
             intervals = setOf(0, 4, 7, 11),
-            aliases = listOf("M7", "\u03947", "^7"),
+            aliases = listOf("M7", "\u03947", "^7", "ma7"),
         ),
         ChordFormula(
             symbol = "aug7",
@@ -139,11 +139,18 @@ object ChordFormulas {
             aliases = listOf("\u00B07"),
         ),
         ChordFormula(
+            symbol = "m7b5",
+            quality = "Half-diminished 7th",
+            category = ChordCategory.SEVENTH,
+            intervals = setOf(0, 3, 6, 10),
+            aliases = listOf("\u00F87", "\u00F8"),
+        ),
+        ChordFormula(
             symbol = "m(Maj7)",
             quality = "Minor Major 7th",
             category = ChordCategory.SEVENTH,
             intervals = setOf(0, 3, 7, 11),
-            aliases = listOf("mM7", "m\u03947"),
+            aliases = listOf("mM7", "m\u03947", "-M7", "-Maj7"),
         ),
         // --- Extended chords ---
         ChordFormula(
@@ -157,6 +164,7 @@ object ChordFormulas {
             quality = "Minor 6th",
             category = ChordCategory.EXTENDED,
             intervals = setOf(0, 3, 7, 9),
+            aliases = listOf("-6"),
         ),
         ChordFormula(
             symbol = "9",
@@ -171,6 +179,7 @@ object ChordFormulas {
             category = ChordCategory.EXTENDED,
             intervals = setOf(0, 2, 3, 7, 10),
             omittable = setOf(7),
+            aliases = listOf("-9"),
         ),
         ChordFormula(
             symbol = "add9",

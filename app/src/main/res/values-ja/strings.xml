@@ -134,6 +134,9 @@
     <string name="chord_library_reentrant_limited">このコードには%dつのボイシングしかありません。リエントラントチューニング（High-G）では、C弦（C4）がほぼ常に最低音となるため、転回形が制限されます。Low-Gチューニングではより多くの転回バリエーションが可能です。</string>
     <string name="chord_library_reentrant_empty">リエントラントチューニング（High-G）ではC弦がほぼ常に最低音となるため、ほとんどのボイシングが基本形になります。利用可能なボイシングを表示するには「すべて」を選択してください。</string>
     <string name="chord_library_no_voicings">ボイシングが見つかりません</string>
+    <string name="chord_library_search_hint">コード検索（例：Cm7, C/E）</string>
+    <string name="chord_library_search_clear">検索をクリア</string>
+    <string name="chord_library_search_no_results">一致するコードがありません</string>
 
     <!-- ── Tuner ────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">弦を弾いてください…</string>

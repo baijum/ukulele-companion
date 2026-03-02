@@ -134,6 +134,9 @@
     <string name="chord_library_reentrant_limited">इस कॉर्ड में केवल %d वॉइसिंग हैं। री-एंट्रेंट ट्यूनिंग (High-G) इन्वर्शन को सीमित करती है क्योंकि C स्ट्रिंग (C4) लगभग हमेशा सबसे नीची पिच होती है। Low-G ट्यूनिंग अधिक इन्वर्शन विविधता प्रदान करती है।</string>
     <string name="chord_library_reentrant_empty">री-एंट्रेंट ट्यूनिंग (High-G) में, C स्ट्रिंग लगभग हमेशा सबसे नीचा नोट होता है, इसलिए अधिकांश वॉइसिंग मूल स्थिति में हैं। उपलब्ध वॉइसिंग देखने के लिए \"सभी\" चुनें।</string>
     <string name="chord_library_no_voicings">कोई वॉइसिंग नहीं मिली</string>
+    <string name="chord_library_search_hint">कॉर्ड खोजें (जैसे, Cm7, C/E)</string>
+    <string name="chord_library_search_clear">खोज साफ़ करें</string>
+    <string name="chord_library_search_no_results">कोई मिलते-जुलते कॉर्ड नहीं</string>
 
     <!-- ── Tuner ────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">एक तार बजाएँ…</string>

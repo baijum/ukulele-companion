@@ -134,6 +134,9 @@
     <string name="chord_library_reentrant_limited">Questo accordo ha solo %d voci. L\'accordatura rientrante (Sol alto) limita i rivolti perché la corda di Do (Do4) è quasi sempre la nota più bassa. L\'accordatura con Sol basso consente maggiore varietà di rivolti.</string>
     <string name="chord_library_reentrant_empty">Con l\'accordatura rientrante (Sol alto), la corda di Do è quasi sempre la nota più bassa, quindi la maggior parte delle voci è in posizione fondamentale. Prova a selezionare \"Tutti\" per vedere le voci disponibili.</string>
     <string name="chord_library_no_voicings">Nessuna voce trovata</string>
+    <string name="chord_library_search_hint">Cerca accordo (es. Cm7, C/E)</string>
+    <string name="chord_library_search_clear">Cancella ricerca</string>
+    <string name="chord_library_search_no_results">Nessun accordo trovato</string>
 
     <!-- ── Accordatore ────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Suona una corda…</string>
