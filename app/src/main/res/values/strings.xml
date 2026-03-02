@@ -144,6 +144,9 @@
     <string name="chord_library_reentrant_limited">This chord only has %d voicings. Re-entrant tuning (High-G) limits inversions because the C string (C4) is almost always the lowest pitch. Low-G tuning allows more inversion variety.</string>
     <string name="chord_library_reentrant_empty">In re-entrant tuning (High-G), the C string is almost always the lowest note, so most voicings are root position. Try selecting \"All\" to see available voicings.</string>
     <string name="chord_library_no_voicings">No voicings found</string>
+    <string name="chord_library_search_hint">Search chord (e.g., Cm7, C/E)</string>
+    <string name="chord_library_search_clear">Clear search</string>
+    <string name="chord_library_search_no_results">No matching chords</string>
 
     <!-- ── Tuner ────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Play a string…</string>

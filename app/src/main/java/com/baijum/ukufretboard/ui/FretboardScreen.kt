@@ -1,5 +1,6 @@
 package com.baijum.ukufretboard.ui
 
+import com.baijum.ukufretboard.domain.ChordNameParser
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
@@ -885,25 +886,10 @@ private fun navigateToChord(
     libraryViewModel: ChordLibraryViewModel,
     switchTab: () -> Unit,
 ) {
-    // Parse root note: first char (A-G), optionally followed by # or b
-    val rootMatch = Regex("^([A-G][#b]?)").find(chordName) ?: return
-    val rootStr = rootMatch.groupValues[1]
-    val quality = chordName.removePrefix(rootStr)
-
-    // Find the pitch class for the root
-    val noteNames = com.baijum.ukufretboard.data.Notes.NOTE_NAMES_SHARP
-    val noteNamesFlat = com.baijum.ukufretboard.data.Notes.NOTE_NAMES_FLAT
-    val rootPitchClass = noteNames.indexOf(rootStr).takeIf { it >= 0 }
-        ?: noteNamesFlat.indexOf(rootStr).takeIf { it >= 0 }
-        ?: return
-
-    libraryViewModel.selectRoot(rootPitchClass)
-    val formula = com.baijum.ukufretboard.data.ChordFormulas.ALL
-        .firstOrNull { it.symbol == quality }
-    if (formula != null) {
-        libraryViewModel.selectCategory(formula.category)
-        libraryViewModel.selectFormula(formula)
-    }
+    val result = ChordNameParser.parse(chordName) ?: return
+    libraryViewModel.selectRoot(result.rootPitchClass)
+    libraryViewModel.selectCategory(result.formula.category)
+    libraryViewModel.selectFormula(result.formula)
     switchTab()
 }
 

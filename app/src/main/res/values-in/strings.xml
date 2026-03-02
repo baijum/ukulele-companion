@@ -134,6 +134,9 @@
     <string name="chord_library_reentrant_limited">Akor ini hanya memiliki %d voicing. Tuning re-entrant (G tinggi) membatasi inversi karena senar C (C4) hampir selalu menjadi nada terendah. Tuning G rendah memungkinkan lebih banyak variasi inversi.</string>
     <string name="chord_library_reentrant_empty">Pada tuning re-entrant (G tinggi), senar C hampir selalu menjadi not terendah, sehingga sebagian besar voicing berada di posisi dasar. Coba pilih \"Semua\" untuk melihat voicing yang tersedia.</string>
     <string name="chord_library_no_voicings">Tidak ada voicing ditemukan</string>
+    <string name="chord_library_search_hint">Cari akor (mis., Cm7, C/E)</string>
+    <string name="chord_library_search_clear">Hapus pencarian</string>
+    <string name="chord_library_search_no_results">Tidak ada akor yang cocok</string>
 
     <!-- ── Tuner ──────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Petik senar…</string>

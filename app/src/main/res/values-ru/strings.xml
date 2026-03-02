@@ -134,6 +134,9 @@
     <string name="chord_library_reentrant_limited">У этого аккорда всего %d вариантов. Реентрантный строй (High-G) ограничивает обращения, поскольку струна C (C4) почти всегда является самым низким звуком. Строй Low-G даёт больше вариантов обращений.</string>
     <string name="chord_library_reentrant_empty">При реентрантном строе (High-G) струна C почти всегда является самой низкой нотой, поэтому большинство вариантов — в основной позиции. Попробуйте выбрать «Все», чтобы увидеть доступные варианты.</string>
     <string name="chord_library_no_voicings">Варианты не найдены</string>
+    <string name="chord_library_search_hint">Поиск аккорда (напр., Cm7, C/E)</string>
+    <string name="chord_library_search_clear">Очистить поиск</string>
+    <string name="chord_library_search_no_results">Совпадений не найдено</string>
 
     <!-- ── Tuner ────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Сыграйте на струне…</string>

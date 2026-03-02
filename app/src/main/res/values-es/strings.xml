@@ -134,6 +134,9 @@
     <string name="chord_library_reentrant_limited">Este acorde solo tiene %d voicings. La afinación reentrante (Sol agudo) limita las inversiones porque la cuerda Do (Do4) casi siempre es el tono más grave. La afinación Sol grave permite más variedad de inversiones.</string>
     <string name="chord_library_reentrant_empty">En afinación reentrante (Sol agudo), la cuerda Do casi siempre es la nota más grave, así que la mayoría de los voicings son en posición fundamental. Prueba seleccionar \"Todos\" para ver los voicings disponibles.</string>
     <string name="chord_library_no_voicings">No se encontraron voicings</string>
+    <string name="chord_library_search_hint">Buscar acorde (ej., Cm7, C/E)</string>
+    <string name="chord_library_search_clear">Borrar búsqueda</string>
+    <string name="chord_library_search_no_results">No se encontraron acordes</string>
 
     <!-- ── Afinador ──────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Toca una cuerda…</string>

@@ -1,5 +1,6 @@
 package com.baijum.ukufretboard.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -20,8 +22,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -31,6 +36,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -41,6 +48,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -51,6 +63,7 @@ import com.baijum.ukufretboard.data.ChordFormulas
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.domain.CapoCalculator
 import com.baijum.ukufretboard.domain.ChordInfo
+import com.baijum.ukufretboard.domain.ChordSearchResult
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.viewmodel.ChordLibraryViewModel
 import com.baijum.ukufretboard.viewmodel.UkuleleString
@@ -85,6 +98,9 @@ fun ChordLibraryTab(
     modifier: Modifier = Modifier,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState()
+    val searchResults by viewModel.searchResults.collectAsState()
+    val focusManager = LocalFocusManager.current
 
     // Inversion filter state: null = show all
     var inversionFilter by rememberSaveable(stateSaver = nullableEnumSaver<ChordInfo.Inversion>()) { mutableStateOf<ChordInfo.Inversion?>(null) }
@@ -100,6 +116,20 @@ fun ChordLibraryTab(
             .fillMaxSize()
             .padding(top = 8.dp),
     ) {
+        // Section: Chord search
+        ChordSearchBar(
+            query = searchQuery,
+            results = searchResults,
+            onQueryChange = viewModel::updateSearchQuery,
+            onResultSelected = { result ->
+                val inversion = viewModel.selectSearchResult(result)
+                inversionFilter = inversion
+                focusManager.clearFocus()
+            },
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         // Section: Root note selector
         SectionLabel(stringResource(R.string.chord_library_root_note))
         RootNoteSelector(
@@ -735,5 +765,120 @@ private fun VoicingGrid(
                 )
             }
         }
+    }
+}
+
+/**
+ * Search bar with suggestion dropdown for finding chords by name.
+ *
+ * Supports canonical symbols, aliases (e.g., "CM", "C-7"), and
+ * slash chords (e.g., "C/E"). Suggestions update as the user types.
+ */
+@Composable
+private fun ChordSearchBar(
+    query: String,
+    results: List<ChordSearchResult>,
+    onQueryChange: (String) -> Unit,
+    onResultSelected: (ChordSearchResult) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val searchHint = stringResource(R.string.chord_library_search_hint)
+    val clearDesc = stringResource(R.string.chord_library_search_clear)
+    val noResultsText = stringResource(R.string.chord_library_search_no_results)
+
+    Column(modifier = modifier.padding(horizontal = 16.dp)) {
+        OutlinedTextField(
+            value = query,
+            onValueChange = onQueryChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .semantics { contentDescription = searchHint },
+            placeholder = { Text(searchHint) },
+            singleLine = true,
+            shape = RoundedCornerShape(12.dp),
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Filled.Search,
+                    contentDescription = null,
+                )
+            },
+            trailingIcon = {
+                if (query.isNotEmpty()) {
+                    IconButton(onClick = { onQueryChange("") }) {
+                        Icon(
+                            imageVector = Icons.Filled.Clear,
+                            contentDescription = clearDesc,
+                        )
+                    }
+                }
+            },
+        )
+
+        if (query.isNotEmpty()) {
+            Surface(
+                shape = RoundedCornerShape(8.dp),
+                tonalElevation = 2.dp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp),
+            ) {
+                if (results.isEmpty()) {
+                    Text(
+                        text = noResultsText,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .semantics { liveRegion = LiveRegionMode.Polite },
+                    )
+                } else {
+                    LazyColumn(
+                        modifier = Modifier.heightIn(max = 240.dp),
+                    ) {
+                        items(results) { result ->
+                            ChordSuggestionRow(
+                                result = result,
+                                onClick = { onResultSelected(result) },
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ChordSuggestionRow(
+    result: ChordSearchResult,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val qualityLabel = buildString {
+        append(result.quality)
+        result.inversion?.let { append(", ${it.label}") }
+    }
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .semantics {
+                contentDescription = "${result.displayName}, $qualityLabel"
+            },
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = result.displayName,
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Medium,
+        )
+        Text(
+            text = qualityLabel,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }

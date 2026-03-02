@@ -6,6 +6,9 @@ import com.baijum.ukufretboard.data.ChordFormula
 import com.baijum.ukufretboard.data.ChordFormulas
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.VoicingGenerator
+import com.baijum.ukufretboard.domain.ChordInfo
+import com.baijum.ukufretboard.domain.ChordNameParser
+import com.baijum.ukufretboard.domain.ChordSearchResult
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.domain.Transpose
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -160,6 +163,42 @@ class ChordLibraryViewModel : ViewModel() {
                 voicings = generateVoicings(current.selectedRoot, current.selectedFormula),
             )
         }
+    }
+
+    // ── Chord search ─────────────────────────────────────────────────────
+
+    private val _searchQuery = MutableStateFlow("")
+
+    /** The current search query text. */
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
+    private val _searchResults = MutableStateFlow<List<ChordSearchResult>>(emptyList())
+
+    /** Suggestions matching the current search query. */
+    val searchResults: StateFlow<List<ChordSearchResult>> = _searchResults.asStateFlow()
+
+    /**
+     * Updates the chord search query and recomputes suggestions.
+     */
+    fun updateSearchQuery(query: String) {
+        _searchQuery.value = query
+        _searchResults.value = ChordNameParser.suggestions(query)
+    }
+
+    /**
+     * Navigates to the chord described by [result], updating root, category,
+     * and formula selection. Clears the search query afterwards.
+     *
+     * @return The target [ChordInfo.Inversion] if the result is a slash chord,
+     *   so the UI can set its local inversion filter. Null otherwise.
+     */
+    fun selectSearchResult(result: ChordSearchResult): ChordInfo.Inversion? {
+        selectRoot(result.rootPitchClass)
+        selectCategory(result.formula.category)
+        selectFormula(result.formula)
+        _searchQuery.value = ""
+        _searchResults.value = emptyList()
+        return result.inversion
     }
 
     private fun generateVoicings(rootPitchClass: Int, formula: ChordFormula?): List<ChordVoicing> {

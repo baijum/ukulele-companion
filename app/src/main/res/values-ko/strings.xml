@@ -134,6 +134,9 @@
     <string name="chord_library_reentrant_limited">이 코드는 보이싱이 %d개뿐입니다. 리엔트런트 튜닝(High-G)에서는 C현(C4)이 거의 항상 가장 낮은 음이 되어 전위가 제한됩니다. Low-G 튜닝에서는 더 다양한 전위가 가능합니다.</string>
     <string name="chord_library_reentrant_empty">리엔트런트 튜닝(High-G)에서는 C현이 거의 항상 가장 낮은 음이므로 대부분의 보이싱이 기본형입니다. 사용 가능한 보이싱을 보려면 \"전체\"를 선택하세요.</string>
     <string name="chord_library_no_voicings">보이싱을 찾을 수 없습니다</string>
+    <string name="chord_library_search_hint">코드 검색 (예: Cm7, C/E)</string>
+    <string name="chord_library_search_clear">검색 지우기</string>
+    <string name="chord_library_search_no_results">일치하는 코드 없음</string>
 
     <!-- ── Tuner ────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">현을 연주하세요…</string>

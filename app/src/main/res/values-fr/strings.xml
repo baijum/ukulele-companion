@@ -134,6 +134,9 @@
     <string name="chord_library_reentrant_limited">Cet accord n\'a que %d voicings. L\'accordage rentrant (Sol aigu) limite les renversements car la corde Do (Do4) est presque toujours la note la plus grave. L\'accordage Sol grave permet plus de variété.</string>
     <string name="chord_library_reentrant_empty">En accordage rentrant (Sol aigu), la corde Do est presque toujours la note la plus grave, donc la plupart des voicings sont en position fondamentale. Essayez de sélectionner \"Tout\" pour voir les voicings disponibles.</string>
     <string name="chord_library_no_voicings">Aucun voicing trouvé</string>
+    <string name="chord_library_search_hint">Rechercher un accord (ex. Cm7, C/E)</string>
+    <string name="chord_library_search_clear">Effacer la recherche</string>
+    <string name="chord_library_search_no_results">Aucun accord trouvé</string>
 
     <!-- ── Accordeur ─────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Jouez une corde…</string>
