@@ -154,7 +154,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             .putInt(KEY_STRUM_DELAY, s.sound.strumDelayMs)
             .putBoolean(KEY_STRUM_DOWN, s.sound.strumDown)
             .putBoolean(KEY_PLAY_ON_TAP, s.sound.playOnTap)
-            .putFloat(KEY_PM_NOISE_GATE_SENSITIVITY, s.sound.noiseGateSensitivity)
+            .putFloat(KEY_PM_NOISE_GATE_FILTERING, s.sound.noiseGateFiltering)
             // Display
             .putString(KEY_THEME_MODE, s.display.themeMode.name)
             .putBoolean(KEY_SHOW_EXPLORER_TIPS, s.display.showExplorerTips)
@@ -198,7 +198,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 strumDelayMs = prefs.getInt(KEY_STRUM_DELAY, SoundSettings.DEFAULT_STRUM_DELAY_MS),
                 strumDown = prefs.getBoolean(KEY_STRUM_DOWN, true),
                 playOnTap = prefs.getBoolean(KEY_PLAY_ON_TAP, false),
-                noiseGateSensitivity = prefs.getFloat(KEY_PM_NOISE_GATE_SENSITIVITY, SoundSettings.DEFAULT_NOISE_GATE_SENSITIVITY),
+                noiseGateFiltering = prefs.getFloat(KEY_PM_NOISE_GATE_FILTERING, SoundSettings.DEFAULT_NOISE_GATE_FILTERING),
             ),
             display = DisplaySettings(
                 themeMode = try {
@@ -271,7 +271,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         private const val KEY_TUNER_A4_REFERENCE = "tuner_a4_reference"
         private const val KEY_TUNER_AUTO_ADVANCE = "tuner_auto_advance"
         private const val KEY_TUNER_AUTO_START = "tuner_auto_start"
-        private const val KEY_PM_NOISE_GATE_SENSITIVITY = "pm_noise_gate_sensitivity"
+        private const val KEY_PM_NOISE_GATE_FILTERING = "pm_noise_gate_filtering"
         private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
         private const val KEY_EXPLORER_TIPS_DISMISSED = "explorer_tips_dismissed"
         private const val KEY_SHOW_EXPLORER_TIPS = "show_explorer_tips"

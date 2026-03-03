@@ -329,9 +329,9 @@ fun FretboardScreen(
         fretboardViewModel.setShowNoteNames(appSettings.fretboard.showNoteNames)
     }
 
-    // Sync noise gate sensitivity to all recording features
-    LaunchedEffect(appSettings.sound.noiseGateSensitivity) {
-        val rms = SoundSettings.sensitivityToRms(appSettings.sound.noiseGateSensitivity)
+    // Sync noise gate filtering to all recording features
+    LaunchedEffect(appSettings.sound.noiseGateFiltering) {
+        val rms = SoundSettings.filteringToRms(appSettings.sound.noiseGateFiltering)
         tunerViewModel.setNoiseGateRms(rms)
         pitchMonitorViewModel.setNoiseGateRms(rms)
         melodyViewModel.setNoiseGateRms(rms)
