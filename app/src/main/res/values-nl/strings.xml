@@ -137,6 +137,8 @@
     <string name="chord_library_search_hint">Akkoord zoeken (bijv. Cm7, C/E)</string>
     <string name="chord_library_search_clear">Zoekopdracht wissen</string>
     <string name="chord_library_search_no_results">Geen overeenkomende akkoorden</string>
+    <string name="chord_library_show_filters">Filters tonen</string>
+    <string name="chord_library_hide_filters">Filters verbergen</string>
 
     <!-- ── Stemapparaat ───────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Speel een snaar…</string>

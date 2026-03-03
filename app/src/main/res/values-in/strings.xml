@@ -137,6 +137,8 @@
     <string name="chord_library_search_hint">Cari akor (mis., Cm7, C/E)</string>
     <string name="chord_library_search_clear">Hapus pencarian</string>
     <string name="chord_library_search_no_results">Tidak ada akor yang cocok</string>
+    <string name="chord_library_show_filters">Tampilkan filter</string>
+    <string name="chord_library_hide_filters">Sembunyikan filter</string>
 
     <!-- ── Tuner ──────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Petik senar…</string>

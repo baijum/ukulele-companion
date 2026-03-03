@@ -137,6 +137,8 @@
     <string name="chord_library_search_hint">Поиск аккорда (напр., Cm7, C/E)</string>
     <string name="chord_library_search_clear">Очистить поиск</string>
     <string name="chord_library_search_no_results">Совпадений не найдено</string>
+    <string name="chord_library_show_filters">Показать фильтры</string>
+    <string name="chord_library_hide_filters">Скрыть фильтры</string>
 
     <!-- ── Tuner ────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Сыграйте на струне…</string>

@@ -137,6 +137,8 @@
     <string name="chord_library_search_hint">Akor ara (ör. Cm7, C/E)</string>
     <string name="chord_library_search_clear">Aramayı temizle</string>
     <string name="chord_library_search_no_results">Eşleşen akor bulunamadı</string>
+    <string name="chord_library_show_filters">Filtreleri göster</string>
+    <string name="chord_library_hide_filters">Filtreleri gizle</string>
 
     <!-- ── Akort ──────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Bir tel çalın…</string>

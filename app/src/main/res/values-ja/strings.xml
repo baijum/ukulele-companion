@@ -137,6 +137,8 @@
     <string name="chord_library_search_hint">コード検索（例：Cm7, C/E）</string>
     <string name="chord_library_search_clear">検索をクリア</string>
     <string name="chord_library_search_no_results">一致するコードがありません</string>
+    <string name="chord_library_show_filters">フィルターを表示</string>
+    <string name="chord_library_hide_filters">フィルターを非表示</string>
 
     <!-- ── Tuner ────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">弦を弾いてください…</string>
