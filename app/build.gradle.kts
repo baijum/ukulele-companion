@@ -28,8 +28,8 @@ android {
         applicationId = "com.baijum.ukufretboard"
         minSdk = 26
         targetSdk = 35
-        versionCode = 96
-        versionName = "9.6.0"
+        versionCode = 97
+        versionName = "9.7.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -92,6 +92,7 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.material3.windowsizeclass)
     implementation(libs.material.icons.extended)
     implementation(libs.appcompat)
     implementation(libs.core.ktx)

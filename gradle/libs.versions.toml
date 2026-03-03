@@ -25,6 +25,7 @@ ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
+material3-windowsizeclass = { group = "androidx.compose.material3", name = "material3-window-size-class" }
 material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

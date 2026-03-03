@@ -5,6 +5,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,17 +34,22 @@ class MainActivity : AppCompatActivity() {
 
     private val settingsViewModel: SettingsViewModel by viewModels()
 
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             val appSettings by settingsViewModel.settings.collectAsState()
+            val windowSizeClass = calculateWindowSizeClass(this)
             var onboardingDone by rememberSaveable {
                 mutableStateOf(appSettings.onboardingCompleted)
             }
             UkuleleCompanionTheme(themeMode = appSettings.display.themeMode) {
                 if (onboardingDone) {
-                    FretboardScreen(settingsViewModel = settingsViewModel)
+                    FretboardScreen(
+                        settingsViewModel = settingsViewModel,
+                        widthSizeClass = windowSizeClass.widthSizeClass,
+                    )
                 } else {
                     OnboardingScreen(
                         settingsViewModel = settingsViewModel,
