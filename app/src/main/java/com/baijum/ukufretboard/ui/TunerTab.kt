@@ -104,9 +104,14 @@ fun TunerTab(
 ) {
     val context = LocalContext.current
 
-    // Keep ViewModel in sync with settings.
-    viewModel.setTuning(tuning)
-    viewModel.setTunerSettings(tunerSettings)
+    // Keep ViewModel in sync with settings — use LaunchedEffect to avoid
+    // running on every recomposition (setTuning calls resetProgress).
+    LaunchedEffect(tuning) {
+        viewModel.setTuning(tuning)
+    }
+    LaunchedEffect(tunerSettings) {
+        viewModel.setTunerSettings(tunerSettings)
+    }
     viewModel.setApplicationContext(context)
 
     // Stop capture when leaving the tab.

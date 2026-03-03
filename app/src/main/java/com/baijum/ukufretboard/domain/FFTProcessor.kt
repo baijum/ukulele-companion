@@ -11,10 +11,58 @@ import kotlin.math.sqrt
  * Operates on buffers whose length is a power of two (e.g. 4096 samples
  * from [com.baijum.ukufretboard.audio.AudioCaptureEngine]).
  *
+ * Twiddle factors (cos/sin values) are cached per FFT size to avoid
+ * recomputing them on every frame (~43 times/second in the tuner pipeline).
+ *
  * All operations are allocation-light and suitable for real-time audio
  * processing on the UI thread budget (~93 ms per frame at 44.1 kHz / 4096).
  */
 object FFTProcessor {
+
+    /**
+     * Cached twiddle factors (cos, sin) for each FFT stage length.
+     *
+     * Key: FFT size N. Value: array of pairs (wReal, wImag) indexed by
+     * stage length. Lazily populated on first use and reused thereafter.
+     */
+    private val twiddleCache = HashMap<Int, TwiddleFactors>()
+
+    /**
+     * Pre-computed cos/sin twiddle factors for all butterfly stages of a
+     * given FFT size.
+     */
+    private class TwiddleFactors(n: Int) {
+        /** Twiddle real parts, indexed [stage][k]. */
+        val real: Array<FloatArray>
+        /** Twiddle imaginary parts, indexed [stage][k]. */
+        val imag: Array<FloatArray>
+
+        init {
+            val stages = mutableListOf<FloatArray>()
+            val stagesI = mutableListOf<FloatArray>()
+            var len = 2
+            while (len <= n) {
+                val halfLen = len / 2
+                val angle = -2.0 * PI / len
+                val stageR = FloatArray(halfLen)
+                val stageI = FloatArray(halfLen)
+                for (k in 0 until halfLen) {
+                    val theta = angle * k
+                    stageR[k] = cos(theta).toFloat()
+                    stageI[k] = sin(theta).toFloat()
+                }
+                stages.add(stageR)
+                stagesI.add(stageI)
+                len = len shl 1
+            }
+            real = stages.toTypedArray()
+            imag = stagesI.toTypedArray()
+        }
+    }
+
+    private fun getTwiddle(n: Int): TwiddleFactors {
+        return twiddleCache.getOrPut(n) { TwiddleFactors(n) }
+    }
 
     /**
      * Applies a Hanning window to [samples] to reduce spectral leakage.
@@ -68,22 +116,23 @@ object FFTProcessor {
             }
         }
 
-        // --- Butterfly stages ------------------------------------------------
+        // --- Butterfly stages (using cached twiddle factors) -----------------
+        val twiddle = getTwiddle(n)
         var len = 2
+        var stageIdx = 0
         while (len <= n) {
             val halfLen = len / 2
-            val angle = -2.0 * PI / len
-            val wReal = cos(angle).toFloat()
-            val wImag = sin(angle).toFloat()
+            val twR = twiddle.real[stageIdx]
+            val twI = twiddle.imag[stageIdx]
 
             var i = 0
             while (i < n) {
-                var curR = 1.0f
-                var curI = 0.0f
-
                 for (k in 0 until halfLen) {
                     val evenIdx = i + k
                     val oddIdx = i + k + halfLen
+
+                    val curR = twR[k]
+                    val curI = twI[k]
 
                     // Twiddle factor × odd element
                     val tR = curR * real[oddIdx] - curI * imag[oddIdx]
@@ -93,16 +142,11 @@ object FFTProcessor {
                     imag[oddIdx] = imag[evenIdx] - tI
                     real[evenIdx] = real[evenIdx] + tR
                     imag[evenIdx] = imag[evenIdx] + tI
-
-                    // Advance twiddle factor
-                    val nextR = curR * wReal - curI * wImag
-                    val nextI = curR * wImag + curI * wReal
-                    curR = nextR
-                    curI = nextI
                 }
                 i += len
             }
             len = len shl 1
+            stageIdx++
         }
     }
 

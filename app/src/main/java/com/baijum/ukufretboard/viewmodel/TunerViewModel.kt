@@ -121,13 +121,28 @@ class TunerViewModel : ViewModel() {
         )
 
         /**
-         * RMS ratio threshold for onset (pluck) detection.
+         * Minimum RMS ratio threshold for onset (pluck) detection.
          *
-         * When the current frame's RMS exceeds the previous frame's RMS by
-         * this factor, a transient attack is assumed and pitch updates are
-         * suppressed for [BLANKING_FRAMES] to avoid displaying spurious notes.
+         * The adaptive onset detector uses an exponential moving average of
+         * recent RMS values. When the current RMS exceeds the EMA by the
+         * computed adaptive ratio, a transient attack is assumed. This
+         * minimum ensures onsets are detected even during sustained loud
+         * passages where the EMA is already high.
          */
-        private const val ONSET_RATIO_THRESHOLD = 3.0f
+        private const val ONSET_MIN_RATIO = 2.5f
+
+        /**
+         * Maximum adaptive onset ratio to prevent the threshold from
+         * becoming too high during very quiet passages.
+         */
+        private const val ONSET_MAX_RATIO = 5.0f
+
+        /**
+         * Smoothing factor for the RMS exponential moving average used in
+         * adaptive onset detection. Lower values make the EMA slower to
+         * track, providing a more stable baseline.
+         */
+        private const val ONSET_EMA_ALPHA = 0.15f
 
         /**
          * Number of frames to suppress after detecting an onset.
@@ -220,6 +235,9 @@ class TunerViewModel : ViewModel() {
     /** RMS energy of the previous frame, for onset (pluck) detection. */
     private var previousRms = 0f
 
+    /** Exponential moving average of RMS, for adaptive onset threshold. */
+    private var rmsEma = 0f
+
     /** Remaining frames to suppress after an onset is detected. */
     private var blankingFramesRemaining = 0
 
@@ -302,6 +320,7 @@ class TunerViewModel : ViewModel() {
         inTuneFrames = 0
         inTuneStringIndex = -1
         previousRms = 0f
+        rmsEma = 0f
         blankingFramesRemaining = 0
         lostSignalFrames = 0
         previousFrequency = null
@@ -340,6 +359,7 @@ class TunerViewModel : ViewModel() {
         recentFrequencies.clear()
         inTuneFrames = 0
         previousRms = 0f
+        rmsEma = 0f
         blankingFramesRemaining = 0
         lostSignalFrames = 0
         previousFrequency = null
@@ -378,14 +398,24 @@ class TunerViewModel : ViewModel() {
      * Processes a single audio buffer through pitch detection and note mapping.
      */
     private fun processBuffer(samples: FloatArray) {
-        // --- Onset detection ------------------------------------------------
-        // Detect sudden energy spikes (pluck attacks) and suppress pitch
-        // updates for a few frames so the non-periodic transient doesn't
-        // cause the display to flash a wrong note.
+        // --- Onset detection (adaptive) -------------------------------------
+        // Detect sudden energy spikes (pluck attacks) using an adaptive
+        // threshold based on a running EMA of recent RMS values. This makes
+        // detection robust for both soft playing and aggressive strumming.
         val currentRms = PitchDetector.rms(samples)
-        if (previousRms > 0f && currentRms / previousRms > ONSET_RATIO_THRESHOLD) {
-            blankingFramesRemaining = BLANKING_FRAMES
+        if (rmsEma > 0f) {
+            // Adaptive ratio: inversely proportional to the EMA level.
+            // Quiet passages → higher ratio (more selective), loud passages
+            // → lower ratio (still catches onsets above the sustained level).
+            val adaptiveRatio = (ONSET_MIN_RATIO + (0.01f / rmsEma))
+                .coerceIn(ONSET_MIN_RATIO, ONSET_MAX_RATIO)
+            if (currentRms / rmsEma > adaptiveRatio) {
+                blankingFramesRemaining = BLANKING_FRAMES
+            }
         }
+        // Update EMA (use direct assignment for the first frame).
+        rmsEma = if (rmsEma == 0f) currentRms
+        else rmsEma + ONSET_EMA_ALPHA * (currentRms - rmsEma)
         previousRms = currentRms
 
         if (blankingFramesRemaining > 0) {
