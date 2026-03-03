@@ -85,6 +85,31 @@ object PitchDetector {
      */
     private val CONTINUITY_FACTOR = Math.pow(2.0, MAX_SEMITONE_JUMP / 12.0)
 
+    // --- Pre-allocated FFT work buffers ------------------------------------
+    // These are reused across frames (~43/sec) to avoid GC pressure from
+    // allocating 4 large arrays per frame in computeDifferenceFunctionFFT.
+    private var cachedFftSize = 0
+    private var fftRefReal = FloatArray(0)
+    private var fftRefImag = FloatArray(0)
+    private var fftSigReal = FloatArray(0)
+    private var fftSigImag = FloatArray(0)
+
+    /** Ensures work buffers are at least [size] and zeros them out. */
+    private fun ensureFftBuffers(size: Int) {
+        if (size != cachedFftSize) {
+            cachedFftSize = size
+            fftRefReal = FloatArray(size)
+            fftRefImag = FloatArray(size)
+            fftSigReal = FloatArray(size)
+            fftSigImag = FloatArray(size)
+        } else {
+            fftRefReal.fill(0f)
+            fftRefImag.fill(0f)
+            fftSigReal.fill(0f)
+            fftSigImag.fill(0f)
+        }
+    }
+
     /**
      * Detects the fundamental frequency of the audio in [samples].
      *
@@ -298,37 +323,36 @@ object PitchDetector {
 
         // --- FFT-based cross-correlation ------------------------------------
         val fftSize = nextPow2(n * 2) // zero-pad to avoid circular aliasing
+        ensureFftBuffers(fftSize)
 
         // Reference window: x[0..W-1], zero-padded
-        val refReal = FloatArray(fftSize)
-        for (i in 0 until halfLen) refReal[i] = samples[i]
-        val refImag = FloatArray(fftSize)
+        for (i in 0 until halfLen) fftRefReal[i] = samples[i]
+        // fftRefImag already zeroed by ensureFftBuffers
 
         // Full signal: x[0..N-1], zero-padded
-        val sigReal = FloatArray(fftSize)
-        for (i in 0 until n) sigReal[i] = samples[i]
-        val sigImag = FloatArray(fftSize)
+        for (i in 0 until n) fftSigReal[i] = samples[i]
+        // fftSigImag already zeroed by ensureFftBuffers
 
-        FFTProcessor.fft(refReal, refImag)
-        FFTProcessor.fft(sigReal, sigImag)
+        FFTProcessor.fft(fftRefReal, fftRefImag)
+        FFTProcessor.fft(fftSigReal, fftSigImag)
 
         // Cross-spectrum: conj(Ref) * Sig
-        // Reuse refReal/refImag to store the result (saves an allocation).
+        // Reuse fftRefReal/fftRefImag to store the result.
         for (i in 0 until fftSize) {
-            val ar = refReal[i]; val ai = refImag[i]
-            val br = sigReal[i]; val bi = sigImag[i]
-            refReal[i] = ar * br + ai * bi   // real part of conj(A)*B
-            refImag[i] = ai * br - ar * bi   // imag part of conj(A)*B
+            val ar = fftRefReal[i]; val ai = fftRefImag[i]
+            val br = fftSigReal[i]; val bi = fftSigImag[i]
+            fftRefReal[i] = ar * br + ai * bi   // real part of conj(A)*B
+            fftRefImag[i] = ai * br - ar * bi   // imag part of conj(A)*B
         }
 
-        FFTProcessor.ifft(refReal, refImag)
-        // refReal[tau] now contains r(tau) = sum_{j=0}^{W-1} x[j]*x[j+tau]
+        FFTProcessor.ifft(fftRefReal, fftRefImag)
+        // fftRefReal[tau] now contains r(tau) = sum_{j=0}^{W-1} x[j]*x[j+tau]
 
         // --- Assemble SDF ---------------------------------------------------
         val diff = FloatArray(maxLag + 1)
         for (tau in 1..maxLag) {
             val energyTau = prefixSq[tau + halfLen] - prefixSq[tau]
-            diff[tau] = (energy0 + energyTau - 2.0 * refReal[tau].toDouble())
+            diff[tau] = (energy0 + energyTau - 2.0 * fftRefReal[tau].toDouble())
                 .coerceAtLeast(0.0) // clamp tiny negative values from FP rounding
                 .toFloat()
         }
