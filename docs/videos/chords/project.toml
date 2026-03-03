@@ -93,25 +93,28 @@ name = "inversions-and-filters"
 video = "clips/04-inversions-and-filters.mp4"
 audio = "audio/04-inversions-and-filters.mp3"
 delay = 1.0
-min_clip_duration = 24
+min_clip_duration = 28
 recording_notes = """
-Stay on Chords screen, C Major selected. Demonstrate inversion filters.
-1. Tap "Root" filter chip (~396,1148) -- wait 3s
-2. Tap "1st Inv" filter chip (~677,1148) -- wait 3s
-3. Tap "2nd Inv" filter chip (~970,1148) -- wait 3s
-4. Tap "All" filter chip (~136,1148) to reset -- wait 3s
-5. Tap "Root" again (~396,1148) -- wait 2s
-6. Tap a voicing card to play it -- wait 3s
-7. Tap "All" to reset -- wait until clip ends
+Stay on Chords screen, C Major selected. Demonstrate collapsible filter section.
+1. If filters are collapsed, tap the filter header bar to expand -- wait 2s
+2. Tap "Root" filter chip -- wait 3s
+3. Tap "1st Inv" filter chip -- wait 3s
+4. Tap "2nd Inv" filter chip -- wait 3s
+5. Tap "All" filter chip to reset -- wait 3s
+6. Tap the filter header bar to collapse filters -- wait 2s
+7. Tap a voicing card to play it -- wait 3s
+8. Tap the header bar to expand filters again -- wait until clip ends
 Do NOT open drawer or navigate away.
 """
 narration = """
-Use the inversion filter to narrow results. Root position shows \
-voicings with the root note in the bass. First and second \
-inversions put different chord tones on bottom, creating smoother \
-voice leading between chords. You can also tap Play All \
-Inversions to hear every voicing in sequence and compare their \
-sounds side by side.
+The filter section collapses to save screen space. Tap the \
+header bar to expand it and reveal inversion filters. Root \
+position shows voicings with the root note in the bass. First \
+and second inversions put different chord tones on bottom, \
+creating smoother voice leading between chords. Collapse the \
+filters when you want more room to browse voicing cards. You \
+can also tap Play All Inversions to hear every voicing in \
+sequence and compare their sounds side by side.
 """
 
 [[scene]]

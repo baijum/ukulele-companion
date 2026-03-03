@@ -40,11 +40,12 @@ name = "tuning-meter"
 video = "clips/02-tuning-meter.mp4"
 audio = "audio/02-tuning-meter.mp3"
 delay = 1.0
-min_clip_duration = 30
+min_clip_duration = 35
 recording_notes = """
 Stay on Tuner. Tap Start to begin listening. Wait 5s -- meter stays idle (emulator has no mic).
 Tap a string button (G) to play reference pitch. Wait 3s. Tap another string (C). Wait 3s.
-Tap Stop. Wait. The meter won't move without real audio, but the reference sounds play.
+Wait 3s after the last reference tone -- the needle should freeze in place showing the
+last settled note. Tap Stop. Wait.
 """
 narration = """
 The main display is a semicircular needle meter. When you play \
@@ -53,7 +54,10 @@ is, measured in cents. The detected note name appears large and \
 color-coded: green means you're in tune, yellow means you're \
 close, and red means the string needs more adjustment. Below \
 the meter, a numeric cents display gives you the precise reading, \
-and guidance text tells you whether to tune up or tune down.
+and guidance text tells you whether to tune up or tune down. \
+When you stop playing, the needle freezes in place and the last \
+settled note stays on screen, so you can see exactly where you \
+landed even after the sound fades.
 """
 
 # ── Scene 3: String Buttons ─────────────────────────────────
@@ -115,9 +119,10 @@ The tuner adapts to whichever tuning you have selected in \
 Settings. Beyond standard High G, you can choose Low G for \
 a deeper range, Baritone tuning, D tuning, and several other \
 variants. The string buttons and reference pitches update \
-automatically. For the best results, tune in a quiet \
-environment, play each string firmly and let it ring, and \
-always tune from below the target pitch upward for better \
-stability. The tuner is your starting point before every \
-practice session.
+automatically. If you're in a noisy room, adjust the noise \
+filtering slider in Settings to control how aggressively \
+background sound is filtered. For the best results, play \
+each string firmly and let it ring, and always tune from \
+below the target pitch upward for better stability. The \
+tuner is your starting point before every practice session.
 """
