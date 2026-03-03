@@ -137,6 +137,8 @@
     <string name="chord_library_search_hint">코드 검색 (예: Cm7, C/E)</string>
     <string name="chord_library_search_clear">검색 지우기</string>
     <string name="chord_library_search_no_results">일치하는 코드 없음</string>
+    <string name="chord_library_show_filters">필터 표시</string>
+    <string name="chord_library_hide_filters">필터 숨기기</string>
 
     <!-- ── Tuner ────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">현을 연주하세요…</string>

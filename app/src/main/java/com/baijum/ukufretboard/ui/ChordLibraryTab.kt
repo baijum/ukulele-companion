@@ -1,5 +1,6 @@
 package com.baijum.ukufretboard.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +26,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
@@ -106,6 +109,7 @@ fun ChordLibraryTab(
     var inversionFilter by rememberSaveable(stateSaver = nullableEnumSaver<ChordInfo.Inversion>()) { mutableStateOf<ChordInfo.Inversion?>(null) }
     // Compare mode toggle
     var compareMode by rememberSaveable { mutableStateOf(false) }
+    var filtersExpanded by rememberSaveable { mutableStateOf(true) }
     // Capo calculator mode
     var capoResults by remember { mutableStateOf<List<CapoCalculator.SingleChordResult>?>(null) }
     // Capo visualizer mode — stores the voicing to visualize
@@ -124,49 +128,58 @@ fun ChordLibraryTab(
             onResultSelected = { result ->
                 val inversion = viewModel.selectSearchResult(result)
                 inversionFilter = inversion
+                filtersExpanded = false
                 focusManager.clearFocus()
             },
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
-        // Section: Root note selector
-        SectionLabel(stringResource(R.string.chord_library_root_note))
-        RootNoteSelector(
+        FilterToggleRow(
+            expanded = filtersExpanded,
+            onToggle = { filtersExpanded = !filtersExpanded },
             selectedRoot = uiState.selectedRoot,
-            onRootSelected = viewModel::selectRoot,
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // Section: Category selector
-        SectionLabel(stringResource(R.string.chord_library_type))
-        CategorySelector(
             selectedCategory = uiState.selectedCategory,
-            onCategorySelected = viewModel::selectCategory,
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Section: Chord formula selector
-        FormulaSelector(
-            category = uiState.selectedCategory,
             selectedFormula = uiState.selectedFormula,
-            selectedRoot = uiState.selectedRoot,
-            onFormulaSelected = viewModel::selectFormula,
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        AnimatedVisibility(visible = filtersExpanded) {
+            Column {
+                SectionLabel(stringResource(R.string.chord_library_root_note))
+                RootNoteSelector(
+                    selectedRoot = uiState.selectedRoot,
+                    onRootSelected = viewModel::selectRoot,
+                )
 
-        // Section: Transpose controls
-        if (uiState.selectedFormula != null) {
-            TransposeControls(
-                rootPitchClass = uiState.selectedRoot,
-                chordSymbol = uiState.selectedFormula?.symbol ?: "",
-                semitoneOffset = 0, // Stateless — offset is reflected in root selection
-                originalRoot = uiState.selectedRoot,
-                onTranspose = { viewModel.transpose(it) },
-            )
+                Spacer(modifier = Modifier.height(12.dp))
+
+                SectionLabel(stringResource(R.string.chord_library_type))
+                CategorySelector(
+                    selectedCategory = uiState.selectedCategory,
+                    onCategorySelected = viewModel::selectCategory,
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                FormulaSelector(
+                    category = uiState.selectedCategory,
+                    selectedFormula = uiState.selectedFormula,
+                    selectedRoot = uiState.selectedRoot,
+                    onFormulaSelected = viewModel::selectFormula,
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                if (uiState.selectedFormula != null) {
+                    TransposeControls(
+                        rootPitchClass = uiState.selectedRoot,
+                        chordSymbol = uiState.selectedFormula?.symbol ?: "",
+                        semitoneOffset = 0,
+                        originalRoot = uiState.selectedRoot,
+                        onTranspose = { viewModel.transpose(it) },
+                    )
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -368,6 +381,53 @@ private fun SectionLabel(text: String) {
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp),
     )
+}
+
+/**
+ * Clickable row that toggles filter visibility.
+ * When collapsed, shows a compact summary of the current selection (e.g. "Cm7 — Seventh").
+ * When expanded, shows "Hide filters" with a collapse chevron.
+ */
+@Composable
+private fun FilterToggleRow(
+    expanded: Boolean,
+    onToggle: () -> Unit,
+    selectedRoot: Int,
+    selectedCategory: ChordCategory,
+    selectedFormula: ChordFormula?,
+    modifier: Modifier = Modifier,
+) {
+    val rootName = Notes.pitchClassToName(selectedRoot)
+    val summary = if (selectedFormula != null) {
+        "$rootName${selectedFormula.symbol} — ${selectedCategory.label}"
+    } else {
+        "$rootName — ${selectedCategory.label}"
+    }
+    val showFilters = stringResource(R.string.chord_library_show_filters)
+    val hideFilters = stringResource(R.string.chord_library_hide_filters)
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = onToggle)
+            .padding(horizontal = 16.dp, vertical = 6.dp)
+            .semantics {
+                contentDescription = if (expanded) hideFilters else "$summary. $showFilters"
+            },
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = if (expanded) hideFilters else summary,
+            style = if (expanded) MaterialTheme.typography.labelSmall else MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Medium,
+            color = if (expanded) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface,
+        )
+        Icon(
+            imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+            contentDescription = null,
+        )
+    }
 }
 
 /**

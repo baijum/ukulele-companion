@@ -137,6 +137,8 @@
     <string name="chord_library_search_hint">بحث عن وتر (مثل Cm7, C/E)</string>
     <string name="chord_library_search_clear">مسح البحث</string>
     <string name="chord_library_search_no_results">لم يتم العثور على أوتار مطابقة</string>
+    <string name="chord_library_show_filters">إظهار الفلاتر</string>
+    <string name="chord_library_hide_filters">إخفاء الفلاتر</string>
 
     <!-- ── Tuner ────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">اعزف وتراً…</string>

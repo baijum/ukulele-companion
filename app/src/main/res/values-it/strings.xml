@@ -137,6 +137,8 @@
     <string name="chord_library_search_hint">Cerca accordo (es. Cm7, C/E)</string>
     <string name="chord_library_search_clear">Cancella ricerca</string>
     <string name="chord_library_search_no_results">Nessun accordo trovato</string>
+    <string name="chord_library_show_filters">Mostra filtri</string>
+    <string name="chord_library_hide_filters">Nascondi filtri</string>
 
     <!-- ── Accordatore ────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Suona una corda…</string>

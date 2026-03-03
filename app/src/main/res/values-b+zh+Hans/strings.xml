@@ -137,6 +137,8 @@
     <string name="chord_library_search_hint">搜索和弦（例如 Cm7, C/E）</string>
     <string name="chord_library_search_clear">清除搜索</string>
     <string name="chord_library_search_no_results">没有匹配的和弦</string>
+    <string name="chord_library_show_filters">显示筛选</string>
+    <string name="chord_library_hide_filters">隐藏筛选</string>
 
     <!-- ── Tuner ────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">弹一根弦…</string>

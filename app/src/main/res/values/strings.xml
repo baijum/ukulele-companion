@@ -147,6 +147,8 @@
     <string name="chord_library_search_hint">Search chord (e.g., Cm7, C/E)</string>
     <string name="chord_library_search_clear">Clear search</string>
     <string name="chord_library_search_no_results">No matching chords</string>
+    <string name="chord_library_show_filters">Show filters</string>
+    <string name="chord_library_hide_filters">Hide filters</string>
 
     <!-- ── Tuner ────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Play a string…</string>

@@ -137,6 +137,8 @@
     <string name="chord_library_search_hint">Buscar acorde (ej., Cm7, C/E)</string>
     <string name="chord_library_search_clear">Borrar búsqueda</string>
     <string name="chord_library_search_no_results">No se encontraron acordes</string>
+    <string name="chord_library_show_filters">Mostrar filtros</string>
+    <string name="chord_library_hide_filters">Ocultar filtros</string>
 
     <!-- ── Afinador ──────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Toca una cuerda…</string>

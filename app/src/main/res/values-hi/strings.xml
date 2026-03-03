@@ -137,6 +137,8 @@
     <string name="chord_library_search_hint">कॉर्ड खोजें (जैसे, Cm7, C/E)</string>
     <string name="chord_library_search_clear">खोज साफ़ करें</string>
     <string name="chord_library_search_no_results">कोई मिलते-जुलते कॉर्ड नहीं</string>
+    <string name="chord_library_show_filters">फ़िल्टर दिखाएँ</string>
+    <string name="chord_library_hide_filters">फ़िल्टर छिपाएँ</string>
 
     <!-- ── Tuner ────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">एक तार बजाएँ…</string>

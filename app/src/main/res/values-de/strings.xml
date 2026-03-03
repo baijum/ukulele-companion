@@ -137,6 +137,8 @@
     <string name="chord_library_search_hint">Akkord suchen (z.B. Cm7, C/E)</string>
     <string name="chord_library_search_clear">Suche löschen</string>
     <string name="chord_library_search_no_results">Keine passenden Akkorde</string>
+    <string name="chord_library_show_filters">Filter anzeigen</string>
+    <string name="chord_library_hide_filters">Filter ausblenden</string>
 
     <!-- ── Tuner ────────────────────────────────────────────────────── -->
     <string name="tuner_play_a_string">Spiele eine Saite…</string>
