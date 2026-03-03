@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
                     FretboardScreen(
                         settingsViewModel = settingsViewModel,
                         widthSizeClass = windowSizeClass.widthSizeClass,
+                        heightSizeClass = windowSizeClass.heightSizeClass,
                     )
                 } else {
                     OnboardingScreen(
