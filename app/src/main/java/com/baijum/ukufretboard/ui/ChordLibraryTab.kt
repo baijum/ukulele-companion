@@ -832,13 +832,25 @@ private fun ChordSearchBar(
                             .semantics { liveRegion = LiveRegionMode.Polite },
                     )
                 } else {
-                    LazyColumn(
-                        modifier = Modifier.heightIn(max = 240.dp),
-                    ) {
-                        items(results) { result ->
-                            ChordSuggestionRow(
-                                result = result,
-                                onClick = { onResultSelected(result) },
+                    Column {
+                        LazyColumn(
+                            modifier = Modifier.heightIn(max = 480.dp),
+                        ) {
+                            items(results) { result ->
+                                ChordSuggestionRow(
+                                    result = result,
+                                    onClick = { onResultSelected(result) },
+                                )
+                            }
+                        }
+                        if (results.size > 8) {
+                            Text(
+                                text = "${results.size} matches",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp, vertical = 4.dp),
                             )
                         }
                     }
@@ -859,26 +871,48 @@ private fun ChordSuggestionRow(
         result.inversion?.let { append(", ${it.label}") }
     }
 
+    val rootName = Notes.pitchClassToName(result.rootPitchClass)
+    val aliasText = if (result.formula.aliases.isNotEmpty()) {
+        result.formula.aliases.joinToString(", ") { rootName + it }
+    } else {
+        null
+    }
+
+    val accessibilityLabel = buildString {
+        append("${result.displayName}, $qualityLabel")
+        if (aliasText != null) append(". Also: $aliasText")
+    }
+
     Row(
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(horizontal = 16.dp, vertical = 10.dp)
             .semantics {
-                contentDescription = "${result.displayName}, $qualityLabel"
+                contentDescription = accessibilityLabel
             },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = result.displayName,
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Medium,
-        )
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = result.displayName,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium,
+            )
+            if (aliasText != null) {
+                Text(
+                    text = aliasText,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
         Text(
             text = qualityLabel,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(start = 8.dp),
         )
     }
 }
