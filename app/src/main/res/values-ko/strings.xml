@@ -585,7 +585,7 @@
     <string name="help_desc_chords_in_scale">스케일을 선택하면 그 안에서 자연스럽게 만들어지는 모든 코드를 표시합니다. 로마 숫자 분석이 포함된 다이어토닉 트라이어드를 보여줍니다. 작곡과 모든 키의 화성 이해에 유용합니다.</string>
     <string name="help_desc_fretboard_notes">우쿨렐레 지판의 모든 음을 보여주는 시각적 맵입니다. 특정 음을 강조하여 모든 위치를 확인할 수 있습니다. High-G 및 Low-G 튜닝을 지원합니다. 음을 탭하면 들을 수 있습니다.</string>
     <string name="help_desc_glossary">아르페지오부터 보이싱까지 음악 이론과 우쿨렐레 용어를 검색할 수 있는 사전입니다. 각 항목에는 간결한 정의와 필요시 예시가 포함되어 있습니다.</string>
-    <string name="help_desc_settings">앱 전체 환경을 설정합니다: 사운드(음량, 스트럼 딜레이, 방향), 화면(테마), 튜닝(High-G, Low-G, 바리톤 등), 튜너(음성 피드백, 정밀 모드, A4 보정), 지판(왼손잡이, 프렛 수), 알림.</string>
+    <string name="help_desc_settings">앱 전체 환경을 설정합니다: 사운드(음량, 스트럼 딜레이, 방향, 소음 필터링), 화면(테마), 튜닝(High-G, Low-G, 바리톤 등), 튜너(음성 피드백, 정밀 모드, A4 보정), 지판(왼손잡이, 프렛 수), 알림.</string>
     <string name="help_desc_sharing">코드를 이미지로 공유할 수 있습니다. 탐색기나 코드 라이브러리에서 코드를 볼 때 공유 아이콘을 탭하면 깔끔한 코드 다이어그램 이미지를 생성하여 친구에게 보내거나 SNS에 게시할 수 있습니다.</string>
     <string name="help_desc_full_screen">탐색기 탭의 확대 아이콘을 탭하면 가로 전체 화면 지판이 표시됩니다. UI 방해 없이 지판을 최대한 크게 보고 싶은 연습에 적합합니다.</string>
 

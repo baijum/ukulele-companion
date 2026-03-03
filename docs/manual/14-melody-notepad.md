@@ -52,3 +52,4 @@ Melodies are saved to the device and persist between sessions.
 - Use Record mode to quickly capture a melody idea by playing it on your ukulele.
 - Start with quarter notes for simple melodies, then add eighth and sixteenth notes for faster passages.
 - Experiment with different octaves to create melodies that span the full ukulele range.
+- In Record mode, if the app picks up unwanted notes from background noise, increase the **Noise filtering** slider in Settings.

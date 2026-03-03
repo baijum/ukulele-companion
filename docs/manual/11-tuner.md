@@ -37,3 +37,4 @@ The tuner adapts to whichever tuning you have selected in [Settings](08-settings
 - Play each string firmly and let it ring — the tuner needs a clear, sustained tone.
 - Tune from below the target pitch upward for better tuning stability.
 - The string buttons double as reference tones — tap them to hear what the string should sound like.
+- If the tuner picks up background noise, increase the **Noise filtering** slider in Settings. If it struggles to detect quiet playing, lower it.
