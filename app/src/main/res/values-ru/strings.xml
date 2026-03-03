@@ -148,6 +148,8 @@
     <string name="tuner_tune_up">Подтяните</string>
     <string name="tuner_tune_down">Ослабьте</string>
     <string name="tuner_all_tuned">Все струны настроены!</string>
+    <string name="tuner_last_note">Последняя нота</string>
+    <string name="cd_last_detected_note">Последняя обнаруженная нота, %s</string>
     <string name="tuner_start">Начать настройку</string>
     <string name="tuner_stop">Стоп</string>
     <string name="cd_start_tuning">Начать настройку</string>

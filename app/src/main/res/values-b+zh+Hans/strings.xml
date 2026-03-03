@@ -148,6 +148,8 @@
     <string name="tuner_tune_up">调高</string>
     <string name="tuner_tune_down">调低</string>
     <string name="tuner_all_tuned">所有弦都调准了！</string>
+    <string name="tuner_last_note">上一个音符</string>
+    <string name="cd_last_detected_note">上次检测到的音符，%s</string>
     <string name="tuner_start">开始调音</string>
     <string name="tuner_stop">停止</string>
     <string name="cd_start_tuning">开始调音</string>

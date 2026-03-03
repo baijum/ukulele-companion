@@ -148,6 +148,8 @@
     <string name="tuner_tune_up">Alza</string>
     <string name="tuner_tune_down">Abbassa</string>
     <string name="tuner_all_tuned">Tutte le corde accordate!</string>
+    <string name="tuner_last_note">Ultima nota</string>
+    <string name="cd_last_detected_note">Ultima nota rilevata, %s</string>
     <string name="tuner_start">Inizia accordatura</string>
     <string name="tuner_stop">Ferma</string>
     <string name="cd_start_tuning">Inizia accordatura</string>

@@ -148,6 +148,8 @@
     <string name="tuner_tune_up">Subir</string>
     <string name="tuner_tune_down">Bajar</string>
     <string name="tuner_all_tuned">¡Todas las cuerdas afinadas!</string>
+    <string name="tuner_last_note">Última nota</string>
+    <string name="cd_last_detected_note">Última nota detectada, %s</string>
     <string name="tuner_start">Iniciar afinación</string>
     <string name="tuner_stop">Detener</string>
     <string name="cd_start_tuning">Iniciar afinación</string>

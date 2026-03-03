@@ -148,6 +148,8 @@
     <string name="tuner_tune_up">高くする</string>
     <string name="tuner_tune_down">低くする</string>
     <string name="tuner_all_tuned">すべての弦のチューニングが完了!</string>
+    <string name="tuner_last_note">前回の音</string>
+    <string name="cd_last_detected_note">最後に検出された音、%s</string>
     <string name="tuner_start">チューニング開始</string>
     <string name="tuner_stop">停止</string>
     <string name="cd_start_tuning">チューニングを開始</string>

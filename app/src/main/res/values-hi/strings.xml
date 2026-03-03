@@ -148,6 +148,8 @@
     <string name="tuner_tune_up">ऊपर ट्यून करें</string>
     <string name="tuner_tune_down">नीचे ट्यून करें</string>
     <string name="tuner_all_tuned">सभी तार ट्यून हो गए!</string>
+    <string name="tuner_last_note">पिछला स्वर</string>
+    <string name="cd_last_detected_note">अंतिम पहचाना गया स्वर, %s</string>
     <string name="tuner_start">ट्यूनिंग शुरू करें</string>
     <string name="tuner_stop">रोकें</string>
     <string name="cd_start_tuning">ट्यूनिंग शुरू करें</string>

@@ -148,6 +148,8 @@
     <string name="tuner_tune_up">Hoger stemmen</string>
     <string name="tuner_tune_down">Lager stemmen</string>
     <string name="tuner_all_tuned">Alle snaren gestemd!</string>
+    <string name="tuner_last_note">Laatste noot</string>
+    <string name="cd_last_detected_note">Laatst gedetecteerde noot, %s</string>
     <string name="tuner_start">Start stemmen</string>
     <string name="tuner_stop">Stoppen</string>
     <string name="cd_start_tuning">Start stemmen</string>
