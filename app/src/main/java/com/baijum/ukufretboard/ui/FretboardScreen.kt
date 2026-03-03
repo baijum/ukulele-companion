@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -53,6 +54,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.PermanentDrawerSheet
+import androidx.compose.material3.PermanentNavigationDrawer
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
@@ -236,7 +240,9 @@ fun FretboardScreen(
     scalePracticeViewModel: ScalePracticeViewModel = viewModel(),
     melodyViewModel: MelodyViewModel = viewModel(),
     metronomeViewModel: MetronomeViewModel = viewModel(),
+    widthSizeClass: WindowWidthSizeClass = WindowWidthSizeClass.Compact,
 ) {
+    val isCompactWidth = widthSizeClass == WindowWidthSizeClass.Compact
     var selectedSection by rememberSaveable { mutableIntStateOf(NAV_EXPLORER) }
     var previousSection by rememberSaveable { mutableStateOf<Int?>(null) }
     var showSettings by remember { mutableStateOf(false) }
@@ -366,115 +372,7 @@ fun FretboardScreen(
     }
     val expandedState = remember { mutableStateMapOf<String, Boolean>() }
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet {
-                Column(
-                    modifier = Modifier.verticalScroll(rememberScrollState()),
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 28.dp, vertical = 24.dp),
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(CircleShape)
-                                .background(Color(0xFF00695C)),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Image(
-                                painter = painterResource(R.drawable.ic_launcher_foreground),
-                                contentDescription = null,
-                                modifier = Modifier.size(36.dp),
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Text(
-                            text = stringResource(R.string.app_full_name),
-                            style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.semantics { heading() },
-                        )
-                    }
-                    visibleSections.forEachIndexed { sectionIndex, section ->
-                        if (sectionIndex > 0) {
-                            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-                        }
-                        val expanded = expandedState.getOrPut(section.title) { true }
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { expandedState[section.title] = !expanded }
-                                .padding(horizontal = 28.dp, vertical = 8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                text = section.title,
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.semantics { heading() },
-                            )
-                            Icon(
-                                imageVector = if (expanded) Icons.Filled.ExpandLess
-                                else Icons.Filled.ExpandMore,
-                                contentDescription = if (expanded) {
-                                    stringResource(R.string.cd_collapse_section, section.title)
-                                } else {
-                                    stringResource(R.string.cd_expand_section, section.title)
-                                },
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.size(20.dp),
-                            )
-                        }
-                        AnimatedVisibility(
-                            visible = expanded,
-                            enter = expandVertically(),
-                            exit = shrinkVertically(),
-                        ) {
-                            Column {
-                                section.items.forEach { item ->
-                                    NavigationDrawerItem(
-                                        icon = { Icon(item.icon, contentDescription = item.label) },
-                                        label = { Text(item.label) },
-                                        selected = selectedSection == item.index,
-                                        onClick = {
-                                            previousSection = null
-                                            selectedSection = item.index
-                                            scope.launch { drawerState.close() }
-                                        },
-                                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-                    NavigationDrawerItem(
-                        icon = { Icon(Icons.Filled.Info, contentDescription = stringResource(R.string.nav_help)) },
-                        label = { Text(stringResource(R.string.nav_help)) },
-                        selected = selectedSection == NAV_HELP,
-                        onClick = {
-                            previousSection = null
-                            selectedSection = NAV_HELP
-                            scope.launch { drawerState.close() }
-                        },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-                    )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = stringResource(R.string.drawer_copyright),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp),
-                    )
-                }
-            }
-        },
-    ) {
+    val scaffoldContent: @Composable () -> Unit = {
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -500,7 +398,7 @@ fun FretboardScreen(
                                     contentDescription = stringResource(R.string.action_back),
                                 )
                             }
-                        } else {
+                        } else if (isCompactWidth) {
                             IconButton(onClick = { scope.launch { drawerState.open() } }) {
                                 Icon(
                                     imageVector = Icons.Filled.Menu,
@@ -541,6 +439,7 @@ fun FretboardScreen(
                         showDidYouKnow = appSettings.display.showExplorerTips,
                         onDismissTips = { settingsViewModel.dismissExplorerTips() },
                         onFullScreen = { showFullScreen = true },
+                        isCompactWidth = isCompactWidth,
                         onShareChord = { voicing, chordName, invLabel ->
                             shareChordInfo = ShareChordInfo(
                                 voicing = voicing,
@@ -557,19 +456,23 @@ fun FretboardScreen(
                             selectedSection = NAV_LIBRARY
                         },
                     )
-                    NAV_TUNER -> TunerTab(
-                        viewModel = tunerViewModel,
-                        tuning = appSettings.tuning.tuning,
-                        leftHanded = appSettings.fretboard.leftHanded,
-                        soundEnabled = appSettings.sound.enabled,
-                        tunerSettings = appSettings.tuner,
-                    )
+                    NAV_TUNER -> ConstrainedWidthContent(isCompactWidth) {
+                        TunerTab(
+                            viewModel = tunerViewModel,
+                            tuning = appSettings.tuning.tuning,
+                            leftHanded = appSettings.fretboard.leftHanded,
+                            soundEnabled = appSettings.sound.enabled,
+                            tunerSettings = appSettings.tuner,
+                        )
+                    }
                     NAV_PITCH_MONITOR -> PitchMonitorTab(
                         viewModel = pitchMonitorViewModel,
                     )
-                    NAV_METRONOME -> MetronomeTab(
-                        viewModel = metronomeViewModel,
-                    )
+                    NAV_METRONOME -> ConstrainedWidthContent(isCompactWidth) {
+                        MetronomeTab(
+                            viewModel = metronomeViewModel,
+                        )
+                    }
                     NAV_LIBRARY -> ChordLibraryTab(
                         viewModel = libraryViewModel,
                         tuning = fretboardViewModel.tuning,
@@ -624,10 +527,13 @@ fun FretboardScreen(
                         },
                         leftHanded = appSettings.fretboard.leftHanded,
                     )
-                    NAV_PATTERNS -> StrumPatternsTab(
-                        tuning = appSettings.tuning.tuning,
-                    )
-                    NAV_PROGRESSIONS -> ProgressionsTab(
+                    NAV_PATTERNS -> ConstrainedWidthContent(isCompactWidth) {
+                        StrumPatternsTab(
+                            tuning = appSettings.tuning.tuning,
+                        )
+                    }
+                    NAV_PROGRESSIONS -> ConstrainedWidthContent(isCompactWidth) {
+                        ProgressionsTab(
                         leftHanded = appSettings.fretboard.leftHanded,
                         tuning = fretboardViewModel.tuning,
                         lastFret = appSettings.fretboard.lastFret,
@@ -659,6 +565,7 @@ fun FretboardScreen(
                             fretboardViewModel.playVoicingsSequentially(voicings)
                         },
                     )
+                    }
                     NAV_FAVORITES -> FavoritesTab(
                         viewModel = favoritesViewModel,
                         tuning = fretboardViewModel.tuning,
@@ -675,15 +582,17 @@ fun FretboardScreen(
                         },
                         leftHanded = appSettings.fretboard.leftHanded,
                     )
-                    NAV_SONGBOOK -> SongbookTab(
-                        viewModel = songbookViewModel,
-                        onChordTapped = { chordName ->
-                            navigateToChord(chordName, libraryViewModel) {
-                                previousSection = selectedSection
-                                selectedSection = NAV_LIBRARY
-                            }
-                        },
-                    )
+                    NAV_SONGBOOK -> ConstrainedWidthContent(isCompactWidth) {
+                        SongbookTab(
+                            viewModel = songbookViewModel,
+                            onChordTapped = { chordName ->
+                                navigateToChord(chordName, libraryViewModel) {
+                                    previousSection = selectedSection
+                                    selectedSection = NAV_LIBRARY
+                                }
+                            },
+                        )
+                    }
                     NAV_CAPO_GUIDE -> CapoGuideView(
                         tuning = appSettings.tuning.tuning,
                     )
@@ -795,6 +704,45 @@ fun FretboardScreen(
         }
     }
 
+    val drawerItemOnClick: (Int) -> Unit = { index ->
+        previousSection = null
+        selectedSection = index
+        if (isCompactWidth) scope.launch { drawerState.close() }
+    }
+
+    if (isCompactWidth) {
+        ModalNavigationDrawer(
+            drawerState = drawerState,
+            drawerContent = {
+                ModalDrawerSheet {
+                    DrawerContent(
+                        visibleSections = visibleSections,
+                        expandedState = expandedState,
+                        selectedSection = selectedSection,
+                        onItemSelected = drawerItemOnClick,
+                    )
+                }
+            },
+        ) {
+            scaffoldContent()
+        }
+    } else {
+        PermanentNavigationDrawer(
+            drawerContent = {
+                PermanentDrawerSheet {
+                    DrawerContent(
+                        visibleSections = visibleSections,
+                        expandedState = expandedState,
+                        selectedSection = selectedSection,
+                        onItemSelected = drawerItemOnClick,
+                    )
+                }
+            },
+        ) {
+            scaffoldContent()
+        }
+    }
+
     // Settings bottom sheet
     if (showSettings) {
         SettingsSheet(
@@ -869,6 +817,128 @@ fun FretboardScreen(
     }
 }
 
+@Composable
+private fun ConstrainedWidthContent(
+    isCompactWidth: Boolean,
+    content: @Composable () -> Unit,
+) {
+    if (isCompactWidth) {
+        content()
+    } else {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.TopCenter,
+        ) {
+            Box(modifier = Modifier.widthIn(max = 840.dp)) {
+                content()
+            }
+        }
+    }
+}
+
+@Composable
+private fun DrawerContent(
+    visibleSections: List<DrawerSection>,
+    expandedState: MutableMap<String, Boolean>,
+    selectedSection: Int,
+    onItemSelected: (Int) -> Unit,
+) {
+    Column(
+        modifier = Modifier.verticalScroll(rememberScrollState()),
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(horizontal = 28.dp, vertical = 24.dp),
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFF00695C)),
+                contentAlignment = Alignment.Center,
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.ic_launcher_foreground),
+                    contentDescription = null,
+                    modifier = Modifier.size(36.dp),
+                )
+            }
+            Spacer(modifier = Modifier.width(12.dp))
+            Text(
+                text = stringResource(R.string.app_full_name),
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.semantics { heading() },
+            )
+        }
+        visibleSections.forEachIndexed { sectionIndex, section ->
+            if (sectionIndex > 0) {
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            }
+            val expanded = expandedState.getOrPut(section.title) { true }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { expandedState[section.title] = !expanded }
+                    .padding(horizontal = 28.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = section.title,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.semantics { heading() },
+                )
+                Icon(
+                    imageVector = if (expanded) Icons.Filled.ExpandLess
+                    else Icons.Filled.ExpandMore,
+                    contentDescription = if (expanded) {
+                        stringResource(R.string.cd_collapse_section, section.title)
+                    } else {
+                        stringResource(R.string.cd_expand_section, section.title)
+                    },
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(20.dp),
+                )
+            }
+            AnimatedVisibility(
+                visible = expanded,
+                enter = expandVertically(),
+                exit = shrinkVertically(),
+            ) {
+                Column {
+                    section.items.forEach { item ->
+                        NavigationDrawerItem(
+                            icon = { Icon(item.icon, contentDescription = item.label) },
+                            label = { Text(item.label) },
+                            selected = selectedSection == item.index,
+                            onClick = { onItemSelected(item.index) },
+                            modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                        )
+                    }
+                }
+            }
+        }
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+        NavigationDrawerItem(
+            icon = { Icon(Icons.Filled.Info, contentDescription = stringResource(R.string.nav_help)) },
+            label = { Text(stringResource(R.string.nav_help)) },
+            selected = selectedSection == NAV_HELP,
+            onClick = { onItemSelected(NAV_HELP) },
+            modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = stringResource(R.string.drawer_copyright),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp),
+        )
+    }
+}
+
 /**
  * Holds the identifying information for a voicing whose folder sheet is open.
  */
@@ -911,6 +981,7 @@ private fun ExplorerTabContent(
     onFullScreen: () -> Unit = {},
     onShareChord: ((ChordVoicing, String, String?) -> Unit)? = null,
     onShowInLibrary: ((rootPitchClass: Int, formula: com.baijum.ukufretboard.data.ChordFormula) -> Unit)? = null,
+    isCompactWidth: Boolean = true,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val currentTuning = uiState.tuning.ifEmpty { viewModel.tuning }
@@ -949,6 +1020,7 @@ private fun ExplorerTabContent(
         )
 
         // Interactive fretboard
+        val fretboardCellSize = if (isCompactWidth) 48.dp else 64.dp
         FretboardView(
             tuning = currentTuning,
             selections = uiState.selections,
@@ -961,6 +1033,8 @@ private fun ExplorerTabContent(
             scalePositionFretRange = if (uiState.scaleOverlay.enabled) uiState.scaleOverlay.positionFretRange else null,
             capoFret = uiState.capoFret,
             lastFret = uiState.lastFret,
+            cellWidth = fretboardCellSize,
+            cellHeight = fretboardCellSize,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp, bottom = 16.dp),
