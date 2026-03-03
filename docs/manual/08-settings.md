@@ -16,6 +16,7 @@ Control how the app plays back chords and notes.
 | **Strum Delay** | The delay between strings when strumming a chord (20–150 ms). A shorter delay sounds like a quick strum; a longer delay sounds like a slow arpeggio. |
 | **Strum Direction** | Choose between strumming down (low to high) or up (high to low). |
 | **Play on Tap** | When enabled, plays the note immediately when you tap a fret on the Explorer fretboard. |
+| **Noise filtering** | Controls how much background noise is filtered for the Tuner, Pitch Monitor, and Melody Notepad (0–100%, default 75%). Higher values filter more noise; lower values pick up quieter sounds. Increase in noisy environments or decrease in a quiet room for maximum sensitivity. |
 
 ## Display
 

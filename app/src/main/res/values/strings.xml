@@ -615,7 +615,7 @@
     <string name="help_desc_chords_in_scale">Select a scale and see all the chords that naturally occur within it. Shows diatonic triads with Roman-numeral analysis. Useful for songwriting and understanding harmony in any key.</string>
     <string name="help_desc_fretboard_notes">A visual map showing every note on the ukulele fretboard. Highlight a specific note to see all its positions. Supports High-G and Low-G tuning. Tap any note to hear it.</string>
     <string name="help_desc_glossary">A searchable dictionary of music theory and ukulele terms — from arpeggio to voicing. Each entry includes a concise definition and, where helpful, an example.</string>
-    <string name="help_desc_settings">Configure app-wide preferences: sound (volume, strum delay, direction), display (theme), tuning (High-G, Low-G, Baritone, etc.), tuner (spoken feedback, precision mode, A4 calibration), fretboard (left-handed, fret count), and notifications.</string>
+    <string name="help_desc_settings">Configure app-wide preferences: sound (volume, strum delay, direction, noise filtering), display (theme), tuning (High-G, Low-G, Baritone, etc.), tuner (spoken feedback, precision mode, A4 calibration), fretboard (left-handed, fret count), and notifications.</string>
     <string name="help_desc_sharing">Share any chord as an image. When viewing a chord in the Explorer or Chord Library, tap the share icon to generate a clean chord diagram image that you can send to friends or post on social media.</string>
     <string name="help_desc_full_screen">Tap the expand icon in the Explorer tab to enter a landscape full-screen fretboard. Great for practice sessions where you want maximum fretboard visibility without UI distractions.</string>
 

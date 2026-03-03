@@ -585,7 +585,7 @@
     <string name="help_desc_chords_in_scale">选择一个音阶，查看其中自然产生的所有和弦。用罗马数字分析显示自然三和弦。对创作和理解任何调的和声都很有用。</string>
     <string name="help_desc_fretboard_notes">显示尤克里里指板上每个音符的可视化地图。高亮特定音符查看其所有位置。支持 High-G 和 Low-G 调弦。点击任何音符可试听。</string>
     <string name="help_desc_glossary">可搜索的乐理和尤克里里术语词典——从琶音到指法。每个词条包含简明定义，适当时附有示例。</string>
-    <string name="help_desc_settings">配置应用全局偏好设置：声音（音量、扫弦延迟、方向）、显示（主题）、调弦（High-G、Low-G、男中音等）、调音器（语音反馈、精确模式、A4 校准）、指板（左手模式、品格数）和通知。</string>
+    <string name="help_desc_settings">配置应用全局偏好设置：声音（音量、扫弦延迟、方向、噪音过滤）、显示（主题）、调弦（High-G、Low-G、男中音等）、调音器（语音反馈、精确模式、A4 校准）、指板（左手模式、品格数）和通知。</string>
     <string name="help_desc_sharing">以图片分享任何和弦。在探索器或和弦库中查看和弦时，点击分享图标生成整洁的和弦图，可以发送给朋友或发布在社交媒体上。</string>
     <string name="help_desc_full_screen">在探索器页面点击展开图标进入横屏全屏指板。非常适合需要最大指板可视性的练习环节。</string>
 
