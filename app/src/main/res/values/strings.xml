@@ -343,7 +343,7 @@
 
     <string name="settings_about">About</string>
     <string name="settings_version">Version %s</string>
-    <string name="settings_developer" translatable="false">Made by Baiju Muthukadan</string>
+    <string name="settings_developer" translatable="false">© Baiju Muthukadan</string>
     <string name="settings_website">Website</string>
     <string name="settings_free_book">Free Ukulele Book (PDF)</string>
     <string name="settings_video_guide">Feature Guide Videos</string>
