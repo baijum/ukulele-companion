@@ -16,6 +16,7 @@ This directory contains TOML project files that define narrated feature videos f
 | Melody Notepad | [melody-notepad/](melody-notepad/) | 5 | TOML ready |
 | Strumming Patterns | [patterns/](patterns/) | 5 | TOML ready |
 | Chord Progressions | [progressions/](progressions/) | 5 | TOML ready |
+| Play Store Promo | [play-store-promo/](play-store-promo/) | 9 | TOML ready |
 
 **Ready** = clips recorded, video assembled. **TOML ready** = narration written and audio generated, clips not yet recorded.
 
