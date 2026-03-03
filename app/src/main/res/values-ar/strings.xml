@@ -856,8 +856,8 @@
     <string name="cd_duplicate_pattern">تكرار</string>
     <string name="patterns_tempo">الإيقاع</string>
     <string name="settings_pitch_monitor">مراقب النغمة</string>
-    <string name="settings_noise_gate_sensitivity">حساسية بوابة الضوضاء</string>
-    <string name="settings_noise_gate_desc">يتحكم في مقدار تصفية ضوضاء الخلفية للموالف ومراقب النغمة ومفكرة الألحان. القيم المنخفضة تتجاهل المزيد من الضوضاء؛ القيم المرتفعة تلتقط الأصوات الأكثر هدوءًا.</string>
+    <string name="settings_noise_gate_filtering">تصفية الضوضاء</string>
+    <string name="settings_noise_gate_filtering_desc">يتحكم في مقدار تصفية ضوضاء الخلفية للموالف ومراقب النغمة ومفكرة الألحان. القيم المرتفعة تصفي المزيد من الضوضاء؛ القيم المنخفضة تلتقط الأصوات الأكثر هدوءًا.</string>
     <string name="settings_show_learn_section">إظهار قسم التعلم</string>
     <string name="settings_show_reference_section">إظهار قسم المرجع</string>
     <string name="cd_collapse_section">طي %s</string>

@@ -276,22 +276,21 @@ private fun SoundSection(
     HorizontalDivider()
     Spacer(modifier = Modifier.height(8.dp))
 
-    // Noise gate sensitivity
     SettingsSlider(
-        label = stringResource(R.string.settings_noise_gate_sensitivity),
-        value = settings.noiseGateSensitivity,
-        valueRange = SoundSettings.MIN_NOISE_GATE_SENSITIVITY..SoundSettings.MAX_NOISE_GATE_SENSITIVITY,
-        valueLabel = "${(settings.noiseGateSensitivity * 100).toInt()}%",
+        label = stringResource(R.string.settings_noise_gate_filtering),
+        value = settings.noiseGateFiltering,
+        valueRange = SoundSettings.MIN_NOISE_GATE_FILTERING..SoundSettings.MAX_NOISE_GATE_FILTERING,
+        valueLabel = "${(settings.noiseGateFiltering * 100).toInt()}%",
         enabled = true,
         onValueChange = {
-            onSettingsChange(settings.copy(noiseGateSensitivity = (it * 100).toInt() / 100f))
+            onSettingsChange(settings.copy(noiseGateFiltering = (it * 100).toInt() / 100f))
         },
     )
 
     Spacer(modifier = Modifier.height(4.dp))
 
     Text(
-        text = stringResource(R.string.settings_noise_gate_desc),
+        text = stringResource(R.string.settings_noise_gate_filtering_desc),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
