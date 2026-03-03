@@ -197,12 +197,17 @@ private fun TunerContent(
 
         Spacer(modifier = Modifier.height(12.dp))
 
+        // --- Settled note state for SILENT display ----------------------------
+        val showingSettled = state.tuningStatus == TuningStatus.SILENT &&
+            state.lastSettledNote != null
+
         // --- Detected note --------------------------------------------------
         val noteColor by animateColorAsState(
-            targetValue = when (state.tuningStatus) {
-                TuningStatus.IN_TUNE -> MaterialTheme.colorScheme.primary
-                TuningStatus.CLOSE -> MaterialTheme.colorScheme.tertiary
-                TuningStatus.SILENT -> MaterialTheme.colorScheme.onSurfaceVariant
+            targetValue = when {
+                showingSettled -> MaterialTheme.colorScheme.onSurfaceVariant
+                state.tuningStatus == TuningStatus.IN_TUNE -> MaterialTheme.colorScheme.primary
+                state.tuningStatus == TuningStatus.CLOSE -> MaterialTheme.colorScheme.tertiary
+                state.tuningStatus == TuningStatus.SILENT -> MaterialTheme.colorScheme.onSurfaceVariant
                 else -> MaterialTheme.colorScheme.error
             },
             animationSpec = tween(durationMillis = 200),
@@ -217,10 +222,15 @@ private fun TunerContent(
             label = "confidenceAlpha",
         )
 
-        val detectedNoteDescription = stringResource(R.string.cd_detected_note, state.detectedNote ?: stringResource(R.string.label_none))
+        val displayedNote = if (showingSettled) state.lastSettledNote else state.detectedNote
+        val detectedNoteDescription = if (showingSettled) {
+            stringResource(R.string.cd_last_detected_note, state.lastSettledNote!!)
+        } else {
+            stringResource(R.string.cd_detected_note, state.detectedNote ?: stringResource(R.string.label_none))
+        }
 
         Text(
-            text = state.detectedNote ?: "—",
+            text = displayedNote ?: "—",
             style = MaterialTheme.typography.displayLarge.copy(
                 fontWeight = FontWeight.Bold,
                 fontSize = 64.sp,
@@ -234,23 +244,43 @@ private fun TunerContent(
             },
         )
 
+        if (showingSettled) {
+            Text(
+                text = stringResource(R.string.tuner_last_note),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+            )
+        }
+
         Spacer(modifier = Modifier.height(4.dp))
 
         // --- Needle meter (weighted to fill available space) ----------------
+        val needleTarget = if (showingSettled) {
+            state.lastSettledCents.toFloat()
+        } else {
+            state.displayCentsDeviation.toFloat()
+        }
         val animatedCents by animateFloatAsState(
-            targetValue = state.displayCentsDeviation.toFloat(),
+            targetValue = needleTarget,
             animationSpec = tween(durationMillis = 120),
             label = "needleCents",
         )
 
         val meterColorScheme = MaterialTheme.colorScheme
 
-        val meterDescription = when (state.tuningStatus) {
-            TuningStatus.SILENT -> stringResource(R.string.tuner_meter_no_pitch)
-            TuningStatus.IN_TUNE -> stringResource(R.string.tuner_meter_in_tune)
-            TuningStatus.CLOSE -> stringResource(R.string.tuner_meter_close, abs(state.centsDeviation).roundToInt(), if (state.centsDeviation < 0) stringResource(R.string.tuner_direction_flat) else stringResource(R.string.tuner_direction_sharp))
-            TuningStatus.FLAT -> stringResource(R.string.tuner_meter_flat, abs(state.centsDeviation).roundToInt())
-            TuningStatus.SHARP -> stringResource(R.string.tuner_meter_sharp, abs(state.centsDeviation).roundToInt())
+        val meterDescription = when {
+            showingSettled -> {
+                val settledRounded = abs(state.lastSettledCents).roundToInt()
+                if (settledRounded == 0) stringResource(R.string.tuner_meter_in_tune)
+                else if (state.lastSettledCents < 0) stringResource(R.string.tuner_meter_flat, settledRounded)
+                else stringResource(R.string.tuner_meter_sharp, settledRounded)
+            }
+            state.tuningStatus == TuningStatus.SILENT -> stringResource(R.string.tuner_meter_no_pitch)
+            state.tuningStatus == TuningStatus.IN_TUNE -> stringResource(R.string.tuner_meter_in_tune)
+            state.tuningStatus == TuningStatus.CLOSE -> stringResource(R.string.tuner_meter_close, abs(state.centsDeviation).roundToInt(), if (state.centsDeviation < 0) stringResource(R.string.tuner_direction_flat) else stringResource(R.string.tuner_direction_sharp))
+            state.tuningStatus == TuningStatus.FLAT -> stringResource(R.string.tuner_meter_flat, abs(state.centsDeviation).roundToInt())
+            state.tuningStatus == TuningStatus.SHARP -> stringResource(R.string.tuner_meter_sharp, abs(state.centsDeviation).roundToInt())
+            else -> stringResource(R.string.tuner_meter_no_pitch)
         }
 
         val effectiveInTuneCents = if (tunerSettings.precisionMode) {
@@ -259,10 +289,11 @@ private fun TunerContent(
             TunerViewModel.IN_TUNE_CENTS
         }
 
+        val meterTuningStatus = if (showingSettled) TuningStatus.CLOSE else state.tuningStatus
         NeedleMeter(
             cents = animatedCents,
-            tuningStatus = state.tuningStatus,
-            confidenceAlpha = confidenceAlpha,
+            tuningStatus = meterTuningStatus,
+            confidenceAlpha = if (showingSettled) 0.5f else confidenceAlpha,
             inTuneCents = effectiveInTuneCents,
             inTuneColor = meterColorScheme.primary,
             closeColor = meterColorScheme.tertiary,
@@ -279,9 +310,17 @@ private fun TunerContent(
         )
 
         // --- Numeric cents display ------------------------------------------
-        val centsText = when (state.tuningStatus) {
-            TuningStatus.SILENT -> ""
-            TuningStatus.IN_TUNE -> "0 ¢"
+        val centsText = when {
+            showingSettled -> {
+                val rounded = state.lastSettledCents.roundToInt()
+                if (rounded == 0) "0 ¢"
+                else {
+                    val sign = if (rounded > 0) "+" else ""
+                    "$sign$rounded ¢"
+                }
+            }
+            state.tuningStatus == TuningStatus.SILENT -> ""
+            state.tuningStatus == TuningStatus.IN_TUNE -> "0 ¢"
             else -> {
                 val rounded = state.centsDeviation.roundToInt()
                 val sign = if (rounded > 0) "+" else ""
@@ -289,11 +328,13 @@ private fun TunerContent(
             }
         }
 
+        val centsAlpha = if (showingSettled) 0.5f else confidenceAlpha * 0.8f
+
         Text(
             text = centsText,
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Medium,
-            color = noteColor.copy(alpha = noteColor.alpha * confidenceAlpha * 0.8f),
+            color = noteColor.copy(alpha = noteColor.alpha * centsAlpha),
             textAlign = TextAlign.Center,
             modifier = Modifier.height(20.dp),
         )

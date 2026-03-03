@@ -74,6 +74,10 @@ data class TunerUiState(
     val neuralRuntimeStatus: NeuralRuntimeStatus = NeuralRuntimeStatus.FALLBACK,
     /** Index of the string that auto-advance is suggesting the user tune next, or -1 if none. */
     val autoAdvanceTarget: Int = -1,
+    /** Note name that was sustained long enough before silence (e.g. "A4"), or null. */
+    val lastSettledNote: String? = null,
+    /** Cents deviation when the settled note was last updated; drives the frozen needle. */
+    val lastSettledCents: Double = 0.0,
 )
 
 /**
@@ -184,6 +188,12 @@ class TunerViewModel : ViewModel() {
         /** Hysteresis for keeping previous target string assignment. */
         private const val STRING_SWITCH_HYSTERESIS_CENTS = 4.0
 
+        /**
+         * Minimum consecutive frames with the same note before it becomes
+         * the "settled" note. At ~23 ms/frame, 15 frames ≈ 350 ms.
+         */
+        private const val SETTLED_NOTE_MIN_FRAMES = 15
+
         /** Periodic telemetry cadence to keep logs readable. */
         private const val TELEMETRY_LOG_INTERVAL_FRAMES = 25L
 
@@ -269,6 +279,17 @@ class TunerViewModel : ViewModel() {
     private var lastNeuralFrequencyForConsistency: Double? = null
     private var neuralConsistencyFrames = 0
 
+    // --- Settled note tracking ------------------------------------------------
+
+    /** Note name currently being sustained (for settled-note detection). */
+    private var settledNoteName: String? = null
+
+    /** Consecutive frames the same note has been detected. */
+    private var settledNoteFrames = 0
+
+    /** Cents deviation tracked alongside the settled note. */
+    private var settledNoteCents = 0.0
+
     // --- Calibration telemetry ------------------------------------------------
     private var telemetryFrameCounter = 0L
     private var telemetryOverrideCount = 0L
@@ -315,7 +336,14 @@ class TunerViewModel : ViewModel() {
     fun startTuning() {
         if (_uiState.value.isListening) return
 
-        _uiState.update { it.copy(isListening = true, tuningStatus = TuningStatus.SILENT) }
+        _uiState.update {
+            it.copy(
+                isListening = true,
+                tuningStatus = TuningStatus.SILENT,
+                lastSettledNote = null,
+                lastSettledCents = 0.0,
+            )
+        }
         recentFrequencies.clear()
         inTuneFrames = 0
         inTuneStringIndex = -1
@@ -325,6 +353,9 @@ class TunerViewModel : ViewModel() {
         lostSignalFrames = 0
         previousFrequency = null
         displayCentsFiltered = 0.0
+        settledNoteName = null
+        settledNoteFrames = 0
+        settledNoteCents = 0.0
         neuralFrameCounter = 0
         lastNeuralResult = null
         neuralResultAgeFrames = Int.MAX_VALUE
@@ -354,6 +385,8 @@ class TunerViewModel : ViewModel() {
                 displayCentsDeviation = 0.0,
                 targetString = null,
                 noteInfo = null,
+                lastSettledNote = null,
+                lastSettledCents = 0.0,
             )
         }
         recentFrequencies.clear()
@@ -364,6 +397,9 @@ class TunerViewModel : ViewModel() {
         lostSignalFrames = 0
         previousFrequency = null
         displayCentsFiltered = 0.0
+        settledNoteName = null
+        settledNoteFrames = 0
+        settledNoteCents = 0.0
         neuralFrameCounter = 0
         lastNeuralResult = null
         neuralResultAgeFrames = Int.MAX_VALUE
@@ -430,6 +466,8 @@ class TunerViewModel : ViewModel() {
             inTuneFrames = 0
             inTuneStringIndex = -1
             displayCentsFiltered = 0.0
+            settledNoteName = null
+            settledNoteFrames = 0
             _uiState.update {
                 it.copy(
                     tuningStatus = TuningStatus.SILENT,
@@ -468,6 +506,8 @@ class TunerViewModel : ViewModel() {
             inTuneFrames = 0
             inTuneStringIndex = -1
             displayCentsFiltered = 0.0
+            settledNoteName = null
+            settledNoteFrames = 0
             _uiState.update {
                 it.copy(
                     tuningStatus = TuningStatus.SILENT,
@@ -561,9 +601,25 @@ class TunerViewModel : ViewModel() {
             -1
         }
 
-        // --- Emit state ------------------------------------------------------
+        // --- Settled note tracking -------------------------------------------
         val displayNote = "${noteInfo.noteName}${noteInfo.octave}"
 
+        if (displayNote == settledNoteName) {
+            settledNoteFrames++
+            settledNoteCents = clampedCents
+        } else {
+            settledNoteName = displayNote
+            settledNoteFrames = 1
+            settledNoteCents = clampedCents
+        }
+
+        val settledUpdate = if (settledNoteFrames >= SETTLED_NOTE_MIN_FRAMES) {
+            settledNoteName to settledNoteCents
+        } else {
+            null
+        }
+
+        // --- Emit state ------------------------------------------------------
         _uiState.update {
             it.copy(
                 detectedNote = displayNote,
@@ -575,6 +631,8 @@ class TunerViewModel : ViewModel() {
                 stringProgress = progress,
                 noteInfo = noteInfo,
                 autoAdvanceTarget = autoAdvanceIdx,
+                lastSettledNote = settledUpdate?.first ?: it.lastSettledNote,
+                lastSettledCents = settledUpdate?.second ?: it.lastSettledCents,
             )
         }
 

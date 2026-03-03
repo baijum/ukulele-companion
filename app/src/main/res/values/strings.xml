@@ -158,11 +158,13 @@
     <string name="tuner_tune_up">Tune Up</string>
     <string name="tuner_tune_down">Tune Down</string>
     <string name="tuner_all_tuned">All strings tuned!</string>
+    <string name="tuner_last_note">Last note</string>
     <string name="tuner_start">Start Tuning</string>
     <string name="tuner_stop">Stop</string>
     <string name="cd_start_tuning">Start tuning</string>
     <string name="cd_stop_tuning">Stop tuning</string>
     <string name="cd_detected_note">Detected note: %s</string>
+    <string name="cd_last_detected_note">Last detected note, %s</string>
     <string name="tuner_meter_no_pitch">Tuning meter, no pitch detected</string>
     <string name="tuner_meter_in_tune">Tuning meter, in tune</string>
     <string name="tuner_meter_close">Tuning meter, %1$d cents %2$s, almost in tune</string>
