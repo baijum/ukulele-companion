@@ -56,6 +56,7 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Button
@@ -241,8 +242,11 @@ fun FretboardScreen(
     melodyViewModel: MelodyViewModel = viewModel(),
     metronomeViewModel: MetronomeViewModel = viewModel(),
     widthSizeClass: WindowWidthSizeClass = WindowWidthSizeClass.Compact,
+    heightSizeClass: WindowHeightSizeClass = WindowHeightSizeClass.Medium,
 ) {
     val isCompactWidth = widthSizeClass == WindowWidthSizeClass.Compact
+    val isTabletWidth = widthSizeClass == WindowWidthSizeClass.Expanded &&
+        heightSizeClass != WindowHeightSizeClass.Compact
     var selectedSection by rememberSaveable { mutableIntStateOf(NAV_EXPLORER) }
     var previousSection by rememberSaveable { mutableStateOf<Int?>(null) }
     var showSettings by remember { mutableStateOf(false) }
@@ -398,7 +402,7 @@ fun FretboardScreen(
                                     contentDescription = stringResource(R.string.action_back),
                                 )
                             }
-                        } else if (isCompactWidth) {
+                        } else if (!isTabletWidth) {
                             IconButton(onClick = { scope.launch { drawerState.open() } }) {
                                 Icon(
                                     imageVector = Icons.Filled.Menu,
@@ -439,7 +443,7 @@ fun FretboardScreen(
                         showDidYouKnow = appSettings.display.showExplorerTips,
                         onDismissTips = { settingsViewModel.dismissExplorerTips() },
                         onFullScreen = { showFullScreen = true },
-                        isCompactWidth = isCompactWidth,
+                        isTabletWidth = isTabletWidth,
                         onShareChord = { voicing, chordName, invLabel ->
                             shareChordInfo = ShareChordInfo(
                                 voicing = voicing,
@@ -707,10 +711,10 @@ fun FretboardScreen(
     val drawerItemOnClick: (Int) -> Unit = { index ->
         previousSection = null
         selectedSection = index
-        if (isCompactWidth) scope.launch { drawerState.close() }
+        if (!isTabletWidth) scope.launch { drawerState.close() }
     }
 
-    if (isCompactWidth) {
+    if (!isTabletWidth) {
         ModalNavigationDrawer(
             drawerState = drawerState,
             drawerContent = {
@@ -981,7 +985,7 @@ private fun ExplorerTabContent(
     onFullScreen: () -> Unit = {},
     onShareChord: ((ChordVoicing, String, String?) -> Unit)? = null,
     onShowInLibrary: ((rootPitchClass: Int, formula: com.baijum.ukufretboard.data.ChordFormula) -> Unit)? = null,
-    isCompactWidth: Boolean = true,
+    isTabletWidth: Boolean = false,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val currentTuning = uiState.tuning.ifEmpty { viewModel.tuning }
@@ -1020,7 +1024,7 @@ private fun ExplorerTabContent(
         )
 
         // Interactive fretboard
-        val fretboardCellSize = if (isCompactWidth) 48.dp else 64.dp
+        val fretboardCellSize = if (isTabletWidth) 64.dp else 48.dp
         FretboardView(
             tuning = currentTuning,
             selections = uiState.selections,
