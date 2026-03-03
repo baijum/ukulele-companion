@@ -148,6 +148,8 @@
     <string name="tuner_tune_up">ارفع النغمة</string>
     <string name="tuner_tune_down">اخفض النغمة</string>
     <string name="tuner_all_tuned">جميع الأوتار مضبوطة!</string>
+    <string name="tuner_last_note">آخر نغمة</string>
+    <string name="cd_last_detected_note">آخر نغمة تم اكتشافها، %s</string>
     <string name="tuner_start">بدء الضبط</string>
     <string name="tuner_stop">إيقاف</string>
     <string name="cd_start_tuning">بدء الضبط</string>

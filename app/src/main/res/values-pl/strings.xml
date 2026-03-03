@@ -148,6 +148,8 @@
     <string name="tuner_tune_up">Podwyższ</string>
     <string name="tuner_tune_down">Obniż</string>
     <string name="tuner_all_tuned">Wszystkie struny nastrojone!</string>
+    <string name="tuner_last_note">Ostatnia nuta</string>
+    <string name="cd_last_detected_note">Ostatnio wykryta nuta, %s</string>
     <string name="tuner_start">Rozpocznij strojenie</string>
     <string name="tuner_stop">Zatrzymaj</string>
     <string name="cd_start_tuning">Rozpocznij strojenie</string>

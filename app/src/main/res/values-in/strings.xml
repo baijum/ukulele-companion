@@ -148,6 +148,8 @@
     <string name="tuner_tune_up">Naikkan</string>
     <string name="tuner_tune_down">Turunkan</string>
     <string name="tuner_all_tuned">Semua senar sudah pas!</string>
+    <string name="tuner_last_note">Not terakhir</string>
+    <string name="cd_last_detected_note">Not terakhir yang terdeteksi, %s</string>
     <string name="tuner_start">Mulai Tuning</string>
     <string name="tuner_stop">Berhenti</string>
     <string name="cd_start_tuning">Mulai tuning</string>

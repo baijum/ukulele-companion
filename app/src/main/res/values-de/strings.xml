@@ -148,6 +148,8 @@
     <string name="tuner_tune_up">Höher stimmen</string>
     <string name="tuner_tune_down">Tiefer stimmen</string>
     <string name="tuner_all_tuned">Alle Saiten gestimmt!</string>
+    <string name="tuner_last_note">Letzter Ton</string>
+    <string name="cd_last_detected_note">Zuletzt erkannter Ton, %s</string>
     <string name="tuner_start">Stimmen starten</string>
     <string name="tuner_stop">Stopp</string>
     <string name="cd_start_tuning">Stimmen starten</string>

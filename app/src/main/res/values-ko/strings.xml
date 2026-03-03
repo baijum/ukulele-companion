@@ -148,6 +148,8 @@
     <string name="tuner_tune_up">높이기</string>
     <string name="tuner_tune_down">낮추기</string>
     <string name="tuner_all_tuned">모든 현 튜닝 완료!</string>
+    <string name="tuner_last_note">마지막 음</string>
+    <string name="cd_last_detected_note">마지막으로 감지된 음, %s</string>
     <string name="tuner_start">튜닝 시작</string>
     <string name="tuner_stop">정지</string>
     <string name="cd_start_tuning">튜닝 시작</string>

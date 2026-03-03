@@ -148,6 +148,8 @@
     <string name="tuner_tune_up">Yukarı Akort</string>
     <string name="tuner_tune_down">Aşağı Akort</string>
     <string name="tuner_all_tuned">Tüm teller akortlu!</string>
+    <string name="tuner_last_note">Son nota</string>
+    <string name="cd_last_detected_note">Son algılanan nota, %s</string>
     <string name="tuner_start">Akort Başlat</string>
     <string name="tuner_stop">Durdur</string>
     <string name="cd_start_tuning">Akort başlat</string>
