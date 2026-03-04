@@ -118,7 +118,7 @@ fun FretboardNoteMapView(
         }
 
         Text(
-            text = effectiveTuning.label,
+            text = effectiveTuning.localizedLabel(),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

@@ -295,6 +295,7 @@ private fun BeatIndicator(
         BeatType.NORMAL -> "normal"
         BeatType.MUTE -> "muted"
     }
+    val beatTypeDesc = stringResource(R.string.cd_beat_type, beatIndex + 1, typeLabel)
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
@@ -305,7 +306,7 @@ private fun BeatIndicator(
                 .background(backgroundColor, CircleShape)
                 .clickable(onClick = onClick)
                 .semantics {
-                    contentDescription = "Beat ${beatIndex + 1}, $typeLabel"
+                    contentDescription = beatTypeDesc
                     role = Role.Button
                     if (isActive) stateDescription = "current beat"
                 },

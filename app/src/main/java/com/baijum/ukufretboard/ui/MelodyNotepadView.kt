@@ -543,6 +543,7 @@ private fun DurationSelector(
                 NoteDuration.EIGHTH -> stringResource(R.string.melody_eighth)
                 NoteDuration.SIXTEENTH -> stringResource(R.string.melody_sixteenth)
             }
+            val durationChipDesc = stringResource(R.string.cd_note_duration_selected, dur.localizedLabel())
             FilterChip(
                 selected = selectedDuration == dur,
                 onClick = { onSelectDuration(dur) },
@@ -552,7 +553,7 @@ private fun DurationSelector(
                     selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 modifier = Modifier.semantics {
-                    contentDescription = "${dur.label} note duration"
+                    contentDescription = durationChipDesc
                     if (selectedDuration == dur) stateDescription = "selected"
                 },
             )
@@ -647,13 +648,14 @@ private fun TapInputContent(
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
+        val decreaseOctaveDesc = stringResource(R.string.cd_decrease_octave)
         IconButton(
             onClick = onOctaveDown,
             enabled = state.currentOctave > 3,
             modifier = Modifier
                 .size(32.dp)
                 .semantics {
-                    contentDescription = "Decrease octave"
+                    contentDescription = decreaseOctaveDesc
                     role = Role.Button
                 },
         ) {
@@ -663,22 +665,24 @@ private fun TapInputContent(
                 modifier = Modifier.size(20.dp),
             )
         }
+        val octaveValueDesc = stringResource(R.string.cd_octave_value, state.currentOctave)
         Text(
             text = state.currentOctave.toString(),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.semantics {
-                contentDescription = "Octave ${state.currentOctave}"
+                contentDescription = octaveValueDesc
                 liveRegion = LiveRegionMode.Polite
             },
         )
+        val increaseOctaveDesc = stringResource(R.string.cd_increase_octave)
         IconButton(
             onClick = onOctaveUp,
             enabled = state.currentOctave < 6,
             modifier = Modifier
                 .size(32.dp)
                 .semantics {
-                    contentDescription = "Increase octave"
+                    contentDescription = increaseOctaveDesc
                     role = Role.Button
                 },
         ) {
@@ -699,6 +703,7 @@ private fun TapInputContent(
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         noteNames.forEachIndexed { pc, name ->
+            val addNoteDesc = stringResource(R.string.cd_add_note, name, state.currentOctave)
             Box(
                 modifier = Modifier
                     .size(44.dp)
@@ -708,7 +713,7 @@ private fun TapInputContent(
                     )
                     .clickable { onAddNote(pc) }
                     .semantics {
-                        contentDescription = "Add $name${state.currentOctave}"
+                        contentDescription = addNoteDesc
                         role = Role.Button
                     },
                 contentAlignment = Alignment.Center,
@@ -720,6 +725,7 @@ private fun TapInputContent(
                 )
             }
         }
+        val addRestDesc = stringResource(R.string.cd_add_rest)
         Box(
             modifier = Modifier
                 .size(44.dp)
@@ -729,7 +735,7 @@ private fun TapInputContent(
                 )
                 .clickable { onAddRest() }
                 .semantics {
-                    contentDescription = "Add rest"
+                    contentDescription = addRestDesc
                     role = Role.Button
                 },
             contentAlignment = Alignment.Center,
@@ -780,6 +786,7 @@ private fun RecordInputContent(
                 val detectedNote = state.detectedNote
                 if (detectedNote != null) {
                     val noteName = Notes.pitchClassToName(detectedNote.pitchClass)
+                    val detectedNoteDesc = stringResource(R.string.cd_melody_detected_note, noteName, detectedNote.octave)
                     Text(
                         text = "$noteName${detectedNote.octave}",
                         style = MaterialTheme.typography.displaySmall,
@@ -787,7 +794,7 @@ private fun RecordInputContent(
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.semantics {
                             liveRegion = LiveRegionMode.Polite
-                            contentDescription = "Detected $noteName${detectedNote.octave}"
+                            contentDescription = detectedNoteDesc
                         },
                     )
 
@@ -852,10 +859,11 @@ private fun RecordInputContent(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
+                val startRecordingDesc = stringResource(R.string.cd_start_recording)
                 OutlinedButton(
                     onClick = onStartRecording,
                     modifier = Modifier.semantics {
-                        contentDescription = "Record notes from ukulele"
+                        contentDescription = startRecordingDesc
                     },
                 ) {
                     Icon(
@@ -1076,7 +1084,7 @@ private fun MelodyListItem(
             ) {
                 Icon(
                     Icons.Filled.Delete,
-                    contentDescription = "Delete ${melody.name}",
+                    contentDescription = stringResource(R.string.cd_delete_melody, melody.name),
                     modifier = Modifier.size(18.dp),
                     tint = MaterialTheme.colorScheme.error,
                 )

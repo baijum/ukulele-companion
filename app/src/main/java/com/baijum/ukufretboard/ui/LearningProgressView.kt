@@ -232,7 +232,7 @@ fun LearningProgressView(
         Spacer(modifier = Modifier.height(8.dp))
         state.quizStatsByCategory.forEach { (category, stats) ->
             if (stats.total > 0) {
-                MiniStatsRow(label = category.label, stats = stats)
+                MiniStatsRow(label = category.localizedLabel(), stats = stats)
             }
         }
 

@@ -321,7 +321,7 @@ private fun DisplaySection(
             FilterChip(
                 selected = settings.themeMode == mode,
                 onClick = { onSettingsChange(settings.copy(themeMode = mode)) },
-                label = { Text(mode.label) },
+                label = { Text(mode.localizedLabel()) },
             )
         }
     }
@@ -334,7 +334,7 @@ private fun DisplaySection(
             FilterChip(
                 selected = settings.themeMode == mode,
                 onClick = { onSettingsChange(settings.copy(themeMode = mode)) },
-                label = { Text(mode.label) },
+                label = { Text(mode.localizedLabel()) },
             )
         }
     }
@@ -498,13 +498,13 @@ private fun TuningSection(
             FilterChip(
                 selected = settings.tuning == tunings[i],
                 onClick = { onSettingsChange(settings.copy(tuning = tunings[i])) },
-                label = { Text(tunings[i].label) },
+                label = { Text(tunings[i].localizedLabel()) },
             )
             if (i + 1 < tunings.size) {
                 FilterChip(
                     selected = settings.tuning == tunings[i + 1],
                     onClick = { onSettingsChange(settings.copy(tuning = tunings[i + 1])) },
-                    label = { Text(tunings[i + 1].label) },
+                    label = { Text(tunings[i + 1].localizedLabel()) },
                 )
             }
         }

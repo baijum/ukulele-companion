@@ -161,7 +161,7 @@ private fun LessonListView(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            text = "${moduleIndex + 1}. $moduleName",
+                            text = "${moduleIndex + 1}. ${theoryModuleName(moduleName)}",
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary,
@@ -197,7 +197,7 @@ private fun LessonListView(
                                 )
                             }
                             Text(
-                                text = lesson.title,
+                                text = theoryLessonTitle(lesson.id),
                                 style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier.weight(1f),
                             )
@@ -249,13 +249,13 @@ private fun LessonDetailView(
             }
             Column {
                 Text(
-                    text = lesson.module,
+                    text = theoryModuleName(lesson.module),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = lesson.title,
+                    text = theoryLessonTitle(lesson.id),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.semantics { heading() },

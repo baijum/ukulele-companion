@@ -128,7 +128,7 @@ fun ScalePracticeView(
                     },
                     label = {
                         Text(
-                            mode.label,
+                            mode.localizedLabel(),
                             fontWeight = if (state.mode == mode) FontWeight.Bold else FontWeight.Normal,
                         )
                     },
@@ -183,7 +183,7 @@ fun ScalePracticeView(
                     },
                     label = {
                         Text(
-                            cat.label,
+                            cat.localizedLabel(),
                             fontWeight = if (state.selectedCategory == cat) FontWeight.Bold else FontWeight.Normal,
                         )
                     },
@@ -338,7 +338,7 @@ private fun PlayAlongContent(
             FilterChip(
                 selected = state.direction == dir,
                 onClick = { viewModel.setDirection(dir) },
-                label = { Text(dir.label) },
+                label = { Text(dir.localizedLabel()) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.tertiary,
                     selectedLabelColor = MaterialTheme.colorScheme.onTertiary,
@@ -400,7 +400,7 @@ private fun PlayAlongContent(
                 FilterChip(
                     selected = state.fretPosition == pos,
                     onClick = { viewModel.setFretPosition(pos) },
-                    label = { Text(pos.label) },
+                    label = { Text(pos.localizedLabel()) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = MaterialTheme.colorScheme.tertiary,
                         selectedLabelColor = MaterialTheme.colorScheme.onTertiary,

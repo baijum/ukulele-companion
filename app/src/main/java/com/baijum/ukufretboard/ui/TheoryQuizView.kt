@@ -179,7 +179,7 @@ fun TheoryQuizView(
                 FilterChip(
                     selected = selectedCategory == cat,
                     onClick = { selectedCategory = cat },
-                    label = { Text(cat.label) },
+                    label = { Text(cat.localizedLabel()) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = MaterialTheme.colorScheme.primary,
                         selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
@@ -412,7 +412,7 @@ private fun QuestionCard(
         Column(modifier = Modifier.padding(16.dp)) {
             // Category badge
             Text(
-                text = question.category.label,
+                text = question.category.localizedLabel(),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.Bold,

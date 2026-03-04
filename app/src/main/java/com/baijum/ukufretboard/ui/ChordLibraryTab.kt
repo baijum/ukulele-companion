@@ -342,7 +342,7 @@ fun ChordLibraryTab(
                     rootPitchClass = uiState.selectedRoot,
                     formula = uiState.selectedFormula,
                     emptyTitle = if (inversionFilter != null) {
-                        "No ${inversionFilter!!.label.lowercase()} voicings"
+                        "No ${inversionFilter!!.localizedLabel().lowercase()} voicings"
                     } else {
                         stringResource(R.string.chord_library_no_voicings)
                     },
@@ -399,9 +399,9 @@ private fun FilterToggleRow(
 ) {
     val rootName = Notes.pitchClassToName(selectedRoot)
     val summary = if (selectedFormula != null) {
-        "$rootName${selectedFormula.symbol} — ${selectedCategory.label}"
+        "$rootName${selectedFormula.symbol} — ${selectedCategory.localizedLabel()}"
     } else {
-        "$rootName — ${selectedCategory.label}"
+        "$rootName — ${selectedCategory.localizedLabel()}"
     }
     val showFilters = stringResource(R.string.chord_library_show_filters)
     val hideFilters = stringResource(R.string.chord_library_hide_filters)
@@ -488,7 +488,7 @@ private fun CategorySelector(
                 onClick = { onCategorySelected(category) },
                 label = {
                     Text(
-                        text = category.label,
+                        text = category.localizedLabel(),
                         fontWeight = if (category == selectedCategory) FontWeight.Bold else FontWeight.Normal,
                     )
                 },
@@ -680,7 +680,7 @@ private fun InversionCompareView(
                 ) {
                     Column {
                         Text(
-                            text = inversion.label,
+                            text = inversion.localizedLabel(),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface,
@@ -697,7 +697,7 @@ private fun InversionCompareView(
                         IconButton(onClick = { onPlayVoicing(bestVoicing) }) {
                             Icon(
                                 imageVector = Icons.Filled.PlayArrow,
-                                contentDescription = stringResource(R.string.cd_play_item, inversion.label),
+                                contentDescription = stringResource(R.string.cd_play_item, inversion.localizedLabel()),
                                 tint = MaterialTheme.colorScheme.primary,
                             )
                         }
@@ -806,7 +806,7 @@ private fun VoicingGrid(
             items(voicings) { voicing ->
                 // Compute inversion info for this voicing
                 val inversionLabel = formula?.let {
-                    ChordInfo.determineInversion(voicing.frets, rootPitchClass, it, tuning).label
+                    ChordInfo.determineInversion(voicing.frets, rootPitchClass, it, tuning).localizedLabel()
                 }
                 val bassIndex = formula?.let {
                     ChordInfo.findBassStringIndex(voicing.frets, tuning)
@@ -928,7 +928,7 @@ private fun ChordSuggestionRow(
 ) {
     val qualityLabel = buildString {
         append(result.quality)
-        result.inversion?.let { append(", ${it.label}") }
+        result.inversion?.let { append(", ${it.localizedLabel()}") }
     }
 
     val rootName = Notes.pitchClassToName(result.rootPitchClass)

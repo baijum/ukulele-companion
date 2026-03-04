@@ -678,7 +678,7 @@ private fun DifficultyBadge(difficulty: Difficulty) {
             .padding(horizontal = 8.dp, vertical = 2.dp),
     ) {
         Text(
-            text = difficulty.label,
+            text = difficulty.localizedLabel(),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Medium,
             color = textColor,
@@ -691,6 +691,7 @@ private fun DifficultyBadge(difficulty: Difficulty) {
  */
 @Composable
 private fun TimeSignatureBadge(timeSignature: String) {
+    val timeSignatureDesc = stringResource(R.string.cd_time_signature, timeSignature)
     Box(
         modifier = Modifier
             .background(
@@ -698,7 +699,7 @@ private fun TimeSignatureBadge(timeSignature: String) {
                 RoundedCornerShape(8.dp),
             )
             .padding(horizontal = 8.dp, vertical = 2.dp)
-            .semantics { contentDescription = "$timeSignature time" },
+            .semantics { contentDescription = timeSignatureDesc },
     ) {
         Text(
             text = timeSignature,

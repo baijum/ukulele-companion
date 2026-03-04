@@ -175,7 +175,7 @@ private fun RoutineSetup(
                 FilterChip(
                     selected = skillLevel == level,
                     onClick = { onSkillLevelChange(level) },
-                    label = { Text(level.label) },
+                    label = { Text(level.localizedLabel()) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = MaterialTheme.colorScheme.primary,
                         selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
@@ -211,7 +211,7 @@ private fun RoutineSetup(
                             },
                         )
                     },
-                    label = { Text(area.label) },
+                    label = { Text(area.localizedLabel()) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = MaterialTheme.colorScheme.secondary,
                         selectedLabelColor = MaterialTheme.colorScheme.onSecondary,

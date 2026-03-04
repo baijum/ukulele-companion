@@ -981,12 +981,13 @@ private fun SheetEditor(
             val commonChords = listOf("C", "G", "Am", "F", "Em", "Dm", "D", "A", "E", "Bm")
             commonChords.forEach { chord ->
                 val insertDesc = stringResource(R.string.songbook_insert_chord)
+                val insertChordDesc = stringResource(R.string.cd_insert_chord, insertDesc, chord)
                 FilterChip(
                     selected = false,
                     onClick = { content += "[$chord]" },
                     label = { Text(chord) },
                     modifier = Modifier.clearAndSetSemantics {
-                        contentDescription = "$insertDesc $chord"
+                        contentDescription = insertChordDesc
                     },
                 )
             }
