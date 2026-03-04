@@ -204,6 +204,23 @@ The debug APK will be at `app/build/outputs/apk/debug/app-debug.apk`.
 
 Open the project in Android Studio, select a device/emulator, and click **Run** (or press `Shift+F10`).
 
+### Run Tests
+
+```bash
+# Unit tests (including property-based fuzz tests)
+./gradlew testDebugUnitTest
+
+# Instrumented tests (requires emulator or device)
+./gradlew connectedAndroidTest
+
+# UI stress test with Android Monkey (requires emulator or device)
+./scripts/monkey_test.sh            # 10,000 random events
+./scripts/monkey_test.sh 42         # reproducible with seed
+./scripts/monkey_test.sh 42 50000   # 50,000 events with seed
+```
+
+The project includes **property-based tests** using [Kotest](https://kotest.io/docs/proptest/property-based-testing.html) that generate thousands of random inputs to verify invariants in the domain logic (chord detection, transposition, FFT, pitch detection, and more). These run automatically as part of `testDebugUnitTest` and in CI on every push and PR.
+
 ### Release Build
 
 1. Create a `keystore.properties` file in the project root:
@@ -246,7 +263,7 @@ We actively encourage contributors to use **AI coding tools** to accelerate thei
 
 - **Use [Cursor](https://cursor.com), [GitHub Copilot](https://github.com/features/copilot), or similar AI tools** to explore the codebase, understand patterns, and generate code that fits the existing architecture.
 - **Leverage AI for code reviews** — before submitting a PR, ask an AI assistant to review your changes for consistency with the project's patterns.
-- **Use AI to write tests** — the project currently has no automated tests (see [Good First Issues](#-good-first-issues) below), making it a perfect opportunity for AI-assisted test generation.
+- **Use AI to write tests** — expand the existing test suite with new unit tests, property-based fuzz tests, or UI tests.
 - **AI-powered documentation** — use AI tools to help write clear commit messages, PR descriptions, and inline documentation.
 
 > **Tip:** This project uses standard Kotlin + Jetpack Compose patterns. AI tools work exceptionally well with the codebase because it follows consistent conventions throughout.
@@ -257,14 +274,13 @@ Looking for a place to start? Here are some areas where contributions would be e
 
 | Area | Description | Difficulty |
 |------|-------------|------------|
-| **Unit Tests** | Add tests for `ChordDetector`, `Transpose`, `CapoCalculator`, and other domain logic | Beginner |
 | **UI Tests** | Add Compose UI tests for screens and components | Beginner |
+| **Property Tests** | Add property-based tests for more domain logic (e.g., `KeyDetector`, `QuizGenerator`, `ScaleChordBuilder`) | Beginner |
 | **Accessibility** | Maintain and improve TalkBack support, content descriptions, live regions | Beginner |
 | **New Scales** | Add more scale types to the Scale Overlay feature | Beginner |
 | **New Strumming Patterns** | Expand the strumming pattern library | Beginner |
 | **New Chord Progressions** | Add genre-specific chord progressions | Beginner |
 | **Localization** | Translate the app into other languages | Intermediate |
-| **CI/CD** | Set up GitHub Actions for build verification | Intermediate |
 | **Alternate Tunings** | Add support for more ukulele tuning variants | Intermediate |
 | **Instrument Samples** | Replace sine wave synthesis with real ukulele samples | Advanced |
 

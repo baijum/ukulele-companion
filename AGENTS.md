@@ -177,12 +177,57 @@ Types: `Add`, `Fix`, `Update`, `Refactor`, `Test`, `Docs`, `Chore`
 
 ## Testing
 
-- **Current coverage**: Minimal. One accessibility test file (`AccessibilityTest.kt` in `androidTest/`).
-- **Framework**: Compose UI Testing (`ui-test-junit4`), JUnit 4.
-- **Domain logic** in `domain/` is pure Kotlin with no Android dependencies -- ideal for unit tests.
+- **Framework**: JUnit 4, Kotest Property Testing (`io.kotest:kotest-property`), Compose UI Testing (`ui-test-junit4`).
+- **Run all unit tests**: `./gradlew testDebugUnitTest`
+- **Run instrumented tests**: `./gradlew connectedAndroidTest` (requires emulator/device)
+
+### Unit tests (`app/src/test/`)
+
+| File | What it tests |
+|------|---------------|
+| `PitchDetectorTest.kt` | YIN pitch detection with synthetic sine waves |
+| `AudioResamplerTest.kt` | Downsampling ratio, empty input, frequency preservation |
+| `FFTProcessorTest.kt` | DC signal, pure sine peak, FFT/IFFT round-trip |
+| `TunerNoteMapperTest.kt` | Frequency-to-note mapping, string matching, hysteresis |
+| `TtsAnnouncementThrottlerTest.kt` | Tuner spoken feedback throttling |
+
+### Property-based tests (`app/src/test/`, `*PropertyTest.kt`)
+
+Kotest property tests generate thousands of random inputs per test and verify invariants. Use `runBlocking { checkAll(...) { ... } }` with JUnit 4.
+
+| File | What it covers |
+|------|---------------|
+| `TransposePropertyTest.kt` | Identity, inverse round-trip, associativity, chord name preservation, capo fret range |
+| `ChordNameParserPropertyTest.kt` | Arbitrary string robustness, known chord parsing, case insensitivity, unique suggestions |
+| `ChordDetectorPropertyTest.kt` | Empty/single/pair handling, known formula detection, exhaustive result types |
+| `FFTProcessorPropertyTest.kt` | FFT/IFFT round-trip with random signals, sine peak detection, Hanning window properties |
+| `PitchDetectorPropertyTest.kt` | Silent/quiet buffer rejection, pure sine accuracy, frequency range, previousFrequency robustness |
+| `ChordSheetTransposePropertyTest.kt` | Zero/twelve identity, double transpose round-trip, quality suffix and non-chord text preservation |
+| `CapoCalculatorPropertyTest.kt` | Capo position range, score ordering, voicing fret range, sounding name correctness |
+
+### Instrumented tests (`app/src/androidTest/`)
+
+| File | What it tests |
+|------|---------------|
+| `AccessibilityTest.kt` | Content descriptions, headings, clickable node descriptions |
+| `TunerSpokenFeedbackTest.kt` | Live-region semantics suppressed when spoken feedback is enabled |
+
+### UI stress testing
+
+Run the Monkey script to send random UI events to the app on a connected device/emulator:
+
+```bash
+./scripts/monkey_test.sh          # 10,000 events, auto-generated seed
+./scripts/monkey_test.sh 42       # 10,000 events, reproducible seed
+./scripts/monkey_test.sh 42 50000 # 50,000 events, reproducible seed
+```
+
+### Testing guidelines
+
 - Test both High-G and Low-G tuning when changing chord/note logic.
 - Test left-handed mode when touching fretboard UI.
 - Verify light, dark, and high-contrast themes for UI changes.
+- Domain logic (`domain/` package) is pure Kotlin -- add property tests for new invariants.
 
 ## Pre-Submission Checklist
 
