@@ -74,6 +74,7 @@ fun FullScreenFretboard(
     viewModel: FretboardViewModel,
     soundEnabled: Boolean,
     leftHanded: Boolean = false,
+    isLargeScreen: Boolean = false,
     onExit: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -82,7 +83,11 @@ fun FullScreenFretboard(
     // Force landscape + immersive mode
     DisposableEffect(Unit) {
         val originalOrientation = activity?.requestedOrientation
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        activity?.requestedOrientation = if (isLargeScreen) {
+            ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+        } else {
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
 
         // Enter immersive mode — hide system bars
         val window = activity?.window

@@ -358,6 +358,7 @@ fun FretboardScreen(
             viewModel = fretboardViewModel,
             soundEnabled = appSettings.sound.enabled,
             leftHanded = appSettings.fretboard.leftHanded,
+            isLargeScreen = isTabletWidth,
             onExit = { showFullScreen = false },
         )
         return
