@@ -267,6 +267,14 @@
     <string name="songbook_strum_change">Change pattern</string>
     <string name="songbook_strum_remove">Remove pattern</string>
     <string name="cd_strum_pattern">Strum pattern: %s</string>
+    <string name="songbook_labels">Labels</string>
+    <string name="songbook_add_label">Add label</string>
+    <string name="songbook_label_hint">Type a label…</string>
+    <string name="songbook_filter_clear">Clear filters</string>
+    <string name="cd_label">Label: %s</string>
+    <string name="cd_remove_label">Remove label %s</string>
+    <string name="cd_filter_label">Filter by label %s</string>
+    <string name="cd_add_label">Add label</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->
     <string name="progressions_new">New Progression</string>

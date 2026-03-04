@@ -256,6 +256,14 @@
     <string name="songbook_strum_change">Zmień wzór</string>
     <string name="songbook_strum_remove">Usuń wzór</string>
     <string name="cd_strum_pattern">Wzór brzdąkania: %s</string>
+    <string name="songbook_labels">Etykiety</string>
+    <string name="songbook_add_label">Dodaj etykietę</string>
+    <string name="songbook_label_hint">Wpisz etykietę…</string>
+    <string name="songbook_filter_clear">Wyczyść filtry</string>
+    <string name="cd_label">Etykieta: %s</string>
+    <string name="cd_remove_label">Usuń etykietę %s</string>
+    <string name="cd_filter_label">Filtruj po etykiecie %s</string>
+    <string name="cd_add_label">Dodaj etykietę</string>
     <string name="patterns_beats">%d uderzeń</string>
 
     <!-- ── Progresje ──────────────────────────────────────────────────── -->

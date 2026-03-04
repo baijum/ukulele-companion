@@ -256,6 +256,14 @@
     <string name="songbook_strum_change">Muster ändern</string>
     <string name="songbook_strum_remove">Muster entfernen</string>
     <string name="cd_strum_pattern">Schlagmuster: %s</string>
+    <string name="songbook_labels">Labels</string>
+    <string name="songbook_add_label">Label hinzufügen</string>
+    <string name="songbook_label_hint">Label eingeben…</string>
+    <string name="songbook_filter_clear">Filter löschen</string>
+    <string name="cd_label">Label: %s</string>
+    <string name="cd_remove_label">Label %s entfernen</string>
+    <string name="cd_filter_label">Nach Label %s filtern</string>
+    <string name="cd_add_label">Label hinzufügen</string>
     <string name="patterns_beats">%d Schläge</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->

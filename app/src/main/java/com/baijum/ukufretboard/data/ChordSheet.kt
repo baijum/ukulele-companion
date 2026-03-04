@@ -16,6 +16,7 @@ import java.util.UUID
  * @property capo Capo position from ChordPro `{capo}` directive (optional).
  * @property strumPatternName Name of the associated strumming pattern (optional).
  *   Matches names from [StrumPatterns.ALL] or custom pattern names.
+ * @property labels User-defined labels for categorization and filtering.
  * @property createdAt Timestamp when created.
  * @property updatedAt Timestamp when last modified.
  */
@@ -27,6 +28,7 @@ data class ChordSheet(
     val key: String = "",
     val capo: Int = 0,
     val strumPatternName: String = "",
+    val labels: List<String> = emptyList(),
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis(),
 )

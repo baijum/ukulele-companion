@@ -256,6 +256,14 @@
     <string name="songbook_strum_change">تغيير النمط</string>
     <string name="songbook_strum_remove">إزالة النمط</string>
     <string name="cd_strum_pattern">نمط العزف: %s</string>
+    <string name="songbook_labels">التسميات</string>
+    <string name="songbook_add_label">إضافة تسمية</string>
+    <string name="songbook_label_hint">اكتب تسمية…</string>
+    <string name="songbook_filter_clear">مسح التصفية</string>
+    <string name="cd_label">تسمية: %s</string>
+    <string name="cd_remove_label">إزالة تسمية %s</string>
+    <string name="cd_filter_label">تصفية حسب تسمية %s</string>
+    <string name="cd_add_label">إضافة تسمية</string>
     <string name="patterns_beats">%d نبضة</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->

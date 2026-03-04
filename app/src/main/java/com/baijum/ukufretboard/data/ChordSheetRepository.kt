@@ -32,6 +32,12 @@ class ChordSheetRepository(context: Context) {
         prefs.edit().remove(id).apply()
     }
 
+    /**
+     * Returns the set of all distinct labels used across every saved chord sheet.
+     */
+    fun getAllLabels(): Set<String> =
+        getAll().flatMap { it.labels }.toSortedSet(String.CASE_INSENSITIVE_ORDER)
+
     private fun serialize(sheet: ChordSheet): String =
         listOf(
             sheet.id,
@@ -43,6 +49,7 @@ class ChordSheetRepository(context: Context) {
             sheet.key.replace("|", "\\|"),
             sheet.capo.toString(),
             sheet.strumPatternName.replace("|", "\\|"),
+            serializeLabels(sheet.labels),
         ).joinToString(SEPARATOR)
 
     private fun deserialize(value: String?): ChordSheet? {
@@ -60,10 +67,36 @@ class ChordSheetRepository(context: Context) {
                 key = parts.getOrNull(6)?.replace("\\|", "|") ?: "",
                 capo = parts.getOrNull(7)?.toIntOrNull() ?: 0,
                 strumPatternName = parts.getOrNull(8)?.replace("\\|", "|") ?: "",
+                labels = deserializeLabels(parts.getOrNull(9)),
             )
         } catch (e: Exception) {
             null
         }
+    }
+
+    private fun serializeLabels(labels: List<String>): String =
+        labels.joinToString(",") { it.replace("\\", "\\\\").replace(",", "\\,").replace("|", "\\|") }
+
+    private fun deserializeLabels(raw: String?): List<String> {
+        if (raw.isNullOrEmpty()) return emptyList()
+        val result = mutableListOf<String>()
+        val current = StringBuilder()
+        var escaped = false
+        for (ch in raw) {
+            if (escaped) {
+                current.append(ch)
+                escaped = false
+            } else if (ch == '\\') {
+                escaped = true
+            } else if (ch == ',') {
+                result.add(current.toString())
+                current.clear()
+            } else {
+                current.append(ch)
+            }
+        }
+        result.add(current.toString())
+        return result.filter { it.isNotEmpty() }
     }
 
     /**

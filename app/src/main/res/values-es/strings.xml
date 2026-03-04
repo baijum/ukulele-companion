@@ -256,6 +256,14 @@
     <string name="songbook_strum_change">Cambiar patrón</string>
     <string name="songbook_strum_remove">Quitar patrón</string>
     <string name="cd_strum_pattern">Patrón de rasgueo: %s</string>
+    <string name="songbook_labels">Etiquetas</string>
+    <string name="songbook_add_label">Añadir etiqueta</string>
+    <string name="songbook_label_hint">Escribir etiqueta…</string>
+    <string name="songbook_filter_clear">Borrar filtros</string>
+    <string name="cd_label">Etiqueta: %s</string>
+    <string name="cd_remove_label">Eliminar etiqueta %s</string>
+    <string name="cd_filter_label">Filtrar por etiqueta %s</string>
+    <string name="cd_add_label">Añadir etiqueta</string>
     <string name="patterns_beats">%d tiempos</string>
 
     <!-- ── Progresiones ──────────────────────────────────────────────── -->

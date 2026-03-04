@@ -256,6 +256,14 @@
     <string name="songbook_strum_change">Cambia modello</string>
     <string name="songbook_strum_remove">Rimuovi modello</string>
     <string name="cd_strum_pattern">Modello di pennata: %s</string>
+    <string name="songbook_labels">Etichette</string>
+    <string name="songbook_add_label">Aggiungi etichetta</string>
+    <string name="songbook_label_hint">Digita etichetta…</string>
+    <string name="songbook_filter_clear">Cancella filtri</string>
+    <string name="cd_label">Etichetta: %s</string>
+    <string name="cd_remove_label">Rimuovi etichetta %s</string>
+    <string name="cd_filter_label">Filtra per etichetta %s</string>
+    <string name="cd_add_label">Aggiungi etichetta</string>
     <string name="patterns_beats">%d battiti</string>
 
     <!-- ── Progressioni ───────────────────────────────────────────────── -->

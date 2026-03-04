@@ -8,7 +8,6 @@ import com.baijum.ukufretboard.data.ChordSheetRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 
 enum class SongSortOrder {
     LAST_MODIFIED,
@@ -32,6 +31,13 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
     private val _sortOrder = MutableStateFlow(SongSortOrder.LAST_MODIFIED)
     val sortOrder: StateFlow<SongSortOrder> = _sortOrder.asStateFlow()
 
+    private val _selectedLabels = MutableStateFlow<Set<String>>(emptySet())
+    val selectedLabels: StateFlow<Set<String>> = _selectedLabels.asStateFlow()
+
+    private val _allLabels = MutableStateFlow<Set<String>>(emptySet())
+    /** All distinct labels used across every saved song. */
+    val allLabels: StateFlow<Set<String>> = _allLabels.asStateFlow()
+
     private val _sheets = MutableStateFlow<List<ChordSheet>>(emptyList())
 
     /** Observable list of filtered and sorted chord sheets. */
@@ -51,6 +57,8 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
 
     fun refresh() {
         _allSheets.value = repository.getAll()
+        _allLabels.value = _allSheets.value.flatMap { it.labels }
+            .toSortedSet(String.CASE_INSENSITIVE_ORDER)
         applyFilterAndSort()
     }
 
@@ -64,16 +72,36 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
         applyFilterAndSort()
     }
 
+    fun toggleLabelFilter(label: String) {
+        val current = _selectedLabels.value
+        _selectedLabels.value = if (label in current) current - label else current + label
+        applyFilterAndSort()
+    }
+
+    fun clearLabelFilter() {
+        _selectedLabels.value = emptySet()
+        applyFilterAndSort()
+    }
+
     private fun applyFilterAndSort() {
         val query = _searchQuery.value.trim().lowercase()
-        val filtered = if (query.isEmpty()) {
-            _allSheets.value
-        } else {
-            _allSheets.value.filter { sheet ->
+        val activeLabels = _selectedLabels.value
+
+        var filtered = _allSheets.value
+
+        if (query.isNotEmpty()) {
+            filtered = filtered.filter { sheet ->
                 sheet.title.lowercase().contains(query) ||
                     sheet.artist.lowercase().contains(query)
             }
         }
+
+        if (activeLabels.isNotEmpty()) {
+            filtered = filtered.filter { sheet ->
+                sheet.labels.containsAll(activeLabels)
+            }
+        }
+
         _sheets.value = when (_sortOrder.value) {
             SongSortOrder.LAST_MODIFIED -> filtered.sortedByDescending { it.updatedAt }
             SongSortOrder.DATE_ADDED -> filtered.sortedByDescending { it.createdAt }
@@ -97,7 +125,13 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
         _isEditing.value = true
     }
 
-    fun saveSheet(title: String, artist: String, content: String, strumPatternName: String = "") {
+    fun saveSheet(
+        title: String,
+        artist: String,
+        content: String,
+        strumPatternName: String = "",
+        labels: List<String> = emptyList(),
+    ) {
         val existing = _currentSheet.value
         val sheet = if (existing != null && existing.title.isNotEmpty()) {
             existing.copy(
@@ -105,6 +139,7 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
                 artist = artist,
                 content = content,
                 strumPatternName = strumPatternName,
+                labels = labels,
                 updatedAt = System.currentTimeMillis(),
             )
         } else {
@@ -113,11 +148,23 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
                 artist = artist,
                 content = content,
                 strumPatternName = strumPatternName,
+                labels = labels,
             )
         }
         repository.save(sheet)
         _currentSheet.value = sheet
         _isEditing.value = false
+        refresh()
+    }
+
+    fun updateLabels(labels: List<String>) {
+        val sheet = _currentSheet.value ?: return
+        val updated = sheet.copy(
+            labels = labels,
+            updatedAt = System.currentTimeMillis(),
+        )
+        repository.save(updated)
+        _currentSheet.value = updated
         refresh()
     }
 

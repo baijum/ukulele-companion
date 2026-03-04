@@ -256,6 +256,14 @@
     <string name="songbook_strum_change">更改模式</string>
     <string name="songbook_strum_remove">移除模式</string>
     <string name="cd_strum_pattern">扫弦模式：%s</string>
+    <string name="songbook_labels">标签</string>
+    <string name="songbook_add_label">添加标签</string>
+    <string name="songbook_label_hint">输入标签…</string>
+    <string name="songbook_filter_clear">清除筛选</string>
+    <string name="cd_label">标签：%s</string>
+    <string name="cd_remove_label">移除标签 %s</string>
+    <string name="cd_filter_label">按标签 %s 筛选</string>
+    <string name="cd_add_label">添加标签</string>
     <string name="patterns_beats">%d 拍</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->

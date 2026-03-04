@@ -256,6 +256,14 @@
     <string name="songbook_strum_change">Patroon wijzigen</string>
     <string name="songbook_strum_remove">Patroon verwijderen</string>
     <string name="cd_strum_pattern">Slagpatroon: %s</string>
+    <string name="songbook_labels">Labels</string>
+    <string name="songbook_add_label">Label toevoegen</string>
+    <string name="songbook_label_hint">Typ een label…</string>
+    <string name="songbook_filter_clear">Filters wissen</string>
+    <string name="cd_label">Label: %s</string>
+    <string name="cd_remove_label">Label %s verwijderen</string>
+    <string name="cd_filter_label">Filteren op label %s</string>
+    <string name="cd_add_label">Label toevoegen</string>
     <string name="patterns_beats">%d slagen</string>
 
     <!-- ── Progressies ────────────────────────────────────────────────── -->

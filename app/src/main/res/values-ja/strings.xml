@@ -256,6 +256,14 @@
     <string name="songbook_strum_change">パターンを変更</string>
     <string name="songbook_strum_remove">パターンを削除</string>
     <string name="cd_strum_pattern">ストラムパターン: %s</string>
+    <string name="songbook_labels">ラベル</string>
+    <string name="songbook_add_label">ラベルを追加</string>
+    <string name="songbook_label_hint">ラベルを入力…</string>
+    <string name="songbook_filter_clear">フィルターをクリア</string>
+    <string name="cd_label">ラベル: %s</string>
+    <string name="cd_remove_label">ラベル %s を削除</string>
+    <string name="cd_filter_label">ラベル %s でフィルター</string>
+    <string name="cd_add_label">ラベルを追加</string>
     <string name="patterns_beats">%d ビート</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->

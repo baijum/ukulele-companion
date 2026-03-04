@@ -256,6 +256,14 @@
     <string name="songbook_strum_change">Изменить рисунок</string>
     <string name="songbook_strum_remove">Убрать рисунок</string>
     <string name="cd_strum_pattern">Ритмический рисунок: %s</string>
+    <string name="songbook_labels">Метки</string>
+    <string name="songbook_add_label">Добавить метку</string>
+    <string name="songbook_label_hint">Введите метку…</string>
+    <string name="songbook_filter_clear">Сбросить фильтры</string>
+    <string name="cd_label">Метка: %s</string>
+    <string name="cd_remove_label">Удалить метку %s</string>
+    <string name="cd_filter_label">Фильтровать по метке %s</string>
+    <string name="cd_add_label">Добавить метку</string>
     <string name="patterns_beats">%d долей</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->

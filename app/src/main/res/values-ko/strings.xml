@@ -256,6 +256,14 @@
     <string name="songbook_strum_change">패턴 변경</string>
     <string name="songbook_strum_remove">패턴 제거</string>
     <string name="cd_strum_pattern">스트럼 패턴: %s</string>
+    <string name="songbook_labels">라벨</string>
+    <string name="songbook_add_label">라벨 추가</string>
+    <string name="songbook_label_hint">라벨 입력…</string>
+    <string name="songbook_filter_clear">필터 지우기</string>
+    <string name="cd_label">라벨: %s</string>
+    <string name="cd_remove_label">라벨 %s 제거</string>
+    <string name="cd_filter_label">라벨 %s 로 필터</string>
+    <string name="cd_add_label">라벨 추가</string>
     <string name="patterns_beats">%d 박자</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->

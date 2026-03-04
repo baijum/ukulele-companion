@@ -9,6 +9,8 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,7 +38,11 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.automirrored.filled.Label
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
@@ -45,6 +51,8 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.InputChip
+import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -110,13 +118,16 @@ fun SongbookTab(
     val isEditing by viewModel.isEditing.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     val sortOrder by viewModel.sortOrder.collectAsState()
+    val allLabels by viewModel.allLabels.collectAsState()
+    val selectedLabels by viewModel.selectedLabels.collectAsState()
 
     when {
         isEditing -> {
             SheetEditor(
                 sheet = currentSheet,
-                onSave = { title, artist, content, strumPatternName ->
-                    viewModel.saveSheet(title, artist, content, strumPatternName)
+                allLabels = allLabels,
+                onSave = { title, artist, content, strumPatternName, labels ->
+                    viewModel.saveSheet(title, artist, content, strumPatternName, labels)
                 },
                 onCancel = { viewModel.closeSheet() },
             )
@@ -124,6 +135,7 @@ fun SongbookTab(
         currentSheet != null -> {
             SheetViewer(
                 sheet = currentSheet!!,
+                allLabels = allLabels,
                 onBack = { viewModel.closeSheet() },
                 onEdit = { viewModel.startEditing(currentSheet) },
                 onDelete = {
@@ -132,6 +144,7 @@ fun SongbookTab(
                 },
                 onChordTapped = onChordTapped,
                 onStrumPatternChange = { viewModel.updateStrumPattern(it) },
+                onLabelsChange = { viewModel.updateLabels(it) },
             )
         }
         else -> {
@@ -141,6 +154,10 @@ fun SongbookTab(
                 onSearchQueryChange = { viewModel.setSearchQuery(it) },
                 sortOrder = sortOrder,
                 onSortOrderChange = { viewModel.setSortOrder(it) },
+                allLabels = allLabels,
+                selectedLabels = selectedLabels,
+                onToggleLabelFilter = { viewModel.toggleLabelFilter(it) },
+                onClearLabelFilter = { viewModel.clearLabelFilter() },
                 onSheetTapped = { viewModel.openSheet(it) },
                 onNewSheet = { viewModel.startEditing() },
                 onImport = { content, filename ->
@@ -166,6 +183,10 @@ private fun SheetList(
     onSearchQueryChange: (String) -> Unit,
     sortOrder: SongSortOrder,
     onSortOrderChange: (SongSortOrder) -> Unit,
+    allLabels: Set<String>,
+    selectedLabels: Set<String>,
+    onToggleLabelFilter: (String) -> Unit,
+    onClearLabelFilter: () -> Unit,
     onSheetTapped: (ChordSheet) -> Unit,
     onNewSheet: () -> Unit,
     onImport: (String, String?) -> Unit,
@@ -253,6 +274,45 @@ private fun SheetList(
                 }
             }
 
+            // Label filter chips
+            if (allLabels.isNotEmpty()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    if (selectedLabels.isNotEmpty()) {
+                        FilterChip(
+                            selected = false,
+                            onClick = onClearLabelFilter,
+                            label = { Text(stringResource(R.string.songbook_filter_clear)) },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Filled.Clear,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(16.dp),
+                                )
+                            },
+                        )
+                    }
+                    allLabels.forEach { label ->
+                        val isSelected = label in selectedLabels
+                        val filterDesc = stringResource(R.string.cd_filter_label, label)
+                        FilterChip(
+                            selected = isSelected,
+                            onClick = { onToggleLabelFilter(label) },
+                            label = { Text(label) },
+                            modifier = Modifier.semantics {
+                                contentDescription = filterDesc
+                                if (isSelected) stateDescription = "selected"
+                            },
+                        )
+                    }
+                }
+            }
+
             if (sheets.isEmpty()) {
                 Column(
                     modifier = Modifier
@@ -282,7 +342,11 @@ private fun SheetList(
                     modifier = Modifier.weight(1f),
                 ) {
                     items(sheets) { sheet ->
-                        SheetCard(sheet = sheet, onClick = { onSheetTapped(sheet) })
+                        SheetCard(
+                            sheet = sheet,
+                            onClick = { onSheetTapped(sheet) },
+                            onLabelTapped = onToggleLabelFilter,
+                        )
                     }
                     item { Spacer(modifier = Modifier.height(80.dp)) }
                 }
@@ -327,8 +391,13 @@ private fun sortOrderLabel(order: SongSortOrder): String = when (order) {
     SongSortOrder.ARTIST -> stringResource(R.string.songbook_sort_artist)
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun SheetCard(sheet: ChordSheet, onClick: () -> Unit) {
+private fun SheetCard(
+    sheet: ChordSheet,
+    onClick: () -> Unit,
+    onLabelTapped: (String) -> Unit,
+) {
     val untitledLabel = stringResource(R.string.songbook_untitled)
     val displayTitle = sheet.title.ifEmpty { untitledLabel }
     val cardDescription = if (sheet.artist.isNotEmpty()) {
@@ -359,6 +428,33 @@ private fun SheetCard(sheet: ChordSheet, onClick: () -> Unit) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
+            if (sheet.labels.isNotEmpty()) {
+                FlowRow(
+                    modifier = Modifier.padding(top = 6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                ) {
+                    sheet.labels.forEach { label ->
+                        val labelDesc = stringResource(R.string.cd_filter_label, label)
+                        AssistChip(
+                            onClick = { onLabelTapped(label) },
+                            label = {
+                                Text(
+                                    label,
+                                    style = MaterialTheme.typography.labelSmall,
+                                )
+                            },
+                            modifier = Modifier
+                                .height(24.dp)
+                                .semantics { contentDescription = labelDesc },
+                            colors = AssistChipDefaults.assistChipColors(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                labelColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                            ),
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -369,11 +465,13 @@ private fun SheetCard(sheet: ChordSheet, onClick: () -> Unit) {
 @Composable
 private fun SheetViewer(
     sheet: ChordSheet,
+    allLabels: Set<String>,
     onBack: () -> Unit,
     onEdit: () -> Unit,
     onDelete: () -> Unit,
     onChordTapped: (String) -> Unit,
     onStrumPatternChange: (String) -> Unit,
+    onLabelsChange: (List<String>) -> Unit,
 ) {
     val context = LocalContext.current
     val chordSheetLabel = stringResource(R.string.songbook_chord_sheet)
@@ -535,6 +633,13 @@ private fun SheetViewer(
         StrumPatternRow(
             patternName = sheet.strumPatternName,
             onPatternChange = onStrumPatternChange,
+        )
+
+        // Labels display
+        LabelDisplayRow(
+            labels = sheet.labels,
+            allLabels = allLabels,
+            onLabelsChange = onLabelsChange,
         )
 
         // Transpose controls
@@ -764,20 +869,23 @@ private fun SheetViewer(
 @Composable
 private fun SheetEditor(
     sheet: ChordSheet?,
-    onSave: (title: String, artist: String, content: String, strumPatternName: String) -> Unit,
+    allLabels: Set<String>,
+    onSave: (title: String, artist: String, content: String, strumPatternName: String, labels: List<String>) -> Unit,
     onCancel: () -> Unit,
 ) {
     var title by remember(sheet?.id) { mutableStateOf(sheet?.title ?: "") }
     var artist by remember(sheet?.id) { mutableStateOf(sheet?.artist ?: "") }
     var content by remember(sheet?.id) { mutableStateOf(sheet?.content ?: "") }
     var strumPatternName by remember(sheet?.id) { mutableStateOf(sheet?.strumPatternName ?: "") }
+    var labels by remember(sheet?.id) { mutableStateOf(sheet?.labels ?: emptyList()) }
     var showPreview by rememberSaveable { mutableStateOf(false) }
     var showDiscardDialog by remember { mutableStateOf(false) }
 
     val hasChanges = title != (sheet?.title ?: "") ||
         artist != (sheet?.artist ?: "") ||
         content != (sheet?.content ?: "") ||
-        strumPatternName != (sheet?.strumPatternName ?: "")
+        strumPatternName != (sheet?.strumPatternName ?: "") ||
+        labels != (sheet?.labels ?: emptyList<String>())
 
     val handleCancel = {
         if (hasChanges) {
@@ -826,6 +934,15 @@ private fun SheetEditor(
         StrumPatternRow(
             patternName = strumPatternName,
             onPatternChange = { strumPatternName = it },
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Label editor
+        LabelEditorSection(
+            labels = labels,
+            allLabels = allLabels,
+            onLabelsChange = { labels = it },
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -992,7 +1109,7 @@ private fun SheetEditor(
             }
             Spacer(modifier = Modifier.width(8.dp))
             OutlinedButton(
-                onClick = { onSave(title, artist, content, strumPatternName) },
+                onClick = { onSave(title, artist, content, strumPatternName, labels) },
                 enabled = title.isNotBlank(),
             ) {
                 Text(stringResource(R.string.dialog_save))
@@ -1217,6 +1334,266 @@ private fun StrumPatternPickerDialog(
             }
         },
         confirmButton = {},
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.dialog_cancel))
+            }
+        },
+    )
+}
+
+/**
+ * Displays labels on a song with a "+" button to add more (used in the viewer).
+ */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun LabelDisplayRow(
+    labels: List<String>,
+    allLabels: Set<String>,
+    onLabelsChange: (List<String>) -> Unit,
+) {
+    var showAddDialog by remember { mutableStateOf(false) }
+
+    FlowRow(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 48.dp, vertical = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        labels.forEach { label ->
+            val labelDesc = stringResource(R.string.cd_label, label)
+            AssistChip(
+                onClick = {},
+                label = {
+                    Text(label, style = MaterialTheme.typography.labelSmall)
+                },
+                leadingIcon = {
+                    Icon(
+                        Icons.AutoMirrored.Filled.Label,
+                        contentDescription = null,
+                        modifier = Modifier.size(14.dp),
+                    )
+                },
+                modifier = Modifier
+                    .height(28.dp)
+                    .semantics { contentDescription = labelDesc },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    labelColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                ),
+            )
+        }
+        AssistChip(
+            onClick = { showAddDialog = true },
+            label = {
+                Text(
+                    stringResource(R.string.songbook_add_label),
+                    style = MaterialTheme.typography.labelSmall,
+                )
+            },
+            leadingIcon = {
+                Icon(
+                    Icons.Filled.Add,
+                    contentDescription = stringResource(R.string.cd_add_label),
+                    modifier = Modifier.size(14.dp),
+                )
+            },
+            modifier = Modifier.height(28.dp),
+        )
+    }
+
+    if (showAddDialog) {
+        AddLabelDialog(
+            currentLabels = labels,
+            allLabels = allLabels,
+            onAdd = { newLabel ->
+                onLabelsChange(labels + newLabel)
+                showAddDialog = false
+            },
+            onDismiss = { showAddDialog = false },
+        )
+    }
+}
+
+/**
+ * Label editor used inside the SheetEditor with InputChips and auto-suggest.
+ */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun LabelEditorSection(
+    labels: List<String>,
+    allLabels: Set<String>,
+    onLabelsChange: (List<String>) -> Unit,
+) {
+    var labelInput by remember { mutableStateOf("") }
+    var showSuggestions by remember { mutableStateOf(false) }
+
+    val suggestions = remember(labelInput, allLabels, labels) {
+        if (labelInput.isBlank()) {
+            emptyList()
+        } else {
+            val query = labelInput.trim().lowercase()
+            (allLabels - labels.toSet())
+                .filter { it.lowercase().contains(query) }
+                .take(5)
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+    ) {
+        Text(
+            text = stringResource(R.string.songbook_labels),
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 4.dp),
+        )
+
+        if (labels.isNotEmpty()) {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier.padding(bottom = 8.dp),
+            ) {
+                labels.forEach { label ->
+                    val removeDesc = stringResource(R.string.cd_remove_label, label)
+                    InputChip(
+                        selected = false,
+                        onClick = { onLabelsChange(labels - label) },
+                        label = {
+                            Text(label, style = MaterialTheme.typography.labelSmall)
+                        },
+                        trailingIcon = {
+                            Icon(
+                                Icons.Filled.Close,
+                                contentDescription = removeDesc,
+                                modifier = Modifier.size(14.dp),
+                            )
+                        },
+                        modifier = Modifier.height(28.dp),
+                        colors = InputChipDefaults.inputChipColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            labelColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                        ),
+                    )
+                }
+            }
+        }
+
+        Box {
+            OutlinedTextField(
+                value = labelInput,
+                onValueChange = {
+                    labelInput = it
+                    showSuggestions = it.isNotBlank()
+                },
+                placeholder = { Text(stringResource(R.string.songbook_label_hint)) },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
+                trailingIcon = {
+                    if (labelInput.isNotBlank()) {
+                        IconButton(onClick = {
+                            val trimmed = labelInput.trim()
+                            if (trimmed.isNotEmpty() && trimmed !in labels) {
+                                onLabelsChange(labels + trimmed)
+                            }
+                            labelInput = ""
+                            showSuggestions = false
+                        }) {
+                            Icon(
+                                Icons.Filled.Add,
+                                contentDescription = stringResource(R.string.cd_add_label),
+                            )
+                        }
+                    }
+                },
+            )
+            DropdownMenu(
+                expanded = showSuggestions && suggestions.isNotEmpty(),
+                onDismissRequest = { showSuggestions = false },
+            ) {
+                suggestions.forEach { suggestion ->
+                    DropdownMenuItem(
+                        text = { Text(suggestion) },
+                        onClick = {
+                            if (suggestion !in labels) {
+                                onLabelsChange(labels + suggestion)
+                            }
+                            labelInput = ""
+                            showSuggestions = false
+                        },
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun AddLabelDialog(
+    currentLabels: List<String>,
+    allLabels: Set<String>,
+    onAdd: (String) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    var input by remember { mutableStateOf("") }
+
+    val existingSuggestions = remember(allLabels, currentLabels) {
+        (allLabels - currentLabels.toSet()).toList()
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                stringResource(R.string.songbook_add_label),
+                modifier = Modifier.semantics { heading() },
+            )
+        },
+        text = {
+            Column {
+                OutlinedTextField(
+                    value = input,
+                    onValueChange = { input = it },
+                    placeholder = { Text(stringResource(R.string.songbook_label_hint)) },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                if (existingSuggestions.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                    ) {
+                        existingSuggestions.forEach { label ->
+                            AssistChip(
+                                onClick = { onAdd(label) },
+                                label = {
+                                    Text(label, style = MaterialTheme.typography.labelSmall)
+                                },
+                                modifier = Modifier.height(28.dp),
+                            )
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    val trimmed = input.trim()
+                    if (trimmed.isNotEmpty() && trimmed !in currentLabels) {
+                        onAdd(trimmed)
+                    }
+                },
+                enabled = input.isNotBlank(),
+            ) {
+                Text(stringResource(R.string.songbook_add_label))
+            }
+        },
         dismissButton = {
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.dialog_cancel))

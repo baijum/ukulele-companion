@@ -84,6 +84,7 @@ data class BackupChordSheet(
     val key: String = "",
     val capo: Int = 0,
     val strumPatternName: String = "",
+    val labels: List<String> = emptyList(),
     val createdAt: Long,
     val updatedAt: Long,
 )
