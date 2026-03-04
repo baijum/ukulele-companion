@@ -1083,51 +1083,61 @@ private fun StrumPatternRow(
         }
     }
 
-    Row(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 48.dp, vertical = 4.dp),
-        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = stringResource(R.string.songbook_strum_pattern) + ": ",
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
         if (resolvedPattern != null) {
             val patternDesc = stringResource(R.string.cd_strum_pattern, resolvedPattern.name)
-            Text(
-                text = resolvedPattern.name,
-                style = MaterialTheme.typography.labelMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .semantics { contentDescription = patternDesc },
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = resolvedPattern.notation,
-                style = MaterialTheme.typography.bodySmall,
-                fontFamily = FontFamily.Monospace,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            TextButton(onClick = { showPicker = true }) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.semantics { contentDescription = patternDesc },
+            ) {
                 Text(
-                    stringResource(R.string.songbook_strum_change),
-                    style = MaterialTheme.typography.labelSmall,
+                    text = stringResource(R.string.songbook_strum_pattern) + ": ",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Text(
+                    text = resolvedPattern.name,
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(
+                    text = resolvedPattern.notation,
+                    style = MaterialTheme.typography.bodySmall,
+                    fontFamily = FontFamily.Monospace,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            TextButton(onClick = { onPatternChange("") }) {
-                Text(
-                    stringResource(R.string.songbook_strum_remove),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.error,
-                )
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                TextButton(onClick = { showPicker = true }) {
+                    Text(
+                        stringResource(R.string.songbook_strum_change),
+                        style = MaterialTheme.typography.labelSmall,
+                    )
+                }
+                TextButton(onClick = { onPatternChange("") }) {
+                    Text(
+                        stringResource(R.string.songbook_strum_remove),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
             }
         } else {
-            TextButton(onClick = { showPicker = true }) {
-                Text(stringResource(R.string.songbook_strum_select))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = stringResource(R.string.songbook_strum_pattern) + ": ",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                TextButton(onClick = { showPicker = true }) {
+                    Text(stringResource(R.string.songbook_strum_select))
+                }
             }
         }
     }
