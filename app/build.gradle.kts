@@ -101,6 +101,7 @@ dependencies {
     implementation(libs.reorderable)
     implementation(libs.onnxruntime.android)
     testImplementation(libs.junit)
+    testImplementation(libs.kotest.property)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
     androidTestImplementation(platform(libs.compose.bom))
