@@ -40,11 +40,13 @@ class ChordSheetRepository(context: Context) {
             sheet.content.replace("|", "\\|"),
             sheet.createdAt.toString(),
             sheet.updatedAt.toString(),
+            sheet.key.replace("|", "\\|"),
+            sheet.capo.toString(),
+            sheet.strumPatternName.replace("|", "\\|"),
         ).joinToString(SEPARATOR)
 
     private fun deserialize(value: String?): ChordSheet? {
         if (value == null) return null
-        // Split on unescaped pipes
         val parts = value.split(SEPARATOR)
         if (parts.size < 6) return null
         return try {
@@ -55,6 +57,9 @@ class ChordSheetRepository(context: Context) {
                 content = parts[3].replace("\\|", "|"),
                 createdAt = parts[4].toLong(),
                 updatedAt = parts[5].toLong(),
+                key = parts.getOrNull(6)?.replace("\\|", "|") ?: "",
+                capo = parts.getOrNull(7)?.toIntOrNull() ?: 0,
+                strumPatternName = parts.getOrNull(8)?.replace("\\|", "|") ?: "",
             )
         } catch (e: Exception) {
             null

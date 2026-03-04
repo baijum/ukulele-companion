@@ -40,6 +40,8 @@ object ChordProParser {
     fun parse(input: String, defaultTitle: String = "Imported Song"): ChordSheet {
         var title = ""
         var artist = ""
+        var key = ""
+        var capo = 0
         val contentLines = mutableListOf<String>()
 
         input.lines().forEach { line ->
@@ -63,9 +65,8 @@ object ChordProParser {
                     "end_of_verse", "eov" -> contentLines.add("")
                     "start_of_bridge", "sob" -> contentLines.add("[Bridge]")
                     "end_of_bridge", "eob" -> contentLines.add("")
-                    "key", "capo" -> {
-                        // Recognised but not yet acted on
-                    }
+                    "key" -> key = value
+                    "capo" -> capo = value.toIntOrNull() ?: 0
                     else -> {
                         // Unknown directive — skip
                     }
@@ -80,6 +81,8 @@ object ChordProParser {
             title = title.ifEmpty { defaultTitle },
             artist = artist,
             content = contentLines.joinToString("\n").trim(),
+            key = key,
+            capo = capo,
         )
     }
 

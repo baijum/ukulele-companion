@@ -230,6 +230,33 @@
     <string name="cd_stop_scroll">Ferma scorrimento</string>
     <string name="cd_pause_scroll">Pausa scorrimento</string>
     <string name="cd_auto_scroll">Scorrimento automatico</string>
+    <string name="cd_transpose_down">Trasporta in basso</string>
+    <string name="cd_transpose_up">Trasporta in alto</string>
+    <string name="cd_scroll_speed">Velocità di scorrimento %s</string>
+    <string name="songbook_search_hint">Cerca canzoni…</string>
+    <string name="songbook_search_clear">Cancella ricerca</string>
+    <string name="songbook_sort">Ordina</string>
+    <string name="songbook_sort_modified">Ultima modifica</string>
+    <string name="songbook_sort_added">Data di aggiunta</string>
+    <string name="songbook_sort_title">Titolo</string>
+    <string name="songbook_sort_artist">Artista</string>
+    <string name="songbook_discard_title">Eliminare le modifiche?</string>
+    <string name="songbook_discard_message">Ci sono modifiche non salvate. Eliminarle?</string>
+    <string name="songbook_discard">Elimina</string>
+    <string name="songbook_import_failed">Importazione non riuscita</string>
+    <string name="songbook_share_transposed">Condividi trasposto</string>
+    <string name="songbook_export_transposed">Esporta trasposto come ChordPro</string>
+    <string name="songbook_editor_preview">Anteprima</string>
+    <string name="songbook_editor_edit">Modifica</string>
+    <string name="songbook_chords_detected">%d accordi rilevati</string>
+    <string name="songbook_insert_chord">Inserisci accordo</string>
+    <string name="songbook_strum_pattern">Modello di pennata</string>
+    <string name="songbook_strum_none">Nessuno</string>
+    <string name="songbook_strum_select">Seleziona modello</string>
+    <string name="songbook_strum_change">Cambia modello</string>
+    <string name="songbook_strum_remove">Rimuovi modello</string>
+    <string name="cd_strum_pattern">Modello di pennata: %s</string>
+    <string name="patterns_beats">%d battiti</string>
 
     <!-- ── Progressioni ───────────────────────────────────────────────── -->
     <string name="progressions_new">Nuova progressione</string>

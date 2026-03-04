@@ -15,13 +15,30 @@ object ChordProExporter {
      * @param sheet The chord sheet to export.
      * @return The ChordPro-formatted text.
      */
+    private val SECTION_LABEL = Regex("""\[(Chorus|Verse|Bridge)]""")
+
     fun export(sheet: ChordSheet): String = buildString {
         appendLine("{title: ${sheet.title}}")
         if (sheet.artist.isNotEmpty()) {
             appendLine("{artist: ${sheet.artist}}")
         }
+        if (sheet.key.isNotEmpty()) {
+            appendLine("{key: ${sheet.key}}")
+        }
+        if (sheet.capo > 0) {
+            appendLine("{capo: ${sheet.capo}}")
+        }
         appendLine()
-        append(sheet.content)
+
+        sheet.content.lines().forEach { line ->
+            val match = SECTION_LABEL.matchEntire(line.trim())
+            if (match != null) {
+                val section = match.groupValues[1].lowercase()
+                appendLine("{start_of_$section}")
+            } else {
+                appendLine(line)
+            }
+        }
     }
 
     /**

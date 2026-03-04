@@ -81,6 +81,9 @@ data class BackupChordSheet(
     val title: String,
     val artist: String = "",
     val content: String,
+    val key: String = "",
+    val capo: Int = 0,
+    val strumPatternName: String = "",
     val createdAt: Long,
     val updatedAt: Long,
 )

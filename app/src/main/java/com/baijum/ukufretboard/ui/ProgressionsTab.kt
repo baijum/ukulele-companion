@@ -61,6 +61,7 @@ import com.baijum.ukufretboard.domain.CapoCalculator
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.domain.ChordSheetFormatter
 import com.baijum.ukufretboard.domain.HarmonicFunction
+import com.baijum.ukufretboard.ui.ShareUtils
 import com.baijum.ukufretboard.domain.VoiceLeading
 import com.baijum.ukufretboard.domain.harmonicFunction
 import com.baijum.ukufretboard.viewmodel.UkuleleString
@@ -295,7 +296,7 @@ fun ProgressionsTab(
                         },
                         onShare = {
                             val text = ChordSheetFormatter.formatProgression(custom.progression, selectedRoot)
-                            ChordSheetFormatter.shareText(context, custom.progression.name, text)
+                            ShareUtils.shareText(context, custom.progression.name, text)
                         },
                         onPlay = { playbackProgression = custom.progression },
                         onPractice = {
@@ -352,7 +353,7 @@ fun ProgressionsTab(
                     },
                     onShare = {
                         val text = ChordSheetFormatter.formatProgression(progression, selectedRoot)
-                        ChordSheetFormatter.shareText(context, progression.name, text)
+                        ShareUtils.shareText(context, progression.name, text)
                     },
                     onPlay = { playbackProgression = progression },
                     onPractice = {

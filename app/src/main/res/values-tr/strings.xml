@@ -230,6 +230,33 @@
     <string name="cd_stop_scroll">Kaydırmayı durdur</string>
     <string name="cd_pause_scroll">Kaydırmayı duraklat</string>
     <string name="cd_auto_scroll">Otomatik kaydır</string>
+    <string name="cd_transpose_down">Tonu düşür</string>
+    <string name="cd_transpose_up">Tonu yükselt</string>
+    <string name="cd_scroll_speed">Kaydırma hızı %s</string>
+    <string name="songbook_search_hint">Şarkı ara…</string>
+    <string name="songbook_search_clear">Aramayı temizle</string>
+    <string name="songbook_sort">Sırala</string>
+    <string name="songbook_sort_modified">Son değişiklik</string>
+    <string name="songbook_sort_added">Eklenme tarihi</string>
+    <string name="songbook_sort_title">Başlık</string>
+    <string name="songbook_sort_artist">Sanatçı</string>
+    <string name="songbook_discard_title">Değişiklikleri sil?</string>
+    <string name="songbook_discard_message">Kaydedilmemiş değişiklikler var. Silinsin mi?</string>
+    <string name="songbook_discard">Sil</string>
+    <string name="songbook_import_failed">Dosya içe aktarılamadı</string>
+    <string name="songbook_share_transposed">Transpoze edilmişi paylaş</string>
+    <string name="songbook_export_transposed">Transpoze edilmişi ChordPro olarak dışa aktar</string>
+    <string name="songbook_editor_preview">Önizleme</string>
+    <string name="songbook_editor_edit">Düzenle</string>
+    <string name="songbook_chords_detected">%d akor algılandı</string>
+    <string name="songbook_insert_chord">Akor ekle</string>
+    <string name="songbook_strum_pattern">Vuruş kalıbı</string>
+    <string name="songbook_strum_none">Yok</string>
+    <string name="songbook_strum_select">Kalıp seç</string>
+    <string name="songbook_strum_change">Kalıbı değiştir</string>
+    <string name="songbook_strum_remove">Kalıbı kaldır</string>
+    <string name="cd_strum_pattern">Vuruş kalıbı: %s</string>
+    <string name="patterns_beats">%d vuruş</string>
 
     <!-- ── İlerlemeler ────────────────────────────────────────────────── -->
     <string name="progressions_new">Yeni İlerleme</string>

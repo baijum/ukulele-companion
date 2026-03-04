@@ -1,9 +1,11 @@
 package com.baijum.ukufretboard.ui
 
 import android.content.Intent
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,20 +22,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.FileOpen
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.automirrored.filled.Sort
+import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,10 +49,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SmallFloatingActionButton
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Stop
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -58,8 +62,12 @@ import androidx.compose.runtime.setValue
 import kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
@@ -77,9 +85,12 @@ import com.baijum.ukufretboard.data.ChordParser
 import com.baijum.ukufretboard.data.ChordProExporter
 import com.baijum.ukufretboard.data.ChordProParser
 import com.baijum.ukufretboard.data.ChordSheet
+import com.baijum.ukufretboard.data.CustomStrumPatternRepository
+import com.baijum.ukufretboard.data.StrumPatterns
 import com.baijum.ukufretboard.domain.ChordSheetFormatter
 import com.baijum.ukufretboard.domain.ChordSheetTranspose
 import com.baijum.ukufretboard.domain.KeyDetector
+import com.baijum.ukufretboard.viewmodel.SongSortOrder
 import com.baijum.ukufretboard.viewmodel.SongbookViewModel
 
 /**
@@ -97,13 +108,15 @@ fun SongbookTab(
     val sheets by viewModel.sheets.collectAsState()
     val currentSheet by viewModel.currentSheet.collectAsState()
     val isEditing by viewModel.isEditing.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState()
+    val sortOrder by viewModel.sortOrder.collectAsState()
 
     when {
         isEditing -> {
             SheetEditor(
                 sheet = currentSheet,
-                onSave = { title, artist, content ->
-                    viewModel.saveSheet(title, artist, content)
+                onSave = { title, artist, content, strumPatternName ->
+                    viewModel.saveSheet(title, artist, content, strumPatternName)
                 },
                 onCancel = { viewModel.closeSheet() },
             )
@@ -118,18 +131,23 @@ fun SongbookTab(
                     viewModel.closeSheet()
                 },
                 onChordTapped = onChordTapped,
+                onStrumPatternChange = { viewModel.updateStrumPattern(it) },
             )
         }
         else -> {
             SheetList(
                 sheets = sheets,
+                searchQuery = searchQuery,
+                onSearchQueryChange = { viewModel.setSearchQuery(it) },
+                sortOrder = sortOrder,
+                onSortOrderChange = { viewModel.setSortOrder(it) },
                 onSheetTapped = { viewModel.openSheet(it) },
                 onNewSheet = { viewModel.startEditing() },
                 onImport = { content, filename ->
                     if (filename != null && ChordProParser.isChordProFile(filename)) {
                         viewModel.importChordPro(content, filename)
                     } else {
-                        viewModel.importChordPro(content, filename)
+                        viewModel.importPlainText(content, filename)
                     }
                 },
                 modifier = modifier,
@@ -139,17 +157,22 @@ fun SongbookTab(
 }
 
 /**
- * List of saved chord sheets.
+ * List of saved chord sheets with search and sort controls.
  */
 @Composable
 private fun SheetList(
     sheets: List<ChordSheet>,
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit,
+    sortOrder: SongSortOrder,
+    onSortOrderChange: (SongSortOrder) -> Unit,
     onSheetTapped: (ChordSheet) -> Unit,
     onNewSheet: () -> Unit,
     onImport: (String, String?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val context = androidx.compose.ui.platform.LocalContext.current
+    val context = LocalContext.current
+    val importFailedMsg = stringResource(R.string.songbook_import_failed)
     val importLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
     ) { uri ->
@@ -158,44 +181,110 @@ private fun SheetList(
                 val inputStream = context.contentResolver.openInputStream(it)
                 val content = inputStream?.bufferedReader()?.readText() ?: return@let
                 inputStream.close()
-                // Extract filename from URI for fallback title
                 val filename = it.lastPathSegment
                 onImport(content, filename)
             } catch (_: Exception) {
-                // Import failed silently
+                Toast.makeText(context, importFailedMsg, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     Box(modifier = modifier.fillMaxSize()) {
-        if (sheets.isEmpty()) {
-            Column(
+        Column(modifier = Modifier.fillMaxSize()) {
+            // Search bar
+            Row(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(32.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
-                    text = stringResource(R.string.songbook_empty_title),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = onSearchQueryChange,
+                    placeholder = { Text(stringResource(R.string.songbook_search_hint)) },
+                    leadingIcon = {
+                        Icon(
+                            Icons.Filled.Search,
+                            contentDescription = null,
+                        )
+                    },
+                    trailingIcon = {
+                        if (searchQuery.isNotEmpty()) {
+                            IconButton(onClick = { onSearchQueryChange("") }) {
+                                Icon(
+                                    Icons.Filled.Clear,
+                                    contentDescription = stringResource(R.string.songbook_search_clear),
+                                )
+                            }
+                        }
+                    },
+                    singleLine = true,
+                    modifier = Modifier.weight(1f),
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(R.string.songbook_empty_message),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = TextAlign.Center,
-                )
+                Spacer(modifier = Modifier.width(8.dp))
+                // Sort menu
+                Box {
+                    var showSortMenu by remember { mutableStateOf(false) }
+                    IconButton(onClick = { showSortMenu = true }) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.Sort,
+                            contentDescription = stringResource(R.string.songbook_sort),
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = showSortMenu,
+                        onDismissRequest = { showSortMenu = false },
+                    ) {
+                        SongSortOrder.entries.forEach { order ->
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        text = sortOrderLabel(order),
+                                        fontWeight = if (order == sortOrder) FontWeight.Bold else FontWeight.Normal,
+                                    )
+                                },
+                                onClick = {
+                                    onSortOrderChange(order)
+                                    showSortMenu = false
+                                },
+                            )
+                        }
+                    }
+                }
             }
-        } else {
-            LazyColumn(
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                items(sheets) { sheet ->
-                    SheetCard(sheet = sheet, onClick = { onSheetTapped(sheet) })
+
+            if (sheets.isEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(32.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Text(
+                        text = stringResource(R.string.songbook_empty_title),
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.semantics { heading() },
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = stringResource(R.string.songbook_empty_message),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            } else {
+                LazyColumn(
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.weight(1f),
+                ) {
+                    items(sheets) { sheet ->
+                        SheetCard(sheet = sheet, onClick = { onSheetTapped(sheet) })
+                    }
+                    item { Spacer(modifier = Modifier.height(80.dp)) }
                 }
             }
         }
@@ -207,7 +296,6 @@ private fun SheetList(
             horizontalAlignment = Alignment.End,
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            // Import button
             SmallFloatingActionButton(
                 onClick = {
                     importLauncher.launch(arrayOf("text/*", "*/*"))
@@ -221,7 +309,6 @@ private fun SheetList(
                     modifier = Modifier.size(20.dp),
                 )
             }
-            // New sheet button
             FloatingActionButton(
                 onClick = onNewSheet,
                 containerColor = MaterialTheme.colorScheme.primary,
@@ -233,17 +320,33 @@ private fun SheetList(
 }
 
 @Composable
+private fun sortOrderLabel(order: SongSortOrder): String = when (order) {
+    SongSortOrder.LAST_MODIFIED -> stringResource(R.string.songbook_sort_modified)
+    SongSortOrder.DATE_ADDED -> stringResource(R.string.songbook_sort_added)
+    SongSortOrder.TITLE -> stringResource(R.string.songbook_sort_title)
+    SongSortOrder.ARTIST -> stringResource(R.string.songbook_sort_artist)
+}
+
+@Composable
 private fun SheetCard(sheet: ChordSheet, onClick: () -> Unit) {
+    val untitledLabel = stringResource(R.string.songbook_untitled)
+    val displayTitle = sheet.title.ifEmpty { untitledLabel }
+    val cardDescription = if (sheet.artist.isNotEmpty()) {
+        "$displayTitle by ${sheet.artist}"
+    } else {
+        displayTitle
+    }
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
+            .semantics { contentDescription = cardDescription },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = sheet.title.ifEmpty { stringResource(R.string.songbook_untitled) },
+                text = displayTitle,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
@@ -270,11 +373,21 @@ private fun SheetViewer(
     onEdit: () -> Unit,
     onDelete: () -> Unit,
     onChordTapped: (String) -> Unit,
+    onStrumPatternChange: (String) -> Unit,
 ) {
-    val context = androidx.compose.ui.platform.LocalContext.current
+    val context = LocalContext.current
     val chordSheetLabel = stringResource(R.string.songbook_chord_sheet)
     val exportChooserLabel = stringResource(R.string.songbook_export_chooser)
     var showDeleteDialog by remember { mutableStateOf(false) }
+
+    // Transpose controls
+    var transposeSemitones by rememberSaveable { mutableStateOf(0) }
+
+    val displayContent = if (transposeSemitones != 0) {
+        ChordSheetTranspose.transpose(sheet.content, transposeSemitones)
+    } else {
+        sheet.content
+    }
 
     Column(
         modifier = Modifier
@@ -312,13 +425,28 @@ private fun SheetViewer(
                         onClick = {
                             showShareMenu = false
                             val formatted = ChordSheetFormatter.formatChordsAboveLyrics(sheet)
-                            ChordSheetFormatter.shareText(
+                            ShareUtils.shareText(
                                 context = context,
                                 title = sheet.title.ifEmpty { chordSheetLabel },
                                 text = formatted,
                             )
                         },
                     )
+                    if (transposeSemitones != 0) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.songbook_share_transposed)) },
+                            onClick = {
+                                showShareMenu = false
+                                val transposedSheet = sheet.copy(content = displayContent)
+                                val formatted = ChordSheetFormatter.formatChordsAboveLyrics(transposedSheet)
+                                ShareUtils.shareText(
+                                    context = context,
+                                    title = sheet.title.ifEmpty { chordSheetLabel },
+                                    text = formatted,
+                                )
+                            },
+                        )
+                    }
                     DropdownMenuItem(
                         text = { Text(stringResource(R.string.songbook_export_chordpro)) },
                         onClick = {
@@ -337,6 +465,27 @@ private fun SheetViewer(
                             )
                         },
                     )
+                    if (transposeSemitones != 0) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.songbook_export_transposed)) },
+                            onClick = {
+                                showShareMenu = false
+                                val transposedSheet = sheet.copy(content = displayContent)
+                                val chordProText = ChordProExporter.export(transposedSheet)
+                                val intent = Intent(Intent.ACTION_SEND).apply {
+                                    type = "text/plain"
+                                    putExtra(Intent.EXTRA_TEXT, chordProText)
+                                    putExtra(
+                                        Intent.EXTRA_SUBJECT,
+                                        ChordProExporter.suggestedFilename(sheet),
+                                    )
+                                }
+                                context.startActivity(
+                                    Intent.createChooser(intent, exportChooserLabel),
+                                )
+                            },
+                        )
+                    }
                 }
             }
             IconButton(onClick = onEdit) {
@@ -382,8 +531,15 @@ private fun SheetViewer(
             )
         }
 
+        // Strum pattern display
+        StrumPatternRow(
+            patternName = sheet.strumPatternName,
+            onPatternChange = onStrumPatternChange,
+        )
+
         // Transpose controls
-        var transposeSemitones by rememberSaveable { mutableStateOf(0) }
+        val transposeDownDesc = stringResource(R.string.cd_transpose_down)
+        val transposeUpDesc = stringResource(R.string.cd_transpose_up)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -397,8 +553,11 @@ private fun SheetViewer(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Spacer(modifier = Modifier.width(8.dp))
-            OutlinedButton(onClick = { transposeSemitones-- }) {
-                Text("\u2212") // minus sign
+            OutlinedButton(
+                onClick = { transposeSemitones-- },
+                modifier = Modifier.semantics { contentDescription = transposeDownDesc },
+            ) {
+                Text("\u2212")
             }
             Text(
                 text = ChordSheetTranspose.semitoneLabel(transposeSemitones),
@@ -406,7 +565,10 @@ private fun SheetViewer(
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 12.dp),
             )
-            OutlinedButton(onClick = { transposeSemitones++ }) {
+            OutlinedButton(
+                onClick = { transposeSemitones++ },
+                modifier = Modifier.semantics { contentDescription = transposeUpDesc },
+            ) {
                 Text("+")
             }
             if (transposeSemitones != 0) {
@@ -436,16 +598,9 @@ private fun SheetViewer(
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        // Content with tappable chords (transposed if needed)
-        val displayContent = if (transposeSemitones != 0) {
-            ChordSheetTranspose.transpose(sheet.content, transposeSemitones)
-        } else {
-            sheet.content
-        }
-
         // Auto-scroll state
         var autoScrolling by rememberSaveable { mutableStateOf(false) }
-        var scrollSpeed by rememberSaveable { mutableStateOf(1f) } // 1x, 2x, 3x
+        var scrollSpeed by rememberSaveable { mutableStateOf(1f) }
         val scrollState = rememberScrollState()
 
         // Auto-scroll effect
@@ -459,7 +614,7 @@ private fun SheetViewer(
                             easing = androidx.compose.animation.core.LinearEasing,
                         ),
                     )
-                    delay(16L) // ~60fps
+                    delay(16L)
                 }
             }
         }
@@ -472,89 +627,83 @@ private fun SheetViewer(
         }
 
         Box(modifier = Modifier.weight(1f)) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState),
-        ) {
-            displayContent.lines().forEach { line ->
-                val segments = ChordParser.parseLine(line)
-                if (segments.isEmpty()) {
-                    Text(
-                        text = " ", // empty line
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontFamily = FontFamily.Monospace,
-                    )
-                } else {
-                    val chordColor = MaterialTheme.colorScheme.primary
-                    val chordPositions = mutableListOf<Pair<Int, String>>()
-                    val lyricLine = StringBuilder()
-                    var hasChords = false
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState),
+            ) {
+                displayContent.lines().forEach { line ->
+                    val segments = ChordParser.parseLine(line)
+                    if (segments.isEmpty()) {
+                        Text(
+                            text = " ",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontFamily = FontFamily.Monospace,
+                        )
+                    } else {
+                        val chordColor = MaterialTheme.colorScheme.primary
+                        val chordPositions = mutableListOf<Pair<Int, String>>()
+                        val lyricLine = StringBuilder()
+                        var hasChords = false
 
-                    segments.forEach { segment ->
-                        when (segment) {
-                            is ChordParser.TextSegment.PlainText -> {
-                                lyricLine.append(segment.text)
-                            }
-                            is ChordParser.TextSegment.Chord -> {
-                                hasChords = true
-                                chordPositions.add(lyricLine.length to segment.name)
-                            }
-                        }
-                    }
-
-                    if (hasChords) {
-                        val chordLineStr = StringBuilder()
-                        chordPositions.forEach { (pos, name) ->
-                            while (chordLineStr.length < pos) chordLineStr.append(' ')
-                            chordLineStr.append(name)
-                        }
-
-                        val chordAnnotated = buildAnnotatedString {
-                            var cursor = 0
-                            chordPositions.forEach { (pos, name) ->
-                                if (pos > cursor) {
-                                    append(" ".repeat(pos - cursor))
-                                    cursor = pos
+                        segments.forEach { segment ->
+                            when (segment) {
+                                is ChordParser.TextSegment.PlainText -> {
+                                    lyricLine.append(segment.text)
                                 }
-                                withLink(
-                                    LinkAnnotation.Clickable(
-                                        tag = name,
-                                        styles = TextLinkStyles(
-                                            style = SpanStyle(
-                                                color = chordColor,
-                                                fontWeight = FontWeight.Bold,
+                                is ChordParser.TextSegment.Chord -> {
+                                    hasChords = true
+                                    chordPositions.add(lyricLine.length to segment.name)
+                                }
+                            }
+                        }
+
+                        if (hasChords) {
+                            val chordAnnotated = buildAnnotatedString {
+                                var cursor = 0
+                                chordPositions.forEach { (pos, name) ->
+                                    if (pos > cursor) {
+                                        append(" ".repeat(pos - cursor))
+                                        cursor = pos
+                                    }
+                                    withLink(
+                                        LinkAnnotation.Clickable(
+                                            tag = name,
+                                            styles = TextLinkStyles(
+                                                style = SpanStyle(
+                                                    color = chordColor,
+                                                    fontWeight = FontWeight.Bold,
+                                                ),
                                             ),
-                                        ),
-                                        linkInteractionListener = {
-                                            onChordTapped(name)
-                                        },
-                                    )
-                                ) {
-                                    append(name)
+                                            linkInteractionListener = {
+                                                onChordTapped(name)
+                                            },
+                                        )
+                                    ) {
+                                        append(name)
+                                    }
+                                    cursor += name.length
                                 }
-                                cursor += name.length
                             }
+
+                            Text(
+                                text = chordAnnotated,
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    fontFamily = FontFamily.Monospace,
+                                ),
+                            )
                         }
 
                         Text(
-                            text = chordAnnotated,
+                            text = lyricLine.toString(),
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontFamily = FontFamily.Monospace,
+                                color = MaterialTheme.colorScheme.onSurface,
                             ),
                         )
                     }
-
-                    Text(
-                        text = lyricLine.toString(),
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontFamily = FontFamily.Monospace,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        ),
-                    )
                 }
             }
-        }
 
             // Auto-scroll controls overlay
             Column(
@@ -564,20 +713,23 @@ private fun SheetViewer(
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                // Speed chips (visible when scrolling)
                 if (autoScrolling) {
                     Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                         listOf(0.5f to "0.5x", 1f to "1x", 2f to "2x", 3f to "3x").forEach { (speed, label) ->
+                            val speedDesc = stringResource(R.string.cd_scroll_speed, label)
                             FilterChip(
                                 selected = scrollSpeed == speed,
                                 onClick = { scrollSpeed = speed },
                                 label = { Text(label) },
+                                modifier = Modifier.semantics {
+                                    contentDescription = speedDesc
+                                    if (scrollSpeed == speed) stateDescription = "selected"
+                                },
                             )
                         }
                     }
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    // Stop button (visible when scrolling) — resets to top
                     if (autoScrolling) {
                         FloatingActionButton(
                             onClick = {
@@ -592,7 +744,6 @@ private fun SheetViewer(
                             )
                         }
                     }
-                    // Play / Pause toggle
                     FloatingActionButton(
                         onClick = { autoScrolling = !autoScrolling },
                     ) {
@@ -603,22 +754,48 @@ private fun SheetViewer(
                     }
                 }
             }
-        } // Box
+        }
     }
 }
 
 /**
- * Editor for creating/editing a chord sheet.
+ * Editor for creating/editing a chord sheet with preview and chord insertion.
  */
 @Composable
 private fun SheetEditor(
     sheet: ChordSheet?,
-    onSave: (title: String, artist: String, content: String) -> Unit,
+    onSave: (title: String, artist: String, content: String, strumPatternName: String) -> Unit,
     onCancel: () -> Unit,
 ) {
     var title by remember(sheet?.id) { mutableStateOf(sheet?.title ?: "") }
     var artist by remember(sheet?.id) { mutableStateOf(sheet?.artist ?: "") }
     var content by remember(sheet?.id) { mutableStateOf(sheet?.content ?: "") }
+    var strumPatternName by remember(sheet?.id) { mutableStateOf(sheet?.strumPatternName ?: "") }
+    var showPreview by rememberSaveable { mutableStateOf(false) }
+    var showDiscardDialog by remember { mutableStateOf(false) }
+
+    val hasChanges = title != (sheet?.title ?: "") ||
+        artist != (sheet?.artist ?: "") ||
+        content != (sheet?.content ?: "") ||
+        strumPatternName != (sheet?.strumPatternName ?: "")
+
+    val handleCancel = {
+        if (hasChanges) {
+            showDiscardDialog = true
+        } else {
+            onCancel()
+        }
+    }
+
+    if (showDiscardDialog) {
+        DiscardChangesDialog(
+            onDismiss = { showDiscardDialog = false },
+            onDiscard = {
+                showDiscardDialog = false
+                onCancel()
+            },
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -645,23 +822,164 @@ private fun SheetEditor(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Text(
-            text = stringResource(R.string.songbook_field_lyrics_hint),
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        // Strum pattern picker
+        StrumPatternRow(
+            patternName = strumPatternName,
+            onPatternChange = { strumPatternName = it },
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Chord count and insert helper
+        val detectedChords = remember(content) { ChordParser.extractChords(content) }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = stringResource(R.string.songbook_field_lyrics_hint),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.weight(1f),
+            )
+            if (detectedChords.isNotEmpty()) {
+                Text(
+                    text = stringResource(R.string.songbook_chords_detected, detectedChords.size),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        OutlinedTextField(
-            value = content,
-            onValueChange = { content = it },
-            label = { Text(stringResource(R.string.songbook_field_lyrics)) },
+        // Chord insertion helper row
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f),
-            textStyle = MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace),
-        )
+                .horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            val commonChords = listOf("C", "G", "Am", "F", "Em", "Dm", "D", "A", "E", "Bm")
+            commonChords.forEach { chord ->
+                val insertDesc = stringResource(R.string.songbook_insert_chord)
+                FilterChip(
+                    selected = false,
+                    onClick = { content += "[$chord]" },
+                    label = { Text(chord) },
+                    modifier = Modifier.clearAndSetSemantics {
+                        contentDescription = "$insertDesc $chord"
+                    },
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        // Edit / Preview toggle
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End,
+        ) {
+            FilterChip(
+                selected = !showPreview,
+                onClick = { showPreview = false },
+                label = { Text(stringResource(R.string.songbook_editor_edit)) },
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            FilterChip(
+                selected = showPreview,
+                onClick = { showPreview = true },
+                label = { Text(stringResource(R.string.songbook_editor_preview)) },
+            )
+        }
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        if (showPreview) {
+            // Live preview of chords above lyrics
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState()),
+            ) {
+                content.lines().forEach { line ->
+                    val segments = ChordParser.parseLine(line)
+                    if (segments.isEmpty()) {
+                        Text(
+                            text = " ",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontFamily = FontFamily.Monospace,
+                        )
+                    } else {
+                        val chordColor = MaterialTheme.colorScheme.primary
+                        val chordPositions = mutableListOf<Pair<Int, String>>()
+                        val lyricLine = StringBuilder()
+                        var hasChords = false
+
+                        segments.forEach { segment ->
+                            when (segment) {
+                                is ChordParser.TextSegment.PlainText -> {
+                                    lyricLine.append(segment.text)
+                                }
+                                is ChordParser.TextSegment.Chord -> {
+                                    hasChords = true
+                                    chordPositions.add(lyricLine.length to segment.name)
+                                }
+                            }
+                        }
+
+                        if (hasChords) {
+                            val chordAnnotated = buildAnnotatedString {
+                                var cursor = 0
+                                chordPositions.forEach { (pos, name) ->
+                                    if (pos > cursor) {
+                                        append(" ".repeat(pos - cursor))
+                                        cursor = pos
+                                    }
+                                    withStyle(
+                                        SpanStyle(
+                                            color = chordColor,
+                                            fontWeight = FontWeight.Bold,
+                                        )
+                                    ) {
+                                        append(name)
+                                    }
+                                    cursor += name.length
+                                }
+                            }
+
+                            Text(
+                                text = chordAnnotated,
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    fontFamily = FontFamily.Monospace,
+                                ),
+                            )
+                        }
+
+                        Text(
+                            text = lyricLine.toString(),
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontFamily = FontFamily.Monospace,
+                                color = MaterialTheme.colorScheme.onSurface,
+                            ),
+                        )
+                    }
+                }
+            }
+        } else {
+            OutlinedTextField(
+                value = content,
+                onValueChange = { content = it },
+                label = { Text(stringResource(R.string.songbook_field_lyrics)) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                textStyle = MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace),
+            )
+        }
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -669,18 +987,48 @@ private fun SheetEditor(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End,
         ) {
-            TextButton(onClick = onCancel) {
+            TextButton(onClick = { handleCancel() }) {
                 Text(stringResource(R.string.dialog_cancel))
             }
             Spacer(modifier = Modifier.width(8.dp))
             OutlinedButton(
-                onClick = { onSave(title, artist, content) },
+                onClick = { onSave(title, artist, content, strumPatternName) },
                 enabled = title.isNotBlank(),
             ) {
                 Text(stringResource(R.string.dialog_save))
             }
         }
     }
+}
+
+@Composable
+private fun DiscardChangesDialog(
+    onDismiss: () -> Unit,
+    onDiscard: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                stringResource(R.string.songbook_discard_title),
+                modifier = Modifier.semantics { heading() },
+            )
+        },
+        text = { Text(stringResource(R.string.songbook_discard_message)) },
+        confirmButton = {
+            TextButton(onClick = onDiscard) {
+                Text(
+                    stringResource(R.string.songbook_discard),
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.dialog_cancel))
+            }
+        },
+    )
 }
 
 @Composable
@@ -706,6 +1054,159 @@ private fun DeleteSongDialog(
                 )
             }
         },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.dialog_cancel))
+            }
+        },
+    )
+}
+
+/**
+ * Displays the associated strum pattern for a song, with options to select, change, or remove.
+ */
+@Composable
+private fun StrumPatternRow(
+    patternName: String,
+    onPatternChange: (String) -> Unit,
+) {
+    val context = LocalContext.current
+    var showPicker by remember { mutableStateOf(false) }
+
+    val resolvedPattern = remember(patternName) {
+        if (patternName.isEmpty()) {
+            null
+        } else {
+            StrumPatterns.ALL.find { it.name == patternName }
+                ?: CustomStrumPatternRepository(context).getAll()
+                    .find { it.pattern.name == patternName }?.pattern
+        }
+    }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 48.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = stringResource(R.string.songbook_strum_pattern) + ": ",
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        if (resolvedPattern != null) {
+            val patternDesc = stringResource(R.string.cd_strum_pattern, resolvedPattern.name)
+            Text(
+                text = resolvedPattern.name,
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .semantics { contentDescription = patternDesc },
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = resolvedPattern.notation,
+                style = MaterialTheme.typography.bodySmall,
+                fontFamily = FontFamily.Monospace,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            TextButton(onClick = { showPicker = true }) {
+                Text(
+                    stringResource(R.string.songbook_strum_change),
+                    style = MaterialTheme.typography.labelSmall,
+                )
+            }
+            TextButton(onClick = { onPatternChange("") }) {
+                Text(
+                    stringResource(R.string.songbook_strum_remove),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
+        } else {
+            TextButton(onClick = { showPicker = true }) {
+                Text(stringResource(R.string.songbook_strum_select))
+            }
+        }
+    }
+
+    if (showPicker) {
+        StrumPatternPickerDialog(
+            currentName = patternName,
+            onSelect = { name ->
+                onPatternChange(name)
+                showPicker = false
+            },
+            onDismiss = { showPicker = false },
+        )
+    }
+}
+
+@Composable
+private fun StrumPatternPickerDialog(
+    currentName: String,
+    onSelect: (String) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val context = LocalContext.current
+    val customPatterns = remember {
+        CustomStrumPatternRepository(context).getAll()
+    }
+    val allPatterns = remember(customPatterns) {
+        val builtIn = StrumPatterns.ALL.map { it.name to it.notation }
+        val custom = customPatterns.map { it.pattern.name to it.pattern.notation }
+        builtIn + custom
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                stringResource(R.string.songbook_strum_select),
+                modifier = Modifier.semantics { heading() },
+            )
+        },
+        text = {
+            LazyColumn {
+                items(allPatterns) { (name, notation) ->
+                    val isSelected = name == currentName
+                    val itemDesc = stringResource(R.string.cd_strum_pattern, name)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onSelect(name) }
+                            .padding(vertical = 10.dp, horizontal = 4.dp)
+                            .semantics {
+                                contentDescription = itemDesc
+                                if (isSelected) stateDescription = "selected"
+                            },
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = name,
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                color = if (isSelected) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    MaterialTheme.colorScheme.onSurface
+                                },
+                            )
+                            Text(
+                                text = notation,
+                                style = MaterialTheme.typography.bodySmall,
+                                fontFamily = FontFamily.Monospace,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {},
         dismissButton = {
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.dialog_cancel))

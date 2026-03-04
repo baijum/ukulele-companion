@@ -3,14 +3,15 @@ package com.baijum.ukufretboard.data
 /**
  * Parses chord names from text containing `[ChordName]` markers.
  *
- * Supported chord name formats:
- * - Root note: A-G, optionally followed by # or b
- * - Quality: m, maj, dim, aug, sus, 7, m7, maj7, 6, m6, 9, m9, add9, sus2, sus4, etc.
+ * Uses the same permissive regex as [com.baijum.ukufretboard.domain.ChordSheetTranspose]
+ * to ensure consistent chord recognition across parsing and transposition.
+ * Accepts any content after the root note (A-G with optional # or b),
+ * supporting all chord qualities including slash chords (e.g., `[C/G]`).
  */
 object ChordParser {
 
-    /** Regex matching `[ChordName]` markers in text. */
-    private val CHORD_PATTERN = Regex("""\[([A-G][#b]?(?:m(?:aj)?|dim|aug|sus)?(?:7|9|6|add9|sus[24]|maj7|m7)?)\]""")
+    /** Regex matching `[ChordName]` markers — root note + any quality suffix. */
+    val CHORD_PATTERN = Regex("""\[([A-G][#b]?[^]]*)]""")
 
     /**
      * Extracts all unique chord names from the given text.
