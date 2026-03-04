@@ -230,6 +230,33 @@
     <string name="cd_stop_scroll">Hentikan gulir</string>
     <string name="cd_pause_scroll">Jeda gulir</string>
     <string name="cd_auto_scroll">Gulir otomatis</string>
+    <string name="cd_transpose_down">Transpos turun</string>
+    <string name="cd_transpose_up">Transpos naik</string>
+    <string name="cd_scroll_speed">Kecepatan gulir %s</string>
+    <string name="songbook_search_hint">Cari lagu…</string>
+    <string name="songbook_search_clear">Hapus pencarian</string>
+    <string name="songbook_sort">Urutkan</string>
+    <string name="songbook_sort_modified">Terakhir diubah</string>
+    <string name="songbook_sort_added">Tanggal ditambahkan</string>
+    <string name="songbook_sort_title">Judul</string>
+    <string name="songbook_sort_artist">Artis</string>
+    <string name="songbook_discard_title">Buang perubahan?</string>
+    <string name="songbook_discard_message">Ada perubahan yang belum disimpan. Buang?</string>
+    <string name="songbook_discard">Buang</string>
+    <string name="songbook_import_failed">Gagal mengimpor file</string>
+    <string name="songbook_share_transposed">Bagikan hasil transpos</string>
+    <string name="songbook_export_transposed">Ekspor hasil transpos sebagai ChordPro</string>
+    <string name="songbook_editor_preview">Pratinjau</string>
+    <string name="songbook_editor_edit">Edit</string>
+    <string name="songbook_chords_detected">%d akor terdeteksi</string>
+    <string name="songbook_insert_chord">Sisipkan akor</string>
+    <string name="songbook_strum_pattern">Pola petikan</string>
+    <string name="songbook_strum_none">Tidak ada</string>
+    <string name="songbook_strum_select">Pilih pola</string>
+    <string name="songbook_strum_change">Ubah pola</string>
+    <string name="songbook_strum_remove">Hapus pola</string>
+    <string name="cd_strum_pattern">Pola petikan: %s</string>
+    <string name="patterns_beats">%d ketukan</string>
 
     <!-- ── Progresi ───────────────────────────────────────────────────── -->
     <string name="progressions_new">Progresi Baru</string>

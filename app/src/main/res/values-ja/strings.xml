@@ -230,6 +230,33 @@
     <string name="cd_stop_scroll">スクロールを停止</string>
     <string name="cd_pause_scroll">スクロールを一時停止</string>
     <string name="cd_auto_scroll">自動スクロール</string>
+    <string name="cd_transpose_down">半音下げる</string>
+    <string name="cd_transpose_up">半音上げる</string>
+    <string name="cd_scroll_speed">スクロール速度 %s</string>
+    <string name="songbook_search_hint">曲を検索…</string>
+    <string name="songbook_search_clear">検索をクリア</string>
+    <string name="songbook_sort">並べ替え</string>
+    <string name="songbook_sort_modified">最終更新</string>
+    <string name="songbook_sort_added">追加日</string>
+    <string name="songbook_sort_title">タイトル</string>
+    <string name="songbook_sort_artist">アーティスト</string>
+    <string name="songbook_discard_title">変更を破棄しますか？</string>
+    <string name="songbook_discard_message">保存されていない変更があります。破棄しますか？</string>
+    <string name="songbook_discard">破棄</string>
+    <string name="songbook_import_failed">インポートに失敗しました</string>
+    <string name="songbook_share_transposed">移調版を共有</string>
+    <string name="songbook_export_transposed">移調版をChordProとしてエクスポート</string>
+    <string name="songbook_editor_preview">プレビュー</string>
+    <string name="songbook_editor_edit">編集</string>
+    <string name="songbook_chords_detected">%d個のコードを検出</string>
+    <string name="songbook_insert_chord">コードを挿入</string>
+    <string name="songbook_strum_pattern">ストラムパターン</string>
+    <string name="songbook_strum_none">なし</string>
+    <string name="songbook_strum_select">パターンを選択</string>
+    <string name="songbook_strum_change">パターンを変更</string>
+    <string name="songbook_strum_remove">パターンを削除</string>
+    <string name="cd_strum_pattern">ストラムパターン: %s</string>
+    <string name="patterns_beats">%d ビート</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->
     <string name="progressions_new">新しいコード進行</string>

@@ -241,6 +241,32 @@
     <string name="cd_stop_scroll">Stop scroll</string>
     <string name="cd_pause_scroll">Pause scroll</string>
     <string name="cd_auto_scroll">Auto-scroll</string>
+    <string name="cd_transpose_down">Transpose down</string>
+    <string name="cd_transpose_up">Transpose up</string>
+    <string name="cd_scroll_speed">Scroll speed %s</string>
+    <string name="songbook_search_hint">Search songs…</string>
+    <string name="songbook_search_clear">Clear search</string>
+    <string name="songbook_sort">Sort</string>
+    <string name="songbook_sort_modified">Last modified</string>
+    <string name="songbook_sort_added">Date added</string>
+    <string name="songbook_sort_title">Title</string>
+    <string name="songbook_sort_artist">Artist</string>
+    <string name="songbook_discard_title">Discard changes?</string>
+    <string name="songbook_discard_message">You have unsaved changes. Discard them?</string>
+    <string name="songbook_discard">Discard</string>
+    <string name="songbook_import_failed">Failed to import file</string>
+    <string name="songbook_share_transposed">Share transposed</string>
+    <string name="songbook_export_transposed">Export transposed as ChordPro</string>
+    <string name="songbook_editor_preview">Preview</string>
+    <string name="songbook_editor_edit">Edit</string>
+    <string name="songbook_chords_detected">%d chords detected</string>
+    <string name="songbook_insert_chord">Insert chord</string>
+    <string name="songbook_strum_pattern">Strum pattern</string>
+    <string name="songbook_strum_none">None</string>
+    <string name="songbook_strum_select">Select pattern</string>
+    <string name="songbook_strum_change">Change pattern</string>
+    <string name="songbook_strum_remove">Remove pattern</string>
+    <string name="cd_strum_pattern">Strum pattern: %s</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->
     <string name="progressions_new">New Progression</string>
@@ -279,6 +305,7 @@
     <string name="patterns_custom">Custom pattern</string>
     <string name="patterns_create_fingerpick">Create Fingerpicking Pattern</string>
     <string name="patterns_edit_fingerpick">Edit Fingerpicking Pattern</string>
+    <string name="patterns_beats">%d beats</string>
     <string name="patterns_steps">%d steps</string>
     <string name="patterns_tap_step">Tap a step, then pick finger and string below</string>
     <string name="patterns_finger">Finger</string>

@@ -230,6 +230,33 @@
     <string name="cd_stop_scroll">Остановить прокрутку</string>
     <string name="cd_pause_scroll">Приостановить прокрутку</string>
     <string name="cd_auto_scroll">Автопрокрутка</string>
+    <string name="cd_transpose_down">Транспонировать вниз</string>
+    <string name="cd_transpose_up">Транспонировать вверх</string>
+    <string name="cd_scroll_speed">Скорость прокрутки %s</string>
+    <string name="songbook_search_hint">Поиск песен…</string>
+    <string name="songbook_search_clear">Очистить поиск</string>
+    <string name="songbook_sort">Сортировка</string>
+    <string name="songbook_sort_modified">Последнее изменение</string>
+    <string name="songbook_sort_added">Дата добавления</string>
+    <string name="songbook_sort_title">Название</string>
+    <string name="songbook_sort_artist">Исполнитель</string>
+    <string name="songbook_discard_title">Отменить изменения?</string>
+    <string name="songbook_discard_message">Есть несохранённые изменения. Отменить их?</string>
+    <string name="songbook_discard">Отменить</string>
+    <string name="songbook_import_failed">Ошибка импорта файла</string>
+    <string name="songbook_share_transposed">Поделиться транспонированным</string>
+    <string name="songbook_export_transposed">Экспортировать транспонированное как ChordPro</string>
+    <string name="songbook_editor_preview">Просмотр</string>
+    <string name="songbook_editor_edit">Редактировать</string>
+    <string name="songbook_chords_detected">Обнаружено аккордов: %d</string>
+    <string name="songbook_insert_chord">Вставить аккорд</string>
+    <string name="songbook_strum_pattern">Ритмический рисунок</string>
+    <string name="songbook_strum_none">Нет</string>
+    <string name="songbook_strum_select">Выбрать рисунок</string>
+    <string name="songbook_strum_change">Изменить рисунок</string>
+    <string name="songbook_strum_remove">Убрать рисунок</string>
+    <string name="cd_strum_pattern">Ритмический рисунок: %s</string>
+    <string name="patterns_beats">%d долей</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->
     <string name="progressions_new">Новая прогрессия</string>

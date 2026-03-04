@@ -86,6 +86,32 @@ private const val TAB_FINGERPICKING = 1
 
 private val TIME_SIGNATURES = listOf("2/2", "2/4", "3/4", "4/4", "5/4", "7/4", "6/8", "7/8", "9/8", "11/8", "12/8")
 
+private fun defaultBeatCount(timeSignature: String): Int {
+    val parts = timeSignature.split("/")
+    val numerator = parts[0].toIntOrNull() ?: 4
+    val denominator = parts.getOrNull(1)?.toIntOrNull() ?: 4
+    return when (denominator) {
+        2 -> numerator * 2
+        4 -> numerator * 2
+        8 -> numerator
+        else -> numerator * 2
+    }
+}
+
+private fun resizeBeats(beats: MutableList<StrumBeat>, newSize: Int) {
+    while (beats.size > newSize) beats.removeAt(beats.lastIndex)
+    while (beats.size < newSize) {
+        beats.add(StrumBeat(if (beats.size % 2 == 0) StrumDirection.DOWN else StrumDirection.UP))
+    }
+}
+
+private fun resizeSteps(steps: MutableList<FingerpickStep>, newSize: Int) {
+    while (steps.size > newSize) steps.removeAt(steps.lastIndex)
+    while (steps.size < newSize) {
+        steps.add(FingerpickStep(Finger.INDEX, 2))
+    }
+}
+
 /**
  * Tab showing a reference list of common ukulele strumming and fingerpicking patterns.
  *
@@ -902,19 +928,20 @@ private fun CreateStrumPatternSheet(
     var timeSignature by remember { mutableStateOf(initialPattern?.timeSignature ?: "4/4") }
     val customPatternDesc = stringResource(R.string.patterns_custom)
     val beats = remember {
-        mutableStateListOf<StrumBeat>().also {
-            it.addAll(
-                initialPattern?.beats ?: listOf(
-                    StrumBeat(StrumDirection.DOWN, emphasis = true),
-                    StrumBeat(StrumDirection.UP),
-                    StrumBeat(StrumDirection.DOWN),
-                    StrumBeat(StrumDirection.UP),
-                    StrumBeat(StrumDirection.DOWN),
-                    StrumBeat(StrumDirection.UP),
-                    StrumBeat(StrumDirection.DOWN),
-                    StrumBeat(StrumDirection.UP),
-                ),
-            )
+        mutableStateListOf<StrumBeat>().also { list ->
+            if (initialPattern != null) {
+                list.addAll(initialPattern.beats)
+            } else {
+                val count = defaultBeatCount(timeSignature)
+                for (i in 0 until count) {
+                    list.add(
+                        StrumBeat(
+                            direction = if (i % 2 == 0) StrumDirection.DOWN else StrumDirection.UP,
+                            emphasis = i == 0,
+                        ),
+                    )
+                }
+            }
         }
     }
 
@@ -961,13 +988,55 @@ private fun CreateStrumPatternSheet(
                 TIME_SIGNATURES.forEach { ts ->
                     FilterChip(
                         selected = timeSignature == ts,
-                        onClick = { timeSignature = ts },
+                        onClick = {
+                            timeSignature = ts
+                            resizeBeats(beats, defaultBeatCount(ts))
+                        },
                         label = { Text(ts) },
                     )
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(R.string.patterns_beats, beats.size),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    TextButton(
+                        onClick = { if (beats.size > 2) beats.removeAt(beats.lastIndex) },
+                        enabled = beats.size > 2,
+                    ) {
+                        Text("−")
+                    }
+                    TextButton(
+                        onClick = {
+                            if (beats.size < 16) {
+                                beats.add(
+                                    StrumBeat(
+                                        if (beats.size % 2 == 0) StrumDirection.DOWN
+                                        else StrumDirection.UP,
+                                    ),
+                                )
+                            }
+                        },
+                        enabled = beats.size < 16,
+                    ) {
+                        Text("+")
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = stringResource(R.string.patterns_tap_beat),
@@ -977,9 +1046,10 @@ private fun CreateStrumPatternSheet(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Editable beat slots
-            Row(
+            @OptIn(ExperimentalLayoutApi::class)
+            FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 beats.forEachIndexed { index, beat ->
@@ -1021,8 +1091,10 @@ private fun CreateStrumPatternSheet(
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            Row(
+            @OptIn(ExperimentalLayoutApi::class)
+            FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 beats.forEachIndexed { index, beat ->
@@ -1107,15 +1179,16 @@ private fun CreateFingerpickingPatternSheet(
     var timeSignature by remember { mutableStateOf(initialPattern?.timeSignature ?: "4/4") }
     val customPatternDesc = stringResource(R.string.patterns_custom)
     val steps = remember {
-        mutableStateListOf<FingerpickStep>().also {
-            it.addAll(
-                initialPattern?.steps ?: listOf(
-                    FingerpickStep(Finger.THUMB, 0, emphasis = true),
-                    FingerpickStep(Finger.THUMB, 1),
-                    FingerpickStep(Finger.INDEX, 2),
-                    FingerpickStep(Finger.MIDDLE, 3),
-                ),
-            )
+        mutableStateListOf<FingerpickStep>().also { list ->
+            if (initialPattern != null) {
+                list.addAll(initialPattern.steps)
+            } else {
+                val count = defaultBeatCount(timeSignature).coerceIn(2, 8)
+                list.add(FingerpickStep(Finger.THUMB, 0, emphasis = true))
+                for (i in 1 until count) {
+                    list.add(FingerpickStep(Finger.INDEX, 2.coerceAtMost(3)))
+                }
+            }
         }
     }
     var selectedStepIndex by remember { mutableIntStateOf(0) }
@@ -1163,7 +1236,14 @@ private fun CreateFingerpickingPatternSheet(
                 TIME_SIGNATURES.forEach { ts ->
                     FilterChip(
                         selected = timeSignature == ts,
-                        onClick = { timeSignature = ts },
+                        onClick = {
+                            timeSignature = ts
+                            val newSize = defaultBeatCount(ts).coerceIn(2, 8)
+                            resizeSteps(steps, newSize)
+                            if (selectedStepIndex >= steps.size) {
+                                selectedStepIndex = steps.size - 1
+                            }
+                        },
                         label = { Text(ts) },
                     )
                 }

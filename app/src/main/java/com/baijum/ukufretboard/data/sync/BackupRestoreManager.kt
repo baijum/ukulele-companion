@@ -80,6 +80,9 @@ class BackupRestoreManager(
                     title = sheet.title,
                     artist = sheet.artist,
                     content = sheet.content,
+                    key = sheet.key,
+                    capo = sheet.capo,
+                    strumPatternName = sheet.strumPatternName,
                     createdAt = sheet.createdAt,
                     updatedAt = sheet.updatedAt,
                 )
@@ -218,6 +221,9 @@ class BackupRestoreManager(
                 title = s.title,
                 artist = s.artist,
                 content = s.content,
+                key = s.key,
+                capo = s.capo,
+                strumPatternName = s.strumPatternName,
                 createdAt = s.createdAt,
                 updatedAt = s.updatedAt,
             )

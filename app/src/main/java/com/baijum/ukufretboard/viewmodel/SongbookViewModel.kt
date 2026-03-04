@@ -8,6 +8,14 @@ import com.baijum.ukufretboard.data.ChordSheetRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+
+enum class SongSortOrder {
+    LAST_MODIFIED,
+    DATE_ADDED,
+    TITLE,
+    ARTIST,
+}
 
 /**
  * ViewModel for managing the songbook (list of chord sheets).
@@ -16,9 +24,17 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
 
     private val repository = ChordSheetRepository(application)
 
+    private val _allSheets = MutableStateFlow<List<ChordSheet>>(emptyList())
+
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
+    private val _sortOrder = MutableStateFlow(SongSortOrder.LAST_MODIFIED)
+    val sortOrder: StateFlow<SongSortOrder> = _sortOrder.asStateFlow()
+
     private val _sheets = MutableStateFlow<List<ChordSheet>>(emptyList())
 
-    /** Observable list of all chord sheets. */
+    /** Observable list of filtered and sorted chord sheets. */
     val sheets: StateFlow<List<ChordSheet>> = _sheets.asStateFlow()
 
     /** The currently open sheet (for viewing/editing). */
@@ -34,7 +50,36 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun refresh() {
-        _sheets.value = repository.getAll()
+        _allSheets.value = repository.getAll()
+        applyFilterAndSort()
+    }
+
+    fun setSearchQuery(query: String) {
+        _searchQuery.value = query
+        applyFilterAndSort()
+    }
+
+    fun setSortOrder(order: SongSortOrder) {
+        _sortOrder.value = order
+        applyFilterAndSort()
+    }
+
+    private fun applyFilterAndSort() {
+        val query = _searchQuery.value.trim().lowercase()
+        val filtered = if (query.isEmpty()) {
+            _allSheets.value
+        } else {
+            _allSheets.value.filter { sheet ->
+                sheet.title.lowercase().contains(query) ||
+                    sheet.artist.lowercase().contains(query)
+            }
+        }
+        _sheets.value = when (_sortOrder.value) {
+            SongSortOrder.LAST_MODIFIED -> filtered.sortedByDescending { it.updatedAt }
+            SongSortOrder.DATE_ADDED -> filtered.sortedByDescending { it.createdAt }
+            SongSortOrder.TITLE -> filtered.sortedBy { it.title.lowercase() }
+            SongSortOrder.ARTIST -> filtered.sortedBy { it.artist.lowercase() }
+        }
     }
 
     fun openSheet(sheet: ChordSheet) {
@@ -52,13 +97,14 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
         _isEditing.value = true
     }
 
-    fun saveSheet(title: String, artist: String, content: String) {
+    fun saveSheet(title: String, artist: String, content: String, strumPatternName: String = "") {
         val existing = _currentSheet.value
         val sheet = if (existing != null && existing.title.isNotEmpty()) {
             existing.copy(
                 title = title,
                 artist = artist,
                 content = content,
+                strumPatternName = strumPatternName,
                 updatedAt = System.currentTimeMillis(),
             )
         } else {
@@ -66,11 +112,23 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
                 title = title,
                 artist = artist,
                 content = content,
+                strumPatternName = strumPatternName,
             )
         }
         repository.save(sheet)
         _currentSheet.value = sheet
         _isEditing.value = false
+        refresh()
+    }
+
+    fun updateStrumPattern(patternName: String) {
+        val sheet = _currentSheet.value ?: return
+        val updated = sheet.copy(
+            strumPatternName = patternName,
+            updatedAt = System.currentTimeMillis(),
+        )
+        repository.save(updated)
+        _currentSheet.value = updated
         refresh()
     }
 

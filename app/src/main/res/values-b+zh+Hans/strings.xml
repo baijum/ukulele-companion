@@ -230,6 +230,33 @@
     <string name="cd_stop_scroll">停止滚动</string>
     <string name="cd_pause_scroll">暂停滚动</string>
     <string name="cd_auto_scroll">自动滚动</string>
+    <string name="cd_transpose_down">降调</string>
+    <string name="cd_transpose_up">升调</string>
+    <string name="cd_scroll_speed">滚动速度 %s</string>
+    <string name="songbook_search_hint">搜索歌曲…</string>
+    <string name="songbook_search_clear">清除搜索</string>
+    <string name="songbook_sort">排序</string>
+    <string name="songbook_sort_modified">最近修改</string>
+    <string name="songbook_sort_added">添加日期</string>
+    <string name="songbook_sort_title">标题</string>
+    <string name="songbook_sort_artist">艺术家</string>
+    <string name="songbook_discard_title">放弃更改？</string>
+    <string name="songbook_discard_message">有未保存的更改。放弃吗？</string>
+    <string name="songbook_discard">放弃</string>
+    <string name="songbook_import_failed">导入文件失败</string>
+    <string name="songbook_share_transposed">分享移调版</string>
+    <string name="songbook_export_transposed">将移调版导出为ChordPro</string>
+    <string name="songbook_editor_preview">预览</string>
+    <string name="songbook_editor_edit">编辑</string>
+    <string name="songbook_chords_detected">检测到 %d 个和弦</string>
+    <string name="songbook_insert_chord">插入和弦</string>
+    <string name="songbook_strum_pattern">扫弦模式</string>
+    <string name="songbook_strum_none">无</string>
+    <string name="songbook_strum_select">选择模式</string>
+    <string name="songbook_strum_change">更改模式</string>
+    <string name="songbook_strum_remove">移除模式</string>
+    <string name="cd_strum_pattern">扫弦模式：%s</string>
+    <string name="patterns_beats">%d 拍</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->
     <string name="progressions_new">新建和弦进行</string>

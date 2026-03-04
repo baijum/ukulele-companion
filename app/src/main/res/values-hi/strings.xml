@@ -230,6 +230,33 @@
     <string name="cd_stop_scroll">स्क्रॉल रोकें</string>
     <string name="cd_pause_scroll">स्क्रॉल रोकें</string>
     <string name="cd_auto_scroll">ऑटो-स्क्रॉल</string>
+    <string name="cd_transpose_down">ट्रांसपोज़ नीचे</string>
+    <string name="cd_transpose_up">ट्रांसपोज़ ऊपर</string>
+    <string name="cd_scroll_speed">स्क्रॉल गति %s</string>
+    <string name="songbook_search_hint">गाने खोजें…</string>
+    <string name="songbook_search_clear">खोज मिटाएं</string>
+    <string name="songbook_sort">क्रमबद्ध करें</string>
+    <string name="songbook_sort_modified">अंतिम संशोधित</string>
+    <string name="songbook_sort_added">जोड़ने की तिथि</string>
+    <string name="songbook_sort_title">शीर्षक</string>
+    <string name="songbook_sort_artist">कलाकार</string>
+    <string name="songbook_discard_title">बदलाव हटाएं?</string>
+    <string name="songbook_discard_message">सहेजे न गए बदलाव हैं। हटाएं?</string>
+    <string name="songbook_discard">हटाएं</string>
+    <string name="songbook_import_failed">फ़ाइल आयात विफल</string>
+    <string name="songbook_share_transposed">ट्रांसपोज़ किया हुआ साझा करें</string>
+    <string name="songbook_export_transposed">ट्रांसपोज़ किया हुआ ChordPro के रूप में निर्यात करें</string>
+    <string name="songbook_editor_preview">पूर्वावलोकन</string>
+    <string name="songbook_editor_edit">संपादित करें</string>
+    <string name="songbook_chords_detected">%d कॉर्ड्स पहचाने गए</string>
+    <string name="songbook_insert_chord">कॉर्ड डालें</string>
+    <string name="songbook_strum_pattern">स्ट्रम पैटर्न</string>
+    <string name="songbook_strum_none">कोई नहीं</string>
+    <string name="songbook_strum_select">पैटर्न चुनें</string>
+    <string name="songbook_strum_change">पैटर्न बदलें</string>
+    <string name="songbook_strum_remove">पैटर्न हटाएं</string>
+    <string name="cd_strum_pattern">स्ट्रम पैटर्न: %s</string>
+    <string name="patterns_beats">%d बीट</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->
     <string name="progressions_new">नया प्रोग्रेशन</string>

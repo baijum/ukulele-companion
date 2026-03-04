@@ -11,7 +11,7 @@ import com.baijum.ukufretboard.data.Notes
  */
 object ChordSheetTranspose {
 
-    /** Regex matching `[ChordName]` markers, capturing the chord name. */
+    /** Regex matching `[ChordName]` markers, capturing root and quality separately. */
     private val CHORD_MARKER = Regex("""\[([A-G][#b]?)([^]]*)]""")
 
     /**

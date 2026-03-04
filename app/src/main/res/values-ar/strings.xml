@@ -230,6 +230,33 @@
     <string name="cd_stop_scroll">إيقاف التمرير</string>
     <string name="cd_pause_scroll">إيقاف التمرير مؤقتاً</string>
     <string name="cd_auto_scroll">تمرير تلقائي</string>
+    <string name="cd_transpose_down">تحويل للأسفل</string>
+    <string name="cd_transpose_up">تحويل للأعلى</string>
+    <string name="cd_scroll_speed">سرعة التمرير %s</string>
+    <string name="songbook_search_hint">البحث عن أغاني…</string>
+    <string name="songbook_search_clear">مسح البحث</string>
+    <string name="songbook_sort">ترتيب</string>
+    <string name="songbook_sort_modified">آخر تعديل</string>
+    <string name="songbook_sort_added">تاريخ الإضافة</string>
+    <string name="songbook_sort_title">العنوان</string>
+    <string name="songbook_sort_artist">الفنان</string>
+    <string name="songbook_discard_title">تجاهل التغييرات؟</string>
+    <string name="songbook_discard_message">لديك تغييرات غير محفوظة. تجاهلها؟</string>
+    <string name="songbook_discard">تجاهل</string>
+    <string name="songbook_import_failed">فشل استيراد الملف</string>
+    <string name="songbook_share_transposed">مشاركة المحوّل</string>
+    <string name="songbook_export_transposed">تصدير المحوّل كـ ChordPro</string>
+    <string name="songbook_editor_preview">معاينة</string>
+    <string name="songbook_editor_edit">تحرير</string>
+    <string name="songbook_chords_detected">تم اكتشاف %d أوتار</string>
+    <string name="songbook_insert_chord">إدراج وتر</string>
+    <string name="songbook_strum_pattern">نمط العزف</string>
+    <string name="songbook_strum_none">بدون</string>
+    <string name="songbook_strum_select">اختر نمطًا</string>
+    <string name="songbook_strum_change">تغيير النمط</string>
+    <string name="songbook_strum_remove">إزالة النمط</string>
+    <string name="cd_strum_pattern">نمط العزف: %s</string>
+    <string name="patterns_beats">%d نبضة</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->
     <string name="progressions_new">تقدم لحني جديد</string>

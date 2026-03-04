@@ -230,6 +230,33 @@
     <string name="cd_stop_scroll">Scrollen stoppen</string>
     <string name="cd_pause_scroll">Scrollen pausieren</string>
     <string name="cd_auto_scroll">Automatisch scrollen</string>
+    <string name="cd_transpose_down">Transponieren nach unten</string>
+    <string name="cd_transpose_up">Transponieren nach oben</string>
+    <string name="cd_scroll_speed">Scrollgeschwindigkeit %s</string>
+    <string name="songbook_search_hint">Songs suchen…</string>
+    <string name="songbook_search_clear">Suche löschen</string>
+    <string name="songbook_sort">Sortieren</string>
+    <string name="songbook_sort_modified">Zuletzt bearbeitet</string>
+    <string name="songbook_sort_added">Hinzugefügt am</string>
+    <string name="songbook_sort_title">Titel</string>
+    <string name="songbook_sort_artist">Künstler</string>
+    <string name="songbook_discard_title">Änderungen verwerfen?</string>
+    <string name="songbook_discard_message">Es gibt ungespeicherte Änderungen. Verwerfen?</string>
+    <string name="songbook_discard">Verwerfen</string>
+    <string name="songbook_import_failed">Import fehlgeschlagen</string>
+    <string name="songbook_share_transposed">Transponiert teilen</string>
+    <string name="songbook_export_transposed">Transponiert als ChordPro exportieren</string>
+    <string name="songbook_editor_preview">Vorschau</string>
+    <string name="songbook_editor_edit">Bearbeiten</string>
+    <string name="songbook_chords_detected">%d Akkorde erkannt</string>
+    <string name="songbook_insert_chord">Akkord einfügen</string>
+    <string name="songbook_strum_pattern">Schlagmuster</string>
+    <string name="songbook_strum_none">Keines</string>
+    <string name="songbook_strum_select">Muster auswählen</string>
+    <string name="songbook_strum_change">Muster ändern</string>
+    <string name="songbook_strum_remove">Muster entfernen</string>
+    <string name="cd_strum_pattern">Schlagmuster: %s</string>
+    <string name="patterns_beats">%d Schläge</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->
     <string name="progressions_new">Neue Akkordfolge</string>

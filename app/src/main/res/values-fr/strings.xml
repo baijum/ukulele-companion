@@ -230,6 +230,33 @@
     <string name="cd_stop_scroll">Arrêter le défilement</string>
     <string name="cd_pause_scroll">Mettre en pause le défilement</string>
     <string name="cd_auto_scroll">Défilement automatique</string>
+    <string name="cd_transpose_down">Transposer vers le bas</string>
+    <string name="cd_transpose_up">Transposer vers le haut</string>
+    <string name="cd_scroll_speed">Vitesse de défilement %s</string>
+    <string name="songbook_search_hint">Rechercher des chansons…</string>
+    <string name="songbook_search_clear">Effacer la recherche</string>
+    <string name="songbook_sort">Trier</string>
+    <string name="songbook_sort_modified">Dernière modification</string>
+    <string name="songbook_sort_added">Date d\'ajout</string>
+    <string name="songbook_sort_title">Titre</string>
+    <string name="songbook_sort_artist">Artiste</string>
+    <string name="songbook_discard_title">Abandonner les modifications ?</string>
+    <string name="songbook_discard_message">Vous avez des modifications non enregistrées. Les abandonner ?</string>
+    <string name="songbook_discard">Abandonner</string>
+    <string name="songbook_import_failed">Échec de l\'importation</string>
+    <string name="songbook_share_transposed">Partager transposé</string>
+    <string name="songbook_export_transposed">Exporter transposé en ChordPro</string>
+    <string name="songbook_editor_preview">Aperçu</string>
+    <string name="songbook_editor_edit">Modifier</string>
+    <string name="songbook_chords_detected">%d accords détectés</string>
+    <string name="songbook_insert_chord">Insérer un accord</string>
+    <string name="songbook_strum_pattern">Patron de grattage</string>
+    <string name="songbook_strum_none">Aucun</string>
+    <string name="songbook_strum_select">Sélectionner un patron</string>
+    <string name="songbook_strum_change">Changer de patron</string>
+    <string name="songbook_strum_remove">Retirer le patron</string>
+    <string name="cd_strum_pattern">Patron de grattage : %s</string>
+    <string name="patterns_beats">%d temps</string>
 
     <!-- ── Progressions ──────────────────────────────────────────────── -->
     <string name="progressions_new">Nouvelle progression</string>

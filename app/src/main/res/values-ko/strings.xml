@@ -230,6 +230,33 @@
     <string name="cd_stop_scroll">스크롤 정지</string>
     <string name="cd_pause_scroll">스크롤 일시 정지</string>
     <string name="cd_auto_scroll">자동 스크롤</string>
+    <string name="cd_transpose_down">반음 내리기</string>
+    <string name="cd_transpose_up">반음 올리기</string>
+    <string name="cd_scroll_speed">스크롤 속도 %s</string>
+    <string name="songbook_search_hint">노래 검색…</string>
+    <string name="songbook_search_clear">검색 지우기</string>
+    <string name="songbook_sort">정렬</string>
+    <string name="songbook_sort_modified">최근 수정</string>
+    <string name="songbook_sort_added">추가된 날짜</string>
+    <string name="songbook_sort_title">제목</string>
+    <string name="songbook_sort_artist">아티스트</string>
+    <string name="songbook_discard_title">변경 사항을 취소하시겠습니까?</string>
+    <string name="songbook_discard_message">저장하지 않은 변경 사항이 있습니다. 취소하시겠습니까?</string>
+    <string name="songbook_discard">취소</string>
+    <string name="songbook_import_failed">파일 가져오기 실패</string>
+    <string name="songbook_share_transposed">조옮김 공유</string>
+    <string name="songbook_export_transposed">조옮김을 ChordPro로 내보내기</string>
+    <string name="songbook_editor_preview">미리보기</string>
+    <string name="songbook_editor_edit">편집</string>
+    <string name="songbook_chords_detected">%d개 코드 감지됨</string>
+    <string name="songbook_insert_chord">코드 삽입</string>
+    <string name="songbook_strum_pattern">스트럼 패턴</string>
+    <string name="songbook_strum_none">없음</string>
+    <string name="songbook_strum_select">패턴 선택</string>
+    <string name="songbook_strum_change">패턴 변경</string>
+    <string name="songbook_strum_remove">패턴 제거</string>
+    <string name="cd_strum_pattern">스트럼 패턴: %s</string>
+    <string name="patterns_beats">%d 박자</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->
     <string name="progressions_new">새 코드 진행</string>

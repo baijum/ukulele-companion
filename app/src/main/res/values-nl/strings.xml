@@ -230,6 +230,33 @@
     <string name="cd_stop_scroll">Scrollen stoppen</string>
     <string name="cd_pause_scroll">Scrollen pauzeren</string>
     <string name="cd_auto_scroll">Automatisch scrollen</string>
+    <string name="cd_transpose_down">Transponeer omlaag</string>
+    <string name="cd_transpose_up">Transponeer omhoog</string>
+    <string name="cd_scroll_speed">Scrollsnelheid %s</string>
+    <string name="songbook_search_hint">Zoek nummers…</string>
+    <string name="songbook_search_clear">Zoekopdracht wissen</string>
+    <string name="songbook_sort">Sorteren</string>
+    <string name="songbook_sort_modified">Laatst gewijzigd</string>
+    <string name="songbook_sort_added">Datum toegevoegd</string>
+    <string name="songbook_sort_title">Titel</string>
+    <string name="songbook_sort_artist">Artiest</string>
+    <string name="songbook_discard_title">Wijzigingen verwerpen?</string>
+    <string name="songbook_discard_message">Je hebt onopgeslagen wijzigingen. Verwerpen?</string>
+    <string name="songbook_discard">Verwerpen</string>
+    <string name="songbook_import_failed">Bestand importeren mislukt</string>
+    <string name="songbook_share_transposed">Getransponeerd delen</string>
+    <string name="songbook_export_transposed">Getransponeerd exporteren als ChordPro</string>
+    <string name="songbook_editor_preview">Voorbeeld</string>
+    <string name="songbook_editor_edit">Bewerken</string>
+    <string name="songbook_chords_detected">%d akkoorden gedetecteerd</string>
+    <string name="songbook_insert_chord">Akkoord invoegen</string>
+    <string name="songbook_strum_pattern">Slagpatroon</string>
+    <string name="songbook_strum_none">Geen</string>
+    <string name="songbook_strum_select">Patroon kiezen</string>
+    <string name="songbook_strum_change">Patroon wijzigen</string>
+    <string name="songbook_strum_remove">Patroon verwijderen</string>
+    <string name="cd_strum_pattern">Slagpatroon: %s</string>
+    <string name="patterns_beats">%d slagen</string>
 
     <!-- ── Progressies ────────────────────────────────────────────────── -->
     <string name="progressions_new">Nieuwe progressie</string>
