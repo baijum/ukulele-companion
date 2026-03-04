@@ -24,10 +24,11 @@ The **Strumming** tab shows a list of preset strumming patterns, from beginner t
 Tap the **+ button** (floating action button) in the bottom-right corner to create your own strumming pattern:
 
 1. Enter a **pattern name**.
-2. Select a **time signature** (2/2, 2/4, 3/4, 4/4, 5/4, 7/4, 6/8, 7/8, 9/8, 11/8, or 12/8).
-3. Tap each **beat slot** to cycle through directions: Down, Up, Chuck, Miss, and Pause.
-4. Tap the **accent row** below to toggle emphasis on individual beats (accented beats are shown louder/bolder).
-5. Tap **Save** to add it to your custom patterns.
+2. Select a **time signature** (2/2, 2/4, 3/4, 4/4, 5/4, 7/4, 6/8, 7/8, 9/8, 11/8, or 12/8). The beat count adjusts automatically to match the selected time signature.
+3. Use the **+/−** buttons to add or remove beats (2–16). Beat slots wrap to multiple lines when the count is high.
+4. Tap each **beat slot** to cycle through directions: Down, Up, Chuck, Miss, and Pause.
+5. Tap the **accent row** below to toggle emphasis on individual beats (accented beats are shown louder/bolder).
+6. Tap **Save** to add it to your custom patterns.
 
 Your custom patterns appear in a **"My Patterns"** section at the top of the list. Custom patterns have additional actions:
 
@@ -58,8 +59,8 @@ The finger indicators use distinct colors for each finger, making it easy to fol
 Tap the **+ button** on the Fingerpicking tab to create your own pattern:
 
 1. Enter a **pattern name**.
-2. Select a **time signature** from the available options.
-3. Adjust the number of steps (2–8) with the +/− buttons.
+2. Select a **time signature** from the available options. The step count adjusts automatically to match the selected time signature (clamped to 2–8).
+3. Adjust the number of steps (2–8) with the **+/−** buttons.
 4. Tap a step to select it, then choose the **finger** and **string** from the chip rows below.
 5. Tap the **accent row** to toggle emphasis on individual steps.
 6. Tap **Save** to add it to your custom patterns.

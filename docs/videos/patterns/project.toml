@@ -42,12 +42,12 @@ recording_notes = """
 Stay on Patterns, Strumming tab. Scroll down slowly through the list (swipe Y 1500->900). Wait 3s. Scroll more. Wait 3s. Scroll back to top. Wait. Do NOT leave the screen.
 """
 narration = """
-The main screen shows a scrollable list of patterns organized \
-by difficulty and style. Each entry shows the pattern name and \
-a compact notation preview. Patterns range from simple \
-quarter-note downstrokes to complex calypso and reggae \
-rhythms. Tap any pattern to open the detail view where you \
-can study and practice it at your own pace.
+The main screen shows a scrollable list of pattern cards organized \
+by difficulty and style. Each card shows the pattern name, time \
+signature, difficulty badge, visual beat arrows, notation, \
+description, genre tags, and a BPM slider — all visible at a \
+glance. Patterns range from simple quarter-note downstrokes to \
+complex calypso and reggae rhythms.
 """
 
 [[scene]]
@@ -57,15 +57,15 @@ audio = "audio/03-pattern-detail.mp3"
 delay = 1.0
 min_clip_duration = 24
 recording_notes = """
-Tap the first pattern in the list to open detail view. Wait 3s. Show the arrow notation. Scroll down to see description. Wait 3s. Scroll back up. Wait. Do NOT navigate away.
+Scroll to show a pattern card with beat arrows clearly visible. Wait 3s. Tap the FAB (+) to open the create pattern sheet. Wait 3s. Show the time signature chips and beat count +/− controls. Tap a different time signature chip to show beats auto-resizing. Wait 3s. Dismiss the sheet. Wait.
 """
 narration = """
-The detail view shows the pattern as a row of arrows and \
-symbols. Down arrows represent downstrokes, up arrows are \
-upstrokes, and dots indicate muted ghost strums. Below the \
-notation you'll find a description of the pattern's style \
-and suggested songs where it works well. This context helps \
-you connect the pattern to real music.
+Each card displays the pattern as a row of arrows and symbols. \
+Down arrows represent downstrokes, up arrows are upstrokes, \
+and crosses mark chucks or muted strums. Tap the plus button \
+to create your own pattern. Choose a time signature and the \
+beat count adjusts automatically. Use the plus-minus controls \
+to fine-tune the number of beats from two to sixteen.
 """
 
 [[scene]]
@@ -93,13 +93,14 @@ audio = "audio/05-playback-and-practice.mp3"
 delay = 1.0
 min_clip_duration = 26
 recording_notes = """
-Open a pattern detail view (tap any pattern). Look for a play button. Tap play. Let it run 5-8s. Look for BPM controls and adjust if visible. Tap play again. Wait. Do NOT open drawer.
+Scroll to a pattern card. Tap the play button on the card. Let it run 5-8s showing beat highlights. Drag the BPM slider to change tempo. Tap play again at the new tempo. Let it run a few seconds. Tap stop. Wait. Do NOT open drawer.
 """
 narration = """
-Tap the play button to hear the pattern with ukulele samples \
-at the current tempo. The notation highlights each beat as it \
-plays, so you can follow along visually. Adjust the speed with \
-the BPM control to start slow and gradually build up to full \
-tempo. Combine Strumming Patterns with the Metronome and Chord \
-Progressions for a structured rhythm practice session.
+Tap the play button on any card to hear the pattern with \
+ukulele samples at the current tempo. The beat arrows highlight \
+in sequence as the pattern plays, so you can follow along \
+visually. Drag the BPM slider to start slow and gradually \
+build up to full tempo. Combine Strumming Patterns with the \
+Metronome and Chord Progressions for a structured rhythm \
+practice session.
 """

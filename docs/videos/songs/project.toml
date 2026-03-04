@@ -21,12 +21,16 @@ audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 25
 recording_notes = """
-Navigate to Songs via drawer. Show the song list (may be empty with "Tap + to create" message). Tap the screen center to keep frames alive. Scroll if songs exist. Wait. Do NOT tap the + button yet.
+Navigate to Songs via drawer. Show the song list with search bar and sort \
+button visible at the top. If songs exist with labels, show the label filter \
+chips below the search bar. Scroll down to show song cards with label chips. \
+Scroll back up. Wait. Do NOT tap the + button yet.
 """
 narration = """
 The Songbook is your personal collection of songs with ChordPro \
-notation. Create professional lead sheets right on your phone, \
-with chord names displayed on a separate line above the lyrics, \
+notation. Search by title, artist, or content, sort by date or \
+name, and use labels to organize songs by genre or occasion. \
+Chord names appear on a separate line above the lyrics, \
 perfectly aligned with each word. Everything is stored offline \
 so your songs are always available, whether you're at a jam \
 session or practicing at home.
@@ -40,15 +44,20 @@ delay = 1.0
 min_clip_duration = 23
 
 recording_notes = """
-On Songs screen, tap the + FAB button (~964,2245). A new song editor opens. Tap the title field and type a short title via `adb shell input text`. Wait 3s. Tap in the text area. Wait. Do NOT press back or navigate away.
+On Songs screen, tap the + FAB button (~964,2245). A new song editor opens. \
+Tap the title field and type a short title via `adb shell input text`. Wait 2s. \
+Tap the artist field and type an artist name. Wait 2s. Scroll down to show the \
+strum pattern picker and label editor. Wait 2s. Scroll further to show the \
+chord insertion chips (C, G, Am, F...) above the text area. Wait. Do NOT press \
+back or navigate away.
 """
 narration = """
 Tap the plus button to start a new song. Give it a title and \
-optionally set the artist and key. The editor opens with a \
-blank canvas where you type your lyrics line by line. The \
-interface is designed to be simple, letting you focus on the \
-content rather than formatting. Songs are automatically saved \
-as you type.
+optionally set the artist. Pick a strum pattern to associate \
+with the song and add labels to keep your collection organized. \
+Below the text area, quick-insert chips let you tap common \
+chords to drop them into your lyrics without typing brackets \
+manually.
 """
 
 [[scene]]
@@ -59,20 +68,19 @@ delay = 1.0
 min_clip_duration = 28
 recording_notes = """
 Stay in the song editor. Tap the text area. Type a sample line with chords \
-like "[C]Amazing [F]Grace [C]how [G]sweet". Wait 3s. Switch to view mode \
-(if there is a toggle) so the rendered output is visible -- chords should \
-appear on a separate line above the lyrics, aligned with each word. Scroll \
-down slightly to show more rendered output. Wait. Do NOT navigate away. \
+like "[C]Amazing [F]Grace [C]how [G]sweet". Wait 3s. Tap the Preview tab to \
+switch to live preview -- chords appear on a separate line above the lyrics, \
+aligned with each word. Wait 3s. Tap the Edit tab to switch back. Wait 2s. \
+Scroll down slightly to show more content. Wait. Do NOT navigate away. \
 Do NOT press back.
 """
 narration = """
-To add chords, use standard ChordPro bracket notation. Type an \
-opening bracket, the chord name, and a closing bracket before \
-any word in your lyrics. The viewer renders each chord on its \
-own line directly above the word it belongs to, perfectly \
-aligned just like a professional lead sheet. Tap any chord name \
-in the viewer to see its voicing diagram. This makes it easy to \
-read and play at the same time.
+To add chords, use standard ChordPro bracket notation or tap \
+the quick-insert chips. Toggle between Edit and Preview to see \
+how your chords render in real time. The preview shows each \
+chord on its own line directly above the word it belongs to, \
+perfectly aligned just like a professional lead sheet. Tap any \
+chord name in the viewer to see its voicing diagram.
 """
 
 [[scene]]
@@ -103,12 +111,12 @@ min_clip_duration = 27
 recording_notes = """
 Navigate to Songs via drawer (do NOT press back -- it may exit the app).
 Show the song list with saved songs visible.
-1. Tap the screen center area gently to keep frames alive -- wait 3s
-2. Scroll down slightly (swipe Y 1200->900) -- wait 3s
-3. Scroll back up (swipe Y 900->1200) -- wait 3s
-4. Tap the screen center again -- wait 3s
-5. Wait until clip ends
-Do NOT long-press (may trigger unexpected context menus).
+1. Tap the search bar and type a short query -- wait 3s
+2. Clear the search -- wait 2s
+3. Tap a song card to open it -- wait 3s
+4. Show the strum pattern and labels in the viewer -- wait 3s
+5. Tap the back arrow to return to the list -- wait 3s
+6. Wait until clip ends
 Do NOT press back (may leave the app entirely).
 Do NOT open the drawer.
 """
@@ -116,7 +124,8 @@ narration = """
 The Songbook supports ChordPro format, a widely used standard \
 for chord charts. Import existing ChordPro files or export your \
 songs to share with others. The song list shows all your entries \
-with titles and keys at a glance. Long press any song to rename, \
-delete, or duplicate it. Combine the Songbook with Chord \
-Progressions to build a complete practice and performance toolkit.
+with titles, artists, and label chips at a glance. Tap any song \
+to open it, then use the toolbar to edit, delete, or share. \
+Combine the Songbook with Chord Progressions to build a complete \
+practice and performance toolkit.
 """
