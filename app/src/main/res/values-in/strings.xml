@@ -256,6 +256,14 @@
     <string name="songbook_strum_change">Ubah pola</string>
     <string name="songbook_strum_remove">Hapus pola</string>
     <string name="cd_strum_pattern">Pola petikan: %s</string>
+    <string name="songbook_labels">Label</string>
+    <string name="songbook_add_label">Tambah label</string>
+    <string name="songbook_label_hint">Ketik label…</string>
+    <string name="songbook_filter_clear">Hapus filter</string>
+    <string name="cd_label">Label: %s</string>
+    <string name="cd_remove_label">Hapus label %s</string>
+    <string name="cd_filter_label">Filter berdasarkan label %s</string>
+    <string name="cd_add_label">Tambah label</string>
     <string name="patterns_beats">%d ketukan</string>
 
     <!-- ── Progresi ───────────────────────────────────────────────────── -->

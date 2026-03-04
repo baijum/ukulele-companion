@@ -256,6 +256,14 @@
     <string name="songbook_strum_change">Kalıbı değiştir</string>
     <string name="songbook_strum_remove">Kalıbı kaldır</string>
     <string name="cd_strum_pattern">Vuruş kalıbı: %s</string>
+    <string name="songbook_labels">Etiketler</string>
+    <string name="songbook_add_label">Etiket ekle</string>
+    <string name="songbook_label_hint">Etiket yazın…</string>
+    <string name="songbook_filter_clear">Filtreleri temizle</string>
+    <string name="cd_label">Etiket: %s</string>
+    <string name="cd_remove_label">%s etiketini kaldır</string>
+    <string name="cd_filter_label">%s etiketine göre filtrele</string>
+    <string name="cd_add_label">Etiket ekle</string>
     <string name="patterns_beats">%d vuruş</string>
 
     <!-- ── İlerlemeler ────────────────────────────────────────────────── -->

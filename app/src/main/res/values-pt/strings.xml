@@ -256,6 +256,14 @@
     <string name="songbook_strum_change">Alterar padrão</string>
     <string name="songbook_strum_remove">Remover padrão</string>
     <string name="cd_strum_pattern">Padrão de batida: %s</string>
+    <string name="songbook_labels">Etiquetas</string>
+    <string name="songbook_add_label">Adicionar etiqueta</string>
+    <string name="songbook_label_hint">Digitar etiqueta…</string>
+    <string name="songbook_filter_clear">Limpar filtros</string>
+    <string name="cd_label">Etiqueta: %s</string>
+    <string name="cd_remove_label">Remover etiqueta %s</string>
+    <string name="cd_filter_label">Filtrar por etiqueta %s</string>
+    <string name="cd_add_label">Adicionar etiqueta</string>
     <string name="patterns_beats">%d batidas</string>
 
     <!-- ── Progressões ───────────────────────────────────────────────── -->

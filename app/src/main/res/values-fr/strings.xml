@@ -256,6 +256,14 @@
     <string name="songbook_strum_change">Changer de patron</string>
     <string name="songbook_strum_remove">Retirer le patron</string>
     <string name="cd_strum_pattern">Patron de grattage : %s</string>
+    <string name="songbook_labels">Étiquettes</string>
+    <string name="songbook_add_label">Ajouter une étiquette</string>
+    <string name="songbook_label_hint">Saisir une étiquette…</string>
+    <string name="songbook_filter_clear">Effacer les filtres</string>
+    <string name="cd_label">Étiquette : %s</string>
+    <string name="cd_remove_label">Supprimer l\'étiquette %s</string>
+    <string name="cd_filter_label">Filtrer par étiquette %s</string>
+    <string name="cd_add_label">Ajouter une étiquette</string>
     <string name="patterns_beats">%d temps</string>
 
     <!-- ── Progressions ──────────────────────────────────────────────── -->
