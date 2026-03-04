@@ -180,7 +180,7 @@ private fun TunerContent(
             " (A4=${"%.1f".format(tunerSettings.a4Reference)} Hz)"
         } else ""
         Text(
-            text = "${tuning.label} — ${tuning.stringNames.joinToString(" ")}$a4Label",
+            text = "${tuning.localizedLabel()} — ${tuning.stringNames.joinToString(" ")}$a4Label",
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

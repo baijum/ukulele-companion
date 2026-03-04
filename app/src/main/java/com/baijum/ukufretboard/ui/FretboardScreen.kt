@@ -1099,7 +1099,7 @@ private fun ExplorerTabContent(
             val inversion = if (capoAdjustedFrets.size == 4 && formula != null) {
                 ChordInfo.determineInversion(capoAdjustedFrets, chordResult.root.pitchClass, formula, currentTuning)
             } else null
-            val invLabel = if (inversion != null && inversion != ChordInfo.Inversion.ROOT) inversion.label else null
+            val invLabel = if (inversion != null && inversion != ChordInfo.Inversion.ROOT) inversion.localizedLabel() else null
             val displayName = if (inversion != null && inversion != ChordInfo.Inversion.ROOT) {
                 val bassPc = ChordInfo.bassPitchClass(capoAdjustedFrets, currentTuning)
                 ChordInfo.slashNotation(chordResult.name, inversion, bassPc)

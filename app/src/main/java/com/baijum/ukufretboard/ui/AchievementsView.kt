@@ -151,7 +151,7 @@ fun AchievementsView(
                 FilterChip(
                     selected = selectedCategory == category,
                     onClick = { selectedCategory = category },
-                    label = { Text(category.label) },
+                    label = { Text(category.localizedLabel()) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = MaterialTheme.colorScheme.primary,
                         selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
@@ -210,7 +210,7 @@ private fun AchievementCard(
         ) {
             Icon(
                 imageVector = achievement.icon,
-                contentDescription = achievement.title,
+                contentDescription = achievementTitle(achievement.id),
                 modifier = Modifier.size(32.dp),
                 tint = if (isUnlocked) {
                     MaterialTheme.colorScheme.primary
@@ -221,7 +221,7 @@ private fun AchievementCard(
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = achievement.title,
+                    text = achievementTitle(achievement.id),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = if (isUnlocked) {
@@ -231,7 +231,7 @@ private fun AchievementCard(
                     },
                 )
                 Text(
-                    text = achievement.description,
+                    text = achievementDescription(achievement.id),
                     style = MaterialTheme.typography.bodySmall,
                     color = if (isUnlocked) {
                         MaterialTheme.colorScheme.onSecondaryContainer

@@ -925,4 +925,251 @@
     <!-- ── Full Screen Fretboard ────────────────────────────────────── -->
     <string name="full_screen_reset">Reset</string>
 
+    <!-- ── Theme Mode Labels ──────────────────────────────────────────── -->
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">System</string>
+    <string name="theme_high_contrast">High Contrast</string>
+
+    <!-- ── Ukulele Tuning Labels ──────────────────────────────────────── -->
+    <string name="tuning_high_g">High-G (Standard)</string>
+    <string name="tuning_low_g">Low-G</string>
+    <string name="tuning_baritone">Baritone (DGBE)</string>
+    <string name="tuning_d_tuning">D-Tuning (ADF#B)</string>
+    <string name="tuning_slack_key">Slack Key (GCEG)</string>
+    <string name="tuning_open_a">Open A (AC#EA)</string>
+    <string name="tuning_low_a">Low A (GCEa)</string>
+    <string name="tuning_half_step_down">Half-Step Down</string>
+
+    <!-- ── Chord Category Labels ──────────────────────────────────────── -->
+    <string name="chord_category_triad">Triad</string>
+    <string name="chord_category_seventh">Seventh</string>
+    <string name="chord_category_suspended">Suspended</string>
+    <string name="chord_category_extended">Extended</string>
+
+    <!-- ── Difficulty Labels ──────────────────────────────────────────── -->
+    <string name="difficulty_beginner">Beginner</string>
+    <string name="difficulty_intermediate">Intermediate</string>
+    <string name="difficulty_advanced">Advanced</string>
+
+    <!-- ── Scale Category Labels ──────────────────────────────────────── -->
+    <string name="scale_category_basic">Basic</string>
+    <string name="scale_category_blues">Blues</string>
+    <string name="scale_category_modes">Modes</string>
+    <string name="scale_category_jazz">Jazz</string>
+    <string name="scale_category_hindustani">Hindustani</string>
+    <string name="scale_category_carnatic">Carnatic</string>
+    <string name="scale_category_world">World</string>
+    <string name="scale_category_symmetric">Symmetric</string>
+
+    <!-- ── Note Duration Labels ───────────────────────────────────────── -->
+    <string name="duration_whole">Whole</string>
+    <string name="duration_half">Half</string>
+    <string name="duration_quarter">Quarter</string>
+    <string name="duration_eighth">Eighth</string>
+    <string name="duration_sixteenth">Sixteenth</string>
+
+    <!-- ── Chord Inversion Labels ─────────────────────────────────────── -->
+    <string name="inversion_root">Root</string>
+    <string name="inversion_first">1st Inv</string>
+    <string name="inversion_second">2nd Inv</string>
+    <string name="inversion_third">3rd Inv</string>
+
+    <!-- ── Practice Mode Labels ───────────────────────────────────────── -->
+    <string name="practice_mode_play_along">Play Along</string>
+    <string name="practice_mode_quiz">Scale Quiz</string>
+    <string name="practice_mode_ear_training">Ear Training</string>
+
+    <!-- ── Play Direction Labels ──────────────────────────────────────── -->
+    <string name="play_direction_ascending">Ascending</string>
+    <string name="play_direction_descending">Descending</string>
+    <string name="play_direction_both">Both</string>
+
+    <!-- ── Fret Position Labels ───────────────────────────────────────── -->
+    <string name="fret_position_all">All</string>
+    <string name="fret_position_open">Open</string>
+    <string name="fret_position_mid">Mid</string>
+    <string name="fret_position_high">High</string>
+
+    <!-- ── Practice Step Type Labels ──────────────────────────────────── -->
+    <string name="step_type_warm_up">Warm Up</string>
+    <string name="step_type_chord_drill">Chord Drill</string>
+    <string name="step_type_scale_practice">Scale Practice</string>
+    <string name="step_type_ear_training">Ear Training</string>
+    <string name="step_type_theory_quiz">Theory Quiz</string>
+    <string name="step_type_song_practice">Song Practice</string>
+    <string name="step_type_free_play">Free Play</string>
+
+    <!-- ── Focus Area Labels ──────────────────────────────────────────── -->
+    <string name="focus_area_chords">Chords</string>
+    <string name="focus_area_scales">Scales</string>
+    <string name="focus_area_ear">Ear Training</string>
+    <string name="focus_area_theory">Theory</string>
+    <string name="focus_area_songs">Songs</string>
+
+    <!-- ── Skill Level Labels ─────────────────────────────────────────── -->
+    <string name="skill_level_beginner">Beginner</string>
+    <string name="skill_level_intermediate">Intermediate</string>
+    <string name="skill_level_advanced">Advanced</string>
+
+    <!-- ── Challenge Type Labels ──────────────────────────────────────── -->
+    <string name="challenge_type_learn_chord">Learn a New Chord</string>
+    <string name="challenge_type_theory_quiz">Theory Quiz</string>
+    <string name="challenge_type_practice_song">Practice a Song</string>
+    <string name="challenge_type_scale_practice">Scale Practice</string>
+    <string name="challenge_type_chord_transition">Chord Transition</string>
+    <string name="challenge_type_ear_training">Ear Training</string>
+
+    <!-- ── Achievement Category Labels ────────────────────────────────── -->
+    <string name="achievement_category_practice">Practice</string>
+    <string name="achievement_category_learning">Learning</string>
+    <string name="achievement_category_ear">Ear Training</string>
+    <string name="achievement_category_chords">Chords</string>
+    <string name="achievement_category_songs">Songs</string>
+
+    <!-- ── Achievement Titles ─────────────────────────────────────────── -->
+    <string name="achievement_streak_3_title">Getting Started</string>
+    <string name="achievement_streak_3_desc">Maintain a 3-day practice streak</string>
+    <string name="achievement_streak_7_title">Week Warrior</string>
+    <string name="achievement_streak_7_desc">Maintain a 7-day practice streak</string>
+    <string name="achievement_streak_30_title">Monthly Master</string>
+    <string name="achievement_streak_30_desc">Maintain a 30-day practice streak</string>
+    <string name="achievement_first_lesson_title">First Steps</string>
+    <string name="achievement_first_lesson_desc">Complete your first theory lesson</string>
+    <string name="achievement_half_lessons_title">Halfway There</string>
+    <string name="achievement_half_lessons_desc">Complete half of all theory lessons</string>
+    <string name="achievement_all_lessons_title">Scholar</string>
+    <string name="achievement_all_lessons_desc">Complete all theory lessons</string>
+    <string name="achievement_quiz_10_title">Quiz Starter</string>
+    <string name="achievement_quiz_10_desc">Answer 10 quiz questions correctly</string>
+    <string name="achievement_quiz_50_title">Quiz Whiz</string>
+    <string name="achievement_quiz_50_desc">Answer 50 quiz questions correctly</string>
+    <string name="achievement_quiz_100_title">Quiz Master</string>
+    <string name="achievement_quiz_100_desc">Answer 100 quiz questions correctly</string>
+    <string name="achievement_perfect_streak_5_title">Sharp Mind</string>
+    <string name="achievement_perfect_streak_5_desc">Get 5 quiz questions correct in a row</string>
+    <string name="achievement_perfect_streak_10_title">Perfect Score</string>
+    <string name="achievement_perfect_streak_10_desc">Get 10 quiz questions correct in a row</string>
+    <string name="achievement_ear_first_title">Tuning In</string>
+    <string name="achievement_ear_first_desc">Complete your first ear training exercise</string>
+    <string name="achievement_ear_50_title">Good Ear</string>
+    <string name="achievement_ear_50_desc">Complete 50 ear training exercises</string>
+    <string name="achievement_ear_accuracy_80_title">Golden Ear</string>
+    <string name="achievement_ear_accuracy_80_desc">Achieve 80%% accuracy in ear training (50+ exercises)</string>
+    <string name="achievement_first_song_title">Songwriter</string>
+    <string name="achievement_first_song_desc">Create your first song in the songbook</string>
+    <string name="achievement_songs_5_title">Setlist Builder</string>
+    <string name="achievement_songs_5_desc">Create 5 songs in the songbook</string>
+    <string name="achievement_songs_10_title">Prolific Writer</string>
+    <string name="achievement_songs_10_desc">Create 10 songs in the songbook</string>
+    <string name="achievement_fav_5_title">Collector</string>
+    <string name="achievement_fav_5_desc">Save 5 favorite chord voicings</string>
+    <string name="achievement_fav_25_title">Chord Hoarder</string>
+    <string name="achievement_fav_25_desc">Save 25 favorite chord voicings</string>
+    <string name="achievement_scale_first_title">Scale Runner</string>
+    <string name="achievement_scale_first_desc">Complete your first scale practice session</string>
+    <string name="achievement_scale_25_title">Scale Explorer</string>
+    <string name="achievement_scale_25_desc">Complete 25 scale practice exercises</string>
+
+    <!-- ── Daily Challenge Templates ──────────────────────────────────── -->
+    <string name="challenge_learn_chord_title">Learn %s</string>
+    <string name="challenge_learn_chord_desc">Find and practice the %s chord. Try all voicings!</string>
+    <string name="challenge_theory_quiz_title">Theory Quiz: %d Questions</string>
+    <string name="challenge_theory_quiz_desc">Answer %d theory quiz questions correctly.</string>
+    <string name="challenge_practice_song_title">Practice a Song</string>
+    <string name="challenge_practice_song_desc">Open the songbook and practice any song for 5 minutes.</string>
+    <string name="challenge_scale_title">Scale: %s</string>
+    <string name="challenge_scale_desc">Practice the %s scale in at least 2 different keys.</string>
+    <string name="challenge_transition_title">Switch: %1$s to %2$s</string>
+    <string name="challenge_transition_desc">Practice switching between %1$s and %2$s at 60 BPM. Aim for 20 switches per minute.</string>
+    <string name="challenge_ear_training_title">Ear Training: %d Rounds</string>
+    <string name="challenge_ear_training_desc">Complete %d rounds of ear training with at least 60%% accuracy.</string>
+
+    <!-- ── Practice Routine Templates ─────────────────────────────────── -->
+    <string name="routine_title_format">%1$d-Minute %2$s Practice</string>
+    <string name="routine_warm_up_title">Warm Up</string>
+    <string name="routine_cool_down_title">Cool Down</string>
+    <string name="routine_cool_down_desc">Play something you enjoy! Practice a favourite song or strum freely.</string>
+    <string name="routine_free_play_title">Free Play</string>
+    <string name="routine_free_play_desc">Play whatever you like!</string>
+    <string name="routine_warmup_beginner_1">Slowly strum each open string (G-C-E-A) and listen for clear tones.</string>
+    <string name="routine_warmup_beginner_2">Practice placing and lifting your fingers on the C chord shape.</string>
+    <string name="routine_warmup_beginner_3">Strum C and Am chords slowly, 4 beats each, for 2 minutes.</string>
+    <string name="routine_warmup_intermediate_1">Play a chromatic scale on each string from fret 1 to 5 and back.</string>
+    <string name="routine_warmup_intermediate_2">Cycle through C-Am-F-G at 80 BPM, 4 beats per chord.</string>
+    <string name="routine_warmup_intermediate_3">Practice barre chord shapes slowly up the neck.</string>
+    <string name="routine_warmup_advanced_1">Warm up with the major scale in 3 different positions.</string>
+    <string name="routine_warmup_advanced_2">Play chord inversions up the neck for any chord.</string>
+    <string name="routine_warmup_advanced_3">Fingerpick through an arpeggio pattern at a comfortable tempo.</string>
+    <string name="routine_chord_drill_title">Chord Transition: %1$s ↔ %2$s</string>
+    <string name="routine_chord_drill_desc">Switch between %1$s and %2$s with a metronome. Start at 60 BPM and increase by 10 each minute.</string>
+    <string name="routine_scale_title">Scale: %s</string>
+    <string name="routine_scale_desc">Play the %s scale ascending and descending. Try in different positions on the fretboard.</string>
+    <string name="routine_ear_training_title">Ear Training</string>
+    <string name="routine_ear_training_desc">Identify intervals and chord types by ear. Focus on getting at least 70%% correct.</string>
+    <string name="routine_theory_check_title">Theory Check</string>
+    <string name="routine_theory_check_desc">Answer theory questions to reinforce your knowledge. Aim for a 5-question streak!</string>
+    <string name="routine_song_practice_title">Song Practice</string>
+    <string name="routine_song_practice_desc">Pick a song from your songbook and play through it. Focus on smooth chord changes.</string>
+
+    <!-- ── Chord Substitution Titles ──────────────────────────────────── -->
+    <string name="chord_sub_diatonic_title">1. Diatonic Substitutions</string>
+    <string name="chord_sub_diatonic_explanation">Replace a chord with another chord from the same key that shares 2 of 3 notes. Because they share most of their notes, diatonic substitutions maintain the same harmonic feel while adding subtle variation.\n\nThe key principle: chords a third apart (3 scale degrees) in the same key share 2 notes.</string>
+    <string name="chord_sub_relative_title">2. Relative Major/Minor Swaps</string>
+    <string name="chord_sub_relative_explanation">Every major chord has a relative minor (and vice versa) that shares 2 of 3 notes. The relative minor is found 3 semitones below the major root.\n\nThis is the simplest and most common substitution — it always works because the chords are so closely related.</string>
+    <string name="chord_sub_tritone_title">3. Tritone Substitution</string>
+    <string name="chord_sub_tritone_explanation">Replace a dominant 7th chord with the dominant 7th chord a tritone (6 semitones) away. Both chords share the same tritone interval (the 3rd and 7th are swapped), so they create similar harmonic tension.\n\nThis creates smooth chromatic bass movement. Used extensively in jazz.</string>
+    <string name="chord_sub_modal_title">4. Modal Interchange (Borrowed Chords)</string>
+    <string name="chord_sub_modal_explanation">Borrow chords from the parallel minor (or other mode) into a major key. For example, in C major, use chords from C minor.\n\nBorrowed chords add unexpected color and emotion. The most common borrowings come from the natural minor (Aeolian mode).</string>
+    <string name="chord_sub_secondary_title">5. Secondary Dominants</string>
+    <string name="chord_sub_secondary_explanation">Use the V chord of any diatonic chord as a temporary tonicization. A secondary dominant \"points to\" a chord other than the tonic, making its arrival feel stronger and more intentional.\n\nWritten as V/X where X is the chord being tonicized. For example, V/V means \"the V chord of the V chord.\"</string>
+
+    <!-- ── Hardcoded Content Descriptions ─────────────────────────────── -->
+    <string name="cd_add_note">Add %1$s%2$d</string>
+    <string name="cd_add_rest">Add rest</string>
+    <string name="cd_melody_detected_note">Detected %1$s%2$d</string>
+    <string name="cd_note_duration_selected">%s note duration</string>
+    <string name="cd_delete_melody">Delete %s</string>
+    <string name="cd_beat_type">Beat %1$d, %2$s</string>
+    <string name="cd_insert_chord">%1$s %2$s</string>
+    <string name="cd_time_signature">%s time</string>
+
+    <!-- ── Quiz Categories (Theory Quiz / Progress) ──────────────────── -->
+    <string name="quiz_category_intervals">Intervals</string>
+    <string name="quiz_category_chords">Chords</string>
+    <string name="quiz_category_keys">Keys</string>
+    <string name="quiz_category_scales">Scales</string>
+    <string name="quiz_category_progressions">Progressions</string>
+
+    <!-- ── Theory Module Names ────────────────────────────────────────── -->
+    <string name="theory_module_notes_pitch">Notes &amp; Pitch</string>
+    <string name="theory_module_intervals">Intervals</string>
+    <string name="theory_module_scales">Scales</string>
+    <string name="theory_module_chords">Chords</string>
+    <string name="theory_module_keys_signatures">Keys &amp; Signatures</string>
+    <string name="theory_module_progressions_harmony">Progressions &amp; Harmony</string>
+    <string name="theory_module_rhythm">Rhythm</string>
+
+    <!-- ── Theory Lesson Titles ───────────────────────────────────────── -->
+    <string name="theory_title_notes_12">The 12 Notes</string>
+    <string name="theory_title_notes_sharp_flat">Sharps and Flats</string>
+    <string name="theory_title_intervals_intro">What Is an Interval?</string>
+    <string name="theory_title_intervals_table">The 12 Interval Names</string>
+    <string name="theory_title_scales_major">The Major Scale</string>
+    <string name="theory_title_scales_minor">Minor Scales</string>
+    <string name="theory_title_scales_modes">Modes</string>
+    <string name="theory_title_chords_triads">Triads</string>
+    <string name="theory_title_chords_seventh">Seventh Chords</string>
+    <string name="theory_title_chords_inversions">Chord Inversions</string>
+    <string name="theory_title_keys_intro">What Is a Key?</string>
+    <string name="theory_title_keys_circle">The Circle of Fifths</string>
+    <string name="theory_title_harmony_diatonic">Diatonic Harmony</string>
+    <string name="theory_title_harmony_functions">Chord Functions</string>
+    <string name="theory_title_rhythm_time_sig">Time Signatures</string>
+    <string name="theory_title_rhythm_note_values">Note Values</string>
+    <string name="theory_title_rhythm_constant_motion">The Constant Motion Principle</string>
+    <string name="theory_title_rhythm_straight_swing">Straight vs. Swing Feel</string>
+    <string name="theory_title_rhythm_percussive">Percussive Techniques</string>
+    <string name="theory_title_rhythm_world">World Rhythms</string>
+
 </resources>
