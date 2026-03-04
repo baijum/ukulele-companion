@@ -62,17 +62,20 @@ audio = "audio/03-progression-cards.mp3"
 delay = 1.0
 min_clip_duration = 23
 recording_notes = """
-Stay on Progressions, Major mode. Tap a progression card to expand it. Wait 3s.
-Tap the play button on the card to hear the progression. Wait 5s.
-Tap another card. Wait 3s. Scroll to see more cards. Wait.
+Stay on Progressions, Major mode. Cards show all content inline -- do NOT \
+tap cards expecting them to expand. Scroll down to show chord chips with \
+harmonic function labels (Tonic, Subdominant, Dominant). Wait 3s. \
+Tap the play button on the first card to hear the progression. Wait 5s. \
+Scroll to see more cards and their descriptions. Wait.
 """
 narration = """
-Each progression appears as a card showing the Roman numeral \
-sequence and the corresponding chord names in your selected key. \
-Tap a card to expand it and see chord diagrams for each position. \
-The play button plays through the entire progression with \
-ukulele samples, giving you an audio preview before you pick \
-up your instrument.
+Each progression card shows the Roman numeral sequence, chord \
+names in your selected key, and a description of where it is \
+commonly used. Every chord chip is labeled with its harmonic \
+function: tonic, subdominant, or dominant, color coded so you \
+can see the musical tension at a glance. The play button plays \
+through the entire progression with ukulele samples, giving you \
+an audio preview before you pick up your instrument.
 """
 
 [[scene]]
@@ -106,12 +109,11 @@ min_clip_duration = 27
 recording_notes = """
 Navigate to Progressions via drawer (do NOT press back -- it may exit the app).
 Show the progression list. Scroll down to browse more progressions.
-1. Tap a progression card to expand -- wait 3s
+1. Show a card with action buttons (Play, Practice, Duplicate, Share, Capo, Voice Leading) -- wait 3s
 2. Scroll down (swipe Y 1500->800) -- wait 3s
-3. Tap another card -- wait 3s
-4. Scroll further -- wait 3s
-5. Scroll back up -- wait 3s
-6. Wait until clip ends
+3. Scroll further to show more cards -- wait 3s
+4. Scroll back up -- wait 3s
+5. Wait until clip ends
 Do NOT press back. Do NOT open the drawer during recording.
 """
 narration = """

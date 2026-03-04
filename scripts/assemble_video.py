@@ -91,6 +91,9 @@ def merge_scene(clip: Path, audio: Path, delay_s: float, volume: float,
     vfilters: list[str] = []
     vlabel = "0:v"
 
+    vfilters.append(f"[{vlabel}]fps=30[fpsout]")
+    vlabel = "fpsout"
+
     if canvas:
         canvas_w, canvas_h = map(int, canvas.split("x"))
         color = canvas_color or "black"

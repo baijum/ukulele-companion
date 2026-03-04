@@ -39,10 +39,10 @@ Shift chords up or down by semitones with +/- buttons. Shows the capo equivalent
 The tuner now uses a hybrid pipeline: fast YIN pitch tracking on every frame, supervised by SwiftF0 neural inference at intervals. This improves robustness against octave mistakes and unstable frames while preserving responsive needle movement.
 
 ### 🥁 Strumming & Fingerpicking Patterns
-A reference guide with 15 strumming and 11 fingerpicking patterns — from beginner to advanced — in 4/4, 3/4, and 6/8 time. Each pattern includes visual beat/step display, notation, description, and a **play button with adjustable tempo** so you can hear what each pattern sounds like. Duplicate any preset to create your own variations.
+A reference guide with 15 strumming and 11 fingerpicking patterns — from beginner to advanced — in 4/4, 3/4, and 6/8 time. Each pattern includes visual beat/step display, notation, description, and a **play button with adjustable tempo** so you can hear what each pattern sounds like. Create custom patterns with adjustable beat counts (2–16) and time signatures, or duplicate any preset to make your own variations.
 
 ### 🎶 Chord Progressions
-Common chord progressions for any key across seven modes (Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian). Includes Pop, Classic Rock, 50s, Folk, Jazz ii-V-I, Reggae, and more. Create custom progressions, duplicate presets, and use tap tempo for practice.
+Common chord progressions for any key across seven modes (Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian). Each chord chip shows its harmonic function (Tonic, Subdominant, Dominant) with colour coding. Includes Pop, Classic Rock, 50s, Folk, Jazz ii-V-I, Reggae, and more. Create custom progressions, duplicate presets, and use tap tempo for practice.
 
 </td>
 <td width="50%" valign="top">
@@ -54,7 +54,7 @@ Highlight notes from any of 38 scales (Major, Natural/Harmonic/Melodic Minor, Pe
 Long-press any voicing in the Chord Library to save it. Access your saved voicings from the dedicated Favorites tab.
 
 ### 📝 Song Chord Sheets
-Create a personal songbook with lyrics and inline chord markers (e.g., `Some[C]where over the [Em]rainbow`). Tap any chord name to view its voicings.
+Create a personal songbook with lyrics and inline chord markers (e.g., `Some[C]where over the [Em]rainbow`). Search, sort, and label songs for easy organisation. Associate strum patterns, use quick-insert chord chips in the editor, and preview chords above lyrics in real time. Tap any chord name to view its voicings.
 
 ### 🎵 Metronome
 A standalone practice metronome with adjustable BPM (30–300), tap tempo, time signatures (2/4 to 7/4), customizable accent patterns, and subdivisions (quarter, eighth, triplet, sixteenth). Visual beat indicators pulse in time.

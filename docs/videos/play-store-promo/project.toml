@@ -129,19 +129,18 @@ delay = 1.0
 min_clip_duration = 12
 recording_notes = """
 Navigate to Patterns via drawer.
-1. Show the strumming pattern list -- wait 2s
-2. Tap Island Strum card to open detail view -- wait 2s
-3. Tap play button to hear the pattern -- wait 3s
-4. Tap stop -- wait 1s
-5. Press back to list -- wait 1s
-6. Tap Fingerpicking tab -- wait 2s
-7. Wait until clip ends
+1. Show the strumming pattern list with cards -- wait 2s
+2. Tap play on the Island Strum card -- wait 3s showing beat highlights
+3. Tap stop -- wait 1s
+4. Tap Fingerpicking tab -- wait 2s
+5. Wait until clip ends
 Do NOT open the drawer.
 """
 narration = """
 Learn strumming and fingerpicking patterns with animated notation. \
 See exactly when to strum down, up, or mute, and hear each \
-pattern played at any tempo.
+pattern played at any tempo. Create your own patterns with \
+adjustable beat counts and time signatures.
 """
 
 # ── Scene 6: Chord Progressions ──────────────────────────────
@@ -154,16 +153,17 @@ min_clip_duration = 14
 recording_notes = """
 Navigate to Progressions via drawer.
 1. Show Major mode, key of C -- wait 1s
-2. Tap the Pop / Four Chords card to expand -- wait 2s
+2. Scroll to show a card with harmonic function labels (Tonic, Subdominant, Dominant) on chord chips -- wait 2s
 3. Tap play on the card to hear the progression -- wait 3s
 4. Tap Practice button -- let practice mode run 4s
 5. Wait until clip ends
 Do NOT press back (may exit the app). Do NOT open the drawer.
 """
 narration = """
-Practice the most popular chord progressions in any key. Enter \
-practice mode and the chords advance automatically on the beat, \
-so you can focus on smooth transitions.
+Practice the most popular chord progressions in any key. Each \
+chord is labeled with its harmonic function so you can see the \
+musical structure. Enter practice mode and the chords advance \
+automatically on the beat, so you can focus on smooth transitions.
 """
 
 # ═══════════════════════════════════════════════════════════════
@@ -178,17 +178,19 @@ audio = "audio/07-songbook.mp3"
 delay = 1.0
 min_clip_duration = 13
 recording_notes = """
-Navigate to Songs via drawer. If a song exists, tap it; otherwise tap + to create one.
-1. If creating: type a title and a line with chords like "[C]Amazing [F]Grace" -- wait 3s
-2. Switch to view mode to show chords rendered above lyrics -- wait 3s
+Navigate to Songs via drawer. Show the song list with search bar and label chips.
+1. Tap a song to open it -- wait 2s
+2. Show the viewer with strum pattern, labels, and chords above lyrics -- wait 3s
 3. Tap transpose up twice -- wait 2s
-4. Wait until clip ends
+4. Tap the Edit/Preview toggle if visible -- wait 2s
+5. Wait until clip ends
 Do NOT press back. Do NOT open the drawer.
 """
 narration = """
-Create lead sheets with ChordPro notation. Chords appear on \
-their own line above the lyrics, perfectly aligned. Transpose \
-any song to a new key with one tap.
+Create lead sheets with ChordPro notation. Organize your songs \
+with labels, attach strum patterns, and search by title or \
+artist. Chords appear on their own line above the lyrics, \
+perfectly aligned. Transpose any song to a new key with one tap.
 """
 
 # ── Scene 8: Scale Overlay ───────────────────────────────────
