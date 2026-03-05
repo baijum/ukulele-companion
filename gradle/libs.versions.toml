@@ -14,7 +14,7 @@ onnxruntime = "1.24.2"
 playPublisher = "4.0.0"
 junit = "4.13.2"
 material = "1.13.0"
-kotest = "5.9.1"
+kotest = "6.1.4"
 
 [libraries]
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
