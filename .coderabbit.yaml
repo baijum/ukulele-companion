@@ -90,3 +90,13 @@ reviews:
 
 chat:
   auto_reply: true
+
+issue_enrichment:
+  planning:
+    enabled: true
+    auto_planning:
+      enabled: true
+      labels:
+        - "feature"
+        - "enhancement"
+        - "!no-plan"
