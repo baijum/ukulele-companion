@@ -8,11 +8,6 @@ import ai.onnxruntime.OrtSession
 import java.nio.FloatBuffer
 import kotlin.math.max
 
-data class NeuralPitchResult(
-    val frequencyHz: Double,
-    val confidence: Double,
-)
-
 /**
  * Runs intermittent ONNX inference for neural pitch supervision.
  *

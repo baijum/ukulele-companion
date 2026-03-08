@@ -222,8 +222,9 @@ class MelodyViewModel : ViewModel() {
             state.notes.forEachIndexed { index, note ->
                 if (!_uiState.value.isPlaying) return@launch
                 _uiState.update { it.copy(playingIndex = index) }
-                if (note.pitchClass != null) {
-                    playNote(note.pitchClass, note.octave)
+                val pc = note.pitchClass
+                if (pc != null) {
+                    playNote(pc, note.octave)
                 }
                 val durationMs = (note.duration.beats * 60_000f / state.bpm).toLong()
                 delay(durationMs)

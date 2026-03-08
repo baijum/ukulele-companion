@@ -1,78 +1,100 @@
 # Ukulele Companion — User Manual
 
-Welcome to **Ukulele Companion**, a free, offline, ad-free Android app for learning ukulele. This manual walks you through every core feature so you can get the most out of the app.
+Welcome to **Ukulele Companion**, a free, offline, ad-free app for learning ukulele on Android and iOS. Choose your platform below to view the manual tailored to your device.
 
 <div class="manual-grid">
 
-  <a href="01-getting-started/" class="manual-card">
+  <a href="android/01-getting-started/" class="manual-card">
+    <h3>Android Manual</h3>
+    <p>For Android phones and tablets. Covers the navigation drawer, Google Play installation, and TalkBack accessibility.</p>
+  </a>
+
+  <a href="ios/01-getting-started/" class="manual-card">
+    <h3>iOS Manual</h3>
+    <p>For iPhone and iPad. Covers the tab bar navigation, App Store installation, and VoiceOver accessibility.</p>
+  </a>
+
+</div>
+
+Both editions cover the same features — the only differences are navigation style and platform-specific details like installation and accessibility.
+
+---
+
+## What's Inside
+
+Each manual covers 14 sections:
+
+<div class="manual-grid">
+
+  <div class="manual-card">
     <h3>Getting Started</h3>
     <p>Installation, first launch, and navigating the app.</p>
-  </a>
+  </div>
 
-  <a href="02-explorer/" class="manual-card">
+  <div class="manual-card">
     <h3>Explorer</h3>
     <p>Interactive fretboard, chord detection, and scale overlay.</p>
-  </a>
+  </div>
 
-  <a href="03-chords/" class="manual-card">
+  <div class="manual-card">
     <h3>Chords</h3>
     <p>Browsing the chord library and saving favorites.</p>
-  </a>
+  </div>
 
-  <a href="04-patterns/" class="manual-card">
+  <div class="manual-card">
     <h3>Patterns</h3>
     <p>Strumming and fingerpicking pattern reference.</p>
-  </a>
+  </div>
 
-  <a href="05-progressions/" class="manual-card">
+  <div class="manual-card">
     <h3>Progressions</h3>
     <p>Common chord progressions in any key, with tap tempo.</p>
-  </a>
+  </div>
 
-  <a href="06-favorites/" class="manual-card">
+  <div class="manual-card">
     <h3>Favorites</h3>
     <p>Saving and organizing your favorite voicings.</p>
-  </a>
+  </div>
 
-  <a href="07-songs/" class="manual-card">
+  <div class="manual-card">
     <h3>Songs</h3>
     <p>Creating chord sheets with auto-scroll, transpose, key detection, and ChordPro import/export.</p>
-  </a>
+  </div>
 
-  <a href="08-settings/" class="manual-card">
+  <div class="manual-card">
     <h3>Settings</h3>
     <p>Tuning, themes, sound, and more.</p>
-  </a>
+  </div>
 
-  <a href="09-learning/" class="manual-card">
+  <div class="manual-card">
     <h3>Learning & Practice</h3>
     <p>Progress tracking, daily challenges, practice routines, achievements, and song finder.</p>
-  </a>
+  </div>
 
-  <a href="10-play-along/" class="manual-card">
+  <div class="manual-card">
     <h3>Play Along & Chord Training</h3>
     <p>Real-time play-along with chord detection and chord transition animation.</p>
-  </a>
+  </div>
 
-  <a href="11-tuner/" class="manual-card">
+  <div class="manual-card">
     <h3>Tuner</h3>
     <p>Chromatic tuner with needle meter, string buttons, and neural pitch detection.</p>
-  </a>
+  </div>
 
-  <a href="12-pitch-monitor/" class="manual-card">
+  <div class="manual-card">
     <h3>Pitch Monitor</h3>
     <p>Real-time scrolling pitch visualization with chord detection.</p>
-  </a>
+  </div>
 
-  <a href="13-metronome/" class="manual-card">
+  <div class="manual-card">
     <h3>Metronome</h3>
     <p>Adjustable tempo, time signatures, accent patterns, and subdivisions.</p>
-  </a>
+  </div>
 
-  <a href="14-melody-notepad/" class="manual-card">
+  <div class="manual-card">
     <h3>Melody Notepad</h3>
     <p>Compose melodies by tapping notes or recording from your ukulele.</p>
-  </a>
+  </div>
 
 </div>
 

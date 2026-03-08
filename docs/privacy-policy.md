@@ -17,7 +17,7 @@ Uke does **not**:
 - Require an account or login to use core features
 - Send any data to external servers (the app works fully offline)
 
-## Microphone Access (RECORD_AUDIO)
+## Microphone Access
 
 The app requests microphone access **only** for the optional **Tuner** feature.
 When you use the Tuner, the app listens to audio from your device's microphone
@@ -28,18 +28,19 @@ to detect the pitch of your ukulele strings in real time.
 - The microphone is only active while the Tuner is running. It stops as soon as you leave the Tuner screen or tap "Stop."
 - If you deny microphone permission, every other feature of the app continues to work normally.
 
-## Google Drive (Optional)
+## Backup (Optional)
 
-If you choose to sign in with Google for backup/sync, the app accesses only its
-own app-specific folder on your Google Drive. It does not read or modify any
-other files on your Drive. Google's own privacy policy applies to Google
-Sign-In and Drive services.
+On Android, you may optionally use Google Drive for backup. The app accesses only
+its own app-specific folder on your Google Drive and does not read or modify any
+other files. Google's own privacy policy applies to Google Sign-In and Drive
+services. On iOS, you can export and import backups as local files.
 
 ## Local Storage
 
 Preferences (tuning, theme, favorites, chord sheets) are stored locally on your
-device using Android's standard storage mechanisms. This data stays on your
-device unless you explicitly use the Google Drive sync feature.
+device using standard local storage (SharedPreferences on Android, UserDefaults
+on iOS). This data stays on your device unless you explicitly use the backup
+feature.
 
 ## Children's Privacy
 

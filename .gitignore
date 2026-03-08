@@ -8,6 +8,7 @@
 .DS_Store
 /build
 /app/build
+/shared/build
 /captures
 .externalNativeBuild
 .cxx
@@ -24,3 +25,9 @@ docs/videos/*/audio/
 store-listing/
 site/
 monkey_log_*.txt
+iosApp/build/
+iosApp/DerivedData/
+iosApp/Frameworks/
+*.xcuserdata
+xcuserdata/
+screenshots/
