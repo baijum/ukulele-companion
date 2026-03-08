@@ -90,7 +90,7 @@ final class PitchMonitorViewModel: ObservableObject {
     }
 
     private func requestMicAndStart() {
-        AVAudioApplication.requestRecordPermission { [weak self] granted in
+        AVAudioSession.sharedInstance().requestRecordPermission { [weak self] granted in
             DispatchQueue.main.async {
                 if granted { self?.startCapture() }
             }

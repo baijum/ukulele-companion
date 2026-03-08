@@ -174,7 +174,7 @@ struct ShareableChordDiagramView: View {
                     if finger > 0 {
                         let text = Text("\(finger)")
                             .font(.system(size: dotRadius * 1.2, weight: .bold))
-                            .foregroundStyle(.white)
+                            .foregroundColor(.white)
                         context.draw(context.resolve(text), at: CGPoint(x: x, y: y))
                     }
                 }
@@ -184,7 +184,7 @@ struct ShareableChordDiagramView: View {
             if !isAtNut {
                 let posText = Text("\(startFret)fr")
                     .font(.system(size: 12))
-                    .foregroundStyle(Color(white: 0.3))
+                    .foregroundColor(Color(white: 0.3))
                 context.draw(
                     context.resolve(posText),
                     at: CGPoint(x: posLabelWidth / 2, y: gridTop + fretSpacing / 2)
@@ -211,13 +211,13 @@ struct ShareableChordDiagramView: View {
 
                 let noteText = Text(noteName)
                     .font(.system(size: 13))
-                    .foregroundStyle(Color(white: 0.3))
+                    .foregroundColor(Color(white: 0.3))
                 context.draw(context.resolve(noteText), at: CGPoint(x: x, y: noteNameY))
 
                 let fretLabel = fret < 0 ? "x" : "\(fret)"
                 let fretText = Text(fretLabel)
                     .font(.system(size: 12))
-                    .foregroundStyle(.gray)
+                    .foregroundColor(.gray)
                 context.draw(context.resolve(fretText), at: CGPoint(x: x, y: fretNumberY))
             }
         }

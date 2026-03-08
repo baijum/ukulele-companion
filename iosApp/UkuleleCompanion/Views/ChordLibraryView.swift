@@ -44,8 +44,8 @@ struct ChordLibraryView: View {
         }
         .navigationTitle("Chord Library")
         .navigationBarTitleDisplayMode(.inline)
-        .onChange(of: viewModel.selectedFormula?.symbol) { _, _ in inversionFilter = nil }
-        .onChange(of: viewModel.selectedRoot) { _, _ in
+        .onChange(of: viewModel.selectedFormula?.symbol) { _ in inversionFilter = nil }
+        .onChange(of: viewModel.selectedRoot) { _ in
             inversionFilter = nil
         }
         .sheet(item: $shareInfo) { info in

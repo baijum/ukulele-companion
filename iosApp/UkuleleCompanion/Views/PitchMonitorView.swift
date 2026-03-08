@@ -116,7 +116,7 @@ struct PitchMonitorView: View {
                 currentTimeMs = Int64(Date().timeIntervalSince1970 * 1000)
             }
         }
-        .onChange(of: settings.noiseGateFiltering) { _, newVal in
+        .onChange(of: settings.noiseGateFiltering) { newVal in
             viewModel.noiseGateRms = Self.filteringToRms(newVal)
         }
         .onDisappear {

@@ -39,7 +39,7 @@ struct MetronomeView: View {
                     .padding(.horizontal)
                     .accessibilityLabel("Tempo")
                     .accessibilityValue("\(Int(viewModel.bpm)) BPM")
-                    .onChange(of: viewModel.bpm) { _, newValue in
+                    .onChange(of: viewModel.bpm) { newValue in
                         if viewModel.isPlaying {
                             viewModel.setBpm(newValue)
                         }
