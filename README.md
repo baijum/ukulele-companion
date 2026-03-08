@@ -5,14 +5,15 @@
 <h1 align="center">🎵 Ukulele Companion</h1>
 
 <p align="center">
-  <b>A free, offline, ad-free Android app for learning ukulele</b><br>
+  <b>A free, offline, ad-free app for learning ukulele — on Android and iOS</b><br>
   Chords, scales, music theory, composition tools, and more.<br>
-  Built with <b>Kotlin</b> and <b>Jetpack Compose</b>.
+  Built with <b>Kotlin Multiplatform</b>, <b>Jetpack Compose</b>, and <b>SwiftUI</b>.
 </p>
 
 <p align="center">
   <a href="https://kotlinlang.org"><img src="https://img.shields.io/badge/Kotlin-2.3-blue.svg?logo=kotlin" alt="Kotlin"></a>
   <a href="https://developer.android.com/compose"><img src="https://img.shields.io/badge/Jetpack%20Compose-Material3-green.svg?logo=jetpackcompose" alt="Jetpack Compose"></a>
+  <a href="https://developer.apple.com/xcode/swiftui/"><img src="https://img.shields.io/badge/SwiftUI-iOS%2017%2B-orange.svg?logo=swift" alt="SwiftUI"></a>
   <a href="https://developer.android.com/about/versions/oreo"><img src="https://img.shields.io/badge/Min%20SDK-26-orange.svg" alt="Min SDK"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
   <a href="https://github.com/baijum/ukulele-companion/actions/workflows/android.yml"><img src="https://github.com/baijum/ukulele-companion/actions/workflows/android.yml/badge.svg" alt="CI"></a>
@@ -113,11 +114,12 @@ Theory lessons, ear training, interval trainer, circle of fifths, glossary, scal
 
 Ukulele Companion is designed to be usable by everyone, including blind and visually impaired musicians:
 
-- **TalkBack support**: All interactive elements have descriptive content descriptions for Android's screen reader
+- **TalkBack support** (Android): All interactive elements have descriptive content descriptions for Android's screen reader
+- **VoiceOver support** (iOS): All views include accessibility labels, traits, and hints for Apple's screen reader
 - **Heading semantics**: Screen titles and section headers are marked as headings for efficient screen reader navigation
 - **Live regions**: Dynamic content like tuner readings, chord detection, and pitch monitoring are announced by screen readers as they change
 - **Canvas alternatives**: Visual-only components (tuner meter, chord diagrams, fretboard, pitch monitor, Circle of Fifths) have text descriptions for screen readers
-- **High contrast theme**: A high-contrast color scheme is available in Display settings
+- **High contrast theme**: A high-contrast color scheme is available in Display settings (Android and iOS)
 - **Logical focus order**: Navigation follows a logical order for keyboard and switch access users
 
 ---
@@ -135,51 +137,51 @@ Ukulele Companion is designed to be usable by everyone, including blind and visu
 
 ## 🏗️ Tech Stack
 
-| Component | Technology |
-|-----------|-----------|
-| Language | Kotlin 2.3 |
-| UI | Jetpack Compose + Material 3 |
-| Architecture | ViewModel + StateFlow |
-| Audio | SoundPool with OGG ukulele samples |
-| Persistence | SharedPreferences + DataStore |
-| Serialization | Kotlinx Serialization |
-| Neural Inference | ONNX Runtime (SwiftF0 supervisor) |
-| Build | Gradle 9.3, AGP 9.0, Kotlin DSL |
-| Min SDK | 26 (Android 8.0) |
-| Target SDK | 35 |
+| Component | Android | iOS |
+|-----------|---------|-----|
+| Language | Kotlin 2.3 | Swift + Kotlin (via KMP) |
+| UI | Jetpack Compose + Material 3 | SwiftUI |
+| Architecture | ViewModel + StateFlow | ObservableObject + @Published |
+| Shared Logic | Kotlin Multiplatform (`:shared` module) | Same KMP module via framework |
+| Audio | SoundPool with OGG samples | AVFoundation with WAV samples |
+| Persistence | SharedPreferences + DataStore | UserDefaults |
+| Serialization | Kotlinx Serialization | Codable + JSONSerialization |
+| Neural Inference | ONNX Runtime Android | ONNX Runtime C API (xcframework) |
+| Build | Gradle 9.3, AGP 9.0, Kotlin DSL | Xcode, min iOS 17.0 |
+| Min SDK | 26 (Android 8.0) | iOS 17.0 |
+| Target SDK | 35 | — |
+| Localization | Android resources (16 locales) | Localizable.xcstrings (16 locales) |
 
 ---
 
 ## 📁 Project Structure
 
 ```
-com.baijum.ukufretboard
-├── audio/              # SoundPool playback, metronome, audio capture
-│   ├── AudioCaptureEngine.kt
-│   ├── MetronomeEngine.kt
-│   └── ToneGenerator.kt
-├── data/               # Notes, chords, scales, progressions, patterns, persistence
-│   ├── ChordFormulas, Notes, Scales, Progressions, StrumPatterns
-│   ├── Repositories (Favorites, LearningProgress, Achievements)
-│   ├── ChordPro parser/exporter, VoicingGenerator
-│   └── sync/           # Backup & restore
-├── domain/             # Core business logic
-│   ├── ChordDetector, AudioChordDetector, PitchDetector
-│   ├── Transpose, CapoCalculator, KeyDetector
-│   ├── ScalePracticeGenerator
-│   └── VoiceLeading, AchievementChecker
-├── ui/                 # Compose screens and components (50+ files)
-│   ├── FretboardScreen (main navigation)
-│   ├── Tabs: ChordLibrary, Favorites, Progressions, Songbook, Tuner
-│   ├── Views: CircleOfFifths, TheoryQuiz, EarTraining, PlayAlong
-│   └── theme/          # Material 3 theming
-├── viewmodel/          # UI state management (11 ViewModels)
-│   ├── FretboardViewModel, ChordLibraryViewModel
-│   ├── SettingsViewModel, SongbookViewModel
-│   └── TunerViewModel, PitchMonitorViewModel
+ukulele-companion/
+├── shared/                          # Kotlin Multiplatform shared module
+│   └── src/
+│       ├── commonMain/              # 55 Kotlin files — domain + data logic
+│       │   ├── domain/              # ChordDetector, PitchDetector, Transpose, etc.
+│       │   └── data/                # Notes, Scales, ChordFormulas, Progressions, etc.
+│       ├── androidMain/             # Android platform actuals (UUID, Calendar)
+│       └── iosMain/                 # iOS platform actuals (NSUUID, NSDate)
+│
+├── app/                             # Android app module
+│   └── src/main/java/com/baijum/ukufretboard/
+│       ├── audio/                   # SoundPool, metronome, audio capture
+│       ├── data/                    # Repositories (SharedPreferences), backup/restore
+│       ├── domain/                  # NeuralPitchSupervisor, AchievementChecker
+│       ├── ui/                      # 54 Compose screens and components
+│       └── viewmodel/               # 13 ViewModels (StateFlow)
+│
+├── iosApp/                          # iOS app (SwiftUI)
+│   └── UkuleleCompanion/
+│       ├── Views/                   # 47 SwiftUI views
+│       ├── ViewModels/              # 15 ObservableObject ViewModels
+│       ├── Audio/                   # AudioCaptureEngine, TonePlayer, NeuralPitchSupervisor
+│       ├── Helpers/                 # Accessibility helpers, backup/restore manager
+│       └── Resources/               # WAV samples, ONNX model
 ```
-
-> **133 Kotlin source files** across 6 packages — a well-organized, single-module Android app.
 
 ---
 
@@ -187,22 +189,32 @@ com.baijum.ukufretboard
 
 ### Prerequisites
 
-- [Android Studio](https://developer.android.com/studio) (latest stable — Ladybug or newer)
-- JDK 11+
+- **Android**: [Android Studio](https://developer.android.com/studio) (latest stable — Ladybug or newer), JDK 11+
+- **iOS**: [Xcode](https://developer.apple.com/xcode/) 16+, macOS
 
 ### Clone & Build
 
 ```bash
 git clone https://github.com/baijum/ukulele-companion.git
 cd ukulele-companion
+
+# Android
 ./gradlew assembleDebug
+
+# iOS (requires macOS)
+cd iosApp && ./setup_onnxruntime.sh && cd ..
+xcodebuild -project iosApp/UkuleleCompanion.xcodeproj \
+  -scheme UkuleleCompanion \
+  -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+  build
 ```
 
-The debug APK will be at `app/build/outputs/apk/debug/app-debug.apk`.
+The Android debug APK will be at `app/build/outputs/apk/debug/app-debug.apk`.
 
 ### Run on Emulator or Device
 
-Open the project in Android Studio, select a device/emulator, and click **Run** (or press `Shift+F10`).
+- **Android**: Open the project in Android Studio, select a device/emulator, and click **Run** (or press `Shift+F10`).
+- **iOS**: Open `iosApp/UkuleleCompanion.xcodeproj` in Xcode, select a simulator or device, and click **Run** (or press `Cmd+R`). The ONNX Runtime xcframework must be set up first via `iosApp/setup_onnxruntime.sh`.
 
 ### Run Tests
 
@@ -222,6 +234,8 @@ Open the project in Android Studio, select a device/emulator, and click **Run** 
 The project includes **property-based tests** using [Kotest](https://kotest.io/docs/proptest/property-based-testing.html) that generate thousands of random inputs to verify invariants in the domain logic (chord detection, transposition, FFT, pitch detection, and more). These run automatically as part of `testDebugUnitTest` and in CI on every push and PR.
 
 ### Release Build
+
+**Android:**
 
 1. Create a `keystore.properties` file in the project root:
 
@@ -266,7 +280,7 @@ We actively encourage contributors to use **AI coding tools** to accelerate thei
 - **Use AI to write tests** — expand the existing test suite with new unit tests, property-based fuzz tests, or UI tests.
 - **AI-powered documentation** — use AI tools to help write clear commit messages, PR descriptions, and inline documentation.
 
-> **Tip:** This project uses standard Kotlin + Jetpack Compose patterns. AI tools work exceptionally well with the codebase because it follows consistent conventions throughout.
+> **Tip:** This project uses standard Kotlin + Jetpack Compose patterns on Android and SwiftUI on iOS, with shared domain logic via Kotlin Multiplatform. AI tools work exceptionally well with the codebase because it follows consistent conventions throughout.
 
 ### 🟢 Good First Issues
 
@@ -286,32 +300,39 @@ Looking for a place to start? Here are some areas where contributions would be e
 
 ### Code Style
 
-- **Kotlin** with official code style
-- **Jetpack Compose** for all UI — no XML layouts
-- **ViewModel + StateFlow** for state management
-- **SharedPreferences** for persistence (via repository pattern)
+- **Shared module**: Kotlin with official code style (Kotlin Multiplatform)
+- **Android UI**: Jetpack Compose + Material 3 — no XML layouts
+- **iOS UI**: SwiftUI
+- **Android state**: ViewModel + StateFlow
+- **iOS state**: ObservableObject + @Published
 - Follow existing patterns in the codebase — consistency is valued
 
 ### Architecture at a Glance
 
 ```
-┌─────────────┐     ┌──────────────┐     ┌─────────────┐
-│     UI      │ ──▶ │  ViewModel   │ ──▶ │   Domain    │
-│  (Compose)  │ ◀── │ (StateFlow)  │ ◀── │   (Logic)   │
-└─────────────┘     └──────────────┘     └─────────────┘
-                           │                     │
-                           ▼                     ▼
-                    ┌──────────────┐     ┌─────────────┐
-                    │     Data     │     │    Audio     │
-                    │ (Repository) │     │  (Playback)  │
-                    └──────────────┘     └─────────────┘
+                    ┌──────────────────────────┐
+                    │    Shared (KMP Module)    │
+                    │  Domain logic, data types │
+                    │  Pitch detection, chords  │
+                    └──────────┬───────────────┘
+                               │
+              ┌────────────────┼────────────────┐
+              ▼                                  ▼
+┌──────────────────────┐          ┌──────────────────────┐
+│     Android App      │          │      iOS App         │
+│  Compose + Material3 │          │       SwiftUI        │
+│  ViewModel/StateFlow │          │  ObservableObject     │
+│  SharedPreferences   │          │    UserDefaults       │
+│  SoundPool (OGG)     │          │  AVFoundation (WAV)   │
+└──────────────────────┘          └──────────────────────┘
 ```
 
-- **UI layer**: 51 Compose files, single-activity architecture via `MainActivity`
-- **ViewModel layer**: 11 ViewModels managing state with `StateFlow`
-- **Domain layer**: Pure Kotlin logic for chord detection, transposition, scales
-- **Data layer**: Repositories wrapping SharedPreferences, chord formulas, scale data
-- **Audio layer**: Tone generation, metronome, microphone-based pitch detection
+- **Shared module**: 55 Kotlin files — chord detection, pitch detection, scales, notes, transposition, and all domain/data logic shared across platforms
+- **Android UI layer**: 54 Compose files, single-activity architecture via `MainActivity`
+- **Android ViewModel layer**: 13 ViewModels managing state with `StateFlow`
+- **iOS UI layer**: 47 SwiftUI views with full feature parity
+- **iOS ViewModel layer**: 15 ObservableObject ViewModels
+- **Audio layer**: Platform-specific audio capture, tone playback, and ONNX neural pitch detection
 
 ---
 

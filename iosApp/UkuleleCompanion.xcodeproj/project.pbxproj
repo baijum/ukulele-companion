@@ -1,0 +1,846 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10001 /* UkuleleCompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10001 /* UkuleleCompanionApp.swift */; };
+		A10002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10002 /* ContentView.swift */; };
+		A10003 /* AudioCaptureEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10003 /* AudioCaptureEngine.swift */; };
+		A10004 /* TonePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10004 /* TonePlayer.swift */; };
+		A10005 /* TunerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10005 /* TunerView.swift */; };
+		A20001 /* click_high.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20001 /* click_high.wav */; };
+		A20002 /* click_low.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20002 /* click_low.wav */; };
+		A20003 /* uke_a.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20003 /* uke_a.wav */; };
+		A20004 /* uke_asharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20004 /* uke_asharp.wav */; };
+		A20005 /* uke_b.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20005 /* uke_b.wav */; };
+		A20006 /* uke_c.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20006 /* uke_c.wav */; };
+		A20007 /* uke_csharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20007 /* uke_csharp.wav */; };
+		A20008 /* uke_d.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20008 /* uke_d.wav */; };
+		A20009 /* uke_dsharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20009 /* uke_dsharp.wav */; };
+		A20010 /* uke_e.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20010 /* uke_e.wav */; };
+		A20011 /* uke_f.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20011 /* uke_f.wav */; };
+		A20012 /* uke_fsharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20012 /* uke_fsharp.wav */; };
+		A20013 /* uke_g.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20013 /* uke_g.wav */; };
+		A20014 /* uke_gsharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20014 /* uke_gsharp.wav */; };
+		A30001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B30001 /* Assets.xcassets */; };
+		A30002 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B30002 /* Localizable.xcstrings */; };
+		A40001 /* shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40001 /* shared.framework */; };
+		A40002 /* shared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B40001 /* shared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A10006 /* NeuralPitchSupervisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10006 /* NeuralPitchSupervisor.swift */; };
+		A10007 /* FretboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10007 /* FretboardViewModel.swift */; };
+		A10008 /* ChordLibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10008 /* ChordLibraryViewModel.swift */; };
+		A10009 /* FretboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10009 /* FretboardView.swift */; };
+		A10010 /* ChordResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10010 /* ChordResultView.swift */; };
+		A10011 /* ChordDiagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10011 /* ChordDiagramView.swift */; };
+		A10012 /* ChordLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10012 /* ChordLibraryView.swift */; };
+		A10013 /* ExplorerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10013 /* ExplorerView.swift */; };
+		A20015 /* swift_f0_model.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B20015 /* swift_f0_model.onnx */; };
+		A40003 /* onnxruntime.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40002 /* onnxruntime.xcframework */; };
+		A40004 /* onnxruntime.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B40002 /* onnxruntime.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A10014 /* ReferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10014 /* ReferenceView.swift */; };
+		A10015 /* GlossaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10015 /* GlossaryView.swift */; };
+		A10016 /* CapoGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10016 /* CapoGuideView.swift */; };
+		A10017 /* FretboardNoteMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10017 /* FretboardNoteMapView.swift */; };
+		A10018 /* ChordSubstitutionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10018 /* ChordSubstitutionsView.swift */; };
+		A10019 /* CircleOfFifthsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10019 /* CircleOfFifthsView.swift */; };
+		A10020 /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10020 /* CreateView.swift */; };
+		A10021 /* ProgressionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10021 /* ProgressionsView.swift */; };
+		A10022 /* StrumPatternsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10022 /* StrumPatternsView.swift */; };
+		A10023 /* SongbookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10023 /* SongbookView.swift */; };
+		A10024 /* SongEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10024 /* SongEditorView.swift */; };
+		A10025 /* MelodyNotepadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10025 /* MelodyNotepadView.swift */; };
+		A10026 /* ProgressionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10026 /* ProgressionsViewModel.swift */; };
+		A10027 /* SongbookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10027 /* SongbookViewModel.swift */; };
+		A10028 /* MelodyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10028 /* MelodyViewModel.swift */; };
+		A10029 /* LearnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10029 /* LearnView.swift */; };
+		A10030 /* TheoryLessonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10030 /* TheoryLessonsView.swift */; };
+		A10031 /* TheoryQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10031 /* TheoryQuizView.swift */; };
+		A10032 /* IntervalTrainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10032 /* IntervalTrainerView.swift */; };
+		A10033 /* NoteQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10033 /* NoteQuizView.swift */; };
+		A10034 /* ChordEarTrainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10034 /* ChordEarTrainingView.swift */; };
+		A10035 /* ScalePracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10035 /* ScalePracticeView.swift */; };
+		A10036 /* DailyChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10036 /* DailyChallengeView.swift */; };
+		A10037 /* PracticeRoutineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10037 /* PracticeRoutineView.swift */; };
+		A10038 /* ChordTransitionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10038 /* ChordTransitionsView.swift */; };
+		A10039 /* PlayAlongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10039 /* PlayAlongView.swift */; };
+		A10040 /* LearningProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10040 /* LearningProgressView.swift */; };
+		A10041 /* AchievementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10041 /* AchievementsView.swift */; };
+		A10042 /* LearnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10042 /* LearnViewModel.swift */; };
+		A10043 /* ScalePracticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10043 /* ScalePracticeViewModel.swift */; };
+		A10044 /* ChordTransitionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10044 /* ChordTransitionsViewModel.swift */; };
+		A10045 /* ScaleChordsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10045 /* ScaleChordsView.swift */; };
+		A10046 /* MetronomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10046 /* MetronomeView.swift */; };
+		A10047 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10047 /* FavoritesView.swift */; };
+		A10048 /* PitchMonitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10048 /* PitchMonitorView.swift */; };
+		A10049 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10049 /* SettingsView.swift */; };
+		A10050 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10050 /* HelpView.swift */; };
+		A10051 /* PitchMonitorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10051 /* PitchMonitorViewModel.swift */; };
+		A10052 /* MetronomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10052 /* MetronomeViewModel.swift */; };
+		A10053 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10053 /* FavoritesViewModel.swift */; };
+		A10054 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10054 /* SettingsViewModel.swift */; };
+		A10055 /* AccessibilityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10055 /* AccessibilityHelper.swift */; };
+		A10056 /* VoiceLeadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10056 /* VoiceLeadingView.swift */; };
+		A10057 /* ProgressionPracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10057 /* ProgressionPracticeView.swift */; };
+		A10058 /* CapoCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10058 /* CapoCalculatorView.swift */; };
+		A10059 /* CapoVisualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10059 /* CapoVisualizerView.swift */; };
+		A10060 /* ShareChordSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10060 /* ShareChordSheet.swift */; };
+		A10061 /* ShareableChordDiagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10061 /* ShareableChordDiagramView.swift */; };
+		A10062 /* PracticeTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10062 /* PracticeTimerViewModel.swift */; };
+		A10063 /* CustomPatternsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10063 /* CustomPatternsViewModel.swift */; };
+		A10064 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10064 /* OnboardingView.swift */; };
+		A10065 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10065 /* SettingsViewModelTests.swift */; };
+		A10066 /* BackupRestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10066 /* BackupRestoreManager.swift */; };
+		A10067 /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10067 /* PlayView.swift */; };
+		A10068 /* ScaleSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10068 /* ScaleSelectorView.swift */; };
+		A10069 /* PlayAlongViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10069 /* PlayAlongViewModel.swift */; };
+		A10070 /* PatternPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10070 /* PatternPlayer.swift */; };
+		A10071 /* FullScreenFretboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10071 /* FullScreenFretboardView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C50001 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A40002 /* shared.framework in Embed Frameworks */,
+				A40004 /* onnxruntime.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXContainerItemProxy section */
+		CIP001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = P00001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = T00001;
+			remoteInfo = UkuleleCompanion;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D00001 /* UkuleleCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UkuleleCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B10001 /* UkuleleCompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UkuleleCompanionApp.swift; sourceTree = "<group>"; };
+		B10002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B10003 /* AudioCaptureEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCaptureEngine.swift; sourceTree = "<group>"; };
+		B10004 /* TonePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TonePlayer.swift; sourceTree = "<group>"; };
+		B10005 /* TunerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunerView.swift; sourceTree = "<group>"; };
+		B20001 /* click_high.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_high.wav; sourceTree = "<group>"; };
+		B20002 /* click_low.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_low.wav; sourceTree = "<group>"; };
+		B20003 /* uke_a.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_a.wav; sourceTree = "<group>"; };
+		B20004 /* uke_asharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_asharp.wav; sourceTree = "<group>"; };
+		B20005 /* uke_b.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_b.wav; sourceTree = "<group>"; };
+		B20006 /* uke_c.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_c.wav; sourceTree = "<group>"; };
+		B20007 /* uke_csharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_csharp.wav; sourceTree = "<group>"; };
+		B20008 /* uke_d.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_d.wav; sourceTree = "<group>"; };
+		B20009 /* uke_dsharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_dsharp.wav; sourceTree = "<group>"; };
+		B20010 /* uke_e.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_e.wav; sourceTree = "<group>"; };
+		B20011 /* uke_f.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_f.wav; sourceTree = "<group>"; };
+		B20012 /* uke_fsharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_fsharp.wav; sourceTree = "<group>"; };
+		B20013 /* uke_g.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_g.wav; sourceTree = "<group>"; };
+		B20014 /* uke_gsharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_gsharp.wav; sourceTree = "<group>"; };
+		B30001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B30002 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		B30003 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B40001 /* shared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = shared.framework; path = "../shared/build/bin/iosSimulatorArm64/debugFramework/shared.framework"; sourceTree = "<group>"; };
+		B10006 /* NeuralPitchSupervisor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuralPitchSupervisor.swift; sourceTree = "<group>"; };
+		B10007 /* FretboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FretboardViewModel.swift; sourceTree = "<group>"; };
+		B10008 /* ChordLibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordLibraryViewModel.swift; sourceTree = "<group>"; };
+		B10009 /* FretboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FretboardView.swift; sourceTree = "<group>"; };
+		B10010 /* ChordResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordResultView.swift; sourceTree = "<group>"; };
+		B10011 /* ChordDiagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordDiagramView.swift; sourceTree = "<group>"; };
+		B10012 /* ChordLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordLibraryView.swift; sourceTree = "<group>"; };
+		B10013 /* ExplorerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerView.swift; sourceTree = "<group>"; };
+		B20015 /* swift_f0_model.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = swift_f0_model.onnx; sourceTree = "<group>"; };
+		B40002 /* onnxruntime.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = onnxruntime.xcframework; path = Frameworks/onnxruntime.xcframework; sourceTree = "<group>"; };
+		B10014 /* ReferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceView.swift; sourceTree = "<group>"; };
+		B10015 /* GlossaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryView.swift; sourceTree = "<group>"; };
+		B10016 /* CapoGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapoGuideView.swift; sourceTree = "<group>"; };
+		B10017 /* FretboardNoteMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FretboardNoteMapView.swift; sourceTree = "<group>"; };
+		B10018 /* ChordSubstitutionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordSubstitutionsView.swift; sourceTree = "<group>"; };
+		B10019 /* CircleOfFifthsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleOfFifthsView.swift; sourceTree = "<group>"; };
+		B10020 /* CreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
+		B10021 /* ProgressionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionsView.swift; sourceTree = "<group>"; };
+		B10022 /* StrumPatternsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrumPatternsView.swift; sourceTree = "<group>"; };
+		B10023 /* SongbookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongbookView.swift; sourceTree = "<group>"; };
+		B10024 /* SongEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEditorView.swift; sourceTree = "<group>"; };
+		B10025 /* MelodyNotepadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MelodyNotepadView.swift; sourceTree = "<group>"; };
+		B10026 /* ProgressionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionsViewModel.swift; sourceTree = "<group>"; };
+		B10027 /* SongbookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongbookViewModel.swift; sourceTree = "<group>"; };
+		B10028 /* MelodyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MelodyViewModel.swift; sourceTree = "<group>"; };
+		B10029 /* LearnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnView.swift; sourceTree = "<group>"; };
+		B10030 /* TheoryLessonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheoryLessonsView.swift; sourceTree = "<group>"; };
+		B10031 /* TheoryQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheoryQuizView.swift; sourceTree = "<group>"; };
+		B10032 /* IntervalTrainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntervalTrainerView.swift; sourceTree = "<group>"; };
+		B10033 /* NoteQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteQuizView.swift; sourceTree = "<group>"; };
+		B10034 /* ChordEarTrainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordEarTrainingView.swift; sourceTree = "<group>"; };
+		B10035 /* ScalePracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalePracticeView.swift; sourceTree = "<group>"; };
+		B10036 /* DailyChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyChallengeView.swift; sourceTree = "<group>"; };
+		B10037 /* PracticeRoutineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeRoutineView.swift; sourceTree = "<group>"; };
+		B10038 /* ChordTransitionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordTransitionsView.swift; sourceTree = "<group>"; };
+		B10039 /* PlayAlongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAlongView.swift; sourceTree = "<group>"; };
+		B10040 /* LearningProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningProgressView.swift; sourceTree = "<group>"; };
+		B10041 /* AchievementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsView.swift; sourceTree = "<group>"; };
+		B10042 /* LearnViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnViewModel.swift; sourceTree = "<group>"; };
+		B10043 /* ScalePracticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalePracticeViewModel.swift; sourceTree = "<group>"; };
+		B10044 /* ChordTransitionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordTransitionsViewModel.swift; sourceTree = "<group>"; };
+		B10045 /* ScaleChordsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleChordsView.swift; sourceTree = "<group>"; };
+		B10046 /* MetronomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetronomeView.swift; sourceTree = "<group>"; };
+		B10047 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
+		B10048 /* PitchMonitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchMonitorView.swift; sourceTree = "<group>"; };
+		B10049 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B10050 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
+		B10051 /* PitchMonitorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchMonitorViewModel.swift; sourceTree = "<group>"; };
+		B10052 /* MetronomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetronomeViewModel.swift; sourceTree = "<group>"; };
+		B10053 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
+		B10054 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		B10055 /* AccessibilityHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityHelper.swift; sourceTree = "<group>"; };
+		B10056 /* VoiceLeadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceLeadingView.swift; sourceTree = "<group>"; };
+		B10057 /* ProgressionPracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionPracticeView.swift; sourceTree = "<group>"; };
+		B10058 /* CapoCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapoCalculatorView.swift; sourceTree = "<group>"; };
+		B10059 /* CapoVisualizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapoVisualizerView.swift; sourceTree = "<group>"; };
+		B10060 /* ShareChordSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareChordSheet.swift; sourceTree = "<group>"; };
+		B10061 /* ShareableChordDiagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableChordDiagramView.swift; sourceTree = "<group>"; };
+		B10062 /* PracticeTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTimerViewModel.swift; sourceTree = "<group>"; };
+		B10063 /* CustomPatternsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPatternsViewModel.swift; sourceTree = "<group>"; };
+		B10064 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		B10065 /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
+		B10066 /* BackupRestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupRestoreManager.swift; sourceTree = "<group>"; };
+		B10067 /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
+		B10068 /* ScaleSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleSelectorView.swift; sourceTree = "<group>"; };
+		B10069 /* PlayAlongViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAlongViewModel.swift; sourceTree = "<group>"; };
+		B10070 /* PatternPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternPlayer.swift; sourceTree = "<group>"; };
+		B10071 /* FullScreenFretboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenFretboardView.swift; sourceTree = "<group>"; };
+		D00002 /* UkuleleCompanionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UkuleleCompanionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C20001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A40001 /* shared.framework in Frameworks */,
+				A40003 /* onnxruntime.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C20002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		G00001 = {
+			isa = PBXGroup;
+			children = (
+				G10001 /* UkuleleCompanion */,
+				G90001 /* UkuleleCompanionTests */,
+				G50001 /* Frameworks */,
+				G60001 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		G10001 /* UkuleleCompanion */ = {
+			isa = PBXGroup;
+			children = (
+				B10001 /* UkuleleCompanionApp.swift */,
+				B10002 /* ContentView.swift */,
+				G20001 /* Audio */,
+				G30001 /* Views */,
+				G70001 /* ViewModels */,
+				G80001 /* Helpers */,
+				G40001 /* Resources */,
+				B30001 /* Assets.xcassets */,
+				B30003 /* Info.plist */,
+				B30002 /* Localizable.xcstrings */,
+			);
+			path = UkuleleCompanion;
+			sourceTree = "<group>";
+		};
+		G20001 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				B10003 /* AudioCaptureEngine.swift */,
+				B10006 /* NeuralPitchSupervisor.swift */,
+				B10004 /* TonePlayer.swift */,
+				B10070 /* PatternPlayer.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		G30001 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B10005 /* TunerView.swift */,
+				B10009 /* FretboardView.swift */,
+				B10010 /* ChordResultView.swift */,
+				B10011 /* ChordDiagramView.swift */,
+				B10012 /* ChordLibraryView.swift */,
+				B10013 /* ExplorerView.swift */,
+				B10014 /* ReferenceView.swift */,
+				B10015 /* GlossaryView.swift */,
+				B10016 /* CapoGuideView.swift */,
+				B10017 /* FretboardNoteMapView.swift */,
+				B10018 /* ChordSubstitutionsView.swift */,
+				B10019 /* CircleOfFifthsView.swift */,
+				B10020 /* CreateView.swift */,
+				B10021 /* ProgressionsView.swift */,
+				B10022 /* StrumPatternsView.swift */,
+				B10023 /* SongbookView.swift */,
+				B10024 /* SongEditorView.swift */,
+				B10025 /* MelodyNotepadView.swift */,
+				B10029 /* LearnView.swift */,
+				B10030 /* TheoryLessonsView.swift */,
+				B10031 /* TheoryQuizView.swift */,
+				B10032 /* IntervalTrainerView.swift */,
+				B10033 /* NoteQuizView.swift */,
+				B10034 /* ChordEarTrainingView.swift */,
+				B10035 /* ScalePracticeView.swift */,
+				B10036 /* DailyChallengeView.swift */,
+				B10037 /* PracticeRoutineView.swift */,
+				B10038 /* ChordTransitionsView.swift */,
+				B10039 /* PlayAlongView.swift */,
+				B10040 /* LearningProgressView.swift */,
+				B10041 /* AchievementsView.swift */,
+				B10045 /* ScaleChordsView.swift */,
+				B10046 /* MetronomeView.swift */,
+				B10047 /* FavoritesView.swift */,
+				B10048 /* PitchMonitorView.swift */,
+				B10049 /* SettingsView.swift */,
+				B10050 /* HelpView.swift */,
+				B10056 /* VoiceLeadingView.swift */,
+				B10057 /* ProgressionPracticeView.swift */,
+				B10058 /* CapoCalculatorView.swift */,
+				B10059 /* CapoVisualizerView.swift */,
+				B10060 /* ShareChordSheet.swift */,
+				B10061 /* ShareableChordDiagramView.swift */,
+				B10064 /* OnboardingView.swift */,
+				B10067 /* PlayView.swift */,
+				B10068 /* ScaleSelectorView.swift */,
+				B10071 /* FullScreenFretboardView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		G70001 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B10007 /* FretboardViewModel.swift */,
+				B10008 /* ChordLibraryViewModel.swift */,
+				B10026 /* ProgressionsViewModel.swift */,
+				B10027 /* SongbookViewModel.swift */,
+				B10028 /* MelodyViewModel.swift */,
+				B10042 /* LearnViewModel.swift */,
+				B10043 /* ScalePracticeViewModel.swift */,
+				B10044 /* ChordTransitionsViewModel.swift */,
+				B10051 /* PitchMonitorViewModel.swift */,
+				B10052 /* MetronomeViewModel.swift */,
+				B10053 /* FavoritesViewModel.swift */,
+				B10054 /* SettingsViewModel.swift */,
+				B10062 /* PracticeTimerViewModel.swift */,
+				B10063 /* CustomPatternsViewModel.swift */,
+				B10069 /* PlayAlongViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		G40001 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B20001 /* click_high.wav */,
+				B20002 /* click_low.wav */,
+				B20003 /* uke_a.wav */,
+				B20004 /* uke_asharp.wav */,
+				B20005 /* uke_b.wav */,
+				B20006 /* uke_c.wav */,
+				B20007 /* uke_csharp.wav */,
+				B20008 /* uke_d.wav */,
+				B20009 /* uke_dsharp.wav */,
+				B20010 /* uke_e.wav */,
+				B20011 /* uke_f.wav */,
+				B20012 /* uke_fsharp.wav */,
+				B20013 /* uke_g.wav */,
+				B20014 /* uke_gsharp.wav */,
+				B20015 /* swift_f0_model.onnx */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		G80001 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B10055 /* AccessibilityHelper.swift */,
+				B10066 /* BackupRestoreManager.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		G50001 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B40001 /* shared.framework */,
+				B40002 /* onnxruntime.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		G90001 /* UkuleleCompanionTests */ = {
+			isa = PBXGroup;
+			children = (
+				B10065 /* SettingsViewModelTests.swift */,
+			);
+			path = UkuleleCompanionTests;
+			sourceTree = "<group>";
+		};
+		G60001 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D00001 /* UkuleleCompanion.app */,
+				D00002 /* UkuleleCompanionTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		T00001 /* UkuleleCompanion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = X20001 /* Build configuration list for PBXNativeTarget "UkuleleCompanion" */;
+			buildPhases = (
+				C60001 /* Build KMP Framework */,
+				C10001 /* Sources */,
+				C20001 /* Frameworks */,
+				C30001 /* Resources */,
+				C50001 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UkuleleCompanion;
+			productName = UkuleleCompanion;
+			productReference = D00001 /* UkuleleCompanion.app */;
+			productType = "com.apple.product-type.application";
+		};
+		T00002 /* UkuleleCompanionTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = X30001 /* Build configuration list for PBXNativeTarget "UkuleleCompanionTests" */;
+			buildPhases = (
+				C10002 /* Sources */,
+				C20002 /* Frameworks */,
+				C30002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				TD0001 /* PBXTargetDependency */,
+			);
+			name = UkuleleCompanionTests;
+			productName = UkuleleCompanionTests;
+			productReference = D00002 /* UkuleleCompanionTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		P00001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = X10001 /* Build configuration list for PBXProject "UkuleleCompanion" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				fr,
+				de,
+				es,
+				it,
+				pt,
+				nl,
+				ru,
+				tr,
+				pl,
+				ja,
+				ko,
+				hi,
+				id,
+				ar,
+				"zh-Hans",
+				Base,
+			);
+			mainGroup = G00001;
+			productRefGroup = G60001 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				T00001 /* UkuleleCompanion */,
+				T00002 /* UkuleleCompanionTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C30001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A20001 /* click_high.wav in Resources */,
+				A20002 /* click_low.wav in Resources */,
+				A20003 /* uke_a.wav in Resources */,
+				A20004 /* uke_asharp.wav in Resources */,
+				A20005 /* uke_b.wav in Resources */,
+				A20006 /* uke_c.wav in Resources */,
+				A20007 /* uke_csharp.wav in Resources */,
+				A20008 /* uke_d.wav in Resources */,
+				A20009 /* uke_dsharp.wav in Resources */,
+				A20010 /* uke_e.wav in Resources */,
+				A20011 /* uke_f.wav in Resources */,
+				A20012 /* uke_fsharp.wav in Resources */,
+				A20013 /* uke_g.wav in Resources */,
+				A20014 /* uke_gsharp.wav in Resources */,
+				A30001 /* Assets.xcassets in Resources */,
+				A30002 /* Localizable.xcstrings in Resources */,
+				A20015 /* swift_f0_model.onnx in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C30002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C60001 /* Build KMP Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build KMP Framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$SRCROOT/..\"\n\nif [ \"${CONFIGURATION}\" = \"Debug\" ]; then\n    BUILD_TYPE=\"Debug\"\nelse\n    BUILD_TYPE=\"Release\"\nfi\n\nif [ \"${PLATFORM_NAME}\" = \"iphonesimulator\" ]; then\n    if [ \"${ARCHS}\" = \"x86_64\" ]; then\n        TARGET=\"link${BUILD_TYPE}FrameworkIosX64\"\n    else\n        TARGET=\"link${BUILD_TYPE}FrameworkIosSimulatorArm64\"\n    fi\nelse\n    TARGET=\"link${BUILD_TYPE}FrameworkIosArm64\"\nfi\n\n./gradlew :shared:${TARGET}\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C10001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10001 /* UkuleleCompanionApp.swift in Sources */,
+				A10002 /* ContentView.swift in Sources */,
+				A10003 /* AudioCaptureEngine.swift in Sources */,
+				A10004 /* TonePlayer.swift in Sources */,
+				A10005 /* TunerView.swift in Sources */,
+				A10006 /* NeuralPitchSupervisor.swift in Sources */,
+				A10007 /* FretboardViewModel.swift in Sources */,
+				A10008 /* ChordLibraryViewModel.swift in Sources */,
+				A10009 /* FretboardView.swift in Sources */,
+				A10010 /* ChordResultView.swift in Sources */,
+				A10011 /* ChordDiagramView.swift in Sources */,
+				A10012 /* ChordLibraryView.swift in Sources */,
+				A10013 /* ExplorerView.swift in Sources */,
+				A10014 /* ReferenceView.swift in Sources */,
+				A10015 /* GlossaryView.swift in Sources */,
+				A10016 /* CapoGuideView.swift in Sources */,
+				A10017 /* FretboardNoteMapView.swift in Sources */,
+				A10018 /* ChordSubstitutionsView.swift in Sources */,
+				A10019 /* CircleOfFifthsView.swift in Sources */,
+				A10020 /* CreateView.swift in Sources */,
+				A10021 /* ProgressionsView.swift in Sources */,
+				A10022 /* StrumPatternsView.swift in Sources */,
+				A10023 /* SongbookView.swift in Sources */,
+				A10024 /* SongEditorView.swift in Sources */,
+				A10025 /* MelodyNotepadView.swift in Sources */,
+				A10026 /* ProgressionsViewModel.swift in Sources */,
+				A10027 /* SongbookViewModel.swift in Sources */,
+				A10028 /* MelodyViewModel.swift in Sources */,
+				A10029 /* LearnView.swift in Sources */,
+				A10030 /* TheoryLessonsView.swift in Sources */,
+				A10031 /* TheoryQuizView.swift in Sources */,
+				A10032 /* IntervalTrainerView.swift in Sources */,
+				A10033 /* NoteQuizView.swift in Sources */,
+				A10034 /* ChordEarTrainingView.swift in Sources */,
+				A10035 /* ScalePracticeView.swift in Sources */,
+				A10036 /* DailyChallengeView.swift in Sources */,
+				A10037 /* PracticeRoutineView.swift in Sources */,
+				A10038 /* ChordTransitionsView.swift in Sources */,
+				A10039 /* PlayAlongView.swift in Sources */,
+				A10040 /* LearningProgressView.swift in Sources */,
+				A10041 /* AchievementsView.swift in Sources */,
+				A10042 /* LearnViewModel.swift in Sources */,
+				A10043 /* ScalePracticeViewModel.swift in Sources */,
+				A10044 /* ChordTransitionsViewModel.swift in Sources */,
+				A10045 /* ScaleChordsView.swift in Sources */,
+				A10046 /* MetronomeView.swift in Sources */,
+				A10047 /* FavoritesView.swift in Sources */,
+				A10048 /* PitchMonitorView.swift in Sources */,
+				A10049 /* SettingsView.swift in Sources */,
+				A10050 /* HelpView.swift in Sources */,
+				A10051 /* PitchMonitorViewModel.swift in Sources */,
+				A10052 /* MetronomeViewModel.swift in Sources */,
+				A10053 /* FavoritesViewModel.swift in Sources */,
+				A10054 /* SettingsViewModel.swift in Sources */,
+				A10055 /* AccessibilityHelper.swift in Sources */,
+				A10056 /* VoiceLeadingView.swift in Sources */,
+				A10057 /* ProgressionPracticeView.swift in Sources */,
+				A10058 /* CapoCalculatorView.swift in Sources */,
+				A10059 /* CapoVisualizerView.swift in Sources */,
+				A10060 /* ShareChordSheet.swift in Sources */,
+				A10061 /* ShareableChordDiagramView.swift in Sources */,
+				A10062 /* PracticeTimerViewModel.swift in Sources */,
+				A10063 /* CustomPatternsViewModel.swift in Sources */,
+				A10064 /* OnboardingView.swift in Sources */,
+				A10066 /* BackupRestoreManager.swift in Sources */,
+				A10067 /* PlayView.swift in Sources */,
+				A10068 /* ScaleSelectorView.swift in Sources */,
+				A10069 /* PlayAlongViewModel.swift in Sources */,
+				A10070 /* PatternPlayer.swift in Sources */,
+				A10071 /* FullScreenFretboardView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C10002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10065 /* SettingsViewModelTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		TD0001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = T00001 /* UkuleleCompanion */;
+			targetProxy = CIP001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		F10001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F10002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F20001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../shared/build/bin/iosSimulatorArm64/debugFramework",
+					"$(SRCROOT)/../shared/build/bin/iosArm64/debugFramework",
+					"$(SRCROOT)/../shared/build/bin/iosX64/debugFramework",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = UkuleleCompanion/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Ukulele Companion";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Ukulele Companion needs microphone access for the tuner and pitch detection features.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.baijum.ukufretboard.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F20002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../shared/build/bin/iosSimulatorArm64/releaseFramework",
+					"$(SRCROOT)/../shared/build/bin/iosArm64/releaseFramework",
+					"$(SRCROOT)/../shared/build/bin/iosX64/releaseFramework",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = UkuleleCompanion/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Ukulele Companion";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Ukulele Companion needs microphone access for the tuner and pitch detection features.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.baijum.ukufretboard.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F30001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../shared/build/bin/iosSimulatorArm64/debugFramework",
+					"$(SRCROOT)/../shared/build/bin/iosArm64/debugFramework",
+					"$(SRCROOT)/../shared/build/bin/iosX64/debugFramework",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.baijum.ukufretboard.ios.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UkuleleCompanion.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UkuleleCompanion";
+			};
+			name = Debug;
+		};
+		F30002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../shared/build/bin/iosSimulatorArm64/releaseFramework",
+					"$(SRCROOT)/../shared/build/bin/iosArm64/releaseFramework",
+					"$(SRCROOT)/../shared/build/bin/iosX64/releaseFramework",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.baijum.ukufretboard.ios.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UkuleleCompanion.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UkuleleCompanion";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		X10001 /* Build configuration list for PBXProject "UkuleleCompanion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F10001 /* Debug */,
+				F10002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		X20001 /* Build configuration list for PBXNativeTarget "UkuleleCompanion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F20001 /* Debug */,
+				F20002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		X30001 /* Build configuration list for PBXNativeTarget "UkuleleCompanionTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F30001 /* Debug */,
+				F30002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = P00001 /* Project object */;
+}
