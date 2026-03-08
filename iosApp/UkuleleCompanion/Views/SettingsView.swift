@@ -48,7 +48,7 @@ struct SettingsView: View {
             Form {
                 Section(header: Text("Sound").accessibilityAddTraits(.isHeader)) {
                     Toggle("Sound Enabled", isOn: $viewModel.soundEnabled)
-                        .onChange(of: viewModel.soundEnabled) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.soundEnabled) { _ in viewModel.save() }
 
                     VStack(alignment: .leading) {
                         HStack {
@@ -59,26 +59,26 @@ struct SettingsView: View {
                         }
                         Slider(value: $viewModel.volume, in: 0...1)
                             .disabled(!viewModel.soundEnabled)
-                            .onChange(of: viewModel.volume) { _, _ in viewModel.save() }
+                            .onChange(of: viewModel.volume) { _ in viewModel.save() }
                     }
 
                     Stepper("Note Duration: \(viewModel.noteDurationMs)ms",
                             value: $viewModel.noteDurationMs, in: 300...1200, step: 50)
                         .disabled(!viewModel.soundEnabled)
-                        .onChange(of: viewModel.noteDurationMs) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.noteDurationMs) { _ in viewModel.save() }
 
                     Stepper("Strum Delay: \(viewModel.strumDelayMs)ms",
                             value: $viewModel.strumDelayMs, in: 0...150, step: 10)
                         .disabled(!viewModel.soundEnabled)
-                        .onChange(of: viewModel.strumDelayMs) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.strumDelayMs) { _ in viewModel.save() }
 
                     Toggle("Play on Tap", isOn: $viewModel.playOnTap)
                         .disabled(!viewModel.soundEnabled)
-                        .onChange(of: viewModel.playOnTap) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.playOnTap) { _ in viewModel.save() }
 
                     Toggle("Strum Down", isOn: $viewModel.strumDown)
                         .disabled(!viewModel.soundEnabled)
-                        .onChange(of: viewModel.strumDown) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.strumDown) { _ in viewModel.save() }
 
                     VStack(alignment: .leading) {
                         HStack {
@@ -88,7 +88,7 @@ struct SettingsView: View {
                                 .foregroundStyle(.secondary)
                         }
                         Slider(value: $viewModel.noiseGateFiltering, in: 0...1)
-                            .onChange(of: viewModel.noiseGateFiltering) { _, _ in viewModel.save() }
+                            .onChange(of: viewModel.noiseGateFiltering) { _ in viewModel.save() }
                             .accessibilityValue("\(Int(viewModel.noiseGateFiltering * 100)) percent")
                     }
                 }
@@ -99,16 +99,16 @@ struct SettingsView: View {
                             Text(mode).tag(mode)
                         }
                     }
-                    .onChange(of: viewModel.themeMode) { _, _ in viewModel.save() }
+                    .onChange(of: viewModel.themeMode) { _ in viewModel.save() }
 
                     Toggle("Show Tips", isOn: $viewModel.showTips)
-                        .onChange(of: viewModel.showTips) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.showTips) { _ in viewModel.save() }
 
                     Toggle("Show Learn Tab", isOn: $viewModel.showLearnTab)
-                        .onChange(of: viewModel.showLearnTab) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.showLearnTab) { _ in viewModel.save() }
 
                     Toggle("Show Reference Tab", isOn: $viewModel.showReferenceTab)
-                        .onChange(of: viewModel.showReferenceTab) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.showReferenceTab) { _ in viewModel.save() }
                 }
 
                 Section(header: Text("Language").accessibilityAddTraits(.isHeader)) {
@@ -117,7 +117,7 @@ struct SettingsView: View {
                             Text(lang.name).tag(lang.code)
                         }
                     }
-                    .onChange(of: viewModel.appLanguage) { _, _ in
+                    .onChange(of: viewModel.appLanguage) { _ in
                         viewModel.save()
                         viewModel.applyLanguage()
                         showLanguageRestart = true
@@ -130,25 +130,25 @@ struct SettingsView: View {
                             Text(t).tag(t)
                         }
                     }
-                    .onChange(of: viewModel.selectedTuning) { _, _ in viewModel.save() }
+                    .onChange(of: viewModel.selectedTuning) { _ in viewModel.save() }
                 }
 
                 Section(header: Text("Tuner").accessibilityAddTraits(.isHeader)) {
                     Toggle("Auto-Start", isOn: $viewModel.autoStartTuner)
-                        .onChange(of: viewModel.autoStartTuner) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.autoStartTuner) { _ in viewModel.save() }
 
                     Text("Start listening automatically when the tuner tab is opened")
                         .font(.caption)
                         .foregroundStyle(.secondary)
 
                     Toggle("Precision Mode", isOn: $viewModel.precisionMode)
-                        .onChange(of: viewModel.precisionMode) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.precisionMode) { _ in viewModel.save() }
 
                     Toggle("Auto-Advance", isOn: $viewModel.autoAdvance)
-                        .onChange(of: viewModel.autoAdvance) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.autoAdvance) { _ in viewModel.save() }
 
                     Toggle("Spoken Feedback", isOn: $viewModel.spokenFeedback)
-                        .onChange(of: viewModel.spokenFeedback) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.spokenFeedback) { _ in viewModel.save() }
 
                     VStack(alignment: .leading) {
                         HStack {
@@ -158,23 +158,23 @@ struct SettingsView: View {
                                 .foregroundStyle(.secondary)
                         }
                         Slider(value: $viewModel.a4Reference, in: 415...465)
-                            .onChange(of: viewModel.a4Reference) { _, _ in viewModel.save() }
+                            .onChange(of: viewModel.a4Reference) { _ in viewModel.save() }
                     }
                 }
 
                 Section(header: Text("Fretboard").accessibilityAddTraits(.isHeader)) {
                     Toggle("Left-Handed", isOn: $viewModel.leftHanded)
-                        .onChange(of: viewModel.leftHanded) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.leftHanded) { _ in viewModel.save() }
 
                     Toggle("Show Note Names", isOn: $viewModel.showNoteNames)
-                        .onChange(of: viewModel.showNoteNames) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.showNoteNames) { _ in viewModel.save() }
 
                     Toggle("Allow Muted Strings", isOn: $viewModel.allowMuted)
-                        .onChange(of: viewModel.allowMuted) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.allowMuted) { _ in viewModel.save() }
 
                     Stepper("Last Fret: \(viewModel.lastFret)",
                             value: $viewModel.lastFret, in: 12...22)
-                        .onChange(of: viewModel.lastFret) { _, _ in viewModel.save() }
+                        .onChange(of: viewModel.lastFret) { _ in viewModel.save() }
                 }
 
                 Section(header: Text("Backup & Restore").accessibilityAddTraits(.isHeader)) {

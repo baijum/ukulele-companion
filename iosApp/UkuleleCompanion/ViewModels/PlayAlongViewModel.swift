@@ -87,7 +87,7 @@ final class PlayAlongViewModel: ObservableObject {
     // MARK: - Mic Permission
 
     private func requestMicAndBegin() {
-        AVAudioApplication.requestRecordPermission { [weak self] granted in
+        AVAudioSession.sharedInstance().requestRecordPermission { [weak self] granted in
             DispatchQueue.main.async {
                 guard let self = self, granted else { return }
                 self.beginSession()

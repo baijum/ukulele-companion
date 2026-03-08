@@ -42,7 +42,7 @@ struct PlayAlongView: View {
                     .pickerStyle(.segmented)
                 }
                 .padding(.horizontal)
-                .onChange(of: selectedScaleType) { _, _ in
+                .onChange(of: selectedScaleType) { _ in
                     selectedProgression = nil
                 }
 
@@ -94,7 +94,7 @@ struct PlayAlongView: View {
                                 .foregroundStyle(Color.accentColor)
                                 .accessibilityAddTraits(.updatesFrequently)
                                 .accessibilityLabel("Expected chord: \(chordName)")
-                                .onChange(of: viewModel.currentChordIndex) { _, _ in
+                                .onChange(of: viewModel.currentChordIndex) { _ in
                                     AccessibilityAnnouncer.shared.announce(chordName, minInterval: 0.5)
                                 }
 

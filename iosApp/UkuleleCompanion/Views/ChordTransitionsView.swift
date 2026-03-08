@@ -87,7 +87,7 @@ struct ChordTransitionsView: View {
                             .foregroundStyle(Color.accentColor)
                             .accessibilityAddTraits(.updatesFrequently)
                             .accessibilityLabel("Current chord: \(viewModel.currentChord)")
-                            .onChange(of: viewModel.currentChord) { _, newChord in
+                            .onChange(of: viewModel.currentChord) { newChord in
                                 AccessibilityAnnouncer.shared.announce(newChord, minInterval: 0.5)
                             }
 
@@ -137,10 +137,10 @@ struct ChordTransitionsView: View {
         }
         .navigationTitle("Chord Transitions")
         .onAppear { syncChordNames() }
-        .onChange(of: root1) { _, _ in syncChordNames() }
-        .onChange(of: quality1) { _, _ in syncChordNames() }
-        .onChange(of: root2) { _, _ in syncChordNames() }
-        .onChange(of: quality2) { _, _ in syncChordNames() }
+        .onChange(of: root1) { _ in syncChordNames() }
+        .onChange(of: quality1) { _ in syncChordNames() }
+        .onChange(of: root2) { _ in syncChordNames() }
+        .onChange(of: quality2) { _ in syncChordNames() }
     }
 
     private func formatTime(_ seconds: Int) -> String {
