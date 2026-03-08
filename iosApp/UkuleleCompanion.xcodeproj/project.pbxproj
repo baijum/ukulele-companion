@@ -99,6 +99,13 @@
 		A10069 /* PlayAlongViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10069 /* PlayAlongViewModel.swift */; };
 		A10070 /* PatternPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10070 /* PatternPlayer.swift */; };
 		A10071 /* FullScreenFretboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10071 /* FullScreenFretboardView.swift */; };
+		A10072 /* PracticeTimerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10072 /* PracticeTimerViewModelTests.swift */; };
+		A10073 /* FavoritesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10073 /* FavoritesViewModelTests.swift */; };
+		A10074 /* LearnViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10074 /* LearnViewModelTests.swift */; };
+		A10075 /* CustomPatternsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10075 /* CustomPatternsViewModelTests.swift */; };
+		A10076 /* SongbookViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10076 /* SongbookViewModelTests.swift */; };
+		A10077 /* ProgressionsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10077 /* ProgressionsViewModelTests.swift */; };
+		A10078 /* ChordLibraryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10078 /* ChordLibraryViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -219,6 +226,13 @@
 		B10069 /* PlayAlongViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAlongViewModel.swift; sourceTree = "<group>"; };
 		B10070 /* PatternPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternPlayer.swift; sourceTree = "<group>"; };
 		B10071 /* FullScreenFretboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenFretboardView.swift; sourceTree = "<group>"; };
+		B10072 /* PracticeTimerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTimerViewModelTests.swift; sourceTree = "<group>"; };
+		B10073 /* FavoritesViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModelTests.swift; sourceTree = "<group>"; };
+		B10074 /* LearnViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnViewModelTests.swift; sourceTree = "<group>"; };
+		B10075 /* CustomPatternsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPatternsViewModelTests.swift; sourceTree = "<group>"; };
+		B10076 /* SongbookViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongbookViewModelTests.swift; sourceTree = "<group>"; };
+		B10077 /* ProgressionsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionsViewModelTests.swift; sourceTree = "<group>"; };
+		B10078 /* ChordLibraryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordLibraryViewModelTests.swift; sourceTree = "<group>"; };
 		D00002 /* UkuleleCompanionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UkuleleCompanionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -399,7 +413,14 @@
 		G90001 /* UkuleleCompanionTests */ = {
 			isa = PBXGroup;
 			children = (
+				B10078 /* ChordLibraryViewModelTests.swift */,
+				B10075 /* CustomPatternsViewModelTests.swift */,
+				B10073 /* FavoritesViewModelTests.swift */,
+				B10074 /* LearnViewModelTests.swift */,
+				B10072 /* PracticeTimerViewModelTests.swift */,
+				B10077 /* ProgressionsViewModelTests.swift */,
 				B10065 /* SettingsViewModelTests.swift */,
+				B10076 /* SongbookViewModelTests.swift */,
 			);
 			path = UkuleleCompanionTests;
 			sourceTree = "<group>";
@@ -630,7 +651,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10078 /* ChordLibraryViewModelTests.swift in Sources */,
+				A10075 /* CustomPatternsViewModelTests.swift in Sources */,
+				A10073 /* FavoritesViewModelTests.swift in Sources */,
+				A10074 /* LearnViewModelTests.swift in Sources */,
+				A10072 /* PracticeTimerViewModelTests.swift in Sources */,
+				A10077 /* ProgressionsViewModelTests.swift in Sources */,
 				A10065 /* SettingsViewModelTests.swift in Sources */,
+				A10076 /* SongbookViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
