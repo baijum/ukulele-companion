@@ -1,0 +1,33 @@
+---
+description: Edge-to-edge Play Store warnings and deferred action items — relevant when upgrading Material Components, handling Play Store warnings, or working on edge-to-edge / window insets
+globs: app/src/main/java/**/MainActivity.kt, app/src/main/java/**/ui/theme/Theme.kt, gradle/libs.versions.toml
+alwaysApply: false
+---
+
+# Edge-to-Edge Play Store Warnings (Deferred)
+
+Two Google Play Console recommendations were analyzed in March 2026. No action is required from app code — the root cause is in the Material Components library.
+
+## Warning 1: "Edge-to-edge may not display for all users"
+
+- **Status:** Already handled.
+- The app calls `enableEdgeToEdge()` in `MainActivity.onCreate()` before `setContent`.
+- Both `FretboardScreen` and `OnboardingScreen` use Material 3 `Scaffold` with `innerPadding`, which automatically accounts for system bar insets.
+- `OnboardingScreen` bottom bar applies `navigationBarsPadding()`.
+- **Follow-up:** A visual audit on an Android 15+ device/emulator could confirm nothing is clipped behind system bars (bottom sheets, dialogs, drawer, FABs).
+
+## Warning 2: "Your app uses deprecated APIs or parameters for edge-to-edge"
+
+- **Deprecated APIs flagged:** `setStatusBarColor`, `setNavigationBarColor`, `LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES`
+- **Root cause:** Internal code in `com.google.android.material:material:1.13.0`:
+  - `EdgeToEdgeUtils.applyEdgeToEdge()` calls `window.setStatusBarColor()` / `window.setNavigationBarColor()`
+  - `BottomSheetDialog.onCreate()` uses the above utilities
+  - `MaterialDatePicker.onStart()` sets `LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES`
+- **Not in app code** — the obfuscated class names (`b.q.b`, `b.t.b`, `b.v.b`, `b.r.t`) in the Play Console map to these Material library internals after R8.
+- **Upstream fix:** Commit `c2051db` in Material Components, available in `1.14.0-alpha` but not yet in a stable release.
+- **Tracked at:** https://github.com/material-components/material-components-android/issues/4507
+
+## Action
+
+- **Decision (March 2026):** No action for now.
+- **Revisit when:** Material Components `1.14.0` stable is released. Update the `material` version in `gradle/libs.versions.toml` (currently `1.13.0`) and verify the Play Console warnings are resolved.

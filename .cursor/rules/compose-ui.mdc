@@ -1,0 +1,48 @@
+---
+description: Compose UI conventions — Material 3, recomposition optimization, Compose-only UI, theming
+globs: app/src/main/java/**/ui/**/*.kt
+alwaysApply: false
+---
+
+# Compose UI Rules
+
+## Compose-only UI
+
+No XML layouts. All UI is built with Jetpack Compose and Material 3 components.
+
+## Material 3
+
+Use Material 3 components and theming (`MaterialTheme.colorScheme`, `MaterialTheme.typography`). Do not use Material 2 (`androidx.compose.material`) — use `androidx.compose.material3`.
+
+## Minimize recompositions
+
+- Use `remember` to avoid recomputing values on every recomposition
+- Use `derivedStateOf` when a value is derived from one or more state objects
+- Use `key` to help Compose identify items in lists and avoid unnecessary recomposition
+
+```kotlin
+val sortedItems = remember(items) { items.sortedBy { it.name } }
+
+val isValid by remember {
+    derivedStateOf { name.isNotBlank() && age > 0 }
+}
+```
+
+## Immutable data
+
+Prefer immutable data (`val`, `data class`, `List` over `MutableList` in public APIs). This helps Compose's stability system skip unnecessary recompositions.
+
+## Code style
+
+- Files: PascalCase (`ChordDetector.kt`)
+- Functions: camelCase
+- Classes/Objects/Enums: PascalCase
+- Use Kotlin idioms (`let`, `apply`, `also`, `when`) where they improve readability
+
+## Navigation
+
+The app uses `ModalNavigationDrawer` with ~30 sections grouped into Play, Create, Learn, and Reference. Screen selection is managed via `mutableIntStateOf` with a `when` block — there is no Compose NavHost or NavController.
+
+## Theming
+
+Verify UI changes in light, dark, and high-contrast themes. Theme configuration lives in `ui/theme/Theme.kt`.

@@ -1,0 +1,42 @@
+---
+description: iOS ViewModel conventions — @Published, ObservableObject, @StateObject vs @ObservedObject, KMP Swift naming
+globs: iosApp/UkuleleCompanion/ViewModels/**/*.swift
+alwaysApply: false
+---
+
+# iOS ViewModel Rules
+
+## ObservableObject pattern
+
+ViewModels conform to `ObservableObject` and expose state via `@Published` properties.
+
+```swift
+class TunerViewModel: ObservableObject {
+    @Published var detectedNote: String = ""
+    @Published var centsOff: Double = 0.0
+}
+```
+
+## @StateObject vs @ObservedObject
+
+- Use `@StateObject` for view-owned ViewModels (the view creates and owns the instance)
+- Use `@ObservedObject` for ViewModels passed in from a parent view
+
+```swift
+struct TunerView: View {
+    @StateObject private var viewModel = TunerViewModel()
+}
+
+struct ChildView: View {
+    @ObservedObject var viewModel: TunerViewModel
+}
+```
+
+## KMP Swift naming conventions
+
+- KMP classes drop the `Shared` prefix: `PitchDetector.shared`, `UkuleleTuning.highG`
+- KMP numeric types keep their Kotlin names: `KotlinFloatArray`, `KotlinDouble` (no prefix)
+
+## Existing ViewModels
+
+`FretboardViewModel`, `TunerViewModel`, `MetronomeViewModel`, `FavoritesViewModel`, `SettingsViewModel`, `ChordLibraryViewModel`, `SongbookViewModel`, `MelodyViewModel`, `ProgressionsViewModel`, `LearnViewModel`, `PitchMonitorViewModel`, `ScalePracticeViewModel`, `PracticeTimerViewModel`, `CustomPatternsViewModel`, `PlayAlongViewModel`

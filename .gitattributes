@@ -1,0 +1,35 @@
+# Auto-detect text files and normalize line endings
+* text=auto
+
+# Kotlin / Java
+*.kt text diff=kotlin
+*.kts text diff=kotlin
+*.java text diff=java
+
+# Swift
+*.swift text diff=swift
+
+# Build / Config
+*.gradle text diff=kotlin
+*.gradle.kts text diff=kotlin
+*.xml text
+*.json text
+*.yaml text
+*.yml text
+*.toml text
+*.properties text
+*.md text diff=markdown
+
+# Binary files — do not diff or normalize
+*.wav binary
+*.ogg binary
+*.onnx binary
+*.jks binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.xcframework binary
+*.framework binary
