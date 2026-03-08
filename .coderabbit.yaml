@@ -1,0 +1,92 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: "en-US"
+early_access: false
+
+reviews:
+  profile: "assertive"
+  request_changes_workflow: true
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+  path_instructions:
+    - path: "shared/src/commonMain/**/*.kt"
+      instructions: |
+        This is Kotlin Multiplatform shared code used by both Android and iOS.
+        Domain logic must NOT import platform-specific classes — use expect/actual for platform needs.
+        Verify that new business logic goes here when possible rather than in platform-specific code.
+        Check for immutable data patterns (val, data class, List over MutableList in public APIs).
+
+    - path: "app/src/main/java/com/baijum/ukufretboard/ui/**/*.kt"
+      instructions: |
+        Jetpack Compose UI code. Accessibility is critical — a core user base includes blind and visually impaired musicians.
+        Verify these accessibility rules:
+        - Icons must have descriptive contentDescription (conditional for toggles)
+        - Screen titles and section headers must have Modifier.semantics { heading() }
+        - Canvas elements must use clearAndSetSemantics with data-driven descriptions
+        - Dynamic content needs liveRegion (Polite for frequent updates, Assertive for state changes)
+        - Clickable composables need contentDescription or visible label with role = Role.Button
+        - Never remove existing accessibility attributes during refactoring
+        Check for proper use of remember, derivedStateOf, and key to minimize recompositions.
+        Material 3 components and theming required — no XML layouts.
+
+    - path: "app/src/main/java/com/baijum/ukufretboard/viewmodel/**/*.kt"
+      instructions: |
+        ViewModels must expose state via StateFlow — never use LiveData.
+        Repositories must abstract SharedPreferences — ViewModels must not access SharedPreferences directly.
+        All async work must use Kotlin coroutines (no RxJava, no callbacks).
+
+    - path: "iosApp/UkuleleCompanion/Views/**/*.swift"
+      instructions: |
+        SwiftUI views. Accessibility is critical — a core user base relies on VoiceOver.
+        Verify these accessibility rules:
+        - Use .accessibilityLabel() on interactive elements and images
+        - Use .accessibilityHint() for non-obvious interactions
+        - Mark section titles with .accessibilityAddTraits(.isHeader)
+        - Use .accessibilityValue() for dynamic state (sliders, pickers)
+        - Never remove existing accessibility modifiers
+        Check for proper SwiftUI patterns and Swift 6 compatibility.
+
+    - path: "iosApp/UkuleleCompanion/ViewModels/**/*.swift"
+      instructions: |
+        iOS ViewModels must use @Published properties with ObservableObject.
+        Use @StateObject for view-owned ViewModels, @ObservedObject for passed-in ones.
+        KMP Swift naming: classes drop Shared prefix (e.g., PitchDetector.shared, UkuleleTuning.highG).
+
+    - path: "app/src/main/java/com/baijum/ukufretboard/audio/**/*.kt"
+      instructions: |
+        Audio processing code. Verify:
+        - AudioRecord at 44.1 kHz, PCM 16-bit mono
+        - SoundPool for playback with OGG samples
+        - No network dependencies — all audio processing must be fully offline
+
+    - path: "iosApp/UkuleleCompanion/Audio/**/*.swift"
+      instructions: |
+        iOS audio code using AVAudioEngine.
+        Verify audio session activation is skipped on simulator (#if targetEnvironment(simulator)).
+        Player node must be connected using explicit mono format to avoid channel mismatch.
+
+    - path: "app/src/test/**/*.kt"
+      instructions: |
+        Unit tests using JUnit 4 and Kotest Property Testing.
+        Property tests should use runBlocking { checkAll(...) { ... } } pattern.
+        Verify both High-G and Low-G tuning coverage when testing chord/note logic.
+
+    - path: "**/*.gradle.kts"
+      instructions: |
+        Gradle build files using Kotlin DSL with version catalog (libs.versions.toml).
+        No new third-party SDKs without discussion.
+        Verify no analytics, tracking, telemetry, or ad dependencies are added.
+
+  path_filters:
+    - "!**/*.wav"
+    - "!**/*.ogg"
+    - "!**/*.onnx"
+    - "!**/*.xcframework/**"
+    - "!**/Localizable.xcstrings"
+
+chat:
+  auto_reply: true
