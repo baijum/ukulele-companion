@@ -72,7 +72,7 @@ struct MelodyNotepadView: View {
             Text("RECORD").tag(MelodyInputMode.record)
         }
         .pickerStyle(.segmented)
-        .onChange(of: viewModel.inputMode) { _, newValue in
+        .onChange(of: viewModel.inputMode) { newValue in
             if newValue == .tap && viewModel.isRecording {
                 viewModel.stopRecording()
             }

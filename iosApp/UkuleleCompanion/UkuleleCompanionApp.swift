@@ -16,7 +16,7 @@ struct UkuleleCompanionApp: App {
             ContentView()
                 .environmentObject(practiceTimerVM)
         }
-        .onChange(of: scenePhase) { _, newPhase in
+        .onChange(of: scenePhase) { newPhase in
             switch newPhase {
             case .active:
                 sessionStartDate = Date()

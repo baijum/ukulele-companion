@@ -67,12 +67,12 @@ struct ContentView: View {
         .sheet(isPresented: $showSettings) {
             SettingsView()
         }
-        .onChange(of: showSettings) { _, isShowing in
+        .onChange(of: showSettings) { isShowing in
             if !isShowing { settingsVM.load() }
         }
     }
 }
 
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View { ContentView() }
 }

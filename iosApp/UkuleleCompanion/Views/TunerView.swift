@@ -99,16 +99,16 @@ struct TunerView: View {
                 viewModel.toggleCapture()
             }
         }
-        .onChange(of: settings.noiseGateFiltering) { _, newVal in
+        .onChange(of: settings.noiseGateFiltering) { newVal in
             viewModel.noiseGateRms = Self.filteringToRms(newVal)
         }
-        .onChange(of: settings.spokenFeedback) { _, newVal in
+        .onChange(of: settings.spokenFeedback) { newVal in
             viewModel.spokenFeedback = newVal
         }
-        .onChange(of: settings.a4Reference) { _, newVal in
+        .onChange(of: settings.a4Reference) { newVal in
             viewModel.a4Reference = Double(newVal)
         }
-        .onChange(of: settings.selectedTuning) { _, _ in
+        .onChange(of: settings.selectedTuning) { _ in
             viewModel.currentTuning = tuning
         }
         .onDisappear {
@@ -287,7 +287,7 @@ struct NeedleMeterView: View {
 
                 let labelR = radius + 14
                 let labelStr = tickCents == 0 ? "0" : (tickCents > 0 ? "+\(Int(tickCents))" : "\(Int(tickCents))")
-                let text = Text(labelStr).font(.system(size: 9)).foregroundStyle(.secondary)
+                let text = Text(labelStr).font(.system(size: 9)).foregroundColor(.secondary)
                 context.draw(context.resolve(text),
                              at: CGPoint(x: centerX + cos * labelR, y: centerY - sin * labelR),
                              anchor: .center)
@@ -435,7 +435,7 @@ final class TunerViewModel: ObservableObject {
     }
 
     private func requestMicPermissionAndStart() {
-        AVAudioApplication.requestRecordPermission { [weak self] granted in
+        AVAudioSession.sharedInstance().requestRecordPermission { [weak self] granted in
             DispatchQueue.main.async {
                 if granted {
                     self?.startCapture()
@@ -707,6 +707,6 @@ final class TunerViewModel: ObservableObject {
     }
 }
 
-#Preview {
-    TunerView()
+struct TunerView_Previews: PreviewProvider {
+    static var previews: some View { TunerView() }
 }

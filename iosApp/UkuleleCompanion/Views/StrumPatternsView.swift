@@ -48,7 +48,7 @@ struct StrumPatternsView: View {
             .pickerStyle(.segmented)
             .padding(.horizontal)
             .padding(.top, 8)
-            .onChange(of: selectedTab) { _, _ in
+            .onChange(of: selectedTab) { _ in
                 selectedDifficulty = nil
                 expandedIndex = nil
             }

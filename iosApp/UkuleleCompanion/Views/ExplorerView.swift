@@ -134,10 +134,10 @@ struct ExplorerView: View {
             .onAppear {
                 fretboardVM.applySoundSettings(from: settings)
             }
-            .onChange(of: settings.soundEnabled) { _, _ in fretboardVM.applySoundSettings(from: settings) }
-            .onChange(of: settings.volume) { _, _ in fretboardVM.applySoundSettings(from: settings) }
-            .onChange(of: settings.strumDelayMs) { _, _ in fretboardVM.applySoundSettings(from: settings) }
-            .onChange(of: settings.strumDown) { _, _ in fretboardVM.applySoundSettings(from: settings) }
+            .onChange(of: settings.soundEnabled) { _ in fretboardVM.applySoundSettings(from: settings) }
+            .onChange(of: settings.volume) { _ in fretboardVM.applySoundSettings(from: settings) }
+            .onChange(of: settings.strumDelayMs) { _ in fretboardVM.applySoundSettings(from: settings) }
+            .onChange(of: settings.strumDown) { _ in fretboardVM.applySoundSettings(from: settings) }
         }
     }
 
