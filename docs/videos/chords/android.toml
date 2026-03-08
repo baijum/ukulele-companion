@@ -1,7 +1,7 @@
 [project]
 title = "Chord Library - Ukulele Companion"
 description = "Browse voicings for 20 chord types across all 12 root notes"
-output = "../../feature-videos/chords.mp4"
+output = "../../feature-videos/android/chords.mp4"
 resolution = "1080x2424"
 
 [branding]
@@ -16,7 +16,7 @@ volume_boost = 3.0
 
 [[scene]]
 name = "overview"
-video = "clips/01-overview.mp4"
+video = "clips/android/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 24
@@ -39,7 +39,7 @@ organized and easy to browse with no internet required.
 
 [[scene]]
 name = "root-and-category"
-video = "clips/02-root-and-category.mp4"
+video = "clips/android/02-root-and-category.mp4"
 audio = "audio/02-root-and-category.mp3"
 delay = 1.0
 min_clip_duration = 23
@@ -65,7 +65,7 @@ for your selection.
 
 [[scene]]
 name = "voicing-cards"
-video = "clips/03-voicing-cards.mp4"
+video = "clips/android/03-voicing-cards.mp4"
 audio = "audio/03-voicing-cards.mp3"
 delay = 1.0
 min_clip_duration = 24
@@ -90,7 +90,7 @@ theory behind each shape.
 
 [[scene]]
 name = "inversions-and-filters"
-video = "clips/04-inversions-and-filters.mp4"
+video = "clips/android/04-inversions-and-filters.mp4"
 audio = "audio/04-inversions-and-filters.mp3"
 delay = 1.0
 min_clip_duration = 28
@@ -119,7 +119,7 @@ sequence and compare their sounds side by side.
 
 [[scene]]
 name = "favorites-and-sharing"
-video = "clips/05-favorites-and-sharing.mp4"
+video = "clips/android/05-favorites-and-sharing.mp4"
 audio = "audio/05-favorites-and-sharing.mp3"
 delay = 1.0
 min_clip_duration = 25

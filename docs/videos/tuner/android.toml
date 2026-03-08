@@ -1,7 +1,7 @@
 [project]
 title = "Tuner - Ukulele Companion"
 description = "A detailed walkthrough of the chromatic tuner with neural pitch detection"
-output = "../../feature-videos/tuner.mp4"
+output = "../../feature-videos/android/tuner.mp4"
 resolution = "1080x2424"
 
 [branding]
@@ -17,7 +17,7 @@ volume_boost = 3.0
 # ── Scene 1: Tuner Overview ─────────────────────────────────
 [[scene]]
 name = "tuner-overview"
-video = "clips/01-tuner-overview.mp4"
+video = "clips/android/01-tuner-overview.mp4"
 audio = "audio/01-tuner-overview.mp3"
 delay = 2.0
 min_clip_duration = 22
@@ -37,7 +37,7 @@ harmonics or noisy environments.
 # ── Scene 2: Tuning Meter ───────────────────────────────────
 [[scene]]
 name = "tuning-meter"
-video = "clips/02-tuning-meter.mp4"
+video = "clips/android/02-tuning-meter.mp4"
 audio = "audio/02-tuning-meter.mp3"
 delay = 1.0
 min_clip_duration = 35
@@ -63,7 +63,7 @@ landed even after the sound fades.
 # ── Scene 3: String Buttons ─────────────────────────────────
 [[scene]]
 name = "string-buttons"
-video = "clips/03-string-buttons.mp4"
+video = "clips/android/03-string-buttons.mp4"
 audio = "audio/03-string-buttons.mp3"
 delay = 1.0
 min_clip_duration = 25
@@ -84,7 +84,7 @@ checkmark appears on its button to track your progress.
 # ── Scene 4: Neural Detection ────────────────────────────────
 [[scene]]
 name = "neural-detection"
-video = "clips/04-neural-detection.mp4"
+video = "clips/android/04-neural-detection.mp4"
 audio = "audio/04-neural-detection.mp3"
 delay = 1.0
 min_clip_duration = 26
@@ -105,7 +105,7 @@ strings that produce weaker harmonics.
 # ── Scene 5: Tuning Modes and Tips ───────────────────────────
 [[scene]]
 name = "tuning-modes"
-video = "clips/05-tuning-modes.mp4"
+video = "clips/android/05-tuning-modes.mp4"
 audio = "audio/05-tuning-modes.mp3"
 delay = 1.0
 min_clip_duration = 34

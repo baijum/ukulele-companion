@@ -19,7 +19,7 @@ app/src/main/play/
 .kotlin/
 docs/manual/ukulele-companion-manual.pdf
 docs/walkthrough.mp4
-docs/feature-videos/*.mp4
+docs/feature-videos/
 docs/videos/*/clips/
 docs/videos/*/audio/
 store-listing/
@@ -30,4 +30,4 @@ iosApp/DerivedData/
 iosApp/Frameworks/
 *.xcuserdata
 xcuserdata/
-screenshots/
+/screenshots/

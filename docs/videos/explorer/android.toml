@@ -1,7 +1,7 @@
 [project]
 title = "Explorer - Ukulele Companion"
 description = "A detailed walkthrough of the interactive fretboard Explorer"
-output = "../../feature-videos/explorer.mp4"
+output = "../../feature-videos/android/explorer.mp4"
 resolution = "1080x2424"
 
 [branding]
@@ -17,7 +17,7 @@ volume_boost = 3.0
 # ── Scene 1: Empty Explorer ──────────────────────────────────
 [[scene]]
 name = "empty-explorer"
-video = "clips/01-empty-explorer.mp4"
+video = "clips/android/01-empty-explorer.mp4"
 audio = "audio/01-empty-explorer.mp3"
 delay = 2.0
 min_clip_duration = 23
@@ -37,7 +37,7 @@ you'll spend most of your time.
 # ── Scene 2: Build C Major Chord ─────────────────────────────
 [[scene]]
 name = "c-major-chord"
-video = "clips/02-c-major-chord.mp4"
+video = "clips/android/02-c-major-chord.mp4"
 audio = "audio/02-c-major-chord.mp3"
 delay = 1.0
 min_clip_duration = 22
@@ -58,7 +58,7 @@ button to hear the chord strummed.
 # ── Scene 3: Chord Detail Info ───────────────────────────────
 [[scene]]
 name = "chord-details"
-video = "clips/03-chord-details.mp4"
+video = "clips/android/03-chord-details.mp4"
 audio = "audio/03-chord-details.mp3"
 delay = 1.0
 min_clip_duration = 26
@@ -79,7 +79,7 @@ rating, and the inversion type.
 # ── Scene 4: Other Chords ────────────────────────────────────
 [[scene]]
 name = "other-chords"
-video = "clips/04-other-chords.mp4"
+video = "clips/android/04-other-chords.mp4"
 audio = "audio/04-other-chords.mp3"
 delay = 1.0
 min_clip_duration = 23
@@ -99,7 +99,7 @@ triads, sevenths, suspended, and extended chords.
 # ── Scene 5: Scale Overlay ───────────────────────────────────
 [[scene]]
 name = "scale-overlay"
-video = "clips/05-scale-overlay.mp4"
+video = "clips/android/05-scale-overlay.mp4"
 audio = "audio/05-scale-overlay.mp3"
 delay = 1.0
 min_clip_duration = 28
@@ -120,7 +120,7 @@ thirty-eight scales including modes, pentatonics, blues, and more.
 # ── Scene 6: Tips and Closing ────────────────────────────────
 [[scene]]
 name = "tips-and-closing"
-video = "clips/06-tips-and-closing.mp4"
+video = "clips/android/06-tips-and-closing.mp4"
 audio = "audio/06-tips-and-closing.mp3"
 delay = 1.0
 min_clip_duration = 28

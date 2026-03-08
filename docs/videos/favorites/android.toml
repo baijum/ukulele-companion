@@ -1,7 +1,7 @@
 [project]
 title = "Favorites - Ukulele Companion"
 description = "Save, organize, and quickly recall your go-to chord voicings"
-output = "../../feature-videos/favorites.mp4"
+output = "../../feature-videos/android/favorites.mp4"
 resolution = "1080x2424"
 
 [branding]
@@ -16,7 +16,7 @@ volume_boost = 3.0
 
 [[scene]]
 name = "overview"
-video = "clips/01-overview.mp4"
+video = "clips/android/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 23
@@ -33,7 +33,7 @@ want to bookmark the exact voicings that work best together.
 
 [[scene]]
 name = "saving-voicings"
-video = "clips/02-saving-voicings.mp4"
+video = "clips/android/02-saving-voicings.mp4"
 audio = "audio/02-saving-voicings.mp3"
 delay = 1.0
 min_clip_duration = 24
@@ -51,7 +51,7 @@ note information intact.
 
 [[scene]]
 name = "browsing-and-playback"
-video = "clips/03-browsing-and-playback.mp4"
+video = "clips/android/03-browsing-and-playback.mp4"
 audio = "audio/03-browsing-and-playback.mp3"
 delay = 1.0
 min_clip_duration = 25
@@ -69,7 +69,7 @@ choosing substitutions for a song.
 
 [[scene]]
 name = "managing-favorites"
-video = "clips/04-managing-favorites.mp4"
+video = "clips/android/04-managing-favorites.mp4"
 audio = "audio/04-managing-favorites.mp3"
 delay = 1.0
 min_clip_duration = 26

@@ -1,7 +1,7 @@
 [project]
 title = "Strumming Patterns - Ukulele Companion"
 description = "Learn and practice strumming and fingerpicking patterns with animated playback"
-output = "../../feature-videos/patterns.mp4"
+output = "../../feature-videos/android/patterns.mp4"
 resolution = "1080x2424"
 
 [branding]
@@ -16,7 +16,7 @@ volume_boost = 3.0
 
 [[scene]]
 name = "overview"
-video = "clips/01-overview.mp4"
+video = "clips/android/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 24
@@ -34,7 +34,7 @@ play it.
 
 [[scene]]
 name = "pattern-list"
-video = "clips/02-pattern-list.mp4"
+video = "clips/android/02-pattern-list.mp4"
 audio = "audio/02-pattern-list.mp3"
 delay = 1.0
 min_clip_duration = 24
@@ -52,7 +52,7 @@ complex calypso and reggae rhythms.
 
 [[scene]]
 name = "pattern-detail"
-video = "clips/03-pattern-detail.mp4"
+video = "clips/android/03-pattern-detail.mp4"
 audio = "audio/03-pattern-detail.mp3"
 delay = 1.0
 min_clip_duration = 24
@@ -70,7 +70,7 @@ to fine-tune the number of beats from two to sixteen.
 
 [[scene]]
 name = "fingerpicking"
-video = "clips/04-fingerpicking.mp4"
+video = "clips/android/04-fingerpicking.mp4"
 audio = "audio/04-fingerpicking.mp3"
 delay = 1.0
 min_clip_duration = 26
@@ -88,7 +88,7 @@ complex fingerstyle techniques approachable for beginners.
 
 [[scene]]
 name = "playback-and-practice"
-video = "clips/05-playback-and-practice.mp4"
+video = "clips/android/05-playback-and-practice.mp4"
 audio = "audio/05-playback-and-practice.mp3"
 delay = 1.0
 min_clip_duration = 26

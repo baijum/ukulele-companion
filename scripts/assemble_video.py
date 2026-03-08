@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Assemble a narrated video from a TOML project file.
 
-Reads a project.toml that describes scenes with video clips and narration text,
-generates missing voiceover audio via OpenAI TTS, pads clips to match narration
-duration, concatenates scenes, and adds branding jingles.
+Reads a platform-specific TOML file (android.toml or ios.toml) that describes
+scenes with video clips and narration text, generates missing voiceover audio
+via OpenAI TTS, pads clips to match narration duration, concatenates scenes,
+and adds branding jingles.
 
 Usage:
-    python3 scripts/assemble_video.py docs/videos/explorer/project.toml
-    python3 scripts/assemble_video.py docs/videos/explorer/project.toml --audio-only
+    python3 scripts/assemble_video.py docs/videos/explorer/android.toml
+    python3 scripts/assemble_video.py docs/videos/explorer/android.toml --audio-only
 
 Requires:
     - ffmpeg on PATH
@@ -217,7 +218,7 @@ def add_jingles(assembled: Path, intro: Path, outro: Path, output: Path) -> None
 
 def main():
     parser = argparse.ArgumentParser(description="Assemble video from TOML project")
-    parser.add_argument("project", help="Path to project.toml")
+    parser.add_argument("project", help="Path to TOML project file (e.g. android.toml)")
     parser.add_argument("--audio-only", action="store_true",
                         help="Generate audio only, print required clip durations")
     args = parser.parse_args()

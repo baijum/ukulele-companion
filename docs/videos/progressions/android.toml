@@ -1,7 +1,7 @@
 [project]
 title = "Chord Progressions - Ukulele Companion"
 description = "Practice common progressions with playback, custom sequences, and voice leading"
-output = "../../feature-videos/progressions.mp4"
+output = "../../feature-videos/android/progressions.mp4"
 resolution = "1080x2424"
 
 [branding]
@@ -16,7 +16,7 @@ volume_boost = 3.0
 
 [[scene]]
 name = "overview"
-video = "clips/01-overview.mp4"
+video = "clips/android/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 25
@@ -36,7 +36,7 @@ across the fretboard.
 
 [[scene]]
 name = "modes-and-browsing"
-video = "clips/02-modes-and-browsing.mp4"
+video = "clips/android/02-modes-and-browsing.mp4"
 audio = "audio/02-modes-and-browsing.mp3"
 delay = 1.0
 min_clip_duration = 25
@@ -57,7 +57,7 @@ to transpose everything at once.
 
 [[scene]]
 name = "progression-cards"
-video = "clips/03-progression-cards.mp4"
+video = "clips/android/03-progression-cards.mp4"
 audio = "audio/03-progression-cards.mp3"
 delay = 1.0
 min_clip_duration = 23
@@ -80,7 +80,7 @@ an audio preview before you pick up your instrument.
 
 [[scene]]
 name = "practice-mode"
-video = "clips/04-practice-mode.mp4"
+video = "clips/android/04-practice-mode.mp4"
 audio = "audio/04-practice-mode.mp3"
 delay = 1.0
 min_clip_duration = 25
@@ -102,7 +102,7 @@ metronome clicks keep you locked in time.
 
 [[scene]]
 name = "custom-and-voice-leading"
-video = "clips/05-custom-and-voice-leading.mp4"
+video = "clips/android/05-custom-and-voice-leading.mp4"
 audio = "audio/05-custom-and-voice-leading.mp3"
 delay = 1.0
 min_clip_duration = 27
