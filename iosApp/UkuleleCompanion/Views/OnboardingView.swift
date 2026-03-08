@@ -228,7 +228,7 @@ struct OnboardingView: View {
 
                 // Left-handed
                 Toggle("Left-handed", isOn: $settingsVM.leftHanded)
-                    .onChange(of: settingsVM.leftHanded) { _, _ in settingsVM.save() }
+                    .onChange(of: settingsVM.leftHanded) { _ in settingsVM.save() }
                     .padding(.top, 8)
 
                 // Theme
@@ -241,7 +241,7 @@ struct OnboardingView: View {
                     Text("System").tag("System")
                     Text("High Contrast").tag("High Contrast")
                 }
-                .onChange(of: settingsVM.themeMode) { _, _ in settingsVM.save() }
+                .onChange(of: settingsVM.themeMode) { _ in settingsVM.save() }
             }
             .padding(.horizontal, 32)
         }

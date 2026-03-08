@@ -172,7 +172,7 @@ struct ProgressionPracticeView: View {
         .navigationTitle("Practice")
         .navigationBarTitleDisplayMode(.inline)
         .onDisappear { stopPlayback() }
-        .onChange(of: currentChordIndex) { _, newIndex in
+        .onChange(of: currentChordIndex) { newIndex in
             guard isPlaying, newIndex < degrees.count else { return }
             let degree = degrees[newIndex]
             let chordRoot = (keyRoot + degree.interval) % 12
