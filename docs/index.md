@@ -64,7 +64,7 @@ hide:
   </article>
 </div>
 
-## In-app experience
+## Android experience
 
 <div class="screenshot-grid premium-grid">
   <figure>
@@ -89,6 +89,35 @@ hide:
   </figure>
   <figure>
     <img src="screenshots/android/circle-of-fifths.png" alt="Circle of fifths screen">
+    <figcaption>Visual music theory tools</figcaption>
+  </figure>
+</div>
+
+## iOS experience
+
+<div class="screenshot-grid premium-grid">
+  <figure>
+    <img src="screenshots/ios/chord-detected.png" alt="iOS chord detection screen">
+    <figcaption>Real-time chord detection</figcaption>
+  </figure>
+  <figure>
+    <img src="screenshots/ios/scale-overlay.png" alt="iOS scale overlay screen">
+    <figcaption>Scale notes on fretboard</figcaption>
+  </figure>
+  <figure>
+    <img src="screenshots/ios/chord-progressions.png" alt="iOS chord progressions screen">
+    <figcaption>Practice progressions in any key</figcaption>
+  </figure>
+  <figure>
+    <img src="screenshots/ios/chord-library.png" alt="iOS chord library screen">
+    <figcaption>Playable voicing library</figcaption>
+  </figure>
+  <figure>
+    <img src="screenshots/ios/strumming-patterns.png" alt="iOS strumming patterns screen">
+    <figcaption>Strumming and rhythm patterns</figcaption>
+  </figure>
+  <figure>
+    <img src="screenshots/ios/circle-of-fifths.png" alt="iOS circle of fifths screen">
     <figcaption>Visual music theory tools</figcaption>
   </figure>
 </div>
