@@ -1,0 +1,33 @@
+---
+description: KMP shared module constraints — no platform imports in domain/, expect/actual conventions, pure Kotlin business logic
+globs: shared/src/commonMain/**/*.kt
+alwaysApply: false
+---
+
+# Shared Module Rules (KMP)
+
+## No platform imports in domain/
+
+Code in `shared/src/commonMain/.../domain/` is pure Kotlin business logic. It MUST NOT import platform-specific classes (`java.*`, `android.*`, `Foundation`, `UIKit`, etc.).
+
+If platform functionality is needed, use `expect/actual` declarations in the `platform/` package.
+
+## expect/actual conventions
+
+- `expect` declarations live in `shared/src/commonMain/.../platform/PlatformUtils.kt`
+- `actual` implementations: `shared/src/androidMain/` (java.util), `shared/src/iosMain/` (Foundation)
+- Current expect/actual functions: `generateUuid`, `currentTimeMillis`, `currentYear`, `currentDayOfYear`
+
+## New business logic goes here
+
+When adding new business logic (chord detection, transposition, music theory, pitch detection, scales), implement it in the shared module so both Android and iOS benefit.
+
+## Package structure
+
+| Package | Contents |
+|---------|----------|
+| `domain/` | Pure Kotlin business logic — chord detection, transposition, pitch detection, scales, music theory, tuner note mapping |
+| `data/` | Data models, enums (`UkuleleTuning`, `Notes`), configuration types |
+| `platform/` | `expect/actual` declarations for platform-specific functions |
+
+Do not create new packages without discussion. Maintain the existing structure.

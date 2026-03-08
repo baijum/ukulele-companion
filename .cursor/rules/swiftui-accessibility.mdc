@@ -1,0 +1,31 @@
+---
+description: SwiftUI accessibility rules for VoiceOver — labels, hints, traits, values, and attribute preservation
+globs: iosApp/**/*.swift
+alwaysApply: false
+---
+
+# SwiftUI Accessibility Rules
+
+A core user base relies on VoiceOver. **Every UI change must preserve and improve accessibility.** Breaking accessibility is treated as seriously as breaking functionality.
+
+## Required modifiers
+
+- Use `.accessibilityLabel()` on interactive elements and images
+- Use `.accessibilityHint()` for non-obvious interactions
+- Mark section titles with `.accessibilityAddTraits(.isHeader)`
+- Use `.accessibilityValue()` for dynamic state (sliders, pickers)
+- Custom drawn views need `.accessibilityRepresentation` or `.accessibilityElement(children:)`
+
+## Never remove existing accessibility modifiers
+
+Do not remove `.accessibilityLabel()`, `.accessibilityHint()`, `.accessibilityAddTraits()`, or `.accessibilityValue()` during refactoring. If restructuring a view, preserve all accessibility modifiers in the new structure.
+
+## Label style
+
+- Sentence case: `"Play all inversions"`, not `"Play All Inversions"`
+- Action-oriented: `"Open settings"`, `"Delete note"`
+- Conditional for toggles: `isPlaying ? "Stop" : "Play"`
+
+## Helper utilities
+
+`AccessibilityHelper` in `iosApp/UkuleleCompanion/Helpers/` provides VoiceOver announcement support. Use it for dynamic announcements that cannot be expressed with static modifiers.

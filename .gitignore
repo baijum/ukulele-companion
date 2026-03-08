@@ -5,6 +5,7 @@
 .vscode
 .cursor/
 !.cursor/skills/
+!.cursor/rules/
 .DS_Store
 /build
 /app/build
