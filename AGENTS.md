@@ -4,7 +4,7 @@ Mandatory instructions for AI coding agents (Cursor, Copilot, Codex, etc.) worki
 
 ## Project Overview
 
-Ukulele Companion is a **free, fully offline** Android app for learning and playing ukulele. A core user base includes **blind and visually impaired musicians** who rely on TalkBack. Every code change must preserve accessibility. Breaking accessibility is treated as seriously as breaking functionality.
+Ukulele Companion is a **free, fully offline** multiplatform app (Android + iOS) for learning and playing ukulele. A core user base includes **blind and visually impaired musicians** who rely on TalkBack (Android) and VoiceOver (iOS). Every code change must preserve accessibility. Breaking accessibility is treated as seriously as breaking functionality.
 
 **Hard constraints -- never violate these:**
 - No network dependencies -- the app must remain fully offline
@@ -15,6 +15,18 @@ Ukulele Companion is a **free, fully offline** Android app for learning and play
 
 ## Tech Stack
 
+### Shared (KMP)
+
+| Component | Details |
+|-----------|---------|
+| Module | `:shared` -- Kotlin Multiplatform library (Android + iOS) |
+| Targets | Android, iosX64, iosArm64, iosSimulatorArm64 |
+| Source | `shared/src/commonMain/kotlin/com/baijum/ukufretboard/` |
+| Contents | 55 files: 31 domain + 23 data + 1 platform expect/actual |
+| Platform | `expect/actual` in `platform/PlatformUtils.kt` (`generateUuid`, `currentTimeMillis`, `currentYear`, `currentDayOfYear`) |
+
+### Android
+
 | Component | Details |
 |-----------|---------|
 | Language | Kotlin 2.3.10 (JVM target 11) |
@@ -23,51 +35,117 @@ Ukulele Companion is a **free, fully offline** Android app for learning and play
 | Min / Target / Compile SDK | 26 / 35 / 36 |
 | Persistence | SharedPreferences + DataStore (no Room) |
 | Serialization | kotlinx-serialization-json |
-| Audio ML | ONNX Runtime (neural pitch supervision) |
-
+| Audio ML | ONNX Runtime Android 1.24.2 (neural pitch supervision) |
 | Build | Gradle 9.3.1, AGP 9.0.1, Kotlin DSL, version catalog (`libs.versions.toml`) |
+
+### iOS
+
+| Component | Details |
+|-----------|---------|
+| Language | Swift 6, SwiftUI |
+| Architecture | MVVM, `@StateObject` / `@Published` |
+| Min iOS | 17.0 |
+| Bundle ID | `com.baijum.ukufretboard.ios` |
+| Xcode project | `iosApp/UkuleleCompanion.xcodeproj` |
+| KMP framework | Static `shared.framework` built via Gradle |
+| Audio ML | ONNX Runtime 1.24.2 xcframework (C API, `iosApp/Frameworks/`) |
+| Audio | AVAudioEngine + AVAudioPlayerNode for tone playback |
+| Localization | 1010 strings, 16 locales via `Localizable.xcstrings` |
 
 ## Package Structure
 
-All source code lives under `app/src/main/java/com/baijum/ukufretboard/`:
+### Shared module (`shared/src/commonMain/kotlin/com/baijum/ukufretboard/`)
+
+| Package | Contents |
+|---------|----------|
+| `domain/` | Pure Kotlin business logic -- chord detection, transposition, pitch detection, scales, music theory, tuner note mapping. **No platform imports allowed.** |
+| `data/` | Data models, enums (`UkuleleTuning`, `Notes`), configuration types |
+| `platform/` | `expect/actual` declarations for platform-specific functions |
+
+Platform actuals: `shared/src/androidMain/` (java.util), `shared/src/iosMain/` (Foundation)
+
+### Android app (`app/src/main/java/com/baijum/ukufretboard/`)
 
 | Package | Contents |
 |---------|----------|
 | `audio/` | `ToneGenerator` (SoundPool playback), `MetronomeEngine`, `AudioCaptureEngine` (44.1kHz PCM) |
-| `data/` | Data models, repositories (SharedPreferences-backed), backup/restore, sync |
-| `domain/` | Pure Kotlin business logic -- chord detection, transposition, pitch detection, scales, music theory. **No Android imports allowed.** |
-| `ui/` | 44+ Compose screens/components. Navigation via `ModalNavigationDrawer` in `FretboardScreen.kt` (no NavHost) |
-| `viewmodel/` | 11 ViewModels exposing `StateFlow` (never `LiveData`) |
+| `data/` | Repositories (SharedPreferences-backed), backup/restore manager |
+| `domain/` | Android-specific domain logic -- `NeuralPitchSupervisor`, `ChordImageSharer`, `AchievementChecker` |
+| `ui/` | 54 Compose screens/components. Navigation via `ModalNavigationDrawer` in `FretboardScreen.kt` (no NavHost) |
+| `viewmodel/` | 13 ViewModels exposing `StateFlow` (never `LiveData`) |
 
 | `MainActivity.kt` | Single-activity entry point |
 
+### iOS app (`iosApp/UkuleleCompanion/`)
+
+| Directory | Contents |
+|-----------|----------|
+| `Audio/` | `AudioCaptureEngine` (AVAudioEngine), `TonePlayer` (WAV sample playback), `NeuralPitchSupervisor` (ONNX C API) |
+| `Views/` | 47 SwiftUI views: `PlayView`, `ExplorerView`, `TunerView`, `OnboardingView`, `CreateView`, `LearnView`, `ReferenceView`, `MetronomeView`, `FavoritesView`, `SettingsView`, `HelpView`, `ChordLibraryView`, `PitchMonitorView`, `StrumPatternsView`, `ProgressionsView`, `SongbookView`, `MelodyNotepadView`, `AchievementsView`, `ChordTransitionsView`, `PlayAlongView`, `DailyChallengeView`, `PracticeRoutineView`, `IntervalTrainerView`, `TheoryQuizView`, `NoteQuizView`, `ScalePracticeView`, `LearningProgressView`, `FullScreenFretboardView`, + more |
+| `ViewModels/` | 15 ViewModels: `FretboardViewModel`, `TunerViewModel`, `MetronomeViewModel`, `FavoritesViewModel`, `SettingsViewModel`, `ChordLibraryViewModel`, `SongbookViewModel`, `MelodyViewModel`, `ProgressionsViewModel`, `LearnViewModel`, `PitchMonitorViewModel`, `ScalePracticeViewModel`, `PracticeTimerViewModel`, `CustomPatternsViewModel`, `PlayAlongViewModel` |
+| `Helpers/` | `AccessibilityHelper` (VoiceOver announcer), `BackupRestoreManager` (JSON backup/restore) |
+| `Resources/` | 14 WAV samples + `swift_f0_model.onnx` |
+
 ### ViewModels
 
-`FretboardViewModel`, `TunerViewModel`, `PitchMonitorViewModel`, `ChordLibraryViewModel`, `FavoritesViewModel`, `SongbookViewModel`, `SettingsViewModel`, `LearningProgressViewModel`, `ScalePracticeViewModel`, `BackupRestoreViewModel`, `CustomProgressionViewModel`
+`FretboardViewModel`, `TunerViewModel`, `PitchMonitorViewModel`, `ChordLibraryViewModel`, `FavoritesViewModel`, `SongbookViewModel`, `SettingsViewModel`, `ScalePracticeViewModel`, `MetronomeViewModel`, `MelodyViewModel`, `ChordTransitionsViewModel`, `PracticeTimerViewModel`, `CustomPatternsViewModel`, `LearnViewModel`, `PlayAlongViewModel`, `ProgressionsViewModel`
 
 ### Navigation
 
-The app uses a `ModalNavigationDrawer` with ~30 sections grouped into Play, Create, Learn, and Reference. Screen selection is managed via `mutableIntStateOf` with a `when` block -- there is no Compose NavHost or NavController.
+**Android**: `ModalNavigationDrawer` with ~30 sections grouped into Play, Create, Learn, and Reference. Screen selection is managed via `mutableIntStateOf` with a `when` block -- there is no Compose NavHost or NavController.
+
+**iOS**: `TabView` with 4 tabs (Play, Create, Learn, Reference). Each tab is a menu-style `NavigationStack` with `NavigationLink` rows. Play contains Explorer, Tuner, Pitch Monitor, Metronome, Chord Library, and Favorites. Settings gear icon in each tab's toolbar presents `SettingsView` as a `.sheet`. Help is accessible from within Settings.
 
 ## Audio Processing
 
+### Shared (KMP)
 - **Pitch detection**: YIN algorithm (pure Kotlin, FFT-based cross-correlation). Frequency range 65--1100 Hz. Confidence scoring and continuity constraints.
+- **FFT**: Custom implementation with cached twiddle factors and pre-allocated work buffers.
+
+### Android
 - **Playback**: `SoundPool` with OGG ukulele samples (one per pitch class, octave via playback rate). Supports polyphonic chord playback (up to 8 streams) with strum delay simulation.
 - **Metronome**: Coroutine-based beat scheduler with configurable BPM and beats-per-chord.
 - **Audio capture**: `AudioRecord` at 44.1 kHz, PCM 16-bit mono, 4096-sample frames with 75% overlap (~43 updates/sec).
-- **Neural pitch**: Optional ONNX Runtime supervisor for enhanced pitch detection.
+- **Neural pitch**: ONNX Runtime Android supervisor for enhanced pitch detection.
+
+### iOS
+- **Playback**: `AVAudioEngine` + `AVAudioPlayerNode` with bundled WAV samples (mono, 44.1 kHz). Player node connected using explicit mono format to avoid channel mismatch.
+- **Metronome**: Timer-based beat scheduler with click samples.
+- **Audio capture**: `AVAudioEngine` input node tap at 44.1 kHz mono.
+- **Neural pitch**: ONNX Runtime xcframework via C API (`onnxruntime.xcframework` in `iosApp/Frameworks/`, gitignored). Setup via `iosApp/setup_onnxruntime.sh`.
+- **Simulator note**: Audio session activation is skipped on simulator (`#if targetEnvironment(simulator)`) to prevent CoreAudio deadlocks.
 
 ## Architecture Rules
 
+### General
+- Domain logic in `shared/src/commonMain/.../domain/` must not import platform-specific classes -- use `expect/actual` for platform needs
+- New business logic should go in the shared module when possible
+- Maintain the existing package structure -- discuss changes in an issue first
+
+### Android
 - ViewModels expose state via `StateFlow` -- do not use `LiveData`
 - Repositories abstract SharedPreferences -- ViewModels must not access SharedPreferences directly
-- Domain logic (`domain/` package) must not import Android framework classes
 - All async work uses Kotlin coroutines (no RxJava, no callbacks)
-- Maintain the existing package structure -- discuss changes in an issue first
+
+### iOS
+- ViewModels use `@Published` properties with `ObservableObject`
+- Use `@StateObject` for view-owned ViewModels, `@ObservedObject` for passed-in ones
+- KMP Swift naming: classes drop `Shared` prefix (e.g., `PitchDetector.shared`, `UkuleleTuning.highG`)
+- KMP numeric types: `KotlinFloatArray`, `KotlinDouble` (no prefix)
 
 ## Accessibility Requirements
 
-A core user base relies on TalkBack. **Every code change must preserve and improve accessibility.**
+A core user base relies on TalkBack (Android) and VoiceOver (iOS). **Every code change must preserve and improve accessibility.**
+
+### iOS (SwiftUI)
+
+- Use `.accessibilityLabel()` on interactive elements and images
+- Use `.accessibilityHint()` for non-obvious interactions
+- Mark section titles with `.accessibilityAddTraits(.isHeader)`
+- Use `.accessibilityValue()` for dynamic state (sliders, pickers)
+- Custom drawn views need `.accessibilityRepresentation` or `.accessibilityElement(children:)`
+
+### Android (Compose)
 
 ### Rule 1: Icons need contentDescription
 
@@ -161,11 +239,21 @@ Do not remove `contentDescription`, `Modifier.semantics {}` blocks, or `liveRegi
 ## Build and CI
 
 ```bash
-./gradlew assembleDebug    # Build debug APK
-./gradlew lintDebug         # Run Android Lint
+# Android
+./gradlew assembleDebug                        # Build debug APK
+./gradlew lintDebug                            # Run Android Lint
+
+# iOS (requires Xcode, runs Gradle to build shared framework)
+xcodebuild -project iosApp/UkuleleCompanion.xcodeproj \
+  -scheme UkuleleCompanion \
+  -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+  build
 ```
 
-**CI** (GitHub Actions on push/PR to `main`): JDK 17 setup, lint, build debug APK, upload artifact.
+**CI** (GitHub Actions on push/PR to `main`):
+
+- **Android CI** (`android.yml`): JDK 17 setup, lint, unit tests, build debug APK, APK size report, dependency review.
+- **iOS CI** (`ios.yml`): JDK 17 + Xcode 16.2 on macOS, build shared KMP framework, download ONNX Runtime xcframework, build iOS app, run unit tests.
 
 **Commit format:**
 ```
@@ -212,6 +300,12 @@ Kotest property tests generate thousands of random inputs per test and verify in
 | `AccessibilityTest.kt` | Content descriptions, headings, clickable node descriptions |
 | `TunerSpokenFeedbackTest.kt` | Live-region semantics suppressed when spoken feedback is enabled |
 
+### iOS unit tests (`iosApp/UkuleleCompanionTests/`)
+
+| File | What it tests |
+|------|---------------|
+| `SettingsViewModelTests.swift` | Default values, save/load, export/import, onboarding flag |
+
 ### UI stress testing
 
 Run the Monkey script to send random UI events to the app on a connected device/emulator:
@@ -231,6 +325,12 @@ Run the Monkey script to send random UI events to the app on a connected device/
 
 ## Pre-Submission Checklist
 
+### Both platforms
+- [ ] Shared module code builds (`./gradlew :shared:build`)
+- [ ] Both High-G and Low-G tuning work (if chord/note logic changed)
+- [ ] Left-handed mode not broken (if fretboard UI changed)
+
+### Android
 - [ ] Code builds without errors (`./gradlew assembleDebug`)
 - [ ] Changes verified on device or emulator
 - [ ] All new icons have appropriate `contentDescription`
@@ -241,5 +341,10 @@ Run the Monkey script to send random UI events to the app on a connected device/
 - [ ] No existing accessibility attributes removed
 - [ ] TalkBack navigation works for changed screens
 - [ ] UI looks correct in light, dark, and high-contrast themes
-- [ ] Left-handed mode not broken (if fretboard UI changed)
-- [ ] Both High-G and Low-G tuning work (if chord/note logic changed)
+
+### iOS
+- [ ] iOS builds without errors (`xcodebuild ... build`)
+- [ ] Changes verified on simulator or device
+- [ ] SwiftUI views have appropriate `.accessibilityLabel()` / `.accessibilityHint()`
+- [ ] No existing accessibility modifiers removed
+- [ ] VoiceOver navigation works for changed screens
