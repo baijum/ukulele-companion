@@ -1,6 +1,6 @@
 ---
 name: android-release
-description: Create a release for the Ukulele Companion Android app. Runs lint and all tests first (unit and instrumented), then bumps version, builds release AAB and APK (without debug info), commits, tags, pushes, creates a GitHub release with the APK attached, and uploads the AAB to Google Play Store internal testing. Use when the user asks to release, create a build, prepare a release, tag a version, or publish to GitHub.
+description: Create a release for the Ukulele Companion Android app. Runs lint and all tests first (unit and instrumented), then bumps version, builds release AAB and APK (without debug info), commits, tags, pushes, creates a GitHub release (no binaries attached), and uploads the AAB to Google Play Store internal testing. Use when the user asks to release, create a build, prepare a release, tag a version, or publish to GitHub.
 ---
 
 # Android Release
@@ -111,21 +111,15 @@ Tag format: `v<major>.<minor>.<patch>`
 
 ### Step 6: Create GitHub release
 
-Use the `gh` CLI to create a release with the APK attached:
+Use the `gh` CLI to create a release. **Do not attach APK, AAB, or any other binary files** to the GitHub release — binaries are distributed exclusively through the Play Store.
 
 ```bash
 gh release create v<versionName> \
-  app/build/outputs/apk/release/app-release.apk \
   --title "v<versionName>" \
   --notes "$(cat <<'EOF'
 ## What's New
 
 - <summarize changes since last release>
-
-## Downloads
-
-- **APK**: `app-release.apk` attached below (sideload on Android 8.0+)
-- **AAB**: Built for Play Store distribution
 
 EOF
 )"

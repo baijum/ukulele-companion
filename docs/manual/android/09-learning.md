@@ -85,22 +85,8 @@ Earn badges by reaching milestones as you use the app.
 
 The gallery shows a progress bar (e.g., "1 / 21 unlocked") and lists all achievements. Filter by category using the chips at the top. Locked achievements are shown dimmed with their unlock criteria visible, so you always know what to work towards.
 
-## Song Finder
-
-Song Finder suggests songs you can play based on the chords in your Favorites.
-
-![Song Finder](screenshots/song-finder.png)
-
-Your known chords are shown at the top. Below, the app lists:
-
-- **Playable songs** — songs using only chords you know.
-- **Almost playable songs** — songs where you are missing just 1–2 chords. The missing chords are highlighted with a "Learn:" label. Tap a missing chord to jump to its voicings in the Chord Library.
-
-Each song card shows the title, artist, difficulty level, genre, and the chords used.
-
 ## Tips
 
 - Check the Daily Challenge each day for motivation and variety.
 - Use Practice Routine when you have a set amount of time and want structure.
 - Review the Progress dashboard periodically to identify areas that need more attention.
-- Add chords to Favorites to expand what Song Finder can recommend.

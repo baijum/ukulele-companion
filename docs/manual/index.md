@@ -68,7 +68,7 @@ Each manual covers 14 sections:
 
   <div class="manual-card">
     <h3>Learning & Practice</h3>
-    <p>Progress tracking, daily challenges, practice routines, achievements, and song finder.</p>
+    <p>Progress tracking, daily challenges, practice routines, and achievements.</p>
   </div>
 
   <div class="manual-card">

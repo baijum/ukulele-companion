@@ -75,6 +75,8 @@ Theory lessons, ear training, interval trainer, circle of fifths, glossary, scal
 
 ## 📱 Screenshots
 
+### Android
+
 <p align="center">
   <img src="docs/screenshots/android/chord-detected.png" width="30%" alt="Chord Detection">
   <img src="docs/screenshots/android/chord-library.png" width="30%" alt="Chord Library">
@@ -95,6 +97,30 @@ Theory lessons, ear training, interval trainer, circle of fifths, glossary, scal
   <img src="docs/screenshots/android/songs.png" width="30%" alt="Songs">
   <img src="docs/screenshots/android/circle-of-fifths.png" width="30%" alt="Circle of Fifths">
 </p>
+
+### iOS
+
+<p align="center">
+  <img src="docs/screenshots/ios/chord-detected.png" width="30%" alt="Chord Detection">
+  <img src="docs/screenshots/ios/chord-library.png" width="30%" alt="Chord Library">
+  <img src="docs/screenshots/ios/scale-overlay.png" width="30%" alt="Scale Overlay">
+</p>
+<p align="center">
+  <img src="docs/screenshots/ios/tuner.png" width="30%" alt="Tuner">
+  <img src="docs/screenshots/ios/metronome.png" width="30%" alt="Metronome">
+  <img src="docs/screenshots/ios/pitch-monitor.png" width="30%" alt="Pitch Monitor">
+</p>
+<p align="center">
+  <img src="docs/screenshots/ios/strumming-patterns.png" width="30%" alt="Strumming Patterns">
+  <img src="docs/screenshots/ios/chord-progressions.png" width="30%" alt="Chord Progressions">
+  <img src="docs/screenshots/ios/melody-notepad.png" width="30%" alt="Melody Notepad">
+</p>
+<p align="center">
+  <img src="docs/screenshots/ios/favorites.png" width="30%" alt="Favorites">
+  <img src="docs/screenshots/ios/songs.png" width="30%" alt="Songs">
+  <img src="docs/screenshots/ios/circle-of-fifths.png" width="30%" alt="Circle of Fifths">
+</p>
+
 <p align="center">
   <a href="https://www.youtube.com/playlist?list=PL4GycHdD--uonaifRHrBvNU7ym5jAVs8c">
     <img src="https://img.youtube.com/vi/-RXPvWyTNIE/0.jpg" width="30%" alt="Watch feature guide playlist">

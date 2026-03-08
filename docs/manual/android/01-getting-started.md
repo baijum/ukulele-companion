@@ -41,7 +41,6 @@ The four groups are:
 | **Pitch Monitor** | Real-time pitch visualisation graph |
 | **Chords** | Browse the chord library by root and type |
 | **Favorites** | Your saved chord voicings |
-| **Song Finder** | Discover songs based on chords you know |
 
 ### Create
 
