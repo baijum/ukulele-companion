@@ -1,7 +1,7 @@
 [project]
 title = "Pitch Monitor - Ukulele Companion"
 description = "Real-time scrolling pitch visualization for checking intonation"
-output = "../../feature-videos/pitch-monitor.mp4"
+output = "../../feature-videos/android/pitch-monitor.mp4"
 resolution = "1080x2424"
 
 [branding]
@@ -16,7 +16,7 @@ volume_boost = 3.0
 
 [[scene]]
 name = "overview"
-video = "clips/01-overview.mp4"
+video = "clips/android/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 20
@@ -33,7 +33,7 @@ fret positions.
 
 [[scene]]
 name = "canvas-display"
-video = "clips/02-canvas-display.mp4"
+video = "clips/android/02-canvas-display.mp4"
 audio = "audio/02-canvas-display.mp3"
 delay = 1.0
 min_clip_duration = 24
@@ -51,7 +51,7 @@ history at a time.
 
 [[scene]]
 name = "pitch-trace"
-video = "clips/03-pitch-trace.mp4"
+video = "clips/android/03-pitch-trace.mp4"
 audio = "audio/03-pitch-trace.mp3"
 delay = 1.0
 min_clip_duration = 25
@@ -69,7 +69,7 @@ strongest at any moment.
 
 [[scene]]
 name = "chord-detection-and-tips"
-video = "clips/04-chord-detection-and-tips.mp4"
+video = "clips/android/04-chord-detection-and-tips.mp4"
 audio = "audio/04-chord-detection-and-tips.mp3"
 delay = 1.0
 min_clip_duration = 26

@@ -1,7 +1,7 @@
 [project]
 title = "Ukulele Companion - Play Store Promo"
 description = "90-second promotional video showcasing the app's best features for Google Play Store"
-output = "../../feature-videos/play-store-promo.mp4"
+output = "../../feature-videos/android/play-store-promo.mp4"
 resolution = "1080x2424"
 canvas = "1920x1080"
 canvas_color = "#F5F0E8"
@@ -23,7 +23,7 @@ volume_boost = 3.0
 # ── Scene 1: Explorer — Chord Detection ──────────────────────
 [[scene]]
 name = "explorer-chord"
-video = "clips/01-explorer-chord.mp4"
+video = "clips/android/01-explorer-chord.mp4"
 audio = "audio/01-explorer-chord.mp3"
 delay = 2.0
 min_clip_duration = 18
@@ -48,7 +48,7 @@ it back with real ukulele samples.
 # ── Scene 2: Chord Library ───────────────────────────────────
 [[scene]]
 name = "chord-library"
-video = "clips/02-chord-library.mp4"
+video = "clips/android/02-chord-library.mp4"
 audio = "audio/02-chord-library.mp3"
 delay = 1.0
 min_clip_duration = 13
@@ -73,7 +73,7 @@ for smoother voice leading.
 # ── Scene 3: Tuner ───────────────────────────────────────────
 [[scene]]
 name = "tuner"
-video = "clips/03-tuner.mp4"
+video = "clips/android/03-tuner.mp4"
 audio = "audio/03-tuner.mp3"
 delay = 1.0
 min_clip_duration = 14
@@ -100,7 +100,7 @@ last settled note so you always know where you landed.
 # ── Scene 4: Metronome ───────────────────────────────────────
 [[scene]]
 name = "metronome"
-video = "clips/04-metronome.mp4"
+video = "clips/android/04-metronome.mp4"
 audio = "audio/04-metronome.mp3"
 delay = 1.0
 min_clip_duration = 13
@@ -123,7 +123,7 @@ Everything you need to build rock-solid rhythm.
 # ── Scene 5: Strumming Patterns ──────────────────────────────
 [[scene]]
 name = "strumming-patterns"
-video = "clips/05-strumming-patterns.mp4"
+video = "clips/android/05-strumming-patterns.mp4"
 audio = "audio/05-strumming-patterns.mp3"
 delay = 1.0
 min_clip_duration = 12
@@ -146,7 +146,7 @@ adjustable beat counts and time signatures.
 # ── Scene 6: Chord Progressions ──────────────────────────────
 [[scene]]
 name = "chord-progressions"
-video = "clips/06-chord-progressions.mp4"
+video = "clips/android/06-chord-progressions.mp4"
 audio = "audio/06-chord-progressions.mp3"
 delay = 1.0
 min_clip_duration = 14
@@ -173,7 +173,7 @@ automatically on the beat, so you can focus on smooth transitions.
 # ── Scene 7: Songbook ────────────────────────────────────────
 [[scene]]
 name = "songbook"
-video = "clips/07-songbook.mp4"
+video = "clips/android/07-songbook.mp4"
 audio = "audio/07-songbook.mp3"
 delay = 1.0
 min_clip_duration = 13
@@ -196,7 +196,7 @@ perfectly aligned. Transpose any song to a new key with one tap.
 # ── Scene 8: Scale Overlay ───────────────────────────────────
 [[scene]]
 name = "scale-overlay"
-video = "clips/08-scale-overlay.mp4"
+video = "clips/android/08-scale-overlay.mp4"
 audio = "audio/08-scale-overlay.mp3"
 delay = 1.0
 min_clip_duration = 14
@@ -219,7 +219,7 @@ the entire neck one section at a time.
 # ── Scene 9: Closing ─────────────────────────────────────────
 [[scene]]
 name = "closing"
-video = "clips/09-closing.mp4"
+video = "clips/android/09-closing.mp4"
 audio = "audio/09-closing.mp3"
 delay = 1.0
 min_clip_duration = 15

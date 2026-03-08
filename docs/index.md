@@ -29,8 +29,8 @@ hide:
     </div>
   </div>
   <div class="hero-shots">
-    <img class="shot shot-back" src="screenshots/chord-library.png" alt="Chord library">
-    <img class="shot shot-front" src="screenshots/chord-detected.png" alt="Chord detection">
+    <img class="shot shot-back" src="screenshots/android/chord-library.png" alt="Chord library">
+    <img class="shot shot-front" src="screenshots/android/chord-detected.png" alt="Chord detection">
   </div>
 </section>
 
@@ -68,27 +68,27 @@ hide:
 
 <div class="screenshot-grid premium-grid">
   <figure>
-    <img src="screenshots/chord-detected.png" alt="Chord detection screen">
+    <img src="screenshots/android/chord-detected.png" alt="Chord detection screen">
     <figcaption>Real-time chord detection</figcaption>
   </figure>
   <figure>
-    <img src="screenshots/scale-overlay.png" alt="Scale overlay screen">
+    <img src="screenshots/android/scale-overlay.png" alt="Scale overlay screen">
     <figcaption>Scale notes on fretboard</figcaption>
   </figure>
   <figure>
-    <img src="screenshots/chord-progressions.png" alt="Chord progressions screen">
+    <img src="screenshots/android/chord-progressions.png" alt="Chord progressions screen">
     <figcaption>Practice progressions in any key</figcaption>
   </figure>
   <figure>
-    <img src="screenshots/chord-library.png" alt="Chord library screen">
+    <img src="screenshots/android/chord-library.png" alt="Chord library screen">
     <figcaption>Playable voicing library</figcaption>
   </figure>
   <figure>
-    <img src="screenshots/strumming-patterns.png" alt="Strumming patterns screen">
+    <img src="screenshots/android/strumming-patterns.png" alt="Strumming patterns screen">
     <figcaption>Strumming and rhythm patterns</figcaption>
   </figure>
   <figure>
-    <img src="screenshots/circle-of-fifths.png" alt="Circle of fifths screen">
+    <img src="screenshots/android/circle-of-fifths.png" alt="Circle of fifths screen">
     <figcaption>Visual music theory tools</figcaption>
   </figure>
 </div>

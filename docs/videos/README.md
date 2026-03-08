@@ -1,24 +1,24 @@
 # Video Projects
 
-This directory contains TOML project files that define narrated feature videos for Ukulele Companion. Each subdirectory represents one feature and contains a `project.toml` with scene definitions, narration scripts, and assembly settings.
+This directory contains TOML project files that define narrated feature videos for Ukulele Companion. Each subdirectory represents one feature and contains per-platform TOML files (`android.toml`, `ios.toml`) with scene definitions, narration scripts, and assembly settings.
 
 ## Projects
 
-| Feature | Directory | Scenes | Status |
-|---------|-----------|--------|--------|
-| Explorer | [explorer/](explorer/) | 6 | Ready |
-| Tuner | [tuner/](tuner/) | 5 | Ready |
-| Pitch Monitor | [pitch-monitor/](pitch-monitor/) | 4 | Ready |
-| Metronome | [metronome/](metronome/) | 5 | Ready |
-| Chord Library | [chords/](chords/) | 5 | Ready |
-| Favorites | [favorites/](favorites/) | 4 | Ready |
-| Songbook | [songs/](songs/) | 5 | Ready |
-| Melody Notepad | [melody-notepad/](melody-notepad/) | 5 | TOML ready |
-| Strumming Patterns | [patterns/](patterns/) | 5 | TOML ready |
-| Chord Progressions | [progressions/](progressions/) | 5 | TOML ready |
-| Play Store Promo | [play-store-promo/](play-store-promo/) | 9 | TOML ready |
+| Feature | Directory | Scenes | Android | iOS |
+|---------|-----------|--------|---------|-----|
+| Explorer | [explorer/](explorer/) | 6 | Ready | -- |
+| Tuner | [tuner/](tuner/) | 5 | Ready | -- |
+| Pitch Monitor | [pitch-monitor/](pitch-monitor/) | 4 | Ready | -- |
+| Metronome | [metronome/](metronome/) | 5 | Ready | -- |
+| Chord Library | [chords/](chords/) | 5 | Ready | -- |
+| Favorites | [favorites/](favorites/) | 4 | Ready | -- |
+| Songbook | [songs/](songs/) | 5 | Ready | -- |
+| Melody Notepad | [melody-notepad/](melody-notepad/) | 5 | TOML ready | -- |
+| Strumming Patterns | [patterns/](patterns/) | 5 | TOML ready | -- |
+| Chord Progressions | [progressions/](progressions/) | 5 | TOML ready | -- |
+| Play Store Promo | [play-store-promo/](play-store-promo/) | 9 | TOML ready | -- |
 
-**Ready** = clips recorded, video assembled. **TOML ready** = narration written and audio generated, clips not yet recorded.
+**Ready** = clips recorded, video assembled. **TOML ready** = narration written and audio generated, clips not yet recorded. **--** = TOML not yet created.
 
 ## Directory Structure
 
@@ -26,28 +26,38 @@ This directory contains TOML project files that define narrated feature videos f
 docs/videos/
 ├── README.md
 ├── <feature>/
-│   ├── project.toml      # Scene definitions, narration, settings (committed)
-│   ├── clips/             # Recorded screen captures (gitignored)
-│   │   ├── 01-scene.mp4
+│   ├── android.toml          # Android scenes, recording_notes, resolution (committed)
+│   ├── ios.toml              # iOS scenes, recording_notes, resolution (committed)
+│   ├── audio/                # Shared TTS voiceover (gitignored)
+│   │   ├── 01-scene.mp3
 │   │   └── ...
-│   └── audio/             # Generated TTS voiceover (gitignored)
-│       ├── 01-scene.mp3
-│       └── ...
+│   └── clips/
+│       ├── android/          # Android screen recordings (gitignored)
+│       │   ├── 01-scene.mp4
+│       │   └── ...
+│       └── ios/              # iOS screen recordings (gitignored)
+│           ├── 01-scene.mp4
+│           └── ...
 docs/
-├── feature-videos/        # Final assembled videos (gitignored)
-│   ├── explorer.mp4
-│   └── ...
-├── jingle-intro.wav       # Branding jingles (committed)
+├── feature-videos/
+│   ├── android/              # Assembled Android videos (gitignored)
+│   │   ├── explorer.mp4
+│   │   └── ...
+│   └── ios/                  # Assembled iOS videos (gitignored)
+│       ├── explorer.mp4
+│       └── ...
+├── jingle-intro.wav          # Branding jingles (committed)
 └── jingle-outro.wav
 ```
 
-Only `project.toml` files are committed to git. Clips, audio, and final videos are gitignored since they can be regenerated from the TOML definitions.
+Only TOML files are committed to git. Clips, audio, and final videos are gitignored since they can be regenerated from the TOML definitions. Audio is shared across platforms because narration is platform-agnostic.
 
 ## How to Produce a Video
 
 ### Prerequisites
 
-- Android emulator running with the app installed
+- **Android**: Android emulator running with the app installed, ADB on PATH
+- **iOS**: iOS Simulator running with the app installed, `xcrun simctl` available
 - `ffmpeg` on PATH
 - Python 3.11+ with `openai` package (`pip install openai`)
 - `OPENAI_API_KEY` set (via `source ~/.secrets`)
@@ -57,28 +67,32 @@ Only `project.toml` files are committed to git. Clips, audio, and final videos a
 ```bash
 # 1. Generate voiceover audio and see required clip durations
 source ~/.secrets
-python3 scripts/assemble_video.py docs/videos/<feature>/project.toml --audio-only
+python3 scripts/assemble_video.py docs/videos/<feature>/android.toml --audio-only
 
-# 2. Record clips on the emulator (use /record-clips skill in Cursor)
+# 2. Record clips on the emulator/simulator (use /record-clips skill in Cursor)
 
 # 3. Assemble the final video
-python3 scripts/assemble_video.py docs/videos/<feature>/project.toml
+python3 scripts/assemble_video.py docs/videos/<feature>/android.toml
 ```
+
+Replace `android.toml` with `ios.toml` for iOS videos.
 
 ### Cursor Skills
 
 | Skill | Purpose |
 |-------|---------|
 | `/assemble-video` | Run the assembler script on a project |
-| `/record-clips` | Record scene clips on the emulator |
+| `/record-clips` | Record scene clips on the Android emulator |
 
 ## TOML Format Reference
+
+Each platform gets its own TOML file (`android.toml` or `ios.toml`) sharing the same scene structure. Platform-specific fields include `resolution`, `recording_notes`, and `video` paths. Audio paths and narration text are typically identical across platforms.
 
 ```toml
 [project]
 title = "Feature Name - Ukulele Companion"
 description = "Short description"
-output = "../../feature-videos/feature-name.mp4"
+output = "../../feature-videos/android/feature-name.mp4"
 resolution = "1080x2424"
 
 [branding]
@@ -93,15 +107,13 @@ volume_boost = 3.0
 
 [[scene]]
 name = "scene-name"
-video = "clips/01-scene.mp4"
+video = "clips/android/01-scene.mp4"
 audio = "audio/01-scene.mp3"
 delay = 1.0
 min_clip_duration = 25
 recording_notes = """
-Step-by-step instructions for the recording agent.
-1. Stay on this screen, do not navigate away
-2. Tap element X at (~x,y) -- wait 3s
-3. Do NOT tap the share button (launches intent picker)
+Platform-specific interaction instructions for the recording agent.
+Android: ADB taps, uiautomator. iOS: xcrun simctl, accessibility IDs.
 """
 narration = """
 Narration text for this scene. The assembler generates TTS
@@ -114,19 +126,22 @@ audio from this text if the audio file doesn't exist yet.
 | Field | Description |
 |-------|-------------|
 | `project.output` | Path to the final assembled MP4 (relative to the TOML file) |
+| `project.resolution` | Recording resolution (platform-specific) |
 | `branding.intro/outro` | Paths to jingle WAV files prepended/appended to the video |
 | `voiceover.volume_boost` | Multiplier applied to voiceover volume during assembly |
+| `scene.video` | Path to the video clip under `clips/android/` or `clips/ios/` |
+| `scene.audio` | Path to the TTS audio under `audio/` (shared across platforms) |
 | `scene.delay` | Seconds of silence before narration starts in this scene |
 | `scene.min_clip_duration` | Minimum recording length in seconds (calculated from audio duration + delay + 2s buffer) |
-| `scene.recording_notes` | Step-by-step ADB interaction instructions for the recording agent. Describes what to tap, swipe, and what NOT to do. Ignored by the assembler script. |
+| `scene.recording_notes` | Platform-specific interaction instructions for the recording agent. Ignored by the assembler script. |
 | `scene.narration` | Text sent to OpenAI TTS to generate the voiceover audio |
 
 ## Creating a New Video Project
 
 1. Create the directory: `mkdir -p docs/videos/<feature>`
-2. Write a `project.toml` following the format above with 4-6 scenes
+2. Write `android.toml` (and/or `ios.toml`) following the format above with 4-6 scenes
 3. Run `--audio-only` to generate audio and calibrate `min_clip_duration` values
 4. Update the TOML with the printed durations
 5. Record clips using the `/record-clips` skill
-6. Assemble with `python3 scripts/assemble_video.py <project.toml>`
+6. Assemble with `python3 scripts/assemble_video.py <toml-file>`
 7. Add the new project to the table in this README

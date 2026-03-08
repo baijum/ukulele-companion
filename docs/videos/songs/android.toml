@@ -1,7 +1,7 @@
 [project]
 title = "Songbook - Ukulele Companion"
 description = "Create, store, and transpose songs with ChordPro chord notation"
-output = "../../feature-videos/songs.mp4"
+output = "../../feature-videos/android/songs.mp4"
 resolution = "1080x2424"
 
 [branding]
@@ -16,7 +16,7 @@ volume_boost = 3.0
 
 [[scene]]
 name = "overview"
-video = "clips/01-overview.mp4"
+video = "clips/android/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 25
@@ -38,7 +38,7 @@ session or practicing at home.
 
 [[scene]]
 name = "creating-a-song"
-video = "clips/02-creating-a-song.mp4"
+video = "clips/android/02-creating-a-song.mp4"
 audio = "audio/02-creating-a-song.mp3"
 delay = 1.0
 min_clip_duration = 23
@@ -62,7 +62,7 @@ manually.
 
 [[scene]]
 name = "chords-above-lyrics"
-video = "clips/03-chords-above-lyrics.mp4"
+video = "clips/android/03-chords-above-lyrics.mp4"
 audio = "audio/03-chords-above-lyrics.mp3"
 delay = 1.0
 min_clip_duration = 28
@@ -85,7 +85,7 @@ chord name in the viewer to see its voicing diagram.
 
 [[scene]]
 name = "transpose-and-key"
-video = "clips/04-transpose-and-key.mp4"
+video = "clips/android/04-transpose-and-key.mp4"
 audio = "audio/04-transpose-and-key.mp3"
 delay = 1.0
 min_clip_duration = 25
@@ -103,7 +103,7 @@ before sharing your chart.
 
 [[scene]]
 name = "chordpro-and-management"
-video = "clips/05-chordpro-and-management.mp4"
+video = "clips/android/05-chordpro-and-management.mp4"
 audio = "audio/05-chordpro-and-management.mp3"
 delay = 1.0
 min_clip_duration = 27

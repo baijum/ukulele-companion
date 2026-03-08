@@ -1,7 +1,7 @@
 [project]
 title = "Metronome - Ukulele Companion"
 description = "Standalone practice metronome with tap tempo, time signatures, accents, and subdivisions"
-output = "../../feature-videos/metronome.mp4"
+output = "../../feature-videos/android/metronome.mp4"
 resolution = "1080x2424"
 
 [branding]
@@ -16,7 +16,7 @@ volume_boost = 3.0
 
 [[scene]]
 name = "overview"
-video = "clips/01-overview.mp4"
+video = "clips/android/01-overview.mp4"
 audio = "audio/01-overview.mp3"
 delay = 2.0
 min_clip_duration = 28
@@ -35,7 +35,7 @@ rhythm for strumming and fingerpicking.
 
 [[scene]]
 name = "bpm-control"
-video = "clips/02-bpm-control.mp4"
+video = "clips/android/02-bpm-control.mp4"
 audio = "audio/02-bpm-control.mp3"
 delay = 1.0
 min_clip_duration = 24
@@ -54,7 +54,7 @@ several taps automatically.
 
 [[scene]]
 name = "time-signature"
-video = "clips/03-time-signature.mp4"
+video = "clips/android/03-time-signature.mp4"
 audio = "audio/03-time-signature.mp3"
 delay = 1.0
 min_clip_duration = 31
@@ -76,7 +76,7 @@ practicing jigs, slow blues, or any song with a lilting triplet feel.
 
 [[scene]]
 name = "accent-patterns"
-video = "clips/04-accent-patterns.mp4"
+video = "clips/android/04-accent-patterns.mp4"
 audio = "audio/04-accent-patterns.mp3"
 delay = 1.0
 min_clip_duration = 24
@@ -95,7 +95,7 @@ when you change the time signature.
 
 [[scene]]
 name = "subdivisions-and-play"
-video = "clips/05-subdivisions-and-play.mp4"
+video = "clips/android/05-subdivisions-and-play.mp4"
 audio = "audio/05-subdivisions-and-play.mp3"
 delay = 1.0
 min_clip_duration = 33

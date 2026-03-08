@@ -76,24 +76,24 @@ Theory lessons, ear training, interval trainer, circle of fifths, glossary, scal
 ## 📱 Screenshots
 
 <p align="center">
-  <img src="docs/screenshots/chord-detected.png" width="30%" alt="Chord Detection">
-  <img src="docs/screenshots/chord-library.png" width="30%" alt="Chord Library">
-  <img src="docs/screenshots/scale-overlay.png" width="30%" alt="Scale Overlay">
+  <img src="docs/screenshots/android/chord-detected.png" width="30%" alt="Chord Detection">
+  <img src="docs/screenshots/android/chord-library.png" width="30%" alt="Chord Library">
+  <img src="docs/screenshots/android/scale-overlay.png" width="30%" alt="Scale Overlay">
 </p>
 <p align="center">
-  <img src="docs/screenshots/tuner.png" width="30%" alt="Tuner">
-  <img src="docs/screenshots/metronome.png" width="30%" alt="Metronome">
-  <img src="docs/screenshots/pitch-monitor.png" width="30%" alt="Pitch Monitor">
+  <img src="docs/screenshots/android/tuner.png" width="30%" alt="Tuner">
+  <img src="docs/screenshots/android/metronome.png" width="30%" alt="Metronome">
+  <img src="docs/screenshots/android/pitch-monitor.png" width="30%" alt="Pitch Monitor">
 </p>
 <p align="center">
-  <img src="docs/screenshots/strumming-patterns.png" width="30%" alt="Strumming Patterns">
-  <img src="docs/screenshots/chord-progressions.png" width="30%" alt="Chord Progressions">
-  <img src="docs/screenshots/melody-notepad.png" width="30%" alt="Melody Notepad">
+  <img src="docs/screenshots/android/strumming-patterns.png" width="30%" alt="Strumming Patterns">
+  <img src="docs/screenshots/android/chord-progressions.png" width="30%" alt="Chord Progressions">
+  <img src="docs/screenshots/android/melody-notepad.png" width="30%" alt="Melody Notepad">
 </p>
 <p align="center">
-  <img src="docs/screenshots/favorites.png" width="30%" alt="Favorites">
-  <img src="docs/screenshots/songs.png" width="30%" alt="Songs">
-  <img src="docs/screenshots/circle-of-fifths.png" width="30%" alt="Circle of Fifths">
+  <img src="docs/screenshots/android/favorites.png" width="30%" alt="Favorites">
+  <img src="docs/screenshots/android/songs.png" width="30%" alt="Songs">
+  <img src="docs/screenshots/android/circle-of-fifths.png" width="30%" alt="Circle of Fifths">
 </p>
 <p align="center">
   <a href="https://www.youtube.com/playlist?list=PL4GycHdD--uonaifRHrBvNU7ym5jAVs8c">
