@@ -16,7 +16,7 @@ hide:
     <h1>The complete practice companion for ukulele players.</h1>
     <p class="hero-subtitle">
       Master chords, explore scales, train your ear, and build real songs in one
-      beautiful Android experience designed for daily practice.
+      beautiful experience designed for daily practice — on Android and iOS.
     </p>
     <div class="hero-cta">
       <a href="manual/" class="md-button md-button--primary">Start with the Manual</a>

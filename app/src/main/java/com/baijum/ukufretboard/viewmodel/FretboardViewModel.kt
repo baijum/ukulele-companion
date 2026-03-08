@@ -21,18 +21,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/**
- * Represents a single ukulele string with its tuning information.
- *
- * @property name The display name of the string (e.g., "G", "C", "E", "A").
- * @property openPitchClass The pitch class (0–11) of the string when played open (unfretted).
- * @property octave The octave number of the open string (e.g., 4 for G4, C4, E4, A4).
- */
-data class UkuleleString(
-    val name: String,
-    val openPitchClass: Int,
-    val octave: Int = 4,
-)
+typealias UkuleleString = com.baijum.ukufretboard.domain.UkuleleString
 
 /**
  * State for the scale note overlay on the fretboard.
@@ -355,14 +344,15 @@ class FretboardViewModel : ViewModel() {
         val all = mutableListOf<AlternateChord>()
 
         // Include the detector's primary result if it differs from the intended chord
-        if (result.matchedFormula != null &&
-            (result.root.pitchClass != rootPitchClass || result.matchedFormula != formula)
+        val mf = result.matchedFormula
+        if (mf != null &&
+            (result.root.pitchClass != rootPitchClass || mf != formula)
         ) {
             all.add(
                 AlternateChord(
                     name = result.name,
                     rootPitchClass = result.root.pitchClass,
-                    formula = result.matchedFormula,
+                    formula = mf,
                 )
             )
         }

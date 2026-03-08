@@ -25,3 +25,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "UkuleleCompanion"
 include(":app")
+include(":shared")

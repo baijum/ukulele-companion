@@ -433,12 +433,13 @@ private fun NoteBlock(
     noteNames: List<String>,
     onSelect: () -> Unit,
 ) {
-    val noteName = if (note.pitchClass != null) {
-        noteNames[note.pitchClass]
+    val pc = note.pitchClass
+    val noteName = if (pc != null) {
+        noteNames[pc]
     } else {
         "\u2014"
     }
-    val displayText = if (note.pitchClass != null) {
+    val displayText = if (pc != null) {
         "$noteName${note.octave}"
     } else {
         "\u2014"

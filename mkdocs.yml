@@ -1,5 +1,5 @@
 site_name: Ukulele Companion
-site_description: Free, offline, ad-free Android app for learning ukulele.
+site_description: Free, offline, ad-free app for learning ukulele on Android and iOS.
 site_url: https://baijum.github.io/ukulele-companion/
 repo_url: https://github.com/baijum/ukulele-companion
 repo_name: baijum/ukulele-companion
@@ -57,13 +57,34 @@ nav:
   - Home: index.md
   - Manual:
       - Overview: manual/index.md
-      - Getting Started: manual/01-getting-started.md
-      - Explorer: manual/02-explorer.md
-      - Chords: manual/03-chords.md
-      - Patterns: manual/04-patterns.md
-      - Progressions: manual/05-progressions.md
-      - Favorites: manual/06-favorites.md
-      - Songs: manual/07-songs.md
-      - Settings: manual/08-settings.md
-      - Learning and Practice: manual/09-learning.md
-      - Play Along and Chord Training: manual/10-play-along.md
+      - Android:
+          - Getting Started: manual/android/01-getting-started.md
+          - Explorer: manual/android/02-explorer.md
+          - Chords: manual/android/03-chords.md
+          - Patterns: manual/android/04-patterns.md
+          - Progressions: manual/android/05-progressions.md
+          - Favorites: manual/android/06-favorites.md
+          - Songs: manual/android/07-songs.md
+          - Settings: manual/android/08-settings.md
+          - Learning and Practice: manual/android/09-learning.md
+          - Play Along and Chord Training: manual/android/10-play-along.md
+          - Tuner: manual/android/11-tuner.md
+          - Pitch Monitor: manual/android/12-pitch-monitor.md
+          - Metronome: manual/android/13-metronome.md
+          - Melody Notepad: manual/android/14-melody-notepad.md
+      - iOS:
+          - Getting Started: manual/ios/01-getting-started.md
+          - Explorer: manual/ios/02-explorer.md
+          - Chords: manual/ios/03-chords.md
+          - Patterns: manual/ios/04-patterns.md
+          - Progressions: manual/ios/05-progressions.md
+          - Favorites: manual/ios/06-favorites.md
+          - Songs: manual/ios/07-songs.md
+          - Settings: manual/ios/08-settings.md
+          - Learning and Practice: manual/ios/09-learning.md
+          - Play Along and Chord Training: manual/ios/10-play-along.md
+          - Tuner: manual/ios/11-tuner.md
+          - Pitch Monitor: manual/ios/12-pitch-monitor.md
+          - Metronome: manual/ios/13-metronome.md
+          - Melody Notepad: manual/ios/14-melody-notepad.md
+  - Privacy Policy: privacy-policy.md

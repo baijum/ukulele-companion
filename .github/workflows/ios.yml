@@ -1,0 +1,63 @@
+name: iOS CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.4.app
+
+      - name: Build shared framework
+        run: ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64
+
+      - name: Download ONNX Runtime
+        run: bash iosApp/setup_onnxruntime.sh
+
+      - name: Build iOS app
+        run: |
+          xcodebuild build \
+            -project iosApp/UkuleleCompanion.xcodeproj \
+            -scheme UkuleleCompanion \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Run iOS tests
+        run: |
+          xcodebuild test \
+            -project iosApp/UkuleleCompanion.xcodeproj \
+            -scheme UkuleleCompanion \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO \
+            -resultBundlePath TestResults
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ios-test-results
+          path: TestResults.xcresult
