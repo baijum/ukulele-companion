@@ -24,7 +24,6 @@ struct ChordTransitionsView: View {
 
                 if let v1 = viewModel.voicingForChord(name: chordName(root: root1, quality: quality1)) {
                     ChordDiagramView(voicing: v1, chordName: chordName(root: root1, quality: quality1))
-                        .frame(height: 120)
                         .onTapGesture { viewModel.playChord(name: chordName(root: root1, quality: quality1)) }
                         .accessibilityLabel("Chord 1 diagram, tap to play")
                 }
@@ -38,7 +37,6 @@ struct ChordTransitionsView: View {
 
                 if let v2 = viewModel.voicingForChord(name: chordName(root: root2, quality: quality2)) {
                     ChordDiagramView(voicing: v2, chordName: chordName(root: root2, quality: quality2))
-                        .frame(height: 120)
                         .onTapGesture { viewModel.playChord(name: chordName(root: root2, quality: quality2)) }
                         .accessibilityLabel("Chord 2 diagram, tap to play")
                 }

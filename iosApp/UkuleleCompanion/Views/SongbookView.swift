@@ -459,7 +459,6 @@ struct SongViewerView: View {
                 .font(.headline)
             if let voicing = voicings.first {
                 ChordDiagramView(voicing: voicing, chordName: chord)
-                    .frame(width: 150, height: 150)
                 Button {
                     let pitchClasses = (0..<voicing.frets.count).compactMap { i -> Int32? in
                         let fret = (voicing.frets[i] as! NSNumber).intValue
