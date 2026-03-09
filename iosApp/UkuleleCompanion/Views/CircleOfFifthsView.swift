@@ -21,9 +21,9 @@ struct CircleOfFifthsView: View {
                 .pickerStyle(.segmented)
                 .padding(.horizontal)
 
-                // Circle visualization
                 circleCanvas
-                    .frame(height: 320)
+                    .aspectRatio(1, contentMode: .fit)
+                    .frame(maxHeight: 500)
                     .padding(.horizontal)
 
                 // Detail panel
@@ -210,7 +210,7 @@ struct CircleOfFifthsView: View {
                     .padding(.top, 4)
                     .accessibilityAddTraits(.isHeader)
 
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 4), spacing: 8) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 70), spacing: 8)], spacing: 8) {
                     let chords: [KotlinPair<NSString, NSString>] = showMinor
                         ? KeySignatures.shared.diatonicChordsForMinor(
                             pitchClass: keySig.relativeMinorPitchClass

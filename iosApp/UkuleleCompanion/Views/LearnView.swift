@@ -2,7 +2,7 @@ import SwiftUI
 
 struct LearnView: View {
     @Binding var showSettings: Bool
-    @StateObject private var learnVM = LearnViewModel()
+    @EnvironmentObject var learnVM: LearnViewModel
 
     var body: some View {
         NavigationStack {
@@ -97,6 +97,5 @@ struct LearnView: View {
                 }
             }
         }
-        .environmentObject(learnVM)
     }
 }

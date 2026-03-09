@@ -3,11 +3,12 @@ import shared
 
 struct FretboardNoteMapView: View {
     @EnvironmentObject var settings: SettingsViewModel
+    @Environment(\.horizontalSizeClass) private var sizeClass
     @State private var highlightPitchClass: Int32 = -1
     @State private var isLowG = false
 
     private let fretCount = 12
-    private let cellSize: CGFloat = 36
+    private var cellSize: CGFloat { sizeClass == .regular ? 52 : 36 }
     private let tonePlayer = TonePlayer()
 
     private var effectiveTuning: UkuleleTuning {
