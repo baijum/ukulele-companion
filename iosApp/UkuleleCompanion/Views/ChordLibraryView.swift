@@ -418,7 +418,7 @@ struct ChordLibraryView: View {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(0..<displayVoicings.count, id: \.self) { i in
                         let voicing = displayVoicings[i]
-                        let fretList = (voicing.frets as! [NSNumber]).map { $0.intValue }
+                        let fretList = (0..<voicing.frets.count).map { (voicing.frets[$0] as! NSNumber).intValue }
                         let symbol = viewModel.selectedFormula?.symbol ?? ""
                         let isFav = favoritesVM.isFavorite(
                             rootPitchClass: Int(viewModel.selectedRoot),
@@ -441,7 +441,8 @@ struct ChordLibraryView: View {
                                 .padding(4)
                             }
                             .buttonStyle(.plain)
-                            .accessibilityHint("Double-tap to apply this voicing")
+                            .accessibilityLabel("Apply \(viewModel.currentChordName) voicing")
+                            .accessibilityHint("Applies this voicing to the fretboard")
 
                             Divider()
 
@@ -461,6 +462,7 @@ struct ChordLibraryView: View {
                                     Image(systemName: isFav ? "heart.fill" : "heart")
                                         .font(.caption)
                                         .foregroundStyle(isFav ? .red : .secondary)
+                                        .frame(minWidth: 44, minHeight: 44)
                                 }
                                 .buttonStyle(.plain)
                                 .accessibilityLabel(isFav ? "Remove from favorites" : "Add to favorites")
@@ -476,6 +478,7 @@ struct ChordLibraryView: View {
                                     Image(systemName: "square.and.arrow.up")
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
+                                        .frame(minWidth: 44, minHeight: 44)
                                 }
                                 .buttonStyle(.plain)
                                 .accessibilityLabel("Share \(viewModel.currentChordName)")
