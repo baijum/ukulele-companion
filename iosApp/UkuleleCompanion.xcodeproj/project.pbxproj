@@ -735,8 +735,8 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UkuleleCompanion/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Ukulele Companion";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Ukulele Companion needs microphone access for the tuner and pitch detection features.";
+				INFOPLIST_KEY_CFBundleDisplayName = Uke;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Uke needs microphone access for the tuner and pitch detection features.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -769,8 +769,8 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UkuleleCompanion/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Ukulele Companion";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Ukulele Companion needs microphone access for the tuner and pitch detection features.";
+				INFOPLIST_KEY_CFBundleDisplayName = Uke;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Uke needs microphone access for the tuner and pitch detection features.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
