@@ -12,6 +12,7 @@ struct SettingsView: View {
     @StateObject private var practiceTimerVM = PracticeTimerViewModel()
     @StateObject private var customPatternsVM = CustomPatternsViewModel()
     @State private var backupManager: BackupRestoreManager?
+    @State private var backupDocument: BackupDocument?
     @State private var showExporter = false
     @State private var showImporter = false
     @State private var showRestoreAlert = false
@@ -180,6 +181,7 @@ struct SettingsView: View {
                 Section(header: Text("Backup & Restore").accessibilityAddTraits(.isHeader)) {
                     Button("Export Backup") {
                         ensureBackupManager()
+                        backupDocument = BackupDocument(data: backupManager!.buildBackupData())
                         showExporter = true
                     }
                     Button("Restore from Backup") { showRestoreAlert = true }
@@ -209,12 +211,15 @@ struct SettingsView: View {
                     Link(destination: URL(string: "https://baijum.github.io/ukulele-companion")!) {
                         Label("Website", systemImage: "globe")
                     }
+                    .accessibilityHint("Opens in Safari")
                     Link(destination: URL(string: "https://archive.org/details/ukulele-book")!) {
                         Label("Free Ukulele Book", systemImage: "book")
                     }
+                    .accessibilityHint("Opens in Safari")
                     Link(destination: URL(string: "https://www.youtube.com/playlist?list=PL4GycHdD--uonaifRHrBvNU7ym5jAVs8c")!) {
                         Label("Feature Guide Videos", systemImage: "play.rectangle")
                     }
+                    .accessibilityHint("Opens YouTube in Safari")
                 }
 
                 Section(header: Text("Credits").accessibilityAddTraits(.isHeader)) {
@@ -240,12 +245,13 @@ struct SettingsView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .fileExporter(isPresented: $showExporter,
-                      document: BackupDocument(data: getBackupManager().buildBackupData()),
+                      document: backupDocument,
                       contentType: .json,
                       defaultFilename: "ukulele_companion_backup.json") { result in
             if case .success = result {
-                getBackupManager().recordBackupDate()
+                backupManager?.recordBackupDate()
             }
+            backupDocument = nil
         }
         .fileImporter(isPresented: $showImporter,
                       allowedContentTypes: [.json]) { result in
