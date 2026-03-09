@@ -204,14 +204,14 @@ final class FretboardViewModel: ObservableObject {
         scaleOverlay.root = root
         if let scale = scaleOverlay.scale {
             let notes = Scales.shared.scaleNotes(root: root, scale: scale)
-            scaleOverlay.scaleNotes = Set((notes as! [NSNumber]).map { $0.int32Value })
+            scaleOverlay.scaleNotes = Set(notes.map { ($0 as! NSNumber).int32Value })
         }
     }
 
     func setScale(_ scale: Scale) {
         let notes = Scales.shared.scaleNotes(root: scaleOverlay.root, scale: scale)
         scaleOverlay.scale = scale
-        scaleOverlay.scaleNotes = Set((notes as! [NSNumber]).map { $0.int32Value })
+        scaleOverlay.scaleNotes = Set(notes.map { ($0 as! NSNumber).int32Value })
         scaleOverlay.enabled = true
         scaleOverlay.positionFretRange = nil
     }

@@ -1,5 +1,5 @@
 ---
-description: iOS ViewModel conventions — @Published, ObservableObject, @StateObject vs @ObservedObject, KMP Swift naming
+description: iOS ViewModel conventions — @Published, ObservableObject, @StateObject vs @ObservedObject, KMP Swift naming, KMP collection bridging pitfalls
 globs: iosApp/UkuleleCompanion/ViewModels/**/*.swift
 alwaysApply: false
 ---
@@ -36,6 +36,23 @@ struct ChildView: View {
 
 - KMP classes drop the `Shared` prefix: `PitchDetector.shared`, `UkuleleTuning.highG`
 - KMP numeric types keep their Kotlin names: `KotlinFloatArray`, `KotlinDouble` (no prefix)
+
+## KMP collection bridging
+
+Kotlin/Native bridges `List` and `Set` to different Swift types. Force-casting the **entire collection** to a Swift Array crashes for Sets.
+
+| Kotlin type | Swift bridge type | `as! [NSNumber]` safe? |
+|-------------|-------------------|------------------------|
+| `List<Int>` | `[KotlinInt]` (Array) | Yes |
+| `Set<Int>` | `Set<KotlinInt>` | **No — crashes** (Set is not Array) |
+
+```swift
+// ❌ DON'T: cast the whole collection — crashes if source is a Kotlin Set
+let values = Set((notes as! [NSNumber]).map { $0.int32Value })
+
+// ✅ DO: iterate elements individually — works for both List and Set
+let values = Set(notes.map { ($0 as! NSNumber).int32Value })
+```
 
 ## Existing ViewModels
 
