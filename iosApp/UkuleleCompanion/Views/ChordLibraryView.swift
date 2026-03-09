@@ -3,6 +3,7 @@ import shared
 
 struct ChordLibraryView: View {
     @StateObject private var viewModel = ChordLibraryViewModel()
+    @StateObject private var favoritesVM = FavoritesViewModel()
     var onApplyVoicing: ((ChordVoicing, Int32, ChordFormula) -> Void)?
     var fretboardVM: FretboardViewModel?
     @State private var shareInfo: ShareChordInfo?
@@ -417,25 +418,74 @@ struct ChordLibraryView: View {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(0..<displayVoicings.count, id: \.self) { i in
                         let voicing = displayVoicings[i]
-                        Button(action: {
-                            if let formula = viewModel.selectedFormula {
-                                onApplyVoicing?(voicing, viewModel.selectedRoot, formula)
-                                let fretList = (voicing.frets as! [NSNumber]).map { $0.intValue }
-                                fretboardVM?.playVoicing(frets: fretList)
+                        let fretList = (voicing.frets as! [NSNumber]).map { $0.intValue }
+                        let symbol = viewModel.selectedFormula?.symbol ?? ""
+                        let isFav = favoritesVM.isFavorite(
+                            rootPitchClass: Int(viewModel.selectedRoot),
+                            chordSymbol: symbol,
+                            frets: fretList
+                        )
+
+                        VStack(spacing: 0) {
+                            Button(action: {
+                                if let formula = viewModel.selectedFormula {
+                                    onApplyVoicing?(voicing, viewModel.selectedRoot, formula)
+                                    fretboardVM?.playVoicing(frets: fretList)
+                                }
+                            }) {
+                                ChordDiagramView(
+                                    voicing: voicing,
+                                    chordName: viewModel.currentChordName,
+                                    bassStringIndex: bassStringIndex(voicing)
+                                )
+                                .padding(4)
                             }
-                        }) {
-                            ChordDiagramView(
-                                voicing: voicing,
-                                chordName: viewModel.currentChordName,
-                                bassStringIndex: bassStringIndex(voicing)
-                            )
-                            .padding(4)
-                            .background(Color(.systemBackground))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .shadow(color: .black.opacity(0.08), radius: 2, y: 1)
+                            .buttonStyle(.plain)
+                            .accessibilityHint("Double-tap to apply this voicing")
+
+                            Divider()
+
+                            HStack {
+                                Button {
+                                    if isFav {
+                                        let key = "\(viewModel.selectedRoot)|\(symbol)|\(fretList.map(String.init).joined(separator: ","))"
+                                        favoritesVM.removeFavorite(key: key)
+                                    } else {
+                                        favoritesVM.addFavorite(
+                                            rootPitchClass: Int(viewModel.selectedRoot),
+                                            chordSymbol: symbol,
+                                            frets: fretList
+                                        )
+                                    }
+                                } label: {
+                                    Image(systemName: isFav ? "heart.fill" : "heart")
+                                        .font(.caption)
+                                        .foregroundStyle(isFav ? .red : .secondary)
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel(isFav ? "Remove from favorites" : "Add to favorites")
+
+                                Spacer()
+
+                                Button {
+                                    shareInfo = ShareChordInfo(
+                                        voicing: voicing,
+                                        chordName: viewModel.currentChordName
+                                    )
+                                } label: {
+                                    Image(systemName: "square.and.arrow.up")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel("Share \(viewModel.currentChordName)")
+                            }
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
                         }
-                        .buttonStyle(.plain)
-                        .accessibilityHint("Double-tap to apply this voicing")
+                        .background(Color(.systemBackground))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .shadow(color: .black.opacity(0.08), radius: 2, y: 1)
                         .contextMenu {
                             Button {
                                 shareInfo = ShareChordInfo(
