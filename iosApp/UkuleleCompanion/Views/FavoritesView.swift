@@ -2,7 +2,7 @@ import SwiftUI
 import shared
 
 struct FavoritesView: View {
-    @StateObject private var viewModel = FavoritesViewModel()
+    @EnvironmentObject private var viewModel: FavoritesViewModel
     @State private var selectedFolderId: String?
     @State private var showCreateFolder = false
     @State private var renamingFolder: FavoriteFolderData?

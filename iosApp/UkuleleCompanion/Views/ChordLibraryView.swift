@@ -3,7 +3,7 @@ import shared
 
 struct ChordLibraryView: View {
     @StateObject private var viewModel = ChordLibraryViewModel()
-    @StateObject private var favoritesVM = FavoritesViewModel()
+    @EnvironmentObject private var favoritesVM: FavoritesViewModel
     var onApplyVoicing: ((ChordVoicing, Int32, ChordFormula) -> Void)?
     var fretboardVM: FretboardViewModel?
     @State private var shareInfo: ShareChordInfo?
