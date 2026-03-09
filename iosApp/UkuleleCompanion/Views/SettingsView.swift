@@ -211,12 +211,15 @@ struct SettingsView: View {
                     Link(destination: URL(string: "https://baijum.github.io/ukulele-companion")!) {
                         Label("Website", systemImage: "globe")
                     }
+                    .accessibilityHint("Opens in Safari")
                     Link(destination: URL(string: "https://archive.org/details/ukulele-book")!) {
                         Label("Free Ukulele Book", systemImage: "book")
                     }
+                    .accessibilityHint("Opens in Safari")
                     Link(destination: URL(string: "https://www.youtube.com/playlist?list=PL4GycHdD--uonaifRHrBvNU7ym5jAVs8c")!) {
                         Label("Feature Guide Videos", systemImage: "play.rectangle")
                     }
+                    .accessibilityHint("Opens YouTube in Safari")
                 }
 
                 Section(header: Text("Credits").accessibilityAddTraits(.isHeader)) {
