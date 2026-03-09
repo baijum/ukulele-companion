@@ -859,11 +859,11 @@ private fun DrawerContent(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFF00695C)),
+                    .background(Color(0xFF0F4C6B)),
                 contentAlignment = Alignment.Center,
             ) {
                 Image(
-                    painter = painterResource(R.drawable.ic_launcher_foreground),
+                    painter = painterResource(R.mipmap.ic_launcher_foreground),
                     contentDescription = null,
                     modifier = Modifier.size(36.dp),
                 )
