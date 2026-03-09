@@ -425,6 +425,17 @@ struct ChordLibraryView: View {
                             chordSymbol: symbol,
                             frets: fretList
                         )
+                        let invLabel: String = {
+                            guard let formula = viewModel.selectedFormula else { return "" }
+                            let kotlinFrets = fretList.map { KotlinInt(int: Int32($0)) }
+                            let inv = ChordInfo.shared.determineInversion(
+                                frets: kotlinFrets,
+                                rootPitchClass: viewModel.selectedRoot,
+                                formula: formula,
+                                tuning: buildTuningStrings()
+                            )
+                            return inv.label
+                        }()
 
                         VStack(spacing: 0) {
                             Button(action: {
@@ -441,7 +452,7 @@ struct ChordLibraryView: View {
                                 .padding(4)
                             }
                             .buttonStyle(.plain)
-                            .accessibilityLabel("Apply \(viewModel.currentChordName) voicing")
+                            .accessibilityLabel("Apply \(viewModel.currentChordName) voicing, \(invLabel)")
                             .accessibilityHint("Applies this voicing to the fretboard")
 
                             Divider()
@@ -449,8 +460,11 @@ struct ChordLibraryView: View {
                             HStack {
                                 Button {
                                     if isFav {
-                                        let key = "\(viewModel.selectedRoot)|\(symbol)|\(fretList.map(String.init).joined(separator: ","))"
-                                        favoritesVM.removeFavorite(key: key)
+                                        favoritesVM.removeFavorite(
+                                            rootPitchClass: Int(viewModel.selectedRoot),
+                                            chordSymbol: symbol,
+                                            frets: fretList
+                                        )
                                     } else {
                                         favoritesVM.addFavorite(
                                             rootPitchClass: Int(viewModel.selectedRoot),
@@ -465,7 +479,7 @@ struct ChordLibraryView: View {
                                         .frame(minWidth: 44, minHeight: 44)
                                 }
                                 .buttonStyle(.plain)
-                                .accessibilityLabel(isFav ? "Remove from favorites" : "Add to favorites")
+                                .accessibilityLabel(isFav ? "Remove \(invLabel) from favorites" : "Add \(invLabel) to favorites")
 
                                 Spacer()
 
@@ -481,7 +495,7 @@ struct ChordLibraryView: View {
                                         .frame(minWidth: 44, minHeight: 44)
                                 }
                                 .buttonStyle(.plain)
-                                .accessibilityLabel("Share \(viewModel.currentChordName)")
+                                .accessibilityLabel("Share \(viewModel.currentChordName), \(invLabel)")
                             }
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
