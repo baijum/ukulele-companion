@@ -258,7 +258,6 @@ private struct FavoriteCard: View {
             }
 
             ChordDiagramView(voicing: voicing, chordName: favorite.chordName)
-                .frame(height: 120)
         }
         .padding(12)
         .background(Color(.secondarySystemGroupedBackground))
