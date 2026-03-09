@@ -61,6 +61,11 @@ final class FavoritesViewModel: ObservableObject {
         saveFolders()
     }
 
+    func removeFavorite(rootPitchClass: Int, chordSymbol: String, frets: [Int]) {
+        let key = "\(rootPitchClass)|\(chordSymbol)|\(frets.map(String.init).joined(separator: ","))"
+        removeFavorite(key: key)
+    }
+
     func isFavorite(rootPitchClass: Int, chordSymbol: String, frets: [Int]) -> Bool {
         let key = "\(rootPitchClass)|\(chordSymbol)|\(frets.map(String.init).joined(separator: ","))"
         return favorites.contains { $0.key == key }
