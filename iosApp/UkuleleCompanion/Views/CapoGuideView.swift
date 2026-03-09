@@ -182,10 +182,7 @@ struct CapoGuideView: View {
                         .padding(.top, 8)
 
                     let shapes = CapoReference.shared.FRIENDLY_SHAPES as! [KotlinPair<NSString, NSString>]
-                    LazyVGrid(columns: [
-                        GridItem(.flexible()), GridItem(.flexible()),
-                        GridItem(.flexible()), GridItem(.flexible()),
-                    ], spacing: 8) {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 80), spacing: 8)], spacing: 8) {
                         ForEach(Array(shapes.enumerated()), id: \.offset) { _, pair in
                             let name = pair.first! as String
                             let tab = pair.second! as String

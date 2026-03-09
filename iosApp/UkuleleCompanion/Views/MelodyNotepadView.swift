@@ -82,7 +82,7 @@ struct MelodyNotepadView: View {
     private var tapInput: some View {
         VStack(spacing: 8) {
             // Note buttons
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 6), spacing: 6) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 44), spacing: 6)], spacing: 6) {
                 ForEach(0..<12, id: \.self) { pc in
                     Button {
                         viewModel.addNote(pitchClass: pc, octave: viewModel.currentOctave)
@@ -236,8 +236,7 @@ struct MelodyNotepadView: View {
 
     private var noteChipsView: some View {
         ScrollView {
-            let columns = Array(repeating: GridItem(.flexible(), spacing: 4), count: 8)
-            LazyVGrid(columns: columns, spacing: 4) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 44), spacing: 4)], spacing: 4) {
                 ForEach(0..<viewModel.notes.count, id: \.self) { i in
                     let note = viewModel.notes[i]
                     let isPlaying = viewModel.playingIndex == i

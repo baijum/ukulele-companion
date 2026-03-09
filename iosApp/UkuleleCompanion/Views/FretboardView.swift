@@ -4,8 +4,9 @@ import shared
 struct FretboardView: View {
     @ObservedObject var viewModel: FretboardViewModel
     var leftHanded: Bool = false
+    @Environment(\.horizontalSizeClass) private var sizeClass
 
-    private let cellSize: CGFloat = 48
+    private var cellSize: CGFloat { sizeClass == .regular ? 64 : 48 }
     private let nutWidth: CGFloat = 4
     private let stringLineWidth: CGFloat = 1.5
     private let fretLineWidth: CGFloat = 1

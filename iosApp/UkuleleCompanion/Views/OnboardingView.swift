@@ -205,7 +205,7 @@ struct OnboardingView: View {
                     "High-G (Standard)", "Low-G", "Baritone (DGBE)", "D-Tuning (ADF#B)",
                     "Slack Key (GCEG)", "Open A (AC#EA)", "Low A (GCEa)", "Half-Step Down"
                 ]
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 8)], spacing: 8) {
                     ForEach(tuningOptions, id: \.self) { tuning in
                         Button {
                             settingsVM.selectedTuning = tuning

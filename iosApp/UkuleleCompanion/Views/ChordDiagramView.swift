@@ -13,11 +13,13 @@ struct ChordDiagramView: View {
     var isFavorite: Bool = false
     var onFavoriteClick: (() -> Void)? = nil
 
+    @Environment(\.horizontalSizeClass) private var sizeClass
+
     private let stringCount = 4
     private let fretCount = 5
-    private let stringSpacing: CGFloat = 24
-    private let fretSpacing: CGFloat = 22
-    private let dotRadius: CGFloat = 8
+    private var stringSpacing: CGFloat { sizeClass == .regular ? 32 : 24 }
+    private var fretSpacing: CGFloat { sizeClass == .regular ? 30 : 22 }
+    private var dotRadius: CGFloat { sizeClass == .regular ? 10 : 8 }
     private let nutHeight: CGFloat = 4
 
     private var diagramWidth: CGFloat { CGFloat(stringCount - 1) * stringSpacing }

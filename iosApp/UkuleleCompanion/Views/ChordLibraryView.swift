@@ -13,10 +13,7 @@ struct ChordLibraryView: View {
     @State private var filtersExpanded: Bool = true
     @State private var transposeSemitones: Int = 0
 
-    private let columns = [
-        GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible(), spacing: 12),
-    ]
+    private let columns = [GridItem(.adaptive(minimum: 160), spacing: 12)]
 
     @FocusState private var searchFocused: Bool
 
