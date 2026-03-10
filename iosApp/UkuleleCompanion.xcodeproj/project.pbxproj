@@ -83,6 +83,7 @@
 		A10053 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10053 /* FavoritesViewModel.swift */; };
 		A10054 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10054 /* SettingsViewModel.swift */; };
 		A10055 /* AccessibilityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10055 /* AccessibilityHelper.swift */; };
+		A10079 /* ChordVoicing+Frets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10079 /* ChordVoicing+Frets.swift */; };
 		A10056 /* VoiceLeadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10056 /* VoiceLeadingView.swift */; };
 		A10057 /* ProgressionPracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10057 /* ProgressionPracticeView.swift */; };
 		A10058 /* CapoCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10058 /* CapoCalculatorView.swift */; };
@@ -210,6 +211,7 @@
 		B10053 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
 		B10054 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		B10055 /* AccessibilityHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityHelper.swift; sourceTree = "<group>"; };
+		B10079 /* ChordVoicing+Frets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChordVoicing+Frets.swift"; sourceTree = "<group>"; };
 		B10056 /* VoiceLeadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceLeadingView.swift; sourceTree = "<group>"; };
 		B10057 /* ProgressionPracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionPracticeView.swift; sourceTree = "<group>"; };
 		B10058 /* CapoCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapoCalculatorView.swift; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 			children = (
 				B10055 /* AccessibilityHelper.swift */,
 				B10066 /* BackupRestoreManager.swift */,
+				B10079 /* ChordVoicing+Frets.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -629,6 +632,7 @@
 				A10053 /* FavoritesViewModel.swift in Sources */,
 				A10054 /* SettingsViewModel.swift in Sources */,
 				A10055 /* AccessibilityHelper.swift in Sources */,
+				A10079 /* ChordVoicing+Frets.swift in Sources */,
 				A10056 /* VoiceLeadingView.swift in Sources */,
 				A10057 /* ProgressionPracticeView.swift in Sources */,
 				A10058 /* CapoCalculatorView.swift in Sources */,

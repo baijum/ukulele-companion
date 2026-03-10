@@ -26,7 +26,7 @@ struct ChordDiagramView: View {
     private var diagramHeight: CGFloat { CGFloat(fretCount) * fretSpacing }
 
     private var frets: [Int] {
-        let raw = (0..<voicing.frets.count).map { (voicing.frets[$0] as! NSNumber).intValue }
+        let raw = voicing.fretInts
         return leftHanded ? raw.reversed() : raw
     }
 

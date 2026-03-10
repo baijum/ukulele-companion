@@ -307,9 +307,7 @@ struct ProgressionPracticeView: View {
     }
 
     private func playVoicing(_ voicing: ChordVoicing) {
-        let frets = (0..<voicing.frets.count).map {
-            (voicing.frets[$0] as! NSNumber).intValue
-        }
+        let frets = voicing.fretInts
         for (i, fret) in frets.enumerated() {
             guard fret >= 0 else { continue }
             let pc = (tuning[i].openPitchClass + Int32(fret)) % 12

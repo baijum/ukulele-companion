@@ -20,7 +20,7 @@ struct ShareableChordDiagramView: View {
     private let standardOpenPitchClasses: [Int] = [7, 0, 4, 9] // G C E A
 
     private var frets: [Int] {
-        (0..<voicing.frets.count).map { (voicing.frets[$0] as! NSNumber).intValue }
+        voicing.fretInts
     }
 
     private var startFret: Int {
