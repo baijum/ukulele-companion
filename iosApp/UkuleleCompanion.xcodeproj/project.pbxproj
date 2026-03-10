@@ -769,9 +769,7 @@
 				DEVELOPMENT_TEAM = 9QBV46NATP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../shared/build/bin/iosSimulatorArm64/releaseFramework",
 					"$(SRCROOT)/../shared/build/bin/iosArm64/releaseFramework",
-					"$(SRCROOT)/../shared/build/bin/iosX64/releaseFramework",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UkuleleCompanion/Info.plist;
@@ -827,9 +825,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../shared/build/bin/iosSimulatorArm64/releaseFramework",
 					"$(SRCROOT)/../shared/build/bin/iosArm64/releaseFramework",
-					"$(SRCROOT)/../shared/build/bin/iosX64/releaseFramework",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
