@@ -18,6 +18,7 @@ struct ContentView: View {
     @State private var selectedDestination: SidebarDestination? = .explorer
     @StateObject private var settingsVM = SettingsViewModel()
     @StateObject private var learnVM = LearnViewModel()
+    @StateObject private var favoritesVM = FavoritesViewModel()
 
     init() {
         let completed = UserDefaults(suiteName: "app_settings")?.bool(forKey: "onboarding_completed") ?? false
@@ -77,6 +78,7 @@ struct ContentView: View {
         }
         .environmentObject(settingsVM)
         .environmentObject(learnVM)
+        .environmentObject(favoritesVM)
         .tint(isHighContrast ? .yellow : nil)
         .sheet(isPresented: $showSettings) { SettingsView() }
         .onChange(of: showSettings) { isShowing in
@@ -94,6 +96,7 @@ struct ContentView: View {
         }
         .environmentObject(settingsVM)
         .environmentObject(learnVM)
+        .environmentObject(favoritesVM)
         .tint(isHighContrast ? .yellow : nil)
         .sheet(isPresented: $showSettings) { SettingsView() }
         .onChange(of: showSettings) { isShowing in

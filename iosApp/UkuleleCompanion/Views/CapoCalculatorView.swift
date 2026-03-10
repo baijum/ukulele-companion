@@ -144,9 +144,7 @@ struct CapoCalculatorView: View {
                             .foregroundStyle(Color.accentColor)
                     }
                 }
-                let frets = (0..<result.bestVoicing.frets.count).map {
-                    (result.bestVoicing.frets[$0] as! NSNumber).intValue
-                }
+                let frets = result.bestVoicing.fretInts
                 Text("Frets: \(frets.map(String.init).joined(separator: " "))")
                     .font(.caption)
                     .foregroundStyle(.secondary)

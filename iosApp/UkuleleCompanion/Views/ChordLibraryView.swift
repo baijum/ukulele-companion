@@ -3,6 +3,7 @@ import shared
 
 struct ChordLibraryView: View {
     @StateObject private var viewModel = ChordLibraryViewModel()
+    @EnvironmentObject private var favoritesVM: FavoritesViewModel
     var onApplyVoicing: ((ChordVoicing, Int32, ChordFormula) -> Void)?
     var fretboardVM: FretboardViewModel?
     @State private var shareInfo: ShareChordInfo?
@@ -294,9 +295,9 @@ struct ChordLibraryView: View {
         guard let filter = inversionFilter, let formula = viewModel.selectedFormula else {
             return viewModel.voicings
         }
-        let tuning = buildTuningStrings()
+        let tuning = Self.tuningStrings
         return viewModel.voicings.filter { voicing in
-            let fretList = (voicing.frets as! [NSNumber]).map { $0.intValue }
+            let fretList = voicing.fretInts
             let kotlinFrets = fretList.map { KotlinInt(int: Int32($0)) }
             let inv = ChordInfo.shared.determineInversion(
                 frets: kotlinFrets,
@@ -310,9 +311,9 @@ struct ChordLibraryView: View {
 
     private func inversionCount(_ inv: ChordInfo.Inversion) -> Int {
         guard let formula = viewModel.selectedFormula else { return 0 }
-        let tuning = buildTuningStrings()
+        let tuning = Self.tuningStrings
         return viewModel.voicings.filter { voicing in
-            let fretList = (voicing.frets as! [NSNumber]).map { $0.intValue }
+            let fretList = voicing.fretInts
             let kotlinFrets = fretList.map { KotlinInt(int: Int32($0)) }
             let determined = ChordInfo.shared.determineInversion(
                 frets: kotlinFrets,
@@ -322,17 +323,6 @@ struct ChordLibraryView: View {
             )
             return determined == inv
         }.count
-    }
-
-    private func buildTuningStrings() -> [shared.UkuleleString] {
-        let t = UkuleleTuning.highG
-        return (0..<4).map { i in
-            shared.UkuleleString(
-                name: t.stringNames[i] as! String,
-                openPitchClass: (t.pitchClasses[i] as! NSNumber).int32Value,
-                octave: (t.octaves[i] as! NSNumber).int32Value
-            )
-        }
     }
 
     private var inversionFilterSection: some View {
@@ -398,7 +388,7 @@ struct ChordLibraryView: View {
 
     private func playAllInversions(fbVM: FretboardViewModel) {
         let voicings = filteredVoicings.map { voicing -> [Int] in
-            (voicing.frets as! [NSNumber]).map { $0.intValue }
+            voicing.fretInts
         }
         fbVM.playVoicingsSequentially(voicings: voicings)
     }
@@ -417,25 +407,91 @@ struct ChordLibraryView: View {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(0..<displayVoicings.count, id: \.self) { i in
                         let voicing = displayVoicings[i]
-                        Button(action: {
-                            if let formula = viewModel.selectedFormula {
-                                onApplyVoicing?(voicing, viewModel.selectedRoot, formula)
-                                let fretList = (voicing.frets as! [NSNumber]).map { $0.intValue }
-                                fretboardVM?.playVoicing(frets: fretList)
-                            }
-                        }) {
-                            ChordDiagramView(
-                                voicing: voicing,
-                                chordName: viewModel.currentChordName,
-                                bassStringIndex: bassStringIndex(voicing)
+                        let fretList = voicing.fretInts
+                        let symbol = viewModel.selectedFormula?.symbol ?? ""
+                        let isFav = favoritesVM.isFavorite(
+                            rootPitchClass: Int(viewModel.selectedRoot),
+                            chordSymbol: symbol,
+                            frets: fretList
+                        )
+                        let invLabel: String = {
+                            guard let formula = viewModel.selectedFormula else { return "" }
+                            let kotlinFrets = fretList.map { KotlinInt(int: Int32($0)) }
+                            let inv = ChordInfo.shared.determineInversion(
+                                frets: kotlinFrets,
+                                rootPitchClass: viewModel.selectedRoot,
+                                formula: formula,
+                                tuning: Self.tuningStrings
                             )
-                            .padding(4)
-                            .background(Color(.systemBackground))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .shadow(color: .black.opacity(0.08), radius: 2, y: 1)
+                            return inv.label
+                        }()
+
+                        VStack(spacing: 0) {
+                            Button(action: {
+                                if let formula = viewModel.selectedFormula {
+                                    onApplyVoicing?(voicing, viewModel.selectedRoot, formula)
+                                    fretboardVM?.playVoicing(frets: fretList)
+                                }
+                            }) {
+                                ChordDiagramView(
+                                    voicing: voicing,
+                                    chordName: viewModel.currentChordName,
+                                    bassStringIndex: bassStringIndex(voicing)
+                                )
+                                .padding(4)
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("Apply \(viewModel.currentChordName) voicing, \(invLabel)")
+                            .accessibilityHint("Applies this voicing to the fretboard")
+
+                            Divider()
+
+                            HStack {
+                                Button {
+                                    if isFav {
+                                        favoritesVM.removeFavorite(
+                                            rootPitchClass: Int(viewModel.selectedRoot),
+                                            chordSymbol: symbol,
+                                            frets: fretList
+                                        )
+                                    } else {
+                                        favoritesVM.addFavorite(
+                                            rootPitchClass: Int(viewModel.selectedRoot),
+                                            chordSymbol: symbol,
+                                            frets: fretList
+                                        )
+                                    }
+                                } label: {
+                                    Image(systemName: isFav ? "heart.fill" : "heart")
+                                        .font(.caption)
+                                        .foregroundStyle(isFav ? .red : .secondary)
+                                        .frame(minWidth: 44, minHeight: 44)
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel(isFav ? "Remove \(invLabel) from favorites" : "Add \(invLabel) to favorites")
+
+                                Spacer()
+
+                                Button {
+                                    shareInfo = ShareChordInfo(
+                                        voicing: voicing,
+                                        chordName: viewModel.currentChordName
+                                    )
+                                } label: {
+                                    Image(systemName: "square.and.arrow.up")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                        .frame(minWidth: 44, minHeight: 44)
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel("Share \(viewModel.currentChordName), \(invLabel)")
+                            }
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
                         }
-                        .buttonStyle(.plain)
-                        .accessibilityHint("Double-tap to apply this voicing")
+                        .background(Color(.systemBackground))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .shadow(color: .black.opacity(0.08), radius: 2, y: 1)
                         .contextMenu {
                             Button {
                                 shareInfo = ShareChordInfo(
@@ -485,7 +541,7 @@ struct ChordLibraryView: View {
     }()
 
     private func bassStringIndex(_ voicing: ChordVoicing) -> Int? {
-        let frets = (0..<voicing.frets.count).map { KotlinInt(int: (voicing.frets[$0] as NSNumber).int32Value) }
+        let frets = voicing.fretInts.map { KotlinInt(int: Int32($0)) }
         return Int(ChordInfo.shared.findBassStringIndex(frets: frets, tuning: Self.tuningStrings))
     }
 }

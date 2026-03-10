@@ -77,9 +77,9 @@ final class FretboardViewModel: ObservableObject {
     }
 
     func applyVoicing(_ voicing: ChordVoicing, rootPitchClass: Int32? = nil, formula: ChordFormula? = nil) {
-        let frets = voicing.frets
+        let frets = voicing.fretInts
         for i in 0..<Self.stringCount {
-            let fret = (frets[i] as! NSNumber).intValue
+            let fret = frets[i]
             selections[i] = fret < 0 ? nil : fret
         }
 

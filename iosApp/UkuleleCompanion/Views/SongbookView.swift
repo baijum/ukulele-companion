@@ -460,8 +460,9 @@ struct SongViewerView: View {
             if let voicing = voicings.first {
                 ChordDiagramView(voicing: voicing, chordName: chord)
                 Button {
-                    let pitchClasses = (0..<voicing.frets.count).compactMap { i -> Int32? in
-                        let fret = (voicing.frets[i] as! NSNumber).intValue
+                    let fretList = voicing.fretInts
+                    let pitchClasses = (0..<fretList.count).compactMap { i -> Int32? in
+                        let fret = fretList[i]
                         guard fret >= 0 else { return nil }
                         let openPc = (UkuleleTuning.highG.pitchClasses[i] as! NSNumber).int32Value
                         return (openPc + Int32(fret)) % 12
