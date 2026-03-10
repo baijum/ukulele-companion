@@ -97,9 +97,7 @@ struct CapoVisualizerView: View {
 
                 // Sounding notes
                 if capoFret > 0 {
-                    let frets = (0..<voicing.frets.count).map {
-                        (voicing.frets[$0] as! NSNumber).intValue
-                    }
+                    let frets = voicing.fretInts
                     let noteNames = frets.enumerated().map { (i, fret) -> String in
                         if fret < 0 { return "x" }
                         let pc = (tuning[i].openPitchClass + Int32(fret) + Int32(capoFret)) % 12

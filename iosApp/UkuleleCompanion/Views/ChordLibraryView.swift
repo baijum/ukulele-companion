@@ -295,9 +295,9 @@ struct ChordLibraryView: View {
         guard let filter = inversionFilter, let formula = viewModel.selectedFormula else {
             return viewModel.voicings
         }
-        let tuning = buildTuningStrings()
+        let tuning = Self.tuningStrings
         return viewModel.voicings.filter { voicing in
-            let fretList = (voicing.frets as! [NSNumber]).map { $0.intValue }
+            let fretList = voicing.fretInts
             let kotlinFrets = fretList.map { KotlinInt(int: Int32($0)) }
             let inv = ChordInfo.shared.determineInversion(
                 frets: kotlinFrets,
@@ -311,9 +311,9 @@ struct ChordLibraryView: View {
 
     private func inversionCount(_ inv: ChordInfo.Inversion) -> Int {
         guard let formula = viewModel.selectedFormula else { return 0 }
-        let tuning = buildTuningStrings()
+        let tuning = Self.tuningStrings
         return viewModel.voicings.filter { voicing in
-            let fretList = (voicing.frets as! [NSNumber]).map { $0.intValue }
+            let fretList = voicing.fretInts
             let kotlinFrets = fretList.map { KotlinInt(int: Int32($0)) }
             let determined = ChordInfo.shared.determineInversion(
                 frets: kotlinFrets,
@@ -323,17 +323,6 @@ struct ChordLibraryView: View {
             )
             return determined == inv
         }.count
-    }
-
-    private func buildTuningStrings() -> [shared.UkuleleString] {
-        let t = UkuleleTuning.highG
-        return (0..<4).map { i in
-            shared.UkuleleString(
-                name: t.stringNames[i] as! String,
-                openPitchClass: (t.pitchClasses[i] as! NSNumber).int32Value,
-                octave: (t.octaves[i] as! NSNumber).int32Value
-            )
-        }
     }
 
     private var inversionFilterSection: some View {
@@ -399,7 +388,7 @@ struct ChordLibraryView: View {
 
     private func playAllInversions(fbVM: FretboardViewModel) {
         let voicings = filteredVoicings.map { voicing -> [Int] in
-            (voicing.frets as! [NSNumber]).map { $0.intValue }
+            voicing.fretInts
         }
         fbVM.playVoicingsSequentially(voicings: voicings)
     }
@@ -418,7 +407,7 @@ struct ChordLibraryView: View {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(0..<displayVoicings.count, id: \.self) { i in
                         let voicing = displayVoicings[i]
-                        let fretList = (0..<voicing.frets.count).map { (voicing.frets[$0] as! NSNumber).intValue }
+                        let fretList = voicing.fretInts
                         let symbol = viewModel.selectedFormula?.symbol ?? ""
                         let isFav = favoritesVM.isFavorite(
                             rootPitchClass: Int(viewModel.selectedRoot),
@@ -432,7 +421,7 @@ struct ChordLibraryView: View {
                                 frets: kotlinFrets,
                                 rootPitchClass: viewModel.selectedRoot,
                                 formula: formula,
-                                tuning: buildTuningStrings()
+                                tuning: Self.tuningStrings
                             )
                             return inv.label
                         }()
@@ -552,7 +541,7 @@ struct ChordLibraryView: View {
     }()
 
     private func bassStringIndex(_ voicing: ChordVoicing) -> Int? {
-        let frets = (0..<voicing.frets.count).map { KotlinInt(int: (voicing.frets[$0] as NSNumber).int32Value) }
+        let frets = voicing.fretInts.map { KotlinInt(int: Int32($0)) }
         return Int(ChordInfo.shared.findBassStringIndex(frets: frets, tuning: Self.tuningStrings))
     }
 }

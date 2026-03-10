@@ -238,12 +238,8 @@ struct VoiceLeadingView: View {
             Text("\(commonLabel) \u{00B7} \(distLabel)")
                 .font(.subheadline.bold())
 
-            let fromFrets = (0..<fromStep.voicing.frets.count).map {
-                (fromStep.voicing.frets[$0] as! NSNumber).intValue
-            }
-            let toFrets = (0..<toStep.voicing.frets.count).map {
-                (toStep.voicing.frets[$0] as! NSNumber).intValue
-            }
+            let fromFrets = fromStep.voicing.fretInts
+            let toFrets = toStep.voicing.fretInts
 
             ForEach(0..<tuning.count, id: \.self) { i in
                 let fromFret = fromFrets[i]
@@ -351,9 +347,7 @@ struct VoiceLeadingView: View {
     // MARK: - Audio
 
     private func playVoicing(_ voicing: ChordVoicing) {
-        let frets = (0..<voicing.frets.count).map {
-            (voicing.frets[$0] as! NSNumber).intValue
-        }
+        let frets = voicing.fretInts
         for (i, fret) in frets.enumerated() {
             guard fret >= 0 else { continue }
             let pc = (tuning[i].openPitchClass + Int32(fret)) % 12
