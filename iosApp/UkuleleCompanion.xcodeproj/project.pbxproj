@@ -104,9 +104,7 @@
 		A30001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B30001 /* Assets.xcassets */; };
 		A30002 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B30002 /* Localizable.xcstrings */; };
 		A40001 /* shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40001 /* shared.framework */; };
-		A40002 /* shared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B40001 /* shared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A40003 /* onnxruntime.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40002 /* onnxruntime.xcframework */; };
-		A40004 /* onnxruntime.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B40002 /* onnxruntime.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,8 +124,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A40002 /* shared.framework in Embed Frameworks */,
-				A40004 /* onnxruntime.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
