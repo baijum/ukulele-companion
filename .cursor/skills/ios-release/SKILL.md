@@ -11,6 +11,7 @@ Build an iOS release archive based on an existing version tag created by the [gi
 
 - An existing version tag (e.g., `v9.11.0`) created via the `github-release` skill
 - Xcode installed with the `UkuleleCompanion` scheme
+- Code signing configured (Development Team set in project.pbxproj)
 - ONNX Runtime xcframework set up via `iosApp/setup_onnxruntime.sh`
 - JDK 17 for building the shared KMP framework
 
@@ -65,13 +66,29 @@ xcodebuild archive \
   -scheme UkuleleCompanion \
   -configuration Release \
   -destination 'generic/platform=iOS' \
-  -archivePath build/UkuleleCompanion.xcarchive \
-  CODE_SIGNING_ALLOWED=NO
+  -archivePath build/UkuleleCompanion.xcarchive
 ```
 
 Use `block_until_ms: 300000` (archive builds can take several minutes).
 
-### Step 5: Commit version bump
+**Important notes:**
+- Do NOT pass `CODE_SIGNING_ALLOWED=NO` -- the archive must be signed for App Store upload.
+- The first build may trigger a macOS Keychain dialog asking for permission to use the signing key. The user must click "Always Allow" and enter their Mac login password.
+- `FRAMEWORK_SEARCH_PATHS` for Release configurations must only include the `iosArm64/releaseFramework` path, not simulator paths. Verify in `project.pbxproj` if you encounter linker errors about simulator architectures.
+
+### Step 5: Verify static frameworks are not embedded
+
+`shared.framework` (Kotlin/Native) and `onnxruntime.xcframework` are **static libraries**. They must only be *linked*, never *embedded*. If they appear in the "Embed Frameworks" build phase in `project.pbxproj`, App Store validation will fail with MinimumOSVersion errors.
+
+Check with:
+
+```bash
+ls build/UkuleleCompanion.xcarchive/Products/Applications/UkuleleCompanion.app/Frameworks/
+```
+
+This directory should be **empty**. If it contains `shared.framework` or `onnxruntime.framework`, remove them from the "Embed Frameworks" section in `project.pbxproj`.
+
+### Step 6: Commit version bump
 
 Stage the version change, commit, and push to main:
 
@@ -81,11 +98,18 @@ git commit -m "iOS: bump version to <version> (build <buildNumber>)"
 git push
 ```
 
-### Step 6: Report to user
+### Step 7: Open in Xcode Organizer
+
+```bash
+open build/UkuleleCompanion.xcarchive
+```
+
+This opens Xcode Organizer where the user can click **"Distribute App"** > **"App Store Connect"** > **"Upload"** to upload the build.
+
+### Step 8: Report to user
 
 Provide the user with:
 - The tag used (e.g., `v9.11.0`)
 - The new version (`MARKETING_VERSION` / `CURRENT_PROJECT_VERSION`)
 - Archive path (`build/UkuleleCompanion.xcarchive`)
-
-**Note:** App Store upload is not automated yet. The archive can be exported and uploaded manually via Xcode Organizer or Transporter.
+- Instruction to upload via Xcode Organizer
