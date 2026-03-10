@@ -12,24 +12,6 @@
 		A10003 /* AudioCaptureEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10003 /* AudioCaptureEngine.swift */; };
 		A10004 /* TonePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10004 /* TonePlayer.swift */; };
 		A10005 /* TunerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10005 /* TunerView.swift */; };
-		A20001 /* click_high.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20001 /* click_high.wav */; };
-		A20002 /* click_low.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20002 /* click_low.wav */; };
-		A20003 /* uke_a.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20003 /* uke_a.wav */; };
-		A20004 /* uke_asharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20004 /* uke_asharp.wav */; };
-		A20005 /* uke_b.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20005 /* uke_b.wav */; };
-		A20006 /* uke_c.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20006 /* uke_c.wav */; };
-		A20007 /* uke_csharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20007 /* uke_csharp.wav */; };
-		A20008 /* uke_d.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20008 /* uke_d.wav */; };
-		A20009 /* uke_dsharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20009 /* uke_dsharp.wav */; };
-		A20010 /* uke_e.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20010 /* uke_e.wav */; };
-		A20011 /* uke_f.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20011 /* uke_f.wav */; };
-		A20012 /* uke_fsharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20012 /* uke_fsharp.wav */; };
-		A20013 /* uke_g.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20013 /* uke_g.wav */; };
-		A20014 /* uke_gsharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20014 /* uke_gsharp.wav */; };
-		A30001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B30001 /* Assets.xcassets */; };
-		A30002 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B30002 /* Localizable.xcstrings */; };
-		A40001 /* shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40001 /* shared.framework */; };
-		A40002 /* shared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B40001 /* shared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A10006 /* NeuralPitchSupervisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10006 /* NeuralPitchSupervisor.swift */; };
 		A10007 /* FretboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10007 /* FretboardViewModel.swift */; };
 		A10008 /* ChordLibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10008 /* ChordLibraryViewModel.swift */; };
@@ -38,9 +20,6 @@
 		A10011 /* ChordDiagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10011 /* ChordDiagramView.swift */; };
 		A10012 /* ChordLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10012 /* ChordLibraryView.swift */; };
 		A10013 /* ExplorerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10013 /* ExplorerView.swift */; };
-		A20015 /* swift_f0_model.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B20015 /* swift_f0_model.onnx */; };
-		A40003 /* onnxruntime.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40002 /* onnxruntime.xcframework */; };
-		A40004 /* onnxruntime.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B40002 /* onnxruntime.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A10014 /* ReferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10014 /* ReferenceView.swift */; };
 		A10015 /* GlossaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10015 /* GlossaryView.swift */; };
 		A10016 /* CapoGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10016 /* CapoGuideView.swift */; };
@@ -83,7 +62,6 @@
 		A10053 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10053 /* FavoritesViewModel.swift */; };
 		A10054 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10054 /* SettingsViewModel.swift */; };
 		A10055 /* AccessibilityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10055 /* AccessibilityHelper.swift */; };
-		A10079 /* ChordVoicing+Frets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10079 /* ChordVoicing+Frets.swift */; };
 		A10056 /* VoiceLeadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10056 /* VoiceLeadingView.swift */; };
 		A10057 /* ProgressionPracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10057 /* ProgressionPracticeView.swift */; };
 		A10058 /* CapoCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10058 /* CapoCalculatorView.swift */; };
@@ -107,7 +85,39 @@
 		A10076 /* SongbookViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10076 /* SongbookViewModelTests.swift */; };
 		A10077 /* ProgressionsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10077 /* ProgressionsViewModelTests.swift */; };
 		A10078 /* ChordLibraryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10078 /* ChordLibraryViewModelTests.swift */; };
+		A10079 /* ChordVoicing+Frets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10079 /* ChordVoicing+Frets.swift */; };
+		A20001 /* click_high.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20001 /* click_high.wav */; };
+		A20002 /* click_low.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20002 /* click_low.wav */; };
+		A20003 /* uke_a.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20003 /* uke_a.wav */; };
+		A20004 /* uke_asharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20004 /* uke_asharp.wav */; };
+		A20005 /* uke_b.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20005 /* uke_b.wav */; };
+		A20006 /* uke_c.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20006 /* uke_c.wav */; };
+		A20007 /* uke_csharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20007 /* uke_csharp.wav */; };
+		A20008 /* uke_d.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20008 /* uke_d.wav */; };
+		A20009 /* uke_dsharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20009 /* uke_dsharp.wav */; };
+		A20010 /* uke_e.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20010 /* uke_e.wav */; };
+		A20011 /* uke_f.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20011 /* uke_f.wav */; };
+		A20012 /* uke_fsharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20012 /* uke_fsharp.wav */; };
+		A20013 /* uke_g.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20013 /* uke_g.wav */; };
+		A20014 /* uke_gsharp.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20014 /* uke_gsharp.wav */; };
+		A20015 /* swift_f0_model.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B20015 /* swift_f0_model.onnx */; };
+		A30001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B30001 /* Assets.xcassets */; };
+		A30002 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B30002 /* Localizable.xcstrings */; };
+		A40001 /* shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40001 /* shared.framework */; };
+		A40002 /* shared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B40001 /* shared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A40003 /* onnxruntime.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40002 /* onnxruntime.xcframework */; };
+		A40004 /* onnxruntime.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B40002 /* onnxruntime.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CIP001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = P00001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = T00001;
+			remoteInfo = UkuleleCompanion;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		C50001 /* Embed Frameworks */ = {
@@ -124,41 +134,12 @@
 		};
 /* End PBXCopyFilesBuildPhase section */
 
-/* Begin PBXContainerItemProxy section */
-		CIP001 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = P00001 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = T00001;
-			remoteInfo = UkuleleCompanion;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		D00001 /* UkuleleCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UkuleleCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B10001 /* UkuleleCompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UkuleleCompanionApp.swift; sourceTree = "<group>"; };
 		B10002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B10003 /* AudioCaptureEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCaptureEngine.swift; sourceTree = "<group>"; };
 		B10004 /* TonePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TonePlayer.swift; sourceTree = "<group>"; };
 		B10005 /* TunerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunerView.swift; sourceTree = "<group>"; };
-		B20001 /* click_high.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_high.wav; sourceTree = "<group>"; };
-		B20002 /* click_low.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_low.wav; sourceTree = "<group>"; };
-		B20003 /* uke_a.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_a.wav; sourceTree = "<group>"; };
-		B20004 /* uke_asharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_asharp.wav; sourceTree = "<group>"; };
-		B20005 /* uke_b.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_b.wav; sourceTree = "<group>"; };
-		B20006 /* uke_c.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_c.wav; sourceTree = "<group>"; };
-		B20007 /* uke_csharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_csharp.wav; sourceTree = "<group>"; };
-		B20008 /* uke_d.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_d.wav; sourceTree = "<group>"; };
-		B20009 /* uke_dsharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_dsharp.wav; sourceTree = "<group>"; };
-		B20010 /* uke_e.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_e.wav; sourceTree = "<group>"; };
-		B20011 /* uke_f.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_f.wav; sourceTree = "<group>"; };
-		B20012 /* uke_fsharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_fsharp.wav; sourceTree = "<group>"; };
-		B20013 /* uke_g.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_g.wav; sourceTree = "<group>"; };
-		B20014 /* uke_gsharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_gsharp.wav; sourceTree = "<group>"; };
-		B30001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B30002 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
-		B30003 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B40001 /* shared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = shared.framework; path = "../shared/build/bin/iosSimulatorArm64/debugFramework/shared.framework"; sourceTree = "<group>"; };
 		B10006 /* NeuralPitchSupervisor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuralPitchSupervisor.swift; sourceTree = "<group>"; };
 		B10007 /* FretboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FretboardViewModel.swift; sourceTree = "<group>"; };
 		B10008 /* ChordLibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordLibraryViewModel.swift; sourceTree = "<group>"; };
@@ -167,8 +148,6 @@
 		B10011 /* ChordDiagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordDiagramView.swift; sourceTree = "<group>"; };
 		B10012 /* ChordLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordLibraryView.swift; sourceTree = "<group>"; };
 		B10013 /* ExplorerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerView.swift; sourceTree = "<group>"; };
-		B20015 /* swift_f0_model.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = swift_f0_model.onnx; sourceTree = "<group>"; };
-		B40002 /* onnxruntime.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = onnxruntime.xcframework; path = Frameworks/onnxruntime.xcframework; sourceTree = "<group>"; };
 		B10014 /* ReferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceView.swift; sourceTree = "<group>"; };
 		B10015 /* GlossaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryView.swift; sourceTree = "<group>"; };
 		B10016 /* CapoGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapoGuideView.swift; sourceTree = "<group>"; };
@@ -211,7 +190,6 @@
 		B10053 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
 		B10054 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		B10055 /* AccessibilityHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityHelper.swift; sourceTree = "<group>"; };
-		B10079 /* ChordVoicing+Frets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChordVoicing+Frets.swift"; sourceTree = "<group>"; };
 		B10056 /* VoiceLeadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceLeadingView.swift; sourceTree = "<group>"; };
 		B10057 /* ProgressionPracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionPracticeView.swift; sourceTree = "<group>"; };
 		B10058 /* CapoCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapoCalculatorView.swift; sourceTree = "<group>"; };
@@ -235,6 +213,28 @@
 		B10076 /* SongbookViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongbookViewModelTests.swift; sourceTree = "<group>"; };
 		B10077 /* ProgressionsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionsViewModelTests.swift; sourceTree = "<group>"; };
 		B10078 /* ChordLibraryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordLibraryViewModelTests.swift; sourceTree = "<group>"; };
+		B10079 /* ChordVoicing+Frets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChordVoicing+Frets.swift"; sourceTree = "<group>"; };
+		B20001 /* click_high.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_high.wav; sourceTree = "<group>"; };
+		B20002 /* click_low.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_low.wav; sourceTree = "<group>"; };
+		B20003 /* uke_a.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_a.wav; sourceTree = "<group>"; };
+		B20004 /* uke_asharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_asharp.wav; sourceTree = "<group>"; };
+		B20005 /* uke_b.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_b.wav; sourceTree = "<group>"; };
+		B20006 /* uke_c.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_c.wav; sourceTree = "<group>"; };
+		B20007 /* uke_csharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_csharp.wav; sourceTree = "<group>"; };
+		B20008 /* uke_d.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_d.wav; sourceTree = "<group>"; };
+		B20009 /* uke_dsharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_dsharp.wav; sourceTree = "<group>"; };
+		B20010 /* uke_e.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_e.wav; sourceTree = "<group>"; };
+		B20011 /* uke_f.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_f.wav; sourceTree = "<group>"; };
+		B20012 /* uke_fsharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_fsharp.wav; sourceTree = "<group>"; };
+		B20013 /* uke_g.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_g.wav; sourceTree = "<group>"; };
+		B20014 /* uke_gsharp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_gsharp.wav; sourceTree = "<group>"; };
+		B20015 /* swift_f0_model.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = swift_f0_model.onnx; sourceTree = "<group>"; };
+		B30001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B30002 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		B30003 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B40001 /* shared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = shared.framework; path = ../shared/build/bin/iosSimulatorArm64/debugFramework/shared.framework; sourceTree = "<group>"; };
+		B40002 /* onnxruntime.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = onnxruntime.xcframework; path = Frameworks/onnxruntime.xcframework; sourceTree = "<group>"; };
+		D00001 /* UkuleleCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UkuleleCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D00002 /* UkuleleCompanionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UkuleleCompanionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -350,28 +350,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		G70001 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				B10007 /* FretboardViewModel.swift */,
-				B10008 /* ChordLibraryViewModel.swift */,
-				B10026 /* ProgressionsViewModel.swift */,
-				B10027 /* SongbookViewModel.swift */,
-				B10028 /* MelodyViewModel.swift */,
-				B10042 /* LearnViewModel.swift */,
-				B10043 /* ScalePracticeViewModel.swift */,
-				B10044 /* ChordTransitionsViewModel.swift */,
-				B10051 /* PitchMonitorViewModel.swift */,
-				B10052 /* MetronomeViewModel.swift */,
-				B10053 /* FavoritesViewModel.swift */,
-				B10054 /* SettingsViewModel.swift */,
-				B10062 /* PracticeTimerViewModel.swift */,
-				B10063 /* CustomPatternsViewModel.swift */,
-				B10069 /* PlayAlongViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		G40001 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -394,6 +372,46 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		G50001 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B40001 /* shared.framework */,
+				B40002 /* onnxruntime.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		G60001 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D00001 /* UkuleleCompanion.app */,
+				D00002 /* UkuleleCompanionTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		G70001 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B10007 /* FretboardViewModel.swift */,
+				B10008 /* ChordLibraryViewModel.swift */,
+				B10026 /* ProgressionsViewModel.swift */,
+				B10027 /* SongbookViewModel.swift */,
+				B10028 /* MelodyViewModel.swift */,
+				B10042 /* LearnViewModel.swift */,
+				B10043 /* ScalePracticeViewModel.swift */,
+				B10044 /* ChordTransitionsViewModel.swift */,
+				B10051 /* PitchMonitorViewModel.swift */,
+				B10052 /* MetronomeViewModel.swift */,
+				B10053 /* FavoritesViewModel.swift */,
+				B10054 /* SettingsViewModel.swift */,
+				B10062 /* PracticeTimerViewModel.swift */,
+				B10063 /* CustomPatternsViewModel.swift */,
+				B10069 /* PlayAlongViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		G80001 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -402,15 +420,6 @@
 				B10079 /* ChordVoicing+Frets.swift */,
 			);
 			path = Helpers;
-			sourceTree = "<group>";
-		};
-		G50001 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B40001 /* shared.framework */,
-				B40002 /* onnxruntime.xcframework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		G90001 /* UkuleleCompanionTests */ = {
@@ -426,15 +435,6 @@
 				B10076 /* SongbookViewModelTests.swift */,
 			);
 			path = UkuleleCompanionTests;
-			sourceTree = "<group>";
-		};
-		G60001 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D00001 /* UkuleleCompanion.app */,
-				D00002 /* UkuleleCompanionTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -731,6 +731,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9QBV46NATP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../shared/build/bin/iosSimulatorArm64/debugFramework",
@@ -765,6 +766,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9QBV46NATP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../shared/build/bin/iosSimulatorArm64/releaseFramework",
@@ -872,7 +874,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
 	};
 	rootObject = P00001 /* Project object */;
 }
