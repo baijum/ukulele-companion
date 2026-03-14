@@ -416,7 +416,9 @@ final class TunerViewModel: ObservableObject {
     init() {
         neuralSupervisor = NeuralPitchSupervisor()
         audioEngine.onBuffer = { [weak self] samples in
-            self?.processAudioBuffer(samples)
+            Task { @MainActor in
+                self?.processAudioBuffer(samples)
+            }
         }
     }
 
@@ -453,9 +455,6 @@ final class TunerViewModel: ObservableObject {
     private func processAudioBuffer(_ samples: [Float]) {
         let rms = sqrt(samples.reduce(0) { $0 + $1 * $1 } / Float(max(samples.count, 1)))
         if rms < noiseGateRms {
-            DispatchQueue.main.async { [weak self] in
-                self?.resetDisplay()
-            }
             return
         }
 
@@ -551,9 +550,7 @@ final class TunerViewModel: ObservableObject {
                     )
                 }
             } else {
-                self.activeStringIndex = nil
                 self.settledFrames = 0
-                self.resetDisplay()
             }
         }
     }

@@ -197,6 +197,7 @@ final class MelodyViewModel: ObservableObject {
         lastDetectedPitchClass = nil
 
         audioEngine.onBuffer = { [weak self] samples in
+            Task { @MainActor in
             guard let self else { return }
             let floatArray = KotlinFloatArray(size: Int32(samples.count))
             for i in 0..<samples.count {
@@ -249,6 +250,7 @@ final class MelodyViewModel: ObservableObject {
                     self.detectedNote = nil
                     self.stabilizationProgress = 0
                 }
+            }
             }
         }
 

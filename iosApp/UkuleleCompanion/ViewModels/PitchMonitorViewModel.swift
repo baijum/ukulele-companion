@@ -71,7 +71,9 @@ final class PitchMonitorViewModel: ObservableObject {
     init() {
         neuralSupervisor = NeuralPitchSupervisor()
         audioEngine.onBuffer = { [weak self] samples in
-            self?.processBuffer(samples)
+            Task { @MainActor in
+                self?.processBuffer(samples)
+            }
         }
     }
 

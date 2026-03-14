@@ -42,7 +42,9 @@ final class PlayAlongViewModel: ObservableObject {
 
     init() {
         audioEngine.onBuffer = { [weak self] samples in
-            self?.processAudioBuffer(samples)
+            Task { @MainActor in
+                self?.processAudioBuffer(samples)
+            }
         }
     }
 
