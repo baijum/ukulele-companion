@@ -16,6 +16,7 @@ struct StoredSong: Codable, Identifiable {
 
 enum SongSortOrder: String, CaseIterable {
     case lastModified = "Last Modified"
+    case dateAdded = "Date Added"
     case title = "Title"
     case artist = "Artist"
 }
@@ -51,13 +52,15 @@ final class SongbookViewModel: ObservableObject {
 
         if !selectedLabels.isEmpty {
             result = result.filter { song in
-                !selectedLabels.isDisjoint(with: Set(song.labels))
+                selectedLabels.isSubset(of: Set(song.labels))
             }
         }
 
         switch sortOrder {
         case .lastModified:
             result.sort { $0.updatedAt > $1.updatedAt }
+        case .dateAdded:
+            result.sort { $0.createdAt > $1.createdAt }
         case .title:
             result.sort { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
         case .artist:
@@ -81,6 +84,44 @@ final class SongbookViewModel: ObservableObject {
     func delete(id: String) {
         songs.removeAll { $0.id == id }
         persist()
+    }
+
+    func updateLabels(id: String, labels: [String]) {
+        guard let idx = songs.firstIndex(where: { $0.id == id }) else { return }
+        songs[idx].labels = labels
+        songs[idx].updatedAt = Date().timeIntervalSince1970 * 1000
+        persist()
+    }
+
+    func updateStrumPattern(id: String, patternName: String) {
+        guard let idx = songs.firstIndex(where: { $0.id == id }) else { return }
+        songs[idx].strumPatternName = patternName
+        songs[idx].updatedAt = Date().timeIntervalSince1970 * 1000
+        persist()
+    }
+
+    func importPlainText(content: String, filename: String?) {
+        let title = filename?
+            .replacingOccurrences(of: ".", with: " ")
+            .components(separatedBy: " ")
+            .dropLast()
+            .joined(separator: " ")
+            .replacingOccurrences(of: "_", with: " ")
+            ?? "Imported Song"
+        let now = Date().timeIntervalSince1970 * 1000
+        let song = StoredSong(
+            id: UUID().uuidString,
+            title: title.isEmpty ? "Imported Song" : title,
+            artist: "",
+            content: content.trimmingCharacters(in: .whitespacesAndNewlines),
+            key: "",
+            capo: 0,
+            strumPatternName: "",
+            labels: [],
+            createdAt: now,
+            updatedAt: now
+        )
+        save(song: song)
     }
 
     func importChordPro(text: String) {

@@ -6102,6 +6102,9 @@
         }
       }
     },
+    "Add" : {
+
+    },
     "Add %@" : {
 
     },
@@ -6118,6 +6121,15 @@
 
     },
     "Add fingerpicking pattern" : {
+
+    },
+    "Add label" : {
+
+    },
+    "Add Label" : {
+
+    },
+    "Add label..." : {
 
     },
     "Add song or import" : {
@@ -22059,6 +22071,9 @@
         }
       }
     },
+    "Change" : {
+
+    },
     "Chord 1 diagram, tap to play" : {
 
     },
@@ -29465,6 +29480,12 @@
         }
       }
     },
+    "Clear" : {
+
+    },
+    "Clear label filters" : {
+
+    },
     "Clear search" : {
 
     },
@@ -30551,6 +30572,9 @@
 
     },
     "Delete song" : {
+
+    },
+    "Delete Song?" : {
 
     },
     "Description" : {
@@ -32000,6 +32024,9 @@
     "Discard" : {
 
     },
+    "Discard Changes?" : {
+
+    },
     "Display" : {
 
     },
@@ -32564,9 +32591,6 @@
     "Duration: %lld min" : {
 
     },
-    "e.g. favorites, practice" : {
-
-    },
     "Ease: %lld%%" : {
 
     },
@@ -32592,6 +32616,12 @@
 
     },
     "Edit Strum Pattern" : {
+
+    },
+    "Enter a label for this song." : {
+
+    },
+    "Equivalent: Capo fret %lld" : {
 
     },
     "Everything you need" : {
@@ -33922,6 +33952,12 @@
     "Export Backup" : {
 
     },
+    "Export ChordPro" : {
+
+    },
+    "Export transposed ChordPro" : {
+
+    },
     "Favorites" : {
 
     },
@@ -34737,6 +34773,9 @@
 
     },
     "Feature Guide Videos" : {
+
+    },
+    "Filter by %@" : {
 
     },
     "Filters" : {
@@ -44424,6 +44463,12 @@
     "Import ChordPro" : {
 
     },
+    "Import Failed" : {
+
+    },
+    "Import from File" : {
+
+    },
     "Incorrect answer" : {
 
     },
@@ -46187,6 +46232,12 @@
 
     },
     "Knowledge" : {
+
+    },
+    "Label" : {
+
+    },
+    "Label name" : {
 
     },
     "label_accuracy" : {
@@ -49724,7 +49775,7 @@
         }
       }
     },
-    "Labels (comma-separated)" : {
+    "Labels" : {
 
     },
     "Language" : {
@@ -74141,10 +74192,16 @@
     "Relative Minor" : {
 
     },
+    "Remove" : {
+
+    },
     "Remove %@" : {
 
     },
     "Remove %@ from favorites" : {
+
+    },
+    "Remove %@ label" : {
 
     },
     "Remove from favorites" : {
@@ -81460,10 +81517,16 @@
     "Search terms" : {
 
     },
+    "Select" : {
+
+    },
     "Select a root note and scale to see diatonic triads." : {
 
     },
     "Select an item from the sidebar" : {
+
+    },
+    "Select Strum Pattern" : {
 
     },
     "Select..." : {
@@ -86264,7 +86327,13 @@
     "Share as Image" : {
 
     },
+    "Share as text" : {
+
+    },
     "Share Chord" : {
+
+    },
+    "Share transposed text" : {
 
     },
     "share_as_image" : {
@@ -92247,6 +92316,9 @@
     "Stop" : {
 
     },
+    "Stop auto-scroll" : {
+
+    },
     "Stop metronome" : {
 
     },
@@ -92285,6 +92357,12 @@
 
     },
     "Strum Pattern" : {
+
+    },
+    "Strum pattern %@" : {
+
+    },
+    "Strum Pattern:" : {
 
     },
     "Strumming" : {
@@ -92446,6 +92524,9 @@
       }
     },
     "Tempo" : {
+
+    },
+    "The file could not be imported. Please check the file format and try again." : {
 
     },
     "Theme" : {
@@ -103728,6 +103809,9 @@
 
     },
     "You can change these anytime in Settings." : {
+
+    },
+    "You have unsaved changes. Are you sure you want to discard them?" : {
 
     },
     "You have unsaved changes. Discard them?" : {
