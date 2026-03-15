@@ -89,9 +89,6 @@ struct AchievementsView: View {
         let context = buildContext()
         let unlocked = learnVM.unlockedAchievementIds
 
-        // Check and unlock new achievements
-        let _ = checkNewAchievements(context: context, unlocked: unlocked)
-
         ScrollView {
             VStack(spacing: 16) {
                 // Summary
@@ -120,6 +117,9 @@ struct AchievementsView: View {
             .padding(.vertical)
         }
         .navigationTitle("Achievements")
+        .task(id: learnVM.stateVersion) {
+            checkNewAchievements(context: context, unlocked: unlocked)
+        }
     }
 
     private func achievementRow(_ achievement: AchievementDef, unlocked: Bool) -> some View {
