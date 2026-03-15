@@ -17,6 +17,7 @@ final class ProgressionsViewModel: ObservableObject {
     @Published var selectedScaleType: ScaleType = .major
     @Published var customProgressions: [CustomProgression] = []
     @Published var showingCreateSheet = false
+    @Published var editingCustomId: String?
 
     private let userDefaultsKey = "custom_progressions"
 
@@ -42,6 +43,30 @@ final class ProgressionsViewModel: ObservableObject {
         return list as! [ChordDegree]
     }
 
+    var filteredCustomProgressions: [CustomProgression] {
+        customProgressions.filter { $0.scaleType == selectedScaleType.name }
+    }
+
+    func diatonicDegreesForScale(_ scaleType: ScaleType) -> [ChordDegree] {
+        let list = Progressions.shared.diatonicDegrees(scaleType: scaleType)
+        return list as! [ChordDegree]
+    }
+
+    func toProgression(_ custom: CustomProgression) -> Progression {
+        let degrees = zip(custom.degreeIntervals, zip(custom.degreeQualities, custom.degreeNumerals))
+            .map { interval, qualityNumeral in
+                let (quality, numeral) = qualityNumeral
+                return ChordDegree(interval: Int32(interval), quality: quality, numeral: numeral)
+            }
+        let scaleType = allScaleTypes.first { $0.name == custom.scaleType } ?? .major
+        return Progression(
+            name: custom.name,
+            description: custom.description,
+            degrees: degrees,
+            scaleType: scaleType
+        )
+    }
+
     func resolvedChordName(degree: ChordDegree) -> String {
         let pitchClass = (Int(selectedRoot) + Int(degree.interval)) % 12
         let name = Notes.shared.enharmonicForKey(
@@ -57,6 +82,10 @@ final class ProgressionsViewModel: ObservableObject {
             progression: progression,
             keyRoot: selectedRoot
         )
+    }
+
+    func shareTextForCustom(_ custom: CustomProgression) -> String {
+        shareText(for: toProgression(custom))
     }
 
     func createCustom(name: String, description: String, selectedDegreeIndices: Set<Int>) {
@@ -77,6 +106,37 @@ final class ProgressionsViewModel: ObservableObject {
             scaleType: selectedScaleType.name
         )
         customProgressions.insert(custom, at: 0)
+        saveCustomProgressions()
+    }
+
+    func createCustomFromDegrees(name: String, description: String, degrees: [ChordDegree], scaleType: ScaleType) {
+        guard degrees.count >= 2 else { return }
+        let custom = CustomProgression(
+            id: UUID().uuidString,
+            name: name,
+            description: description.isEmpty ? "Custom progression" : description,
+            degreeIntervals: degrees.map { Int($0.interval) },
+            degreeQualities: degrees.map { $0.quality },
+            degreeNumerals: degrees.map { $0.numeral },
+            scaleType: scaleType.name
+        )
+        customProgressions.insert(custom, at: 0)
+        saveCustomProgressions()
+    }
+
+    func updateCustom(id: String, name: String, description: String, degrees: [ChordDegree], scaleType: ScaleType) {
+        guard let index = customProgressions.firstIndex(where: { $0.id == id }) else { return }
+        guard degrees.count >= 2 else { return }
+        let updated = CustomProgression(
+            id: id,
+            name: name,
+            description: description.isEmpty ? "Custom progression" : description,
+            degreeIntervals: degrees.map { Int($0.interval) },
+            degreeQualities: degrees.map { $0.quality },
+            degreeNumerals: degrees.map { $0.numeral },
+            scaleType: scaleType.name
+        )
+        customProgressions[index] = updated
         saveCustomProgressions()
     }
 

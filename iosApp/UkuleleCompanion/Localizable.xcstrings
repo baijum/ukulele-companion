@@ -6102,7 +6102,13 @@
         }
       }
     },
+    "Add %@" : {
+
+    },
     "Add %@ to favorites" : {
+
+    },
+    "Add at least 2 chords" : {
 
     },
     "Add Beat" : {
@@ -6374,6 +6380,9 @@
           }
         }
       }
+    },
+    "Are you sure you want to delete \"%@\"?" : {
+
     },
     "arpeggio" : {
 
@@ -22065,6 +22074,9 @@
     "Chord Progressions" : {
 
     },
+    "Chord quality" : {
+
+    },
     "Chord Substitutions" : {
 
     },
@@ -29483,6 +29495,9 @@
     "Create new progression" : {
 
     },
+    "Create Progression" : {
+
+    },
     "Credits" : {
 
     },
@@ -30532,13 +30547,13 @@
     "Delete Folder?" : {
 
     },
+    "Delete progression?" : {
+
+    },
     "Delete song" : {
 
     },
     "Description" : {
-
-    },
-    "Details" : {
 
     },
     "Detected chord" : {
@@ -32561,7 +32576,13 @@
     "Edit" : {
 
     },
+    "Edit %@" : {
+
+    },
     "Edit Fingerpicking Pattern" : {
+
+    },
+    "Edit Progression" : {
 
     },
     "Edit song" : {
@@ -59121,9 +59142,6 @@
     "New name" : {
 
     },
-    "New Progression" : {
-
-    },
     "New Question" : {
 
     },
@@ -74123,6 +74141,9 @@
     "Relative Minor" : {
 
     },
+    "Remove %@" : {
+
+    },
     "Remove %@ from favorites" : {
 
     },
@@ -81443,9 +81464,6 @@
 
     },
     "Select an item from the sidebar" : {
-
-    },
-    "Select Degrees" : {
 
     },
     "Select..." : {
@@ -92302,6 +92320,12 @@
     "Tap any feature to learn more about it." : {
 
     },
+    "Tap chords above to build your progression" : {
+
+    },
+    "Tap chords to add" : {
+
+    },
     "Tap frets" : {
 
     },
@@ -98456,6 +98480,9 @@
         }
       }
     },
+    "Triad" : {
+
+    },
     "Try %@" : {
 
     },
@@ -101914,6 +101941,9 @@
     "Up" : {
 
     },
+    "Update" : {
+
+    },
     "Use the Capo Calculator to find the easiest capo position for any chord or progression." : {
 
     },
@@ -103710,6 +103740,9 @@
 
     },
     "Your answer, incorrect" : {
+
+    },
+    "Your chords (%lld)" : {
 
     }
   },

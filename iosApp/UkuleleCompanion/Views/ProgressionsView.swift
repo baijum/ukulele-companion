@@ -5,6 +5,8 @@ struct ProgressionsView: View {
     @StateObject private var viewModel = ProgressionsViewModel()
     private let tonePlayer = TonePlayer()
     @State private var playbackState = ProgressionPlaybackState()
+    @State private var deletingCustomId: String?
+    @State private var deletingCustomName: String?
 
     var body: some View {
         ScrollView {
@@ -12,7 +14,7 @@ struct ProgressionsView: View {
                 rootSelector
                 scaleTypeSelector
 
-                if !viewModel.customProgressions.isEmpty {
+                if !viewModel.filteredCustomProgressions.isEmpty {
                     customSection
                 }
 
@@ -33,6 +35,55 @@ struct ProgressionsView: View {
         .sheet(isPresented: $viewModel.showingCreateSheet) {
             CreateProgressionSheet(viewModel: viewModel)
         }
+        .sheet(item: editingCustomBinding) { custom in
+            let degrees = zip(custom.degreeIntervals, zip(custom.degreeQualities, custom.degreeNumerals))
+                .map { interval, qn in
+                    ChordDegree(interval: Int32(interval), quality: qn.0, numeral: qn.1)
+                }
+            let scaleType = viewModel.allScaleTypes.first { $0.name == custom.scaleType } ?? .major
+            CreateProgressionSheet(
+                viewModel: viewModel,
+                editingId: custom.id,
+                initialName: custom.name,
+                initialDescription: custom.description,
+                initialDegrees: degrees,
+                initialScaleType: scaleType
+            )
+        }
+        .alert("Delete progression?", isPresented: showingDeleteAlert) {
+            Button("Cancel", role: .cancel) {
+                deletingCustomId = nil
+                deletingCustomName = nil
+            }
+            Button("Delete", role: .destructive) {
+                if let id = deletingCustomId {
+                    viewModel.deleteCustom(id: id)
+                }
+                deletingCustomId = nil
+                deletingCustomName = nil
+            }
+        } message: {
+            Text("Are you sure you want to delete \"\(deletingCustomName ?? "")\"?")
+        }
+    }
+
+    private var editingCustomBinding: Binding<CustomProgression?> {
+        Binding(
+            get: {
+                guard let id = viewModel.editingCustomId else { return nil }
+                return viewModel.customProgressions.first { $0.id == id }
+            },
+            set: { newValue in
+                viewModel.editingCustomId = newValue?.id
+            }
+        )
+    }
+
+    private var showingDeleteAlert: Binding<Bool> {
+        Binding(
+            get: { deletingCustomId != nil },
+            set: { if !$0 { deletingCustomId = nil; deletingCustomName = nil } }
+        )
     }
 
     private var rootSelector: some View {
@@ -93,25 +144,35 @@ struct ProgressionsView: View {
                 .font(.headline)
                 .accessibilityAddTraits(.isHeader)
 
-            ForEach(viewModel.customProgressions) { custom in
-                let chips: [(String, String)] = zip(custom.degreeNumerals, zip(custom.degreeIntervals, custom.degreeQualities)).map { numeral, intervalQuality in
-                    let (interval, quality) = intervalQuality
-                    let resolved = viewModel.resolvedChordNameForCustomDegree(interval: interval, quality: quality)
-                    return (numeral, resolved)
+            ForEach(viewModel.filteredCustomProgressions) { custom in
+                let progression = viewModel.toProgression(custom)
+                let degrees = progression.degrees as! [ChordDegree]
+                let chips = degrees.map { degree in
+                    (degree.numeral, viewModel.resolvedChordName(degree: degree))
                 }
                 progressionCard(
                     name: custom.name,
                     description: custom.description,
                     chordChips: chips,
-                    shareText: nil,
-                    onDelete: { viewModel.deleteCustom(id: custom.id) },
+                    shareText: viewModel.shareTextForCustom(custom),
+                    onDelete: {
+                        deletingCustomId = custom.id
+                        deletingCustomName = custom.name
+                    },
                     onDuplicate: {
-                        viewModel.createCustom(
+                        let dupDegrees = degrees.map { degree in
+                            ChordDegree(interval: degree.interval, quality: degree.quality, numeral: degree.numeral)
+                        }
+                        let scaleType = viewModel.allScaleTypes.first { $0.name == custom.scaleType } ?? .major
+                        viewModel.createCustomFromDegrees(
                             name: custom.name + " (Copy)",
                             description: custom.description,
-                            selectedDegreeIndices: Set(0..<custom.degreeNumerals.count)
+                            degrees: dupDegrees,
+                            scaleType: scaleType
                         )
-                    }
+                    },
+                    onEdit: { viewModel.editingCustomId = custom.id },
+                    progression: progression
                 )
             }
         }
@@ -137,10 +198,11 @@ struct ProgressionsView: View {
                     shareText: viewModel.shareText(for: progression),
                     onDelete: nil,
                     onDuplicate: {
-                        viewModel.createCustom(
+                        viewModel.createCustomFromDegrees(
                             name: progression.name + " (Copy)",
                             description: progression.description_,
-                            selectedDegreeIndices: Set(0..<degrees.count)
+                            degrees: degrees,
+                            scaleType: progression.scaleType
                         )
                     },
                     progression: progression
@@ -156,6 +218,7 @@ struct ProgressionsView: View {
         shareText: String?,
         onDelete: (() -> Void)?,
         onDuplicate: (() -> Void)? = nil,
+        onEdit: (() -> Void)? = nil,
         progression: Progression? = nil
     ) -> some View {
         let cardId = name
@@ -172,6 +235,13 @@ struct ProgressionsView: View {
                             .font(.caption)
                     }
                     .accessibilityLabel("Share \(name)")
+                }
+                if let onEdit {
+                    Button(action: onEdit) {
+                        Image(systemName: "pencil")
+                            .font(.caption)
+                    }
+                    .accessibilityLabel("Edit \(name)")
                 }
                 if let onDelete {
                     Button(role: .destructive, action: onDelete) {
@@ -264,6 +334,11 @@ struct ProgressionsView: View {
                     Label("Duplicate", systemImage: "doc.on.doc")
                 }
             }
+            if let onEdit {
+                Button { onEdit() } label: {
+                    Label("Edit", systemImage: "pencil")
+                }
+            }
             if let onDelete {
                 Button(role: .destructive, action: onDelete) {
                     Label("Delete", systemImage: "trash")
@@ -285,62 +360,317 @@ struct ProgressionsView: View {
 struct CreateProgressionSheet: View {
     @ObservedObject var viewModel: ProgressionsViewModel
     @Environment(\.dismiss) private var dismiss
+
+    var editingId: String?
+    var initialName: String = ""
+    var initialDescription: String = ""
+    var initialDegrees: [ChordDegree] = []
+    var initialScaleType: ScaleType?
+
     @State private var name = ""
     @State private var description = ""
-    @State private var selectedDegreeIndices: Set<Int> = []
+    @State private var scaleType: ScaleType = .major
+    @State private var chosenDegrees: [ChordDegree] = []
+    @State private var selectedQualitySymbol: String?
+    @State private var didSetInitial = false
+
+    private var isEditMode: Bool { editingId != nil }
+
+    private var availableDegrees: [ChordDegree] {
+        viewModel.diatonicDegreesForScale(scaleType)
+    }
+
+    private var qualityFormulas: [ChordFormula] {
+        let all = ChordFormulas.shared.ALL as! [ChordFormula]
+        return all.filter { $0.category != .triad }
+    }
 
     var body: some View {
         NavigationStack {
-            Form {
-                Section("Details") {
-                    TextField("Name", text: $name)
-                    TextField("Description", text: $description)
-                }
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    Text(isEditMode ? "Edit Progression" : "Create Progression")
+                        .font(.title2.bold())
+                        .accessibilityAddTraits(.isHeader)
 
-                Section("Select Degrees") {
-                    let degrees = viewModel.diatonicDegrees
-                    ForEach(0..<degrees.count, id: \.self) { i in
-                        let degree = degrees[i]
-                        let resolved = viewModel.resolvedChordName(degree: degree)
-                        Button {
-                            if selectedDegreeIndices.contains(i) {
-                                selectedDegreeIndices.remove(i)
-                            } else {
-                                selectedDegreeIndices.insert(i)
-                            }
-                        } label: {
-                            HStack {
-                                Image(systemName: selectedDegreeIndices.contains(i)
-                                    ? "checkmark.circle.fill" : "circle")
-                                Text(degree.numeral)
-                                    .bold()
-                                Text(resolved)
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
-                        .buttonStyle(.plain)
+                    TextField("Name", text: $name)
+                        .textFieldStyle(.roundedBorder)
+
+                    TextField("Description", text: $description)
+                        .textFieldStyle(.roundedBorder)
+
+                    scaleTypeSection
+                    chordQualitySection
+                    diatonicChordChips
+                    chosenSequenceSection
+
+                    Button(action: save) {
+                        Text(isEditMode ? "Update" : "Save")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty || chosenDegrees.count < 2)
+
+                    if !name.trimmingCharacters(in: .whitespaces).isEmpty && chosenDegrees.count < 2 {
+                        Text("Add at least 2 chords")
+                            .font(.caption)
+                            .foregroundStyle(.red)
                     }
                 }
+                .padding()
             }
-            .navigationTitle("New Progression")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
                 }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Create") {
-                        viewModel.createCustom(
-                            name: name,
-                            description: description,
-                            selectedDegreeIndices: selectedDegreeIndices
-                        )
-                        dismiss()
+            }
+            .onAppear {
+                guard !didSetInitial else { return }
+                didSetInitial = true
+                name = initialName
+                description = initialDescription
+                scaleType = initialScaleType ?? viewModel.selectedScaleType
+                chosenDegrees = initialDegrees
+            }
+        }
+    }
+
+    private var scaleTypeSection: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Scale")
+                .font(.caption.bold())
+                .foregroundStyle(.secondary)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 6) {
+                    ForEach(viewModel.allScaleTypes, id: \.self) { scale in
+                        Button {
+                            if scaleType != scale {
+                                scaleType = scale
+                                chosenDegrees.removeAll()
+                            }
+                        } label: {
+                            Text(scale.label)
+                                .font(.caption.bold())
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(scaleType == scale ? Color.accentColor : Color(.systemGray5))
+                                .foregroundStyle(scaleType == scale ? .white : .primary)
+                                .clipShape(Capsule())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityAddTraits(scaleType == scale ? .isSelected : [])
                     }
-                    .disabled(name.isEmpty || selectedDegreeIndices.isEmpty)
                 }
             }
         }
+    }
+
+    private var chordQualitySection: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Chord quality")
+                .font(.caption.bold())
+                .foregroundStyle(.secondary)
+
+            WrappingHStack(spacing: 6) {
+                Button {
+                    selectedQualitySymbol = nil
+                } label: {
+                    Text("Triad")
+                        .font(.caption.bold())
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(selectedQualitySymbol == nil ? Color.orange : Color(.systemGray5))
+                        .foregroundStyle(selectedQualitySymbol == nil ? .white : .primary)
+                        .clipShape(Capsule())
+                }
+                .buttonStyle(.plain)
+                .accessibilityAddTraits(selectedQualitySymbol == nil ? .isSelected : [])
+
+                ForEach(qualityFormulas, id: \.symbol) { formula in
+                    Button {
+                        selectedQualitySymbol = formula.symbol
+                    } label: {
+                        Text(formula.symbol.isEmpty ? formula.quality : formula.symbol)
+                            .font(.caption.bold())
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
+                            .background(selectedQualitySymbol == formula.symbol ? Color.orange : Color(.systemGray5))
+                            .foregroundStyle(selectedQualitySymbol == formula.symbol ? .white : .primary)
+                            .clipShape(Capsule())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityAddTraits(selectedQualitySymbol == formula.symbol ? .isSelected : [])
+                }
+            }
+        }
+    }
+
+    private var diatonicChordChips: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Tap chords to add")
+                .font(.caption.bold())
+                .foregroundStyle(.secondary)
+
+            WrappingHStack(spacing: 8) {
+                ForEach(0..<availableDegrees.count, id: \.self) { i in
+                    let degree = availableDegrees[i]
+                    let quality = selectedQualitySymbol ?? degree.quality
+                    let chordRoot = (Int(viewModel.selectedRoot) + Int(degree.interval)) % 12
+                    let chordName = Notes.shared.enharmonicForKey(
+                        pitchClass: Int32(chordRoot),
+                        keyRoot: KotlinInt(int: viewModel.selectedRoot),
+                        isMinor: scaleType == .minor
+                    ) + quality
+                    let numeral = selectedQualitySymbol != nil
+                        ? degree.numeral + (selectedQualitySymbol ?? "")
+                        : degree.numeral
+
+                    Button {
+                        chosenDegrees.append(
+                            ChordDegree(interval: degree.interval, quality: quality, numeral: numeral)
+                        )
+                    } label: {
+                        VStack(spacing: 2) {
+                            Text(chordName)
+                                .font(.caption.bold())
+                            Text(numeral)
+                                .font(.system(size: 9))
+                                .foregroundStyle(.secondary)
+                        }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(Color(.systemGray6))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Add \(chordName)")
+                }
+            }
+        }
+    }
+
+    private var chosenSequenceSection: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Your chords (\(chosenDegrees.count))")
+                .font(.caption.bold())
+                .foregroundStyle(.secondary)
+
+            if chosenDegrees.isEmpty {
+                Text("Tap chords above to build your progression")
+                    .font(.caption)
+                    .foregroundStyle(.secondary.opacity(0.6))
+                    .padding(.vertical, 8)
+            } else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 4) {
+                        ForEach(Array(chosenDegrees.enumerated()), id: \.offset) { index, degree in
+                            if index > 0 {
+                                Text("\u{2192}")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            let chordRoot = (Int(viewModel.selectedRoot) + Int(degree.interval)) % 12
+                            let chordName = Notes.shared.enharmonicForKey(
+                                pitchClass: Int32(chordRoot),
+                                keyRoot: KotlinInt(int: viewModel.selectedRoot),
+                                isMinor: scaleType == .minor
+                            ) + degree.quality
+
+                            Button {
+                                chosenDegrees.remove(at: index)
+                            } label: {
+                                HStack(spacing: 4) {
+                                    Text(chordName)
+                                        .font(.caption.bold())
+                                    Image(systemName: "xmark.circle.fill")
+                                        .font(.system(size: 10))
+                                        .foregroundStyle(.secondary)
+                                }
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 5)
+                                .background(Color.accentColor.opacity(0.15))
+                                .clipShape(Capsule())
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("Remove \(chordName)")
+                        }
+                    }
+                }
+
+                Text(chosenDegrees.map(\.numeral).joined(separator: " \u{2013} "))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.top, 2)
+            }
+        }
+    }
+
+    private func save() {
+        let trimmedName = name.trimmingCharacters(in: .whitespaces)
+        guard !trimmedName.isEmpty, chosenDegrees.count >= 2 else { return }
+
+        if let editingId {
+            viewModel.updateCustom(
+                id: editingId,
+                name: trimmedName,
+                description: description.trimmingCharacters(in: .whitespaces),
+                degrees: chosenDegrees,
+                scaleType: scaleType
+            )
+        } else {
+            viewModel.createCustomFromDegrees(
+                name: trimmedName,
+                description: description.trimmingCharacters(in: .whitespaces),
+                degrees: chosenDegrees,
+                scaleType: scaleType
+            )
+        }
+        dismiss()
+    }
+}
+
+private struct WrappingHStack: Layout {
+    var spacing: CGFloat = 8
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        let result = arrangeSubviews(proposal: proposal, subviews: subviews)
+        return result.size
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        let result = arrangeSubviews(proposal: proposal, subviews: subviews)
+        for (index, position) in result.positions.enumerated() {
+            subviews[index].place(
+                at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
+                proposal: .unspecified
+            )
+        }
+    }
+
+    private func arrangeSubviews(proposal: ProposedViewSize, subviews: Subviews) -> (size: CGSize, positions: [CGPoint]) {
+        let maxWidth = proposal.width ?? .infinity
+        var positions: [CGPoint] = []
+        var x: CGFloat = 0
+        var y: CGFloat = 0
+        var rowHeight: CGFloat = 0
+        var totalHeight: CGFloat = 0
+
+        for subview in subviews {
+            let size = subview.sizeThatFits(.unspecified)
+            if x + size.width > maxWidth && x > 0 {
+                x = 0
+                y += rowHeight + spacing
+                rowHeight = 0
+            }
+            positions.append(CGPoint(x: x, y: y))
+            rowHeight = max(rowHeight, size.height)
+            x += size.width + spacing
+            totalHeight = y + rowHeight
+        }
+
+        return (CGSize(width: maxWidth, height: totalHeight), positions)
     }
 }
 
@@ -390,9 +720,10 @@ private struct ProgressionPlaybackBar: View {
                     Text("1").tag(1)
                     Text("2").tag(2)
                     Text("4").tag(4)
+                    Text("8").tag(8)
                 }
                 .pickerStyle(.segmented)
-                .frame(width: 100)
+                .frame(width: 130)
                 .accessibilityLabel("Beats per chord")
 
                 Button(action: { state.loop.toggle() }) {
