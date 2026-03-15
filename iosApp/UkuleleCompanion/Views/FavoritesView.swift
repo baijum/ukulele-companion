@@ -177,12 +177,20 @@ struct FavoritesView: View {
             ShareChordSheet(info: info)
         }
         .sheet(item: $managingVoicing) { voicing in
-            FolderManagementSheet(
+            FavoriteFolderSheet(
                 folders: viewModel.folders,
                 selectedFolderIds: voicing.folderIds,
+                isAlreadyFavorited: true,
                 onSave: { ids in
                     viewModel.setFolders(voicingKey: voicing.key, folderIds: ids)
                     managingVoicing = nil
+                },
+                onRemove: {
+                    viewModel.removeFavorite(key: voicing.key)
+                    managingVoicing = nil
+                },
+                onCreateFolder: { name in
+                    viewModel.createFolder(name: name)
                 },
                 onDismiss: { managingVoicing = nil }
             )
@@ -257,7 +265,14 @@ private struct FavoriteCard: View {
                 .accessibilityLabel("Remove \(favorite.chordName) from favorites")
             }
 
-            ChordDiagramView(voicing: voicing, chordName: favorite.chordName)
+            Button {
+                onPlay?()
+            } label: {
+                ChordDiagramView(voicing: voicing, chordName: favorite.chordName)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Play \(favorite.chordName)")
+            .accessibilityHint("Tap to hear this chord")
         }
         .padding(12)
         .background(Color(.secondarySystemGroupedBackground))
@@ -265,19 +280,31 @@ private struct FavoriteCard: View {
     }
 }
 
-private struct FolderManagementSheet: View {
+struct FavoriteFolderSheet: View {
     let folders: [FavoriteFolderData]
     let selectedFolderIds: [String]
+    let isAlreadyFavorited: Bool
     let onSave: ([String]) -> Void
+    let onRemove: (() -> Void)?
+    let onCreateFolder: (String) -> Void
     let onDismiss: () -> Void
 
     @State private var selection: Set<String>
+    @State private var showNewFolderField = false
+    @State private var newFolderName = ""
 
     init(folders: [FavoriteFolderData], selectedFolderIds: [String],
-         onSave: @escaping ([String]) -> Void, onDismiss: @escaping () -> Void) {
+         isAlreadyFavorited: Bool = true,
+         onSave: @escaping ([String]) -> Void,
+         onRemove: (() -> Void)? = nil,
+         onCreateFolder: @escaping (String) -> Void,
+         onDismiss: @escaping () -> Void) {
         self.folders = folders
         self.selectedFolderIds = selectedFolderIds
+        self.isAlreadyFavorited = isAlreadyFavorited
         self.onSave = onSave
+        self.onRemove = onRemove
+        self.onCreateFolder = onCreateFolder
         self.onDismiss = onDismiss
         _selection = State(initialValue: Set(selectedFolderIds))
     }
@@ -285,27 +312,69 @@ private struct FolderManagementSheet: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(folders) { folder in
-                    Button {
-                        if selection.contains(folder.id) {
-                            selection.remove(folder.id)
-                        } else {
-                            selection.insert(folder.id)
-                        }
-                    } label: {
-                        HStack {
-                            Text(folder.name)
-                            Spacer()
-                            if selection.contains(folder.id) {
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.accentColor)
+                if folders.isEmpty && !showNewFolderField {
+                    Section {
+                        Text("No folders yet. Create one below.")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
+                if !folders.isEmpty {
+                    Section {
+                        ForEach(folders) { folder in
+                            Button {
+                                if selection.contains(folder.id) {
+                                    selection.remove(folder.id)
+                                } else {
+                                    selection.insert(folder.id)
+                                }
+                            } label: {
+                                HStack {
+                                    Text(folder.name)
+                                    Spacer()
+                                    if selection.contains(folder.id) {
+                                        Image(systemName: "checkmark")
+                                            .foregroundColor(.accentColor)
+                                    }
+                                }
                             }
+                            .foregroundColor(.primary)
                         }
                     }
-                    .foregroundColor(.primary)
+                }
+
+                Section {
+                    if showNewFolderField {
+                        HStack {
+                            TextField("Folder name", text: $newFolderName)
+                                .textFieldStyle(.roundedBorder)
+                            Button("Create") {
+                                let trimmed = newFolderName.trimmingCharacters(in: .whitespaces)
+                                guard !trimmed.isEmpty else { return }
+                                onCreateFolder(trimmed)
+                                newFolderName = ""
+                                showNewFolderField = false
+                            }
+                            .disabled(newFolderName.trimmingCharacters(in: .whitespaces).isEmpty)
+                        }
+                    } else {
+                        Button {
+                            showNewFolderField = true
+                        } label: {
+                            Label("New folder", systemImage: "plus")
+                        }
+                    }
+                }
+
+                if isAlreadyFavorited, let onRemove {
+                    Section {
+                        Button(role: .destructive, action: onRemove) {
+                            Label("Remove from favorites", systemImage: "heart.slash")
+                        }
+                    }
                 }
             }
-            .navigationTitle("Assign Folders")
+            .navigationTitle(isAlreadyFavorited ? "Manage Folders" : "Save to Favorites")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

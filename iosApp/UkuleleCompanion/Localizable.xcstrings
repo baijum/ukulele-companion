@@ -6381,9 +6381,6 @@
     "Artist" : {
 
     },
-    "Assign Folders" : {
-
-    },
     "Audio" : {
 
     },
@@ -49772,6 +49769,12 @@
     "Major" : {
 
     },
+    "Manage %@ favorites" : {
+
+    },
+    "Manage Folders" : {
+
+    },
     "Manage folders for %@" : {
 
     },
@@ -59109,6 +59112,9 @@
     "New Fingerpicking Pattern" : {
 
     },
+    "New folder" : {
+
+    },
     "New Folder" : {
 
     },
@@ -59164,6 +59170,9 @@
 
     },
     "No Favorites Yet" : {
+
+    },
+    "No folders yet. Create one below." : {
 
     },
     "No matching chords" : {
@@ -77917,6 +77926,9 @@
     "Save Melody" : {
 
     },
+    "Save to Favorites" : {
+
+    },
     "Scale" : {
 
     },
@@ -92303,6 +92315,9 @@
 
     },
     "Tap to change" : {
+
+    },
+    "Tap to hear this chord" : {
 
     },
     "tap_tempo_label" : {

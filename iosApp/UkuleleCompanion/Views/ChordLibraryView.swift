@@ -13,6 +13,7 @@ struct ChordLibraryView: View {
     @State private var inversionFilter: ChordInfo.Inversion? = nil
     @State private var filtersExpanded: Bool = true
     @State private var transposeSemitones: Int = 0
+    @State private var folderSheetVoicing: FolderSheetVoicingInfo?
 
     private let columns = [GridItem(.adaptive(minimum: 160), spacing: 12)]
 
@@ -48,6 +49,44 @@ struct ChordLibraryView: View {
         }
         .sheet(item: $shareInfo) { info in
             ShareChordSheet(info: info)
+        }
+        .sheet(item: $folderSheetVoicing) { info in
+            let isFavorited = favoritesVM.isFavorite(
+                rootPitchClass: info.rootPitchClass,
+                chordSymbol: info.chordSymbol,
+                frets: info.frets
+            )
+            let currentFolderIds = favoritesVM.folderIdsForVoicing(
+                rootPitchClass: info.rootPitchClass,
+                chordSymbol: info.chordSymbol,
+                frets: info.frets
+            )
+            FavoriteFolderSheet(
+                folders: favoritesVM.folders,
+                selectedFolderIds: currentFolderIds,
+                isAlreadyFavorited: isFavorited,
+                onSave: { selectedIds in
+                    favoritesVM.saveFavoriteToFolders(
+                        rootPitchClass: info.rootPitchClass,
+                        chordSymbol: info.chordSymbol,
+                        frets: info.frets,
+                        folderIds: selectedIds
+                    )
+                    folderSheetVoicing = nil
+                },
+                onRemove: {
+                    favoritesVM.removeFavorite(
+                        rootPitchClass: info.rootPitchClass,
+                        chordSymbol: info.chordSymbol,
+                        frets: info.frets
+                    )
+                    folderSheetVoicing = nil
+                },
+                onCreateFolder: { name in
+                    favoritesVM.createFolder(name: name)
+                },
+                onDismiss: { folderSheetVoicing = nil }
+            )
         }
         .navigationDestination(isPresented: $showCapoCalculator) {
             if let formula = viewModel.selectedFormula {
@@ -448,19 +487,11 @@ struct ChordLibraryView: View {
 
                             HStack {
                                 Button {
-                                    if isFav {
-                                        favoritesVM.removeFavorite(
-                                            rootPitchClass: Int(viewModel.selectedRoot),
-                                            chordSymbol: symbol,
-                                            frets: fretList
-                                        )
-                                    } else {
-                                        favoritesVM.addFavorite(
-                                            rootPitchClass: Int(viewModel.selectedRoot),
-                                            chordSymbol: symbol,
-                                            frets: fretList
-                                        )
-                                    }
+                                    folderSheetVoicing = FolderSheetVoicingInfo(
+                                        rootPitchClass: Int(viewModel.selectedRoot),
+                                        chordSymbol: symbol,
+                                        frets: fretList
+                                    )
                                 } label: {
                                     Image(systemName: isFav ? "heart.fill" : "heart")
                                         .font(.caption)
@@ -468,7 +499,7 @@ struct ChordLibraryView: View {
                                         .frame(minWidth: 44, minHeight: 44)
                                 }
                                 .buttonStyle(.plain)
-                                .accessibilityLabel(isFav ? "Remove \(invLabel) from favorites" : "Add \(invLabel) to favorites")
+                                .accessibilityLabel(isFav ? "Manage \(invLabel) favorites" : "Add \(invLabel) to favorites")
 
                                 Spacer()
 
@@ -577,4 +608,11 @@ private struct ChordSuggestionRow: View {
         .buttonStyle(.plain)
         .accessibilityCombined(label: "\(result.displayName), \(result.quality)")
     }
+}
+
+private struct FolderSheetVoicingInfo: Identifiable {
+    let rootPitchClass: Int
+    let chordSymbol: String
+    let frets: [Int]
+    var id: String { "\(rootPitchClass)|\(chordSymbol)|\(frets.map(String.init).joined(separator: ","))" }
 }

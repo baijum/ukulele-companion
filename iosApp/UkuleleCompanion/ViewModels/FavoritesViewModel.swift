@@ -71,6 +71,51 @@ final class FavoritesViewModel: ObservableObject {
         return favorites.contains { $0.key == key }
     }
 
+    func folderIdsForVoicing(rootPitchClass: Int, chordSymbol: String, frets: [Int]) -> [String] {
+        let key = "\(rootPitchClass)|\(chordSymbol)|\(frets.map(String.init).joined(separator: ","))"
+        return favorites.first { $0.key == key }?.folderIds ?? []
+    }
+
+    /// Adds a voicing to favorites with folder assignments, or updates folders if already favorited.
+    func saveFavoriteToFolders(rootPitchClass: Int, chordSymbol: String, frets: [Int], folderIds: [String]) {
+        let key = "\(rootPitchClass)|\(chordSymbol)|\(frets.map(String.init).joined(separator: ","))"
+        if let idx = favorites.firstIndex(where: { $0.key == key }) {
+            let oldIds = Set(favorites[idx].folderIds)
+            let newIds = Set(folderIds)
+            favorites[idx].folderIds = folderIds
+
+            for folderId in newIds.subtracting(oldIds) {
+                if let fi = folders.firstIndex(where: { $0.id == folderId }),
+                   !folders[fi].voicingOrder.contains(key) {
+                    folders[fi].voicingOrder.append(key)
+                }
+            }
+            for folderId in oldIds.subtracting(newIds) {
+                if let fi = folders.firstIndex(where: { $0.id == folderId }) {
+                    folders[fi].voicingOrder.removeAll { $0 == key }
+                }
+            }
+        } else {
+            let fav = FavoriteVoicingData(
+                rootPitchClass: rootPitchClass,
+                chordSymbol: chordSymbol,
+                frets: frets,
+                addedAt: Date().timeIntervalSince1970,
+                folderIds: folderIds
+            )
+            favorites.insert(fav, at: 0)
+
+            for folderId in folderIds {
+                if let fi = folders.firstIndex(where: { $0.id == folderId }),
+                   !folders[fi].voicingOrder.contains(key) {
+                    folders[fi].voicingOrder.append(key)
+                }
+            }
+        }
+        saveFavorites()
+        saveFolders()
+    }
+
     // MARK: - Folders
 
     func createFolder(name: String) {
