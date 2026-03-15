@@ -21,9 +21,11 @@ struct ChordDiagramView: View {
     private var fretSpacing: CGFloat { sizeClass == .regular ? 30 : 22 }
     private var dotRadius: CGFloat { sizeClass == .regular ? 10 : 8 }
     private let nutHeight: CGFloat = 4
+    private let openArea: CGFloat = 18
 
     private var diagramWidth: CGFloat { CGFloat(stringCount - 1) * stringSpacing }
     private var diagramHeight: CGFloat { CGFloat(fretRowCount) * fretSpacing }
+    private var gridTop: CGFloat { openArea + (showNut ? nutHeight : 0) }
 
     private var frets: [Int] {
         let raw = voicing.fretInts
@@ -61,16 +63,11 @@ struct ChordDiagramView: View {
                     .font(.caption.bold())
             }
 
-            // Open/muted string indicators above nut
-            openMutedRow
-                .accessibilityHidden(true)
-
             ZStack(alignment: .topLeading) {
-                // Grid lines
                 Canvas { context, size in
-                    drawGrid(context: context, size: size)
+                    drawDiagram(context: context, size: size)
                 }
-                .frame(width: diagramWidth + 16, height: diagramHeight + 8)
+                .frame(width: diagramWidth + 16, height: gridTop + diagramHeight + 4)
                 .accessibilityHidden(true)
 
                 // Position label
@@ -78,7 +75,7 @@ struct ChordDiagramView: View {
                     Text("\(startFret)fr")
                         .font(.system(size: 9))
                         .foregroundStyle(.secondary)
-                        .offset(x: diagramWidth + 12, y: 2)
+                        .offset(x: diagramWidth + 12, y: gridTop + 2)
                 }
 
                 // Capo bar
@@ -87,8 +84,8 @@ struct ChordDiagramView: View {
                     let capoVisible = showNut ? (relCapo >= 1 && relCapo <= fretRowCount) : (relCapo >= 0 && relCapo < fretRowCount)
                     if capoVisible {
                         let capoY = showNut
-                            ? 4 + (CGFloat(relCapo) - 0.5) * fretSpacing
-                            : 4 + (CGFloat(relCapo) + 0.5) * fretSpacing
+                            ? gridTop + (CGFloat(relCapo) - 0.5) * fretSpacing
+                            : gridTop + (CGFloat(relCapo) + 0.5) * fretSpacing
                         RoundedRectangle(cornerRadius: 3)
                             .fill(Color.brown)
                             .frame(width: diagramWidth + 8, height: 6)
@@ -108,8 +105,8 @@ struct ChordDiagramView: View {
                         if visible {
                             let originalIndex = leftHanded ? (stringCount - 1 - s) : s
                             let y = showNut
-                                ? 4 + (CGFloat(relFret) - 0.5) * fretSpacing
-                                : 4 + (CGFloat(relFret) + 0.5) * fretSpacing
+                                ? gridTop + (CGFloat(relFret) - 0.5) * fretSpacing
+                                : gridTop + (CGFloat(relFret) + 0.5) * fretSpacing
                             Circle()
                                 .fill(dotColor(for: originalIndex))
                                 .frame(width: dotRadius * 2, height: dotRadius * 2)
@@ -144,49 +141,52 @@ struct ChordDiagramView: View {
         .accessibilityCombined(label: chordName ?? "Chord diagram", value: fretDescription)
     }
 
-    private var openMutedRow: some View {
-        ZStack {
-            Color.clear.frame(width: diagramWidth + 16, height: 14)
-            ForEach(0..<stringCount, id: \.self) { s in
-                let fret = frets[s]
-                if fret == 0 {
-                    Circle()
-                        .strokeBorder(Color.primary, lineWidth: 1.5)
-                        .frame(width: 12, height: 12)
-                        .position(x: 8 + CGFloat(s) * stringSpacing, y: 7)
-                } else if fret < 0 {
-                    Text("X")
-                        .font(.system(size: 10, weight: .bold))
-                        .foregroundStyle(.secondary)
-                        .frame(width: 12, height: 12)
-                        .position(x: 8 + CGFloat(s) * stringSpacing, y: 7)
-                }
-            }
-        }
-        .frame(width: diagramWidth + 16, height: 14)
-    }
-
     private func dotColor(for stringIndex: Int) -> Color {
         if stringIndex == bassStringIndex { return .orange }
         if let common = commonToneIndices, common.contains(stringIndex) { return .cyan }
         return .primary
     }
 
-    private func drawGrid(context: GraphicsContext, size: CGSize) {
+    private func drawDiagram(context: GraphicsContext, size: CGSize) {
         let xOffset: CGFloat = 8
-        let yOffset: CGFloat = 4
+        let gt = gridTop
 
-        // Nut or top fret line
+        // Open/muted string indicators
+        for s in 0..<stringCount {
+            let fret = frets[s]
+            let x = xOffset + CGFloat(s) * stringSpacing
+
+            if fret == 0 {
+                let circle = Path(ellipseIn: CGRect(
+                    x: x - 6, y: openArea / 2 - 6,
+                    width: 12, height: 12
+                ))
+                context.stroke(circle, with: .color(.primary), lineWidth: 1.5)
+            } else if fret < 0 {
+                let centerY = openArea / 2
+                let arm: CGFloat = 4
+                var line1 = Path()
+                line1.move(to: CGPoint(x: x - arm, y: centerY - arm))
+                line1.addLine(to: CGPoint(x: x + arm, y: centerY + arm))
+                context.stroke(line1, with: .color(.secondary), lineWidth: 1.5)
+                var line2 = Path()
+                line2.move(to: CGPoint(x: x - arm, y: centerY + arm))
+                line2.addLine(to: CGPoint(x: x + arm, y: centerY - arm))
+                context.stroke(line2, with: .color(.secondary), lineWidth: 1.5)
+            }
+        }
+
+        // Nut
         if showNut {
             var nutPath = Path()
-            nutPath.move(to: CGPoint(x: xOffset, y: yOffset))
-            nutPath.addLine(to: CGPoint(x: xOffset + diagramWidth, y: yOffset))
+            nutPath.move(to: CGPoint(x: xOffset, y: gt))
+            nutPath.addLine(to: CGPoint(x: xOffset + diagramWidth, y: gt))
             context.stroke(nutPath, with: .color(.primary), lineWidth: nutHeight)
         }
 
         // Horizontal fret lines
         for f in 0...fretRowCount {
-            let y = yOffset + CGFloat(f) * fretSpacing
+            let y = gt + CGFloat(f) * fretSpacing
             var path = Path()
             path.move(to: CGPoint(x: xOffset, y: y))
             path.addLine(to: CGPoint(x: xOffset + diagramWidth, y: y))
@@ -197,8 +197,8 @@ struct ChordDiagramView: View {
         for s in 0..<stringCount {
             let x = xOffset + CGFloat(s) * stringSpacing
             var path = Path()
-            path.move(to: CGPoint(x: x, y: yOffset))
-            path.addLine(to: CGPoint(x: x, y: yOffset + diagramHeight))
+            path.move(to: CGPoint(x: x, y: gt))
+            path.addLine(to: CGPoint(x: x, y: gt + diagramHeight))
             context.stroke(path, with: .color(.secondary.opacity(0.6)), lineWidth: 1)
         }
     }
