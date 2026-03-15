@@ -16,14 +16,14 @@ struct ChordDiagramView: View {
     @Environment(\.horizontalSizeClass) private var sizeClass
 
     private let stringCount = 4
-    private let fretCount = 5
+    private let minFretRows = 5
     private var stringSpacing: CGFloat { sizeClass == .regular ? 32 : 24 }
     private var fretSpacing: CGFloat { sizeClass == .regular ? 30 : 22 }
     private var dotRadius: CGFloat { sizeClass == .regular ? 10 : 8 }
     private let nutHeight: CGFloat = 4
 
     private var diagramWidth: CGFloat { CGFloat(stringCount - 1) * stringSpacing }
-    private var diagramHeight: CGFloat { CGFloat(fretCount) * fretSpacing }
+    private var diagramHeight: CGFloat { CGFloat(fretRowCount) * fretSpacing }
 
     private var frets: [Int] {
         let raw = voicing.fretInts
@@ -31,9 +31,16 @@ struct ChordDiagramView: View {
     }
 
     private var startFret: Int {
-        let nonOpen = frets.filter { $0 > 0 }
-        guard let minFret = nonOpen.min() else { return 0 }
-        return minFret <= fretCount ? 0 : minFret - 1
+        let maxFret = Int(voicing.maxFret)
+        let minFret = Int(voicing.minFret)
+        if maxFret == 0 || maxFret <= minFretRows { return 0 }
+        return max(1, minFret)
+    }
+
+    private var fretRowCount: Int {
+        let maxFret = Int(voicing.maxFret)
+        if maxFret == 0 || maxFret <= minFretRows { return minFretRows }
+        return max(minFretRows, maxFret - startFret + 1)
     }
 
     private var showNut: Bool { startFret == 0 }
@@ -68,7 +75,7 @@ struct ChordDiagramView: View {
 
                 // Position label
                 if !showNut {
-                    Text("\(startFret + 1)fr")
+                    Text("\(startFret)fr")
                         .font(.system(size: 9))
                         .foregroundStyle(.secondary)
                         .offset(x: diagramWidth + 12, y: 2)
@@ -77,9 +84,11 @@ struct ChordDiagramView: View {
                 // Capo bar
                 if let capo = capoFret, capo > 0 {
                     let relCapo = capo - startFret
-                    let capoVisible = showNut ? (relCapo >= 1 && relCapo <= fretCount) : (relCapo >= 0 && relCapo < fretCount)
+                    let capoVisible = showNut ? (relCapo >= 1 && relCapo <= fretRowCount) : (relCapo >= 0 && relCapo < fretRowCount)
                     if capoVisible {
-                        let capoY = 4 + (CGFloat(relCapo) - 0.5) * fretSpacing
+                        let capoY = showNut
+                            ? 4 + (CGFloat(relCapo) - 0.5) * fretSpacing
+                            : 4 + (CGFloat(relCapo) + 0.5) * fretSpacing
                         RoundedRectangle(cornerRadius: 3)
                             .fill(Color.brown)
                             .frame(width: diagramWidth + 8, height: 6)
@@ -92,15 +101,21 @@ struct ChordDiagramView: View {
                 ForEach(0..<stringCount, id: \.self) { s in
                     let fret = frets[s]
                     if fret > 0 {
-                        let displayFret = fret - startFret
-                        if displayFret > 0 && displayFret <= fretCount {
+                        let relFret = fret - startFret
+                        let visible = showNut
+                            ? (relFret >= 1 && relFret <= fretRowCount)
+                            : (relFret >= 0 && relFret < fretRowCount)
+                        if visible {
                             let originalIndex = leftHanded ? (stringCount - 1 - s) : s
+                            let y = showNut
+                                ? 4 + (CGFloat(relFret) - 0.5) * fretSpacing
+                                : 4 + (CGFloat(relFret) + 0.5) * fretSpacing
                             Circle()
                                 .fill(dotColor(for: originalIndex))
                                 .frame(width: dotRadius * 2, height: dotRadius * 2)
                                 .position(
                                     x: 8 + CGFloat(s) * stringSpacing,
-                                    y: 4 + (CGFloat(displayFret) - 0.5) * fretSpacing
+                                    y: y
                                 )
                                 .accessibilityHidden(true)
                         }
@@ -168,7 +183,7 @@ struct ChordDiagramView: View {
         }
 
         // Horizontal fret lines
-        for f in 0...fretCount {
+        for f in 0...fretRowCount {
             let y = yOffset + CGFloat(f) * fretSpacing
             var path = Path()
             path.move(to: CGPoint(x: xOffset, y: y))
