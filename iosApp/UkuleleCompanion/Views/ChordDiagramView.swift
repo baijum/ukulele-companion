@@ -145,23 +145,25 @@ struct ChordDiagramView: View {
     }
 
     private var openMutedRow: some View {
-        HStack(spacing: stringSpacing - 12) {
+        ZStack {
+            Color.clear.frame(width: diagramWidth + 16, height: 14)
             ForEach(0..<stringCount, id: \.self) { s in
                 let fret = frets[s]
                 if fret == 0 {
                     Circle()
                         .strokeBorder(Color.primary, lineWidth: 1.5)
                         .frame(width: 12, height: 12)
+                        .position(x: 8 + CGFloat(s) * stringSpacing, y: 7)
                 } else if fret < 0 {
                     Text("X")
                         .font(.system(size: 10, weight: .bold))
                         .foregroundStyle(.secondary)
                         .frame(width: 12, height: 12)
-                } else {
-                    Color.clear.frame(width: 12, height: 12)
+                        .position(x: 8 + CGFloat(s) * stringSpacing, y: 7)
                 }
             }
         }
+        .frame(width: diagramWidth + 16, height: 14)
     }
 
     private func dotColor(for stringIndex: Int) -> Color {
