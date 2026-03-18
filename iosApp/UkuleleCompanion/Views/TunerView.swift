@@ -437,11 +437,19 @@ final class TunerViewModel: ObservableObject {
     }
 
     private func requestMicPermissionAndStart() {
-        AVAudioSession.sharedInstance().requestRecordPermission { [weak self] granted in
-            DispatchQueue.main.async {
-                if granted {
-                    self?.startCapture()
+        Task { @MainActor in
+            let granted: Bool
+            if #available(iOS 17.0, *) {
+                granted = await AVAudioApplication.requestRecordPermission()
+            } else {
+                granted = await withCheckedContinuation { continuation in
+                    AVAudioSession.sharedInstance().requestRecordPermission { g in
+                        continuation.resume(returning: g)
+                    }
                 }
+            }
+            if granted {
+                startCapture()
             }
         }
     }
