@@ -1,0 +1,174 @@
+/* @theme ukulele */
+
+@import 'default';
+
+:root {
+  --uk-cream: #faf7f2;
+  --uk-ink: #1c2b24;
+  --uk-teal: #14524d;
+  --uk-teal-deep: #0c3531;
+  --uk-ember: #c45c2d;
+  --uk-sand: #f0e8dc;
+}
+
+section {
+  background-color: var(--uk-cream);
+  background-image: linear-gradient(
+    180deg,
+    #fffefb 0%,
+    var(--uk-cream) 35%,
+    #f4efe6 100%
+  );
+  color: var(--uk-ink);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    sans-serif;
+  font-size: 26px;
+  line-height: 1.45;
+  padding: 52px 60px 56px;
+}
+
+h1 {
+  color: var(--uk-teal-deep);
+  font-family: Georgia, 'Palatino Linotype', Palatino, 'Times New Roman', serif;
+  font-size: 1.55em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.2em;
+  border-bottom: 3px solid var(--uk-ember);
+}
+
+h2 {
+  color: var(--uk-teal);
+  font-family: Georgia, 'Palatino Linotype', Palatino, 'Times New Roman', serif;
+  font-size: 1.35em;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.45em;
+}
+
+h3 {
+  color: var(--uk-teal);
+  font-size: 1.05em;
+  font-weight: 700;
+  margin-top: 0.5em;
+  margin-bottom: 0.35em;
+}
+
+strong {
+  color: var(--uk-teal-deep);
+  font-weight: 700;
+}
+
+a {
+  color: var(--uk-teal);
+  font-weight: 600;
+}
+
+code {
+  background: rgba(20, 82, 77, 0.09);
+  color: var(--uk-teal-deep);
+  padding: 0.1em 0.4em;
+  border-radius: 6px;
+  font-size: 0.86em;
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+}
+
+pre {
+  background: var(--uk-teal-deep);
+  color: var(--uk-sand);
+  border-radius: 10px;
+  padding: 0.85em 1em;
+  border-left: 4px solid var(--uk-ember);
+}
+
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: 0.72em;
+}
+
+ul,
+ol {
+  padding-left: 1.15em;
+}
+
+li {
+  margin: 0.38em 0;
+}
+
+li::marker {
+  color: var(--uk-ember);
+}
+
+blockquote {
+  border-left: 4px solid var(--uk-teal);
+  background: rgba(20, 82, 77, 0.06);
+  margin: 0.6em 0;
+  padding: 0.5em 1em;
+  color: var(--uk-ink);
+}
+
+/* Title slide */
+section.lead {
+  background-image: linear-gradient(155deg, #0a2e2b 0%, #14524d 38%, #2d8f82 100%);
+  color: #f7f2ea;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+section.lead h1 {
+  color: #fffefb;
+  border-bottom: none;
+  font-size: 2.15em;
+  margin-bottom: 0.35em;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.22);
+}
+
+section.lead strong {
+  color: #e8d9c4;
+  font-weight: 600;
+}
+
+section.lead p {
+  color: #d8ebe8;
+  font-size: 0.95em;
+}
+
+section.lead img[alt~='icon'] {
+  max-height: 130px;
+  margin-bottom: 0.35em;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.35));
+}
+
+/* Pagination (Marp default theme pattern) */
+section::after {
+  color: rgba(28, 43, 36, 0.42);
+  font-size: 0.72em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+section.lead::after {
+  color: rgba(247, 242, 234, 0.55);
+}
+
+/* Tables (if used later) */
+table {
+  font-size: 0.88em;
+}
+
+th {
+  background: rgba(20, 82, 77, 0.12);
+  color: var(--uk-teal-deep);
+}

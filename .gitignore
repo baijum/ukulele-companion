@@ -2,7 +2,8 @@
 .gradle
 /local.properties
 /.idea
-.vscode
+.vscode/*
+!.vscode/settings.json
 .cursor/
 !.cursor/skills/
 !.cursor/rules/
