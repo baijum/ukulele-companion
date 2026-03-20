@@ -19,6 +19,8 @@ npx @marp-team/marp-cli@latest --no-stdin docs/talk/building-ukulele-companion.m
 - `--allow-local-files` is needed for images such as `../app-icon.svg`.
 - `--theme-set` registers the **ukulele** theme (`theme: ukulele` in the deck frontmatter).
 
+Generated `docs/talk/*.pdf` files are **gitignored**; run the command above locally when you need a PDF.
+
 ## Optional images
 
 Place talk-specific screenshots in [assets/](assets/). The deck’s appendix slide lists suggested filenames.
