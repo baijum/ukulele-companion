@@ -15,6 +15,7 @@ playPublisher = "4.0.0"
 junit = "4.13.2"
 material = "1.13.0"
 kotest = "6.1.7"
+jazzer = "0.22.1"
 
 [libraries]
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -38,6 +39,8 @@ onnxruntime-android = { group = "com.microsoft.onnxruntime", name = "onnxruntime
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+jazzer-junit = { group = "com.code-intelligence", name = "jazzer-junit", version.ref = "jazzer" }
+jazzer-api = { group = "com.code-intelligence", name = "jazzer-api", version.ref = "jazzer" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

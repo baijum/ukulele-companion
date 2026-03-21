@@ -105,6 +105,8 @@ dependencies {
     implementation(libs.onnxruntime.android)
     testImplementation(libs.junit)
     testImplementation(libs.kotest.property)
+    testImplementation(libs.jazzer.junit)
+    testImplementation(libs.jazzer.api)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
     androidTestImplementation(platform(libs.compose.bom))
