@@ -18,7 +18,7 @@ size per device family and auto-scales for smaller devices.
 
 | Directory | Device | Resolution | Display |
 |-----------|--------|------------|---------|
-| `iphone/` | iPhone 16 Pro Max | 1320 x 2868 px | 6.9" |
+| `iphone/` | iPhone 16 Pro Max | 1284 x 2778 px | 6.5" |
 | `ipad/` | iPad Pro 13-inch (M4/M5) | 2064 x 2752 px | 13" |
 
 ## Recapturing screenshots
