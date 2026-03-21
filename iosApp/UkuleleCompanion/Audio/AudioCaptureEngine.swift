@@ -13,6 +13,8 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
     @Published private(set) var isCapturing = false
 
     private let engine = AVAudioEngine()
+    private let sessionQueue = DispatchQueue(label: "com.baijum.ukufretboard.audiocapture")
+    private var _isRunning = false  // only accessed on sessionQueue
     private var hardwareSampleRate: Double = sampleRate
     private var resampleAccumulator: Double = 0.0
 
@@ -29,47 +31,97 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
     }
 
     func start() {
-        guard !isCapturing else { return }
+        // `return` inside sessionQueue.sync exits the closure, not start().
+        // `_isRunning` is set inside the queue; `started` carries the result out.
+        let started: Bool = sessionQueue.sync {
+            guard !_isRunning else { return false }
 
-        let inputNode = engine.inputNode
-        let inputFormat = inputNode.inputFormat(forBus: 0)
-        hardwareSampleRate = inputFormat.sampleRate
-        resampleAccumulator = 0.0
+            #if !targetEnvironment(simulator)
+            // Upgrade audio session for recording
+            let session = AVAudioSession.sharedInstance()
+            do {
+                try session.setCategory(.playAndRecord, mode: .measurement,
+                                        options: [.defaultToSpeaker, .allowBluetooth])
+                try session.setActive(true)
+            } catch {
+                print("AudioCaptureEngine: failed to configure recording session: \(error)")
+                return false
+            }
+            #endif
 
-        // Tap MUST use hardware sample rate; AVAudioEngine cannot resample on input taps.
-        // Use mono Float32 at the hardware rate, then resample to 44.1kHz in processBuffer.
-        guard let tapFormat = AVAudioFormat(
-            commonFormat: .pcmFormatFloat32,
-            sampleRate: hardwareSampleRate,
-            channels: 1,
-            interleaved: false
-        ) else { return }
+            let inputNode = engine.inputNode
+            let inputFormat = inputNode.inputFormat(forBus: 0)
+            guard inputFormat.channelCount > 0, inputFormat.sampleRate > 0 else {
+                print("AudioCaptureEngine: invalid input format (channels=\(inputFormat.channelCount), rate=\(inputFormat.sampleRate))")
+                return false
+            }
+            hardwareSampleRate = inputFormat.sampleRate
+            resampleAccumulator = 0.0
 
-        inputNode.installTap(onBus: 0, bufferSize: AVAudioFrameCount(Self.hopSize), format: tapFormat) { [weak self] buffer, _ in
-            self?.processBuffer(buffer)
+            // Tap MUST use hardware sample rate; AVAudioEngine cannot resample on input taps.
+            // Use mono Float32 at the hardware rate, then resample to 44.1kHz in processBuffer.
+            guard let tapFormat = AVAudioFormat(
+                commonFormat: .pcmFormatFloat32,
+                sampleRate: hardwareSampleRate,
+                channels: 1,
+                interleaved: false
+            ) else { return false }
+
+            inputNode.installTap(onBus: 0, bufferSize: AVAudioFrameCount(Self.hopSize), format: tapFormat) { [weak self] buffer, _ in
+                self?.processBuffer(buffer)
+            }
+
+            do {
+                try engine.start()
+                _isRunning = true
+                return true
+            } catch {
+                print("AudioCaptureEngine failed to start: \(error)")
+                inputNode.removeTap(onBus: 0)
+                return false
+            }
         }
-
-        do {
-            try engine.start()
+        if started {
             Task { @MainActor in
                 self.isCapturing = true
             }
-        } catch {
-            print("AudioCaptureEngine failed to start: \(error)")
-            inputNode.removeTap(onBus: 0)
         }
     }
 
     func stop() {
-        guard isCapturing else { return }
-        engine.inputNode.removeTap(onBus: 0)
-        engine.stop()
-        writePos = 0
-        filled = 0
-        resampleAccumulator = 0.0
-        ringBuffer = [Float](repeating: 0, count: Self.frameSize)
-        Task { @MainActor in
-            self.isCapturing = false
+        let didStop: Bool = sessionQueue.sync {
+            guard _isRunning else { return false }
+
+            engine.inputNode.removeTap(onBus: 0)
+            engine.stop()
+            _isRunning = false
+
+            #if !targetEnvironment(simulator)
+            // Deactivate recording session, then downgrade to playback-only
+            let session = AVAudioSession.sharedInstance()
+            do {
+                try session.setActive(false, options: .notifyOthersOnDeactivation)
+            } catch {
+                print("AudioCaptureEngine: failed to deactivate audio session: \(error)")
+            }
+            do {
+                try session.setCategory(.playback, mode: .default, options: [.defaultToSpeaker])
+                try session.setActive(true)
+            } catch {
+                print("AudioCaptureEngine: failed to downgrade audio session: \(error)")
+            }
+            #endif
+
+            writePos = 0
+            filled = 0
+            resampleAccumulator = 0.0
+            ringBuffer = [Float](repeating: 0, count: Self.frameSize)
+            return true
+        }
+        if didStop {
+            Task { @MainActor in
+                self.isCapturing = false
+            }
         }
     }
 
