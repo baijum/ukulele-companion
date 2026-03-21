@@ -1,19 +1,18 @@
-name: iOS CI
+name: iOS Stress Tests
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  schedule:
+    - cron: '30 3 * * *'
+  workflow_dispatch:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+permissions:
+  contents: read
 
 jobs:
-  build-and-test:
-    name: Build & Test
+  stress-tests:
+    name: Stress Tests
     runs-on: macos-15
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -65,16 +64,9 @@ jobs:
       - name: Download ONNX Runtime
         run: bash iosApp/setup_onnxruntime.sh
 
-      - name: Build iOS app
-        run: |
-          xcodebuild build \
-            -project iosApp/UkuleleCompanion.xcodeproj \
-            -scheme UkuleleCompanion \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
-            -configuration Debug \
-            CODE_SIGNING_ALLOWED=NO
-
-      - name: Run iOS tests
+      - name: Run stress tests
+        env:
+          RUN_STRESS_TESTS: "1"
         run: |
           xcodebuild test \
             -project iosApp/UkuleleCompanion.xcodeproj \
@@ -82,11 +74,12 @@ jobs:
             -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO \
-            -resultBundlePath TestResults
+            -only-testing:UkuleleCompanionUITests \
+            -resultBundlePath StressTestResults
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: ios-test-results
-          path: TestResults.xcresult
+          name: ios-stress-test-results
+          path: StressTestResults.xcresult
