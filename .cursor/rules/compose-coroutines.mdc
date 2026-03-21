@@ -1,0 +1,67 @@
+---
+description: Compose scroll/coroutine patterns — prevent programmatic scroll from being mistaken for user scroll, cancellation-safe flag resets
+globs: app/src/main/java/com/baijum/ukufretboard/ui/**/*.kt
+alwaysApply: false
+---
+
+- **Guard programmatic scroll from state observers**
+
+  `scrollState.isScrollInProgress` cannot distinguish between a user finger drag and a programmatic `animateScrollTo` call. If you observe `isScrollInProgress` to detect manual scrolling, always gate it with a flag:
+
+  ```kotlin
+  val programmaticScroll = remember { mutableStateOf(false) }
+
+  // Auto-scroll loop
+  LaunchedEffect(autoScrolling) {
+      if (autoScrolling) {
+          while (autoScrolling) {
+              programmaticScroll.value = true
+              try {
+                  scrollState.animateScrollTo(/* ... */)
+              } finally {
+                  programmaticScroll.value = false
+              }
+              delay(16L)
+          }
+      }
+  }
+
+  // Manual-scroll detector — skip when programmatic
+  LaunchedEffect(scrollState.isScrollInProgress) {
+      if (scrollState.isScrollInProgress && autoScrolling && !programmaticScroll.value) {
+          autoScrolling = false
+      }
+  }
+  ```
+
+- **Always wrap cancellable suspend calls in try/finally**
+
+  `animateScrollTo`, `animateTo`, and similar Compose suspend functions are cancellable. If you set a flag before calling them, reset it in a `finally` block so the flag is cleared even if the coroutine is cancelled (e.g., by user touch or `LaunchedEffect` recomposition):
+
+  ```kotlin
+  // ✅ DO
+  flag.value = true
+  try {
+      scrollState.animateScrollTo(target)
+  } finally {
+      flag.value = false
+  }
+
+  // ❌ DON'T — flag stays true if animateScrollTo is cancelled
+  flag.value = true
+  scrollState.animateScrollTo(target)
+  flag.value = false
+  ```
+
+- **Prefer snapshotFlow over LaunchedEffect(stateValue) for contextual reactions**
+
+  `LaunchedEffect(stateValue)` restarts whenever `stateValue` changes, but you lose the previous value. When you need to compare old vs. new, or combine the state change with other conditions, use `snapshotFlow`:
+
+  ```kotlin
+  // ✅ Richer context — can debounce, filter, combine
+  LaunchedEffect(Unit) {
+      snapshotFlow { scrollState.isScrollInProgress }
+          .filter { it && !programmaticScroll.value }
+          .collect { autoScrolling = false }
+  }
+  ```

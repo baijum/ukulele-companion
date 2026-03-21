@@ -4,7 +4,7 @@
 /.idea
 .vscode/*
 !.vscode/settings.json
-.cursor/
+.cursor/*
 !.cursor/skills/
 !.cursor/rules/
 .DS_Store
