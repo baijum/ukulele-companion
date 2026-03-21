@@ -764,7 +764,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.baijum.ukufretboard.ios.uitests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5;
 				TEST_TARGET_NAME = UkuleleCompanion;
 			};
 			name = Debug;
@@ -780,7 +780,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.baijum.ukufretboard.ios.uitests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5;
 				TEST_TARGET_NAME = UkuleleCompanion;
 				VALIDATE_PRODUCT = YES;
 			};

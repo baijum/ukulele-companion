@@ -7,7 +7,6 @@ import XCTest
 /// - Kotlin as! bridge casts (navigate every screen, esp. VoiceLeading, CapoGuide, CircleOfFifths)
 /// - .first! on empty collections (fresh-install state)
 /// - nonisolated(unsafe) TonePlayer captures (rapid audio toggle)
-@MainActor
 final class MonkeyTest: XCTestCase {
 
     var app: XCUIApplication!
