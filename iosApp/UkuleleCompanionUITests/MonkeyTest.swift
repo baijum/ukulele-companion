@@ -1,5 +1,24 @@
 import XCTest
 
+/// SplitMix64 generator seeded from MONKEY_SEED env var (or random).
+/// Allows deterministic replay of monkey test sequences that caused crashes.
+struct SeededRNG: RandomNumberGenerator {
+    private var state: UInt64
+
+    init(seed: UInt64) {
+        state = seed
+    }
+
+    mutating func next() -> UInt64 {
+        // Murmur-style LCG (same constants as SplitMix64)
+        state &+= 0x9e3779b97f4a7c15
+        var z = state
+        z = (z ^ (z >> 30)) &* 0xbf58476d1ce4e5b9
+        z = (z ^ (z >> 27)) &* 0x94d049bb133111eb
+        return z ^ (z >> 31)
+    }
+}
+
 /// Monkey test: randomly exercises the app for a configurable duration to surface crashes.
 ///
 /// Crash vectors targeted:
@@ -10,11 +29,23 @@ import XCTest
 final class MonkeyTest: XCTestCase {
 
     var app: XCUIApplication!
+    var rng: SeededRNG!
 
     let testDurationSeconds: TimeInterval = 300
 
     override func setUpWithError() throws {
         continueAfterFailure = true
+
+        let seed: UInt64
+        if let envSeed = ProcessInfo.processInfo.environment["MONKEY_SEED"],
+           let parsed = UInt64(envSeed) {
+            seed = parsed
+        } else {
+            seed = UInt64.random(in: 0...UInt64.max)
+        }
+        rng = SeededRNG(seed: seed)
+        print("MonkeyTest seed: \(seed)")
+
         app = XCUIApplication()
         app.launchArguments += ["-monkey_test_mode", "1"]
         app.launch()
@@ -22,6 +53,7 @@ final class MonkeyTest: XCTestCase {
     }
 
     override func tearDownWithError() throws {
+        XCUIDevice.shared.orientation = .portrait
         app.terminate()
     }
 
@@ -37,31 +69,37 @@ final class MonkeyTest: XCTestCase {
         var eventCount = 0
 
         while Date() < deadline {
-            let action = Int.random(in: 0..<100)
+            let action = Int.random(in: 0..<100, using: &rng)
 
             switch action {
-            case 0..<40:
+            case 0..<35:
                 tapRandom()
-            case 40..<55:
+            case 35..<48:
                 swipeRandom()
-            case 55..<65:
+            case 48..<57:
                 switchRandomTab()
-            case 65..<72:
+            case 57..<63:
                 swipeBack()
-            case 72..<78:
+            case 63..<68:
                 openAndDismissSettings()
-            case 78..<83:
+            case 68..<73:
                 backgroundAndForeground()
-            case 83..<88:
+            case 73..<78:
                 navigateToRiskyScreen()
-            case 88..<93:
+            case 78..<83:
                 rapidTabStress()
+            case 83..<88:
+                rotateDevice()
+            case 88..<92:
+                longPressRandom()
+            case 92..<95:
+                pinchRandom()
             default:
                 tapRandom()
             }
 
             eventCount += 1
-            usleep(UInt32.random(in: 50_000...300_000))
+            usleep(UInt32.random(in: 50_000...300_000, using: &rng))
 
             if eventCount % 50 == 0 {
                 XCTAssertTrue(app.exists, "App should still be running at event \(eventCount)")
@@ -153,6 +191,32 @@ final class MonkeyTest: XCTestCase {
         }
     }
 
+    func testRapidRotation() throws {
+        try XCTSkipUnless(
+            ProcessInfo.processInfo.environment["RUN_STRESS_TESTS"] == "1",
+            "Skipped in CI; set RUN_STRESS_TESTS=1 for local runs"
+        )
+
+        navigateToTab(index: 0)
+        sleep(1)
+
+        let tunerCell = app.cells.matching(NSPredicate(format: "label CONTAINS[c] 'tuner'")).firstMatch
+        if tunerCell.exists {
+            tunerCell.tap()
+            sleep(1)
+            tapAt(x: 0.5, y: 0.5)
+            sleep(1)
+        }
+
+        let orientations: [UIDeviceOrientation] = [.portrait, .landscapeLeft, .landscapeRight, .portraitUpsideDown]
+        for i in 0..<20 {
+            XCUIDevice.shared.orientation = orientations[i % orientations.count]
+            usleep(300_000)
+            XCTAssertTrue(app.exists, "App crashed during rotation #\(i)")
+        }
+        XCUIDevice.shared.orientation = .portrait
+    }
+
     func testBackgroundForegroundWithAudio() throws {
         try XCTSkipUnless(
             ProcessInfo.processInfo.environment["RUN_STRESS_TESTS"] == "1",
@@ -182,8 +246,8 @@ final class MonkeyTest: XCTestCase {
     // MARK: - Helpers
 
     private func tapRandom() {
-        let x = Double.random(in: 0.1...0.9)
-        let y = Double.random(in: 0.15...0.85)
+        let x = Double.random(in: 0.1...0.9, using: &rng)
+        let y = Double.random(in: 0.15...0.85, using: &rng)
         tapAt(x: x, y: y)
     }
 
@@ -192,8 +256,8 @@ final class MonkeyTest: XCTestCase {
     }
 
     private func swipeRandom() {
-        let choice = Int.random(in: 0..<4)
-        let velocity = XCUIGestureVelocity(rawValue: Double.random(in: 200...800))
+        let choice = Int.random(in: 0..<4, using: &rng)
+        let velocity = XCUIGestureVelocity(rawValue: Double.random(in: 200...800, using: &rng))
         switch choice {
         case 0: app.swipeUp(velocity: velocity)
         case 1: app.swipeDown(velocity: velocity)
@@ -203,7 +267,7 @@ final class MonkeyTest: XCTestCase {
     }
 
     private func switchRandomTab() {
-        let tabIdx = Int.random(in: 0..<4)
+        let tabIdx = Int.random(in: 0..<4, using: &rng)
         navigateToTab(index: tabIdx)
     }
 
@@ -233,7 +297,7 @@ final class MonkeyTest: XCTestCase {
 
     private func backgroundAndForeground() {
         XCUIDevice.shared.press(.home)
-        usleep(UInt32.random(in: 500_000...2_000_000))
+        usleep(UInt32.random(in: 500_000...2_000_000, using: &rng))
         app.activate()
         usleep(500_000)
     }
@@ -244,7 +308,7 @@ final class MonkeyTest: XCTestCase {
             "scale chord", "fretboard note", "play along", "melody",
             "tuner", "pitch monitor", "metronome",
         ]
-        guard let keyword = riskyKeywords.randomElement() else { return }
+        guard let keyword = riskyKeywords.randomElement(using: &rng) else { return }
 
         for tabIdx in 0..<4 {
             navigateToTab(index: tabIdx)
@@ -261,9 +325,31 @@ final class MonkeyTest: XCTestCase {
     }
 
     private func rapidTabStress() {
-        for _ in 0..<Int.random(in: 5...15) {
+        for _ in 0..<Int.random(in: 5...15, using: &rng) {
             switchRandomTab()
-            usleep(UInt32.random(in: 50_000...200_000))
+            usleep(UInt32.random(in: 50_000...200_000, using: &rng))
         }
+    }
+
+    private func rotateDevice() {
+        let orientations: [UIDeviceOrientation] = [.portrait, .landscapeLeft, .landscapeRight, .portraitUpsideDown]
+        if let orientation = orientations.randomElement(using: &rng) {
+            XCUIDevice.shared.orientation = orientation
+        }
+        usleep(300_000)
+    }
+
+    private func longPressRandom() {
+        let x = Double.random(in: 0.1...0.9, using: &rng)
+        let y = Double.random(in: 0.15...0.85, using: &rng)
+        let duration = Double.random(in: 1.0...3.0, using: &rng)
+        app.coordinate(withNormalizedOffset: CGVector(dx: x, dy: y))
+            .press(forDuration: duration)
+    }
+
+    private func pinchRandom() {
+        let scale = CGFloat.random(in: 0.5...2.0, using: &rng)
+        let velocity = CGFloat.random(in: 0.5...2.0, using: &rng)
+        app.pinch(withScale: scale, velocity: velocity)
     }
 }
