@@ -85,6 +85,10 @@ play {
     serviceAccountCredentials.set(file("play-service-account.json"))
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation(project(":shared"))
     implementation(platform(libs.compose.bom))
@@ -107,6 +111,8 @@ dependencies {
     testImplementation(libs.kotest.property)
     testImplementation(libs.jazzer.junit)
     testImplementation(libs.jazzer.api)
+    testRuntimeOnly(libs.junit.vintage.engine)
+    testRuntimeOnly(libs.junit.jupiter.engine)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
     androidTestImplementation(platform(libs.compose.bom))
