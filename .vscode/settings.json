@@ -1,3 +1,6 @@
 {
-  "markdown.marp.themes": ["docs/talk/theme/ukulele-companion.css"]
+  "markdown.marp.themes": [
+    "docs/talk/theme/ukulele-companion.css"
+  ],
+  "java.configuration.updateBuildConfiguration": "automatic"
 }
