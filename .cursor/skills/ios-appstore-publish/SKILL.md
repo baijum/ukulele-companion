@@ -30,7 +30,7 @@ Use the [ios-screenshot-capture](.cursor/skills/ios-screenshot-capture/SKILL.md)
 
 | Display | Simulator | Output dir |
 |---------|-----------|------------|
-| iPhone 6.9" (1320x2868) | iPhone 16 Pro Max | `docs/appstore-screenshots/` |
+| iPhone 6.9" (1320x2868) | iPhone 16 Pro Max | `docs/appstore-screenshots/iphone/` |
 | iPad 13" (2064x2752) | iPad Pro 13-inch (M4/M5) | `docs/appstore-screenshots/ipad/` |
 
 Ask the user to navigate to each screen in the Simulator, then capture with `xcrun simctl io`. Resize to required dimensions (see ios-screenshot-capture skill).
