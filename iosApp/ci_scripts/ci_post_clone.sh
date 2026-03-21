@@ -5,6 +5,8 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 echo "=== Installing JDK 17 ==="
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_ENV_HINTS=1
 brew install openjdk@17
 JAVA_HOME="$(brew --prefix openjdk@17)"
 if [ -z "$JAVA_HOME" ]; then

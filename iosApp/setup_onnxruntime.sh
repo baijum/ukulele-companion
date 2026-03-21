@@ -6,20 +6,29 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 FRAMEWORKS_DIR="$SCRIPT_DIR/Frameworks"
-ORT_VERSION="1.24.2"
+ORT_VERSION="1.24.3"
 ORT_URL="https://download.onnxruntime.ai/pod-archive-onnxruntime-c-${ORT_VERSION}.zip"
-ORT_SHA256="f7100a992d2a8135168c8afd831e6a58b465349101982aa58b3e11d36e600b54"
+ORT_SHA256="b7eedc45932bac758ffd057cac0feb3f682269e47750b159e4c865145cbf0a8e"
 
 if [ -d "$FRAMEWORKS_DIR/onnxruntime.xcframework" ]; then
     echo "onnxruntime.xcframework already exists, skipping download."
     exit 0
 fi
 
-echo "Downloading ONNX Runtime ${ORT_VERSION}..."
+echo "Downloading ONNX Runtime ${ORT_VERSION} from ${ORT_URL}..."
 TMPFILE=$(mktemp /tmp/onnxruntime-XXXXXX.zip)
-trap "rm -f $TMPFILE" EXIT
+trap 'rm -f "$TMPFILE"' EXIT
 
-curl -sL -o "$TMPFILE" "$ORT_URL"
+if ! curl --fail --show-error --location \
+         --retry 3 --retry-delay 5 --retry-all-errors \
+         -o "$TMPFILE" "$ORT_URL"; then
+    echo ""
+    echo "ERROR: Failed to download ONNX Runtime from ${ORT_URL}"
+    echo "The download.onnxruntime.ai CDN may be temporarily unavailable."
+    echo "Check https://github.com/microsoft/onnxruntime/issues for known outages."
+    echo "You can also download manually and place onnxruntime.xcframework in iosApp/Frameworks/"
+    exit 1
+fi
 
 echo "Verifying checksum..."
 ACTUAL_SHA=$(shasum -a 256 "$TMPFILE" | awk '{print $1}')
