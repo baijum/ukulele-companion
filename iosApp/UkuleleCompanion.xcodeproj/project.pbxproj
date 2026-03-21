@@ -103,11 +103,20 @@
 		A20015 /* swift_f0_model.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B20015 /* swift_f0_model.onnx */; };
 		A30001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B30001 /* Assets.xcassets */; };
 		A30002 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B30002 /* Localizable.xcstrings */; };
+		A3EEDBA6849D8DB5D63BD7C5 /* MonkeyTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8FEC505E3E64FF69555714 /* MonkeyTest.swift */; };
 		A40001 /* shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40001 /* shared.framework */; };
 		A40003 /* onnxruntime.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40002 /* onnxruntime.xcframework */; };
+		ABCAF47B6B38528D3CD5C800 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BEF9E1E9B1756D8E680DA3 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5E77203AE4DF873DBD43D0AB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = P00001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = T00001;
+			remoteInfo = UkuleleCompanion;
+		};
 		CIP001 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = P00001 /* Project object */;
@@ -131,6 +140,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		63967FAFE5F1899C4B2FB8FF /* UkuleleCompanionUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UkuleleCompanionUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE8FEC505E3E64FF69555714 /* MonkeyTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MonkeyTest.swift; sourceTree = "<group>"; };
 		B10001 /* UkuleleCompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UkuleleCompanionApp.swift; sourceTree = "<group>"; };
 		B10002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B10003 /* AudioCaptureEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCaptureEngine.swift; sourceTree = "<group>"; };
@@ -232,6 +243,7 @@
 		B40002 /* onnxruntime.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = onnxruntime.xcframework; path = Frameworks/onnxruntime.xcframework; sourceTree = "<group>"; };
 		D00001 /* UkuleleCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UkuleleCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D00002 /* UkuleleCompanionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UkuleleCompanionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3BEF9E1E9B1756D8E680DA3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,9 +263,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FCBA7E8AE23F4AF0F5909700 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABCAF47B6B38528D3CD5C800 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D59F4265B9BB009D395D7EED /* UkuleleCompanionUITests */ = {
+			isa = PBXGroup;
+			children = (
+				AE8FEC505E3E64FF69555714 /* MonkeyTest.swift */,
+			);
+			name = UkuleleCompanionUITests;
+			path = UkuleleCompanionUITests;
+			sourceTree = "<group>";
+		};
+		E725F1BE2B23886755DE7378 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				E3BEF9E1E9B1756D8E680DA3 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		G00001 = {
 			isa = PBXGroup;
 			children = (
@@ -261,6 +298,7 @@
 				G90001 /* UkuleleCompanionTests */,
 				G50001 /* Frameworks */,
 				G60001 /* Products */,
+				D59F4265B9BB009D395D7EED /* UkuleleCompanionUITests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -373,6 +411,7 @@
 			children = (
 				B40001 /* shared.framework */,
 				B40002 /* onnxruntime.xcframework */,
+				E725F1BE2B23886755DE7378 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -382,6 +421,7 @@
 			children = (
 				D00001 /* UkuleleCompanion.app */,
 				D00002 /* UkuleleCompanionTests.xctest */,
+				63967FAFE5F1899C4B2FB8FF /* UkuleleCompanionUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -436,6 +476,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1D2C4DDEE384A0282D598DE3 /* UkuleleCompanionUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B48033026B340305563CDB70 /* Build configuration list for PBXNativeTarget "UkuleleCompanionUITests" */;
+			buildPhases = (
+				F6F0C92100122CEA47DE9661 /* Sources */,
+				FCBA7E8AE23F4AF0F5909700 /* Frameworks */,
+				0527B25EE1025FC4BC54BF26 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A814A466C1DE74FBFD69BACB /* PBXTargetDependency */,
+			);
+			name = UkuleleCompanionUITests;
+			productName = UkuleleCompanionUITests;
+			productReference = 63967FAFE5F1899C4B2FB8FF /* UkuleleCompanionUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		T00001 /* UkuleleCompanion */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = X20001 /* Build configuration list for PBXNativeTarget "UkuleleCompanion" */;
@@ -513,11 +571,19 @@
 			targets = (
 				T00001 /* UkuleleCompanion */,
 				T00002 /* UkuleleCompanionTests */,
+				1D2C4DDEE384A0282D598DE3 /* UkuleleCompanionUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0527B25EE1025FC4BC54BF26 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C30001 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -663,9 +729,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F6F0C92100122CEA47DE9661 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3EEDBA6849D8DB5D63BD7C5 /* MonkeyTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A814A466C1DE74FBFD69BACB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = T00001 /* UkuleleCompanion */;
+			targetProxy = 5E77203AE4DF873DBD43D0AB /* PBXContainerItemProxy */;
+		};
 		TD0001 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = T00001 /* UkuleleCompanion */;
@@ -674,6 +753,39 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		6DA5F6F3D6CE822049DFD80E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.baijum.ukufretboard.ios.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TEST_TARGET_NAME = UkuleleCompanion;
+			};
+			name = Debug;
+		};
+		EDD1F08FE3971FD1623549EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.baijum.ukufretboard.ios.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TEST_TARGET_NAME = UkuleleCompanion;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		F10001 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -843,6 +955,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B48033026B340305563CDB70 /* Build configuration list for PBXNativeTarget "UkuleleCompanionUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDD1F08FE3971FD1623549EF /* Release */,
+				6DA5F6F3D6CE822049DFD80E /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		X10001 /* Build configuration list for PBXProject "UkuleleCompanion" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
