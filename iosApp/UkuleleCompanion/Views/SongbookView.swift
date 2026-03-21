@@ -278,6 +278,13 @@ struct SongbookView: View {
     }
 }
 
+private struct ScrollOffsetKey: PreferenceKey {
+    static let defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
 struct SongViewerView: View {
     @ObservedObject var viewModel: SongbookViewModel
     @Environment(\.dismiss) private var dismiss
@@ -288,6 +295,10 @@ struct SongViewerView: View {
     @State private var scrollSpeed: Double = 1.0
     @State private var scrollTimer: Timer?
     @State private var scrollOffset: CGFloat = 0
+    @State private var trackedScrollOffset: CGFloat = 0
+    @State private var contentHeight: CGFloat = 1
+    @State private var viewportHeight: CGFloat = 1
+    @State private var shouldRestartFromTop = false
     @State private var showDeleteConfirmation = false
     @State private var showingStrumPicker = false
     @State private var showingAddLabel = false
@@ -330,10 +341,38 @@ struct SongViewerView: View {
                     Color.clear.frame(height: 1).id("bottom")
                 }
                 .padding()
+                .background(
+                    GeometryReader { geo in
+                        Color.clear
+                            .preference(key: ScrollOffsetKey.self,
+                                        value: -geo.frame(in: .named("songScroll")).minY)
+                            .onChange(of: geo.size.height) { newHeight in
+                                contentHeight = newHeight
+                            }
+                            .onAppear { contentHeight = geo.size.height }
+                    }
+                )
             }
+            .coordinateSpace(name: "songScroll")
+            .onPreferenceChange(ScrollOffsetKey.self) { value in
+                trackedScrollOffset = max(0, value)
+            }
+            .background(
+                GeometryReader { geo in
+                    Color.clear.onAppear { viewportHeight = geo.size.height }
+                        .onChange(of: geo.size.height) { newHeight in
+                            viewportHeight = newHeight
+                        }
+                }
+            )
             .overlay(alignment: .bottomTrailing) {
                 autoScrollControls(proxy: proxy)
                     .padding()
+            }
+            .onChange(of: scrollSpeed) { _ in
+                guard isAutoScrolling else { return }
+                scrollTimer?.invalidate()
+                scrollTimer = createScrollTimer(proxy: proxy)
             }
         }
         .navigationTitle(displayTitle)
@@ -681,16 +720,30 @@ struct SongViewerView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
-    private func startAutoScroll(proxy: ScrollViewProxy) {
-        isAutoScrolling = true
-        scrollOffset = 0
+    @discardableResult
+    private func createScrollTimer(proxy: ScrollViewProxy) -> Timer {
         let interval = 1.0 / (scrollSpeed * 2)
-        scrollTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
+        let timer = Timer(timeInterval: interval, repeats: true) { [self] _ in
             DispatchQueue.main.async {
+                guard isAutoScrolling else { return }
                 scrollOffset += 1
                 proxy.scrollTo("bottom", anchor: .init(x: 0.5, y: min(1.0, scrollOffset / 500)))
             }
         }
+        RunLoop.current.add(timer, forMode: .common)
+        return timer
+    }
+
+    private func startAutoScroll(proxy: ScrollViewProxy) {
+        isAutoScrolling = true
+        if shouldRestartFromTop {
+            scrollOffset = 0
+            shouldRestartFromTop = false
+        } else {
+            let maxScroll = max(1, contentHeight - viewportHeight)
+            scrollOffset = (trackedScrollOffset / maxScroll) * 500
+        }
+        scrollTimer = createScrollTimer(proxy: proxy)
     }
 
     private func pauseAutoScroll() {
@@ -704,6 +757,7 @@ struct SongViewerView: View {
         scrollTimer?.invalidate()
         scrollTimer = nil
         scrollOffset = 0
+        shouldRestartFromTop = true
     }
 
     // MARK: - Content Parsing
