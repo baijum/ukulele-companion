@@ -1,5 +1,6 @@
 package com.baijum.ukufretboard
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.hasClickAction
@@ -7,6 +8,8 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToLog
+import com.baijum.ukufretboard.ui.ChordSubstitutionsView
+import com.baijum.ukufretboard.ui.GlossaryView
 import org.junit.Rule
 import org.junit.Test
 
@@ -81,28 +84,24 @@ class AccessibilityTest {
     }
 
     @Test
-    fun verifySettingsSheetContentDescriptions() {
-        // This test serves as a template. To test specific screens,
-        // set the content to the screen's composable and call the assertions.
-        //
-        // Example:
-        // composeTestRule.setContent {
-        //     SettingsSheet(
-        //         soundSettings = SoundSettings(),
-        //         onSoundSettingsChange = {},
-        //         displaySettings = DisplaySettings(),
-        //         onDisplaySettingsChange = {},
-        //         tuningSettings = TuningSettings(),
-        //         onTuningSettingsChange = {},
-        //         fretboardSettings = FretboardSettings(),
-        //         onFretboardSettingsChange = {},
-        //         onDismiss = {},
-        //     )
-        // }
-        // assertNoClickableWithoutDescription()
-        // assertHeadingsExist()
+    fun glossaryView_hasHeadingsAndDescriptions() {
+        composeTestRule.setContent {
+            MaterialTheme {
+                GlossaryView()
+            }
+        }
+        assertHeadingsExist()
+        assertNoClickableWithoutDescription()
+    }
 
-        // Placeholder assertion — replace with real screen test above
-        assert(true) { "Accessibility test template runs successfully" }
+    @Test
+    fun chordSubstitutionsView_hasClickableDescriptions() {
+        composeTestRule.setContent {
+            MaterialTheme {
+                ChordSubstitutionsView()
+            }
+        }
+        assertHeadingsExist()
+        assertNoClickableWithoutDescription()
     }
 }
