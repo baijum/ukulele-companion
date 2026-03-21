@@ -49,7 +49,9 @@ object ChordDetector {
      * @return A [DetectionResult] describing what was detected.
      */
     fun detect(pitchClasses: List<Int>): DetectionResult {
-        val uniquePitchClasses = pitchClasses.distinct()
+        val uniquePitchClasses = pitchClasses
+            .map { ((it % Notes.PITCH_CLASS_COUNT) + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT }
+            .distinct()
 
         return when (uniquePitchClasses.size) {
             0 -> DetectionResult.NoSelection
