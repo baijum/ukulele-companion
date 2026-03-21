@@ -707,26 +707,32 @@ private fun SheetViewer(
         var autoScrolling by rememberSaveable { mutableStateOf(false) }
         var scrollSpeed by rememberSaveable { mutableStateOf(1f) }
         val scrollState = rememberScrollState()
+        val programmaticScroll = remember { mutableStateOf(false) }
 
         // Auto-scroll effect
         LaunchedEffect(autoScrolling, scrollSpeed) {
             if (autoScrolling) {
                 while (autoScrolling) {
-                    scrollState.animateScrollTo(
-                        scrollState.value + scrollSpeed.toInt().coerceAtLeast(1),
-                        animationSpec = androidx.compose.animation.core.tween(
-                            durationMillis = 16,
-                            easing = androidx.compose.animation.core.LinearEasing,
-                        ),
-                    )
+                    programmaticScroll.value = true
+                    try {
+                        scrollState.animateScrollTo(
+                            scrollState.value + scrollSpeed.toInt().coerceAtLeast(1),
+                            animationSpec = androidx.compose.animation.core.tween(
+                                durationMillis = 16,
+                                easing = androidx.compose.animation.core.LinearEasing,
+                            ),
+                        )
+                    } finally {
+                        programmaticScroll.value = false
+                    }
                     delay(16L)
                 }
             }
         }
 
-        // Pause auto-scroll when user manually scrolls
+        // Pause auto-scroll when user manually scrolls (not programmatic)
         LaunchedEffect(scrollState.isScrollInProgress) {
-            if (scrollState.isScrollInProgress && autoScrolling) {
+            if (scrollState.isScrollInProgress && autoScrolling && !programmaticScroll.value) {
                 autoScrolling = false
             }
         }
