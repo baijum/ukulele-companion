@@ -13,6 +13,7 @@ reorderable = "3.0.0"
 onnxruntime = "1.24.3"
 playPublisher = "4.0.0"
 junit = "4.13.2"
+junit5 = "5.11.4"
 material = "1.13.0"
 kotest = "6.1.7"
 jazzer = "0.22.1"
@@ -41,6 +42,8 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 jazzer-junit = { group = "com.code-intelligence", name = "jazzer-junit", version.ref = "jazzer" }
 jazzer-api = { group = "com.code-intelligence", name = "jazzer-api", version.ref = "jazzer" }
+junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junit5" }
+junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit5" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
