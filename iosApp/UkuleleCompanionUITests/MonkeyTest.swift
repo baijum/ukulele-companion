@@ -7,11 +7,11 @@ import XCTest
 /// - Kotlin as! bridge casts (navigate every screen, esp. VoiceLeading, CapoGuide, CircleOfFifths)
 /// - .first! on empty collections (fresh-install state)
 /// - nonisolated(unsafe) TonePlayer captures (rapid audio toggle)
+@MainActor
 final class MonkeyTest: XCTestCase {
 
     var app: XCUIApplication!
 
-    // Increase this for longer runs. CI uses 120s; local stress runs use 600s.
     let testDurationSeconds: TimeInterval = 300
 
     override func setUpWithError() throws {
@@ -19,7 +19,6 @@ final class MonkeyTest: XCTestCase {
         app = XCUIApplication()
         app.launchArguments += ["-monkey_test_mode", "1"]
         app.launch()
-        // Let the app fully initialize
         sleep(3)
     }
 
@@ -30,6 +29,11 @@ final class MonkeyTest: XCTestCase {
     // MARK: - Main Monkey Test
 
     func testMonkeyRandom() throws {
+        try XCTSkipUnless(
+            ProcessInfo.processInfo.environment["RUN_STRESS_TESTS"] == "1",
+            "Skipped in CI; set RUN_STRESS_TESTS=1 for local runs"
+        )
+
         let deadline = Date().addingTimeInterval(testDurationSeconds)
         var eventCount = 0
 
@@ -58,18 +62,14 @@ final class MonkeyTest: XCTestCase {
             }
 
             eventCount += 1
+            usleep(UInt32.random(in: 50_000...300_000))
 
-            // Short pause between events
-            usleep(UInt32.random(in: 50_000...300_000)) // 50-300ms
-
-            // Every 50 events, verify app is still alive
             if eventCount % 50 == 0 {
                 XCTAssertTrue(app.exists, "App should still be running at event \(eventCount)")
                 if !app.exists {
                     app.launch()
                     sleep(2)
                 }
-                let elapsed = testDurationSeconds - Date().timeIntervalSince(Date().addingTimeInterval(-testDurationSeconds + Date().timeIntervalSince(deadline) + testDurationSeconds))
                 print("MonkeyTest: event=\(eventCount) running")
             }
         }
@@ -79,30 +79,30 @@ final class MonkeyTest: XCTestCase {
 
     // MARK: - Targeted Stress Tests
 
-    /// Stress test the tuner: rapidly toggle capture 30 times.
     func testTunerRapidStartStop() throws {
-        navigateToTab(index: 0) // Play tab
+        try XCTSkipUnless(
+            ProcessInfo.processInfo.environment["RUN_STRESS_TESTS"] == "1",
+            "Skipped in CI; set RUN_STRESS_TESTS=1 for local runs"
+        )
+
+        navigateToTab(index: 0)
         sleep(1)
 
-        // Try to find and tap the Tuner menu item
         let tunerButton = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'tuner'")).firstMatch
         if tunerButton.exists {
             tunerButton.tap()
         } else {
-            // Try sidebar/list navigation
             let tunerCell = app.cells.matching(NSPredicate(format: "label CONTAINS[c] 'tuner'")).firstMatch
             if tunerCell.exists { tunerCell.tap() }
         }
         sleep(1)
 
-        // Rapidly tap the start/stop button 30 times
         for i in 0..<30 {
             let startBtn = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'start' OR label CONTAINS[c] 'stop' OR label CONTAINS[c] 'microphone'")).firstMatch
             if startBtn.exists {
                 startBtn.tap()
                 usleep(200_000)
             } else {
-                // Tap anywhere in the center to trigger UI
                 tapAt(x: 0.5, y: 0.5)
                 usleep(200_000)
             }
@@ -110,7 +110,6 @@ final class MonkeyTest: XCTestCase {
         }
     }
 
-    /// Navigate to each known risky screen in sequence.
     func testAllScreensNavigation() throws {
         let riskyScreenKeywords = [
             "voice lead",
@@ -128,7 +127,6 @@ final class MonkeyTest: XCTestCase {
         ]
 
         for keyword in riskyScreenKeywords {
-            // Search all tabs for the keyword
             for tabIdx in 0..<4 {
                 navigateToTab(index: tabIdx)
                 sleep(1)
@@ -136,7 +134,7 @@ final class MonkeyTest: XCTestCase {
                 let match = app.cells.matching(NSPredicate(format: "label CONTAINS[c] %@", keyword)).firstMatch
                 if match.exists {
                     match.tap()
-                    sleep(2) // Wait for view to load and any as! casts to execute
+                    sleep(2)
                     XCTAssertTrue(app.exists, "App crashed navigating to '\(keyword)'")
                     swipeBack()
                     sleep(1)
@@ -156,21 +154,23 @@ final class MonkeyTest: XCTestCase {
         }
     }
 
-    /// Test background/foreground cycling while audio is active.
     func testBackgroundForegroundWithAudio() throws {
+        try XCTSkipUnless(
+            ProcessInfo.processInfo.environment["RUN_STRESS_TESTS"] == "1",
+            "Skipped in CI; set RUN_STRESS_TESTS=1 for local runs"
+        )
+
         navigateToTab(index: 0)
         sleep(1)
 
-        // Start tuner if possible
         let tunerCell = app.cells.matching(NSPredicate(format: "label CONTAINS[c] 'tuner'")).firstMatch
         if tunerCell.exists {
             tunerCell.tap()
             sleep(1)
-            tapAt(x: 0.5, y: 0.5) // Try to start capture
+            tapAt(x: 0.5, y: 0.5)
             sleep(1)
         }
 
-        // Cycle background/foreground 10 times
         for i in 0..<10 {
             XCUIDevice.shared.press(.home)
             sleep(1)
@@ -184,13 +184,11 @@ final class MonkeyTest: XCTestCase {
 
     private func tapRandom() {
         let x = Double.random(in: 0.1...0.9)
-        let y = Double.random(in: 0.15...0.85) // Avoid status bar and home indicator
+        let y = Double.random(in: 0.15...0.85)
         tapAt(x: x, y: y)
     }
 
     private func tapAt(x: Double, y: Double) {
-        let screenSize = app.windows.firstMatch.frame
-        let point = CGPoint(x: screenSize.width * x, y: screenSize.height * y)
         app.coordinate(withNormalizedOffset: CGVector(dx: x, dy: y)).tap()
     }
 
@@ -219,19 +217,16 @@ final class MonkeyTest: XCTestCase {
     }
 
     private func swipeBack() {
-        // Edge swipe to go back
         let startPoint = app.coordinate(withNormalizedOffset: CGVector(dx: 0.01, dy: 0.5))
         let endPoint = app.coordinate(withNormalizedOffset: CGVector(dx: 0.7, dy: 0.5))
         startPoint.press(forDuration: 0, thenDragTo: endPoint)
     }
 
     private func openAndDismissSettings() {
-        // Settings gear button
         let settingsBtn = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'settings' OR label CONTAINS[c] 'gear'")).firstMatch
         if settingsBtn.exists {
             settingsBtn.tap()
             sleep(1)
-            // Dismiss via swipe down
             app.swipeDown()
             usleep(500_000)
         }
@@ -250,7 +245,7 @@ final class MonkeyTest: XCTestCase {
             "scale chord", "fretboard note", "play along", "melody",
             "tuner", "pitch monitor", "metronome",
         ]
-        let keyword = riskyKeywords.randomElement()!
+        guard let keyword = riskyKeywords.randomElement() else { return }
 
         for tabIdx in 0..<4 {
             navigateToTab(index: tabIdx)
@@ -273,4 +268,3 @@ final class MonkeyTest: XCTestCase {
         }
     }
 }
-
