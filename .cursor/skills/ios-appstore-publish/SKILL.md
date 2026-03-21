@@ -30,8 +30,8 @@ Use the [ios-screenshot-capture](.cursor/skills/ios-screenshot-capture/SKILL.md)
 
 | Display | Simulator | Output dir |
 |---------|-----------|------------|
-| iPhone 6.5"/6.7" | iPhone 16 Pro Max | `docs/appstore-screenshots/6.5/` |
-| iPad 13" | iPad Pro 13-inch (M4/M5) | `docs/appstore-screenshots/ipad/` |
+| iPhone 6.9" (1320x2868) | iPhone 16 Pro Max | `docs/appstore-screenshots/` |
+| iPad 13" (2064x2752) | iPad Pro 13-inch (M4/M5) | `docs/appstore-screenshots/ipad/` |
 
 Ask the user to navigate to each screen in the Simulator, then capture with `xcrun simctl io`. Resize to required dimensions (see ios-screenshot-capture skill).
 
@@ -63,7 +63,7 @@ In App Store Connect, fill in:
 **Tax Category:** App Store software
 
 **Version Information:**
-- Screenshots: Upload for iPhone 6.5" and iPad 13" displays
+- Screenshots: Upload for iPhone 6.9" and iPad 13" displays (Apple auto-scales for smaller devices)
 - Promotional Text (≤170 chars, updatable without review)
 - Description
 - Keywords (comma-separated, 100 chars max)
