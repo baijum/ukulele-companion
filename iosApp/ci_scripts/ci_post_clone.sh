@@ -15,6 +15,9 @@ if [ -z "$JAVA_HOME" ]; then
 fi
 export JAVA_HOME
 
+# Create symlink so Xcode build phases can discover Java automatically
+sudo ln -sfn "$JAVA_HOME/libexec/openjdk.jdk" /Library/Java/JavaVirtualMachines/openjdk-17.jdk
+
 echo "=== Building KMP shared framework ==="
 cd "$REPO_ROOT"
 ./gradlew :shared:linkReleaseFrameworkIosArm64
