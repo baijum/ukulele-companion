@@ -17,7 +17,7 @@ fi
 
 echo "Downloading ONNX Runtime ${ORT_VERSION} from ${ORT_URL}..."
 TMPFILE=$(mktemp /tmp/onnxruntime-XXXXXX.zip)
-trap "rm -f $TMPFILE" EXIT
+trap 'rm -f "$TMPFILE"' EXIT
 
 if ! curl --fail --show-error --location \
          --retry 3 --retry-delay 5 --retry-all-errors \
