@@ -714,14 +714,17 @@ private fun SheetViewer(
             if (autoScrolling) {
                 while (autoScrolling) {
                     programmaticScroll.value = true
-                    scrollState.animateScrollTo(
-                        scrollState.value + scrollSpeed.toInt().coerceAtLeast(1),
-                        animationSpec = androidx.compose.animation.core.tween(
-                            durationMillis = 16,
-                            easing = androidx.compose.animation.core.LinearEasing,
-                        ),
-                    )
-                    programmaticScroll.value = false
+                    try {
+                        scrollState.animateScrollTo(
+                            scrollState.value + scrollSpeed.toInt().coerceAtLeast(1),
+                            animationSpec = androidx.compose.animation.core.tween(
+                                durationMillis = 16,
+                                easing = androidx.compose.animation.core.LinearEasing,
+                            ),
+                        )
+                    } finally {
+                        programmaticScroll.value = false
+                    }
                     delay(16L)
                 }
             }
