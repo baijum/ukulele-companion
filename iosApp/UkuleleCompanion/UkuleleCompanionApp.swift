@@ -41,7 +41,7 @@ struct UkuleleCompanionApp: App {
         #else
         let session = AVAudioSession.sharedInstance()
         do {
-            try session.setCategory(.playAndRecord, mode: .measurement, options: [.defaultToSpeaker, .allowBluetooth])
+            try session.setCategory(.playback, mode: .default, options: [.defaultToSpeaker])
             try session.setPreferredSampleRate(44100)
             try session.setActive(true)
         } catch {
