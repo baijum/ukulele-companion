@@ -60,6 +60,22 @@ Follow the [android-test-run](~/.cursor/skills/android-test-run/SKILL.md) skill 
 
 **If any tests fail, stop the release and fix the failures first.** Do not proceed to version bumping until lint and all tests pass.
 
+### Step 1d: Check for version drift
+
+Before bumping, verify the current `versionName` in `build.gradle.kts` matches expectations:
+
+```bash
+LATEST_TAG=$(git describe --tags --abbrev=0)
+TAG_VERSION="${LATEST_TAG#v}"
+GRADLE_VERSION=$(grep 'versionName' app/build.gradle.kts | head -1 | sed 's/.*"\(.*\)".*/\1/')
+echo "Latest tag: $LATEST_TAG ($TAG_VERSION) | Gradle versionName: $GRADLE_VERSION"
+if [ "$TAG_VERSION" != "$GRADLE_VERSION" ]; then
+  echo "⚠️  VERSION DRIFT DETECTED: Tag says $TAG_VERSION but Gradle says $GRADLE_VERSION"
+fi
+```
+
+If version drift is detected, **warn the user** before proceeding. Version drift means users received APKs with a stale version string. For example, if the latest tag is `v9.10.5` but `versionName` is `"9.10.1"`, four releases shipped with the wrong user-visible version.
+
 ### Step 2: Bump the version
 
 Read the current `versionCode` and `versionName` in `app/build.gradle.kts`:
