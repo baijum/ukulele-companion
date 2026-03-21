@@ -20,6 +20,20 @@
                ReferencedContainer = "container:UkuleleCompanion.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1D2C4DDEE384A0282D598DE3"
+               BuildableName = "UkuleleCompanionUITests.xctest"
+               BlueprintName = "UkuleleCompanionUITests"
+               ReferencedContainer = "container:UkuleleCompanion.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -36,6 +50,16 @@
                BlueprintIdentifier = "T00002"
                BuildableName = "UkuleleCompanionTests.xctest"
                BlueprintName = "UkuleleCompanionTests"
+               ReferencedContainer = "container:UkuleleCompanion.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1D2C4DDEE384A0282D598DE3"
+               BuildableName = "UkuleleCompanionUITests.xctest"
+               BlueprintName = "UkuleleCompanionUITests"
                ReferencedContainer = "container:UkuleleCompanion.xcodeproj">
             </BuildableReference>
          </TestableReference>
