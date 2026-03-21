@@ -8,8 +8,9 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 FRAMEWORKS_DIR="$SCRIPT_DIR/Frameworks"
 ORT_VERSION="1.24.3"
 ORT_FILENAME="pod-archive-onnxruntime-c-${ORT_VERSION}.zip"
-ORT_PRIMARY_URL="https://download.onnxruntime.ai/${ORT_FILENAME}"
-ORT_FALLBACK_URL="https://onnxruntimepackages.z14.web.core.windows.net/${ORT_FILENAME}"
+ORT_PRIMARY_URL="https://github.com/baijum/ukulele-companion/releases/download/vendor-onnxruntime-c-${ORT_VERSION}/${ORT_FILENAME}"
+ORT_FALLBACK_URL="https://download.onnxruntime.ai/${ORT_FILENAME}"
+ORT_FALLBACK_URL2="https://onnxruntimepackages.z14.web.core.windows.net/${ORT_FILENAME}"
 ORT_SHA256="b7eedc45932bac758ffd057cac0feb3f682269e47750b159e4c865145cbf0a8e"
 
 if [ -d "$FRAMEWORKS_DIR/onnxruntime.xcframework" ]; then
@@ -21,7 +22,7 @@ TMPFILE=$(mktemp /tmp/onnxruntime-XXXXXX.zip)
 trap 'rm -f "$TMPFILE"' EXIT
 
 DOWNLOADED=false
-for ORT_URL in "$ORT_PRIMARY_URL" "$ORT_FALLBACK_URL"; do
+for ORT_URL in "$ORT_PRIMARY_URL" "$ORT_FALLBACK_URL" "$ORT_FALLBACK_URL2"; do
     echo "Downloading ONNX Runtime ${ORT_VERSION} from ${ORT_URL}..."
     if curl --fail --show-error --location \
             --retry 3 --retry-delay 5 --retry-all-errors \
@@ -37,6 +38,7 @@ if [ "$DOWNLOADED" != "true" ]; then
     echo "ERROR: Failed to download ONNX Runtime from all mirrors."
     echo "Tried: ${ORT_PRIMARY_URL}"
     echo "       ${ORT_FALLBACK_URL}"
+    echo "       ${ORT_FALLBACK_URL2}"
     echo "You can also download manually and place onnxruntime.xcframework in iosApp/Frameworks/"
     exit 1
 fi
