@@ -127,8 +127,23 @@
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+  align-items: center;
   margin-bottom: 2rem;
   animation: fadeInUp 0.6s ease-out 0.25s both;
+}
+
+/* Store badge links (Google Play, etc.) */
+.store-badge {
+  display: inline-block;
+  line-height: 0;
+  border: none !important;
+  text-decoration: none !important;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.store-badge:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
 }
 
 .hero-fullbleed .hero-cta .md-button--primary {
@@ -496,10 +511,33 @@
   border: none;
 }
 
-.cta-testflight {
+.cta-playstore {
   margin-left: calc(50% - 50vw);
   width: 100vw;
   margin-top: 3rem;
+  margin-bottom: 0;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: #fff;
+}
+
+.cta-playstore h2 {
+  color: #fff;
+  margin: 0 0 0.75rem;
+  font-size: 1.85rem;
+  font-weight: 800;
+}
+
+.cta-playstore p {
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 auto 1.5rem;
+  max-width: 55ch;
+  font-size: 1.1rem;
+}
+
+.cta-testflight {
+  margin-left: calc(50% - 50vw);
+  width: 100vw;
+  margin-top: 0;
   margin-bottom: 0;
   background: linear-gradient(135deg, var(--uc-teal-deep) 0%, var(--uc-teal) 100%);
   color: #fff;
@@ -718,9 +756,14 @@
     flex-shrink: 0;
   }
 
+  .cta-playstore,
   .cta-testflight,
   .cta-manual {
     padding: 2.5rem 1.5rem;
+  }
+
+  .hero-cta .store-badge img {
+    height: 36px;
   }
 
   .hero-cta {
@@ -857,6 +900,11 @@
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 }
 
+/* CTA playstore: dark gradient so badge blends */
+[data-md-color-scheme="slate"] .cta-playstore {
+  background: linear-gradient(135deg, #111 0%, #222 100%);
+}
+
 /* CTA testflight: brighter gradient */
 [data-md-color-scheme="slate"] .cta-testflight {
   background: linear-gradient(135deg, #00796B 0%, #26A69A 100%);
@@ -879,11 +927,13 @@
 }
 
 /* CTA headings must stay white (override teal heading color above) */
+.cta-playstore h2,
 .cta-testflight h2,
 .cta-manual h2 {
   color: #fff;
 }
 
+.cta-playstore p,
 .cta-testflight p,
 .cta-manual p {
   color: rgba(255, 255, 255, 0.9);

@@ -20,6 +20,10 @@ hide:
       beautiful experience designed for daily practice — on Android and iOS.
     </p>
     <div class="hero-cta">
+      <a href="https://play.google.com/store/apps/details?id=com.baijum.ukufretboard" class="store-badge">
+        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+             alt="Get it on Google Play" height="40">
+      </a>
       <a href="manual/" class="md-button md-button--primary">Start with the Manual</a>
       <a href="https://github.com/baijum/ukulele-companion" class="md-button">View on GitHub</a>
     </div>
@@ -146,6 +150,17 @@ hide:
   </a>
   <p class="video-caption">Watch the feature guide playlist</p>
 </div>
+
+<section class="cta-panel cta-playstore">
+  <h2>Download on Android</h2>
+  <p>Free, offline, and ad-free. Available now on Google Play.</p>
+  <div class="hero-cta">
+    <a href="https://play.google.com/store/apps/details?id=com.baijum.ukufretboard" class="store-badge">
+      <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+           alt="Get it on Google Play" height="40">
+    </a>
+  </div>
+</section>
 
 <section class="cta-panel cta-testflight">
   <h2>Try the iOS beta via TestFlight</h2>

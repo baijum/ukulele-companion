@@ -11,6 +11,13 @@
 </p>
 
 <p align="center">
+  <a href="https://play.google.com/store/apps/details?id=com.baijum.ukufretboard">
+    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+         alt="Get it on Google Play" height="60">
+  </a>
+</p>
+
+<p align="center">
   <a href="https://kotlinlang.org"><img src="https://img.shields.io/badge/Kotlin-2.3-blue.svg?logo=kotlin" alt="Kotlin"></a>
   <a href="https://developer.android.com/compose"><img src="https://img.shields.io/badge/Jetpack%20Compose-Material3-green.svg?logo=jetpackcompose" alt="Jetpack Compose"></a>
   <a href="https://developer.apple.com/xcode/swiftui/"><img src="https://img.shields.io/badge/SwiftUI-iOS%2017%2B-orange.svg?logo=swift" alt="SwiftUI"></a>
