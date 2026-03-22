@@ -369,7 +369,7 @@ Looking for a place to start? Here are some areas where contributions would be e
 
 Detailed feature documentation and a user manual are available in the [`docs/`](docs/) directory:
 
-- **Feature specs**: 22 design documents in [`docs/spec/`](docs/spec/)
+- **Design specs**: Architecture and feature proposals in [`docs/spec/`](docs/spec/)
 - **User manual**: Step-by-step guide in [`docs/manual/`](docs/manual/)
 
 ---
