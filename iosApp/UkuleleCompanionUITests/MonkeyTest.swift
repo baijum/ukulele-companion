@@ -48,8 +48,7 @@ final class MonkeyTest: XCTestCase {
 
         app = XCUIApplication()
         app.launchArguments += ["-monkey_test_mode", "1"]
-        app.launch()
-        sleep(3)
+        launchWithRetry(app, maxAttempts: 3)
     }
 
     override func tearDownWithError() throws {
@@ -351,5 +350,21 @@ final class MonkeyTest: XCTestCase {
         let scale = CGFloat.random(in: 0.5...2.0, using: &rng)
         let velocity = CGFloat.random(in: 0.5...2.0, using: &rng)
         app.pinch(withScale: scale, velocity: velocity)
+    }
+
+    /// Retries app.launch() to handle transient "Failed to get background assertion" errors
+    /// that occur on CI when the simulator isn't fully ready.
+    private func launchWithRetry(_ application: XCUIApplication, maxAttempts: Int) {
+        for attempt in 1...maxAttempts {
+            application.launch()
+            if application.wait(for: .runningForeground, timeout: 15) {
+                sleep(3)
+                return
+            }
+            print("MonkeyTest: app.launch() attempt \(attempt)/\(maxAttempts) did not reach foreground, retrying...")
+            application.terminate()
+            sleep(5)
+        }
+        XCTFail("App failed to launch after \(maxAttempts) attempts")
     }
 }

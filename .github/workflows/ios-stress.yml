@@ -56,6 +56,29 @@ jobs:
               "$RUNTIME"
           fi
 
+          # Find UDID for the last (latest-runtime) available iPhone 16
+          SIM_UDID=$(xcrun simctl list devices available -j \
+            | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          # Devices are grouped by runtime; pick the latest runtime's iPhone 16
+          udid = None
+          for runtime in sorted(data['devices'].keys()):
+              for dev in data['devices'][runtime]:
+                  if dev['name'] == 'iPhone 16' and dev['isAvailable']:
+                      udid = dev['udid']
+          print(udid or '')
+          ")
+          if [ -z "$SIM_UDID" ]; then
+            echo "::error::Could not find iPhone 16 simulator UDID"
+            exit 1
+          fi
+          echo "Booting simulator $SIM_UDID ..."
+          xcrun simctl boot "$SIM_UDID" || true
+          # Wait for the simulator to finish booting
+          xcrun simctl bootstatus "$SIM_UDID" -b
+          echo "SIM_UDID=$SIM_UDID" >> "$GITHUB_ENV"
+
           xcrun simctl list devices available | grep "iPhone"
 
       - name: Build shared framework
@@ -71,7 +94,7 @@ jobs:
           xcodebuild test \
             -project iosApp/UkuleleCompanion.xcodeproj \
             -scheme UkuleleCompanion \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -destination "id=$SIM_UDID" \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO \
             -only-testing:UkuleleCompanionUITests \
@@ -138,6 +161,29 @@ jobs:
               "$RUNTIME"
           fi
 
+          # Find UDID for the last (latest-runtime) available iPhone 16
+          SIM_UDID=$(xcrun simctl list devices available -j \
+            | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          # Devices are grouped by runtime; pick the latest runtime's iPhone 16
+          udid = None
+          for runtime in sorted(data['devices'].keys()):
+              for dev in data['devices'][runtime]:
+                  if dev['name'] == 'iPhone 16' and dev['isAvailable']:
+                      udid = dev['udid']
+          print(udid or '')
+          ")
+          if [ -z "$SIM_UDID" ]; then
+            echo "::error::Could not find iPhone 16 simulator UDID"
+            exit 1
+          fi
+          echo "Booting simulator $SIM_UDID ..."
+          xcrun simctl boot "$SIM_UDID" || true
+          # Wait for the simulator to finish booting
+          xcrun simctl bootstatus "$SIM_UDID" -b
+          echo "SIM_UDID=$SIM_UDID" >> "$GITHUB_ENV"
+
           xcrun simctl list devices available | grep "iPhone"
 
       - name: Build shared framework
@@ -153,7 +199,7 @@ jobs:
           xcodebuild test \
             -project iosApp/UkuleleCompanion.xcodeproj \
             -scheme UkuleleCompanion \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -destination "id=$SIM_UDID" \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO \
             -enableThreadSanitizer YES \
