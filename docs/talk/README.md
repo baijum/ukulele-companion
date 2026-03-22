@@ -16,7 +16,7 @@ npx @marp-team/marp-cli@latest --no-stdin docs/talk/building-ukulele-companion.m
 ```
 
 - `--no-stdin` avoids the CLI waiting for piped input when run from some terminals.
-- `--allow-local-files` is needed for images such as `../app-icon.svg`.
+- `--allow-local-files` is needed for images such as `../app-icon-512.png`.
 - `--theme-set` registers the **ukulele** theme (`theme: ukulele` in the deck frontmatter).
 
 Generated `docs/talk/*.pdf` files are **gitignored**; run the command above locally when you need a PDF.

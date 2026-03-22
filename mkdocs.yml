@@ -6,8 +6,8 @@ repo_name: baijum/ukulele-companion
 
 theme:
   name: material
-  logo: app-icon.svg
-  favicon: app-icon.svg
+  logo: app-icon-512.png
+  favicon: app-icon-512.png
   palette:
     # Light mode
     - media: "(prefers-color-scheme: light)"

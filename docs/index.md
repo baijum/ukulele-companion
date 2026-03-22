@@ -10,7 +10,7 @@ hide:
 <section class="hero-shell">
   <div class="hero-copy">
     <div class="hero-brand">
-      <img src="app-icon.svg" alt="Ukulele Companion logo" class="hero-logo">
+      <img src="app-icon-512.png" alt="Ukulele Companion logo" class="hero-logo">
       <span>Ukulele Companion</span>
     </div>
     <p class="hero-kicker">Free. Offline. Ad-free.</p>

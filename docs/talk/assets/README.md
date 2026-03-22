@@ -6,4 +6,4 @@ Add PNG or JPEG screenshots here and reference them from [building-ukulele-compa
 ![width:480px](assets/android-explorer.png)
 ```
 
-The deck works without any files in this folder (the title slide uses `../app-icon.svg`).
+The deck works without any files in this folder (the title slide uses `../app-icon-512.png`).
