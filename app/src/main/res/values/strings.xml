@@ -275,6 +275,15 @@
     <string name="cd_remove_label">Remove label %s</string>
     <string name="cd_filter_label">Filter by label %s</string>
     <string name="cd_add_label">Add label</string>
+    <string name="songbook_save_in_key">Save in this key</string>
+    <string name="songbook_saved_in_key">Song saved in transposed key</string>
+    <string name="share_sheet_title">Share chord sheet as</string>
+    <string name="share_as_chordpro">ChordPro (.cho)</string>
+    <string name="share_as_text">Plain text</string>
+    <string name="share_copy_clipboard">Copy to clipboard</string>
+    <string name="share_copied">Copied to clipboard</string>
+    <string name="nav_songwriter_mode">Start a Song</string>
+    <string name="songwriter_song_saved">Song saved!</string>
 
     <!-- ── Progressions ─────────────────────────────────────────────── -->
     <string name="progressions_new">New Progression</string>

@@ -1,5 +1,6 @@
 package com.baijum.ukufretboard.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -298,6 +299,11 @@ fun ProgressionsTab(
                             val text = ChordSheetFormatter.formatProgression(custom.progression, selectedRoot)
                             ShareUtils.shareText(context, custom.progression.name, text)
                         },
+                        onCopy = {
+                            val text = ChordSheetFormatter.formatProgression(custom.progression, selectedRoot)
+                            ShareUtils.copyToClipboard(context, custom.progression.name, text)
+                            Toast.makeText(context, R.string.share_copied, Toast.LENGTH_SHORT).show()
+                        },
                         onPlay = { playbackProgression = custom.progression },
                         onPractice = {
                             practiceProgression = custom.progression
@@ -354,6 +360,11 @@ fun ProgressionsTab(
                     onShare = {
                         val text = ChordSheetFormatter.formatProgression(progression, selectedRoot)
                         ShareUtils.shareText(context, progression.name, text)
+                    },
+                    onCopy = {
+                        val text = ChordSheetFormatter.formatProgression(progression, selectedRoot)
+                        ShareUtils.copyToClipboard(context, progression.name, text)
+                        Toast.makeText(context, R.string.share_copied, Toast.LENGTH_SHORT).show()
                     },
                     onPlay = { playbackProgression = progression },
                     onPractice = {
@@ -460,6 +471,7 @@ private fun ProgressionCard(
     onVoiceLeading: () -> Unit,
     onCapo: () -> Unit,
     onShare: () -> Unit,
+    onCopy: () -> Unit,
     onPlay: () -> Unit,
     onPractice: () -> Unit = {},
     onDelete: (() -> Unit)? = null,
@@ -609,6 +621,13 @@ private fun ProgressionCard(
                         Icon(
                             imageVector = Icons.Filled.Share,
                             contentDescription = stringResource(R.string.action_share),
+                            tint = MaterialTheme.colorScheme.primary,
+                        )
+                    }
+                    IconButton(onClick = onCopy) {
+                        Icon(
+                            imageVector = Icons.Filled.ContentCopy,
+                            contentDescription = stringResource(R.string.share_copy_clipboard),
                             tint = MaterialTheme.colorScheme.primary,
                         )
                     }

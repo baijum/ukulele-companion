@@ -35,6 +35,9 @@ import androidx.compose.material.icons.filled.FileOpen
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Stop
@@ -47,6 +50,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -54,6 +62,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.InputChip
 import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SmallFloatingActionButton
@@ -75,6 +84,7 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
@@ -127,7 +137,13 @@ fun SongbookTab(
                 sheet = currentSheet,
                 allLabels = allLabels,
                 onSave = { title, artist, content, strumPatternName, labels ->
-                    viewModel.saveSheet(title, artist, content, strumPatternName, labels)
+                    viewModel.saveSheet(
+                        title = title,
+                        artist = artist,
+                        content = content,
+                        strumPatternName = strumPatternName,
+                        labels = labels,
+                    )
                 },
                 onCancel = { viewModel.closeSheet() },
             )
@@ -145,6 +161,7 @@ fun SongbookTab(
                 onChordTapped = onChordTapped,
                 onStrumPatternChange = { viewModel.updateStrumPattern(it) },
                 onLabelsChange = { viewModel.updateLabels(it) },
+                onApplyTranspose = { viewModel.applyTranspose(it) },
             )
         }
         else -> {
@@ -462,6 +479,7 @@ private fun SheetCard(
 /**
  * Viewer for a chord sheet with tappable chord names.
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SheetViewer(
     sheet: ChordSheet,
@@ -472,11 +490,13 @@ private fun SheetViewer(
     onChordTapped: (String) -> Unit,
     onStrumPatternChange: (String) -> Unit,
     onLabelsChange: (List<String>) -> Unit,
+    onApplyTranspose: (Int) -> Unit,
 ) {
     val context = LocalContext.current
     val chordSheetLabel = stringResource(R.string.songbook_chord_sheet)
     val exportChooserLabel = stringResource(R.string.songbook_export_chooser)
     var showDeleteDialog by remember { mutableStateOf(false) }
+    var showShareSheet by remember { mutableStateOf(false) }
 
     // Transpose controls
     var transposeSemitones by rememberSaveable { mutableStateOf(0) }
@@ -508,83 +528,8 @@ private fun SheetViewer(
                 modifier = Modifier.weight(1f).semantics { heading() },
                 textAlign = TextAlign.Center,
             )
-            // Share / Export menu
-            Box {
-                var showShareMenu by remember { mutableStateOf(false) }
-                IconButton(onClick = { showShareMenu = true }) {
-                    Icon(Icons.Filled.Share, contentDescription = stringResource(R.string.action_share))
-                }
-                DropdownMenu(
-                    expanded = showShareMenu,
-                    onDismissRequest = { showShareMenu = false },
-                ) {
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.songbook_share_as_text)) },
-                        onClick = {
-                            showShareMenu = false
-                            val formatted = ChordSheetFormatter.formatChordsAboveLyrics(sheet)
-                            ShareUtils.shareText(
-                                context = context,
-                                title = sheet.title.ifEmpty { chordSheetLabel },
-                                text = formatted,
-                            )
-                        },
-                    )
-                    if (transposeSemitones != 0) {
-                        DropdownMenuItem(
-                            text = { Text(stringResource(R.string.songbook_share_transposed)) },
-                            onClick = {
-                                showShareMenu = false
-                                val transposedSheet = sheet.copy(content = displayContent)
-                                val formatted = ChordSheetFormatter.formatChordsAboveLyrics(transposedSheet)
-                                ShareUtils.shareText(
-                                    context = context,
-                                    title = sheet.title.ifEmpty { chordSheetLabel },
-                                    text = formatted,
-                                )
-                            },
-                        )
-                    }
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.songbook_export_chordpro)) },
-                        onClick = {
-                            showShareMenu = false
-                            val chordProText = ChordProExporter.export(sheet)
-                            val intent = Intent(Intent.ACTION_SEND).apply {
-                                type = "text/plain"
-                                putExtra(Intent.EXTRA_TEXT, chordProText)
-                                putExtra(
-                                    Intent.EXTRA_SUBJECT,
-                                    ChordProExporter.suggestedFilename(sheet),
-                                )
-                            }
-                            context.startActivity(
-                                Intent.createChooser(intent, exportChooserLabel),
-                            )
-                        },
-                    )
-                    if (transposeSemitones != 0) {
-                        DropdownMenuItem(
-                            text = { Text(stringResource(R.string.songbook_export_transposed)) },
-                            onClick = {
-                                showShareMenu = false
-                                val transposedSheet = sheet.copy(content = displayContent)
-                                val chordProText = ChordProExporter.export(transposedSheet)
-                                val intent = Intent(Intent.ACTION_SEND).apply {
-                                    type = "text/plain"
-                                    putExtra(Intent.EXTRA_TEXT, chordProText)
-                                    putExtra(
-                                        Intent.EXTRA_SUBJECT,
-                                        ChordProExporter.suggestedFilename(sheet),
-                                    )
-                                }
-                                context.startActivity(
-                                    Intent.createChooser(intent, exportChooserLabel),
-                                )
-                            },
-                        )
-                    }
-                }
+            IconButton(onClick = { showShareSheet = true }) {
+                Icon(Icons.Filled.Share, contentDescription = stringResource(R.string.action_share))
             }
             IconButton(onClick = onEdit) {
                 Icon(Icons.Filled.Edit, contentDescription = stringResource(R.string.action_edit))
@@ -684,7 +629,7 @@ private fun SheetViewer(
             }
         }
 
-        // Capo equivalent (shown when transposed)
+        // Capo equivalent and "Save in this key" (shown when transposed)
         if (transposeSemitones != 0) {
             val capoFret = ((transposeSemitones % 12) + 12) % 12
             if (capoFret > 0) {
@@ -698,6 +643,22 @@ private fun SheetViewer(
                         .fillMaxWidth()
                         .padding(bottom = 4.dp),
                 )
+            }
+
+            val savedMsg = stringResource(R.string.songbook_saved_in_key)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                FilledTonalButton(
+                    onClick = {
+                        onApplyTranspose(transposeSemitones)
+                        transposeSemitones = 0
+                        Toast.makeText(context, savedMsg, Toast.LENGTH_SHORT).show()
+                    },
+                ) {
+                    Text(stringResource(R.string.songbook_save_in_key))
+                }
             }
         }
 
@@ -863,6 +824,86 @@ private fun SheetViewer(
                             contentDescription = if (autoScrolling) stringResource(R.string.cd_pause_scroll) else stringResource(R.string.cd_auto_scroll),
                         )
                     }
+                }
+            }
+        }
+
+        val copiedMsg = stringResource(R.string.share_copied)
+        if (showShareSheet) {
+            val shareSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+            val effectiveSheet = if (transposeSemitones != 0) {
+                sheet.copy(content = displayContent)
+            } else {
+                sheet
+            }
+            ModalBottomSheet(
+                onDismissRequest = { showShareSheet = false },
+                sheetState = shareSheetState,
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 32.dp),
+                ) {
+                    Text(
+                        text = stringResource(R.string.share_sheet_title),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(bottom = 16.dp, start = 8.dp)
+                            .semantics { heading() },
+                    )
+                    ListItem(
+                        headlineContent = { Text(stringResource(R.string.share_as_chordpro)) },
+                        leadingContent = {
+                            Icon(Icons.Filled.MusicNote, contentDescription = null)
+                        },
+                        modifier = Modifier.clickable(role = Role.Button) {
+                            showShareSheet = false
+                            val chordProText = ChordProExporter.export(effectiveSheet)
+                            val intent = Intent(Intent.ACTION_SEND).apply {
+                                type = "text/plain"
+                                putExtra(Intent.EXTRA_TEXT, chordProText)
+                                putExtra(
+                                    Intent.EXTRA_SUBJECT,
+                                    ChordProExporter.suggestedFilename(sheet),
+                                )
+                            }
+                            context.startActivity(
+                                Intent.createChooser(intent, exportChooserLabel),
+                            )
+                        },
+                    )
+                    HorizontalDivider()
+                    ListItem(
+                        headlineContent = { Text(stringResource(R.string.share_as_text)) },
+                        leadingContent = {
+                            Icon(Icons.Filled.Description, contentDescription = null)
+                        },
+                        modifier = Modifier.clickable(role = Role.Button) {
+                            showShareSheet = false
+                            val formatted = ChordSheetFormatter.formatChordsAboveLyrics(effectiveSheet)
+                            ShareUtils.shareText(
+                                context = context,
+                                title = sheet.title.ifEmpty { chordSheetLabel },
+                                text = formatted,
+                            )
+                        },
+                    )
+                    HorizontalDivider()
+                    ListItem(
+                        headlineContent = { Text(stringResource(R.string.share_copy_clipboard)) },
+                        leadingContent = {
+                            Icon(Icons.Filled.ContentCopy, contentDescription = null)
+                        },
+                        modifier = Modifier.clickable(role = Role.Button) {
+                            showShareSheet = false
+                            val formatted = ChordSheetFormatter.formatChordsAboveLyrics(effectiveSheet)
+                            ShareUtils.copyToClipboard(context, chordSheetLabel, formatted)
+                            Toast.makeText(context, copiedMsg, Toast.LENGTH_SHORT).show()
+                        },
+                    )
                 }
             }
         }

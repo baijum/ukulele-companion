@@ -73,6 +73,14 @@ final class MelodyViewModel: ObservableObject {
     @Published var lastAddedFeedback: String? = nil
     @Published var hasUnsavedChanges: Bool = false
     @Published var selectedNoteIndex: Int? = nil
+
+    static let stepCount8 = 8
+    static let stepCount16 = 16
+
+    @Published var isStepSequencerMode: Bool = false
+    @Published var steps: [MelodyNoteData?] = Array(repeating: nil, count: stepCount8)
+    @Published var stepLooping: Bool = true
+
     private var loadedMelodyId: String? = nil
     private static let stabilizationThreshold = 3
 
@@ -139,6 +147,73 @@ final class MelodyViewModel: ObservableObject {
         loadedMelodyId = nil
         hasUnsavedChanges = false
         selectedNoteIndex = nil
+    }
+
+    // MARK: - Step Sequencer
+
+    func toggleStepSequencerMode() {
+        isStepSequencerMode.toggle()
+    }
+
+    func setStep(index: Int, pitchClass: Int) {
+        guard index >= 0 && index < steps.count else { return }
+        let note = MelodyNoteData(
+            id: UUID().uuidString,
+            pitchClass: pitchClass,
+            octave: currentOctave,
+            duration: selectedDuration,
+            isRest: false
+        )
+        steps[index] = note
+        hasUnsavedChanges = true
+        tonePlayer.playNote(pitchClass: Int32(pitchClass))
+    }
+
+    func clearStep(index: Int) {
+        guard index >= 0 && index < steps.count else { return }
+        steps[index] = nil
+        hasUnsavedChanges = true
+    }
+
+    func expandSteps() {
+        if steps.count >= Self.stepCount16 {
+            steps = Array(steps.prefix(Self.stepCount8))
+        } else {
+            steps += Array(repeating: nil as MelodyNoteData?, count: Self.stepCount16 - steps.count)
+        }
+    }
+
+    func playSteps() {
+        let filled = steps.contains { $0 != nil }
+        guard filled else { return }
+        isPlaying = true
+        playingIndex = 0
+
+        playbackTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+            repeat {
+                for i in 0..<self.steps.count {
+                    if Task.isCancelled { break }
+                    guard self.isPlaying else { break }
+                    self.playingIndex = i
+                    if let note = self.steps[i], let pc = note.pitchClass {
+                        self.tonePlayer.playNote(pitchClass: Int32(pc))
+                    }
+                    let duration = (self.steps[i]?.duration ?? self.selectedDuration).beats
+                    let ms = duration * 60_000.0 / Double(self.bpm)
+                    try? await Task.sleep(nanoseconds: UInt64(ms * 1_000_000))
+                }
+            } while self.isPlaying && self.stepLooping && !Task.isCancelled
+            self.isPlaying = false
+            self.playingIndex = nil
+        }
+    }
+
+    func clearAllSteps() {
+        for i in 0..<steps.count {
+            steps[i] = nil
+        }
+        hasUnsavedChanges = true
     }
 
     private func showFeedback(_ text: String) {

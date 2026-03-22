@@ -260,6 +260,8 @@
     <string name="songbook_add_label">लेबल जोड़ें</string>
     <string name="songbook_label_hint">लेबल टाइप करें…</string>
     <string name="songbook_filter_clear">फ़िल्टर साफ़ करें</string>
+    <string name="songbook_save_in_key">इस स्वर में सहेजें</string>
+    <string name="songbook_saved_in_key">गीत स्थानांतरित स्वर में सहेजा गया</string>
     <string name="cd_label">लेबल: %s</string>
     <string name="cd_remove_label">लेबल %s हटाएं</string>
     <string name="cd_filter_label">लेबल %s से फ़िल्टर करें</string>
@@ -1119,4 +1121,11 @@
     <string name="routine_warmup_intermediate_1">फ्रेट 1 से 5 तक और वापस हर स्ट्रिंग पर क्रोमैटिक स्केल बजाएँ।</string>
     <string name="routine_warmup_intermediate_2">80 BPM पर C-Am-F-G चक्र करें, प्रति कॉर्ड 4 बीट।</string>
     <string name="routine_warmup_intermediate_3">गर्दन पर धीरे बार कॉर्ड शेप का अभ्यास करें।</string>
+    <string name="share_sheet_title">कॉर्ड शीट इस रूप में साझा करें</string>
+    <string name="share_as_chordpro">ChordPro (.cho)</string>
+    <string name="share_as_text">सादा पाठ</string>
+    <string name="share_copy_clipboard">क्लिपबोर्ड पर कॉपी करें</string>
+    <string name="share_copied">क्लिपबोर्ड पर कॉपी किया गया</string>
+    <string name="nav_songwriter_mode">गीत शुरू करें</string>
+    <string name="songwriter_song_saved">गीत सहेजा गया!</string>
 </resources>

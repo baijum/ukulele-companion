@@ -260,6 +260,8 @@
     <string name="songbook_add_label">Dodaj etykietę</string>
     <string name="songbook_label_hint">Wpisz etykietę…</string>
     <string name="songbook_filter_clear">Wyczyść filtry</string>
+    <string name="songbook_save_in_key">Zapisz w tej tonacji</string>
+    <string name="songbook_saved_in_key">Utwór zapisany w transponowanej tonacji</string>
     <string name="cd_label">Etykieta: %s</string>
     <string name="cd_remove_label">Usuń etykietę %s</string>
     <string name="cd_filter_label">Filtruj po etykiecie %s</string>
@@ -1117,4 +1119,11 @@
     <string name="routine_warmup_intermediate_1">Graj gamę chromatyczną na każdej strunie od progu 1 do 5 i z powrotem.</string>
     <string name="routine_warmup_intermediate_2">Przejdź przez C-Am-F-G przy 80 BPM, 4 uderzenia na akord.</string>
     <string name="routine_warmup_intermediate_3">Ćwicz powoli kształty akordów baryłkowych w górę gryfu.</string>
+    <string name="share_sheet_title">Udostępnij kartę akordów jako</string>
+    <string name="share_as_chordpro">ChordPro (.cho)</string>
+    <string name="share_as_text">Zwykły tekst</string>
+    <string name="share_copy_clipboard">Kopiuj do schowka</string>
+    <string name="share_copied">Skopiowano do schowka</string>
+    <string name="nav_songwriter_mode">Zacznij utwór</string>
+    <string name="songwriter_song_saved">Utwór zapisany!</string>
 </resources>

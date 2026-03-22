@@ -86,6 +86,7 @@
 		A10077 /* ProgressionsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10077 /* ProgressionsViewModelTests.swift */; };
 		A10078 /* ChordLibraryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10078 /* ChordLibraryViewModelTests.swift */; };
 		A10079 /* ChordVoicing+Frets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10079 /* ChordVoicing+Frets.swift */; };
+		A10080 /* SongwriterModeFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10080 /* SongwriterModeFlow.swift */; };
 		A20001 /* click_high.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20001 /* click_high.wav */; };
 		A20002 /* click_low.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20002 /* click_low.wav */; };
 		A20003 /* uke_a.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20003 /* uke_a.wav */; };
@@ -221,6 +222,7 @@
 		B10077 /* ProgressionsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionsViewModelTests.swift; sourceTree = "<group>"; };
 		B10078 /* ChordLibraryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordLibraryViewModelTests.swift; sourceTree = "<group>"; };
 		B10079 /* ChordVoicing+Frets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChordVoicing+Frets.swift"; sourceTree = "<group>"; };
+		B10080 /* SongwriterModeFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongwriterModeFlow.swift; sourceTree = "<group>"; };
 		B20001 /* click_high.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_high.wav; sourceTree = "<group>"; };
 		B20002 /* click_low.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_low.wav; sourceTree = "<group>"; };
 		B20003 /* uke_a.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_a.wav; sourceTree = "<group>"; };
@@ -351,6 +353,7 @@
 				B10023 /* SongbookView.swift */,
 				B10024 /* SongEditorView.swift */,
 				B10025 /* MelodyNotepadView.swift */,
+				B10080 /* SongwriterModeFlow.swift */,
 				B10029 /* LearnView.swift */,
 				B10030 /* TheoryLessonsView.swift */,
 				B10031 /* TheoryQuizView.swift */,
@@ -711,6 +714,7 @@
 				A10069 /* PlayAlongViewModel.swift in Sources */,
 				A10070 /* PatternPlayer.swift in Sources */,
 				A10071 /* FullScreenFretboardView.swift in Sources */,
+				A10080 /* SongwriterModeFlow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -438,42 +438,64 @@ struct SongViewerView: View {
         .onDisappear { stopAutoScroll() }
     }
 
+    @State private var showShareSheet = false
+
     // MARK: - Share Menu
 
     private var shareMenu: some View {
-        Menu {
-            Button {
-                let formatted = viewModel.formattedDisplay(song: currentSong)
-                shareText(formatted)
-            } label: {
-                Label("Share as text", systemImage: "doc.plaintext")
-            }
-            if transposeSemitones != 0 {
-                Button {
-                    let formatted = viewModel.formattedDisplay(song: displaySong)
-                    shareText(formatted)
-                } label: {
-                    Label("Share transposed text", systemImage: "doc.plaintext")
-                }
-            }
-            Button {
-                let chordPro = viewModel.exportChordPro(song: currentSong)
-                shareText(chordPro)
-            } label: {
-                Label("Export ChordPro", systemImage: "square.and.arrow.up")
-            }
-            if transposeSemitones != 0 {
-                Button {
-                    let chordPro = viewModel.exportChordPro(song: displaySong)
-                    shareText(chordPro)
-                } label: {
-                    Label("Export transposed ChordPro", systemImage: "square.and.arrow.up")
-                }
-            }
-        } label: {
+        Button { showShareSheet = true } label: {
             Image(systemName: "square.and.arrow.up")
         }
         .accessibilityLabel("Share")
+        .accessibilityHint("Choose export format")
+        .sheet(isPresented: $showShareSheet) {
+            shareFormatPicker
+        }
+    }
+
+    private var shareFormatPicker: some View {
+        let effectiveSong = transposeSemitones != 0 ? displaySong : currentSong
+        return NavigationStack {
+            List {
+                Section {
+                    Button {
+                        showShareSheet = false
+                        let chordPro = viewModel.exportChordPro(song: effectiveSong)
+                        shareText(chordPro)
+                    } label: {
+                        Label("ChordPro (.cho)", systemImage: "music.note")
+                    }
+
+                    Button {
+                        showShareSheet = false
+                        let formatted = viewModel.formattedDisplay(song: effectiveSong)
+                        shareText(formatted)
+                    } label: {
+                        Label("Plain text", systemImage: "doc.plaintext")
+                    }
+
+                    Button {
+                        showShareSheet = false
+                        let formatted = viewModel.formattedDisplay(song: effectiveSong)
+                        UIPasteboard.general.string = formatted
+                        AccessibilityAnnouncer.shared.announce("Copied to clipboard")
+                    } label: {
+                        Label("Copy to clipboard", systemImage: "doc.on.doc")
+                    }
+                } header: {
+                    Text("Share chord sheet as")
+                        .accessibilityAddTraits(.isHeader)
+                }
+            }
+            .navigationTitle("Share")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { showShareSheet = false }
+                }
+            }
+        }
+        .presentationDetents([.medium])
     }
 
     private func shareText(_ text: String) {
@@ -662,6 +684,18 @@ struct SongViewerView: View {
                         .foregroundStyle(.orange)
                         .fontWeight(.semibold)
                 }
+
+                Button {
+                    let transposed = viewModel.transpose(song: currentSong, semitones: transposeSemitones)
+                    viewModel.save(song: transposed)
+                    transposeSemitones = 0
+                } label: {
+                    Text("Save in this key")
+                        .font(.caption.bold())
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.small)
+                .accessibilityLabel("Save song in transposed key")
             }
         }
     }

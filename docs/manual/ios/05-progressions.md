@@ -34,6 +34,7 @@ Actions are organised in two rows at the bottom of the card:
 **Row 2 — secondary actions:**
 
 - **Share** — export the progression as text to share with others.
+- **Copy** — copy the progression to the clipboard with a single tap.
 - **Capo** — view capo positions that let you play the progression using simpler chord shapes.
 - **Voice Leading** — view smooth voice-leading suggestions between the chords.
 
@@ -44,6 +45,8 @@ The progression playback bar includes a BPM slider to control the playback speed
 ## Custom Progressions
 
 You can create your own custom progressions by tapping the **New Progression** button. Custom progressions can be edited, duplicated, and deleted.
+
+When creating or editing a custom progression, diatonic chord chips for the selected scale are displayed as suggestions. These chips show the chords that naturally fit the key, making it easy to build harmonically coherent progressions without memorising music theory.
 
 - **Edit** lets you change the name, chord sequence, or mode of an existing custom progression.
 - **Duplicate** creates a new independent copy you can modify separately.

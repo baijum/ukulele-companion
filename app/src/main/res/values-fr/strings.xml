@@ -260,6 +260,8 @@
     <string name="songbook_add_label">Ajouter une étiquette</string>
     <string name="songbook_label_hint">Saisir une étiquette…</string>
     <string name="songbook_filter_clear">Effacer les filtres</string>
+    <string name="songbook_save_in_key">Enregistrer dans cette tonalité</string>
+    <string name="songbook_saved_in_key">Chanson enregistrée dans la tonalité transposée</string>
     <string name="cd_label">Étiquette : %s</string>
     <string name="cd_remove_label">Supprimer l\'étiquette %s</string>
     <string name="cd_filter_label">Filtrer par étiquette %s</string>
@@ -1113,4 +1115,11 @@
     <string name="theory_title_rhythm_straight_swing">Rythme binaire vs. swing</string>
     <string name="theory_title_rhythm_percussive">Techniques percussives</string>
     <string name="theory_title_rhythm_world">Rythmes du monde</string>
+    <string name="share_sheet_title">Partager la feuille d\'accords en tant que</string>
+    <string name="share_as_chordpro">ChordPro (.cho)</string>
+    <string name="share_as_text">Texte brut</string>
+    <string name="share_copy_clipboard">Copier dans le presse-papiers</string>
+    <string name="share_copied">Copié dans le presse-papiers</string>
+    <string name="nav_songwriter_mode">Commencer une chanson</string>
+    <string name="songwriter_song_saved">Chanson enregistrée !</string>
 </resources>

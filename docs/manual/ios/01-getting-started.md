@@ -41,7 +41,8 @@ The four tabs are:
 | Section | What It Does |
 |---------|-------------|
 | **Songs** | Personal songbook with chord sheets, ChordPro import/export |
-| **Melody Notepad** | Simple melody composition tool |
+| **Start a Song** | Guided songwriting flow — pick a key, build a progression, write lyrics, transpose, and save |
+| **Melody Notepad** | Melody composer with linear and step sequencer modes |
 | **Patterns** | Strumming and fingerpicking pattern reference |
 | **Progressions** | Common chord progressions in any key |
 

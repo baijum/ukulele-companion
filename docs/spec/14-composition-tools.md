@@ -1,6 +1,6 @@
 # Feature: Composition Tools
 
-**Status: IN PROGRESS** *(updated after codebase audit — several ideas are already built)*
+**Status: DONE** *(all five ideas implemented on both platforms)*
 
 ## Summary
 
@@ -26,7 +26,7 @@ playback) to provide a more complete songwriting workflow.
 
 ## Idea 1: Chord Sheet Transpose
 
-**Status: Partially Built** *(both platforms have preview transpose; "Save in this key" commit flow missing on both)*
+**Status: Done** *(both platforms have preview transpose and "Save in this key" commit flow)*
 
 Both platforms call `ChordSheetTranspose.transpose()` for real-time preview.
 `ChordProParser` already parses `{key}` and `{capo}` directives.
@@ -89,7 +89,7 @@ fun resetTranspose() { _transposeOffset.value = 0 }
 
 ## Idea 2: Export & Share
 
-**Status: Needs Polish** *(infrastructure exists; format-picker and clipboard copy absent on both platforms)*
+**Status: Done** *(format-picker sheet and clipboard copy implemented on both platforms)*
 
 ### What Already Exists
 
@@ -165,7 +165,7 @@ object ChordSheetFormatter {
 
 ## Idea 3: Scale-Aware Chord Suggestions
 
-**Status: Needs Polish on Android; Done on iOS**
+**Status: Done** *(diatonic chord chips in progression builder on both platforms)*
 
 ### What Already Exists
 
@@ -230,7 +230,7 @@ LazyRow {
 
 ## Idea 4: Melody Notepad
 
-**Status: Partially Built** *(both platforms have basic tap/record melody notepad; step sequencer and linked-progression playback absent on both)*
+**Status: Done** *(step sequencer mode with 8/16-step grid implemented on both platforms)*
 
 ### What Already Exists
 
@@ -322,7 +322,7 @@ class MelodyViewModel : ViewModel() {
 
 ## Idea 5: Songwriter Mode — A Guided Composition Flow
 
-**Status: Proposed**
+**Status: Done** *("Start a Song" guided flow implemented on both platforms)*
 
 ### Problem
 

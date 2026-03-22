@@ -22,7 +22,7 @@ Both editions cover the same features — the only differences are navigation st
 
 ## What's Inside
 
-Each manual covers 14 sections:
+Each manual covers 15 sections:
 
 <div class="manual-grid">
 
@@ -58,7 +58,12 @@ Each manual covers 14 sections:
 
   <div class="manual-card">
     <h3>Songs</h3>
-    <p>Creating chord sheets with auto-scroll, transpose, key detection, and ChordPro import/export.</p>
+    <p>Creating chord sheets with auto-scroll, transpose, "Save in this key", key detection, and export as ChordPro, plain text, or clipboard copy.</p>
+  </div>
+
+  <div class="manual-card">
+    <h3>Start a Song</h3>
+    <p>Guided songwriting flow — pick a key and scale, build a progression, write lyrics, transpose, and save to your songbook.</p>
   </div>
 
   <div class="manual-card">
@@ -93,7 +98,7 @@ Each manual covers 14 sections:
 
   <div class="manual-card">
     <h3>Melody Notepad</h3>
-    <p>Compose melodies by tapping notes or recording from your ukulele.</p>
+    <p>Compose melodies by tapping notes, recording from your ukulele, or using the step sequencer to build loops and rhythmic patterns.</p>
   </div>
 
 </div>

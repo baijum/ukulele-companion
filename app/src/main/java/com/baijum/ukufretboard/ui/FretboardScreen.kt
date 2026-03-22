@@ -148,6 +148,7 @@ private const val NAV_DAILY_CHALLENGE = 26
 private const val NAV_PRACTICE_ROUTINE = 28
 private const val NAV_PLAY_ALONG = 29
 private const val NAV_METRONOME = 30
+private const val NAV_SONGWRITER_MODE = 27
 
 /**
  * Drawer navigation item metadata.
@@ -178,6 +179,7 @@ private fun drawerSections(): List<DrawerSection> = listOf(
         DrawerItem(NAV_FAVORITES, stringResource(R.string.nav_favorites), Icons.Filled.Favorite),
     )),
     DrawerSection(stringResource(R.string.nav_section_create), listOf(
+        DrawerItem(NAV_SONGWRITER_MODE, stringResource(R.string.nav_songwriter_mode), Icons.Filled.Create),
         DrawerItem(NAV_SONGBOOK, stringResource(R.string.nav_songs), Icons.Filled.Create),
         DrawerItem(NAV_MELODY_NOTEPAD, stringResource(R.string.nav_melody_notepad), Icons.Filled.Create),
         DrawerItem(NAV_PATTERNS, stringResource(R.string.nav_patterns), Icons.AutoMirrored.Filled.List),
@@ -587,6 +589,14 @@ fun FretboardScreen(
                         },
                         leftHanded = appSettings.fretboard.leftHanded,
                     )
+                    NAV_SONGWRITER_MODE -> ConstrainedWidthContent(isCompactWidth) {
+                        SongwriterModeFlow(
+                            songbookViewModel = songbookViewModel,
+                            onSaveProgression = { name, description, degrees, scaleType ->
+                                customProgressionViewModel.create(name, description, degrees, scaleType)
+                            },
+                        )
+                    }
                     NAV_SONGBOOK -> ConstrainedWidthContent(isCompactWidth) {
                         SongbookTab(
                             viewModel = songbookViewModel,

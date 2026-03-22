@@ -260,6 +260,8 @@
     <string name="songbook_add_label">Adicionar etiqueta</string>
     <string name="songbook_label_hint">Digitar etiqueta…</string>
     <string name="songbook_filter_clear">Limpar filtros</string>
+    <string name="songbook_save_in_key">Salvar nesta tonalidade</string>
+    <string name="songbook_saved_in_key">Música salva na tonalidade transposta</string>
     <string name="cd_label">Etiqueta: %s</string>
     <string name="cd_remove_label">Remover etiqueta %s</string>
     <string name="cd_filter_label">Filtrar por etiqueta %s</string>
@@ -1115,4 +1117,11 @@
     <string name="routine_warmup_intermediate_1">Toque uma escala cromática em cada corda do traste 1 ao 5 e volte.</string>
     <string name="routine_warmup_intermediate_2">Ciclo C-Am-F-G a 80 BPM, 4 batidas por acorde.</string>
     <string name="routine_warmup_intermediate_3">Pratique formas de acordes de barra lentamente ao longo do braço.</string>
+    <string name="share_sheet_title">Compartilhar folha de acordes como</string>
+    <string name="share_as_chordpro">ChordPro (.cho)</string>
+    <string name="share_as_text">Texto simples</string>
+    <string name="share_copy_clipboard">Copiar para a área de transferência</string>
+    <string name="share_copied">Copiado para a área de transferência</string>
+    <string name="nav_songwriter_mode">Começar uma música</string>
+    <string name="songwriter_song_saved">Música salva!</string>
 </resources>

@@ -260,6 +260,8 @@
     <string name="songbook_add_label">Добавить метку</string>
     <string name="songbook_label_hint">Введите метку…</string>
     <string name="songbook_filter_clear">Сбросить фильтры</string>
+    <string name="songbook_save_in_key">Сохранить в этой тональности</string>
+    <string name="songbook_saved_in_key">Песня сохранена в транспонированной тональности</string>
     <string name="cd_label">Метка: %s</string>
     <string name="cd_remove_label">Удалить метку %s</string>
     <string name="cd_filter_label">Фильтровать по метке %s</string>
@@ -1119,4 +1121,11 @@
     <string name="routine_warmup_intermediate_1">Сыграйте хроматическую гамму на каждой струне с 1-го по 5-й лад и обратно.</string>
     <string name="routine_warmup_intermediate_2">Цикл C-Am-F-G при 80 BPM, 4 доли на аккорд.</string>
     <string name="routine_warmup_intermediate_3">Отработайте формы баррэ медленно вверх по грифу.</string>
+    <string name="share_sheet_title">Поделиться аккордовым листом как</string>
+    <string name="share_as_chordpro">ChordPro (.cho)</string>
+    <string name="share_as_text">Обычный текст</string>
+    <string name="share_copy_clipboard">Копировать в буфер обмена</string>
+    <string name="share_copied">Скопировано в буфер обмена</string>
+    <string name="nav_songwriter_mode">Начать песню</string>
+    <string name="songwriter_song_saved">Песня сохранена!</string>
 </resources>

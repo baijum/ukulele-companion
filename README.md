@@ -43,7 +43,7 @@ The tuner now uses a hybrid pipeline: fast YIN pitch tracking on every frame, su
 A reference guide with 15 strumming and 11 fingerpicking patterns — from beginner to advanced — in 4/4, 3/4, and 6/8 time. Each pattern includes visual beat/step display, notation, description, and a **play button with adjustable tempo** so you can hear what each pattern sounds like. Create custom patterns with adjustable beat counts (2–16) and time signatures, or duplicate any preset to make your own variations.
 
 ### 🎶 Chord Progressions
-Common chord progressions for any key across seven modes (Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian). Each chord chip shows its harmonic function (Tonic, Subdominant, Dominant) with colour coding. Includes Pop, Classic Rock, 50s, Folk, Jazz ii-V-I, Reggae, and more. Create custom progressions, duplicate presets, and use tap tempo for practice.
+Common chord progressions for any key across seven modes (Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian). Each chord chip shows its harmonic function (Tonic, Subdominant, Dominant) with colour coding. Includes Pop, Classic Rock, 50s, Folk, Jazz ii-V-I, Reggae, and more. Create custom progressions with diatonic chord suggestions from the selected scale, duplicate presets, copy to clipboard, and use tap tempo for practice.
 
 </td>
 <td width="50%" valign="top">
@@ -55,13 +55,16 @@ Highlight notes from any of 38 scales (Major, Natural/Harmonic/Melodic Minor, Pe
 Long-press any voicing in the Chord Library to save it. Access your saved voicings from the dedicated Favorites tab.
 
 ### 📝 Song Chord Sheets
-Create a personal songbook with lyrics and inline chord markers (e.g., `Some[C]where over the [Em]rainbow`). Search, sort, and label songs for easy organisation. Associate strum patterns, use quick-insert chord chips in the editor, and preview chords above lyrics in real time. Tap any chord name to view its voicings.
+Create a personal songbook with lyrics and inline chord markers (e.g., `Some[C]where over the [Em]rainbow`). Search, sort, and label songs for easy organisation. Associate strum patterns, use quick-insert chord chips in the editor, and preview chords above lyrics in real time. Tap any chord name to view its voicings. Transpose songs with +/- controls and **Save in this key** to permanently rewrite chords. Share via a format picker offering ChordPro, plain text, or clipboard copy.
 
 ### 🎵 Metronome
 A standalone practice metronome with adjustable BPM (30–300), tap tempo, time signatures (2/4 to 7/4), customizable accent patterns, and subdivisions (quarter, eighth, triplet, sixteenth). Visual beat indicators pulse in time.
 
 ### 🎹 Melody Notepad
-Compose short melodies by tapping notes or recording from your ukulele's microphone. Choose note durations, set the octave, and play back at any tempo. Save and load multiple melodies.
+Compose melodies by tapping notes, recording from your ukulele's microphone, or using the **step sequencer** — a grid of 8 or 16 steps for building loops and rhythmic patterns. Choose note durations, set the octave, and play back at any tempo. Save and load multiple melodies.
+
+### ✍️ Songwriter Mode
+A guided **"Start a Song"** flow that walks you through picking a key and scale, building a chord progression from diatonic suggestions, writing lyrics with inline chords, transposing, and saving to your songbook — all in one place.
 
 ### 🔊 Sound Playback
 Hear chords played back using sampled ukulele audio. Notes are strummed with a configurable delay between strings.
@@ -187,12 +190,12 @@ ukulele-companion/
 │       ├── audio/                   # SoundPool, metronome, audio capture
 │       ├── data/                    # Repositories (SharedPreferences), backup/restore
 │       ├── domain/                  # NeuralPitchSupervisor, AchievementChecker
-│       ├── ui/                      # 54 Compose screens and components
+│       ├── ui/                      # 55 Compose screens and components
 │       └── viewmodel/               # 13 ViewModels (StateFlow)
 │
 ├── iosApp/                          # iOS app (SwiftUI)
 │   └── UkuleleCompanion/
-│       ├── Views/                   # 47 SwiftUI views
+│       ├── Views/                   # 48 SwiftUI views
 │       ├── ViewModels/              # 15 ObservableObject ViewModels
 │       ├── Audio/                   # AudioCaptureEngine, TonePlayer, NeuralPitchSupervisor
 │       ├── Helpers/                 # Accessibility helpers, backup/restore manager
@@ -329,9 +332,9 @@ Looking for a place to start? Here are some areas where contributions would be e
 </p>
 
 - **Shared module**: 55 Kotlin files — chord detection, pitch detection, scales, notes, transposition, and all domain/data logic shared across platforms
-- **Android UI layer**: 54 Compose files, single-activity architecture via `MainActivity`
+- **Android UI layer**: 55 Compose files, single-activity architecture via `MainActivity`
 - **Android ViewModel layer**: 13 ViewModels managing state with `StateFlow`
-- **iOS UI layer**: 47 SwiftUI views with full feature parity
+- **iOS UI layer**: 48 SwiftUI views with full feature parity
 - **iOS ViewModel layer**: 15 ObservableObject ViewModels
 - **Audio layer**: Platform-specific audio capture, tone playback, and ONNX neural pitch detection
 

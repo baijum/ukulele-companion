@@ -235,6 +235,15 @@ struct ProgressionsView: View {
                             .font(.caption)
                     }
                     .accessibilityLabel("Share \(name)")
+
+                    Button {
+                        UIPasteboard.general.string = shareText
+                        AccessibilityAnnouncer.shared.announce("Copied to clipboard")
+                    } label: {
+                        Image(systemName: "doc.on.doc")
+                            .font(.caption)
+                    }
+                    .accessibilityLabel("Copy \(name) to clipboard")
                 }
                 if let onEdit {
                     Button(action: onEdit) {
