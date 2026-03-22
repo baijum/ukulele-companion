@@ -97,27 +97,27 @@ hide:
 
 <div class="screenshot-grid premium-grid">
   <figure>
-    <img src="screenshots/ios/chord-detected.png" alt="iOS chord detection screen">
-    <figcaption>Real-time chord detection</figcaption>
+    <img src="appstore-screenshots/iphone/01-explorer-fretboard.png" alt="iOS explorer fretboard screen">
+    <figcaption>Interactive fretboard explorer</figcaption>
   </figure>
   <figure>
-    <img src="screenshots/ios/scale-overlay.png" alt="iOS scale overlay screen">
-    <figcaption>Scale notes on fretboard</figcaption>
-  </figure>
-  <figure>
-    <img src="screenshots/ios/chord-progressions.png" alt="iOS chord progressions screen">
-    <figcaption>Practice progressions in any key</figcaption>
-  </figure>
-  <figure>
-    <img src="screenshots/ios/chord-library.png" alt="iOS chord library screen">
+    <img src="appstore-screenshots/iphone/02-chord-library.png" alt="iOS chord library screen">
     <figcaption>Playable voicing library</figcaption>
   </figure>
   <figure>
-    <img src="screenshots/ios/strumming-patterns.png" alt="iOS strumming patterns screen">
-    <figcaption>Strumming and rhythm patterns</figcaption>
+    <img src="appstore-screenshots/iphone/03-tuner.png" alt="iOS tuner screen">
+    <figcaption>Chromatic tuner</figcaption>
   </figure>
   <figure>
-    <img src="screenshots/ios/circle-of-fifths.png" alt="iOS circle of fifths screen">
+    <img src="appstore-screenshots/iphone/04-songbook.png" alt="iOS songbook screen">
+    <figcaption>Personal songbook</figcaption>
+  </figure>
+  <figure>
+    <img src="appstore-screenshots/iphone/05-learn.png" alt="iOS learn screen">
+    <figcaption>Practice and learning tools</figcaption>
+  </figure>
+  <figure>
+    <img src="appstore-screenshots/iphone/06-reference.png" alt="iOS reference screen">
     <figcaption>Visual music theory tools</figcaption>
   </figure>
 </div>
