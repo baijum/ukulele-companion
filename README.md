@@ -325,23 +325,9 @@ Looking for a place to start? Here are some areas where contributions would be e
 
 ### Architecture at a Glance
 
-```
-                    ┌──────────────────────────┐
-                    │    Shared (KMP Module)    │
-                    │  Domain logic, data types │
-                    │  Pitch detection, chords  │
-                    └──────────┬───────────────┘
-                               │
-              ┌────────────────┼────────────────┐
-              ▼                                  ▼
-┌──────────────────────┐          ┌──────────────────────┐
-│     Android App      │          │      iOS App         │
-│  Compose + Material3 │          │       SwiftUI        │
-│  ViewModel/StateFlow │          │  ObservableObject     │
-│  SharedPreferences   │          │    UserDefaults       │
-│  SoundPool (OGG)     │          │  AVFoundation (WAV)   │
-└──────────────────────┘          └──────────────────────┘
-```
+<p align="center">
+  <img src="docs/architecture.svg" width="600" alt="Architecture diagram: Shared KMP Module (domain logic, data types, pitch detection, chords) feeds into Android App (Compose + Material3, ViewModel/StateFlow, SharedPreferences, SoundPool) and iOS App (SwiftUI, ObservableObject, UserDefaults, AVFoundation)">
+</p>
 
 - **Shared module**: 55 Kotlin files — chord detection, pitch detection, scales, notes, transposition, and all domain/data logic shared across platforms
 - **Android UI layer**: 54 Compose files, single-activity architecture via `MainActivity`

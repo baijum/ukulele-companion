@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 370" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="14">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- Shared KMP Module box -->
+  <rect x="195" y="20" width="330" height="100" rx="10" ry="10" fill="#f3eaff" stroke="#7c3aed" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="195" y="20" width="6" height="100" rx="3" ry="0" fill="#7c3aed"/>
+  <text x="360" y="52" text-anchor="middle" font-weight="bold" font-size="16" fill="#4c1d95">Shared (KMP Module)</text>
+  <text x="360" y="76" text-anchor="middle" fill="#5b21b6">Domain logic, data types</text>
+  <text x="360" y="96" text-anchor="middle" fill="#5b21b6">Pitch detection, chords</text>
+
+  <!-- Connecting lines -->
+  <line x1="290" y1="120" x2="290" y2="150" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="430" y1="120" x2="430" y2="150" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- Vertical line down from shared -->
+  <line x1="290" y1="150" x2="290" y2="180" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="430" y1="150" x2="430" y2="180" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- Arrowheads -->
+  <polygon points="283,178 290,192 297,178" fill="#94a3b8"/>
+  <polygon points="423,178 430,192 437,178" fill="#94a3b8"/>
+
+  <!-- Android App box -->
+  <rect x="60" y="195" width="280" height="150" rx="10" ry="10" fill="#ecfdf5" stroke="#16a34a" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="60" y="195" width="6" height="150" rx="3" ry="0" fill="#16a34a"/>
+  <text x="200" y="227" text-anchor="middle" font-weight="bold" font-size="16" fill="#14532d">Android App</text>
+  <text x="200" y="253" text-anchor="middle" fill="#166534">Compose + Material3</text>
+  <text x="200" y="275" text-anchor="middle" fill="#166534">ViewModel / StateFlow</text>
+  <text x="200" y="297" text-anchor="middle" fill="#166534">SharedPreferences</text>
+  <text x="200" y="319" text-anchor="middle" fill="#166534">SoundPool (OGG)</text>
+
+  <!-- iOS App box -->
+  <rect x="380" y="195" width="280" height="150" rx="10" ry="10" fill="#fff7ed" stroke="#ea580c" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="380" y="195" width="6" height="150" rx="3" ry="0" fill="#ea580c"/>
+  <text x="520" y="227" text-anchor="middle" font-weight="bold" font-size="16" fill="#7c2d12">iOS App</text>
+  <text x="520" y="253" text-anchor="middle" fill="#9a3412">SwiftUI</text>
+  <text x="520" y="275" text-anchor="middle" fill="#9a3412">ObservableObject</text>
+  <text x="520" y="297" text-anchor="middle" fill="#9a3412">UserDefaults</text>
+  <text x="520" y="319" text-anchor="middle" fill="#9a3412">AVFoundation (WAV)</text>
+</svg>
