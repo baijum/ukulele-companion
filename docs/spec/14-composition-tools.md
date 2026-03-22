@@ -1,10 +1,12 @@
 # Feature: Composition Tools
 
-**Status: PROPOSED**
+**Status: IN PROGRESS** *(updated after codebase audit — several ideas are already built)*
 
 ## Summary
 
-A collection of features aimed at helping ukulele players compose original music directly within the app. Builds on existing capabilities (chord progressions, scale overlay, chord sheets, audio playback) to provide a more complete songwriting workflow.
+A collection of features aimed at helping ukulele players compose original music directly within
+the app. Builds on existing capabilities (chord progressions, scale overlay, chord sheets, audio
+playback) to provide a more complete songwriting workflow.
 
 ## Motivation
 
@@ -13,268 +15,385 @@ A collection of features aimed at helping ukulele players compose original music
 - Bridging these features and adding composition-specific tools turns the app from a reference tool into a creative companion
 - Ukulele is popular among singer-songwriters who compose on the go
 
+## Implementation Status Key
+
+- **Done** — fully implemented on that platform
+- **Partially Built** — core logic or one platform exists, gaps remain
+- **Needs Polish** — core logic exists, UX or wiring incomplete
+- **Missing** — genuinely not yet implemented
+
 ---
 
-## Idea 1: Progression Playback with Tempo (Metronome)
+## Idea 1: Chord Sheet Transpose
 
-### Problem
+**Status: Partially Built** *(both platforms have preview transpose; "Save in this key" commit flow missing on both)*
 
-Custom and preset chord progressions can only be played as a quick sequential strum (via Voice Leading's "Play All"). There's no way to hear a progression at a steady tempo with configurable beats per chord — essential for evaluating feel and flow during composition.
+Both platforms call `ChordSheetTranspose.transpose()` for real-time preview.
+`ChordProParser` already parses `{key}` and `{capo}` directives.
 
-### Proposed Solution
+- **Android:** `SheetViewer` in `SongbookTab.kt` has `transposeSemitones` state, +/- buttons,
+  semitone label, reset, capo equivalent, and share-transposed options. Missing: "Save in this
+  key" button and `SongbookViewModel` method to persist the transposed content.
+- **iOS:** `SongViewerView` in `SongbookView.swift` has the same preview transpose UI.
+  `SongbookViewModel.swift` has `transpose(song:semitones:)`. Missing: "Save in this key"
+  commit flow.
 
-Add a playback toolbar to the Progressions tab that plays the selected progression at a configurable BPM:
+### Revised UX Model
 
-- **BPM control**: Slider or stepper (60–200 BPM, default 100)
-- **Beats per chord**: How many beats before advancing to the next chord (1, 2, 4, or 8)
-- **Visual metronome**: Highlight the current chord in the progression with a pulsing indicator
-- **Repeat toggle**: Loop the progression continuously until stopped
-- **Tap tempo**: Tap a button rhythmically to set the BPM
+The original spec proposed a transpose control on the *edit* screen. This is the wrong
+placement — transposing is a **viewing** action, not an editing one. A composer wants to
+audition "what does this song sound like in A?" before committing.
+
+**Better flow (non-destructive preview first):**
+
+1. In `SheetViewer` (read mode), show a key indicator at the top: `Key: G  ▲ ▼`
+2. Tapping ▲ / ▼ shifts all inline chord markers in real-time — no permanent change yet
+3. A "Save in this key" button commits the transposed version to the repository
+4. Show capo equivalent alongside: `Key: A  (= Capo 2 on G)`
+5. Use existing `enharmonicForKey()` for context-aware flat/sharp spelling
 
 ### Technical Approach
 
 ```kotlin
-// Metronome engine using coroutines
-class MetronomeEngine {
-    fun start(bpm: Int, beatsPerChord: Int, chordCount: Int, onBeat: (chordIndex: Int, beat: Int) -> Unit)
-    fun stop()
-}
+// Existing shared-domain utility — no new file needed
+val transposedContent = ChordSheetTranspose.transpose(content, semitones)
 ```
 
-- Use `kotlinx.coroutines.delay` for timing (sufficient accuracy for a practice metronome)
-- On each chord change, call `FretboardViewModel.playVoicing()` with the best voicing from `VoicingGenerator`
-- UI: A collapsible playback bar below the progression cards with play/stop, BPM, and beats-per-chord controls
+```kotlin
+// SongbookViewModel additions
+private val _transposeOffset = MutableStateFlow(0)
+val transposeOffset: StateFlow<Int> = _transposeOffset.asStateFlow()
 
-### Files
+fun shiftTranspose(delta: Int) { _transposeOffset.value += delta }
+fun applyTranspose() { /* rewrite sheet content via ChordSheetTranspose, save */ }
+fun resetTranspose() { _transposeOffset.value = 0 }
+```
 
-- **New:** `audio/MetronomeEngine.kt` — Coroutine-based beat scheduler
-- **New:** `ui/ProgressionPlaybackBar.kt` — Composable playback toolbar
-- **Modify:** `ui/ProgressionsTab.kt` — Add playback bar and wire controls
-- **Modify:** `viewmodel/FretboardViewModel.kt` — Expose method to play a voicing for a given root + quality
+### Files — Android
+
+- **Existing:** `shared/src/commonMain/.../domain/ChordSheetTranspose.kt` — regex-based chord marker transposition (reuse as-is)
+- **Modify:** `viewmodel/SongbookViewModel.kt` — add `transposeOffset` state, `shiftTranspose()`, `applyTranspose()`
+- **Modify:** `ui/SongbookTab.kt` — add "Save in this key" button to `SheetViewer` (preview transpose already exists)
+
+### Files — iOS
+
+- **Existing:** `iosApp/.../ViewModels/SongbookViewModel.swift` — has `transpose(song:semitones:)` (reuse as-is)
+- **Modify:** `iosApp/.../Views/SongbookView.swift` (`SongViewerView`) — add "Save in this key" button
 
 ### Effort Estimate
 
-- **Complexity**: Medium
-- **Estimated time**: 2–3 days
-- **APK size impact**: Negligible
+- **Complexity**: Low ("Save in this key" button + ViewModel persist method on both platforms)
+- **Estimated time**: 0.5 days Android + 0.5 days iOS
 
 ---
 
-## Idea 2: Chord Sheet Transpose
+## Idea 2: Export & Share
 
-### Problem
+**Status: Needs Polish** *(infrastructure exists; format-picker and clipboard copy absent on both platforms)*
 
-The Transpose tool works on individual chords in the Chord Library, but chord sheets (in the Songbook) have no transposition support. A composer who wrote a song in G but wants to try it in A must manually re-enter every chord marker.
+### What Already Exists
 
-### Proposed Solution
+**Shared domain:**
+- `ChordSheetFormatter.formatChordsAboveLyrics(sheet)` — chords-above-lyrics plain-text formatter
+- `ChordSheetFormatter.formatProgression(progression, keyRoot)` — one-line progression summary
+- `ChordProExporter.export(sheet)` — exports to ChordPro `.cho` format
 
-Add a transpose control to the chord sheet view/edit screen:
+**Android:**
+- `ShareUtils.shareText(context, title, text)` — share sheet via `Intent.ACTION_SEND`
+- `ChordImageSharer` — shares chord diagrams as PNGs
+- No format-picker bottom sheet; no clipboard copy; no progression share button
 
-- **+/- buttons** to shift all inline chord markers up or down by N semitones
-- **Preview mode**: Show the transposed chord names in a different color before committing
-- **Apply**: Permanently rewrite the chord markers in the sheet content
-- **Capo label**: Show the equivalent capo position (e.g., "Capo 2 from original key")
+**iOS:**
+- `SongViewerView` shares plain text and ChordPro via `UIActivityViewController` (inline `Menu`)
+- `ProgressionsView` shares progressions via `ShareLink` using `ChordSheetFormatter`
+- No format-picker sheet; no clipboard copy
 
-### Technical Approach
+### Remaining Gaps (both platforms)
 
-```kotlin
-// Parse all [Chord] markers from sheet content, transpose, and replace
-fun transposeChordSheet(content: String, semitones: Int, useFlats: Boolean): String {
-    return content.replace(Regex("\\[([A-G][#b]?[^\\]]*)]")) { match ->
-        val chord = match.groupValues[1]
-        val transposed = transposeChordName(chord, semitones, useFlats)
-        "[$transposed]"
-    }
-}
+1. **No format-picker bottom sheet / action sheet.** Users must navigate a menu to find the
+   right format. A dedicated picker makes the options clearer.
+
+2. **No copy-to-clipboard.** Neither platform offers a one-tap clipboard copy for chord sheets
+   or progressions.
+
+### Revised UX Model
+
+A "Share" tap on a chord sheet opens a format-picker bottom sheet:
+
+```text
+Share chord sheet as:
+  [ ChordPro (.cho) ]        ← for apps that parse it
+  [ Plain text ]              ← chords-above-lyrics, readable by anyone
+  [ Copy to clipboard ]       ← one tap, fastest for messaging
 ```
 
-- Reuse existing `Transpose.transposePitchClass()` and `Notes.pitchClassToName()` logic
-- Parse root note from chord marker, transpose it, preserve quality suffix
-
-### Files
-
-- **New:** `domain/ChordSheetTranspose.kt` — Regex-based chord marker transposition
-- **Modify:** `ui/SongbookTab.kt` — Add transpose controls to the sheet detail/edit view
-- **Modify:** `data/ChordSheetRepository.kt` — Optionally save transposed version
-
-### Effort Estimate
-
-- **Complexity**: Low–Medium
-- **Estimated time**: 1–2 days
-- **APK size impact**: Negligible
-
----
-
-## Idea 3: Export & Share
-
-### Problem
-
-Chord sheets and custom progressions are locked inside the app. The only way to get data out is via Google Drive sync (backup/restore), which isn't suitable for sharing a single song with a bandmate or posting lyrics online.
-
-### Proposed Solution
-
-Add share/export functionality to chord sheets and progressions:
-
-- **Chord Sheets**: Export as plain text with inline chord notation (the existing `[Chord]text` format), or a formatted version with chords above lyrics
-- **Progressions**: Export as a one-line summary (e.g., "Pop / Four Chords in C: C – G – Am – F")
-- **Share via Android share sheet**: Use `Intent.ACTION_SEND` so the user can send to any app (Messages, Email, Notes, etc.)
-- **Copy to clipboard**: One-tap copy as an alternative
-
 ### Technical Approach
 
 ```kotlin
-// Format chord sheet for sharing (chords above lyrics)
-fun formatChordSheet(sheet: ChordSheet): String {
+// Existing shared-domain file — already implemented
+object ChordSheetFormatter {
     // Convert "[C]Somewhere over the [Em]rainbow"
     // to:
     // C              Em
-    // Somewhere over rainbow
-}
+    // Somewhere over the rainbow
+    fun toChordAboveLyrics(content: String): String { ... }
 
-// Share via Android Intent
-fun shareText(context: Context, title: String, text: String) {
-    val intent = Intent(Intent.ACTION_SEND).apply {
-        type = "text/plain"
-        putExtra(Intent.EXTRA_SUBJECT, title)
-        putExtra(Intent.EXTRA_TEXT, text)
+    // One-line summary for progressions
+    fun progressionSummary(progression: Progression, key: String): String {
+        // "Pop / C: C – G – Am – F"
     }
-    context.startActivity(Intent.createChooser(intent, "Share"))
 }
 ```
 
-### Files
+### Files — Android
 
-- **New:** `domain/ChordSheetFormatter.kt` — Plain text and chords-above-lyrics formatters
-- **Modify:** `ui/SongbookTab.kt` — Add share/copy buttons to chord sheet detail view
-- **Modify:** `ui/ProgressionsTab.kt` — Add share button to progression cards
+- **Existing:** `shared/src/commonMain/.../domain/ChordSheetFormatter.kt` — chords-above-lyrics and progression summary formatters
+- **Modify:** `ui/SongbookTab.kt` — replace direct share call with format-picker bottom sheet, add clipboard copy
+- **Modify:** `ui/ProgressionsTab.kt` — add share icon to progression cards
+
+### Files — iOS
+
+- **Modify:** `iosApp/.../Views/SongbookView.swift` (`SongViewerView`) — replace `Menu`-based share with format-picker sheet, add clipboard copy
+- **Modify:** `iosApp/.../Views/ProgressionsView.swift` — add clipboard copy option to progression share
 
 ### Effort Estimate
 
 - **Complexity**: Low
-- **Estimated time**: 1 day
-- **APK size impact**: Negligible
+- **Estimated time**: 1 day Android + 0.5 days iOS
+
+---
+
+## Idea 3: Scale-Aware Chord Suggestions
+
+**Status: Needs Polish on Android; Done on iOS**
+
+### What Already Exists
+
+**Shared domain:**
+- `ScaleChords.diatonicTriads(scaleIntervals, root)` — derives triads for any scale
+
+**Android:**
+- `ScaleSelector` composable has `onChordTapped: (DiatonicChord) -> Unit` callback and renders
+  a diatonic chords row, but this lives on the Explorer tab — not in the progression builder.
+- The Explorer tab and Progressions tab are separate screens. A composer working in D Dorian
+  must memorize the diatonic chords, navigate to Progressions, and re-enter them manually.
+
+**iOS:**
+- `CreateProgressionSheet` in `ProgressionsView.swift` already has diatonic chord chips
+  ("Tap chords to add") wired through `ProgressionsViewModel.diatonicDegreesForScale()`.
+  Tapping a chip appends that chord degree to the progression. This matches the proposed UX.
+
+### Remaining Gap (Android only)
+
+Inside `CreateProgressionSheet` (the modal for building a custom progression), add a
+**"From Scale" helper panel** matching the iOS implementation:
+
+- User selects a root and scale type (chips already exist in `ProgressionsTab`)
+- App shows the diatonic chords for that scale as tappable chips: `I (C) · ii (Dm) · iii (Em)…`
+- Tapping a chip appends that chord degree to the progression being built
+- No new navigation required — everything stays in the same sheet
+
+### Technical Approach
+
+```kotlin
+// In CreateProgressionSheet composable:
+val diatonicChords = remember(selectedRoot, selectedScale) {
+    ScaleChords.diatonicTriads(selectedScale.intervals, selectedRoot)
+}
+
+// Render as tappable filter chips
+LazyRow {
+    items(diatonicChords) { chord ->
+        FilterChip(
+            label = { Text("${chord.numeral} (${chord.name})") },
+            onClick = { onAddDegree(chord.toChordDegree()) }
+        )
+    }
+}
+```
+
+### Files — Android
+
+- **Modify:** `ui/ProgressionsTab.kt` — add "From Scale" panel in `CreateProgressionSheet`
+- No new files needed; `ScaleChords.diatonicTriads()` already handles the derivation
+
+### Files — iOS
+
+- **Existing:** `iosApp/.../Views/ProgressionsView.swift` (`CreateProgressionSheet`) — diatonic chord chips already implemented; no changes needed
+
+### Effort Estimate
+
+- **Complexity**: Low (Android only)
+- **Estimated time**: 1 day Android; iOS done
 
 ---
 
 ## Idea 4: Melody Notepad
 
-### Problem
+**Status: Partially Built** *(both platforms have basic tap/record melody notepad; step sequencer and linked-progression playback absent on both)*
 
-The app is entirely chord-focused. Composers also need to capture melody ideas — a sequence of individual notes with timing. Currently, tapping frets on the Explorer only selects one note per string for chord detection; there's no way to record a sequence of notes.
+### What Already Exists
 
-### Proposed Solution
+**Shared domain:**
+- `MelodyNote` data model: `pitchClass`, `octave`, `duration`, `stringIndex`, `fret`
 
-A new "Melody" mode in the Explorer or a dedicated section where:
+**Android:**
+- `MelodyRepository` — SharedPreferences persistence (referenced in `BackupRestoreManager`)
+- Navigation drawer entry "Melody Notepad" under Create section
+- `ToneGenerator.playNote()` for individual note playback
 
-- **Tap notes on the fretboard** to add them to a sequence (shown as a scrollable timeline below)
-- **Play back** the sequence at a configurable tempo
-- **Edit**: Delete notes, rearrange order, adjust duration (quarter, eighth, half note)
-- **Save**: Persist melodies locally (SharedPreferences, same pattern as favorites)
-- **Combine with chords**: Optionally attach a chord progression so the melody plays over the chords
+**iOS:**
+- `MelodyViewModel.swift` — tap + record input modes, BPM playback, persistence via UserDefaults
+- `MelodyNotepadView.swift` — pitch grid, octave stepper, duration row, chip timeline, save/load
+- Uses its own `MelodyNoteData` model (no `stringIndex`/`fret`; has `isRest` flag instead)
+
+### Revised UX Model
+
+The original spec proposed tapping frets on the fretboard to build a melody timeline. This
+creates two problems:
+
+1. **Dual cognitive load:** The user must think about fret positions *and* melody at the same
+   time. Fretboard positions are physical; melody is musical. Conflating them adds friction.
+
+2. **Mobile timeline editing is hard:** Horizontal scrolling, reordering, duration selectors
+   per note — all create fat-finger issues on small screens.
+
+**Simplified approach — Step Sequencer:**
+
+- Show a fixed grid of 8 or 16 steps (expandable)
+- Each step: large note name button (C, D, E…) + duration preset (♩ ♪ 𝅗𝅥 𝅝)
+- Tap note to cycle through pitch; long-press to clear
+- Playback at configurable BPM, loops continuously
+- **Killer feature:** attach an existing chord progression to play underneath the melody
+
+**Positioning:** Market this as a *melody capture* tool — quick idea → playback → save.
+Not a full notation editor. That framing sets correct expectations and keeps scope small.
 
 ### Technical Approach
 
 ```kotlin
 data class MelodyNote(
-    val pitchClass: Int,      // 0–11
-    val octave: Int,          // 3–5 (ukulele range)
-    val duration: NoteDuration, // QUARTER, EIGHTH, HALF, WHOLE
-    val stringIndex: Int,     // Which string it was played on
-    val fret: Int,            // Which fret
+    val pitchClass: Int?,        // 0–11, null for a rest
+    val octave: Int = 4,         // 4 = middle C octave
+    val duration: NoteDuration = NoteDuration.QUARTER,
+    val stringIndex: Int? = null,  // which ukulele string (0–3), null if unassigned
+    val fret: Int? = null,
 )
 
-enum class NoteDuration(val beats: Float) {
-    WHOLE(4f), HALF(2f), QUARTER(1f), EIGHTH(0.5f)
+enum class NoteDuration(val label: String, val beats: Float) {
+    WHOLE("Whole", 4f), HALF("Half", 2f), QUARTER("Quarter", 1f),
+    EIGHTH("Eighth", 0.5f), SIXTEENTH("Sixteenth", 0.25f)
 }
 ```
 
-- Timeline UI: Horizontal scrollable row of note blocks, colored by pitch
-- Playback: Use existing `ToneGenerator` to play individual notes at intervals determined by BPM and note duration
-- Storage: Serialize as pipe-delimited strings (same pattern as favorites/chord sheets)
+```kotlin
+// MelodyViewModel
+class MelodyViewModel : ViewModel() {
+    val steps: StateFlow<List<MelodyNote?>>  // null = empty step
+    val bpm: StateFlow<Int>
+    val linkedProgressionId: StateFlow<String?>
 
-### Files
+    fun setStep(index: Int, note: MelodyNote?)
+    fun play()
+    fun stop()
+    fun linkProgression(id: String)
+    fun save(name: String)
+}
+```
 
-- **New:** `data/MelodyNote.kt` — Data model
-- **New:** `data/MelodyRepository.kt` — SharedPreferences persistence
-- **New:** `ui/MelodyNotepad.kt` — Timeline UI + fretboard integration
-- **New:** `viewmodel/MelodyViewModel.kt` — Sequence management and playback
-- **Modify:** `ui/FretboardScreen.kt` — Add "Melody" to navigation drawer
+### Files — Android
+
+- **Existing:** `shared/src/commonMain/.../data/MelodyNote.kt` — data model *(implemented)*
+- **Existing:** `app/src/main/java/.../data/MelodyRepository.kt` — SharedPreferences persistence *(implemented)*
+- **New/Rework:** `ui/MelodyNotepad.kt` — step sequencer grid UI
+- **Modify:** `viewmodel/MelodyViewModel.kt` — add step sequencer mode (`setStep()`, `linkedProgressionId`) to existing ViewModel
+
+### Files — iOS
+
+- **Rework:** `iosApp/.../ViewModels/MelodyViewModel.swift` — add step sequencer mode and linked-progression support
+- **Rework:** `iosApp/.../Views/MelodyNotepadView.swift` — replace tap/record UI with step sequencer grid
 
 ### Effort Estimate
 
-- **Complexity**: High
-- **Estimated time**: 4–5 days
-- **APK size impact**: Negligible
+- **Complexity**: Medium (simplified from original High with step sequencer approach)
+- **Estimated time**: 3–4 days Android + 2–3 days iOS
 
 ---
 
-## Idea 5: Scale-Aware Chord Suggestions
+## Idea 5: Songwriter Mode — A Guided Composition Flow
+
+**Status: Proposed**
 
 ### Problem
 
-The scale overlay shows which notes belong to a scale, and the custom progression builder shows diatonic chords for Major/Minor. But these aren't connected — a composer working in D Dorian can't easily see which chords fit that scale. Also, the custom progression builder only supports Major and Minor, not the 5 other scale types the app supports (Pentatonic Major/Minor, Blues, Dorian, Mixolydian).
+With 30+ screens in the navigation drawer, the composition workflow is fragmented. A user who
+wants to write a song from scratch must manually orchestrate across Scales (Explorer), Progressions,
+Songbook, and Export — there is no guided path.
 
 ### Proposed Solution
 
-A "Chords in Scale" panel that:
+A **"Start a Song"** entry in the Create section of the drawer that acts as a lightweight
+coordinator, walking the user through existing screens in sequence:
 
-- **Shows all diatonic chords** for the currently selected scale and root
-- **Works with all 7 scale types**: Derives triads by stacking thirds from each scale degree
-- **One-tap navigation**: Tap a chord to see its voicings in the Chord Library
-- **Integration**: Accessible from the Scale Overlay section on the Explorer tab, or as a standalone view
+```text
+Step 1: Choose a key and scale
+        → Pre-fills key/scale selectors in Progressions
 
-### Technical Approach
+Step 2: Build a chord progression
+        → Opens CreateProgressionSheet with scale chords pre-loaded (Idea 3)
 
-```kotlin
-// Given a scale's intervals, derive triads at each degree
-fun diatonicTriads(scaleIntervals: List<Int>, root: Int): List<DiatonicChord> {
-    return scaleIntervals.mapIndexed { degree, interval ->
-        val chordRoot = (root + interval) % 12
-        val third = scaleIntervals[(degree + 2) % scaleIntervals.size]
-        val fifth = scaleIntervals[(degree + 4) % scaleIntervals.size]
-        // Determine quality from interval sizes
-        val quality = classifyTriad(third - interval, fifth - interval)
-        DiatonicChord(chordRoot, quality, degree + 1)
-    }
-}
+Step 3: Hear it at tempo
+        → Auto-opens ProgressionPlaybackBar on the built progression
+
+Step 4: Add lyrics
+        → Opens a new ChordSheet pre-filled with the progression's chords as markers
+
+Step 5: Transpose if needed
+        → Inline key +/- on the sheet viewer (Idea 1)
+
+Step 6: Share
+        → Format picker bottom sheet (Idea 2)
 ```
 
-- For pentatonic scales (5 notes), only 5 triads are possible; some may be unusual
-- For blues scale (6 notes), triads may include augmented or ambiguous qualities
-- Display as a row of tappable chord chips with the scale degree number and quality
+No new screens are required. The "Songwriter Mode" is purely a **navigation coordinator** that
+pre-wires existing screens together and maintains state across them.
 
-### Files
+### Files — Android
 
-- **New:** `domain/ScaleChords.kt` — Scale-to-chord derivation logic
-- **Modify:** `ui/ScaleSelector.kt` — Add "Chords in this scale" expandable section
-- **Optionally modify:** `ui/ProgressionsTab.kt` — Use all scale types in custom progression builder
+- **New:** `ui/SongwriterModeFlow.kt` — step state machine, navigation coordinator
+- **Modify:** `ui/FretboardScreen.kt` — add "Start a Song" entry in drawer Create section
+
+### Files — iOS
+
+- **New:** `iosApp/.../Views/SongwriterModeFlow.swift` — step state machine, navigation coordinator
+- **Modify:** `iosApp/.../Views/CreateView.swift` — add "Start a Song" entry to Create list
 
 ### Effort Estimate
 
 - **Complexity**: Medium
-- **Estimated time**: 2–3 days
-- **APK size impact**: Negligible
+- **Estimated time**: 2 days Android + 2 days iOS
 
 ---
 
-## Implementation Priority
+## Revised Implementation Priority
 
-Suggested order based on impact and complexity:
+Ordered by UX impact relative to implementation effort:
 
-| Priority | Idea | Impact | Complexity |
-|----------|------|--------|------------|
-| 1 | Progression Playback with Tempo | High | Medium |
-| 2 | Export & Share | High | Low |
-| 3 | Chord Sheet Transpose | Medium | Low–Medium |
-| 4 | Scale-Aware Chord Suggestions | Medium | Medium |
-| 5 | Melody Notepad | High | High |
+| Priority | Idea | UX Impact | Effort | Android | iOS |
+|----------|------|-----------|--------|---------|-----|
+| 1 | Chord Sheet Transpose (Idea 1) | High — core composer need | 0.5d + 0.5d | Partially Built | Partially Built |
+| 2 | Export & Share formatter (Idea 2) | High — bandmate sharing | 1d + 0.5d | Needs Polish | Needs Polish |
+| 3 | Scale → Progression wiring (Idea 3) | High — eliminates mental context-switch | 1d | Needs Polish | Done |
+| 4 | Songwriter Mode (Idea 5) | High — unified workflow | 2d + 2d | Proposed | Proposed |
+| 5 | Melody Notepad (Idea 4) | High when done right | 3–4d + 2–3d | Partially Built | Partially Built |
 
-Ideas 1–3 provide the most immediate value for composers with the least implementation effort. Idea 4 enhances the theory/education side. Idea 5 (Melody Notepad) is the most ambitious and could be a standalone feature release.
+Ideas 1–3 can ship together as a polish release. Idea 5 (Songwriter Mode) ties them together
+into a coherent UX story. Idea 4 (Melody Notepad) is best treated as a standalone release.
 
 ## Dependencies
 
-- Idea 1 (Tempo Playback) depends on: existing `ToneGenerator`, `VoicingGenerator`
-- Idea 2 (Sheet Transpose) depends on: existing `Transpose` utilities, `ChordSheetRepository`
-- Idea 3 (Export & Share) depends on: existing `ChordSheet` data model
-- Idea 4 (Melody Notepad) depends on: existing `ToneGenerator`, new data model
-- Idea 5 (Scale Chord Suggestions) depends on: existing `Scales.kt`, `ChordFormulas`
+- Idea 1 (Sheet Transpose) depends on: existing `Transpose.kt`, `Notes.pitchClassToName()`, existing `ChordSheetTranspose.kt`
+- Idea 2 (Export & Share) depends on: existing `ShareUtils.kt`, `ChordProExporter`, existing `ChordSheetFormatter.kt`
+- Idea 3 (Scale → Progression) depends on: existing `ScaleChords.diatonicTriads()`, `ProgressionsTab`
+- Idea 4 (Melody Notepad) depends on: existing `ToneGenerator`, existing `MelodyNote`/`MelodyRepository`
+- Idea 5 (Songwriter Mode) depends on: Idea 1, Idea 2, Idea 3 being complete
