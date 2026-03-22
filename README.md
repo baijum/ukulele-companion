@@ -311,7 +311,6 @@ Looking for a place to start? Here are some areas where contributions would be e
 | **New Strumming Patterns** | Expand the strumming pattern library | Beginner |
 | **New Chord Progressions** | Add genre-specific chord progressions | Beginner |
 | **Localization** | Translate the app into other languages | Intermediate |
-| **Alternate Tunings** | Add support for more ukulele tuning variants | Intermediate |
 | **Instrument Samples** | Replace sine wave synthesis with real ukulele samples | Advanced |
 
 ### Code Style
