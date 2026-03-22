@@ -6,9 +6,9 @@ contact_links:
   - name: Suggest an Idea
     url: https://github.com/baijum/ukulele-companion/discussions/categories/ideas
     about: Share feature ideas or suggestions in Discussions before opening an issue.
-  - name: Beta Testing
-    url: https://groups.google.com/g/ukulele-companion
-    about: Join the Google Group to get pre-release builds and help test new features.
+  - name: Beta Testing (iOS)
+    url: https://testflight.apple.com/join/Zpq8kzm6
+    about: Join the iOS beta via TestFlight to try new features and help test pre-release builds.
   - name: Contributing Guide
     url: https://github.com/baijum/ukulele-companion/blob/main/CONTRIBUTING.md
     about: Read the contributing guidelines before opening an issue or PR.

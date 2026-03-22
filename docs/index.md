@@ -132,6 +132,14 @@ hide:
   <sub>Watch the feature guide playlist</sub>
 </p>
 
+<section class="cta-panel" style="margin-bottom: 2rem;">
+  <h2>Try the iOS beta via TestFlight</h2>
+  <p>Get early access to new features on iPhone and iPad before they go live.</p>
+  <div class="hero-cta">
+    <a href="https://testflight.apple.com/join/Zpq8kzm6" class="md-button md-button--primary">Join the TestFlight Beta</a>
+  </div>
+</section>
+
 <section class="cta-panel">
   <h2>Start playing better in minutes</h2>
   <p>Use the manual to get up and running, then explore the feature that matches your current goal.</p>

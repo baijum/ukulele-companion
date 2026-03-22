@@ -356,16 +356,17 @@ Detailed feature documentation and a user manual are available in the [`docs/`](
 
 ---
 
-## 🧪 Beta Testing
+## 🧪 Beta Testing (iOS)
 
-Want to try new features before they go live? Join the
-[Ukulele Companion Testers](https://groups.google.com/g/ukulele-companion)
-Google Group to get access to pre-release builds through the Google Play Store.
+The Android app is available on the [Google Play Store](https://play.google.com/store/apps/details?id=com.baijum.ukufretboard).
+
+Want to try new iOS features before they go live? Join the beta via
+[TestFlight](https://testflight.apple.com/join/Zpq8kzm6).
 
 As a tester you can:
-- Install pre-release builds from the Play Store
+- Install pre-release iOS builds through TestFlight
 - Try new features before they are publicly available
-- Report bugs or share feedback to help improve the app
+- Report bugs or share feedback directly to help improve the app
 
 ---
 
