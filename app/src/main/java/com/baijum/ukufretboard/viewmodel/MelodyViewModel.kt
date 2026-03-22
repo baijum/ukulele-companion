@@ -57,7 +57,18 @@ data class MelodyUiState(
     val stabilizationProgress: Float = 0f,
     /** Last note that was auto-added via recording (for feedback). */
     val lastAddedFeedback: String? = null,
-)
+    /** Whether the step sequencer mode is active. */
+    val isStepSequencerMode: Boolean = false,
+    /** Fixed-length step grid (null = empty step). */
+    val steps: List<MelodyNote?> = List(STEP_COUNT_8) { null },
+    /** Whether step sequencer playback loops. */
+    val stepLooping: Boolean = true,
+) {
+    companion object {
+        const val STEP_COUNT_8 = 8
+        const val STEP_COUNT_16 = 16
+    }
+}
 
 /**
  * ViewModel for the Melody Notepad feature.
@@ -208,6 +219,82 @@ class MelodyViewModel : ViewModel() {
     fun setInputMode(mode: MelodyInputMode) {
         if (_uiState.value.isRecording) stopRecording()
         _uiState.update { it.copy(inputMode = mode) }
+    }
+
+    // --- Step sequencer ---
+
+    fun toggleStepSequencerMode() {
+        _uiState.update { it.copy(isStepSequencerMode = !it.isStepSequencerMode) }
+    }
+
+    fun setStep(index: Int, pitchClass: Int) {
+        val state = _uiState.value
+        if (index !in state.steps.indices) return
+        val note = MelodyNote(
+            pitchClass = pitchClass,
+            octave = state.currentOctave,
+            duration = state.selectedDuration,
+        )
+        _uiState.update {
+            it.copy(
+                steps = it.steps.toMutableList().apply { set(index, note) },
+                hasUnsavedChanges = true,
+            )
+        }
+        playNote(pitchClass, state.currentOctave)
+    }
+
+    fun clearStep(index: Int) {
+        val state = _uiState.value
+        if (index !in state.steps.indices) return
+        _uiState.update {
+            it.copy(
+                steps = it.steps.toMutableList().apply { set(index, null) },
+                hasUnsavedChanges = true,
+            )
+        }
+    }
+
+    fun expandSteps() {
+        _uiState.update { state ->
+            val currentSize = state.steps.size
+            val newSize = if (currentSize >= MelodyUiState.STEP_COUNT_16) {
+                MelodyUiState.STEP_COUNT_8
+            } else {
+                MelodyUiState.STEP_COUNT_16
+            }
+            if (newSize > currentSize) {
+                state.copy(steps = state.steps + List(newSize - currentSize) { null })
+            } else {
+                state.copy(steps = state.steps.take(newSize))
+            }
+        }
+    }
+
+    fun playSteps() {
+        val state = _uiState.value
+        if (state.isPlaying) return
+        val filledSteps = state.steps.any { it != null }
+        if (!filledSteps) return
+
+        _uiState.update { it.copy(isPlaying = true) }
+        viewModelScope.launch {
+            do {
+                val steps = _uiState.value.steps
+                steps.forEachIndexed { index, note ->
+                    if (!_uiState.value.isPlaying) return@launch
+                    _uiState.update { it.copy(playingIndex = index) }
+                    val pc = note?.pitchClass
+                    if (pc != null) {
+                        playNote(pc, note.octave)
+                    }
+                    val beatDuration = (note?.duration ?: _uiState.value.selectedDuration)
+                    val durationMs = (beatDuration.beats * 60_000f / _uiState.value.bpm).toLong()
+                    delay(durationMs)
+                }
+            } while (_uiState.value.isPlaying && _uiState.value.stepLooping)
+            _uiState.update { it.copy(playingIndex = -1, isPlaying = false) }
+        }
     }
 
     // --- Playback ---

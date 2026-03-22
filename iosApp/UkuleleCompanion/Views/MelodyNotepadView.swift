@@ -14,13 +14,19 @@ struct MelodyNotepadView: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            modeToggle
-            if viewModel.inputMode == .tap {
-                tapInput
+            sequencerModeToggle
+            if viewModel.isStepSequencerMode {
+                stepSequencerGrid
+                stepOctaveAndDuration
             } else {
-                recordInput
+                modeToggle
+                if viewModel.inputMode == .tap {
+                    tapInput
+                } else {
+                    recordInput
+                }
+                notesList
             }
-            notesList
             playbackControls
             persistenceControls
         }
@@ -284,6 +290,8 @@ struct MelodyNotepadView: View {
             Button {
                 if viewModel.isPlaying {
                     viewModel.stopPlayback()
+                } else if viewModel.isStepSequencerMode {
+                    viewModel.playSteps()
                 } else {
                     viewModel.playMelody()
                 }
@@ -294,7 +302,22 @@ struct MelodyNotepadView: View {
                 )
             }
             .buttonStyle(.bordered)
-            .disabled(viewModel.notes.isEmpty)
+            .disabled(
+                viewModel.isStepSequencerMode
+                    ? !viewModel.steps.contains(where: { $0 != nil })
+                    : viewModel.notes.isEmpty
+            )
+
+            if viewModel.isStepSequencerMode {
+                Button {
+                    viewModel.stepLooping.toggle()
+                } label: {
+                    Image(systemName: viewModel.stepLooping ? "repeat" : "repeat.1")
+                }
+                .buttonStyle(.bordered)
+                .tint(viewModel.stepLooping ? .accentColor : .secondary)
+                .accessibilityLabel(viewModel.stepLooping ? "Loop on" : "Loop off")
+            }
 
             Spacer()
 
@@ -315,24 +338,32 @@ struct MelodyNotepadView: View {
 
     private var persistenceControls: some View {
         HStack {
-            Button("New") {
-                guardUnsaved { viewModel.clearAll() }
-            }
-            .buttonStyle(.bordered)
-
-            Button("Save") { showingSaveDialog = true }
+            if viewModel.isStepSequencerMode {
+                Button("Clear") {
+                    viewModel.clearAllSteps()
+                }
                 .buttonStyle(.bordered)
-                .disabled(viewModel.notes.isEmpty)
+                .disabled(!viewModel.steps.contains(where: { $0 != nil }))
+            } else {
+                Button("New") {
+                    guardUnsaved { viewModel.clearAll() }
+                }
+                .buttonStyle(.bordered)
 
-            Button("Load") {
-                guardUnsaved { showingLoadSheet = true }
+                Button("Save") { showingSaveDialog = true }
+                    .buttonStyle(.bordered)
+                    .disabled(viewModel.notes.isEmpty)
+
+                Button("Load") {
+                    guardUnsaved { showingLoadSheet = true }
+                }
+                .buttonStyle(.bordered)
+                .disabled(viewModel.savedMelodies.isEmpty)
             }
-            .buttonStyle(.bordered)
-            .disabled(viewModel.savedMelodies.isEmpty)
 
             Spacer()
 
-            if let name = viewModel.loadedMelodyName {
+            if !viewModel.isStepSequencerMode, let name = viewModel.loadedMelodyName {
                 Text(name)
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -347,6 +378,174 @@ struct MelodyNotepadView: View {
         } else {
             action()
         }
+    }
+
+    // MARK: - Step Sequencer
+
+    private var sequencerModeToggle: some View {
+        Picker("Mode", selection: Binding(
+            get: { viewModel.isStepSequencerMode ? 1 : 0 },
+            set: { viewModel.isStepSequencerMode = $0 == 1 }
+        )) {
+            Text("Linear").tag(0)
+            Text("Step Sequencer").tag(1)
+        }
+        .pickerStyle(.segmented)
+        .accessibilityLabel("Sequencer mode")
+    }
+
+    @State private var stepPitchPickerIndex: Int? = nil
+
+    private var stepSequencerGrid: some View {
+        VStack(spacing: 8) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 4) {
+                    ForEach(0..<viewModel.steps.count, id: \.self) { i in
+                        let step = viewModel.steps[i]
+                        let isPlaying = viewModel.playingIndex == i
+
+                        Button {
+                            stepPitchPickerIndex = i
+                        } label: {
+                            VStack(spacing: 2) {
+                                if let note = step, let pc = note.pitchClass {
+                                    Text(viewModel.noteNames[pc])
+                                        .font(.caption.bold())
+                                    Text("\(note.octave)")
+                                        .font(.caption2)
+                                        .foregroundStyle(.secondary)
+                                } else {
+                                    Text("—")
+                                        .font(.caption)
+                                        .foregroundStyle(.tertiary)
+                                }
+                            }
+                            .frame(width: 40, height: 48)
+                            .background(
+                                isPlaying ? Color.accentColor :
+                                step != nil ? Color.accentColor.opacity(0.15) :
+                                Color(.systemGray6)
+                            )
+                            .foregroundStyle(isPlaying ? .white : .primary)
+                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .strokeBorder(
+                                        isPlaying ? Color.accentColor : Color.clear,
+                                        lineWidth: 2
+                                    )
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(stepAccessibilityLabel(index: i, step: step))
+                        .contextMenu {
+                            if step != nil {
+                                Button(role: .destructive) {
+                                    viewModel.clearStep(index: i)
+                                } label: {
+                                    Label("Clear Step", systemImage: "xmark")
+                                }
+                            }
+                        }
+                    }
+                }
+                .padding(.horizontal, 4)
+            }
+            .frame(minHeight: 56)
+
+            HStack {
+                Button {
+                    viewModel.expandSteps()
+                } label: {
+                    Text(viewModel.steps.count >= MelodyViewModel.stepCount16 ? "8 Steps" : "16 Steps")
+                        .font(.caption)
+                }
+                .buttonStyle(.bordered)
+                .accessibilityLabel(viewModel.steps.count >= MelodyViewModel.stepCount16 ? "Shrink to 8 steps" : "Expand to 16 steps")
+            }
+        }
+        .sheet(item: Binding(
+            get: { stepPitchPickerIndex.map { StepPickerItem(index: $0) } },
+            set: { stepPitchPickerIndex = $0?.index }
+        )) { item in
+            stepPitchPicker(for: item.index)
+                .presentationDetents([.medium])
+        }
+    }
+
+    private func stepPitchPicker(for stepIndex: Int) -> some View {
+        NavigationStack {
+            List {
+                ForEach(0..<12, id: \.self) { pc in
+                    Button {
+                        viewModel.setStep(index: stepIndex, pitchClass: pc)
+                        stepPitchPickerIndex = nil
+                    } label: {
+                        Text(viewModel.noteNames[pc])
+                            .font(.body.bold())
+                    }
+                    .accessibilityHint("Selects this note for the step")
+                }
+            }
+            .navigationTitle("Choose Note")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { stepPitchPickerIndex = nil }
+                }
+                if viewModel.steps[stepIndex] != nil {
+                    ToolbarItem(placement: .destructiveAction) {
+                        Button("Clear", role: .destructive) {
+                            viewModel.clearStep(index: stepIndex)
+                            stepPitchPickerIndex = nil
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private var stepOctaveAndDuration: some View {
+        VStack(spacing: 8) {
+            HStack(spacing: 4) {
+                Text("Octave:")
+                    .font(.caption)
+                Stepper("\(viewModel.currentOctave)", value: $viewModel.currentOctave, in: 3...6)
+                    .font(.caption)
+            }
+
+            HStack(spacing: 6) {
+                ForEach(NoteDuration.allCases, id: \.self) { duration in
+                    Button {
+                        viewModel.selectedDuration = duration
+                    } label: {
+                        VStack(spacing: 2) {
+                            Text(duration.rawValue)
+                                .font(.title3)
+                            Text(duration.label)
+                                .font(.caption2)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 4)
+                        .background(
+                            viewModel.selectedDuration == duration
+                                ? Color.accentColor.opacity(0.2)
+                                : Color(.systemGray6)
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityAddTraits(viewModel.selectedDuration == duration ? .isSelected : [])
+                }
+            }
+        }
+    }
+
+    private func stepAccessibilityLabel(index: Int, step: MelodyNoteData?) -> String {
+        if let note = step, let pc = note.pitchClass {
+            return "Step \(index + 1), \(viewModel.noteNames[pc]) octave \(note.octave)"
+        }
+        return "Step \(index + 1), empty"
     }
 
     private var loadSheet: some View {
@@ -392,4 +591,9 @@ struct MelodyNotepadView: View {
             }
         }
     }
+}
+
+private struct StepPickerItem: Identifiable {
+    let index: Int
+    var id: Int { index }
 }

@@ -76,6 +76,8 @@ import com.baijum.ukufretboard.data.Melody
 import com.baijum.ukufretboard.data.MelodyNote
 import com.baijum.ukufretboard.data.NoteDuration
 import com.baijum.ukufretboard.data.Notes
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import com.baijum.ukufretboard.viewmodel.MelodyInputMode
 import com.baijum.ukufretboard.viewmodel.MelodyUiState
 import com.baijum.ukufretboard.viewmodel.MelodyViewModel
@@ -142,49 +144,117 @@ fun MelodyNotepadView(
             },
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // --- Note sequence display ---
-        NoteSequenceCard(
-            state = state,
-            onSelectNote = viewModel::selectNote,
-            onDeleteNote = viewModel::deleteSelectedNote,
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // --- Duration selector ---
-        DurationSelector(
-            selectedDuration = state.selectedDuration,
-            onSelectDuration = viewModel::setDuration,
-        )
-
         Spacer(modifier = Modifier.height(8.dp))
 
-        // --- Input mode toggle + content ---
-        InputModeSection(
-            state = state,
-            onSetInputMode = viewModel::setInputMode,
-            onAddNote = { pc -> viewModel.addNote(pc) },
-            onAddRest = viewModel::addRest,
-            onOctaveUp = viewModel::incrementOctave,
-            onOctaveDown = viewModel::decrementOctave,
-            onStartRecording = viewModel::startRecording,
-            onStopRecording = viewModel::stopRecording,
-        )
+        // --- Mode toggle ---
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            FilterChip(
+                selected = !state.isStepSequencerMode,
+                onClick = { if (state.isStepSequencerMode) viewModel.toggleStepSequencerMode() },
+                label = { Text("Linear") },
+                modifier = Modifier.semantics {
+                    contentDescription = "Linear mode, sequential note entry"
+                },
+            )
+            FilterChip(
+                selected = state.isStepSequencerMode,
+                onClick = { if (!state.isStepSequencerMode) viewModel.toggleStepSequencerMode() },
+                label = { Text("Step Sequencer") },
+                modifier = Modifier.semantics {
+                    contentDescription = "Step sequencer mode, grid-based entry"
+                },
+            )
+        }
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // --- BPM and playback controls ---
-        BpmAndPlaybackControls(
-            state = state,
-            bpmSliderValue = bpmSliderValue,
-            onBpmSliderChange = { bpmSliderValue = it },
-            onBpmChange = { viewModel.setBpm(it) },
-            onPlay = viewModel::playMelody,
-            onStop = viewModel::stopPlayback,
-            onClear = viewModel::clearAll,
-        )
+        if (state.isStepSequencerMode) {
+            StepSequencerGrid(
+                state = state,
+                onSetStep = viewModel::setStep,
+                onClearStep = viewModel::clearStep,
+                onExpandSteps = viewModel::expandSteps,
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // --- Duration selector for step sequencer ---
+            DurationSelector(
+                selectedDuration = state.selectedDuration,
+                onSelectDuration = viewModel::setDuration,
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // --- Octave for step sequencer ---
+            OctaveSelector(
+                currentOctave = state.currentOctave,
+                onOctaveUp = viewModel::incrementOctave,
+                onOctaveDown = viewModel::decrementOctave,
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // --- BPM and playback controls ---
+            BpmAndPlaybackControls(
+                state = state,
+                bpmSliderValue = bpmSliderValue,
+                onBpmSliderChange = { bpmSliderValue = it },
+                onBpmChange = { viewModel.setBpm(it) },
+                onPlay = viewModel::playSteps,
+                onStop = viewModel::stopPlayback,
+                onClear = {
+                    for (i in state.steps.indices) {
+                        viewModel.clearStep(i)
+                    }
+                },
+            )
+        } else {
+            // --- Note sequence display ---
+            NoteSequenceCard(
+                state = state,
+                onSelectNote = viewModel::selectNote,
+                onDeleteNote = viewModel::deleteSelectedNote,
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // --- Duration selector ---
+            DurationSelector(
+                selectedDuration = state.selectedDuration,
+                onSelectDuration = viewModel::setDuration,
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // --- Input mode toggle + content ---
+            InputModeSection(
+                state = state,
+                onSetInputMode = viewModel::setInputMode,
+                onAddNote = { pc -> viewModel.addNote(pc) },
+                onAddRest = viewModel::addRest,
+                onOctaveUp = viewModel::incrementOctave,
+                onOctaveDown = viewModel::decrementOctave,
+                onStartRecording = viewModel::startRecording,
+                onStopRecording = viewModel::stopRecording,
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // --- BPM and playback controls ---
+            BpmAndPlaybackControls(
+                state = state,
+                bpmSliderValue = bpmSliderValue,
+                onBpmSliderChange = { bpmSliderValue = it },
+                onBpmChange = { viewModel.setBpm(it) },
+                onPlay = viewModel::playMelody,
+                onStop = viewModel::stopPlayback,
+                onClear = viewModel::clearAll,
+            )
+        }
     }
 
     // --- Dialogs ---
@@ -1191,4 +1261,182 @@ private fun RenameMelodyDialog(
             }
         },
     )
+}
+
+// =============================================================================
+// Step Sequencer Grid
+// =============================================================================
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun StepSequencerGrid(
+    state: MelodyUiState,
+    onSetStep: (Int, Int) -> Unit,
+    onClearStep: (Int) -> Unit,
+    onExpandSteps: () -> Unit,
+) {
+    val gridLabel = "Melody step sequencer, ${state.steps.size} steps"
+
+    Column(modifier = Modifier.semantics { contentDescription = gridLabel }) {
+        Text(
+            text = "Step Sequencer (${state.steps.size} steps)",
+            style = MaterialTheme.typography.labelMedium,
+            fontWeight = FontWeight.Bold,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            state.steps.forEachIndexed { index, note ->
+                val isPlaying = state.isPlaying && state.playingIndex == index
+                val noteName = note?.pitchClass?.let { Notes.pitchClassToName(it) }
+                val stepDesc = if (noteName != null) {
+                    "Step ${index + 1}: $noteName${note.octave} ${note.duration.name.lowercase()}"
+                } else {
+                    "Step ${index + 1}: empty"
+                }
+
+                var showPitchPicker by remember { mutableStateOf(false) }
+
+                Box(
+                    modifier = Modifier
+                        .size(56.dp)
+                        .background(
+                            color = when {
+                                isPlaying -> MaterialTheme.colorScheme.primaryContainer
+                                note != null -> MaterialTheme.colorScheme.secondaryContainer
+                                else -> MaterialTheme.colorScheme.surfaceVariant
+                            },
+                            shape = RoundedCornerShape(8.dp),
+                        )
+                        .border(
+                            width = if (isPlaying) 2.dp else 1.dp,
+                            color = if (isPlaying) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.outlineVariant
+                            },
+                            shape = RoundedCornerShape(8.dp),
+                        )
+                        .combinedClickable(
+                            onClick = { showPitchPicker = true },
+                            onLongClick = { onClearStep(index) },
+                        )
+                        .semantics {
+                            contentDescription = stepDesc
+                            role = Role.Button
+                        },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    if (noteName != null) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = noteName,
+                                style = MaterialTheme.typography.labelLarge,
+                                fontWeight = FontWeight.Bold,
+                            )
+                            Text(
+                                text = "${note!!.octave}",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    } else {
+                        Text(
+                            text = "${index + 1}",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
+
+                if (showPitchPicker) {
+                    StepPitchPickerPopup(
+                        onSelect = { pc ->
+                            onSetStep(index, pc)
+                            showPitchPicker = false
+                        },
+                        onDismiss = { showPitchPicker = false },
+                    )
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            val expandLabel = if (state.steps.size >= MelodyUiState.STEP_COUNT_16) {
+                "8 steps"
+            } else {
+                "16 steps"
+            }
+            OutlinedButton(onClick = onExpandSteps) {
+                Text(expandLabel)
+            }
+        }
+    }
+}
+
+@Composable
+private fun StepPitchPickerPopup(
+    onSelect: (Int) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    DropdownMenu(
+        expanded = true,
+        onDismissRequest = onDismiss,
+    ) {
+        for (pc in 0 until Notes.PITCH_CLASS_COUNT) {
+            val name = Notes.pitchClassToName(pc)
+            DropdownMenuItem(
+                text = { Text(name) },
+                onClick = { onSelect(pc) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun OctaveSelector(
+    currentOctave: Int,
+    onOctaveUp: () -> Unit,
+    onOctaveDown: () -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = stringResource(R.string.melody_octave),
+            style = MaterialTheme.typography.labelMedium,
+            fontWeight = FontWeight.Bold,
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        IconButton(onClick = onOctaveDown) {
+            Icon(
+                Icons.Filled.KeyboardArrowDown,
+                contentDescription = stringResource(R.string.cd_decrease_octave),
+            )
+        }
+        Text(
+            text = currentOctave.toString(),
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.semantics {
+                contentDescription = "Octave $currentOctave"
+                liveRegion = LiveRegionMode.Polite
+            },
+        )
+        IconButton(onClick = onOctaveUp) {
+            Icon(
+                Icons.Filled.KeyboardArrowUp,
+                contentDescription = stringResource(R.string.cd_increase_octave),
+            )
+        }
+    }
 }

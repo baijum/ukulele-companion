@@ -42,7 +42,7 @@ Ukulele Companion is a **free, fully offline** multiplatform app (Android + iOS)
 | `audio/` | `ToneGenerator`, `MetronomeEngine`, `AudioCaptureEngine` (44.1kHz PCM) |
 | `data/` | Repositories (SharedPreferences-backed), backup/restore manager |
 | `domain/` | `NeuralPitchSupervisor`, `ChordImageSharer`, `AchievementChecker` |
-| `ui/` | 54 Compose screens/components via `ModalNavigationDrawer` (no NavHost) |
+| `ui/` | 55 Compose screens/components via `ModalNavigationDrawer` (no NavHost) |
 | `viewmodel/` | 13 ViewModels exposing `StateFlow` |
 
 ### iOS app (`iosApp/UkuleleCompanion/`)
@@ -50,7 +50,7 @@ Ukulele Companion is a **free, fully offline** multiplatform app (Android + iOS)
 | Directory | Contents |
 |-----------|----------|
 | `Audio/` | `AudioCaptureEngine`, `TonePlayer`, `NeuralPitchSupervisor` (ONNX C API) |
-| `Views/` | 47 SwiftUI views across Play, Create, Learn, Reference tabs |
+| `Views/` | 48 SwiftUI views across Play, Create, Learn, Reference tabs |
 | `ViewModels/` | 15 ViewModels using `@Published` |
 | `Helpers/` | `AccessibilityHelper`, `BackupRestoreManager` |
 

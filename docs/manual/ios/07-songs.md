@@ -79,14 +79,19 @@ The song viewer includes **transpose controls** to shift all chords up or down b
 
 When a transposition is active, the app also displays an equivalent **capo suggestion**. For example, if you transpose up 5 semitones, the app shows "Or use Capo 5 with original chords" — so you can choose whichever approach you prefer.
 
+### Save in This Key
+
+If you want to keep the transposed version permanently, tap **Save in this key**. This rewrites the chord sheet with the new chord names and updates the stored key. The original chords are replaced — use this when you have found the right key and want to commit to it.
+
 ## Exporting and Sharing
 
-The share button in the song viewer offers several options:
+Tap the **share button** in the song viewer to open the export format picker. Choose one of three options:
 
-- **Share as text** — sends the chord sheet as plain text via any messaging or sharing app.
-- **Share transposed** — shares the chord sheet with the current transposition applied (visible only when a transposition is active).
-- **Export as ChordPro** — generates a ChordPro-formatted file with proper directives (`{title:}`, `{artist:}`, section markers) for use in other chord sheet apps.
-- **Export transposed ChordPro** — exports with the transposition baked in (visible only when a transposition is active).
+- **ChordPro (.cho)** — generates a ChordPro-formatted file with proper directives (`{title:}`, `{artist:}`, section markers) for use in other chord sheet apps.
+- **Plain text** — sends the chord sheet as formatted text with chords displayed above lyrics, ready to share via any messaging or sharing app.
+- **Copy to clipboard** — copies the formatted chord sheet to the clipboard for quick pasting into messages, notes, or other apps.
+
+If a transposition is active, the exported or copied content uses the transposed chords automatically.
 
 ## Editing and Deleting
 

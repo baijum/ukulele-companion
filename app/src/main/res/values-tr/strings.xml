@@ -260,6 +260,8 @@
     <string name="songbook_add_label">Etiket ekle</string>
     <string name="songbook_label_hint">Etiket yazın…</string>
     <string name="songbook_filter_clear">Filtreleri temizle</string>
+    <string name="songbook_save_in_key">Bu tonda kaydet</string>
+    <string name="songbook_saved_in_key">Şarkı aktarılmış tonda kaydedildi</string>
     <string name="cd_label">Etiket: %s</string>
     <string name="cd_remove_label">%s etiketini kaldır</string>
     <string name="cd_filter_label">%s etiketine göre filtrele</string>
@@ -1117,4 +1119,11 @@
     <string name="routine_warmup_intermediate_1">Her telde 1. perdeden 5. perdeye ve geri kromatik dizi çalın.</string>
     <string name="routine_warmup_intermediate_2">80 BPM\'de C-Am-F-G döngüsü, akor başına 4 vuruş.</string>
     <string name="routine_warmup_intermediate_3">Bare akor şekillerini klavyede yukarı doğru yavaşça çalışın.</string>
+    <string name="share_sheet_title">Akor sayfasını şu şekilde paylaş</string>
+    <string name="share_as_chordpro">ChordPro (.cho)</string>
+    <string name="share_as_text">Düz metin</string>
+    <string name="share_copy_clipboard">Panoya kopyala</string>
+    <string name="share_copied">Panoya kopyalandı</string>
+    <string name="nav_songwriter_mode">Şarkıya Başla</string>
+    <string name="songwriter_song_saved">Şarkı kaydedildi!</string>
 </resources>

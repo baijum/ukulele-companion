@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.baijum.ukufretboard.data.ChordProParser
 import com.baijum.ukufretboard.data.ChordSheet
 import com.baijum.ukufretboard.data.ChordSheetRepository
+import com.baijum.ukufretboard.domain.ChordSheetTranspose
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -129,6 +130,7 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
         title: String,
         artist: String,
         content: String,
+        key: String = "",
         strumPatternName: String = "",
         labels: List<String> = emptyList(),
     ) {
@@ -138,6 +140,7 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
                 title = title,
                 artist = artist,
                 content = content,
+                key = key,
                 strumPatternName = strumPatternName,
                 labels = labels,
                 updatedAt = System.currentTimeMillis(),
@@ -147,6 +150,7 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
                 title = title,
                 artist = artist,
                 content = content,
+                key = key,
                 strumPatternName = strumPatternName,
                 labels = labels,
             )
@@ -161,6 +165,19 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
         val sheet = _currentSheet.value ?: return
         val updated = sheet.copy(
             labels = labels,
+            updatedAt = System.currentTimeMillis(),
+        )
+        repository.save(updated)
+        _currentSheet.value = updated
+        refresh()
+    }
+
+    fun applyTranspose(semitones: Int) {
+        if (semitones == 0) return
+        val sheet = _currentSheet.value ?: return
+        val transposedContent = ChordSheetTranspose.transpose(sheet.content, semitones)
+        val updated = sheet.copy(
+            content = transposedContent,
             updatedAt = System.currentTimeMillis(),
         )
         repository.save(updated)

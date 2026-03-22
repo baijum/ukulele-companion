@@ -2,7 +2,7 @@ import SwiftUI
 
 enum SidebarDestination: String, Hashable {
     case explorer, tuner, pitchMonitor, metronome, chordLibrary, favorites
-    case progressions, strumPatterns, songbook, melodyNotepad
+    case songwriterMode, progressions, strumPatterns, songbook, melodyNotepad
     case dailyChallenge, practiceRoutine, chordTransitions, playAlong
     case intervalTrainer, chordEarTraining, noteQuiz, scalePractice
     case theoryLessons, theoryQuiz
@@ -118,6 +118,7 @@ struct ContentView: View {
             }
 
             Section {
+                sidebarLink(.songwriterMode, "Start a Song", icon: "wand.and.stars")
                 sidebarLink(.progressions, "Chord Progressions", icon: "play.circle")
                 sidebarLink(.strumPatterns, "Strumming Patterns", icon: "metronome")
                 sidebarLink(.songbook, "Songbook", icon: "music.note.list")
@@ -199,6 +200,7 @@ struct ContentView: View {
         case .metronome: MetronomeView()
         case .chordLibrary: ChordLibraryView()
         case .favorites: FavoritesView()
+        case .songwriterMode: SongwriterModeFlow()
         case .progressions: ProgressionsView()
         case .strumPatterns: StrumPatternsView()
         case .songbook: SongbookView()

@@ -260,6 +260,8 @@
     <string name="songbook_add_label">添加标签</string>
     <string name="songbook_label_hint">输入标签…</string>
     <string name="songbook_filter_clear">清除筛选</string>
+    <string name="songbook_save_in_key">以此调保存</string>
+    <string name="songbook_saved_in_key">歌曲已以转调保存</string>
     <string name="cd_label">标签：%s</string>
     <string name="cd_remove_label">移除标签 %s</string>
     <string name="cd_filter_label">按标签 %s 筛选</string>
@@ -1119,4 +1121,11 @@
     <string name="routine_warmup_intermediate_1">在每根弦上从 1 品到 5 品来回弹半音阶。</string>
     <string name="routine_warmup_intermediate_2">以 80 BPM 循环 C-Am-F-G，每和弦 4 拍。</string>
     <string name="routine_warmup_intermediate_3">慢慢在指板上练习横按和弦指型。</string>
+    <string name="share_sheet_title">分享和弦谱为</string>
+    <string name="share_as_chordpro">ChordPro (.cho)</string>
+    <string name="share_as_text">纯文本</string>
+    <string name="share_copy_clipboard">复制到剪贴板</string>
+    <string name="share_copied">已复制到剪贴板</string>
+    <string name="nav_songwriter_mode">开始创作</string>
+    <string name="songwriter_song_saved">歌曲已保存！</string>
 </resources>

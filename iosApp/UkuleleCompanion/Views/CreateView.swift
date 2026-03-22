@@ -7,6 +7,12 @@ struct CreateView: View {
         NavigationStack {
             List {
                 NavigationLink {
+                    SongwriterModeFlow()
+                } label: {
+                    Label("Start a Song", systemImage: "wand.and.stars")
+                }
+
+                NavigationLink {
                     ProgressionsView()
                 } label: {
                     Label("Chord Progressions", systemImage: "play.circle")

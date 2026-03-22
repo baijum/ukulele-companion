@@ -260,6 +260,8 @@
     <string name="songbook_add_label">Tambah label</string>
     <string name="songbook_label_hint">Ketik label…</string>
     <string name="songbook_filter_clear">Hapus filter</string>
+    <string name="songbook_save_in_key">Simpan dalam kunci ini</string>
+    <string name="songbook_saved_in_key">Lagu disimpan dalam kunci yang ditransposisi</string>
     <string name="cd_label">Label: %s</string>
     <string name="cd_remove_label">Hapus label %s</string>
     <string name="cd_filter_label">Filter berdasarkan label %s</string>
@@ -1117,4 +1119,11 @@
     <string name="routine_warmup_intermediate_1">Mainkan tangga nada kromatik pada setiap senar dari fret 1 ke 5 dan kembali.</string>
     <string name="routine_warmup_intermediate_2">Siklus C-Am-F-G pada 80 BPM, 4 ketukan per akor.</string>
     <string name="routine_warmup_intermediate_3">Latih bentuk akor barre perlahan ke atas leher.</string>
+    <string name="share_sheet_title">Bagikan lembar akor sebagai</string>
+    <string name="share_as_chordpro">ChordPro (.cho)</string>
+    <string name="share_as_text">Teks biasa</string>
+    <string name="share_copy_clipboard">Salin ke papan klip</string>
+    <string name="share_copied">Disalin ke papan klip</string>
+    <string name="nav_songwriter_mode">Mulai Lagu</string>
+    <string name="songwriter_song_saved">Lagu disimpan!</string>
 </resources>

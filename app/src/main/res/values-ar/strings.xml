@@ -260,6 +260,8 @@
     <string name="songbook_add_label">إضافة تسمية</string>
     <string name="songbook_label_hint">اكتب تسمية…</string>
     <string name="songbook_filter_clear">مسح التصفية</string>
+    <string name="songbook_save_in_key">حفظ في هذا المقام</string>
+    <string name="songbook_saved_in_key">تم حفظ الأغنية في المقام المنقول</string>
     <string name="cd_label">تسمية: %s</string>
     <string name="cd_remove_label">إزالة تسمية %s</string>
     <string name="cd_filter_label">تصفية حسب تسمية %s</string>
@@ -1119,4 +1121,11 @@
     <string name="routine_warmup_intermediate_1">اعزف سلم كروماتي على كل وتر من الحنق 1 إلى 5 والعودة.</string>
     <string name="routine_warmup_intermediate_2">دور عبر C-Am-F-G عند 80 BPM، 4 نبضات لكل وتر.</string>
     <string name="routine_warmup_intermediate_3">تدرب على أشكال أوتار البار ببطء صعوداً على الرقبة.</string>
+    <string name="share_sheet_title">مشاركة ورقة الأكورد كـ</string>
+    <string name="share_as_chordpro">ChordPro (.cho)</string>
+    <string name="share_as_text">نص عادي</string>
+    <string name="share_copy_clipboard">نسخ إلى الحافظة</string>
+    <string name="share_copied">تم النسخ إلى الحافظة</string>
+    <string name="nav_songwriter_mode">ابدأ أغنية</string>
+    <string name="songwriter_song_saved">تم حفظ الأغنية!</string>
 </resources>

@@ -260,6 +260,8 @@
     <string name="songbook_add_label">Label toevoegen</string>
     <string name="songbook_label_hint">Typ een label…</string>
     <string name="songbook_filter_clear">Filters wissen</string>
+    <string name="songbook_save_in_key">Opslaan in deze toonsoort</string>
+    <string name="songbook_saved_in_key">Nummer opgeslagen in getransponeerde toonsoort</string>
     <string name="cd_label">Label: %s</string>
     <string name="cd_remove_label">Label %s verwijderen</string>
     <string name="cd_filter_label">Filteren op label %s</string>
@@ -1117,4 +1119,11 @@
     <string name="routine_warmup_intermediate_1">Speel een chromatische toonladder op elke snaar van fret 1 tot 5 en terug.</string>
     <string name="routine_warmup_intermediate_2">Cyclus C-Am-F-G op 80 BPM, 4 tellen per akkoord.</string>
     <string name="routine_warmup_intermediate_3">Oefen barré-akkoordgrepen langzaam langs de hals.</string>
+    <string name="share_sheet_title">Akkoordblad delen als</string>
+    <string name="share_as_chordpro">ChordPro (.cho)</string>
+    <string name="share_as_text">Platte tekst</string>
+    <string name="share_copy_clipboard">Kopiëren naar klembord</string>
+    <string name="share_copied">Gekopieerd naar klembord</string>
+    <string name="nav_songwriter_mode">Begin een nummer</string>
+    <string name="songwriter_song_saved">Nummer opgeslagen!</string>
 </resources>

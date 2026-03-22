@@ -260,6 +260,8 @@
     <string name="songbook_add_label">ラベルを追加</string>
     <string name="songbook_label_hint">ラベルを入力…</string>
     <string name="songbook_filter_clear">フィルターをクリア</string>
+    <string name="songbook_save_in_key">このキーで保存</string>
+    <string name="songbook_saved_in_key">移調したキーで保存しました</string>
     <string name="cd_label">ラベル: %s</string>
     <string name="cd_remove_label">ラベル %s を削除</string>
     <string name="cd_filter_label">ラベル %s でフィルター</string>
@@ -1119,4 +1121,11 @@
     <string name="routine_warmup_intermediate_1">各弦でフレット1から5まで半音階スケールを往復で弾く。</string>
     <string name="routine_warmup_intermediate_2">80 BPMでC-Am-F-Gを循環、各コード4拍。</string>
     <string name="routine_warmup_intermediate_3">バレーコードのフォームをネック上でゆっくり練習。</string>
+    <string name="share_sheet_title">コードシートを共有</string>
+    <string name="share_as_chordpro">ChordPro (.cho)</string>
+    <string name="share_as_text">プレーンテキスト</string>
+    <string name="share_copy_clipboard">クリップボードにコピー</string>
+    <string name="share_copied">クリップボードにコピーしました</string>
+    <string name="nav_songwriter_mode">曲を作る</string>
+    <string name="songwriter_song_saved">曲を保存しました！</string>
 </resources>

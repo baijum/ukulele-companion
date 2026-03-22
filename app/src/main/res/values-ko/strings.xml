@@ -260,6 +260,8 @@
     <string name="songbook_add_label">라벨 추가</string>
     <string name="songbook_label_hint">라벨 입력…</string>
     <string name="songbook_filter_clear">필터 지우기</string>
+    <string name="songbook_save_in_key">이 키로 저장</string>
+    <string name="songbook_saved_in_key">조옮김한 키로 저장됨</string>
     <string name="cd_label">라벨: %s</string>
     <string name="cd_remove_label">라벨 %s 제거</string>
     <string name="cd_filter_label">라벨 %s 로 필터</string>
@@ -1119,4 +1121,11 @@
     <string name="routine_warmup_intermediate_1">각 현에서 프렛 1부터 5까지 반음계를 오가며 연주하세요.</string>
     <string name="routine_warmup_intermediate_2">80 BPM으로 C-Am-F-G를 순환, 각 코드 4박.</string>
     <string name="routine_warmup_intermediate_3">바레 코드 폼을 넥 위로 천천히 연습하세요.</string>
+    <string name="share_sheet_title">코드 시트 공유 형식</string>
+    <string name="share_as_chordpro">ChordPro (.cho)</string>
+    <string name="share_as_text">일반 텍스트</string>
+    <string name="share_copy_clipboard">클립보드에 복사</string>
+    <string name="share_copied">클립보드에 복사됨</string>
+    <string name="nav_songwriter_mode">노래 시작</string>
+    <string name="songwriter_song_saved">노래가 저장되었습니다!</string>
 </resources>

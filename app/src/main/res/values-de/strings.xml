@@ -260,6 +260,8 @@
     <string name="songbook_add_label">Label hinzufügen</string>
     <string name="songbook_label_hint">Label eingeben…</string>
     <string name="songbook_filter_clear">Filter löschen</string>
+    <string name="songbook_save_in_key">In dieser Tonart speichern</string>
+    <string name="songbook_saved_in_key">Song in transponierter Tonart gespeichert</string>
     <string name="cd_label">Label: %s</string>
     <string name="cd_remove_label">Label %s entfernen</string>
     <string name="cd_filter_label">Nach Label %s filtern</string>
@@ -1117,4 +1119,11 @@
     <string name="theory_title_rhythm_straight_swing">Gerader vs. Swing-Rhythmus</string>
     <string name="theory_title_rhythm_percussive">Perkussive Techniken</string>
     <string name="theory_title_rhythm_world">Weltrhythmen</string>
+    <string name="share_sheet_title">Akkordblatt teilen als</string>
+    <string name="share_as_chordpro">ChordPro (.cho)</string>
+    <string name="share_as_text">Klartext</string>
+    <string name="share_copy_clipboard">In die Zwischenablage kopieren</string>
+    <string name="share_copied">In die Zwischenablage kopiert</string>
+    <string name="nav_songwriter_mode">Song starten</string>
+    <string name="songwriter_song_saved">Song gespeichert!</string>
 </resources>
