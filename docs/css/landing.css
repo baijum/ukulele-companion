@@ -869,13 +869,24 @@
 
 /* ===== Manual Page Styles ===== */
 
-/* Headings — teal accent */
+/* Headings — teal accent (exclude CTA panels) */
 .md-content h2 {
   color: var(--uc-teal-deep);
 }
 
 .md-content h3 {
   color: var(--uc-teal);
+}
+
+/* CTA headings must stay white (override teal heading color above) */
+.cta-testflight h2,
+.cta-manual h2 {
+  color: #fff;
+}
+
+.cta-testflight p,
+.cta-manual p {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* Screenshots — phone-frame treatment */
