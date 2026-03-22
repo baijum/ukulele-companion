@@ -6,6 +6,7 @@ hide:
 
 # Ukulele Companion
 
+<div class="hero-fullbleed">
 <section class="hero-shell">
   <div class="hero-copy">
     <div class="hero-brand">
@@ -33,6 +34,13 @@ hide:
     <img class="shot shot-front" src="screenshots/android/chord-detected.png" alt="Chord detection">
   </div>
 </section>
+</div>
+
+<div class="hero-wave">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,0 L0,0 Z" fill="currentColor"/>
+  </svg>
+</div>
 
 <section class="value-strip">
   <span>Chord Detection</span>
@@ -45,24 +53,32 @@ hide:
 
 ## Built for focused practice
 
+<section class="section-alt">
+<div class="section-inner">
 <div class="feature-grid">
   <article class="feature-card">
+    <span class="feature-icon">&#127929;</span>
     <h3>Interactive Fretboard</h3>
     <p>Tap notes and instantly detect chords with visual feedback that mirrors your actual instrument.</p>
   </article>
   <article class="feature-card">
+    <span class="feature-icon">&#129504;</span>
     <h3>Smart Learning Flow</h3>
     <p>Seamlessly move from chord lookup to progressions, scales, and training without losing context.</p>
   </article>
   <article class="feature-card">
+    <span class="feature-icon">&#127926;</span>
     <h3>Play, Not Configure</h3>
     <p>No login, no account setup, and no tracking prompts interrupting your creative flow.</p>
   </article>
   <article class="feature-card">
+    <span class="feature-icon">&#127932;</span>
     <h3>Music Theory That Clicks</h3>
     <p>Use practical visuals like the circle of fifths and interval tools to connect theory with the songs you love.</p>
   </article>
 </div>
+</div>
+</section>
 
 ## Android experience
 
@@ -124,15 +140,14 @@ hide:
 
 ## See it in action
 
-<p align="center">
-  <a href="https://www.youtube.com/playlist?list=PL4GycHdD--uonaifRHrBvNU7ym5jAVs8c">
-    <img src="https://img.youtube.com/vi/-RXPvWyTNIE/0.jpg" width="40%" alt="Watch feature guide playlist" style="border-radius: 12px;">
+<div class="video-card">
+  <a href="https://www.youtube.com/playlist?list=PL4GycHdD--uonaifRHrBvNU7ym5jAVs8c" class="video-thumb">
+    <img src="https://img.youtube.com/vi/-RXPvWyTNIE/0.jpg" alt="Watch feature guide playlist">
   </a>
-  <br>
-  <sub>Watch the feature guide playlist</sub>
-</p>
+  <p class="video-caption">Watch the feature guide playlist</p>
+</div>
 
-<section class="cta-panel" style="margin-bottom: 2rem;">
+<section class="cta-panel cta-testflight">
   <h2>Try the iOS beta via TestFlight</h2>
   <p>Get early access to new features on iPhone and iPad before they go live.</p>
   <div class="hero-cta">
@@ -140,17 +155,17 @@ hide:
   </div>
 </section>
 
-<section class="cta-panel">
+<section class="cta-panel cta-manual">
   <h2>Start playing better in minutes</h2>
   <p>Use the manual to get up and running, then explore the feature that matches your current goal.</p>
   <div class="hero-cta">
     <a href="manual/" class="md-button md-button--primary">Read manual overview</a>
-    <a href="manual/01-getting-started/" class="md-button">Go to getting started</a>
+    <a href="manual/android/01-getting-started/" class="md-button">Go to getting started</a>
   </div>
-  <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.8;">
+  <p class="cta-footer">
     <a href="privacy-policy/">Privacy Policy</a>
   </p>
-  <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.6;">
+  <p class="cta-credit">
     Made with care by Baiju Muthukadan
   </p>
 </section>

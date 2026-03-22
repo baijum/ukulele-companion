@@ -42,6 +42,7 @@ theme:
     - search.share
 
 extra_css:
+  - https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap
   - css/landing.css
 
 markdown_extensions:
