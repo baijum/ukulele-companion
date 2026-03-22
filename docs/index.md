@@ -22,7 +22,7 @@ hide:
     <div class="hero-cta">
       <a href="https://play.google.com/store/apps/details?id=com.baijum.ukufretboard" class="store-badge">
         <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-             alt="Get it on Google Play" height="40">
+             alt="Get it on Google Play">
       </a>
       <a href="manual/" class="md-button md-button--primary">Start with the Manual</a>
       <a href="https://github.com/baijum/ukulele-companion" class="md-button">View on GitHub</a>
@@ -157,7 +157,7 @@ hide:
   <div class="hero-cta">
     <a href="https://play.google.com/store/apps/details?id=com.baijum.ukufretboard" class="store-badge">
       <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-           alt="Get it on Google Play" height="40">
+           alt="Get it on Google Play">
     </a>
   </div>
 </section>

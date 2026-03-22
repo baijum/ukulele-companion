@@ -141,6 +141,11 @@
   transition: transform 0.2s, filter 0.2s;
 }
 
+.store-badge img {
+  height: clamp(48px, 5vw, 64px);
+  width: auto;
+}
+
 .store-badge:hover {
   transform: translateY(-2px);
   filter: brightness(1.1);
@@ -760,10 +765,6 @@
   .cta-testflight,
   .cta-manual {
     padding: 2.5rem 1.5rem;
-  }
-
-  .hero-cta .store-badge img {
-    height: 36px;
   }
 
   .hero-cta {
