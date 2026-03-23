@@ -53,8 +53,8 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v5
 
-      - name: Run unit tests
-        run: ./gradlew testDebugUnitTest
+      - name: Run unit tests with coverage
+        run: ./gradlew createDebugUnitTestCoverageReport
 
       - name: Upload test report
         if: always()
@@ -62,6 +62,14 @@ jobs:
         with:
           name: test-report
           path: app/build/reports/tests/testDebugUnitTest/
+
+      - name: Upload coverage to Codecov
+        if: always()
+        uses: codecov/codecov-action@v5
+        with:
+          files: app/build/reports/coverage/test/debug/report.xml
+          flags: android-unit-tests
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   build:
     name: Build
