@@ -1,0 +1,264 @@
+package com.baijum.ukufretboard.data
+
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
+
+class ChordProParserTest {
+
+    // --- parse: title ---
+
+    @Test
+    fun parsesTitleDirective() {
+        val sheet = ChordProParser.parse("{title: My Song}")
+        assertEquals("My Song", sheet.title)
+    }
+
+    @Test
+    fun parsesShortTitleDirective() {
+        val sheet = ChordProParser.parse("{t: Short Title}")
+        assertEquals("Short Title", sheet.title)
+    }
+
+    @Test
+    fun missingTitleUsesDefault() {
+        val sheet = ChordProParser.parse("[Am]Hello world")
+        assertEquals("Imported Song", sheet.title)
+    }
+
+    @Test
+    fun missingTitleUsesCustomDefault() {
+        val sheet = ChordProParser.parse("[Am]Hello", "Custom Default")
+        assertEquals("Custom Default", sheet.title)
+    }
+
+    // --- parse: artist ---
+
+    @Test
+    fun parsesArtistDirective() {
+        val sheet = ChordProParser.parse("{artist: The Band}")
+        assertEquals("The Band", sheet.artist)
+    }
+
+    @Test
+    fun parsesSubtitleAsArtist() {
+        val sheet = ChordProParser.parse("{subtitle: The Artist}")
+        assertEquals("The Artist", sheet.artist)
+    }
+
+    @Test
+    fun parsesStAsArtist() {
+        val sheet = ChordProParser.parse("{st: Short Artist}")
+        assertEquals("Short Artist", sheet.artist)
+    }
+
+    @Test
+    fun missingArtistIsEmpty() {
+        val sheet = ChordProParser.parse("{title: Song}")
+        assertEquals("", sheet.artist)
+    }
+
+    // --- parse: key and capo ---
+
+    @Test
+    fun parsesKeyDirective() {
+        val sheet = ChordProParser.parse("{key: G}")
+        assertEquals("G", sheet.key)
+    }
+
+    @Test
+    fun parsesCapoDirective() {
+        val sheet = ChordProParser.parse("{capo: 3}")
+        assertEquals(3, sheet.capo)
+    }
+
+    @Test
+    fun invalidCapoDefaultsToZero() {
+        val sheet = ChordProParser.parse("{capo: abc}")
+        assertEquals(0, sheet.capo)
+    }
+
+    @Test
+    fun missingKeyIsEmpty() {
+        val sheet = ChordProParser.parse("{title: Song}")
+        assertEquals("", sheet.key)
+    }
+
+    @Test
+    fun missingCapoIsZero() {
+        val sheet = ChordProParser.parse("{title: Song}")
+        assertEquals(0, sheet.capo)
+    }
+
+    // --- parse: section directives ---
+
+    @Test
+    fun startOfChorusInsertsLabel() {
+        val sheet = ChordProParser.parse("{start_of_chorus}")
+        assertTrue(sheet.content.contains("[Chorus]"))
+    }
+
+    @Test
+    fun socShorthandInsertsLabel() {
+        val sheet = ChordProParser.parse("{soc}")
+        assertTrue(sheet.content.contains("[Chorus]"))
+    }
+
+    @Test
+    fun endOfChorusInsertsBlankLine() {
+        val sheet = ChordProParser.parse("{start_of_chorus}\nLyrics\n{end_of_chorus}\nMore")
+        assertTrue(sheet.content.contains("[Chorus]"))
+    }
+
+    @Test
+    fun startOfVerseInsertsLabel() {
+        val sheet = ChordProParser.parse("{start_of_verse}")
+        assertTrue(sheet.content.contains("[Verse]"))
+    }
+
+    @Test
+    fun sovShorthandInsertsLabel() {
+        val sheet = ChordProParser.parse("{sov}")
+        assertTrue(sheet.content.contains("[Verse]"))
+    }
+
+    @Test
+    fun startOfBridgeInsertsLabel() {
+        val sheet = ChordProParser.parse("{start_of_bridge}")
+        assertTrue(sheet.content.contains("[Bridge]"))
+    }
+
+    @Test
+    fun sobShorthandInsertsLabel() {
+        val sheet = ChordProParser.parse("{sob}")
+        assertTrue(sheet.content.contains("[Bridge]"))
+    }
+
+    // --- parse: comment ---
+
+    @Test
+    fun commentDirectiveAddsText() {
+        val sheet = ChordProParser.parse("{comment: Play softly}")
+        assertTrue(sheet.content.contains("Play softly"))
+    }
+
+    @Test
+    fun cShorthandAddsComment() {
+        val sheet = ChordProParser.parse("{c: Repeat 2x}")
+        assertTrue(sheet.content.contains("Repeat 2x"))
+    }
+
+    @Test
+    fun emptyCommentIsSkipped() {
+        val sheet = ChordProParser.parse("{comment: }")
+        // Empty comment value after trim — should not add content
+        assertEquals("", sheet.content)
+    }
+
+    // --- parse: chord lines pass through ---
+
+    @Test
+    fun chordMarkersPassThrough() {
+        val sheet = ChordProParser.parse("[Am]Hello [G]world")
+        assertTrue(sheet.content.contains("[Am]"))
+        assertTrue(sheet.content.contains("[G]"))
+        assertTrue(sheet.content.contains("Hello"))
+    }
+
+    @Test
+    fun plainLinesPassThrough() {
+        val sheet = ChordProParser.parse("Just plain lyrics")
+        assertEquals("Just plain lyrics", sheet.content)
+    }
+
+    // --- parse: unknown directives ---
+
+    @Test
+    fun unknownDirectivesAreSkipped() {
+        val sheet = ChordProParser.parse("{unknown: value}\nLyrics here")
+        assertTrue(sheet.content.contains("Lyrics here"))
+        assertFalse(sheet.content.contains("unknown"))
+    }
+
+    // --- parse: full song ---
+
+    @Test
+    fun parsesCompleteSong() {
+        val input = """
+            {title: Amazing Grace}
+            {artist: Traditional}
+            {key: G}
+            {capo: 2}
+
+            {start_of_verse}
+            [G]Amazing [G7]grace, how [C]sweet the [G]sound
+            {end_of_verse}
+        """.trimIndent()
+        val sheet = ChordProParser.parse(input)
+        assertEquals("Amazing Grace", sheet.title)
+        assertEquals("Traditional", sheet.artist)
+        assertEquals("G", sheet.key)
+        assertEquals(2, sheet.capo)
+        assertTrue(sheet.content.contains("[Verse]"))
+        assertTrue(sheet.content.contains("[G]Amazing"))
+    }
+
+    // --- parse: empty input ---
+
+    @Test
+    fun emptyInputUsesDefaults() {
+        val sheet = ChordProParser.parse("")
+        assertEquals("Imported Song", sheet.title)
+        assertEquals("", sheet.artist)
+        assertEquals("", sheet.content)
+    }
+
+    // --- isChordProFile ---
+
+    @Test
+    fun choExtensionIsChordPro() {
+        assertTrue(ChordProParser.isChordProFile("song.cho"))
+    }
+
+    @Test
+    fun chordproExtensionIsChordPro() {
+        assertTrue(ChordProParser.isChordProFile("song.chordpro"))
+    }
+
+    @Test
+    fun choproExtensionIsChordPro() {
+        assertTrue(ChordProParser.isChordProFile("song.chopro"))
+    }
+
+    @Test
+    fun crdExtensionIsChordPro() {
+        assertTrue(ChordProParser.isChordProFile("song.crd"))
+    }
+
+    @Test
+    fun proExtensionIsChordPro() {
+        assertTrue(ChordProParser.isChordProFile("song.pro"))
+    }
+
+    @Test
+    fun txtExtensionIsNotChordPro() {
+        assertFalse(ChordProParser.isChordProFile("song.txt"))
+    }
+
+    @Test
+    fun pdfExtensionIsNotChordPro() {
+        assertFalse(ChordProParser.isChordProFile("song.pdf"))
+    }
+
+    @Test
+    fun caseInsensitiveExtension() {
+        assertTrue(ChordProParser.isChordProFile("SONG.CHO"))
+        assertTrue(ChordProParser.isChordProFile("Song.ChordPro"))
+    }
+
+    @Test
+    fun pathWithExtensionWorks() {
+        assertTrue(ChordProParser.isChordProFile("/path/to/song.cho"))
+    }
+}
