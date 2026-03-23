@@ -15,9 +15,8 @@ class FingerTransitionCalculatorTest {
     fun sameVoicingAllStay() {
         val frets = listOf(0, 0, 0, 3)
         val movements = FingerTransitionCalculator.calculateTransition(frets, frets)
-        // Only fingers that are actually used should appear
-        val usedMovements = movements.filter { it.type != MovementType.STAY || it.from != null }
-        for (m in usedMovements) {
+        // All returned movements should be STAY since the voicing is identical
+        for (m in movements) {
             assertEquals(MovementType.STAY, m.type)
         }
     }
