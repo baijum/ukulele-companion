@@ -114,7 +114,6 @@ dependencies {
     implementation(libs.play.review)
     implementation(libs.play.review.ktx)
     testImplementation(libs.junit)
-    testImplementation(libs.kotest.property)
     testImplementation(libs.jazzer.junit)
     testImplementation(libs.jazzer.api)
     testRuntimeOnly(libs.junit.vintage.engine)

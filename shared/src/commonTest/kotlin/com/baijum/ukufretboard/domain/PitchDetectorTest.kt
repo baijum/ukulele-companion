@@ -1,13 +1,13 @@
 package com.baijum.ukufretboard.domain
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Test
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.sin
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 /**
  * Unit tests for [PitchDetector] using synthetic sine waves.
@@ -32,6 +32,14 @@ class PitchDetectorTest {
         private const val AMPLITUDE = 0.5f
     }
 
+    private fun assertApproxEquals(expected: Double, actual: Double, tolerance: Double, message: String? = null) {
+        assertTrue(abs(expected - actual) <= tolerance, message ?: "Expected $expected ± $tolerance but was $actual")
+    }
+
+    private fun assertApproxEquals(expected: Float, actual: Float, tolerance: Float, message: String? = null) {
+        assertTrue(abs(expected - actual) <= tolerance, message ?: "Expected $expected ± $tolerance but was $actual")
+    }
+
     /** Generates a pure sine wave at [frequencyHz]. */
     private fun sineWave(
         frequencyHz: Double,
@@ -53,32 +61,32 @@ class PitchDetectorTest {
     fun detectsA4_440Hz() {
         val samples = sineWave(440.0)
         val result = PitchDetector.detect(samples, SAMPLE_RATE)
-        assertNotNull("Should detect A4 (440 Hz)", result)
-        assertEquals(440.0, result!!.frequencyHz, TOLERANCE_HZ)
+        assertNotNull(result, "Should detect A4 (440 Hz)")
+        assertApproxEquals(440.0, result.frequencyHz, TOLERANCE_HZ)
     }
 
     @Test
     fun detectsC4_262Hz() {
         val samples = sineWave(261.63)
         val result = PitchDetector.detect(samples, SAMPLE_RATE)
-        assertNotNull("Should detect C4 (~262 Hz)", result)
-        assertEquals(261.63, result!!.frequencyHz, TOLERANCE_HZ)
+        assertNotNull(result, "Should detect C4 (~262 Hz)")
+        assertApproxEquals(261.63, result.frequencyHz, TOLERANCE_HZ)
     }
 
     @Test
     fun detectsE4_330Hz() {
         val samples = sineWave(329.63)
         val result = PitchDetector.detect(samples, SAMPLE_RATE)
-        assertNotNull("Should detect E4 (~330 Hz)", result)
-        assertEquals(329.63, result!!.frequencyHz, TOLERANCE_HZ)
+        assertNotNull(result, "Should detect E4 (~330 Hz)")
+        assertApproxEquals(329.63, result.frequencyHz, TOLERANCE_HZ)
     }
 
     @Test
     fun detectsG4_392Hz() {
         val samples = sineWave(392.0)
         val result = PitchDetector.detect(samples, SAMPLE_RATE)
-        assertNotNull("Should detect G4 (392 Hz)", result)
-        assertEquals(392.0, result!!.frequencyHz, TOLERANCE_HZ)
+        assertNotNull(result, "Should detect G4 (392 Hz)")
+        assertApproxEquals(392.0, result.frequencyHz, TOLERANCE_HZ)
     }
 
     @Test
@@ -86,17 +94,17 @@ class PitchDetectorTest {
         // Lowest standard ukulele string (Baritone)
         val samples = sineWave(146.83)
         val result = PitchDetector.detect(samples, SAMPLE_RATE)
-        assertNotNull("Should detect D3 (~147 Hz)", result)
-        assertEquals(146.83, result!!.frequencyHz, TOLERANCE_HZ)
+        assertNotNull(result, "Should detect D3 (~147 Hz)")
+        assertApproxEquals(146.83, result.frequencyHz, TOLERANCE_HZ)
     }
 
     @Test
     fun detectsHighFrequency_880Hz() {
         val samples = sineWave(880.0)
         val result = PitchDetector.detect(samples, SAMPLE_RATE)
-        assertNotNull("Should detect A5 (880 Hz)", result)
+        assertNotNull(result, "Should detect A5 (880 Hz)")
         // Higher frequencies have less lag resolution → wider tolerance.
-        assertEquals(880.0, result!!.frequencyHz, 5.0)
+        assertApproxEquals(880.0, result.frequencyHz, 5.0)
     }
 
     @Test
@@ -104,8 +112,8 @@ class PitchDetectorTest {
         // G3 = 196 Hz — Low-G ukulele tuning string
         val samples = sineWave(196.0)
         val result = PitchDetector.detect(samples, SAMPLE_RATE)
-        assertNotNull("Should detect G3 (196 Hz)", result)
-        assertEquals(196.0, result!!.frequencyHz, TOLERANCE_HZ)
+        assertNotNull(result, "Should detect G3 (196 Hz)")
+        assertApproxEquals(196.0, result.frequencyHz, TOLERANCE_HZ)
     }
 
     // --- Silence / noise rejection -------------------------------------------
@@ -114,7 +122,7 @@ class PitchDetectorTest {
     fun rejectsSilence() {
         val samples = FloatArray(FRAME_SIZE) // all zeros
         val result = PitchDetector.detect(samples, SAMPLE_RATE)
-        assertNull("Should return null for silence", result)
+        assertNull(result, "Should return null for silence")
     }
 
     @Test
@@ -122,7 +130,7 @@ class PitchDetectorTest {
         // Below the silence threshold (RMS < 0.01)
         val samples = sineWave(440.0, amplitude = 0.005f)
         val result = PitchDetector.detect(samples, SAMPLE_RATE)
-        assertNull("Should return null for very quiet signal", result)
+        assertNull(result, "Should return null for very quiet signal")
     }
 
     // --- Confidence ----------------------------------------------------------
@@ -133,8 +141,8 @@ class PitchDetectorTest {
         val result = PitchDetector.detect(samples, SAMPLE_RATE)
         assertNotNull(result)
         assertTrue(
-            "Confidence (CMND dip) should be low for a clean sine wave, was ${result!!.confidence}",
             result.confidence < 0.1,
+            "Confidence (CMND dip) should be low for a clean sine wave, was ${result.confidence}",
         )
     }
 
@@ -149,8 +157,8 @@ class PitchDetectorTest {
             SAMPLE_RATE,
             previousFrequency = 435.0,
         )
-        assertNotNull("Should detect with continuity constraint", result)
-        assertEquals(440.0, result!!.frequencyHz, TOLERANCE_HZ)
+        assertNotNull(result, "Should detect with continuity constraint")
+        assertApproxEquals(440.0, result.frequencyHz, TOLERANCE_HZ)
     }
 
     @Test
@@ -162,8 +170,8 @@ class PitchDetectorTest {
             SAMPLE_RATE,
             previousFrequency = 440.0,
         )
-        assertNotNull("Should fall back to full range on string switch", result)
-        assertEquals(261.63, result!!.frequencyHz, TOLERANCE_HZ)
+        assertNotNull(result, "Should fall back to full range on string switch")
+        assertApproxEquals(261.63, result.frequencyHz, TOLERANCE_HZ)
     }
 
     // --- RMS utility ---------------------------------------------------------
@@ -171,7 +179,7 @@ class PitchDetectorTest {
     @Test
     fun rmsOfSilenceIsZero() {
         val samples = FloatArray(1024)
-        assertEquals(0f, PitchDetector.rms(samples), 1e-6f)
+        assertApproxEquals(0f, PitchDetector.rms(samples), 1e-6f)
     }
 
     @Test
@@ -179,7 +187,7 @@ class PitchDetectorTest {
         val samples = sineWave(440.0, numSamples = 1024, amplitude = 1.0f)
         val rms = PitchDetector.rms(samples)
         // RMS of a sine wave with amplitude A is A / sqrt(2) ≈ 0.707
-        assertEquals(0.707f, rms, 0.02f)
+        assertApproxEquals(0.707f, rms, 0.02f)
     }
 
     // --- Edge cases ----------------------------------------------------------
@@ -188,7 +196,7 @@ class PitchDetectorTest {
     fun handlesTinyBuffer() {
         val samples = FloatArray(2) { 0.5f }
         val result = PitchDetector.detect(samples, SAMPLE_RATE)
-        assertNull("Should return null for a buffer too small for YIN", result)
+        assertNull(result, "Should return null for a buffer too small for YIN")
     }
 
     @Test
@@ -196,7 +204,7 @@ class PitchDetectorTest {
         val samples = sineWave(440.0)
         // Very strict threshold — clean sine should still pass
         val result = PitchDetector.detect(samples, SAMPLE_RATE, threshold = 0.05)
-        assertNotNull("Clean sine should pass strict threshold", result)
-        assertEquals(440.0, result!!.frequencyHz, TOLERANCE_HZ)
+        assertNotNull(result, "Clean sine should pass strict threshold")
+        assertApproxEquals(440.0, result.frequencyHz, TOLERANCE_HZ)
     }
 }

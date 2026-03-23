@@ -7,9 +7,9 @@ import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class ChordSheetTransposePropertyTest {
 
@@ -48,9 +48,9 @@ class ChordSheetTransposePropertyTest {
                 val transposed = ChordSheetTranspose.transpose(content, semitones)
                 val roundTrip = ChordSheetTranspose.transpose(transposed, -semitones)
                 assertEquals(
-                    "Transpose +$semitones then -$semitones should round-trip",
                     content,
                     roundTrip,
+                    "Transpose +$semitones then -$semitones should round-trip",
                 )
             }
         }
@@ -68,9 +68,9 @@ class ChordSheetTransposePropertyTest {
             )
             checkAll(Arb.element(plainTexts), Arb.int(-11..11)) { text, semitones ->
                 assertEquals(
-                    "Plain text should be unchanged",
                     text,
                     ChordSheetTranspose.transpose(text, semitones),
+                    "Plain text should be unchanged",
                 )
             }
         }
@@ -88,8 +88,8 @@ class ChordSheetTransposePropertyTest {
                 val content = "[$root$suffix]"
                 val transposed = ChordSheetTranspose.transpose(content, semitones)
                 assertTrue(
-                    "Transposed '$transposed' should still contain suffix '$suffix'",
                     transposed.contains("$suffix]"),
+                    "Transposed '$transposed' should still contain suffix '$suffix'",
                 )
             }
         }
@@ -117,8 +117,8 @@ class ChordSheetTransposePropertyTest {
                 val transposed = ChordSheetTranspose.transpose(content, semitones)
                 val newRoot = transposed.removePrefix("[").removeSuffix("]")
                 assertTrue(
-                    "'$newRoot' should be a valid note name",
                     newRoot in validRoots,
+                    "'$newRoot' should be a valid note name",
                 )
             }
         }
@@ -130,11 +130,11 @@ class ChordSheetTransposePropertyTest {
             checkAll(Arb.int(-24..24)) { semitones ->
                 val label = ChordSheetTranspose.semitoneLabel(semitones)
                 if (semitones > 0) {
-                    assertTrue("Positive should start with +", label.startsWith("+"))
+                    assertTrue(label.startsWith("+"), "Positive should start with +")
                 }
                 assertTrue(
-                    "Label should contain the number",
                     label.contains(semitones.toString().trimStart('-')),
+                    "Label should contain the number",
                 )
             }
         }

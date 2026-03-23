@@ -1,11 +1,11 @@
 package com.baijum.ukufretboard.domain
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.sin
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 /**
  * Unit tests for [AudioResampler].
@@ -14,6 +14,10 @@ import kotlin.math.sin
  * low-frequency content while attenuating high frequencies.
  */
 class AudioResamplerTest {
+
+    private fun assertApproxEquals(expected: Float, actual: Float, tolerance: Float, message: String? = null) {
+        assertTrue(abs(expected - actual) <= tolerance, message ?: "Expected $expected ± $tolerance but was $actual")
+    }
 
     @Test
     fun outputLengthIsCorrect() {
@@ -46,8 +50,8 @@ class AudioResamplerTest {
         // Check that it's not all zeros and has reasonable amplitude
         val maxAbs = output.maxOf { abs(it) }
         assertTrue(
-            "Low-frequency content should be preserved (max amplitude $maxAbs)",
             maxAbs > 0.7f,
+            "Low-frequency content should be preserved (max amplitude $maxAbs)",
         )
     }
 
@@ -57,11 +61,11 @@ class AudioResamplerTest {
         val output = AudioResampler.downsample44kTo16k(input)
 
         for (i in output.indices) {
-            assertEquals(
-                "DC level should be preserved at sample $i",
+            assertApproxEquals(
                 0.75f,
                 output[i],
                 0.05f,
+                "DC level should be preserved at sample $i",
             )
         }
     }

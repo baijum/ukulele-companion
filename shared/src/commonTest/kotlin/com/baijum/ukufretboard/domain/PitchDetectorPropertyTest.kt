@@ -6,13 +6,14 @@ import io.kotest.property.arbitrary.element
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Test
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.sin
+import kotlin.random.Random
+import kotlin.test.Test
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class PitchDetectorPropertyTest {
 
@@ -64,11 +65,11 @@ class PitchDetectorPropertyTest {
             checkAll(Arb.element(ukuleleFrequencies)) { freq ->
                 val samples = generateSine(freq, SAMPLE_RATE, BUFFER_SIZE)
                 val result = PitchDetector.detect(samples, SAMPLE_RATE)
-                assertNotNull("Should detect pitch for ${freq}Hz", result)
-                val error = abs(result!!.frequencyHz - freq)
+                assertNotNull(result, "Should detect pitch for ${freq}Hz")
+                val error = abs(result.frequencyHz - freq)
                 assertTrue(
-                    "Detected ${result.frequencyHz}Hz should be within 2% of ${freq}Hz (error=$error)",
                     error / freq < 0.02,
+                    "Detected ${result.frequencyHz}Hz should be within 2% of ${freq}Hz (error=$error)",
                 )
             }
         }
@@ -83,12 +84,12 @@ class PitchDetectorPropertyTest {
                 val result = PitchDetector.detect(samples, SAMPLE_RATE)
                 if (result != null) {
                     assertTrue(
-                        "Frequency ${result.frequencyHz} should be >= 65Hz",
                         result.frequencyHz >= 65.0,
+                        "Frequency ${result.frequencyHz} should be >= 65Hz",
                     )
                     assertTrue(
-                        "Frequency ${result.frequencyHz} should be <= 1100Hz",
                         result.frequencyHz <= 1100.0,
+                        "Frequency ${result.frequencyHz} should be <= 1100Hz",
                     )
                 }
             }
@@ -104,8 +105,8 @@ class PitchDetectorPropertyTest {
                 val result = PitchDetector.detect(samples, SAMPLE_RATE)
                 if (result != null) {
                     assertTrue(
-                        "Confidence ${result.confidence} should be >= 0",
                         result.confidence >= 0.0,
+                        "Confidence ${result.confidence} should be >= 0",
                     )
                 }
             }
@@ -122,7 +123,7 @@ class PitchDetectorPropertyTest {
     fun rmsIsNonNegative() {
         runBlocking {
             checkAll(100, Arb.int(10..1000)) { size ->
-                val samples = FloatArray(size) { (Math.random() * 2 - 1).toFloat() }
+                val samples = FloatArray(size) { (Random.nextDouble() * 2 - 1).toFloat() }
                 assertTrue(PitchDetector.rms(samples) >= 0f)
             }
         }

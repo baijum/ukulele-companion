@@ -1,11 +1,11 @@
 package com.baijum.ukufretboard.domain
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.sin
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 /**
  * Unit tests for [FFTProcessor].
@@ -19,6 +19,10 @@ class FFTProcessorTest {
         private const val TOLERANCE = 1e-3f
     }
 
+    private fun assertApproxEquals(expected: Float, actual: Float, tolerance: Float, message: String? = null) {
+        assertTrue(abs(expected - actual) <= tolerance, message ?: "Expected $expected ± $tolerance but was $actual")
+    }
+
     @Test
     fun fftOfDcSignalHasEnergyOnlyInBinZero() {
         val n = 256
@@ -27,18 +31,18 @@ class FFTProcessorTest {
 
         FFTProcessor.fft(real, imag)
 
-        assertEquals("DC component should equal N", n.toFloat(), real[0], TOLERANCE)
-        assertEquals("Imaginary DC should be 0", 0f, imag[0], TOLERANCE)
+        assertApproxEquals(n.toFloat(), real[0], TOLERANCE, "DC component should equal N")
+        assertApproxEquals(0f, imag[0], TOLERANCE, "Imaginary DC should be 0")
 
         // All other bins should be near zero
         for (i in 1 until n) {
             assertTrue(
-                "Bin $i real should be near zero, was ${real[i]}",
                 abs(real[i]) < TOLERANCE,
+                "Bin $i real should be near zero, was ${real[i]}",
             )
             assertTrue(
-                "Bin $i imag should be near zero, was ${imag[i]}",
                 abs(imag[i]) < TOLERANCE,
+                "Bin $i imag should be near zero, was ${imag[i]}",
             )
         }
     }
@@ -67,7 +71,7 @@ class FFTProcessorTest {
                 maxBin = i
             }
         }
-        assertEquals("Peak should be at bin $binIndex", binIndex, maxBin)
+        assertEquals(binIndex, maxBin, "Peak should be at bin $binIndex")
     }
 
     @Test
@@ -86,11 +90,11 @@ class FFTProcessorTest {
         FFTProcessor.ifft(real, imag)
 
         for (i in 0 until n) {
-            assertEquals(
-                "Sample $i should be recovered after FFT→IFFT",
+            assertApproxEquals(
                 original[i],
                 real[i],
                 TOLERANCE,
+                "Sample $i should be recovered after FFT→IFFT",
             )
         }
     }
@@ -110,10 +114,10 @@ class FFTProcessorTest {
         val samples = FloatArray(n) { 1.0f }
         val windowed = FFTProcessor.hanningWindow(samples)
 
-        assertEquals("First sample should be near zero", 0f, windowed[0], 0.01f)
-        assertEquals("Last sample should be near zero", 0f, windowed[n - 1], 0.01f)
+        assertApproxEquals(0f, windowed[0], 0.01f, "First sample should be near zero")
+        assertApproxEquals(0f, windowed[n - 1], 0.01f, "Last sample should be near zero")
         // Middle should be near 1.0
-        assertTrue("Middle sample should be near 1.0", windowed[n / 2] > 0.9f)
+        assertTrue(windowed[n / 2] > 0.9f, "Middle sample should be near 1.0")
     }
 
     @Test
@@ -129,8 +133,8 @@ class FFTProcessorTest {
         FFTProcessor.fft(real2, imag2)
 
         for (i in 0 until n) {
-            assertEquals("Real[$i] should match", real1[i], real2[i], 1e-6f)
-            assertEquals("Imag[$i] should match", imag1[i], imag2[i], 1e-6f)
+            assertApproxEquals(real1[i], real2[i], 1e-6f, "Real[$i] should match")
+            assertApproxEquals(imag1[i], imag2[i], 1e-6f, "Imag[$i] should match")
         }
     }
 }

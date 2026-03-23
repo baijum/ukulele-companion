@@ -8,10 +8,10 @@ import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class ChordNameParserPropertyTest {
 
@@ -45,7 +45,7 @@ class ChordNameParserPropertyTest {
             ) { root, symbol ->
                 val input = "$root$symbol"
                 val result = ChordNameParser.parse(input)
-                assertNotNull("Should parse '$input'", result)
+                assertNotNull(result, "Should parse '$input'")
             }
         }
     }
@@ -59,8 +59,8 @@ class ChordNameParserPropertyTest {
             ) { root, symbol ->
                 val result = ChordNameParser.parse("$root$symbol") ?: return@checkAll
                 assertTrue(
-                    "rootPitchClass ${result.rootPitchClass} should be in 0..11",
                     result.rootPitchClass in 0..11,
+                    "rootPitchClass ${result.rootPitchClass} should be in 0..11",
                 )
             }
         }
@@ -75,8 +75,8 @@ class ChordNameParserPropertyTest {
             ) { root, symbol ->
                 val result = ChordNameParser.parse("$root$symbol") ?: return@checkAll
                 assertTrue(
-                    "displayName '${result.displayName}' should contain symbol '$symbol'",
                     result.displayName.contains(symbol),
+                    "displayName '${result.displayName}' should contain symbol '$symbol'",
                 )
             }
         }
@@ -98,8 +98,8 @@ class ChordNameParserPropertyTest {
             checkAll(Arb.element(allRootNames)) { root ->
                 val results = ChordNameParser.suggestions(root)
                 assertTrue(
-                    "Root-only query '$root' should return multiple suggestions, got ${results.size}",
                     results.size > 1,
+                    "Root-only query '$root' should return multiple suggestions, got ${results.size}",
                 )
             }
         }
@@ -112,9 +112,9 @@ class ChordNameParserPropertyTest {
                 val results = ChordNameParser.suggestions(root)
                 val symbols = results.map { it.formula.symbol }
                 assertEquals(
-                    "Suggestions for '$root' should have unique symbols",
                     symbols.size,
                     symbols.distinct().size,
+                    "Suggestions for '$root' should have unique symbols",
                 )
             }
         }
@@ -127,12 +127,12 @@ class ChordNameParserPropertyTest {
             checkAll(Arb.element(roots)) { lowerRoot ->
                 val lower = ChordNameParser.parse(lowerRoot)
                 val upper = ChordNameParser.parse(lowerRoot.uppercase())
-                assertNotNull("Should parse lowercase root '$lowerRoot'", lower)
-                assertNotNull("Should parse uppercase root '${lowerRoot.uppercase()}'", upper)
+                assertNotNull(lower, "Should parse lowercase root '$lowerRoot'")
+                assertNotNull(upper, "Should parse uppercase root '${lowerRoot.uppercase()}'")
                 assertEquals(
+                    lower.rootPitchClass,
+                    upper.rootPitchClass,
                     "Case should not affect pitch class",
-                    lower!!.rootPitchClass,
-                    upper!!.rootPitchClass,
                 )
             }
         }
