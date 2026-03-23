@@ -92,10 +92,16 @@ jobs:
           name: ios-test-results
           path: TestResults.xcresult
 
+      - name: Convert xcresult to Cobertura XML
+        if: always()
+        run: |
+          brew install a7ex/homebrew-formulae/xcresultparser
+          xcresultparser --output-format cobertura TestResults.xcresult > coverage.xml
+
       - name: Upload coverage to Codecov
         if: always()
         uses: codecov/codecov-action@v5
         with:
-          files: TestResults.xcresult
+          files: coverage.xml
           flags: ios-tests
           token: ${{ secrets.CODECOV_TOKEN }}
