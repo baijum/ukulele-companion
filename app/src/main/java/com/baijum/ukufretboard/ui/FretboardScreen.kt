@@ -719,7 +719,7 @@ fun FretboardScreen(
                                 newlyEarned.forEach { achievementRepository.unlock(it.id) }
                                 unlockedAchievementIds = achievementRepository.getUnlocked().keys
                                 if (reviewPromptRepository.isEligible()) {
-                                    reviewPromptAchievement = newlyEarned.first().title
+                                    reviewPromptAchievement = newlyEarned.first().id
                                 }
                             }
                         }
@@ -808,9 +808,9 @@ fun FretboardScreen(
     }
 
     // Review prompt dialog (triggered after achievement unlock when eligible)
-    reviewPromptAchievement?.let { title ->
+    reviewPromptAchievement?.let { achievementId ->
         ReviewPromptDialog(
-            achievementTitle = title,
+            achievementId = achievementId,
             repository = reviewPromptRepository,
             onDismiss = { reviewPromptAchievement = null },
         )
