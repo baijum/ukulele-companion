@@ -12,6 +12,7 @@ kotlinxSerialization = "2.3.10"
 reorderable = "3.0.0"
 onnxruntime = "1.24.3"
 playPublisher = "4.0.0"
+playReview = "2.0.2"
 junit = "4.13.2"
 junit5 = "5.11.4"
 material = "1.13.0"
@@ -37,6 +38,8 @@ core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx"
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 onnxruntime-android = { group = "com.microsoft.onnxruntime", name = "onnxruntime-android", version.ref = "onnxruntime" }
+play-review = { group = "com.google.android.play", name = "review", version.ref = "playReview" }
+play-review-ktx = { group = "com.google.android.play", name = "review-ktx", version.ref = "playReview" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }

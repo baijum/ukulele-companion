@@ -107,6 +107,8 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.reorderable)
     implementation(libs.onnxruntime.android)
+    implementation(libs.play.review)
+    implementation(libs.play.review.ktx)
     testImplementation(libs.junit)
     testImplementation(libs.kotest.property)
     testImplementation(libs.jazzer.junit)

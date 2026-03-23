@@ -1126,4 +1126,10 @@
     <string name="share_copied">Gekopieerd naar klembord</string>
     <string name="nav_songwriter_mode">Begin een nummer</string>
     <string name="songwriter_song_saved">Nummer opgeslagen!</string>
+    <!-- Review prompt -->
+    <string name="review_prompt_title">Geniet je van Ukulele Companion?</string>
+    <string name="review_prompt_message">Je hebt zojuist %1$s verdiend!</string>
+    <string name="review_prompt_yes">Ja, ik vind het geweldig!</string>
+    <string name="review_prompt_no">Niet echt</string>
+    <string name="review_feedback_thanks">Bedankt voor de feedback! We werken constant aan verbeteringen.</string>
 </resources>

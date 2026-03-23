@@ -1126,4 +1126,10 @@
     <string name="share_copied">In die Zwischenablage kopiert</string>
     <string name="nav_songwriter_mode">Song starten</string>
     <string name="songwriter_song_saved">Song gespeichert!</string>
+    <!-- Review prompt -->
+    <string name="review_prompt_title">Gefällt dir Ukulele Companion?</string>
+    <string name="review_prompt_message">Du hast gerade %1$s verdient!</string>
+    <string name="review_prompt_yes">Ja, ich liebe es!</string>
+    <string name="review_prompt_no">Nicht wirklich</string>
+    <string name="review_feedback_thanks">Vielen Dank fürs Feedback! Wir arbeiten ständig daran, uns zu verbessern.</string>
 </resources>

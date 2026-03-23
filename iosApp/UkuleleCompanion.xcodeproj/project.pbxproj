@@ -73,6 +73,7 @@
 		A10064 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10064 /* OnboardingView.swift */; };
 		A10065 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10065 /* SettingsViewModelTests.swift */; };
 		A10066 /* BackupRestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10066 /* BackupRestoreManager.swift */; };
+		A10090 /* ReviewPromptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10090 /* ReviewPromptManager.swift */; };
 		A10067 /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10067 /* PlayView.swift */; };
 		A10068 /* ScaleSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10068 /* ScaleSelectorView.swift */; };
 		A10069 /* PlayAlongViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10069 /* PlayAlongViewModel.swift */; };
@@ -209,6 +210,7 @@
 		B10064 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		B10065 /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
 		B10066 /* BackupRestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupRestoreManager.swift; sourceTree = "<group>"; };
+		B10090 /* ReviewPromptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPromptManager.swift; sourceTree = "<group>"; };
 		B10067 /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
 		B10068 /* ScaleSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleSelectorView.swift; sourceTree = "<group>"; };
 		B10069 /* PlayAlongViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAlongViewModel.swift; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 				B10055 /* AccessibilityHelper.swift */,
 				B10066 /* BackupRestoreManager.swift */,
 				B10079 /* ChordVoicing+Frets.swift */,
+				B10090 /* ReviewPromptManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -709,6 +712,7 @@
 				A10063 /* CustomPatternsViewModel.swift in Sources */,
 				A10064 /* OnboardingView.swift in Sources */,
 				A10066 /* BackupRestoreManager.swift in Sources */,
+				A10090 /* ReviewPromptManager.swift in Sources */,
 				A10067 /* PlayView.swift in Sources */,
 				A10068 /* ScaleSelectorView.swift in Sources */,
 				A10069 /* PlayAlongViewModel.swift in Sources */,

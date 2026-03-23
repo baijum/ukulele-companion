@@ -1126,4 +1126,10 @@
     <string name="share_copied">Disalin ke papan klip</string>
     <string name="nav_songwriter_mode">Mulai Lagu</string>
     <string name="songwriter_song_saved">Lagu disimpan!</string>
+    <!-- Review prompt -->
+    <string name="review_prompt_title">Suka dengan Ukulele Companion?</string>
+    <string name="review_prompt_message">Anda baru saja mendapatkan %1$s!</string>
+    <string name="review_prompt_yes">Ya, saya suka sekali!</string>
+    <string name="review_prompt_no">Kurang</string>
+    <string name="review_feedback_thanks">Terima kasih atas masukannya! Kami terus berusaha untuk meningkatkan aplikasi.</string>
 </resources>
