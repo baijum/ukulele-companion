@@ -31,6 +31,8 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
+            implementation(libs.kotest.property)
+            implementation(libs.kotlinx.coroutines.core)
         }
     }
 }

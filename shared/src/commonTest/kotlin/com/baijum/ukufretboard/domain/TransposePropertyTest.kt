@@ -5,9 +5,9 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class TransposePropertyTest {
 
@@ -17,8 +17,8 @@ class TransposePropertyTest {
             checkAll(Arb.int(-1000..1000), Arb.int(-1000..1000)) { pitchClass, semitones ->
                 val result = Transpose.transposePitchClass(pitchClass, semitones)
                 assertTrue(
-                    "Result $result should be in 0..11",
                     result in 0..11,
+                    "Result $result should be in 0..11",
                 )
             }
         }
@@ -80,8 +80,8 @@ class TransposePropertyTest {
                 for (symbol in symbols) {
                     val result = Transpose.transposeChordName(rootPc, symbol, semitones)
                     assertTrue(
-                        "Chord name '$result' should end with '$symbol'",
                         result.endsWith(symbol),
+                        "Chord name '$result' should end with '$symbol'",
                     )
                 }
             }
@@ -94,8 +94,8 @@ class TransposePropertyTest {
             checkAll(Arb.int(0..11), Arb.int(-24..24)) { rootPc, semitones ->
                 val result = Transpose.transposeChordName(rootPc, "", semitones)
                 assertTrue(
-                    "'$result' should be a valid note name",
                     result in Notes.NOTE_NAMES_STANDARD,
+                    "'$result' should be a valid note name",
                 )
             }
         }
@@ -107,8 +107,8 @@ class TransposePropertyTest {
             checkAll(Arb.int(0..11), Arb.int(0..11)) { original, target ->
                 val capo = Transpose.capoFret(original, target)
                 assertTrue(
-                    "Capo fret $capo should be in 0..11",
                     capo in 0..11,
+                    "Capo fret $capo should be in 0..11",
                 )
             }
         }

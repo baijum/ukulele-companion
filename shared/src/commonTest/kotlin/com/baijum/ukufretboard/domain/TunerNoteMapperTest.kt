@@ -1,12 +1,13 @@
 package com.baijum.ukufretboard.domain
 
 import com.baijum.ukufretboard.data.UkuleleTuning
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Test
 import kotlin.math.abs
+import kotlin.math.pow
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 /**
  * Unit tests for [TunerNoteMapper].
@@ -26,10 +27,10 @@ class TunerNoteMapperTest {
     fun mapsA4Correctly() {
         val note = TunerNoteMapper.mapFrequency(440.0)
         assertNotNull(note)
-        assertEquals("A", note!!.noteName)
+        assertEquals("A", note.noteName)
         assertEquals(4, note.octave)
         assertEquals(9, note.pitchClass) // A = 9
-        assertTrue("Cents should be near zero", abs(note.centsDeviation) < 0.5)
+        assertTrue(abs(note.centsDeviation) < 0.5, "Cents should be near zero")
     }
 
     @Test
@@ -37,7 +38,7 @@ class TunerNoteMapperTest {
         // C4 = 261.63 Hz
         val note = TunerNoteMapper.mapFrequency(261.63)
         assertNotNull(note)
-        assertEquals("C", note!!.noteName)
+        assertEquals("C", note.noteName)
         assertEquals(4, note.octave)
         assertEquals(0, note.pitchClass)
     }
@@ -47,7 +48,7 @@ class TunerNoteMapperTest {
         // E4 = 329.63 Hz
         val note = TunerNoteMapper.mapFrequency(329.63)
         assertNotNull(note)
-        assertEquals("E", note!!.noteName)
+        assertEquals("E", note.noteName)
         assertEquals(4, note.octave)
         assertEquals(4, note.pitchClass)
     }
@@ -57,7 +58,7 @@ class TunerNoteMapperTest {
         // G4 = 392.00 Hz
         val note = TunerNoteMapper.mapFrequency(392.0)
         assertNotNull(note)
-        assertEquals("G", note!!.noteName)
+        assertEquals("G", note.noteName)
         assertEquals(4, note.octave)
         assertEquals(7, note.pitchClass)
     }
@@ -67,7 +68,7 @@ class TunerNoteMapperTest {
         // D3 = 146.83 Hz (Baritone lowest string)
         val note = TunerNoteMapper.mapFrequency(146.83)
         assertNotNull(note)
-        assertEquals("D", note!!.noteName)
+        assertEquals("D", note.noteName)
         assertEquals(3, note.octave)
         assertEquals(2, note.pitchClass)
     }
@@ -85,22 +86,22 @@ class TunerNoteMapperTest {
     @Test
     fun detectsSharpDeviation() {
         // 5 cents sharp of A4 = 440 * 2^(5/1200)
-        val sharpA4 = 440.0 * Math.pow(2.0, 5.0 / 1200.0)
+        val sharpA4 = 440.0 * 2.0.pow(5.0 / 1200.0)
         val note = TunerNoteMapper.mapFrequency(sharpA4)
         assertNotNull(note)
-        assertEquals("A", note!!.noteName)
-        assertTrue("Should be sharp", note.centsDeviation > 4.0)
-        assertTrue("Should be around 5 cents", abs(note.centsDeviation - 5.0) < 1.0)
+        assertEquals("A", note.noteName)
+        assertTrue(note.centsDeviation > 4.0, "Should be sharp")
+        assertTrue(abs(note.centsDeviation - 5.0) < 1.0, "Should be around 5 cents")
     }
 
     @Test
     fun detectsFlatDeviation() {
         // 10 cents flat of A4 = 440 * 2^(-10/1200)
-        val flatA4 = 440.0 * Math.pow(2.0, -10.0 / 1200.0)
+        val flatA4 = 440.0 * 2.0.pow(-10.0 / 1200.0)
         val note = TunerNoteMapper.mapFrequency(flatA4)
         assertNotNull(note)
-        assertEquals("A", note!!.noteName)
-        assertTrue("Should be flat", note.centsDeviation < -9.0)
+        assertEquals("A", note.noteName)
+        assertTrue(note.centsDeviation < -9.0, "Should be flat")
     }
 
     @Test
@@ -108,8 +109,8 @@ class TunerNoteMapperTest {
         // With A4 = 442 Hz, playing 442 Hz should map to A4 with ~0 cents
         val note = TunerNoteMapper.mapFrequency(442.0, a4Reference = 442.0)
         assertNotNull(note)
-        assertEquals("A", note!!.noteName)
-        assertTrue("Cents should be near zero", abs(note.centsDeviation) < 0.5)
+        assertEquals("A", note.noteName)
+        assertTrue(abs(note.centsDeviation) < 0.5, "Cents should be near zero")
     }
 
     // --- findNearestString ---------------------------------------------------
@@ -167,12 +168,6 @@ class TunerNoteMapperTest {
 
     @Test
     fun hysteresisKeepsPreviousString() {
-        // E4 (329.63 Hz) is close to both E string (329.63 Hz) and C string (261.63 Hz).
-        // When exactly at E4, best match is E. With hysteresis and previous=C,
-        // a small deviation toward C should keep C as the target.
-        //
-        // Use a frequency between C4 and E4 but closer to E — hysteresis
-        // should keep the previous string if within tolerance.
         val noteInfo = TunerNoteMapper.mapFrequency(329.63)!! // Exactly E4
 
         val match = TunerNoteMapper.findNearestStringWithHysteresis(
@@ -181,7 +176,7 @@ class TunerNoteMapperTest {
             previousStringIndex = 2, // E string was previous
             switchHysteresisCents = 4.0,
         )
-        assertEquals("E string should stay locked", 2, match.stringIndex)
+        assertEquals(2, match.stringIndex, "E string should stay locked")
     }
 
     @Test
@@ -195,7 +190,7 @@ class TunerNoteMapperTest {
             previousStringIndex = 2, // E string was previous
             switchHysteresisCents = 4.0,
         )
-        assertEquals("Should switch to C string", 1, match.stringIndex)
+        assertEquals(1, match.stringIndex, "Should switch to C string")
     }
 
     @Test
@@ -219,27 +214,27 @@ class TunerNoteMapperTest {
         val noteA4 = TunerNoteMapper.mapFrequency(440.0)!!
         val match = TunerNoteMapper.findNearestString(noteA4, UkuleleTuning.HIGH_G)
         assertTrue(
-            "Cents from target should be near zero, was ${match.centsFromTarget}",
             abs(match.centsFromTarget) < 1.0,
+            "Cents from target should be near zero, was ${match.centsFromTarget}",
         )
     }
 
     @Test
     fun centsFromTargetPositiveForSharp() {
         // 10 cents sharp of A4
-        val sharpA4 = 440.0 * Math.pow(2.0, 10.0 / 1200.0)
+        val sharpA4 = 440.0 * 2.0.pow(10.0 / 1200.0)
         val note = TunerNoteMapper.mapFrequency(sharpA4)!!
         val match = TunerNoteMapper.findNearestString(note, UkuleleTuning.HIGH_G)
-        assertTrue("Should be sharp (positive cents)", match.centsFromTarget > 9.0)
+        assertTrue(match.centsFromTarget > 9.0, "Should be sharp (positive cents)")
     }
 
     @Test
     fun centsFromTargetNegativeForFlat() {
         // 15 cents flat of A4
-        val flatA4 = 440.0 * Math.pow(2.0, -15.0 / 1200.0)
+        val flatA4 = 440.0 * 2.0.pow(-15.0 / 1200.0)
         val note = TunerNoteMapper.mapFrequency(flatA4)!!
         val match = TunerNoteMapper.findNearestString(note, UkuleleTuning.HIGH_G)
-        assertTrue("Should be flat (negative cents)", match.centsFromTarget < -14.0)
+        assertTrue(match.centsFromTarget < -14.0, "Should be flat (negative cents)")
     }
 
     // --- Custom A4 reference with string matching ----------------------------
@@ -250,6 +245,6 @@ class TunerNoteMapperTest {
         val note = TunerNoteMapper.mapFrequency(442.0, a4Reference = 442.0)!!
         val match = TunerNoteMapper.findNearestString(note, UkuleleTuning.HIGH_G, a4Reference = 442.0)
         assertEquals("A", match.stringName)
-        assertTrue("Cents from target should be near zero", abs(match.centsFromTarget) < 1.0)
+        assertTrue(abs(match.centsFromTarget) < 1.0, "Cents from target should be near zero")
     }
 }

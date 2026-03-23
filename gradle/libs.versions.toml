@@ -7,6 +7,7 @@ lifecycleViewmodelCompose = "2.10.0"
 appcompat = "1.7.1"
 coreKtx = "1.18.0"
 
+kotlinxCoroutines = "1.10.2"
 kotlinxSerializationJson = "1.10.0"
 kotlinxSerialization = "2.3.10"
 reorderable = "3.0.0"
@@ -36,6 +37,7 @@ material-icons-extended = { group = "androidx.compose.material", name = "materia
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 onnxruntime-android = { group = "com.microsoft.onnxruntime", name = "onnxruntime-android", version.ref = "onnxruntime" }

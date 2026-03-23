@@ -1,14 +1,13 @@
 package com.baijum.ukufretboard.domain
 
 import com.baijum.ukufretboard.data.ChordFormulas
-import com.baijum.ukufretboard.viewmodel.UkuleleString
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.element
 import io.kotest.property.arbitrary.int
 import io.kotest.property.checkAll
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertTrue
 
 class CapoCalculatorPropertyTest {
 
@@ -28,8 +27,8 @@ class CapoCalculatorPropertyTest {
                 val results = CapoCalculator.forSingleChord(root, formula, standardTuning)
                 for (result in results) {
                     assertTrue(
-                        "Capo fret ${result.capoFret} should be in 0..11",
                         result.capoFret in 0..11,
+                        "Capo fret ${result.capoFret} should be in 0..11",
                     )
                 }
             }
@@ -43,8 +42,8 @@ class CapoCalculatorPropertyTest {
                 val results = CapoCalculator.forSingleChord(root, formula, standardTuning)
                 for (i in 1 until results.size) {
                     assertTrue(
-                        "Results should be sorted by score descending",
                         results[i - 1].score >= results[i].score,
+                        "Results should be sorted by score descending",
                     )
                 }
             }
@@ -58,8 +57,8 @@ class CapoCalculatorPropertyTest {
                 val results = CapoCalculator.forSingleChord(root, formula, standardTuning)
                 for (result in results) {
                     assertTrue(
-                        "Sounding name '${result.soundingName}' should end with '${formula.symbol}'",
                         result.soundingName.endsWith(formula.symbol),
+                        "Sounding name '${result.soundingName}' should end with '${formula.symbol}'",
                     )
                 }
             }
@@ -83,8 +82,8 @@ class CapoCalculatorPropertyTest {
                 for (result in results) {
                     for (fret in result.bestVoicing.frets) {
                         assertTrue(
-                            "Fret $fret should be >= -1 (muted) and <= 15",
                             fret in -1..15,
+                            "Fret $fret should be >= -1 (muted) and <= 15",
                         )
                     }
                 }
@@ -99,8 +98,8 @@ class CapoCalculatorPropertyTest {
                 val results = CapoCalculator.forSingleChord(root, formula, standardTuning)
                 if (results.isNotEmpty()) {
                     assertTrue(
-                        "Capo 0 (no capo) should be among results",
                         results.any { it.capoFret == 0 },
+                        "Capo 0 (no capo) should be among results",
                     )
                 }
             }

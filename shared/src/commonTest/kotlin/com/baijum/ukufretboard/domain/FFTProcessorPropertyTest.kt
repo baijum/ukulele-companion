@@ -5,12 +5,13 @@ import io.kotest.property.arbitrary.element
 import io.kotest.property.arbitrary.float
 import io.kotest.property.checkAll
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.sin
+import kotlin.random.Random
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class FFTProcessorPropertyTest {
 
@@ -23,7 +24,7 @@ class FFTProcessorPropertyTest {
         runBlocking {
             val sizes = listOf(64, 128, 256, 512)
             checkAll(100, Arb.element(sizes)) { n ->
-                val original = FloatArray(n) { (Math.random() * 2 - 1).toFloat() }
+                val original = FloatArray(n) { (Random.nextDouble() * 2 - 1).toFloat() }
                 val real = original.copyOf()
                 val imag = FloatArray(n)
 
@@ -32,8 +33,8 @@ class FFTProcessorPropertyTest {
 
                 for (i in 0 until n) {
                     assertTrue(
-                        "Sample $i: expected ${original[i]}, got ${real[i]}",
                         abs(real[i] - original[i]) < TOLERANCE,
+                        "Sample $i: expected ${original[i]}, got ${real[i]}",
                     )
                 }
             }
@@ -52,12 +53,12 @@ class FFTProcessorPropertyTest {
 
                 for (i in 0 until n) {
                     assertTrue(
-                        "Bin $i real should be ~0, was ${real[i]}",
                         abs(real[i]) < 1e-6f,
+                        "Bin $i real should be ~0, was ${real[i]}",
                     )
                     assertTrue(
-                        "Bin $i imag should be ~0, was ${imag[i]}",
                         abs(imag[i]) < 1e-6f,
+                        "Bin $i imag should be ~0, was ${imag[i]}",
                     )
                 }
             }
@@ -83,7 +84,7 @@ class FFTProcessorPropertyTest {
                         maxBin = i
                     }
                 }
-                assertEquals("Peak should be at bin $bin", bin, maxBin)
+                assertEquals(bin, maxBin, "Peak should be at bin $bin")
             }
         }
     }
@@ -105,14 +106,14 @@ class FFTProcessorPropertyTest {
     fun magnitudeSpectrumValuesAreNonNegative() {
         runBlocking {
             checkAll(100, Arb.element(listOf(64, 128, 256))) { n ->
-                val real = FloatArray(n) { (Math.random() * 2 - 1).toFloat() }
+                val real = FloatArray(n) { (Random.nextDouble() * 2 - 1).toFloat() }
                 val imag = FloatArray(n)
 
                 FFTProcessor.fft(real, imag)
                 val mag = FFTProcessor.magnitudeSpectrum(real, imag)
 
                 for (i in mag.indices) {
-                    assertTrue("Magnitude[$i] should be >= 0, was ${mag[i]}", mag[i] >= 0f)
+                    assertTrue(mag[i] >= 0f, "Magnitude[$i] should be >= 0, was ${mag[i]}")
                 }
             }
         }
@@ -139,8 +140,8 @@ class FFTProcessorPropertyTest {
                     val windowed = FFTProcessor.hanningWindow(samples)
                     for (i in windowed.indices) {
                         assertTrue(
-                            "Windowed[$i]=${windowed[i]} should not exceed abs(input)=${abs(value)}",
                             abs(windowed[i]) <= abs(value) + 1e-6f,
+                            "Windowed[$i]=${windowed[i]} should not exceed abs(input)=${abs(value)}",
                         )
                     }
                 }
@@ -154,7 +155,7 @@ class FFTProcessorPropertyTest {
         for (n in badSizes) {
             try {
                 FFTProcessor.fft(FloatArray(n), FloatArray(n))
-                assertTrue("Should have thrown for size $n", false)
+                assertTrue(false, "Should have thrown for size $n")
             } catch (_: IllegalArgumentException) {
                 // expected
             }

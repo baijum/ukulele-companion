@@ -7,8 +7,8 @@ import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.list
 import io.kotest.property.checkAll
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertTrue
 
 class ChordDetectorPropertyTest {
 
@@ -24,8 +24,8 @@ class ChordDetectorPropertyTest {
             checkAll(Arb.int(0..11)) { pc ->
                 val result = ChordDetector.detect(listOf(pc))
                 assertTrue(
-                    "Single pitch class $pc should yield SingleNote, got $result",
                     result is ChordDetector.DetectionResult.SingleNote,
+                    "Single pitch class $pc should yield SingleNote, got $result",
                 )
             }
         }
@@ -38,8 +38,8 @@ class ChordDetectorPropertyTest {
                 if (a != b) {
                     val result = ChordDetector.detect(listOf(a, b))
                     assertTrue(
-                        "Two distinct pitch classes should yield Interval, got $result",
                         result is ChordDetector.DetectionResult.Interval,
+                        "Two distinct pitch classes should yield Interval, got $result",
                     )
                 }
             }
@@ -53,8 +53,8 @@ class ChordDetectorPropertyTest {
                 val duplicated = List(count) { pc }
                 val result = ChordDetector.detect(duplicated)
                 assertTrue(
-                    "Duplicated single pitch class should yield SingleNote, got $result",
                     result is ChordDetector.DetectionResult.SingleNote,
+                    "Duplicated single pitch class should yield SingleNote, got $result",
                 )
             }
         }
@@ -76,8 +76,8 @@ class ChordDetectorPropertyTest {
                 val pitchClasses = formula.intervals.map { (root + it) % 12 }
                 val result = ChordDetector.detect(pitchClasses)
                 assertTrue(
-                    "Root $root + ${formula.symbol} should yield ChordFound, got $result",
                     result is ChordDetector.DetectionResult.ChordFound,
+                    "Root $root + ${formula.symbol} should yield ChordFound, got $result",
                 )
             }
         }
@@ -91,8 +91,8 @@ class ChordDetectorPropertyTest {
                 val result = ChordDetector.detect(pitchClasses)
                 if (result is ChordDetector.DetectionResult.ChordFound) {
                     assertTrue(
-                        "Root ${result.result.root.pitchClass} should be in input $pitchClasses",
                         result.result.root.pitchClass in pitchClasses,
+                        "Root ${result.result.root.pitchClass} should be in input $pitchClasses",
                     )
                 }
             }
@@ -109,8 +109,8 @@ class ChordDetectorPropertyTest {
                     val detectedPcs = result.result.notes.map { it.pitchClass }.toSet()
                     val inputPcs = pitchClasses.toSet()
                     assertTrue(
-                        "Detected pitch classes $detectedPcs should equal input $inputPcs",
                         detectedPcs == inputPcs,
+                        "Detected pitch classes $detectedPcs should equal input $inputPcs",
                     )
                 }
             }
