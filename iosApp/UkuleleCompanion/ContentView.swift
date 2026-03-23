@@ -8,6 +8,16 @@ enum SidebarDestination: String, Hashable {
     case theoryLessons, theoryQuiz
     case learningProgress, achievements
     case glossary, capoGuide, fretboardNoteMap, chordSubstitutions, scaleChords, circleOfFifths
+
+    var isPlayOrCreate: Bool {
+        switch self {
+        case .explorer, .tuner, .pitchMonitor, .metronome, .chordLibrary, .favorites,
+             .songwriterMode, .progressions, .strumPatterns, .songbook, .melodyNotepad:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 struct ContentView: View {
@@ -84,6 +94,12 @@ struct ContentView: View {
         .onChange(of: showSettings) { isShowing in
             if !isShowing { settingsVM.load() }
         }
+        .onAppear { ReviewPromptManager.shared.recordActiveDay() }
+        .onChange(of: selectedTab) { tab in
+            if tab == 0 || tab == 1 {
+                ReviewPromptManager.shared.recordActiveDay()
+            }
+        }
     }
 
     // MARK: - Sidebar layout (iPad landscape)
@@ -101,6 +117,12 @@ struct ContentView: View {
         .sheet(isPresented: $showSettings) { SettingsView() }
         .onChange(of: showSettings) { isShowing in
             if !isShowing { settingsVM.load() }
+        }
+        .onAppear { ReviewPromptManager.shared.recordActiveDay() }
+        .onChange(of: selectedDestination) { dest in
+            if dest?.isPlayOrCreate == true {
+                ReviewPromptManager.shared.recordActiveDay()
+            }
         }
     }
 

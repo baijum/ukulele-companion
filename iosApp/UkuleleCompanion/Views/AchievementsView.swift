@@ -83,6 +83,8 @@ private nonisolated(unsafe) let allAchievements: [AchievementDef] = [
 
 struct AchievementsView: View {
     @EnvironmentObject var learnVM: LearnViewModel
+    @State private var showReviewPrompt = false
+    @State private var reviewAchievementTitle = ""
 
     var body: some View {
         let _ = learnVM.stateVersion
@@ -119,6 +121,17 @@ struct AchievementsView: View {
         .navigationTitle("Achievements")
         .task(id: learnVM.stateVersion) {
             checkNewAchievements(context: context, unlocked: unlocked)
+        }
+        .alert("Enjoying Ukulele Companion?", isPresented: $showReviewPrompt) {
+            Button("Yes, I love it!") {
+                ReviewPromptManager.shared.recordReviewed()
+                ReviewPromptManager.shared.requestReview()
+            }
+            Button("Not really", role: .cancel) {
+                ReviewPromptManager.shared.recordDismissal()
+            }
+        } message: {
+            Text("You just earned \(reviewAchievementTitle)!")
         }
     }
 
@@ -197,10 +210,17 @@ struct AchievementsView: View {
     }
 
     private func checkNewAchievements(context: AchievementContextSwift, unlocked: Set<String>) {
+        var firstNewTitle: String?
         for achievement in allAchievements {
             if !unlocked.contains(achievement.id) && achievement.condition(context) {
                 learnVM.unlockAchievement(achievement.id)
+                if firstNewTitle == nil { firstNewTitle = achievement.title }
             }
+        }
+        if let title = firstNewTitle, ReviewPromptManager.shared.isEligible() {
+            ReviewPromptManager.shared.recordPromptShown()
+            reviewAchievementTitle = title
+            showReviewPrompt = true
         }
     }
 }

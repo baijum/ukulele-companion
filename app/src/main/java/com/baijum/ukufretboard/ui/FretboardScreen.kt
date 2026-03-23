@@ -96,8 +96,9 @@ import kotlinx.coroutines.launch
 import com.baijum.ukufretboard.audio.ToneGenerator
 import com.baijum.ukufretboard.data.AchievementRepository
 import com.baijum.ukufretboard.data.Notes
-import com.baijum.ukufretboard.data.SoundSettings
 import com.baijum.ukufretboard.data.PracticeTimerRepository
+import com.baijum.ukufretboard.data.ReviewPromptRepository
+import com.baijum.ukufretboard.data.SoundSettings
 
 import com.baijum.ukufretboard.domain.AchievementChecker
 import com.baijum.ukufretboard.domain.ChordInfo
@@ -149,6 +150,12 @@ private const val NAV_PRACTICE_ROUTINE = 28
 private const val NAV_PLAY_ALONG = 29
 private const val NAV_METRONOME = 30
 private const val NAV_SONGWRITER_MODE = 27
+
+/** Play and Create section indices for review prompt active-day tracking. */
+private val PLAY_CREATE_NAV_INDICES = setOf(
+    NAV_EXPLORER, NAV_TUNER, NAV_PITCH_MONITOR, NAV_METRONOME, NAV_LIBRARY, NAV_FAVORITES,
+    NAV_SONGWRITER_MODE, NAV_SONGBOOK, NAV_MELODY_NOTEPAD, NAV_PATTERNS, NAV_PROGRESSIONS,
+)
 
 /**
  * Drawer navigation item metadata.
@@ -280,6 +287,13 @@ fun FretboardScreen(
         mutableStateOf(achievementRepository.getUnlocked().keys)
     }
 
+    // Review prompt system
+    val reviewPromptRepository = remember { ReviewPromptRepository(context) }
+    LaunchedEffect(Unit) {
+        reviewPromptRepository.initFirstLaunch()
+        reviewPromptRepository.recordActiveDay() // Explorer (Play section) is the default screen
+    }
+    var reviewPromptAchievement by remember { mutableStateOf<String?>(null) }
 
     // Practice session timer — tracks time spent in the app
     val practiceTimerRepository = remember { PracticeTimerRepository(context) }
@@ -704,6 +718,9 @@ fun FretboardScreen(
                             LaunchedEffect(newlyEarned) {
                                 newlyEarned.forEach { achievementRepository.unlock(it.id) }
                                 unlockedAchievementIds = achievementRepository.getUnlocked().keys
+                                if (reviewPromptRepository.isEligible()) {
+                                    reviewPromptAchievement = newlyEarned.first().title
+                                }
                             }
                         }
                         AchievementsView(
@@ -722,6 +739,9 @@ fun FretboardScreen(
     val drawerItemOnClick: (Int) -> Unit = { index ->
         previousSection = null
         selectedSection = index
+        if (index in PLAY_CREATE_NAV_INDICES) {
+            reviewPromptRepository.recordActiveDay()
+        }
         if (!isTabletWidth) scope.launch { drawerState.close() }
     }
 
@@ -784,6 +804,15 @@ fun FretboardScreen(
             },
             backupRestoreViewModel = backupRestoreViewModel,
             onDismiss = { showSettings = false },
+        )
+    }
+
+    // Review prompt dialog (triggered after achievement unlock when eligible)
+    reviewPromptAchievement?.let { title ->
+        ReviewPromptDialog(
+            achievementTitle = title,
+            repository = reviewPromptRepository,
+            onDismiss = { reviewPromptAchievement = null },
         )
     }
 

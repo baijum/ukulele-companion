@@ -9,6 +9,7 @@ struct UkuleleCompanionApp: App {
 
     init() {
         configureAudioSession()
+        ReviewPromptManager.shared.initFirstLaunch()
     }
 
     var body: some Scene {
