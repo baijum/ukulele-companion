@@ -24,6 +24,7 @@
   <a href="https://developer.android.com/about/versions/oreo"><img src="https://img.shields.io/badge/Min%20SDK-26-orange.svg" alt="Min SDK"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
   <a href="https://github.com/baijum/ukulele-companion/actions/workflows/android.yml"><img src="https://github.com/baijum/ukulele-companion/actions/workflows/android.yml/badge.svg" alt="CI"></a>
+  <a href="https://codecov.io/gh/baijum/ukulele-companion"><img src="https://codecov.io/gh/baijum/ukulele-companion/graph/badge.svg" alt="Codecov"></a>
 </p>
 
 ---
