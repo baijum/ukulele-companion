@@ -34,6 +34,11 @@ final class MonkeyTest: XCTestCase {
     let testDurationSeconds: TimeInterval = 300
 
     override func setUpWithError() throws {
+        try XCTSkipUnless(
+            ProcessInfo.processInfo.environment["RUN_STRESS_TESTS"] == "1",
+            "MonkeyTests skipped in CI; set RUN_STRESS_TESTS=1 to run"
+        )
+
         continueAfterFailure = true
 
         let seed: UInt64
@@ -147,6 +152,11 @@ final class MonkeyTest: XCTestCase {
     }
 
     func testAllScreensNavigation() throws {
+        try XCTSkipUnless(
+            ProcessInfo.processInfo.environment["RUN_STRESS_TESTS"] == "1",
+            "Skipped in CI; set RUN_STRESS_TESTS=1 for local runs"
+        )
+
         let riskyScreenKeywords = [
             "voice lead",
             "capo guide",
