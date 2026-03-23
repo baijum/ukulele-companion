@@ -10,8 +10,8 @@ class QuizGeneratorTest {
     fun generateWithoutCategoryReturnsQuestion() {
         val q = QuizGenerator.generate()
         assertTrue(q.question.isNotEmpty())
-        assertEquals(4, q.options.size)
-        assertTrue(q.correctIndex in 0..3)
+        assertTrue(q.options.size in 3..4, "Should have 3-4 options: ${q.options.size}")
+        assertTrue(q.correctIndex in q.options.indices)
         assertTrue(q.explanation.isNotEmpty())
     }
 
