@@ -26,6 +26,16 @@ enum AchievementCategorySwift: String, CaseIterable {
         case .chords: return "heart.fill"
         }
     }
+
+    var localizedLabel: String {
+        switch self {
+        case .practice: return String(localized: "achievement_category_practice")
+        case .learning: return String(localized: "achievement_category_learning")
+        case .ear: return String(localized: "achievement_category_ear")
+        case .songs: return String(localized: "achievement_category_songs")
+        case .chords: return String(localized: "achievement_category_chords")
+        }
+    }
 }
 
 struct AchievementContextSwift {
@@ -46,39 +56,39 @@ struct AchievementContextSwift {
 
 private nonisolated(unsafe) let allAchievements: [AchievementDef] = [
     // Practice
-    AchievementDef(id: "streak_3", title: "Getting Started", description: "Maintain a 3-day practice streak", icon: "star.fill", category: .practice) { $0.currentStreak >= 3 },
-    AchievementDef(id: "streak_7", title: "Week Warrior", description: "Maintain a 7-day practice streak", icon: "star.fill", category: .practice) { $0.currentStreak >= 7 },
-    AchievementDef(id: "streak_30", title: "Monthly Master", description: "Maintain a 30-day practice streak", icon: "star.fill", category: .practice) { $0.currentStreak >= 30 },
-    AchievementDef(id: "scale_first", title: "Scale Runner", description: "Complete your first scale practice session", icon: "figure.walk", category: .practice) { $0.scalePracticeTotal >= 1 },
-    AchievementDef(id: "scale_25", title: "Scale Explorer", description: "Complete 25 scale practice exercises", icon: "figure.walk", category: .practice) { $0.scalePracticeTotal >= 25 },
+    AchievementDef(id: "streak_3", title: String(localized: "achievement_streak_3_title"), description: String(localized: "achievement_streak_3_desc"), icon: "star.fill", category: .practice) { $0.currentStreak >= 3 },
+    AchievementDef(id: "streak_7", title: String(localized: "achievement_streak_7_title"), description: String(localized: "achievement_streak_7_desc"), icon: "star.fill", category: .practice) { $0.currentStreak >= 7 },
+    AchievementDef(id: "streak_30", title: String(localized: "achievement_streak_30_title"), description: String(localized: "achievement_streak_30_desc"), icon: "star.fill", category: .practice) { $0.currentStreak >= 30 },
+    AchievementDef(id: "scale_first", title: String(localized: "achievement_scale_first_title"), description: String(localized: "achievement_scale_first_desc"), icon: "figure.walk", category: .practice) { $0.scalePracticeTotal >= 1 },
+    AchievementDef(id: "scale_25", title: String(localized: "achievement_scale_25_title"), description: String(localized: "achievement_scale_25_desc"), icon: "figure.walk", category: .practice) { $0.scalePracticeTotal >= 25 },
 
     // Learning
-    AchievementDef(id: "first_lesson", title: "First Steps", description: "Complete your first theory lesson", icon: "book.fill", category: .learning) { $0.completedLessons >= 1 },
-    AchievementDef(id: "half_lessons", title: "Halfway There", description: "Complete half of all theory lessons", icon: "book.fill", category: .learning) { $0.totalLessons > 0 && $0.completedLessons >= $0.totalLessons / 2 },
-    AchievementDef(id: "all_lessons", title: "Scholar", description: "Complete all theory lessons", icon: "book.fill", category: .learning) { $0.totalLessons > 0 && $0.completedLessons >= $0.totalLessons },
-    AchievementDef(id: "quiz_10", title: "Quiz Starter", description: "Answer 10 quiz questions correctly", icon: "book.fill", category: .learning) { $0.quizCorrect >= 10 },
-    AchievementDef(id: "quiz_50", title: "Quiz Whiz", description: "Answer 50 quiz questions correctly", icon: "book.fill", category: .learning) { $0.quizCorrect >= 50 },
-    AchievementDef(id: "quiz_100", title: "Quiz Master", description: "Answer 100 quiz questions correctly", icon: "book.fill", category: .learning) { $0.quizCorrect >= 100 },
-    AchievementDef(id: "perfect_streak_5", title: "Sharp Mind", description: "Get 5 quiz questions correct in a row", icon: "star.fill", category: .learning) { $0.quizBestStreak >= 5 },
-    AchievementDef(id: "perfect_streak_10", title: "Perfect Score", description: "Get 10 quiz questions correct in a row", icon: "star.fill", category: .learning) { $0.quizBestStreak >= 10 },
+    AchievementDef(id: "first_lesson", title: String(localized: "achievement_first_lesson_title"), description: String(localized: "achievement_first_lesson_desc"), icon: "book.fill", category: .learning) { $0.completedLessons >= 1 },
+    AchievementDef(id: "half_lessons", title: String(localized: "achievement_half_lessons_title"), description: String(localized: "achievement_half_lessons_desc"), icon: "book.fill", category: .learning) { $0.totalLessons > 0 && $0.completedLessons >= $0.totalLessons / 2 },
+    AchievementDef(id: "all_lessons", title: String(localized: "achievement_all_lessons_title"), description: String(localized: "achievement_all_lessons_desc"), icon: "book.fill", category: .learning) { $0.totalLessons > 0 && $0.completedLessons >= $0.totalLessons },
+    AchievementDef(id: "quiz_10", title: String(localized: "achievement_quiz_10_title"), description: String(localized: "achievement_quiz_10_desc"), icon: "book.fill", category: .learning) { $0.quizCorrect >= 10 },
+    AchievementDef(id: "quiz_50", title: String(localized: "achievement_quiz_50_title"), description: String(localized: "achievement_quiz_50_desc"), icon: "book.fill", category: .learning) { $0.quizCorrect >= 50 },
+    AchievementDef(id: "quiz_100", title: String(localized: "achievement_quiz_100_title"), description: String(localized: "achievement_quiz_100_desc"), icon: "book.fill", category: .learning) { $0.quizCorrect >= 100 },
+    AchievementDef(id: "perfect_streak_5", title: String(localized: "achievement_perfect_streak_5_title"), description: String(localized: "achievement_perfect_streak_5_desc"), icon: "star.fill", category: .learning) { $0.quizBestStreak >= 5 },
+    AchievementDef(id: "perfect_streak_10", title: String(localized: "achievement_perfect_streak_10_title"), description: String(localized: "achievement_perfect_streak_10_desc"), icon: "star.fill", category: .learning) { $0.quizBestStreak >= 10 },
 
     // Ear
-    AchievementDef(id: "ear_first", title: "Tuning In", description: "Complete your first ear training exercise", icon: "ear.fill", category: .ear) { $0.intervalTotal >= 1 || $0.chordEarTotal >= 1 },
-    AchievementDef(id: "ear_50", title: "Good Ear", description: "Complete 50 ear training exercises", icon: "ear.fill", category: .ear) { ($0.intervalTotal + $0.chordEarTotal) >= 50 },
-    AchievementDef(id: "ear_accuracy_80", title: "Golden Ear", description: "Achieve 80% accuracy in ear training (50+ exercises)", icon: "ear.fill", category: .ear) {
+    AchievementDef(id: "ear_first", title: String(localized: "achievement_ear_first_title"), description: String(localized: "achievement_ear_first_desc"), icon: "ear.fill", category: .ear) { $0.intervalTotal >= 1 || $0.chordEarTotal >= 1 },
+    AchievementDef(id: "ear_50", title: String(localized: "achievement_ear_50_title"), description: String(localized: "achievement_ear_50_desc"), icon: "ear.fill", category: .ear) { ($0.intervalTotal + $0.chordEarTotal) >= 50 },
+    AchievementDef(id: "ear_accuracy_80", title: String(localized: "achievement_ear_accuracy_80_title"), description: String(localized: "achievement_ear_accuracy_80_desc"), icon: "ear.fill", category: .ear) {
         let total = $0.intervalTotal + $0.chordEarTotal
         let correct = $0.intervalCorrect + $0.chordEarCorrect
         return total >= 50 && correct * 100 / total >= 80
     },
 
     // Songs
-    AchievementDef(id: "first_song", title: "Songwriter", description: "Create your first song in the songbook", icon: "music.note.list", category: .songs) { $0.songsCount >= 1 },
-    AchievementDef(id: "songs_5", title: "Setlist Builder", description: "Create 5 songs in the songbook", icon: "music.note.list", category: .songs) { $0.songsCount >= 5 },
-    AchievementDef(id: "songs_10", title: "Prolific Writer", description: "Create 10 songs in the songbook", icon: "music.note.list", category: .songs) { $0.songsCount >= 10 },
+    AchievementDef(id: "first_song", title: String(localized: "achievement_first_song_title"), description: String(localized: "achievement_first_song_desc"), icon: "music.note.list", category: .songs) { $0.songsCount >= 1 },
+    AchievementDef(id: "songs_5", title: String(localized: "achievement_songs_5_title"), description: String(localized: "achievement_songs_5_desc"), icon: "music.note.list", category: .songs) { $0.songsCount >= 5 },
+    AchievementDef(id: "songs_10", title: String(localized: "achievement_songs_10_title"), description: String(localized: "achievement_songs_10_desc"), icon: "music.note.list", category: .songs) { $0.songsCount >= 10 },
 
     // Chords
-    AchievementDef(id: "fav_5", title: "Collector", description: "Save 5 favorite chord voicings", icon: "heart.fill", category: .chords) { $0.favoritesCount >= 5 },
-    AchievementDef(id: "fav_25", title: "Chord Hoarder", description: "Save 25 favorite chord voicings", icon: "heart.fill", category: .chords) { $0.favoritesCount >= 25 },
+    AchievementDef(id: "fav_5", title: String(localized: "achievement_fav_5_title"), description: String(localized: "achievement_fav_5_desc"), icon: "heart.fill", category: .chords) { $0.favoritesCount >= 5 },
+    AchievementDef(id: "fav_25", title: String(localized: "achievement_fav_25_title"), description: String(localized: "achievement_fav_25_desc"), icon: "heart.fill", category: .chords) { $0.favoritesCount >= 25 },
 ]
 
 struct AchievementsView: View {
@@ -95,7 +105,7 @@ struct AchievementsView: View {
             VStack(spacing: 16) {
                 // Summary
                 let unlockedCount = allAchievements.filter { unlocked.contains($0.id) || $0.condition(context) }.count
-                Text("\(unlockedCount) / \(allAchievements.count) Achievements")
+                Text(String(format: String(localized: "achievements_unlocked"), unlockedCount))
                     .font(.headline)
                     .padding()
 
@@ -103,7 +113,7 @@ struct AchievementsView: View {
                     let categoryAchievements = allAchievements.filter { $0.category == category }
                     if !categoryAchievements.isEmpty {
                         VStack(alignment: .leading, spacing: 8) {
-                            Label(category.rawValue, systemImage: category.icon)
+                            Label(category.localizedLabel, systemImage: category.icon)
                                 .font(.headline)
                                 .padding(.horizontal)
                                 .accessibilityAddTraits(.isHeader)
@@ -118,7 +128,7 @@ struct AchievementsView: View {
             }
             .padding(.vertical)
         }
-        .navigationTitle("Achievements")
+        .navigationTitle(String(localized: "achievements_title"))
         .task(id: learnVM.stateVersion) {
             checkNewAchievements(context: context, unlocked: unlocked)
         }

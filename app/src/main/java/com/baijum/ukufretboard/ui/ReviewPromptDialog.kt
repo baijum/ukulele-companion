@@ -25,16 +25,17 @@ import com.google.android.play.core.review.ReviewManagerFactory
  *   - Yes -> launches the Google Play In-App Review flow
  *   - No  -> shows a brief thank-you message, then dismisses
  *
- * @param achievementTitle The title of the achievement that was just unlocked.
+ * @param achievementId The ID of the achievement that was just unlocked (resolved to a localized title).
  * @param repository Repository for recording prompt outcomes.
  * @param onDismiss Called when the dialog is fully dismissed.
  */
 @Composable
 fun ReviewPromptDialog(
-    achievementTitle: String,
+    achievementId: String,
     repository: ReviewPromptRepository,
     onDismiss: () -> Unit,
 ) {
+    val localizedTitle = achievementTitle(achievementId)
     var showFeedback by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
@@ -64,7 +65,7 @@ fun ReviewPromptDialog(
                 )
             },
             text = {
-                Text(stringResource(R.string.review_prompt_message, achievementTitle))
+                Text(stringResource(R.string.review_prompt_message, localizedTitle))
             },
             confirmButton = {
                 TextButton(
