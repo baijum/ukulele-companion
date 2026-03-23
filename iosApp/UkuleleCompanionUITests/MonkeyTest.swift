@@ -58,7 +58,7 @@ final class MonkeyTest: XCTestCase {
 
     override func tearDownWithError() throws {
         XCUIDevice.shared.orientation = .portrait
-        app.terminate()
+        app?.terminate()
     }
 
     // MARK: - Main Monkey Test
