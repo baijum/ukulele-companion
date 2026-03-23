@@ -1,0 +1,26 @@
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 2%
+    patch:
+      default:
+        target: 80%
+        threshold: 5%
+
+flags:
+  android-unit-tests:
+    paths:
+      - app/src/main/
+      - shared/src/
+    carryforward: true
+  ios-tests:
+    paths:
+      - iosApp/UkuleleCompanion/
+    carryforward: true
+
+comment:
+  layout: "reach,diff,flags,components"
+  behavior: default
+  require_changes: false

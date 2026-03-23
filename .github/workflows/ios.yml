@@ -82,6 +82,7 @@ jobs:
             -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO \
+            -enableCodeCoverage YES \
             -resultBundlePath TestResults
 
       - name: Upload test results
@@ -90,3 +91,11 @@ jobs:
         with:
           name: ios-test-results
           path: TestResults.xcresult
+
+      - name: Upload coverage to Codecov
+        if: always()
+        uses: codecov/codecov-action@v5
+        with:
+          files: TestResults.xcresult
+          flags: ios-tests
+          token: ${{ secrets.CODECOV_TOKEN }}
