@@ -15,6 +15,10 @@ flags:
       - app/src/main/
       - shared/src/
     carryforward: true
+  android-instrumented-tests:
+    paths:
+      - app/src/main/
+    carryforward: true
   ios-tests:
     paths:
       - iosApp/UkuleleCompanion/
