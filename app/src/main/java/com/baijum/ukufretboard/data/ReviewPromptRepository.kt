@@ -2,9 +2,7 @@ package com.baijum.ukufretboard.data
 
 import android.content.Context
 import android.content.SharedPreferences
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 
 /**
@@ -57,10 +55,6 @@ class ReviewPromptRepository(context: Context) {
             .apply()
     }
 
-    fun recordPromptShown() {
-        prefs.edit().putLong(KEY_LAST_PROMPTED, System.currentTimeMillis()).apply()
-    }
-
     /**
      * Returns `true` when all eligibility gates pass:
      * - 5+ distinct active days
@@ -95,10 +89,7 @@ class ReviewPromptRepository(context: Context) {
     private fun activeDays(): Set<String> =
         prefs.getStringSet(KEY_ACTIVE_DAYS, emptySet()) ?: emptySet()
 
-    private fun todayKey(): String {
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-        return sdf.format(Date())
-    }
+    private fun todayKey(): String = LocalDate.now().toString()
 
     companion object {
         private const val PREFS_NAME = "review_prompt"

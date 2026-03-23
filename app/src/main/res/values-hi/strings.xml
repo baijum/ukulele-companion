@@ -1128,4 +1128,10 @@
     <string name="share_copied">क्लिपबोर्ड पर कॉपी किया गया</string>
     <string name="nav_songwriter_mode">गीत शुरू करें</string>
     <string name="songwriter_song_saved">गीत सहेजा गया!</string>
+    <!-- Review prompt -->
+    <string name="review_prompt_title">क्या आप Ukulele Companion का आनंद ले रहे हैं?</string>
+    <string name="review_prompt_message">आपने अभी %1$s अर्जित किया!</string>
+    <string name="review_prompt_yes">हाँ, मुझे यह बहुत पसंद है!</string>
+    <string name="review_prompt_no">ज्यादा नहीं</string>
+    <string name="review_feedback_thanks">प्रतिक्रिया के लिए धन्यवाद! हम सुधार के लिए लगातार काम कर रहे हैं।</string>
 </resources>

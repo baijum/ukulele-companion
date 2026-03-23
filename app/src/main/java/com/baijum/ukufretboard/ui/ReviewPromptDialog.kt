@@ -76,6 +76,11 @@ fun ReviewPromptDialog(
                             reviewManager.requestReviewFlow().addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     reviewManager.launchReviewFlow(activity, task.result)
+                                } else {
+                                    android.util.Log.d(
+                                        "ReviewPrompt",
+                                        "Review flow unavailable: ${task.exception?.message}",
+                                    )
                                 }
                             }
                         }

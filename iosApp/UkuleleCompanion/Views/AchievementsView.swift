@@ -122,16 +122,16 @@ struct AchievementsView: View {
         .task(id: learnVM.stateVersion) {
             checkNewAchievements(context: context, unlocked: unlocked)
         }
-        .alert("Enjoying Ukulele Companion?", isPresented: $showReviewPrompt) {
-            Button("Yes, I love it!") {
+        .alert(String(localized: "review_prompt_title"), isPresented: $showReviewPrompt) {
+            Button(String(localized: "review_prompt_yes")) {
                 ReviewPromptManager.shared.recordReviewed()
                 ReviewPromptManager.shared.requestReview()
             }
-            Button("Not really", role: .cancel) {
+            Button(String(localized: "review_prompt_no"), role: .cancel) {
                 ReviewPromptManager.shared.recordDismissal()
             }
         } message: {
-            Text("You just earned \(reviewAchievementTitle)!")
+            Text(String(format: String(localized: "review_prompt_message"), reviewAchievementTitle))
         }
     }
 

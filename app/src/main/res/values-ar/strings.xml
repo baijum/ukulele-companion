@@ -1128,4 +1128,10 @@
     <string name="share_copied">تم النسخ إلى الحافظة</string>
     <string name="nav_songwriter_mode">ابدأ أغنية</string>
     <string name="songwriter_song_saved">تم حفظ الأغنية!</string>
+    <!-- Review prompt -->
+    <string name="review_prompt_title">هل تستمتع بتطبيق Ukulele Companion؟</string>
+    <string name="review_prompt_message">لقد حصلت للتو على %1$s!</string>
+    <string name="review_prompt_yes">نعم، أحبه كثيراً!</string>
+    <string name="review_prompt_no">ليس حقاً</string>
+    <string name="review_feedback_thanks">شكرًا على ملاحظاتك! نعمل دائمًا على التحسين.</string>
 </resources>

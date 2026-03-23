@@ -1126,4 +1126,10 @@
     <string name="share_copied">Panoya kopyalandı</string>
     <string name="nav_songwriter_mode">Şarkıya Başla</string>
     <string name="songwriter_song_saved">Şarkı kaydedildi!</string>
+    <!-- Review prompt -->
+    <string name="review_prompt_title">Ukulele Companion\'ı beğeniyor musunuz?</string>
+    <string name="review_prompt_message">Az önce %1$s kazandınız!</string>
+    <string name="review_prompt_yes">Evet, bayılıyorum!</string>
+    <string name="review_prompt_no">Pek sayılmaz</string>
+    <string name="review_feedback_thanks">Geri bildiriminiz için teşekkürler! Sürekli geliştirmek için çalışıyoruz.</string>
 </resources>

@@ -1128,4 +1128,10 @@
     <string name="share_copied">클립보드에 복사됨</string>
     <string name="nav_songwriter_mode">노래 시작</string>
     <string name="songwriter_song_saved">노래가 저장되었습니다!</string>
+    <!-- Review prompt -->
+    <string name="review_prompt_title">Ukulele Companion이 마음에 드시나요?</string>
+    <string name="review_prompt_message">방금 %1$s를 획득하셨습니다!</string>
+    <string name="review_prompt_yes">네, 정말 좋아요!</string>
+    <string name="review_prompt_no">별로예요</string>
+    <string name="review_feedback_thanks">피드백 감사합니다! 항상 더 나아지기 위해 노력하고 있습니다.</string>
 </resources>

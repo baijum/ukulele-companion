@@ -7,6 +7,7 @@ import UIKit
 /// Tracks distinct calendar days where the user visited a Play or Create screen
 /// ("active days"), along with review/dismissal history, to determine when to
 /// show the two-step review prompt after an achievement unlock.
+@MainActor
 final class ReviewPromptManager {
 
     static let shared = ReviewPromptManager()
@@ -16,6 +17,8 @@ final class ReviewPromptManager {
     private init() {
         self.defaults = UserDefaults(suiteName: "review_prompt") ?? .standard
     }
+
+    deinit {}
 
     // MARK: - First launch
 
@@ -94,7 +97,6 @@ final class ReviewPromptManager {
     // MARK: - Native review API
 
     /// Requests the App Store review dialog via SKStoreReviewController.
-    @MainActor
     func requestReview() {
         if let windowScene = UIApplication.shared
             .connectedScenes
@@ -110,11 +112,15 @@ final class ReviewPromptManager {
         Set(defaults.stringArray(forKey: Keys.activeDays) ?? [])
     }
 
-    private static func todayKey() -> String {
+    private nonisolated static let dayFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.locale = Locale(identifier: "en_US_POSIX")
-        return formatter.string(from: Date())
+        return formatter
+    }()
+
+    private static func todayKey() -> String {
+        dayFormatter.string(from: Date())
     }
 
     private enum Keys {
