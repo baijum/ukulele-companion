@@ -141,8 +141,13 @@
   transition: transform 0.2s, filter 0.2s;
 }
 
-.store-badge img {
-  height: clamp(48px, 5vw, 64px);
+.store-badge img[alt="Get it on Google Play"] {
+  height: clamp(64px, 6.5vw, 80px);
+  width: auto;
+}
+
+.store-badge img[alt="Download on the App Store"] {
+  height: clamp(42px, 4.3vw, 54px);
   width: auto;
 }
 

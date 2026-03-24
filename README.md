@@ -13,11 +13,11 @@
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=com.baijum.ukufretboard">
     <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-         alt="Get it on Google Play" height="60">
+         alt="Get it on Google Play" height="60" style="vertical-align: middle">
   </a>
   <a href="https://apps.apple.com/app/id6760328302">
     <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
-         alt="Download on the App Store" height="44">
+         alt="Download on the App Store" height="44" style="vertical-align: middle">
   </a>
 </p>
 
@@ -351,11 +351,11 @@ Ukulele Companion is free on both platforms:
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=com.baijum.ukufretboard">
     <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-         alt="Get it on Google Play" height="60">
+         alt="Get it on Google Play" height="60" style="vertical-align: middle">
   </a>
   <a href="https://apps.apple.com/app/id6760328302">
     <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
-         alt="Download on the App Store" height="44">
+         alt="Download on the App Store" height="44" style="vertical-align: middle">
   </a>
 </p>
 
