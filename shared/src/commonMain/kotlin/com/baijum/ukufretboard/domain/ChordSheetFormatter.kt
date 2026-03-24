@@ -25,8 +25,10 @@ object ChordSheetFormatter {
     fun formatChordsAboveLyrics(sheet: ChordSheet): String {
         val sb = StringBuilder()
 
-        // Title and artist header
         sb.appendLine(sheet.title)
+        if (sheet.subtitle.isNotEmpty()) {
+            sb.appendLine(sheet.subtitle)
+        }
         if (sheet.artist.isNotEmpty()) {
             sb.appendLine("by ${sheet.artist}")
         }
@@ -81,6 +83,9 @@ object ChordSheetFormatter {
     fun formatPlainText(sheet: ChordSheet): String {
         val sb = StringBuilder()
         sb.appendLine(sheet.title)
+        if (sheet.subtitle.isNotEmpty()) {
+            sb.appendLine(sheet.subtitle)
+        }
         if (sheet.artist.isNotEmpty()) {
             sb.appendLine("by ${sheet.artist}")
         }

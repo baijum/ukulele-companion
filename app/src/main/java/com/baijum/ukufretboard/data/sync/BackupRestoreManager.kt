@@ -78,6 +78,7 @@ class BackupRestoreManager(
                 BackupChordSheet(
                     id = sheet.id,
                     title = sheet.title,
+                    subtitle = sheet.subtitle,
                     artist = sheet.artist,
                     content = sheet.content,
                     key = sheet.key,
@@ -220,6 +221,7 @@ class BackupRestoreManager(
             com.baijum.ukufretboard.data.ChordSheet(
                 id = s.id,
                 title = s.title,
+                subtitle = s.subtitle,
                 artist = s.artist,
                 content = s.content,
                 key = s.key,

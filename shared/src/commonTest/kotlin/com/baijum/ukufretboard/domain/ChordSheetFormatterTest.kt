@@ -12,11 +12,13 @@ class ChordSheetFormatterTest {
 
     private fun sheet(
         title: String = "Test Song",
+        subtitle: String = "",
         artist: String = "",
         content: String = "",
     ) = ChordSheet(
         id = "test-id",
         title = title,
+        subtitle = subtitle,
         artist = artist,
         content = content,
         createdAt = 0L,
@@ -47,6 +49,22 @@ class ChordSheetFormatterTest {
             sheet(title = "My Song", content = "Hello")
         )
         assertFalse(result.contains("by "), "Should not include 'by' when artist is empty")
+    }
+
+    @Test
+    fun chordsAboveLyricsIncludesSubtitle() {
+        val result = ChordSheetFormatter.formatChordsAboveLyrics(
+            sheet(title = "My Song", subtitle = "Words by Newton", content = "Hello")
+        )
+        assertTrue(result.contains("Words by Newton"), "Should include subtitle: $result")
+    }
+
+    @Test
+    fun chordsAboveLyricsOmitsEmptySubtitle() {
+        val result = ChordSheetFormatter.formatChordsAboveLyrics(
+            sheet(title = "My Song", content = "Hello")
+        )
+        assertFalse(result.contains("Words by"), "Should not include subtitle when empty")
     }
 
     @Test
@@ -124,6 +142,24 @@ class ChordSheetFormatterTest {
             sheet(title = "Song", content = "text")
         )
         assertFalse(result.contains("by "))
+    }
+
+    @Test
+    fun plainTextIncludesSubtitle() {
+        val result = ChordSheetFormatter.formatPlainText(
+            sheet(title = "Song", subtitle = "A Subtitle", content = "text")
+        )
+        assertTrue(result.contains("A Subtitle"), "Should include subtitle: $result")
+    }
+
+    @Test
+    fun plainTextOmitsEmptySubtitle() {
+        val result = ChordSheetFormatter.formatPlainText(
+            sheet(title = "Song", content = "text")
+        )
+        val lines = result.lines()
+        assertEquals("Song", lines[0], "First line should be title")
+        assertTrue(lines[1].isEmpty(), "Second line should be blank when no subtitle/artist")
     }
 
     @Test

@@ -4,6 +4,7 @@ import shared
 struct StoredSong: Codable, Identifiable {
     let id: String
     var title: String
+    var subtitle: String
     var artist: String
     var content: String
     var key: String
@@ -12,6 +13,37 @@ struct StoredSong: Codable, Identifiable {
     var labels: [String]
     var createdAt: Double
     var updatedAt: Double
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        title = try container.decode(String.self, forKey: .title)
+        subtitle = try container.decodeIfPresent(String.self, forKey: .subtitle) ?? ""
+        artist = try container.decode(String.self, forKey: .artist)
+        content = try container.decode(String.self, forKey: .content)
+        key = try container.decode(String.self, forKey: .key)
+        capo = try container.decode(Int.self, forKey: .capo)
+        strumPatternName = try container.decode(String.self, forKey: .strumPatternName)
+        labels = try container.decode([String].self, forKey: .labels)
+        createdAt = try container.decode(Double.self, forKey: .createdAt)
+        updatedAt = try container.decode(Double.self, forKey: .updatedAt)
+    }
+
+    init(id: String, title: String, subtitle: String = "", artist: String, content: String,
+         key: String, capo: Int, strumPatternName: String, labels: [String],
+         createdAt: Double, updatedAt: Double) {
+        self.id = id
+        self.title = title
+        self.subtitle = subtitle
+        self.artist = artist
+        self.content = content
+        self.key = key
+        self.capo = capo
+        self.strumPatternName = strumPatternName
+        self.labels = labels
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+    }
 }
 
 enum SongSortOrder: String, CaseIterable {
@@ -129,6 +161,7 @@ final class SongbookViewModel: ObservableObject {
         let song = StoredSong(
             id: sheet.id,
             title: sheet.title,
+            subtitle: sheet.subtitle,
             artist: sheet.artist,
             content: sheet.content,
             key: sheet.key,
@@ -166,6 +199,7 @@ final class SongbookViewModel: ObservableObject {
         ChordSheet(
             id: song.id,
             title: song.title,
+            subtitle: song.subtitle,
             artist: song.artist,
             content: song.content,
             key: song.key,

@@ -7,11 +7,17 @@ package com.baijum.ukufretboard.data
  * to ensure consistent chord recognition across parsing and transposition.
  * Accepts any content after the root note (A-G with optional # or b),
  * supporting all chord qualities including slash chords (e.g., `[C/G]`).
+ *
+ * Section labels like `[Chorus]`, `[Bridge]`, `[Intro]` are excluded via a
+ * negative lookahead so they are not mistakenly treated as chord markers.
  */
 object ChordParser {
 
+    /** Known section label names that must not be matched as chords. */
+    val SECTION_NAMES = "Chorus|Verse|Bridge|Intro|Outro|Tab|Interlude"
+
     /** Regex matching `[ChordName]` markers — root note + any quality suffix. */
-    val CHORD_PATTERN = Regex("""\[([A-G][#b]?[^]]*)]""")
+    val CHORD_PATTERN = Regex("""\[(?!(?:$SECTION_NAMES)\b)([A-G][#b]?[^]]*)]""")
 
     /**
      * Extracts all unique chord names from the given text.

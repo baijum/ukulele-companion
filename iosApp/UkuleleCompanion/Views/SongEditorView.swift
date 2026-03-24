@@ -277,6 +277,7 @@ struct SongEditorView: View {
         let song = StoredSong(
             id: existingSong?.id ?? UUID().uuidString,
             title: title.trimmingCharacters(in: .whitespaces),
+            subtitle: existingSong?.subtitle ?? "",
             artist: artist.trimmingCharacters(in: .whitespaces),
             content: content,
             key: key,
