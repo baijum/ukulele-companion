@@ -616,6 +616,7 @@ struct SongViewerView: View {
                             }
                         }
                         .accessibilityLabel("Strum pattern \(pattern.name)")
+                        .accessibilityAddTraits(isSelected ? .isSelected : [])
                     }
                 }
                 if !customPatternsVM.strumPatterns.isEmpty {
@@ -637,6 +638,7 @@ struct SongViewerView: View {
                                 }
                             }
                             .accessibilityLabel("Custom strum pattern \(custom.name)")
+                            .accessibilityAddTraits(isSelected ? .isSelected : [])
                         }
                     }
                 }
