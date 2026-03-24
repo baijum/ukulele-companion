@@ -260,6 +260,20 @@
     <string name="songbook_add_label">Aggiungi etichetta</string>
     <string name="songbook_label_hint">Digita etichetta…</string>
     <string name="songbook_filter_clear">Cancella filtri</string>
+    <string name="songbook_duplicate">Duplica</string>
+    <string name="songbook_tempo_label">Tempo: %1$d BPM</string>
+    <string name="songbook_start_metronome">Avvia metronomo</string>
+    <plurals name="stats_views">
+        <item quantity="one">%1$d visualizzazione</item>
+        <item quantity="other">%1$d visualizzazioni</item>
+    </plurals>
+    <string name="stats_time_under_minute">&lt; 1 min</string>
+    <string name="stats_time_one_minute">1 min</string>
+    <string name="stats_time_minutes">%1$d min</string>
+    <string name="stats_time_hours_minutes">%1$dh %2$dm</string>
+    <string name="performance_mode">Modalità esibizione</string>
+    <string name="performance_mode_exit">Esci dalla modalità esibizione</string>
+    <string name="songbook_duplicate_cd">Duplica brano</string>
     <string name="songbook_save_in_key">Salva in questa tonalità</string>
     <string name="songbook_saved_in_key">Brano salvato nella tonalità trasposta</string>
     <string name="cd_label">Etichetta: %s</string>
@@ -1138,4 +1152,18 @@
     <string name="songbook_paste_import">Importa</string>
     <string name="songbook_play_chord">Riproduci accordo %s</string>
     <string name="songbook_view_in_library">Visualizza %s nella libreria degli accordi</string>
+    <string name="nav_setlists">Scalette</string>
+    <string name="songbook_font_decrease">Riduci dimensione carattere</string>
+    <string name="songbook_font_increase">Aumenta dimensione carattere</string>
+    <string name="share_as_pdf">Esporta come PDF</string>
+    <string name="performance_mode_toggle_controls">Tocca per mostrare o nascondere i controlli</string>
+    <string name="performance_scroll_pause">Pausa</string>
+    <string name="performance_scroll_start">Scorri</string>
+    <string name="performance_scroll_speed">%1$sx</string>
+    <string name="performance_decrease_speed">Riduci velocità di scorrimento</string>
+    <string name="performance_increase_speed">Aumenta velocità di scorrimento</string>
+    <string name="batch_selected">%1$d selezionati</string>
+    <string name="batch_select_all">Tutti</string>
+    <string name="batch_cancel">Annulla</string>
+    <string name="batch_delete">Elimina</string>
 </resources>

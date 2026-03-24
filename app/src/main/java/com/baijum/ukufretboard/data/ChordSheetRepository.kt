@@ -51,6 +51,9 @@ class ChordSheetRepository(context: Context) {
             sheet.strumPatternName.replace("|", "\\|"),
             serializeLabels(sheet.labels),
             sheet.subtitle.replace("|", "\\|"),
+            sheet.viewCount.toString(),
+            sheet.lastViewedAt.toString(),
+            sheet.totalViewTimeMs.toString(),
         ).joinToString(SEPARATOR)
 
     private fun deserialize(value: String?): ChordSheet? {
@@ -70,6 +73,9 @@ class ChordSheetRepository(context: Context) {
                 strumPatternName = parts.getOrNull(8)?.replace("\\|", "|") ?: "",
                 labels = deserializeLabels(parts.getOrNull(9)),
                 subtitle = parts.getOrNull(10)?.replace("\\|", "|") ?: "",
+                viewCount = parts.getOrNull(11)?.toIntOrNull() ?: 0,
+                lastViewedAt = parts.getOrNull(12)?.toLongOrNull() ?: 0L,
+                totalViewTimeMs = parts.getOrNull(13)?.toLongOrNull() ?: 0L,
             )
         } catch (e: Exception) {
             null

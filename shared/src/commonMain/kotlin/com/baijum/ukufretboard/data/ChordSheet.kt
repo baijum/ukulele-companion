@@ -21,6 +21,9 @@ import com.baijum.ukufretboard.platform.generateUuid
  * @property labels User-defined labels for categorization and filtering.
  * @property createdAt Timestamp when created.
  * @property updatedAt Timestamp when last modified.
+ * @property viewCount Number of times the song has been opened.
+ * @property lastViewedAt Timestamp of the most recent viewing (0 = never viewed).
+ * @property totalViewTimeMs Cumulative time spent viewing the song, in milliseconds.
  */
 data class ChordSheet(
     val id: String = generateUuid(),
@@ -34,4 +37,7 @@ data class ChordSheet(
     val labels: List<String> = emptyList(),
     val createdAt: Long = currentTimeMillis(),
     val updatedAt: Long = currentTimeMillis(),
+    val viewCount: Int = 0,
+    val lastViewedAt: Long = 0L,
+    val totalViewTimeMs: Long = 0L,
 )

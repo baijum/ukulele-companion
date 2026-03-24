@@ -260,6 +260,19 @@
     <string name="songbook_add_label">라벨 추가</string>
     <string name="songbook_label_hint">라벨 입력…</string>
     <string name="songbook_filter_clear">필터 지우기</string>
+    <string name="songbook_duplicate">복제</string>
+    <string name="songbook_tempo_label">템포: %1$d BPM</string>
+    <string name="songbook_start_metronome">메트로놈 시작</string>
+    <plurals name="stats_views">
+        <item quantity="other">%1$d회 조회</item>
+    </plurals>
+    <string name="stats_time_under_minute">&lt; 1분</string>
+    <string name="stats_time_one_minute">1분</string>
+    <string name="stats_time_minutes">%1$d분</string>
+    <string name="stats_time_hours_minutes">%1$d시간 %2$d분</string>
+    <string name="performance_mode">공연 모드</string>
+    <string name="performance_mode_exit">공연 모드 종료</string>
+    <string name="songbook_duplicate_cd">노래 복제</string>
     <string name="songbook_save_in_key">이 키로 저장</string>
     <string name="songbook_saved_in_key">조옮김한 키로 저장됨</string>
     <string name="cd_label">라벨: %s</string>
@@ -1140,4 +1153,18 @@
     <string name="songbook_paste_import">가져오기</string>
     <string name="songbook_play_chord">%s 코드 재생</string>
     <string name="songbook_view_in_library">코드 라이브러리에서 %s 보기</string>
+    <string name="nav_setlists">세트리스트</string>
+    <string name="songbook_font_decrease">글꼴 크기 줄이기</string>
+    <string name="songbook_font_increase">글꼴 크기 늘리기</string>
+    <string name="share_as_pdf">PDF로 내보내기</string>
+    <string name="performance_mode_toggle_controls">탭하여 컨트롤 표시/숨기기</string>
+    <string name="performance_scroll_pause">일시정지</string>
+    <string name="performance_scroll_start">스크롤</string>
+    <string name="performance_scroll_speed">%1$sx</string>
+    <string name="performance_decrease_speed">스크롤 속도 줄이기</string>
+    <string name="performance_increase_speed">스크롤 속도 늘리기</string>
+    <string name="batch_selected">%1$d개 선택됨</string>
+    <string name="batch_select_all">전체</string>
+    <string name="batch_cancel">취소</string>
+    <string name="batch_delete">삭제</string>
 </resources>

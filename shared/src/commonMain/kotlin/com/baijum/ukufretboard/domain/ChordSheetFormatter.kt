@@ -74,6 +74,48 @@ object ChordSheetFormatter {
         return sb.toString().trimEnd()
     }
 
+    data class SectionMarker(
+        val label: String,
+        val lineIndex: Int,
+    )
+
+    private val sectionPattern = Regex("^\\[([^]]+)]\\s*$")
+
+    /**
+     * Extracts section markers (e.g. [Verse], [Chorus], [Bridge]) from song content.
+     *
+     * @param content The raw song content with bracket-delimited section headers.
+     * @return Ordered list of section markers with their line indices.
+     */
+    private val tempoPattern = Regex("^Tempo:\\s*(\\d+)\\s*BPM", RegexOption.IGNORE_CASE)
+
+    /**
+     * Extracts the BPM tempo value from song content, if present.
+     *
+     * Looks for a line matching "Tempo: N BPM" (inserted by ChordProParser).
+     *
+     * @return The BPM value, or null if no tempo is found.
+     */
+    fun extractTempo(content: String): Int? {
+        for (line in content.lines()) {
+            val match = tempoPattern.matchEntire(line.trim())
+            if (match != null) return match.groupValues[1].toIntOrNull()
+        }
+        return null
+    }
+
+    fun extractSections(content: String): List<SectionMarker> {
+        return content.lines().mapIndexedNotNull { index, line ->
+            val trimmed = line.trim()
+            val match = sectionPattern.matchEntire(trimmed)
+            if (match != null) {
+                SectionMarker(label = match.groupValues[1], lineIndex = index)
+            } else {
+                null
+            }
+        }
+    }
+
     /**
      * Formats a chord sheet as plain text with inline chord brackets.
      *

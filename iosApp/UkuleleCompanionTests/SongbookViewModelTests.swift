@@ -16,12 +16,17 @@ final class SongbookViewModelTests: XCTestCase {
         key: String = "C",
         labels: [String] = [],
         createdAt: Double = 1000.0,
-        updatedAt: Double = 1000.0
+        updatedAt: Double = 1000.0,
+        viewCount: Int = 0,
+        lastViewedAt: Double = 0,
+        totalViewTimeMs: Double = 0
     ) -> StoredSong {
         StoredSong(
             id: id, title: title, artist: artist, content: content,
             key: key, capo: 0, strumPatternName: "", labels: labels,
-            createdAt: createdAt, updatedAt: updatedAt
+            createdAt: createdAt, updatedAt: updatedAt,
+            viewCount: viewCount, lastViewedAt: lastViewedAt,
+            totalViewTimeMs: totalViewTimeMs
         )
     }
 
@@ -152,5 +157,50 @@ final class SongbookViewModelTests: XCTestCase {
         XCTAssertEqual(vm2.songs.count, 1)
         XCTAssertEqual(vm2.songs.first?.title, "My Song")
         XCTAssertEqual(vm2.songs.first?.content, "[Am]test")
+    }
+
+    @MainActor
+    func testDuplicateSong() {
+        let vm = SongbookViewModel()
+        let original = makeSong(
+            id: "orig-1", title: "My Song", artist: "Artist",
+            content: "[C]Lyrics", labels: ["folk"]
+        )
+        vm.save(song: original)
+
+        let copy = vm.duplicate(song: original)
+        XCTAssertEqual(vm.songs.count, 2)
+        XCTAssertEqual(copy.title, "My Song (Copy)")
+        XCTAssertNotEqual(copy.id, original.id)
+        XCTAssertEqual(copy.content, original.content)
+        XCTAssertEqual(copy.artist, original.artist)
+        XCTAssertEqual(copy.labels, original.labels)
+    }
+
+    @MainActor
+    func testRecordView() {
+        let vm = SongbookViewModel()
+        let song = makeSong(id: "rv-1")
+        vm.save(song: song)
+
+        vm.recordView(id: "rv-1")
+        XCTAssertEqual(vm.songs.first?.viewCount, 1)
+        XCTAssertTrue((vm.songs.first?.lastViewedAt ?? 0) > 0)
+
+        vm.recordView(id: "rv-1")
+        XCTAssertEqual(vm.songs.first?.viewCount, 2)
+    }
+
+    @MainActor
+    func testRecordViewTime() {
+        let vm = SongbookViewModel()
+        let song = makeSong(id: "rvt-1")
+        vm.save(song: song)
+
+        vm.recordViewTime(id: "rvt-1", elapsedMs: 5000)
+        XCTAssertEqual(vm.songs.first?.totalViewTimeMs, 5000)
+
+        vm.recordViewTime(id: "rvt-1", elapsedMs: 3000)
+        XCTAssertEqual(vm.songs.first?.totalViewTimeMs, 8000)
     }
 }

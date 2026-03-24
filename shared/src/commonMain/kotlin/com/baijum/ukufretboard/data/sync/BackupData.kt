@@ -31,6 +31,7 @@ data class BackupData(
     val customProgressions: List<BackupProgression> = emptyList(),
     val customStrumPatterns: List<BackupStrumPattern> = emptyList(),
     val customFingerpickingPatterns: List<BackupFingerpickingPattern> = emptyList(),
+    val setlists: List<BackupSetlist> = emptyList(),
     val melodies: List<BackupMelody> = emptyList(),
     val learningProgress: BackupLearningProgress = BackupLearningProgress(),
     val settings: BackupSettings = BackupSettings(),
@@ -87,6 +88,25 @@ data class BackupChordSheet(
     val capo: Int = 0,
     val strumPatternName: String = "",
     val labels: List<String> = emptyList(),
+    val createdAt: Long,
+    val updatedAt: Long,
+    val viewCount: Int = 0,
+    val lastViewedAt: Long = 0L,
+    val totalViewTimeMs: Long = 0L,
+)
+
+// =============================================================================
+// Setlists
+// =============================================================================
+
+/**
+ * Serializable representation of a setlist for backup.
+ */
+@Serializable
+data class BackupSetlist(
+    val id: String,
+    val name: String,
+    val songIds: List<String> = emptyList(),
     val createdAt: Long,
     val updatedAt: Long,
 )

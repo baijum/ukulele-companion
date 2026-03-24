@@ -4,6 +4,13 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
+import android.graphics.Typeface
+import androidx.core.content.FileProvider
+import com.baijum.ukufretboard.R
+import java.io.File
 
 /**
  * Platform-specific sharing and clipboard utilities.
@@ -42,4 +49,92 @@ object ShareUtils {
         val clip = ClipData.newPlainText(label, text)
         clipboard.setPrimaryClip(clip)
     }
+
+    /**
+     * Generates a PDF from formatted text and shares it via the system share sheet.
+     *
+     * @param context Android context.
+     * @param title Title for the PDF and share chooser.
+     * @param formattedText Chords-above-lyrics formatted text.
+     */
+    fun sharePdf(context: Context, title: String, formattedText: String) {
+        val pageWidth = 595 // A4 in points
+        val pageHeight = 842
+        val margin = 50f
+        val lineHeight = 16f
+        val fontSize = 11f
+        val titleBlockHeight = 30f
+
+        val paint = Paint().apply {
+            typeface = Typeface.MONOSPACE
+            textSize = fontSize
+            isAntiAlias = true
+        }
+        val titlePaint = Paint().apply {
+            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+            textSize = 18f
+            isAntiAlias = true
+        }
+
+        val lines = formattedText.lines()
+        val usableHeight = pageHeight - 2 * margin
+        val linesPerPage = (usableHeight / lineHeight).toInt()
+        val hasTitle = title.isNotEmpty()
+        val linesPerFirstPage = if (hasTitle) {
+            ((usableHeight - titleBlockHeight) / lineHeight).toInt()
+        } else {
+            linesPerPage
+        }
+
+        val document = PdfDocument()
+        var pageNum = 0
+        var lineIdx = 0
+
+        while (lineIdx < lines.size) {
+            pageNum++
+            val pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNum).create()
+            val page = document.startPage(pageInfo)
+            val canvas: Canvas = page.canvas
+
+            var y = margin
+            if (pageNum == 1 && hasTitle) {
+                canvas.drawText(title, margin, y + 18f, titlePaint)
+                y += titleBlockHeight
+            }
+
+            val maxLines = if (pageNum == 1) linesPerFirstPage else linesPerPage
+            var linesOnPage = 0
+            while (lineIdx < lines.size && linesOnPage < maxLines) {
+                canvas.drawText(lines[lineIdx], margin, y + lineHeight, paint)
+                y += lineHeight
+                lineIdx++
+                linesOnPage++
+            }
+
+            document.finishPage(page)
+        }
+
+        val shareDir = File(context.cacheDir, "shared_chords")
+        shareDir.mkdirs()
+        val pdfFile = File(shareDir, "${sanitizeFilename(title)}.pdf")
+        pdfFile.outputStream().use { document.writeTo(it) }
+        document.close()
+
+        val uri = FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.fileprovider",
+            pdfFile,
+        )
+        val chooserTitle = context.getString(R.string.share_as_pdf)
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "application/pdf"
+            putExtra(Intent.EXTRA_STREAM, uri)
+            putExtra(Intent.EXTRA_SUBJECT, title)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        context.startActivity(Intent.createChooser(intent, chooserTitle))
+    }
+
+    private fun sanitizeFilename(name: String): String =
+        name.replace(Regex("[^a-zA-Z0-9._-]"), "_").take(100)
 }

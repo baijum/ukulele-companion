@@ -123,71 +123,23 @@ for example:
 
 ---
 
-## Gap E: Render Chords Above Lyrics (ChordPro Style)
+## Gap E: Render Chords Above Lyrics (ChordPro Style) — ALREADY IMPLEMENTED
 
-### Problem
-Android's songbook viewer renders each line with chords as two visual rows — a
-chord line positioned above the lyric line, matching the standard ChordPro
-"chords above lyrics" layout. iOS renders chords **inline** with the lyrics in a
-single `HStack`, so chords and text appear side by side on the same line rather
-than above.
-
-The shared KMP module already has `ChordSheetFormatter.formatChordsAboveLyrics()`
-which implements the correct two-line algorithm, but iOS only uses it for plain
-text export/share — not for on-screen rendering.
-
-### Android Implementation Reference
-In `SongbookTab.kt` (~lines 708-770), Android:
-1. Parses each line with `ChordParser.parseLine`.
-2. Tracks chord positions as `(lyricOffset, chordName)` pairs.
-3. Builds an `AnnotatedString` chord line with spaces padding chords to the
-   correct column above the lyrics.
-4. Renders the chord `Text` first, then the lyric `Text` below it — two separate
-   composables per input line.
-
-### Current iOS Implementation
-In `SongbookView.swift` `parsedLineView` (~line 809), iOS uses:
-```swift
-HStack(spacing: 0) {
-    // chord and plain text segments side by side
-}
-```
-
-### Approach
-Replace the single `HStack` with a two-row `VStack` when chords are present:
-1. In `parsedLineView`, detect whether any segment is a `ChordParser.TextSegmentChord`.
-2. If chords exist, build two lines:
-   - A chord line: chord names padded with spaces to align above the
-     corresponding lyric position.
-   - A lyric line: plain text with chord markers removed.
-3. Render the chord line as a `Text` (accent color, bold, monospaced) and the
-   lyric line as a `Text` (monospaced) in a `VStack(alignment: .leading, spacing: 0)`.
-4. Preserve the existing `onTapGesture` for chords by making each chord name in
-   the chord line tappable (use `AttributedString` or overlay tap targets).
-5. If no chords on the line, render as a single `Text` (current behavior for
-   plain lines).
-6. Apply the same fix to the editor preview in `SongEditorView.swift`.
-
-### Accessibility
-- Chord line should have a combined content description listing the chords.
-- Lyric line content description should be the plain lyrics.
-- Tappable chords retain their existing `accessibilityLabel`.
-
-### Files to Modify
-- `iosApp/.../Views/SongbookView.swift` — `parsedLineView` in `SongViewerView`
-- `iosApp/.../Views/SongEditorView.swift` — preview rendering
+> **Status: Complete.** iOS already implements chords-above-lyrics rendering via
+> `buildChordsAboveLyrics` in `parsedLineView` within `SongbookView.swift`.
+> The chord row renders as an `HStack` above a separate `Text` lyric line in a
+> `VStack(alignment: .leading, spacing: 0)`. No further work needed.
 
 ---
 
 ## Priority
 Medium-High — Gap A (shared ViewModel) is an architectural fix that prevents stale
 data bugs. Gap C, D are accessibility fixes for VoiceOver users, which the project
-treats as seriously as functional bugs per AGENTS.md. Gap E is a visual rendering
-parity issue that affects how songs look in the viewer.
+treats as seriously as functional bugs per AGENTS.md. Gap E is already implemented.
 
 ## Estimated Effort
 - Gap A: ~1-2 hours (refactor ownership, verify navigation propagation, test)
 - Gap B: ~1 hour (wire custom patterns into two pickers)
 - Gap C: ~15 minutes (add two accessibility modifiers)
 - Gap D: ~30 minutes (add onChange handler with announcements)
-- Gap E: ~2-3 hours (rewrite line rendering, preserve tap targets, update editor preview)
+- Gap E: ~0 hours (already implemented)

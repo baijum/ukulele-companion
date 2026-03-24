@@ -74,6 +74,9 @@
 		A10065 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10065 /* SettingsViewModelTests.swift */; };
 		A10066 /* BackupRestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10066 /* BackupRestoreManager.swift */; };
 		A10090 /* ReviewPromptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10090 /* ReviewPromptManager.swift */; };
+		A10091 /* SetlistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10091 /* SetlistViewModel.swift */; };
+		A10092 /* SetlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10092 /* SetlistView.swift */; };
+		A10093 /* SetlistViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10093 /* SetlistViewModelTests.swift */; };
 		A10067 /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10067 /* PlayView.swift */; };
 		A10068 /* ScaleSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10068 /* ScaleSelectorView.swift */; };
 		A10069 /* PlayAlongViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10069 /* PlayAlongViewModel.swift */; };
@@ -211,6 +214,9 @@
 		B10065 /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
 		B10066 /* BackupRestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupRestoreManager.swift; sourceTree = "<group>"; };
 		B10090 /* ReviewPromptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPromptManager.swift; sourceTree = "<group>"; };
+		B10091 /* SetlistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetlistViewModel.swift; sourceTree = "<group>"; };
+		B10092 /* SetlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetlistView.swift; sourceTree = "<group>"; };
+		B10093 /* SetlistViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetlistViewModelTests.swift; sourceTree = "<group>"; };
 		B10067 /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
 		B10068 /* ScaleSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleSelectorView.swift; sourceTree = "<group>"; };
 		B10069 /* PlayAlongViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAlongViewModel.swift; sourceTree = "<group>"; };
@@ -353,6 +359,7 @@
 				B10021 /* ProgressionsView.swift */,
 				B10022 /* StrumPatternsView.swift */,
 				B10023 /* SongbookView.swift */,
+				B10092 /* SetlistView.swift */,
 				B10024 /* SongEditorView.swift */,
 				B10025 /* MelodyNotepadView.swift */,
 				B10080 /* SongwriterModeFlow.swift */,
@@ -438,6 +445,7 @@
 				B10008 /* ChordLibraryViewModel.swift */,
 				B10026 /* ProgressionsViewModel.swift */,
 				B10027 /* SongbookViewModel.swift */,
+				B10091 /* SetlistViewModel.swift */,
 				B10028 /* MelodyViewModel.swift */,
 				B10042 /* LearnViewModel.swift */,
 				B10043 /* ScalePracticeViewModel.swift */,
@@ -475,6 +483,7 @@
 				B10077 /* ProgressionsViewModelTests.swift */,
 				B10065 /* SettingsViewModelTests.swift */,
 				B10076 /* SongbookViewModelTests.swift */,
+				B10093 /* SetlistViewModelTests.swift */,
 			);
 			path = UkuleleCompanionTests;
 			sourceTree = "<group>";
@@ -669,10 +678,12 @@
 				A10021 /* ProgressionsView.swift in Sources */,
 				A10022 /* StrumPatternsView.swift in Sources */,
 				A10023 /* SongbookView.swift in Sources */,
+				A10092 /* SetlistView.swift in Sources */,
 				A10024 /* SongEditorView.swift in Sources */,
 				A10025 /* MelodyNotepadView.swift in Sources */,
 				A10026 /* ProgressionsViewModel.swift in Sources */,
 				A10027 /* SongbookViewModel.swift in Sources */,
+				A10091 /* SetlistViewModel.swift in Sources */,
 				A10028 /* MelodyViewModel.swift in Sources */,
 				A10029 /* LearnView.swift in Sources */,
 				A10030 /* TheoryLessonsView.swift in Sources */,
@@ -734,6 +745,7 @@
 				A10077 /* ProgressionsViewModelTests.swift in Sources */,
 				A10065 /* SettingsViewModelTests.swift in Sources */,
 				A10076 /* SongbookViewModelTests.swift in Sources */,
+				A10093 /* SetlistViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,9 +1,11 @@
 package com.baijum.ukufretboard.data
 
+import com.baijum.ukufretboard.data.sync.BackupChordSheet
 import com.baijum.ukufretboard.data.sync.BackupData
 import com.baijum.ukufretboard.data.sync.BackupFavorite
 import com.baijum.ukufretboard.data.sync.BackupFavoriteFolder
 import com.baijum.ukufretboard.data.sync.BackupLearningProgress
+import com.baijum.ukufretboard.data.sync.BackupSetlist
 import com.baijum.ukufretboard.data.sync.BackupSettings
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -96,5 +98,90 @@ class BackupDataTest {
         assertTrue(data.customFingerpickingPatterns.isEmpty())
         assertTrue(data.melodies.isEmpty())
         assertTrue(data.knownChords.isEmpty())
+        assertTrue(data.setlists.isEmpty())
+    }
+
+    @Test
+    fun backupWithSetlistsRoundTrips() {
+        val setlist = BackupSetlist(
+            id = "sl-1",
+            name = "Friday Gig",
+            songIds = listOf("song-1", "song-2", "song-3"),
+            createdAt = 5000L,
+            updatedAt = 6000L,
+        )
+        val data = BackupData(
+            exportedAt = 12345L,
+            setlists = listOf(setlist),
+        )
+        val jsonStr = json.encodeToString(data)
+        val decoded = json.decodeFromString<BackupData>(jsonStr)
+        assertEquals(1, decoded.setlists.size)
+        assertEquals("sl-1", decoded.setlists[0].id)
+        assertEquals("Friday Gig", decoded.setlists[0].name)
+        assertEquals(listOf("song-1", "song-2", "song-3"), decoded.setlists[0].songIds)
+        assertEquals(5000L, decoded.setlists[0].createdAt)
+        assertEquals(6000L, decoded.setlists[0].updatedAt)
+    }
+
+    @Test
+    fun backupChordSheetViewStatsRoundTrip() {
+        val sheet = BackupChordSheet(
+            id = "cs-1",
+            title = "Test Song",
+            content = "[C]Hello",
+            createdAt = 1000L,
+            updatedAt = 2000L,
+            viewCount = 5,
+            lastViewedAt = 12345L,
+            totalViewTimeMs = 60000L,
+        )
+        val data = BackupData(
+            exportedAt = 12345L,
+            chordSheets = listOf(sheet),
+        )
+        val jsonStr = json.encodeToString(data)
+        val decoded = json.decodeFromString<BackupData>(jsonStr)
+        assertEquals(1, decoded.chordSheets.size)
+        assertEquals(5, decoded.chordSheets[0].viewCount)
+        assertEquals(12345L, decoded.chordSheets[0].lastViewedAt)
+        assertEquals(60000L, decoded.chordSheets[0].totalViewTimeMs)
+    }
+
+    @Test
+    fun backupChordSheetViewStatsDefaultToZero() {
+        val sheet = BackupChordSheet(
+            id = "cs-2",
+            title = "No Stats",
+            content = "[Am]Lyrics",
+            createdAt = 1000L,
+            updatedAt = 2000L,
+        )
+        assertEquals(0, sheet.viewCount)
+        assertEquals(0L, sheet.lastViewedAt)
+        assertEquals(0L, sheet.totalViewTimeMs)
+    }
+
+    @Test
+    fun backwardCompatMissingFieldsGetDefaults() {
+        val oldJson = """
+            {
+                "version": 3,
+                "exportedAt": 12345,
+                "chordSheets": [{
+                    "id": "cs-old",
+                    "title": "Old Song",
+                    "content": "[C]Test",
+                    "createdAt": 1000,
+                    "updatedAt": 2000
+                }]
+            }
+        """.trimIndent()
+        val decoded = json.decodeFromString<BackupData>(oldJson)
+        assertEquals(1, decoded.chordSheets.size)
+        assertEquals(0, decoded.chordSheets[0].viewCount)
+        assertEquals(0L, decoded.chordSheets[0].lastViewedAt)
+        assertEquals(0L, decoded.chordSheets[0].totalViewTimeMs)
+        assertTrue(decoded.setlists.isEmpty())
     }
 }

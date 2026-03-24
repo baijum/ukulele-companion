@@ -13,6 +13,9 @@ struct StoredSong: Codable, Identifiable {
     var labels: [String]
     var createdAt: Double
     var updatedAt: Double
+    var viewCount: Int
+    var lastViewedAt: Double
+    var totalViewTimeMs: Double
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -27,11 +30,15 @@ struct StoredSong: Codable, Identifiable {
         labels = try container.decode([String].self, forKey: .labels)
         createdAt = try container.decode(Double.self, forKey: .createdAt)
         updatedAt = try container.decode(Double.self, forKey: .updatedAt)
+        viewCount = try container.decodeIfPresent(Int.self, forKey: .viewCount) ?? 0
+        lastViewedAt = try container.decodeIfPresent(Double.self, forKey: .lastViewedAt) ?? 0
+        totalViewTimeMs = try container.decodeIfPresent(Double.self, forKey: .totalViewTimeMs) ?? 0
     }
 
     init(id: String, title: String, subtitle: String = "", artist: String, content: String,
          key: String, capo: Int, strumPatternName: String, labels: [String],
-         createdAt: Double, updatedAt: Double) {
+         createdAt: Double, updatedAt: Double,
+         viewCount: Int = 0, lastViewedAt: Double = 0, totalViewTimeMs: Double = 0) {
         self.id = id
         self.title = title
         self.subtitle = subtitle
@@ -43,6 +50,9 @@ struct StoredSong: Codable, Identifiable {
         self.labels = labels
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+        self.viewCount = viewCount
+        self.lastViewedAt = lastViewedAt
+        self.totalViewTimeMs = totalViewTimeMs
     }
 }
 
@@ -113,6 +123,26 @@ final class SongbookViewModel: ObservableObject {
         persist()
     }
 
+    func duplicate(song: StoredSong) -> StoredSong {
+        let now = Date().timeIntervalSince1970 * 1000
+        let copy = StoredSong(
+            id: UUID().uuidString,
+            title: "\(song.title) (Copy)",
+            subtitle: song.subtitle,
+            artist: song.artist,
+            content: song.content,
+            key: song.key,
+            capo: song.capo,
+            strumPatternName: song.strumPatternName,
+            labels: song.labels,
+            createdAt: now,
+            updatedAt: now
+        )
+        songs.insert(copy, at: 0)
+        persist()
+        return copy
+    }
+
     func delete(id: String) {
         songs.removeAll { $0.id == id }
         persist()
@@ -129,6 +159,20 @@ final class SongbookViewModel: ObservableObject {
         guard let idx = songs.firstIndex(where: { $0.id == id }) else { return }
         songs[idx].strumPatternName = patternName
         songs[idx].updatedAt = Date().timeIntervalSince1970 * 1000
+        persist()
+    }
+
+    func recordView(id: String) {
+        guard let idx = songs.firstIndex(where: { $0.id == id }) else { return }
+        songs[idx].viewCount += 1
+        songs[idx].lastViewedAt = Date().timeIntervalSince1970 * 1000
+        persist()
+    }
+
+    func recordViewTime(id: String, elapsedMs: Double) {
+        guard elapsedMs > 0,
+              let idx = songs.firstIndex(where: { $0.id == id }) else { return }
+        songs[idx].totalViewTimeMs += elapsedMs
         persist()
     }
 
@@ -207,7 +251,10 @@ final class SongbookViewModel: ObservableObject {
             strumPatternName: song.strumPatternName,
             labels: song.labels,
             createdAt: Int64(song.createdAt),
-            updatedAt: Int64(song.updatedAt)
+            updatedAt: Int64(song.updatedAt),
+            viewCount: Int32(song.viewCount),
+            lastViewedAt: Int64(song.lastViewedAt),
+            totalViewTimeMs: Int64(song.totalViewTimeMs)
         )
     }
 
