@@ -24,6 +24,10 @@ hide:
         <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
              alt="Get it on Google Play">
       </a>
+      <a href="https://apps.apple.com/app/id6760328302" class="store-badge">
+        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+             alt="Download on the App Store">
+      </a>
       <a href="manual/" class="md-button md-button--primary">Start with the Manual</a>
       <a href="https://github.com/baijum/ukulele-companion" class="md-button">View on GitHub</a>
     </div>
@@ -162,11 +166,14 @@ hide:
   </div>
 </section>
 
-<section class="cta-panel cta-testflight">
-  <h2>Try the iOS beta via TestFlight</h2>
-  <p>Get early access to new features on iPhone and iPad before they go live.</p>
+<section class="cta-panel cta-appstore">
+  <h2>Download on iOS</h2>
+  <p>Free, offline, and ad-free. Available now on the App Store for iPhone and iPad.</p>
   <div class="hero-cta">
-    <a href="https://testflight.apple.com/join/Zpq8kzm6" class="md-button md-button--primary">Join the TestFlight Beta</a>
+    <a href="https://apps.apple.com/app/id6760328302" class="store-badge">
+      <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+           alt="Download on the App Store">
+    </a>
   </div>
 </section>
 

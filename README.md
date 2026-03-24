@@ -15,6 +15,10 @@
     <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
          alt="Get it on Google Play" height="60">
   </a>
+  <a href="https://apps.apple.com/app/id6760328302">
+    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+         alt="Download on the App Store" height="44">
+  </a>
 </p>
 
 <p align="center">
@@ -366,17 +370,20 @@ Detailed feature documentation and a user manual are available in the [`docs/`](
 
 ---
 
-## 🧪 Beta Testing (iOS)
+## 📲 Download
 
-The Android app is available on the [Google Play Store](https://play.google.com/store/apps/details?id=com.baijum.ukufretboard).
+Ukulele Companion is free on both platforms:
 
-Want to try new iOS features before they go live? Join the beta via
-[TestFlight](https://testflight.apple.com/join/Zpq8kzm6).
-
-As a tester you can:
-- Install pre-release iOS builds through TestFlight
-- Try new features before they are publicly available
-- Report bugs or share feedback directly to help improve the app
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=com.baijum.ukufretboard">
+    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+         alt="Get it on Google Play" height="60">
+  </a>
+  <a href="https://apps.apple.com/app/id6760328302">
+    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+         alt="Download on the App Store" height="44">
+  </a>
+</p>
 
 ---
 

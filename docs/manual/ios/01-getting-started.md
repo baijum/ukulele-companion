@@ -2,7 +2,7 @@
 
 ## Installing the App
 
-Ukulele Companion is available on the App Store. Install it on any iPhone or iPad running iOS 17.0 or later. No account or login is required — just install and open.
+Ukulele Companion is available on the [App Store](https://apps.apple.com/app/id6760328302). Install it on any iPhone or iPad running iOS 17.0 or later. No account or login is required — just install and open.
 
 ## First Launch
 
