@@ -15,6 +15,7 @@ struct SongEditorView: View {
     @State private var labelInput: String = ""
     @State private var showPreview = false
     @State private var showDiscardDialog = false
+    @EnvironmentObject var customPatternsVM: CustomPatternsViewModel
 
     private let existingSong: StoredSong?
 
@@ -89,11 +90,20 @@ struct SongEditorView: View {
             }
 
             Section("Strum Pattern") {
-                let patterns = StrumPatterns.shared.ALL as! [StrumPattern]
+                let builtInPatterns = StrumPatterns.shared.ALL as! [StrumPattern]
                 Picker("Pattern", selection: $strumPatternName) {
                     Text("None").tag("")
-                    ForEach(0..<patterns.count, id: \.self) { i in
-                        Text(patterns[i].name).tag(patterns[i].name)
+                    Section("Built-in") {
+                        ForEach(0..<builtInPatterns.count, id: \.self) { i in
+                            Text(builtInPatterns[i].name).tag(builtInPatterns[i].name)
+                        }
+                    }
+                    if !customPatternsVM.strumPatterns.isEmpty {
+                        Section("Custom") {
+                            ForEach(customPatternsVM.strumPatterns) { custom in
+                                Text(custom.name).tag(custom.name)
+                            }
+                        }
                     }
                 }
             }
@@ -254,20 +264,64 @@ struct SongEditorView: View {
         return VStack(alignment: .leading, spacing: 2) {
             ForEach(0..<lines.count, id: \.self) { i in
                 let segments = ChordParser.shared.parseLine(line: lines[i]) as! [ChordParser.TextSegment]
-                let built = segments.reduce(Text("")) { result, segment in
-                    if let chord = segment as? ChordParser.TextSegmentChord {
-                        return result + Text(chord.name)
-                            .foregroundColor(.accentColor)
-                            .bold()
-                    } else if let plain = segment as? ChordParser.TextSegmentPlainText {
-                        return result + Text(plain.text)
-                    }
-                    return result
-                }
-                built.font(.system(.body, design: .monospaced))
+                previewLineView(segments: segments)
             }
         }
         .frame(minHeight: 200, alignment: .topLeading)
+    }
+
+    @ViewBuilder
+    private func previewLineView(segments: [ChordParser.TextSegment]) -> some View {
+        let hasChords = segments.contains(where: { $0 is ChordParser.TextSegmentChord })
+        if hasChords {
+            let result = Self.buildChordAndLyricLines(segments: segments)
+            VStack(alignment: .leading, spacing: 0) {
+                Text(result.chordLine)
+                    .font(.system(.body, design: .monospaced))
+                    .foregroundColor(.accentColor)
+                    .bold()
+                if !result.lyrics.trimmingCharacters(in: .whitespaces).isEmpty {
+                    Text(result.lyrics)
+                        .font(.system(.body, design: .monospaced))
+                }
+            }
+        } else {
+            let text = segments.compactMap { ($0 as? ChordParser.TextSegmentPlainText)?.text }.joined()
+            Text(text.isEmpty ? " " : text)
+                .font(.system(.body, design: .monospaced))
+        }
+    }
+
+    private static func buildChordAndLyricLines(segments: [ChordParser.TextSegment])
+        -> (chordLine: String, lyrics: String)
+    {
+        var lyrics = ""
+        var chordEntries: [(position: Int, name: String)] = []
+
+        for segment in segments {
+            if let chord = segment as? ChordParser.TextSegmentChord {
+                chordEntries.append((position: lyrics.count, name: chord.name))
+            } else if let plain = segment as? ChordParser.TextSegmentPlainText {
+                lyrics += plain.text
+            }
+        }
+
+        var chordLine = ""
+        var pos = 0
+        for entry in chordEntries {
+            let gap = entry.position - pos
+            if gap > 0 {
+                chordLine += String(repeating: " ", count: gap)
+                pos = entry.position
+            } else if pos > 0 {
+                chordLine += " "
+                pos += 1
+            }
+            chordLine += entry.name
+            pos += entry.name.count
+        }
+
+        return (chordLine, lyrics)
     }
 
     private let chordChipNames = ["C", "G", "Am", "F", "Em", "Dm", "D", "A", "E", "Bm"]

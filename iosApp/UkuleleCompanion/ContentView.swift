@@ -29,6 +29,8 @@ struct ContentView: View {
     @StateObject private var settingsVM = SettingsViewModel()
     @StateObject private var learnVM = LearnViewModel()
     @StateObject private var favoritesVM = FavoritesViewModel()
+    @StateObject private var songbookVM = SongbookViewModel()
+    @StateObject private var customPatternsVM = CustomPatternsViewModel()
 
     init() {
         let completed = UserDefaults(suiteName: "app_settings")?.bool(forKey: "onboarding_completed") ?? false
@@ -89,6 +91,8 @@ struct ContentView: View {
         .environmentObject(settingsVM)
         .environmentObject(learnVM)
         .environmentObject(favoritesVM)
+        .environmentObject(songbookVM)
+        .environmentObject(customPatternsVM)
         .tint(isHighContrast ? .yellow : nil)
         .sheet(isPresented: $showSettings) { SettingsView() }
         .onChange(of: showSettings) { isShowing in
@@ -113,6 +117,8 @@ struct ContentView: View {
         .environmentObject(settingsVM)
         .environmentObject(learnVM)
         .environmentObject(favoritesVM)
+        .environmentObject(songbookVM)
+        .environmentObject(customPatternsVM)
         .tint(isHighContrast ? .yellow : nil)
         .sheet(isPresented: $showSettings) { SettingsView() }
         .onChange(of: showSettings) { isShowing in

@@ -5,7 +5,7 @@ import shared
 struct SettingsView: View {
     @StateObject private var viewModel = SettingsViewModel()
     @EnvironmentObject private var favoritesVM: FavoritesViewModel
-    @StateObject private var songbookVM = SongbookViewModel()
+    @EnvironmentObject var songbookVM: SongbookViewModel
     @StateObject private var melodyVM = MelodyViewModel()
     @StateObject private var progressionsVM = ProgressionsViewModel()
     @StateObject private var learnVM = LearnViewModel()
