@@ -63,7 +63,7 @@ struct FretboardNoteMapView: View {
                     let pitchClasses = tuning.pitchClasses as! [NSNumber]
                     let stringNames = tuning.stringNames as! [String]
 
-                    ForEach(0..<4, id: \.self) { stringIndex in
+                    ForEach(Array((0..<4).reversed()), id: \.self) { stringIndex in
                         HStack(spacing: 0) {
                             Text(stringNames[stringIndex])
                                 .font(.caption.bold())
