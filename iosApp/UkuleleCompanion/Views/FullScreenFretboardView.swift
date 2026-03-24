@@ -28,7 +28,7 @@ struct FullScreenFretboardView: View {
                 VStack(spacing: 0) {
                     fretNumberRow(cellW: cellW, labelWidth: labelWidth)
 
-                    ForEach(0..<4, id: \.self) { stringIdx in
+                    ForEach(Array((0..<4).reversed()), id: \.self) { stringIdx in
                         stringRow(stringIdx: stringIdx, cellW: cellW, cellH: cellH, labelWidth: labelWidth)
                     }
                 }

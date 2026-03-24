@@ -161,7 +161,7 @@ struct ScalePracticeView: View {
         let tuning: [Int] = [7, 0, 4, 9] // G C E A (High-G)
 
         VStack(spacing: 0) {
-            ForEach(0..<4, id: \.self) { stringIdx in
+            ForEach(Array((0..<4).reversed()), id: \.self) { stringIdx in
                 HStack(spacing: 0) {
                     ForEach(Array(fretRange), id: \.self) { fret in
                         let pc = (tuning[stringIdx] + fret) % 12

@@ -76,7 +76,7 @@ struct FretboardView: View {
 
     private var stringLabelsColumn: some View {
         VStack(spacing: 0) {
-            ForEach(0..<FretboardViewModel.stringCount, id: \.self) { stringIndex in
+            ForEach(Array((0..<FretboardViewModel.stringCount).reversed()), id: \.self) { stringIndex in
                 Text(viewModel.tuning[stringIndex].name)
                     .font(.caption.bold())
                     .frame(width: 32, height: cellSize)
@@ -99,7 +99,7 @@ struct FretboardView: View {
             .accessibilityHidden(true)
 
             VStack(spacing: 0) {
-                ForEach(0..<FretboardViewModel.stringCount, id: \.self) { stringIndex in
+                ForEach(Array((0..<FretboardViewModel.stringCount).reversed()), id: \.self) { stringIndex in
                     HStack(spacing: 0) {
                         ForEach(fretOrder, id: \.self) { fret in
                             let noteInfo = viewModel.getNoteAt(stringIndex: stringIndex, fret: fret)
