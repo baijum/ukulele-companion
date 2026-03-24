@@ -87,6 +87,9 @@ class BackupRestoreManager(
                     labels = sheet.labels,
                     createdAt = sheet.createdAt,
                     updatedAt = sheet.updatedAt,
+                    viewCount = sheet.viewCount,
+                    lastViewedAt = sheet.lastViewedAt,
+                    totalViewTimeMs = sheet.totalViewTimeMs,
                 )
             },
             customProgressions = progressionRepo.getAll().map { cp ->
@@ -230,6 +233,9 @@ class BackupRestoreManager(
                 labels = s.labels,
                 createdAt = s.createdAt,
                 updatedAt = s.updatedAt,
+                viewCount = s.viewCount,
+                lastViewedAt = s.lastViewedAt,
+                totalViewTimeMs = s.totalViewTimeMs,
             )
         })
 

@@ -260,6 +260,17 @@
     <string name="songbook_add_label">添加标签</string>
     <string name="songbook_label_hint">输入标签…</string>
     <string name="songbook_filter_clear">清除筛选</string>
+    <string name="songbook_duplicate">复制</string>
+    <string name="songbook_tempo_label">速度：%1$d BPM</string>
+    <string name="songbook_start_metronome">启动节拍器</string>
+    <string name="stats_views">%1$d 次查看</string>
+    <string name="stats_time_under_minute">&lt; 1 分钟</string>
+    <string name="stats_time_one_minute">1 分钟</string>
+    <string name="stats_time_minutes">%1$d 分钟</string>
+    <string name="stats_time_hours_minutes">%1$d小时 %2$d分</string>
+    <string name="performance_mode">演奏模式</string>
+    <string name="performance_mode_exit">退出演奏模式</string>
+    <string name="songbook_duplicate_cd">复制歌曲</string>
     <string name="songbook_save_in_key">以此调保存</string>
     <string name="songbook_saved_in_key">歌曲已以转调保存</string>
     <string name="cd_label">标签：%s</string>

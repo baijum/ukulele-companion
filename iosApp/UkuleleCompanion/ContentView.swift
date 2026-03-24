@@ -2,7 +2,7 @@ import SwiftUI
 
 enum SidebarDestination: String, Hashable {
     case explorer, tuner, pitchMonitor, metronome, chordLibrary, favorites
-    case songwriterMode, progressions, strumPatterns, songbook, melodyNotepad
+    case songwriterMode, progressions, strumPatterns, songbook, setlists, melodyNotepad
     case dailyChallenge, practiceRoutine, chordTransitions, playAlong
     case intervalTrainer, chordEarTraining, noteQuiz, scalePractice
     case theoryLessons, theoryQuiz
@@ -12,7 +12,7 @@ enum SidebarDestination: String, Hashable {
     var isPlayOrCreate: Bool {
         switch self {
         case .explorer, .tuner, .pitchMonitor, .metronome, .chordLibrary, .favorites,
-             .songwriterMode, .progressions, .strumPatterns, .songbook, .melodyNotepad:
+             .songwriterMode, .progressions, .strumPatterns, .songbook, .setlists, .melodyNotepad:
             return true
         default:
             return false
@@ -31,6 +31,8 @@ struct ContentView: View {
     @StateObject private var favoritesVM = FavoritesViewModel()
     @StateObject private var songbookVM = SongbookViewModel()
     @StateObject private var customPatternsVM = CustomPatternsViewModel()
+    @StateObject private var setlistVM = SetlistViewModel()
+    @StateObject private var metronomeVM = MetronomeViewModel()
 
     init() {
         let completed = UserDefaults(suiteName: "app_settings")?.bool(forKey: "onboarding_completed") ?? false
@@ -93,6 +95,8 @@ struct ContentView: View {
         .environmentObject(favoritesVM)
         .environmentObject(songbookVM)
         .environmentObject(customPatternsVM)
+        .environmentObject(setlistVM)
+        .environmentObject(metronomeVM)
         .tint(isHighContrast ? .yellow : nil)
         .sheet(isPresented: $showSettings) { SettingsView() }
         .onChange(of: showSettings) { isShowing in
@@ -119,6 +123,8 @@ struct ContentView: View {
         .environmentObject(favoritesVM)
         .environmentObject(songbookVM)
         .environmentObject(customPatternsVM)
+        .environmentObject(setlistVM)
+        .environmentObject(metronomeVM)
         .tint(isHighContrast ? .yellow : nil)
         .sheet(isPresented: $showSettings) { SettingsView() }
         .onChange(of: showSettings) { isShowing in
@@ -150,6 +156,7 @@ struct ContentView: View {
                 sidebarLink(.progressions, "Chord Progressions", icon: "play.circle")
                 sidebarLink(.strumPatterns, "Strumming Patterns", icon: "metronome")
                 sidebarLink(.songbook, "Songbook", icon: "music.note.list")
+                sidebarLink(.setlists, "Setlists", icon: "list.number")
                 sidebarLink(.melodyNotepad, "Melody Notepad", icon: "pianokeys")
             } header: {
                 Text("Create").accessibilityAddTraits(.isHeader)
@@ -232,6 +239,7 @@ struct ContentView: View {
         case .progressions: ProgressionsView()
         case .strumPatterns: StrumPatternsView()
         case .songbook: SongbookView()
+        case .setlists: SetlistView(viewModel: setlistVM, songbookViewModel: songbookVM)
         case .melodyNotepad: MelodyNotepadView()
         case .dailyChallenge: DailyChallengeView()
         case .practiceRoutine: PracticeRoutineView()

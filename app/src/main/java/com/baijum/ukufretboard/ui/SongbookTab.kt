@@ -4,7 +4,11 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,12 +46,15 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Fullscreen
+import androidx.compose.material.icons.filled.FullscreenExit
 import androidx.compose.material.icons.automirrored.filled.Label
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -87,6 +94,7 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
@@ -97,8 +105,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.res.stringResource
+import kotlinx.coroutines.launch
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.ChordParser
 import com.baijum.ukufretboard.data.ChordProExporter
@@ -131,6 +144,7 @@ fun SongbookTab(
     viewModel: SongbookViewModel,
     onChordTapped: (String) -> Unit,
     onPlayChord: (String) -> Unit = {},
+    onStartMetronome: (Int) -> Unit = {},
     tuning: List<UkuleleString> = emptyList(),
     leftHanded: Boolean = false,
     modifier: Modifier = Modifier,
@@ -142,6 +156,8 @@ fun SongbookTab(
     val sortOrder by viewModel.sortOrder.collectAsState()
     val allLabels by viewModel.allLabels.collectAsState()
     val selectedLabels by viewModel.selectedLabels.collectAsState()
+    val isSelectionMode by viewModel.isSelectionMode.collectAsState()
+    val selectedIds by viewModel.selectedIds.collectAsState()
 
     when {
         isEditing -> {
@@ -170,8 +186,10 @@ fun SongbookTab(
                     viewModel.deleteSheet(currentSheet!!.id)
                     viewModel.closeSheet()
                 },
+                onDuplicate = { viewModel.duplicateSheet(currentSheet!!) },
                 onChordTapped = onChordTapped,
                 onPlayChord = onPlayChord,
+                onStartMetronome = onStartMetronome,
                 tuning = tuning,
                 leftHanded = leftHanded,
                 onStrumPatternChange = { viewModel.updateStrumPattern(it) },
@@ -199,6 +217,13 @@ fun SongbookTab(
                         viewModel.importPlainText(content, filename)
                     }
                 },
+                isSelectionMode = isSelectionMode,
+                selectedIds = selectedIds,
+                onLongPress = { viewModel.enterSelectionMode(it.id) },
+                onToggleSelect = { viewModel.toggleSelection(it) },
+                onSelectAll = { viewModel.selectAll() },
+                onClearSelection = { viewModel.clearSelection() },
+                onDeleteSelected = { viewModel.deleteSelected() },
                 modifier = modifier,
             )
         }
@@ -222,6 +247,13 @@ private fun SheetList(
     onSheetTapped: (ChordSheet) -> Unit,
     onNewSheet: () -> Unit,
     onImport: (String, String?) -> Unit,
+    isSelectionMode: Boolean = false,
+    selectedIds: Set<String> = emptySet(),
+    onLongPress: (ChordSheet) -> Unit = {},
+    onToggleSelect: (String) -> Unit = {},
+    onSelectAll: () -> Unit = {},
+    onClearSelection: () -> Unit = {},
+    onDeleteSelected: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -369,6 +401,28 @@ private fun SheetList(
                     )
                 }
             } else {
+                if (isSelectionMode) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            "${selectedIds.size} selected",
+                            style = MaterialTheme.typography.titleSmall,
+                        )
+                        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                            TextButton(onClick = onSelectAll) { Text("All") }
+                            TextButton(onClick = onClearSelection) { Text("Cancel") }
+                            TextButton(onClick = onDeleteSelected) {
+                                Text("Delete", color = MaterialTheme.colorScheme.error)
+                            }
+                        }
+                    }
+                }
+
                 LazyColumn(
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -377,8 +431,17 @@ private fun SheetList(
                     items(sheets) { sheet ->
                         SheetCard(
                             sheet = sheet,
-                            onClick = { onSheetTapped(sheet) },
+                            onClick = {
+                                if (isSelectionMode) {
+                                    onToggleSelect(sheet.id)
+                                } else {
+                                    onSheetTapped(sheet)
+                                }
+                            },
+                            onLongClick = { onLongPress(sheet) },
                             onLabelTapped = onToggleLabelFilter,
+                            isSelected = sheet.id in selectedIds,
+                            showCheckbox = isSelectionMode,
                         )
                     }
                     item { Spacer(modifier = Modifier.height(80.dp)) }
@@ -456,12 +519,15 @@ private fun sortOrderLabel(order: SongSortOrder): String = when (order) {
     SongSortOrder.ARTIST -> stringResource(R.string.songbook_sort_artist)
 }
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
 private fun SheetCard(
     sheet: ChordSheet,
     onClick: () -> Unit,
+    onLongClick: () -> Unit = {},
     onLabelTapped: (String) -> Unit,
+    isSelected: Boolean = false,
+    showCheckbox: Boolean = false,
 ) {
     val untitledLabel = stringResource(R.string.songbook_untitled)
     val displayTitle = sheet.title.ifEmpty { untitledLabel }
@@ -473,12 +539,29 @@ private fun SheetCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .combinedClickable(onClick = onClick, onLongClick = onLongClick)
             .semantics { contentDescription = cardDescription },
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+        colors = CardDefaults.cardColors(
+            containerColor = if (isSelected) {
+                MaterialTheme.colorScheme.primaryContainer
+            } else {
+                MaterialTheme.colorScheme.surfaceVariant
+            },
+        ),
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (showCheckbox) {
+                Checkbox(
+                    checked = isSelected,
+                    onCheckedChange = { onClick() },
+                    modifier = Modifier.padding(end = 8.dp),
+                )
+            }
+        Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = displayTitle,
                 style = MaterialTheme.typography.titleMedium,
@@ -521,6 +604,7 @@ private fun SheetCard(
                 }
             }
         }
+        }
     }
 }
 
@@ -535,8 +619,10 @@ private fun SheetViewer(
     onBack: () -> Unit,
     onEdit: () -> Unit,
     onDelete: () -> Unit,
+    onDuplicate: () -> Unit,
     onChordTapped: (String) -> Unit,
     onPlayChord: (String) -> Unit,
+    onStartMetronome: (Int) -> Unit,
     tuning: List<UkuleleString>,
     leftHanded: Boolean,
     onStrumPatternChange: (String) -> Unit,
@@ -550,14 +636,32 @@ private fun SheetViewer(
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showShareSheet by remember { mutableStateOf(false) }
     var tappedChord by remember { mutableStateOf<String?>(null) }
+    var performanceMode by rememberSaveable { mutableStateOf(false) }
 
     // Transpose controls
     var transposeSemitones by rememberSaveable { mutableStateOf(0) }
+
+    val fontSizePrefs = context.getSharedPreferences("songbook_prefs", android.content.Context.MODE_PRIVATE)
+    var songFontSize by rememberSaveable { mutableStateOf(fontSizePrefs.getFloat("song_font_size", 14f)) }
 
     val displayContent = if (transposeSemitones != 0) {
         ChordSheetTranspose.transpose(sheet.content, transposeSemitones)
     } else {
         sheet.content
+    }
+
+    val songTextStyle = MaterialTheme.typography.bodyMedium.copy(
+        fontFamily = FontFamily.Monospace,
+        fontSize = songFontSize.sp,
+    )
+
+    if (performanceMode) {
+        PerformanceModeView(
+            displayContent = displayContent,
+            textStyle = songTextStyle,
+            onExit = { performanceMode = false },
+        )
+        return
     }
 
     Column(
@@ -581,11 +685,17 @@ private fun SheetViewer(
                 modifier = Modifier.weight(1f).semantics { heading() },
                 textAlign = TextAlign.Center,
             )
+            IconButton(onClick = onDuplicate) {
+                Icon(Icons.Filled.ContentCopy, contentDescription = stringResource(R.string.songbook_duplicate_cd))
+            }
             IconButton(onClick = { showShareSheet = true }) {
                 Icon(Icons.Filled.Share, contentDescription = stringResource(R.string.action_share))
             }
             IconButton(onClick = onEdit) {
                 Icon(Icons.Filled.Edit, contentDescription = stringResource(R.string.action_edit))
+            }
+            IconButton(onClick = { performanceMode = true }) {
+                Icon(Icons.Filled.Fullscreen, contentDescription = stringResource(R.string.performance_mode))
             }
             IconButton(onClick = { showDeleteDialog = true }) {
                 Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.dialog_delete))
@@ -639,6 +749,11 @@ private fun SheetViewer(
             allLabels = allLabels,
             onLabelsChange = onLabelsChange,
         )
+
+        // Song statistics
+        if (sheet.viewCount > 0) {
+            SongStatsRow(sheet = sheet)
+        }
 
         // Transpose controls
         val transposeDownDesc = stringResource(R.string.cd_transpose_down)
@@ -723,6 +838,71 @@ private fun SheetViewer(
         val scrollState = rememberScrollState()
         val programmaticScroll = remember { mutableStateOf(false) }
 
+        // Section navigation
+        val sections = remember(displayContent) {
+            ChordSheetFormatter.extractSections(displayContent)
+        }
+        val sectionOffsets = remember { mutableMapOf<Int, Int>() }
+        val sectionScrollScope = rememberCoroutineScope()
+
+        if (sections.isNotEmpty()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                sections.forEach { section ->
+                    AssistChip(
+                        onClick = {
+                            sectionOffsets[section.lineIndex]?.let { offset ->
+                                sectionScrollScope.launch {
+                                    programmaticScroll.value = true
+                                    try {
+                                        scrollState.animateScrollTo(offset)
+                                    } finally {
+                                        programmaticScroll.value = false
+                                    }
+                                }
+                            }
+                        },
+                        label = { Text(section.label, style = MaterialTheme.typography.labelSmall) },
+                    )
+                }
+            }
+        }
+
+        // Tempo / metronome integration
+        val songTempo = remember(displayContent) {
+            ChordSheetFormatter.extractTempo(displayContent)
+        }
+        if (songTempo != null) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.MusicNote,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                )
+                Text(
+                    text = stringResource(R.string.songbook_tempo_label, songTempo),
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.weight(1f),
+                )
+                FilledTonalButton(
+                    onClick = { onStartMetronome(songTempo) },
+                ) {
+                    Text(stringResource(R.string.songbook_start_metronome))
+                }
+            }
+        }
+
         // Auto-scroll effect
         LaunchedEffect(autoScrolling, scrollSpeed) {
             if (autoScrolling) {
@@ -751,82 +931,116 @@ private fun SheetViewer(
             }
         }
 
+        val sectionLineIndices = remember(sections) { sections.map { it.lineIndex }.toSet() }
+
         Box(modifier = Modifier.weight(1f)) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(scrollState),
             ) {
-                displayContent.lines().forEach { line ->
-                    val segments = ChordParser.parseLine(line)
-                    if (segments.isEmpty()) {
-                        Text(
-                            text = " ",
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontFamily = FontFamily.Monospace,
-                        )
+                displayContent.lines().forEachIndexed { lineIndex, line ->
+                    val sectionModifier = if (lineIndex in sectionLineIndices) {
+                        Modifier.onGloballyPositioned { coords ->
+                            sectionOffsets[lineIndex] = coords.positionInParent().y.toInt()
+                        }
                     } else {
-                        val chordColor = MaterialTheme.colorScheme.primary
-                        val chordPositions = mutableListOf<Pair<Int, String>>()
-                        val lyricLine = StringBuilder()
-                        var hasChords = false
+                        Modifier
+                    }
+                    val segments = ChordParser.parseLine(line)
+                    Column(modifier = sectionModifier) {
+                        if (segments.isEmpty()) {
+                            Text(
+                                text = " ",
+                                style = songTextStyle,
+                            )
+                        } else {
+                            val chordColor = MaterialTheme.colorScheme.primary
+                            val chordPositions = mutableListOf<Pair<Int, String>>()
+                            val lyricLine = StringBuilder()
+                            var hasChords = false
 
-                        segments.forEach { segment ->
-                            when (segment) {
-                                is ChordParser.TextSegment.PlainText -> {
-                                    lyricLine.append(segment.text)
-                                }
-                                is ChordParser.TextSegment.Chord -> {
-                                    hasChords = true
-                                    chordPositions.add(lyricLine.length to segment.name)
+                            segments.forEach { segment ->
+                                when (segment) {
+                                    is ChordParser.TextSegment.PlainText -> {
+                                        lyricLine.append(segment.text)
+                                    }
+                                    is ChordParser.TextSegment.Chord -> {
+                                        hasChords = true
+                                        chordPositions.add(lyricLine.length to segment.name)
+                                    }
                                 }
                             }
-                        }
 
-                        if (hasChords) {
-                            val chordAnnotated = buildAnnotatedString {
-                                var cursor = 0
-                                chordPositions.forEach { (pos, name) ->
-                                    if (pos > cursor) {
-                                        append(" ".repeat(pos - cursor))
-                                        cursor = pos
-                                    }
-                                    withLink(
-                                        LinkAnnotation.Clickable(
-                                            tag = name,
-                                            styles = TextLinkStyles(
-                                                style = SpanStyle(
-                                                    color = chordColor,
-                                                    fontWeight = FontWeight.Bold,
+                            if (hasChords) {
+                                val chordAnnotated = buildAnnotatedString {
+                                    var cursor = 0
+                                    chordPositions.forEach { (pos, name) ->
+                                        if (pos > cursor) {
+                                            append(" ".repeat(pos - cursor))
+                                            cursor = pos
+                                        }
+                                        withLink(
+                                            LinkAnnotation.Clickable(
+                                                tag = name,
+                                                styles = TextLinkStyles(
+                                                    style = SpanStyle(
+                                                        color = chordColor,
+                                                        fontWeight = FontWeight.Bold,
+                                                    ),
                                                 ),
-                                            ),
-                                            linkInteractionListener = {
-                                                tappedChord = name
-                                            },
-                                        )
-                                    ) {
-                                        append(name)
+                                                linkInteractionListener = {
+                                                    tappedChord = name
+                                                },
+                                            )
+                                        ) {
+                                            append(name)
+                                        }
+                                        cursor += name.length
                                     }
-                                    cursor += name.length
                                 }
+
+                                Text(
+                                    text = chordAnnotated,
+                                    style = songTextStyle,
+                                )
                             }
 
                             Text(
-                                text = chordAnnotated,
-                                style = MaterialTheme.typography.bodyMedium.copy(
-                                    fontFamily = FontFamily.Monospace,
+                                text = lyricLine.toString(),
+                                style = songTextStyle.copy(
+                                    color = MaterialTheme.colorScheme.onSurface,
                                 ),
                             )
                         }
-
-                        Text(
-                            text = lyricLine.toString(),
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                fontFamily = FontFamily.Monospace,
-                                color = MaterialTheme.colorScheme.onSurface,
-                            ),
-                        )
                     }
+                }
+            }
+
+            // Font size controls overlay
+            Row(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                SmallFloatingActionButton(
+                    onClick = {
+                        songFontSize = (songFontSize - 2f).coerceAtLeast(10f)
+                        fontSizePrefs.edit().putFloat("song_font_size", songFontSize).apply()
+                    },
+                    modifier = Modifier.semantics { contentDescription = context.getString(R.string.songbook_font_decrease) },
+                ) {
+                    Text("A−", fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                }
+                SmallFloatingActionButton(
+                    onClick = {
+                        songFontSize = (songFontSize + 2f).coerceAtMost(32f)
+                        fontSizePrefs.edit().putFloat("song_font_size", songFontSize).apply()
+                    },
+                    modifier = Modifier.semantics { contentDescription = context.getString(R.string.songbook_font_increase) },
+                ) {
+                    Text("A+", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
             }
 
@@ -956,6 +1170,19 @@ private fun SheetViewer(
                             ShareUtils.copyToClipboard(context, chordSheetLabel, formatted)
                             Toast.makeText(context, copiedMsg, Toast.LENGTH_SHORT).show()
                             view.announceForAccessibility(copiedMsg)
+                        },
+                    )
+                    HorizontalDivider()
+                    ListItem(
+                        headlineContent = { Text(stringResource(R.string.share_as_pdf)) },
+                        leadingContent = {
+                            Icon(Icons.Filled.Description, contentDescription = null)
+                        },
+                        modifier = Modifier.clickable(role = Role.Button) {
+                            showShareSheet = false
+                            val formatted = ChordSheetFormatter.formatChordsAboveLyrics(effectiveSheet)
+                            val title = effectiveSheet.title.ifEmpty { chordSheetLabel }
+                            ShareUtils.sharePdf(context, title, formatted)
                         },
                     )
                 }
@@ -1817,4 +2044,154 @@ private fun AddLabelDialog(
             }
         },
     )
+}
+
+@Composable
+private fun SongStatsRow(sheet: ChordSheet) {
+    val lastViewed = if (sheet.lastViewedAt > 0) {
+        val fmt = android.text.format.DateUtils.getRelativeTimeSpanString(
+            sheet.lastViewedAt,
+            System.currentTimeMillis(),
+            android.text.format.DateUtils.MINUTE_IN_MILLIS,
+        )
+        fmt.toString()
+    } else {
+        null
+    }
+
+    val totalMinutes = (sheet.totalViewTimeMs / 60_000).toInt()
+    val totalTimeLabel = when {
+        totalMinutes < 1 -> stringResource(R.string.stats_time_under_minute)
+        totalMinutes == 1 -> stringResource(R.string.stats_time_one_minute)
+        totalMinutes < 60 -> stringResource(R.string.stats_time_minutes, totalMinutes)
+        else -> {
+            val hours = totalMinutes / 60
+            val mins = totalMinutes % 60
+            stringResource(R.string.stats_time_hours_minutes, hours, mins)
+        }
+    }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 48.dp, end = 16.dp, top = 4.dp, bottom = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        Text(
+            text = stringResource(R.string.stats_views, sheet.viewCount),
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        if (lastViewed != null) {
+            Text(
+                text = lastViewed,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        Text(
+            text = totalTimeLabel,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    }
+}
+
+@Composable
+private fun PerformanceModeView(
+    displayContent: String,
+    textStyle: TextStyle,
+    onExit: () -> Unit,
+) {
+    val scrollState = rememberScrollState()
+    var autoScrolling by remember { mutableStateOf(false) }
+    var scrollSpeed by remember { mutableStateOf(1f) }
+    val programmaticScroll = remember { mutableStateOf(false) }
+    var showControls by remember { mutableStateOf(true) }
+
+    LaunchedEffect(autoScrolling, scrollSpeed) {
+        if (autoScrolling) {
+            while (autoScrolling) {
+                programmaticScroll.value = true
+                try {
+                    scrollState.animateScrollTo(
+                        scrollState.value + scrollSpeed.toInt().coerceAtLeast(1),
+                        animationSpec = androidx.compose.animation.core.tween(
+                            durationMillis = 16,
+                            easing = androidx.compose.animation.core.LinearEasing,
+                        ),
+                    )
+                } finally {
+                    programmaticScroll.value = false
+                }
+                if (scrollState.value >= scrollState.maxValue) {
+                    autoScrolling = false
+                }
+            }
+        }
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+            ) { showControls = !showControls },
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(horizontal = 24.dp, vertical = 16.dp),
+        ) {
+            displayContent.lines().forEach { line ->
+                if (line.isBlank()) {
+                    Spacer(modifier = Modifier.height(textStyle.fontSize.value.dp))
+                } else {
+                    Text(
+                        text = line,
+                        style = textStyle,
+                    )
+                }
+            }
+        }
+
+        androidx.compose.animation.AnimatedVisibility(
+            visible = showControls,
+            enter = androidx.compose.animation.fadeIn(),
+            exit = androidx.compose.animation.fadeOut(),
+            modifier = Modifier.align(Alignment.TopEnd).padding(8.dp),
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                FilledTonalButton(
+                    onClick = { autoScrolling = !autoScrolling },
+                ) {
+                    Icon(
+                        imageVector = if (autoScrolling) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp),
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(if (autoScrolling) "Pause" else "Scroll")
+                }
+                if (autoScrolling) {
+                    FilledTonalButton(
+                        onClick = { scrollSpeed = (scrollSpeed - 0.5f).coerceAtLeast(0.5f) },
+                    ) { Text("\u2212") }
+                    Text("${scrollSpeed}x", style = MaterialTheme.typography.labelMedium)
+                    FilledTonalButton(
+                        onClick = { scrollSpeed = (scrollSpeed + 0.5f).coerceAtMost(5f) },
+                    ) { Text("+") }
+                }
+                IconButton(onClick = onExit) {
+                    Icon(Icons.Filled.FullscreenExit, contentDescription = stringResource(R.string.performance_mode_exit))
+                }
+            }
+        }
+    }
 }

@@ -260,6 +260,17 @@
     <string name="songbook_add_label">Label toevoegen</string>
     <string name="songbook_label_hint">Typ een label…</string>
     <string name="songbook_filter_clear">Filters wissen</string>
+    <string name="songbook_duplicate">Dupliceren</string>
+    <string name="songbook_tempo_label">Tempo: %1$d BPM</string>
+    <string name="songbook_start_metronome">Metronoom starten</string>
+    <string name="stats_views">%1$d weergaven</string>
+    <string name="stats_time_under_minute">&lt; 1 min</string>
+    <string name="stats_time_one_minute">1 min</string>
+    <string name="stats_time_minutes">%1$d min</string>
+    <string name="stats_time_hours_minutes">%1$du %2$dm</string>
+    <string name="performance_mode">Optreden-modus</string>
+    <string name="performance_mode_exit">Optreden-modus verlaten</string>
+    <string name="songbook_duplicate_cd">Dupliceer nummer</string>
     <string name="songbook_save_in_key">Opslaan in deze toonsoort</string>
     <string name="songbook_saved_in_key">Nummer opgeslagen in getransponeerde toonsoort</string>
     <string name="cd_label">Label: %s</string>

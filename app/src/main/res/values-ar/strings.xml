@@ -260,6 +260,17 @@
     <string name="songbook_add_label">إضافة تسمية</string>
     <string name="songbook_label_hint">اكتب تسمية…</string>
     <string name="songbook_filter_clear">مسح التصفية</string>
+    <string name="songbook_duplicate">نسخ</string>
+    <string name="songbook_tempo_label">الإيقاع: %1$d نبضة في الدقيقة</string>
+    <string name="songbook_start_metronome">بدء الإيقاع</string>
+    <string name="stats_views">%1$d مشاهدات</string>
+    <string name="stats_time_under_minute">&lt; ١ دقيقة</string>
+    <string name="stats_time_one_minute">١ دقيقة</string>
+    <string name="stats_time_minutes">%1$d دقيقة</string>
+    <string name="stats_time_hours_minutes">%1$dس %2$dد</string>
+    <string name="performance_mode">وضع الأداء</string>
+    <string name="performance_mode_exit">الخروج من وضع الأداء</string>
+    <string name="songbook_duplicate_cd">نسخ الأغنية</string>
     <string name="songbook_save_in_key">حفظ في هذا المقام</string>
     <string name="songbook_saved_in_key">تم حفظ الأغنية في المقام المنقول</string>
     <string name="cd_label">تسمية: %s</string>

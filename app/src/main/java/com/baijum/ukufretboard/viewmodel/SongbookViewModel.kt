@@ -111,14 +111,37 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    private var viewOpenedAt: Long = 0L
+
     fun openSheet(sheet: ChordSheet) {
-        _currentSheet.value = sheet
+        val now = System.currentTimeMillis()
+        val updated = sheet.copy(
+            viewCount = sheet.viewCount + 1,
+            lastViewedAt = now,
+        )
+        repository.save(updated)
+        _currentSheet.value = updated
         _isEditing.value = false
+        viewOpenedAt = now
+        refresh()
     }
 
     fun closeSheet() {
+        recordViewTime()
         _currentSheet.value = null
         _isEditing.value = false
+    }
+
+    private fun recordViewTime() {
+        val sheet = _currentSheet.value ?: return
+        if (viewOpenedAt <= 0L) return
+        val elapsed = System.currentTimeMillis() - viewOpenedAt
+        viewOpenedAt = 0L
+        if (elapsed <= 0) return
+        val updated = sheet.copy(totalViewTimeMs = sheet.totalViewTimeMs + elapsed)
+        repository.save(updated)
+        _currentSheet.value = updated
+        refresh()
     }
 
     fun startEditing(sheet: ChordSheet? = null) {
@@ -193,6 +216,71 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
         )
         repository.save(updated)
         _currentSheet.value = updated
+        refresh()
+    }
+
+    fun duplicateSheet(sheet: ChordSheet) {
+        val now = System.currentTimeMillis()
+        val copy = ChordSheet(
+            title = "${sheet.title} (Copy)",
+            subtitle = sheet.subtitle,
+            artist = sheet.artist,
+            content = sheet.content,
+            key = sheet.key,
+            capo = sheet.capo,
+            strumPatternName = sheet.strumPatternName,
+            labels = sheet.labels,
+            createdAt = now,
+            updatedAt = now,
+        )
+        repository.save(copy)
+        _currentSheet.value = copy
+        _isEditing.value = false
+        refresh()
+    }
+
+    private val _selectedIds = MutableStateFlow<Set<String>>(emptySet())
+    val selectedIds: StateFlow<Set<String>> = _selectedIds.asStateFlow()
+
+    private val _isSelectionMode = MutableStateFlow(false)
+    val isSelectionMode: StateFlow<Boolean> = _isSelectionMode.asStateFlow()
+
+    fun toggleSelection(id: String) {
+        val current = _selectedIds.value
+        _selectedIds.value = if (id in current) current - id else current + id
+        if (_selectedIds.value.isEmpty()) _isSelectionMode.value = false
+    }
+
+    fun selectAll() {
+        _selectedIds.value = _sheets.value.map { it.id }.toSet()
+    }
+
+    fun clearSelection() {
+        _selectedIds.value = emptySet()
+        _isSelectionMode.value = false
+    }
+
+    fun enterSelectionMode(id: String) {
+        _isSelectionMode.value = true
+        _selectedIds.value = setOf(id)
+    }
+
+    fun deleteSelected() {
+        _selectedIds.value.forEach { repository.delete(it) }
+        _selectedIds.value = emptySet()
+        _isSelectionMode.value = false
+        refresh()
+    }
+
+    fun applyLabelsToSelected(labels: List<String>) {
+        val ids = _selectedIds.value
+        _allSheets.value.filter { it.id in ids }.forEach { sheet ->
+            val merged = (sheet.labels + labels).distinct()
+            val updated = sheet.copy(labels = merged, updatedAt = System.currentTimeMillis())
+            repository.save(updated)
+        }
+        _selectedIds.value = emptySet()
+        _isSelectionMode.value = false
         refresh()
     }
 

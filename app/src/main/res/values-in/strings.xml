@@ -260,6 +260,17 @@
     <string name="songbook_add_label">Tambah label</string>
     <string name="songbook_label_hint">Ketik label…</string>
     <string name="songbook_filter_clear">Hapus filter</string>
+    <string name="songbook_duplicate">Duplikat</string>
+    <string name="songbook_tempo_label">Tempo: %1$d BPM</string>
+    <string name="songbook_start_metronome">Mulai metronom</string>
+    <string name="stats_views">%1$d kali dilihat</string>
+    <string name="stats_time_under_minute">&lt; 1 menit</string>
+    <string name="stats_time_one_minute">1 menit</string>
+    <string name="stats_time_minutes">%1$d menit</string>
+    <string name="stats_time_hours_minutes">%1$dj %2$dm</string>
+    <string name="performance_mode">Mode pertunjukan</string>
+    <string name="performance_mode_exit">Keluar dari mode pertunjukan</string>
+    <string name="songbook_duplicate_cd">Duplikat lagu</string>
     <string name="songbook_save_in_key">Simpan dalam kunci ini</string>
     <string name="songbook_saved_in_key">Lagu disimpan dalam kunci yang ditransposisi</string>
     <string name="cd_label">Label: %s</string>

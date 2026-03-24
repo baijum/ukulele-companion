@@ -260,6 +260,17 @@
     <string name="songbook_add_label">ラベルを追加</string>
     <string name="songbook_label_hint">ラベルを入力…</string>
     <string name="songbook_filter_clear">フィルターをクリア</string>
+    <string name="songbook_duplicate">複製</string>
+    <string name="songbook_tempo_label">テンポ：%1$d BPM</string>
+    <string name="songbook_start_metronome">メトロノームを開始</string>
+    <string name="stats_views">%1$d 回表示</string>
+    <string name="stats_time_under_minute">&lt; 1分</string>
+    <string name="stats_time_one_minute">1分</string>
+    <string name="stats_time_minutes">%1$d分</string>
+    <string name="stats_time_hours_minutes">%1$d時間%2$d分</string>
+    <string name="performance_mode">パフォーマンスモード</string>
+    <string name="performance_mode_exit">パフォーマンスモードを終了</string>
+    <string name="songbook_duplicate_cd">曲を複製</string>
     <string name="songbook_save_in_key">このキーで保存</string>
     <string name="songbook_saved_in_key">移調したキーで保存しました</string>
     <string name="cd_label">ラベル: %s</string>

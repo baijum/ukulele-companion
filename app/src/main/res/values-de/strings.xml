@@ -260,6 +260,17 @@
     <string name="songbook_add_label">Label hinzufügen</string>
     <string name="songbook_label_hint">Label eingeben…</string>
     <string name="songbook_filter_clear">Filter löschen</string>
+    <string name="songbook_duplicate">Duplizieren</string>
+    <string name="songbook_tempo_label">Tempo: %1$d BPM</string>
+    <string name="songbook_start_metronome">Metronom starten</string>
+    <string name="stats_views">%1$d Aufrufe</string>
+    <string name="stats_time_under_minute">&lt; 1 Min.</string>
+    <string name="stats_time_one_minute">1 Min.</string>
+    <string name="stats_time_minutes">%1$d Min.</string>
+    <string name="stats_time_hours_minutes">%1$dh %2$dm</string>
+    <string name="performance_mode">Auftrittsmodus</string>
+    <string name="performance_mode_exit">Auftrittsmodus beenden</string>
+    <string name="songbook_duplicate_cd">Lied duplizieren</string>
     <string name="songbook_save_in_key">In dieser Tonart speichern</string>
     <string name="songbook_saved_in_key">Song in transponierter Tonart gespeichert</string>
     <string name="cd_label">Label: %s</string>

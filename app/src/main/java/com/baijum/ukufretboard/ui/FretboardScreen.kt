@@ -117,6 +117,7 @@ import com.baijum.ukufretboard.viewmodel.LearningProgressViewModel
 import com.baijum.ukufretboard.viewmodel.MelodyViewModel
 import com.baijum.ukufretboard.viewmodel.MetronomeViewModel
 import com.baijum.ukufretboard.viewmodel.ScalePracticeViewModel
+import com.baijum.ukufretboard.viewmodel.SetlistViewModel
 
 /** Navigation section indices. */
 private const val NAV_EXPLORER = 0
@@ -150,6 +151,7 @@ private const val NAV_PRACTICE_ROUTINE = 28
 private const val NAV_PLAY_ALONG = 29
 private const val NAV_METRONOME = 30
 private const val NAV_SONGWRITER_MODE = 27
+private const val NAV_SETLISTS = 31
 
 /** Play and Create section indices for review prompt active-day tracking. */
 private val PLAY_CREATE_NAV_INDICES = setOf(
@@ -188,6 +190,7 @@ private fun drawerSections(): List<DrawerSection> = listOf(
     DrawerSection(stringResource(R.string.nav_section_create), listOf(
         DrawerItem(NAV_SONGWRITER_MODE, stringResource(R.string.nav_songwriter_mode), Icons.Filled.Create),
         DrawerItem(NAV_SONGBOOK, stringResource(R.string.nav_songs), Icons.Filled.Create),
+        DrawerItem(NAV_SETLISTS, stringResource(R.string.nav_setlists), Icons.AutoMirrored.Filled.List),
         DrawerItem(NAV_MELODY_NOTEPAD, stringResource(R.string.nav_melody_notepad), Icons.Filled.Create),
         DrawerItem(NAV_PATTERNS, stringResource(R.string.nav_patterns), Icons.AutoMirrored.Filled.List),
         DrawerItem(NAV_PROGRESSIONS, stringResource(R.string.nav_progressions), Icons.Filled.PlayArrow),
@@ -249,6 +252,7 @@ fun FretboardScreen(
     learningProgressViewModel: LearningProgressViewModel = viewModel(),
     scalePracticeViewModel: ScalePracticeViewModel = viewModel(),
     melodyViewModel: MelodyViewModel = viewModel(),
+    setlistViewModel: SetlistViewModel = viewModel(),
     metronomeViewModel: MetronomeViewModel = viewModel(),
     widthSizeClass: WindowWidthSizeClass = WindowWidthSizeClass.Compact,
     heightSizeClass: WindowHeightSizeClass = WindowHeightSizeClass.Medium,
@@ -623,8 +627,22 @@ fun FretboardScreen(
                             onPlayChord = { chordName ->
                                 fretboardViewModel.playChordByName(chordName)
                             },
+                            onStartMetronome = { bpm ->
+                                metronomeViewModel.setBpm(bpm)
+                                if (!metronomeViewModel.isPlaying.value) {
+                                    metronomeViewModel.togglePlayback()
+                                }
+                                previousSection = selectedSection
+                                selectedSection = NAV_METRONOME
+                            },
                             tuning = fretboardViewModel.tuning,
                             leftHanded = appSettings.fretboard.leftHanded,
+                        )
+                    }
+                    NAV_SETLISTS -> ConstrainedWidthContent(isCompactWidth) {
+                        SetlistTab(
+                            setlistViewModel = setlistViewModel,
+                            songbookViewModel = songbookViewModel,
                         )
                     }
                     NAV_CAPO_GUIDE -> CapoGuideView(

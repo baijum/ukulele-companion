@@ -260,6 +260,17 @@
     <string name="songbook_add_label">लेबल जोड़ें</string>
     <string name="songbook_label_hint">लेबल टाइप करें…</string>
     <string name="songbook_filter_clear">फ़िल्टर साफ़ करें</string>
+    <string name="songbook_duplicate">प्रतिलिपि</string>
+    <string name="songbook_tempo_label">टेम्पो: %1$d BPM</string>
+    <string name="songbook_start_metronome">मेट्रोनोम शुरू करें</string>
+    <string name="stats_views">%1$d बार देखा</string>
+    <string name="stats_time_under_minute">&lt; 1 मिनट</string>
+    <string name="stats_time_one_minute">1 मिनट</string>
+    <string name="stats_time_minutes">%1$d मिनट</string>
+    <string name="stats_time_hours_minutes">%1$dघ %2$dमि</string>
+    <string name="performance_mode">प्रदर्शन मोड</string>
+    <string name="performance_mode_exit">प्रदर्शन मोड से बाहर निकलें</string>
+    <string name="songbook_duplicate_cd">गाने की प्रतिलिपि बनाएँ</string>
     <string name="songbook_save_in_key">इस स्वर में सहेजें</string>
     <string name="songbook_saved_in_key">गीत स्थानांतरित स्वर में सहेजा गया</string>
     <string name="cd_label">लेबल: %s</string>

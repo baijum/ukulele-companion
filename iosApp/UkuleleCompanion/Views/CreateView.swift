@@ -2,6 +2,8 @@ import SwiftUI
 
 struct CreateView: View {
     @Binding var showSettings: Bool
+    @EnvironmentObject var setlistVM: SetlistViewModel
+    @EnvironmentObject var songbookVM: SongbookViewModel
 
     var body: some View {
         NavigationStack {
@@ -28,6 +30,12 @@ struct CreateView: View {
                     SongbookView()
                 } label: {
                     Label("Songbook", systemImage: "music.note.list")
+                }
+
+                NavigationLink {
+                    SetlistView(viewModel: setlistVM, songbookViewModel: songbookVM)
+                } label: {
+                    Label("Setlists", systemImage: "list.number")
                 }
 
                 NavigationLink {

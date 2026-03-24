@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MetronomeView: View {
-    @StateObject private var viewModel = MetronomeViewModel()
+    @EnvironmentObject var viewModel: MetronomeViewModel
 
     private let timeSignatures = ["2/4", "3/4", "4/4", "5/4", "6/4", "7/4", "6/8", "12/8"]
     private let subdivisionLabels: [(Int, String)] = [

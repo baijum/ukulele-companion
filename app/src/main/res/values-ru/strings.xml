@@ -260,6 +260,17 @@
     <string name="songbook_add_label">Добавить метку</string>
     <string name="songbook_label_hint">Введите метку…</string>
     <string name="songbook_filter_clear">Сбросить фильтры</string>
+    <string name="songbook_duplicate">Дублировать</string>
+    <string name="songbook_tempo_label">Темп: %1$d BPM</string>
+    <string name="songbook_start_metronome">Запустить метроном</string>
+    <string name="stats_views">%1$d просмотров</string>
+    <string name="stats_time_under_minute">&lt; 1 мин</string>
+    <string name="stats_time_one_minute">1 мин</string>
+    <string name="stats_time_minutes">%1$d мин</string>
+    <string name="stats_time_hours_minutes">%1$dч %2$dм</string>
+    <string name="performance_mode">Режим выступления</string>
+    <string name="performance_mode_exit">Выйти из режима выступления</string>
+    <string name="songbook_duplicate_cd">Дублировать песню</string>
     <string name="songbook_save_in_key">Сохранить в этой тональности</string>
     <string name="songbook_saved_in_key">Песня сохранена в транспонированной тональности</string>
     <string name="cd_label">Метка: %s</string>

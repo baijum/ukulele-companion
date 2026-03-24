@@ -260,6 +260,17 @@
     <string name="songbook_add_label">Etiket ekle</string>
     <string name="songbook_label_hint">Etiket yazın…</string>
     <string name="songbook_filter_clear">Filtreleri temizle</string>
+    <string name="songbook_duplicate">Kopyala</string>
+    <string name="songbook_tempo_label">Tempo: %1$d BPM</string>
+    <string name="songbook_start_metronome">Metronom başlat</string>
+    <string name="stats_views">%1$d görüntüleme</string>
+    <string name="stats_time_under_minute">&lt; 1 dk</string>
+    <string name="stats_time_one_minute">1 dk</string>
+    <string name="stats_time_minutes">%1$d dk</string>
+    <string name="stats_time_hours_minutes">%1$ds %2$dd</string>
+    <string name="performance_mode">Performans modu</string>
+    <string name="performance_mode_exit">Performans modundan çık</string>
+    <string name="songbook_duplicate_cd">Şarkıyı kopyala</string>
     <string name="songbook_save_in_key">Bu tonda kaydet</string>
     <string name="songbook_saved_in_key">Şarkı aktarılmış tonda kaydedildi</string>
     <string name="cd_label">Etiket: %s</string>

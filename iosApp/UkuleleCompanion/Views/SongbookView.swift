@@ -11,13 +11,48 @@ struct SongbookView: View {
     @State private var showingNewSong = false
     @State private var showImportError = false
     @State private var songToDelete: StoredSong? = nil
+    @State private var multiSelection = Set<String>()
+    @State private var isSelectionMode = false
+    @State private var showDeleteSelectedConfirmation = false
 
     private let chordProExtensions = ["cho", "chordpro", "chopro", "crd", "pro"]
 
     var body: some View {
         VStack(spacing: 0) {
+            if isSelectionMode {
+                HStack {
+                    Text("\(multiSelection.count) selected")
+                        .font(.subheadline.bold())
+                    Spacer()
+                    Button("Select All") {
+                        multiSelection = Set(viewModel.filteredSongs.map { $0.id })
+                    }
+                    Button("Delete", role: .destructive) {
+                        showDeleteSelectedConfirmation = true
+                    }
+                    .disabled(multiSelection.isEmpty)
+                    Button("Cancel") {
+                        isSelectionMode = false
+                        multiSelection.removeAll()
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+            }
             searchAndFilter
             songList
+        }
+        .alert("Delete Selected?", isPresented: $showDeleteSelectedConfirmation) {
+            Button("Cancel", role: .cancel) {}
+            Button("Delete \(multiSelection.count) songs", role: .destructive) {
+                for id in multiSelection {
+                    viewModel.delete(id: id)
+                }
+                multiSelection.removeAll()
+                isSelectionMode = false
+            }
+        } message: {
+            Text("This will permanently delete the selected songs.")
         }
         .navigationTitle("Songbook")
         .navigationBarTitleDisplayMode(.inline)
@@ -32,6 +67,13 @@ struct SongbookView: View {
                     }
                     Button { showingFileImporter = true } label: {
                         Label("Import from File", systemImage: "square.and.arrow.down")
+                    }
+                    Divider()
+                    Button {
+                        isSelectionMode.toggle()
+                        if !isSelectionMode { multiSelection.removeAll() }
+                    } label: {
+                        Label(isSelectionMode ? "Cancel Selection" : "Select Songs", systemImage: "checkmark.circle")
                     }
                 } label: {
                     Image(systemName: "plus")
@@ -200,25 +242,39 @@ struct SongbookView: View {
                 ForEach(songs) { song in
                     let displayTitle = song.title.isEmpty ? "Untitled" : song.title
                     Button {
-                        selectedSong = song
-                    } label: {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(displayTitle)
-                                .font(.subheadline.bold())
-                            if !song.artist.isEmpty {
-                                Text(song.artist)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+                        if isSelectionMode {
+                            if multiSelection.contains(song.id) {
+                                multiSelection.remove(song.id)
+                            } else {
+                                multiSelection.insert(song.id)
                             }
-                            if !song.labels.isEmpty {
-                                HStack(spacing: 4) {
-                                    ForEach(song.labels, id: \.self) { label in
-                                        Text(label)
-                                            .font(.caption2)
-                                            .padding(.horizontal, 6)
-                                            .padding(.vertical, 2)
-                                            .background(Color.accentColor.opacity(0.1))
-                                            .clipShape(Capsule())
+                        } else {
+                            selectedSong = song
+                        }
+                    } label: {
+                        HStack {
+                            if isSelectionMode {
+                                Image(systemName: multiSelection.contains(song.id) ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(multiSelection.contains(song.id) ? .accentColor : .secondary)
+                            }
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(displayTitle)
+                                    .font(.subheadline.bold())
+                                if !song.artist.isEmpty {
+                                    Text(song.artist)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                if !song.labels.isEmpty {
+                                    HStack(spacing: 4) {
+                                        ForEach(song.labels, id: \.self) { label in
+                                            Text(label)
+                                                .font(.caption2)
+                                                .padding(.horizontal, 6)
+                                                .padding(.vertical, 2)
+                                                .background(Color.accentColor.opacity(0.1))
+                                                .clipShape(Capsule())
+                                        }
                                     }
                                 }
                             }
@@ -288,6 +344,7 @@ private struct ScrollOffsetKey: PreferenceKey {
 struct SongViewerView: View {
     @ObservedObject var viewModel: SongbookViewModel
     @EnvironmentObject var customPatternsVM: CustomPatternsViewModel
+    @EnvironmentObject var metronomeVM: MetronomeViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var transposeSemitones: Int = 0
     @State private var showingEditor = false
@@ -304,6 +361,9 @@ struct SongViewerView: View {
     @State private var showingStrumPicker = false
     @State private var showingAddLabel = false
     @State private var newLabelText = ""
+    @AppStorage("songFontSize") private var songFontSize: Double = 16.0
+    @State private var viewOpenedAt: Date?
+    @State private var showPerformanceMode = false
 
     private let tonePlayer = TonePlayer()
 
@@ -336,6 +396,10 @@ struct SongViewerView: View {
                     songInfoSection
 
                     transposeSection
+
+                    sectionNavigation(proxy: proxy, content: displaySong.content)
+
+                    tempoSection(content: displaySong.content)
 
                     parsedContentView(song: displaySong)
 
@@ -383,10 +447,37 @@ struct SongViewerView: View {
                 Button("Done") { dismiss() }
             }
             ToolbarItemGroup(placement: .primaryAction) {
+                Button {
+                    songFontSize = max(10, songFontSize - 2)
+                } label: {
+                    Image(systemName: "textformat.size.smaller")
+                }
+                .accessibilityLabel("Decrease font size")
+
+                Button {
+                    songFontSize = min(32, songFontSize + 2)
+                } label: {
+                    Image(systemName: "textformat.size.larger")
+                }
+                .accessibilityLabel("Increase font size")
+
+                Button {
+                    _ = viewModel.duplicate(song: currentSong)
+                    dismiss()
+                } label: {
+                    Image(systemName: "doc.on.doc")
+                }
+                .accessibilityLabel("Duplicate song")
+
                 Button { showingEditor = true } label: {
                     Image(systemName: "pencil")
                 }
                 .accessibilityLabel("Edit song")
+
+                Button { showPerformanceMode = true } label: {
+                    Image(systemName: "arrow.up.left.and.arrow.down.right")
+                }
+                .accessibilityLabel("Performance mode")
 
                 shareMenu
 
@@ -436,7 +527,24 @@ struct SongViewerView: View {
                 chordPopover(chord: chord)
             }
         }
-        .onDisappear { stopAutoScroll() }
+        .onAppear {
+            viewModel.recordView(id: song.id)
+            viewOpenedAt = Date()
+        }
+        .onDisappear {
+            stopAutoScroll()
+            if let opened = viewOpenedAt {
+                let elapsedMs = Date().timeIntervalSince(opened) * 1000
+                viewModel.recordViewTime(id: song.id, elapsedMs: elapsedMs)
+                viewOpenedAt = nil
+            }
+        }
+        .fullScreenCover(isPresented: $showPerformanceMode) {
+            PerformanceModeView(
+                content: displaySong.content,
+                font: songFont
+            )
+        }
     }
 
     @State private var showShareSheet = false
@@ -483,6 +591,15 @@ struct SongViewerView: View {
                     } label: {
                         Label("Copy to clipboard", systemImage: "doc.on.doc")
                     }
+
+                    Button {
+                        showShareSheet = false
+                        let formatted = viewModel.formattedDisplay(song: effectiveSong)
+                        let title = effectiveSong.title.isEmpty ? "Untitled" : effectiveSong.title
+                        sharePdf(title: title, text: formatted)
+                    } label: {
+                        Label("Export as PDF", systemImage: "doc.richtext")
+                    }
                 } header: {
                     Text("Share chord sheet as")
                         .accessibilityAddTraits(.isHeader)
@@ -501,6 +618,74 @@ struct SongViewerView: View {
 
     private func shareText(_ text: String) {
         let activityVC = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let rootVC = windowScene.windows.first?.rootViewController else { return }
+        var presenter = rootVC
+        while let presented = presenter.presentedViewController {
+            presenter = presented
+        }
+        if let popover = activityVC.popoverPresentationController {
+            popover.sourceView = presenter.view
+            popover.sourceRect = CGRect(x: presenter.view.bounds.midX, y: presenter.view.bounds.midY, width: 0, height: 0)
+            popover.permittedArrowDirections = []
+        }
+        presenter.present(activityVC, animated: true)
+    }
+
+    private func sharePdf(title: String, text: String) {
+        let pageWidth: CGFloat = 595
+        let pageHeight: CGFloat = 842
+        let margin: CGFloat = 50
+        let lineHeight: CGFloat = 14
+        let fontSize: CGFloat = 11
+
+        let font = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
+        let titleFont = UIFont.systemFont(ofSize: 18, weight: .bold)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineBreakMode = .byClipping
+
+        let textAttributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .paragraphStyle: paragraphStyle,
+        ]
+        let titleAttributes: [NSAttributedString.Key: Any] = [.font: titleFont]
+
+        let lines = text.components(separatedBy: "\n")
+        let usableHeight = pageHeight - 2 * margin
+        let linesPerPage = Int(usableHeight / lineHeight)
+
+        let renderer = UIGraphicsPDFRenderer(bounds: CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight))
+
+        let data = renderer.pdfData { ctx in
+            var lineIdx = 0
+            var pageNum = 0
+            while lineIdx < lines.count {
+                ctx.beginPage()
+                pageNum += 1
+                var y = margin
+
+                if pageNum == 1 {
+                    let titleStr = title as NSString
+                    titleStr.draw(at: CGPoint(x: margin, y: y), withAttributes: titleAttributes)
+                    y += 28
+                }
+
+                var linesOnPage = 0
+                while lineIdx < lines.count && linesOnPage < linesPerPage {
+                    let line = lines[lineIdx] as NSString
+                    line.draw(at: CGPoint(x: margin, y: y), withAttributes: textAttributes)
+                    y += lineHeight
+                    lineIdx += 1
+                    linesOnPage += 1
+                }
+            }
+        }
+
+        let sanitized = title.replacingOccurrences(of: "[^a-zA-Z0-9._-]", with: "_", options: .regularExpression)
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("\(sanitized).pdf")
+        try? data.write(to: url)
+
+        let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let rootVC = windowScene.windows.first?.rootViewController else { return }
         var presenter = rootVC
@@ -545,7 +730,32 @@ struct SongViewerView: View {
             strumPatternSection
 
             labelManagementSection
+
+            if currentSong.viewCount > 0 {
+                songStatsSection
+            }
         }
+    }
+
+    private var songStatsSection: some View {
+        HStack(spacing: 16) {
+            Label("\(currentSong.viewCount) views", systemImage: "eye")
+            if currentSong.lastViewedAt > 0 {
+                let date = Date(timeIntervalSince1970: currentSong.lastViewedAt / 1000)
+                Text(date, style: .relative)
+            }
+            let totalMinutes = Int(currentSong.totalViewTimeMs / 60_000)
+            if totalMinutes >= 1 {
+                Label(totalMinutes < 60
+                      ? "\(totalMinutes) min"
+                      : "\(totalMinutes / 60)h \(totalMinutes % 60)m",
+                      systemImage: "clock")
+            } else {
+                Label("< 1 min", systemImage: "clock")
+            }
+        }
+        .font(.caption)
+        .foregroundStyle(.secondary)
     }
 
     // MARK: - Strum Pattern
@@ -830,6 +1040,63 @@ struct SongViewerView: View {
         shouldRestartFromTop = true
     }
 
+    // MARK: - Section Navigation
+
+    @ViewBuilder
+    private func sectionNavigation(proxy: ScrollViewProxy, content: String) -> some View {
+        let sections = ChordSheetFormatter.shared.extractSections(content: content)
+        if !sections.isEmpty {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(Array(sections.enumerated()), id: \.offset) { _, section in
+                        Button {
+                            withAnimation {
+                                proxy.scrollTo("line_\(section.lineIndex)", anchor: .top)
+                            }
+                        } label: {
+                            Text(section.label)
+                                .font(.caption)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(Color.accentColor.opacity(0.15))
+                                .clipShape(Capsule())
+                        }
+                        .accessibilityLabel("Jump to \(section.label)")
+                    }
+                }
+            }
+        }
+    }
+
+    // MARK: - Tempo / Metronome
+
+    @ViewBuilder
+    private func tempoSection(content: String) -> some View {
+        let kotlinBpm = ChordSheetFormatter.shared.extractTempo(content: content)
+        if let bpmValue = kotlinBpm?.intValue {
+            HStack {
+                Image(systemName: "metronome")
+                    .font(.body)
+                Text("Tempo: \(bpmValue) BPM")
+                    .font(.subheadline)
+                Spacer()
+                Button {
+                    metronomeVM.bpm = Double(bpmValue)
+                    if !metronomeVM.isPlaying {
+                        metronomeVM.start()
+                    }
+                } label: {
+                    Text("Start Metronome")
+                        .font(.subheadline.weight(.medium))
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.small)
+                .accessibilityLabel("Start metronome at \(bpmValue) beats per minute")
+            }
+            .padding(.vertical, 4)
+        }
+    }
+
     // MARK: - Content Parsing
 
     private func parsedContentView(song: StoredSong) -> some View {
@@ -838,8 +1105,13 @@ struct SongViewerView: View {
             ForEach(0..<lines.count, id: \.self) { i in
                 let segments = ChordParser.shared.parseLine(line: lines[i])
                 parsedLineView(segments: segments as! [ChordParser.TextSegment])
+                    .id("line_\(i)")
             }
         }
+    }
+
+    private var songFont: Font {
+        .system(size: CGFloat(songFontSize), design: .monospaced)
     }
 
     @ViewBuilder
@@ -853,13 +1125,13 @@ struct SongViewerView: View {
                         let element = result.chordElements[i]
                         if element.isChord {
                             Text(element.text)
-                                .font(.system(.body, design: .monospaced))
+                                .font(songFont)
                                 .foregroundColor(.accentColor)
                                 .bold()
                                 .onTapGesture { tappedChord = element.text }
                         } else {
                             Text(element.text)
-                                .font(.system(.body, design: .monospaced))
+                                .font(songFont)
                         }
                     }
                 }
@@ -868,13 +1140,13 @@ struct SongViewerView: View {
 
                 if !result.lyrics.trimmingCharacters(in: .whitespaces).isEmpty {
                     Text(result.lyrics)
-                        .font(.system(.body, design: .monospaced))
+                        .font(songFont)
                 }
             }
         } else {
             let text = segments.compactMap { ($0 as? ChordParser.TextSegmentPlainText)?.text }.joined()
             Text(text.isEmpty ? " " : text)
-                .font(.system(.body, design: .monospaced))
+                .font(songFont)
         }
     }
 
@@ -967,5 +1239,80 @@ struct SongViewerView: View {
             }
         }
         .padding()
+    }
+}
+
+// MARK: - Performance Mode
+
+struct PerformanceModeView: View {
+    @Environment(\.dismiss) private var dismiss
+    let content: String
+    let font: Font
+
+    @State private var isAutoScrolling = false
+    @State private var scrollSpeed: Double = 1.0
+    @State private var scrollTimer: Timer?
+    @State private var showControls = true
+
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    ForEach(Array(content.components(separatedBy: "\n").enumerated()), id: \.offset) { _, line in
+                        if line.trimmingCharacters(in: .whitespaces).isEmpty {
+                            Spacer().frame(height: 20)
+                        } else {
+                            Text(line)
+                                .font(font)
+                        }
+                    }
+                }
+                .padding(24)
+            }
+
+            if showControls {
+                HStack(spacing: 12) {
+                    Button {
+                        isAutoScrolling.toggle()
+                    } label: {
+                        Image(systemName: isAutoScrolling ? "pause.fill" : "play.fill")
+                        Text(isAutoScrolling ? "Pause" : "Scroll")
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.small)
+
+                    if isAutoScrolling {
+                        Button { scrollSpeed = max(0.5, scrollSpeed - 0.5) } label: {
+                            Text("\u{2212}")
+                        }
+                        .buttonStyle(.bordered)
+                        .controlSize(.small)
+
+                        Text(String(format: "%.1fx", scrollSpeed))
+                            .font(.caption.monospacedDigit())
+
+                        Button { scrollSpeed = min(5.0, scrollSpeed + 0.5) } label: {
+                            Text("+")
+                        }
+                        .buttonStyle(.bordered)
+                        .controlSize(.small)
+                    }
+
+                    Button { dismiss() } label: {
+                        Image(systemName: "arrow.down.right.and.arrow.up.left")
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                    .accessibilityLabel("Exit performance mode")
+                }
+                .padding(12)
+                .background(.ultraThinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .padding(16)
+            }
+        }
+        .background(Color(uiColor: .systemBackground))
+        .onTapGesture { showControls.toggle() }
+        .statusBarHidden(true)
     }
 }

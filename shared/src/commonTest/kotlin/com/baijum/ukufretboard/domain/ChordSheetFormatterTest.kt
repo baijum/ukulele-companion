@@ -3,9 +3,15 @@ package com.baijum.ukufretboard.domain
 import com.baijum.ukufretboard.data.ChordDegree
 import com.baijum.ukufretboard.data.ChordSheet
 import com.baijum.ukufretboard.data.Progression
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.int
+import io.kotest.property.arbitrary.string
+import io.kotest.property.checkAll
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class ChordSheetFormatterTest {
@@ -283,5 +289,161 @@ class ChordSheetFormatterTest {
         val result = ChordSheetFormatter.formatProgression(prog, 0)
         assertTrue(result.contains("C"), "Should contain chord C")
         assertFalse(result.contains("\u2013"), "No separator for single chord")
+    }
+
+    // --- extractTempo() ---
+
+    @Test
+    fun extractTempoReturnsNullForNoTempoLine() {
+        assertNull(ChordSheetFormatter.extractTempo("[C]Hello [G]World"))
+    }
+
+    @Test
+    fun extractTempoReturnsNullForEmptyContent() {
+        assertNull(ChordSheetFormatter.extractTempo(""))
+    }
+
+    @Test
+    fun extractTempoExtractsBpm() {
+        assertEquals(120, ChordSheetFormatter.extractTempo("Tempo: 120 BPM"))
+    }
+
+    @Test
+    fun extractTempoIsCaseInsensitive() {
+        assertEquals(80, ChordSheetFormatter.extractTempo("tempo: 80 bpm"))
+    }
+
+    @Test
+    fun extractTempoIgnoresPartialMatches() {
+        assertNull(ChordSheetFormatter.extractTempo("My Tempo: fast"))
+    }
+
+    @Test
+    fun extractTempoWorksAmongOtherLines() {
+        val content = "[Verse]\n[C]Hello world\nTempo: 140 BPM\n[G]Goodbye"
+        assertEquals(140, ChordSheetFormatter.extractTempo(content))
+    }
+
+    @Test
+    fun extractTempoIgnoresTempoInMiddleOfLine() {
+        assertNull(ChordSheetFormatter.extractTempo("The Tempo: 100 BPM is fast"))
+    }
+
+    // --- extractSections() ---
+
+    @Test
+    fun extractSectionsReturnsEmptyForNoSections() {
+        val sections = ChordSheetFormatter.extractSections("Just plain text\nMore text")
+        assertTrue(sections.isEmpty())
+    }
+
+    @Test
+    fun extractSectionsFindsVerse() {
+        val sections = ChordSheetFormatter.extractSections("[Verse]\n[C]Hello world")
+        assertEquals(1, sections.size)
+        assertEquals("Verse", sections[0].label)
+        assertEquals(0, sections[0].lineIndex)
+    }
+
+    @Test
+    fun extractSectionsFindsMultipleSections() {
+        val content = "[Verse]\nLine 1\n[Chorus]\nLine 2\n[Bridge]\nLine 3"
+        val sections = ChordSheetFormatter.extractSections(content)
+        assertEquals(3, sections.size)
+        assertEquals("Verse", sections[0].label)
+        assertEquals(0, sections[0].lineIndex)
+        assertEquals("Chorus", sections[1].label)
+        assertEquals(2, sections[1].lineIndex)
+        assertEquals("Bridge", sections[2].label)
+        assertEquals(4, sections[2].lineIndex)
+    }
+
+    @Test
+    fun extractSectionsHandlesNumberedSections() {
+        val content = "[Verse 1]\nLine 1\n[Verse 2]\nLine 2"
+        val sections = ChordSheetFormatter.extractSections(content)
+        assertEquals(2, sections.size)
+        assertEquals("Verse 1", sections[0].label)
+        assertEquals("Verse 2", sections[1].label)
+    }
+
+    @Test
+    fun extractSectionsDoesNotMatchChords() {
+        val content = "[Am]Hello [C#m7]World"
+        val sections = ChordSheetFormatter.extractSections(content)
+        assertTrue(sections.isEmpty(), "Chords should not be matched as sections")
+    }
+
+    @Test
+    fun extractSectionsMixedContent() {
+        val content = "[Intro]\n[Am]Hello [G]World\n[Chorus]\n[C]Sing along"
+        val sections = ChordSheetFormatter.extractSections(content)
+        assertEquals(2, sections.size)
+        assertEquals("Intro", sections[0].label)
+        assertEquals(0, sections[0].lineIndex)
+        assertEquals("Chorus", sections[1].label)
+        assertEquals(2, sections[1].lineIndex)
+    }
+
+    @Test
+    fun extractSectionsCorrectLineIndices() {
+        val content = "Line 0\nLine 1\n[Verse]\nLine 3\nLine 4\n[Chorus]\nLine 6"
+        val sections = ChordSheetFormatter.extractSections(content)
+        assertEquals(2, sections.size)
+        assertEquals(2, sections[0].lineIndex)
+        assertEquals(5, sections[1].lineIndex)
+    }
+
+    @Test
+    fun extractSectionsReturnsEmptyForEmptyContent() {
+        assertTrue(ChordSheetFormatter.extractSections("").isEmpty())
+    }
+
+    // --- Property tests: extractTempo / extractSections ---
+
+    @Test
+    fun extractTempoNeverCrashesOnArbitraryStrings() {
+        runBlocking {
+            checkAll(Arb.string(0..200)) { content ->
+                ChordSheetFormatter.extractTempo(content)
+            }
+        }
+    }
+
+    @Test
+    fun extractSectionsNeverCrashesOnArbitraryStrings() {
+        runBlocking {
+            checkAll(Arb.string(0..200)) { content ->
+                ChordSheetFormatter.extractSections(content)
+            }
+        }
+    }
+
+    @Test
+    fun extractTempoRoundTripsValidBpm() {
+        runBlocking {
+            checkAll(Arb.int(30..300)) { bpm ->
+                val content = "Tempo: $bpm BPM"
+                assertEquals(
+                    bpm,
+                    ChordSheetFormatter.extractTempo(content),
+                    "Should extract BPM $bpm from generated tempo line",
+                )
+            }
+        }
+    }
+
+    @Test
+    fun extractTempoRoundTripsWithSurroundingContent() {
+        runBlocking {
+            checkAll(Arb.int(30..300)) { bpm ->
+                val content = "[Verse]\n[C]Hello\nTempo: $bpm BPM\n[G]World"
+                assertEquals(
+                    bpm,
+                    ChordSheetFormatter.extractTempo(content),
+                    "Should extract BPM $bpm from content with surrounding lines",
+                )
+            }
+        }
     }
 }
