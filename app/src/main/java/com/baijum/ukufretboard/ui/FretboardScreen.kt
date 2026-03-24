@@ -620,6 +620,11 @@ fun FretboardScreen(
                                     selectedSection = NAV_LIBRARY
                                 }
                             },
+                            onPlayChord = { chordName ->
+                                fretboardViewModel.playChordByName(chordName)
+                            },
+                            tuning = fretboardViewModel.tuning,
+                            leftHanded = appSettings.fretboard.leftHanded,
                         )
                     }
                     NAV_CAPO_GUIDE -> CapoGuideView(

@@ -80,6 +80,7 @@ import kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
@@ -104,10 +105,15 @@ import com.baijum.ukufretboard.data.ChordProExporter
 import com.baijum.ukufretboard.data.ChordProParser
 import com.baijum.ukufretboard.data.ChordSheet
 import com.baijum.ukufretboard.data.CustomStrumPatternRepository
+import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.StrumPatterns
+import com.baijum.ukufretboard.data.VoicingGenerator
+import com.baijum.ukufretboard.domain.ChordNameParser
 import com.baijum.ukufretboard.domain.ChordSheetFormatter
 import com.baijum.ukufretboard.domain.ChordSheetTranspose
+import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.domain.KeyDetector
+import com.baijum.ukufretboard.domain.UkuleleString
 import com.baijum.ukufretboard.viewmodel.SongSortOrder
 import com.baijum.ukufretboard.viewmodel.SongbookViewModel
 
@@ -115,12 +121,18 @@ import com.baijum.ukufretboard.viewmodel.SongbookViewModel
  * Songbook tab showing a list of chord sheets, a viewer, and an editor.
  *
  * @param viewModel The [SongbookViewModel] managing chord sheets.
- * @param onChordTapped Callback when a chord name in a sheet is tapped.
+ * @param onChordTapped Callback when a chord name in a sheet is tapped (navigates to library).
+ * @param onPlayChord Callback to play a named chord via audio.
+ * @param tuning Current ukulele tuning for generating chord voicings.
+ * @param leftHanded Whether left-handed mode is active (mirrors chord diagrams).
  */
 @Composable
 fun SongbookTab(
     viewModel: SongbookViewModel,
     onChordTapped: (String) -> Unit,
+    onPlayChord: (String) -> Unit = {},
+    tuning: List<UkuleleString> = emptyList(),
+    leftHanded: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     val sheets by viewModel.sheets.collectAsState()
@@ -159,6 +171,9 @@ fun SongbookTab(
                     viewModel.closeSheet()
                 },
                 onChordTapped = onChordTapped,
+                onPlayChord = onPlayChord,
+                tuning = tuning,
+                leftHanded = leftHanded,
                 onStrumPatternChange = { viewModel.updateStrumPattern(it) },
                 onLabelsChange = { viewModel.updateLabels(it) },
                 onApplyTranspose = { viewModel.applyTranspose(it) },
@@ -211,6 +226,7 @@ private fun SheetList(
 ) {
     val context = LocalContext.current
     val importFailedMsg = stringResource(R.string.songbook_import_failed)
+    var showPasteDialog by remember { mutableStateOf(false) }
     val importLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
     ) { uri ->
@@ -377,18 +393,40 @@ private fun SheetList(
             horizontalAlignment = Alignment.End,
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            SmallFloatingActionButton(
-                onClick = {
-                    importLauncher.launch(arrayOf("text/*", "*/*"))
-                },
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-            ) {
-                Icon(
-                    Icons.Filled.FileOpen,
-                    contentDescription = stringResource(R.string.cd_import_chordpro),
-                    modifier = Modifier.size(20.dp),
-                )
+            Box {
+                var showImportMenu by remember { mutableStateOf(false) }
+                SmallFloatingActionButton(
+                    onClick = { showImportMenu = true },
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                ) {
+                    Icon(
+                        Icons.Filled.FileOpen,
+                        contentDescription = stringResource(R.string.cd_import_chordpro),
+                        modifier = Modifier.size(20.dp),
+                    )
+                }
+                DropdownMenu(
+                    expanded = showImportMenu,
+                    onDismissRequest = { showImportMenu = false },
+                ) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.songbook_import_from_file)) },
+                        leadingIcon = { Icon(Icons.Filled.FileOpen, contentDescription = null) },
+                        onClick = {
+                            showImportMenu = false
+                            importLauncher.launch(arrayOf("text/*", "*/*"))
+                        },
+                    )
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.songbook_paste_chordpro)) },
+                        leadingIcon = { Icon(Icons.Filled.ContentCopy, contentDescription = null) },
+                        onClick = {
+                            showImportMenu = false
+                            showPasteDialog = true
+                        },
+                    )
+                }
             }
             FloatingActionButton(
                 onClick = onNewSheet,
@@ -396,6 +434,16 @@ private fun SheetList(
             ) {
                 Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.cd_new_chord_sheet))
             }
+        }
+
+        if (showPasteDialog) {
+            PasteChordProDialog(
+                onImport = { content ->
+                    onImport(content, "pasted.cho")
+                    showPasteDialog = false
+                },
+                onDismiss = { showPasteDialog = false },
+            )
         }
     }
 }
@@ -488,15 +536,20 @@ private fun SheetViewer(
     onEdit: () -> Unit,
     onDelete: () -> Unit,
     onChordTapped: (String) -> Unit,
+    onPlayChord: (String) -> Unit,
+    tuning: List<UkuleleString>,
+    leftHanded: Boolean,
     onStrumPatternChange: (String) -> Unit,
     onLabelsChange: (List<String>) -> Unit,
     onApplyTranspose: (Int) -> Unit,
 ) {
     val context = LocalContext.current
+    val view = LocalView.current
     val chordSheetLabel = stringResource(R.string.songbook_chord_sheet)
     val exportChooserLabel = stringResource(R.string.songbook_export_chooser)
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showShareSheet by remember { mutableStateOf(false) }
+    var tappedChord by remember { mutableStateOf<String?>(null) }
 
     // Transpose controls
     var transposeSemitones by rememberSaveable { mutableStateOf(0) }
@@ -748,7 +801,7 @@ private fun SheetViewer(
                                                 ),
                                             ),
                                             linkInteractionListener = {
-                                                onChordTapped(name)
+                                                tappedChord = name
                                             },
                                         )
                                     ) {
@@ -902,7 +955,81 @@ private fun SheetViewer(
                             val formatted = ChordSheetFormatter.formatChordsAboveLyrics(effectiveSheet)
                             ShareUtils.copyToClipboard(context, chordSheetLabel, formatted)
                             Toast.makeText(context, copiedMsg, Toast.LENGTH_SHORT).show()
+                            view.announceForAccessibility(copiedMsg)
                         },
+                    )
+                }
+            }
+        }
+
+        if (tappedChord != null) {
+            val chordName = tappedChord!!
+            val chordSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+            val voicing = remember(chordName, tuning) {
+                val parsed = ChordNameParser.parse(chordName) ?: return@remember null
+                if (tuning.isEmpty()) return@remember null
+                VoicingGenerator.generate(parsed.rootPitchClass, parsed.formula, tuning)
+                    .firstOrNull()
+            }
+
+            val playChordDesc = stringResource(R.string.songbook_play_chord, chordName)
+            val viewInLibraryDesc = stringResource(R.string.songbook_view_in_library, chordName)
+
+            ModalBottomSheet(
+                onDismissRequest = { tappedChord = null },
+                sheetState = chordSheetState,
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 32.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(
+                        text = chordName,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(bottom = 16.dp)
+                            .semantics { heading() },
+                    )
+
+                    if (voicing != null) {
+                        VerticalChordDiagram(
+                            voicing = voicing,
+                            onClick = {},
+                            chordName = chordName,
+                            leftHanded = leftHanded,
+                            modifier = Modifier.padding(bottom = 16.dp),
+                        )
+                    }
+
+                    HorizontalDivider()
+                    ListItem(
+                        headlineContent = { Text(stringResource(R.string.songbook_play_chord, chordName)) },
+                        leadingContent = {
+                            Icon(Icons.Filled.PlayArrow, contentDescription = null)
+                        },
+                        modifier = Modifier
+                            .clickable(role = Role.Button) {
+                                onPlayChord(chordName)
+                            }
+                            .semantics { contentDescription = playChordDesc },
+                    )
+                    HorizontalDivider()
+                    ListItem(
+                        headlineContent = { Text(stringResource(R.string.songbook_view_in_library, chordName)) },
+                        leadingContent = {
+                            Icon(Icons.Filled.MusicNote, contentDescription = null)
+                        },
+                        modifier = Modifier
+                            .clickable(role = Role.Button) {
+                                tappedChord = null
+                                onChordTapped(chordName)
+                            }
+                            .semantics { contentDescription = viewInLibraryDesc },
                     )
                 }
             }
@@ -1217,6 +1344,48 @@ private fun DeleteSongDialog(
                     stringResource(R.string.dialog_delete),
                     color = MaterialTheme.colorScheme.error,
                 )
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.dialog_cancel))
+            }
+        },
+    )
+}
+
+@Composable
+private fun PasteChordProDialog(
+    onImport: (String) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    var pasteContent by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                stringResource(R.string.songbook_paste_chordpro),
+                modifier = Modifier.semantics { heading() },
+            )
+        },
+        text = {
+            OutlinedTextField(
+                value = pasteContent,
+                onValueChange = { pasteContent = it },
+                label = { Text(stringResource(R.string.songbook_paste_chordpro_hint)) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                textStyle = MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace),
+            )
+        },
+        confirmButton = {
+            TextButton(
+                onClick = { onImport(pasteContent) },
+                enabled = pasteContent.isNotBlank(),
+            ) {
+                Text(stringResource(R.string.songbook_paste_import))
             }
         },
         dismissButton = {

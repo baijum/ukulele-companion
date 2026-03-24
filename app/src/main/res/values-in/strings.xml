@@ -1132,4 +1132,10 @@
     <string name="review_prompt_yes">Ya, saya suka sekali!</string>
     <string name="review_prompt_no">Kurang</string>
     <string name="review_feedback_thanks">Terima kasih atas masukannya! Kami terus berusaha untuk meningkatkan aplikasi.</string>
+    <string name="songbook_import_from_file">Impor dari file</string>
+    <string name="songbook_paste_chordpro">Tempel teks ChordPro</string>
+    <string name="songbook_paste_chordpro_hint">Tempel konten ChordPro</string>
+    <string name="songbook_paste_import">Impor</string>
+    <string name="songbook_play_chord">Mainkan akor %s</string>
+    <string name="songbook_view_in_library">Lihat %s di Perpustakaan Akor</string>
 </resources>

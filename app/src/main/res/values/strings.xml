@@ -234,6 +234,12 @@
     <string name="songbook_field_lyrics">Lyrics with [chords]</string>
     <string name="cd_import_chordpro">Import ChordPro file</string>
     <string name="cd_new_chord_sheet">New chord sheet</string>
+    <string name="songbook_import_from_file">Import from file</string>
+    <string name="songbook_paste_chordpro">Paste ChordPro text</string>
+    <string name="songbook_paste_chordpro_hint">Paste ChordPro content</string>
+    <string name="songbook_paste_import">Import</string>
+    <string name="songbook_play_chord">Play %s chord</string>
+    <string name="songbook_view_in_library">View %s in Chord Library</string>
     <string name="songbook_speed_half">0.5x</string>
     <string name="songbook_speed_1x">1x</string>
     <string name="songbook_speed_2x">2x</string>

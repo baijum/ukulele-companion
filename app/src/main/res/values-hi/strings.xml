@@ -1134,4 +1134,10 @@
     <string name="review_prompt_yes">हाँ, मुझे यह बहुत पसंद है!</string>
     <string name="review_prompt_no">ज्यादा नहीं</string>
     <string name="review_feedback_thanks">प्रतिक्रिया के लिए धन्यवाद! हम सुधार के लिए लगातार काम कर रहे हैं।</string>
+    <string name="songbook_import_from_file">फ़ाइल से आयात करें</string>
+    <string name="songbook_paste_chordpro">ChordPro टेक्स्ट पेस्ट करें</string>
+    <string name="songbook_paste_chordpro_hint">ChordPro सामग्री पेस्ट करें</string>
+    <string name="songbook_paste_import">आयात करें</string>
+    <string name="songbook_play_chord">%s कॉर्ड बजाएं</string>
+    <string name="songbook_view_in_library">कॉर्ड लाइब्रेरी में %s देखें</string>
 </resources>

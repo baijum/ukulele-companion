@@ -1144,4 +1144,10 @@
     <string name="review_prompt_yes">¡Sí, me encanta!</string>
     <string name="review_prompt_no">No mucho</string>
     <string name="review_feedback_thanks">¡Gracias por tus comentarios! Siempre trabajamos para mejorar.</string>
+    <string name="songbook_import_from_file">Importar desde archivo</string>
+    <string name="songbook_paste_chordpro">Pegar texto ChordPro</string>
+    <string name="songbook_paste_chordpro_hint">Pegar contenido ChordPro</string>
+    <string name="songbook_paste_import">Importar</string>
+    <string name="songbook_play_chord">Reproducir acorde %s</string>
+    <string name="songbook_view_in_library">Ver %s en la biblioteca de acordes</string>
 </resources>

@@ -1132,4 +1132,10 @@
     <string name="review_prompt_yes">Ja, ich liebe es!</string>
     <string name="review_prompt_no">Nicht wirklich</string>
     <string name="review_feedback_thanks">Vielen Dank fürs Feedback! Wir arbeiten ständig daran, uns zu verbessern.</string>
+    <string name="songbook_import_from_file">Aus Datei importieren</string>
+    <string name="songbook_paste_chordpro">ChordPro-Text einfügen</string>
+    <string name="songbook_paste_chordpro_hint">ChordPro-Inhalt einfügen</string>
+    <string name="songbook_paste_import">Importieren</string>
+    <string name="songbook_play_chord">%s-Akkord abspielen</string>
+    <string name="songbook_view_in_library">%s in Akkordbibliothek anzeigen</string>
 </resources>

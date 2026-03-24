@@ -1132,4 +1132,10 @@
     <string name="review_prompt_yes">Ja, ik vind het geweldig!</string>
     <string name="review_prompt_no">Niet echt</string>
     <string name="review_feedback_thanks">Bedankt voor de feedback! We werken constant aan verbeteringen.</string>
+    <string name="songbook_import_from_file">Importeren uit bestand</string>
+    <string name="songbook_paste_chordpro">ChordPro-tekst plakken</string>
+    <string name="songbook_paste_chordpro_hint">ChordPro-inhoud plakken</string>
+    <string name="songbook_paste_import">Importeren</string>
+    <string name="songbook_play_chord">%s-akkoord afspelen</string>
+    <string name="songbook_view_in_library">%s bekijken in akkoordenbibliotheek</string>
 </resources>

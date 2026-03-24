@@ -11,7 +11,9 @@ import com.baijum.ukufretboard.data.TuningSettings
 import com.baijum.ukufretboard.data.UkuleleTuning
 import com.baijum.ukufretboard.data.ChordFormula
 import com.baijum.ukufretboard.domain.AlternateChord
+import com.baijum.ukufretboard.data.VoicingGenerator
 import com.baijum.ukufretboard.domain.ChordDetector
+import com.baijum.ukufretboard.domain.ChordNameParser
 import com.baijum.ukufretboard.domain.ChordResult
 import com.baijum.ukufretboard.domain.Note
 import com.baijum.ukufretboard.domain.calculateNote
@@ -513,6 +515,22 @@ class FretboardViewModel : ViewModel() {
                 volume = soundSettings.volume,
             )
         }
+    }
+
+    /**
+     * Plays a chord by its display name (e.g. "Am", "C#m7").
+     *
+     * Parses the name into a root pitch class and formula, generates voicings
+     * for the current tuning, and plays the first available voicing.
+     *
+     * @param chordName The chord name to play.
+     */
+    fun playChordByName(chordName: String) {
+        if (!soundSettings.enabled) return
+        val parsed = ChordNameParser.parse(chordName) ?: return
+        val voicings = VoicingGenerator.generate(parsed.rootPitchClass, parsed.formula, tuning)
+        val voicing = voicings.firstOrNull() ?: return
+        playVoicing(voicing)
     }
 
     /**
