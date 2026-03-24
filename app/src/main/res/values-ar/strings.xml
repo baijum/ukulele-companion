@@ -365,7 +365,7 @@
     <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" by stomachache (Freesound.org)</string>
     <string name="settings_license">الرخصة</string>
     <string name="settings_license_value">CC BY 3.0</string>
-    <string name="settings_tagline">رفيقك الشامل لليوكوليلي للأوتار والسلالم والنظرية الموسيقية والتأليف. مجاني، بدون إنترنت، بدون إعلانات، بدون تتبع.</string>
+    <string name="settings_tagline">رفيقك الشامل لليوكوليلي للأوتار والسلالم والنظرية الموسيقية والتأليف. يعمل بدون إنترنت، بدون تتبع.</string>
     <string name="settings_unknown_version">غير معروف</string>
 
     <!-- ── Backup &amp; Restore ──────────────────────────────────────── -->
