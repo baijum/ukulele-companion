@@ -539,7 +539,7 @@
   font-size: 1.1rem;
 }
 
-.cta-testflight {
+.cta-appstore {
   margin-left: calc(50% - 50vw);
   width: 100vw;
   margin-top: 0;
@@ -548,21 +548,21 @@
   color: #fff;
 }
 
-.cta-testflight h2 {
+.cta-appstore h2 {
   color: #fff;
   margin: 0 0 0.75rem;
   font-size: 1.85rem;
   font-weight: 800;
 }
 
-.cta-testflight p {
+.cta-appstore p {
   color: rgba(255, 255, 255, 0.85);
   margin: 0 auto 1.5rem;
   max-width: 55ch;
   font-size: 1.1rem;
 }
 
-.cta-testflight .md-button--primary {
+.cta-appstore .md-button--primary {
   background: var(--uc-coral);
   border-color: var(--uc-coral);
   color: #fff;
@@ -570,7 +570,7 @@
   box-shadow: 0 4px 16px rgba(255, 112, 67, 0.4);
 }
 
-.cta-testflight .md-button--primary:hover {
+.cta-appstore .md-button--primary:hover {
   box-shadow: 0 6px 24px rgba(255, 112, 67, 0.5);
   transform: translateY(-2px);
 }
@@ -762,7 +762,7 @@
   }
 
   .cta-playstore,
-  .cta-testflight,
+  .cta-appstore,
   .cta-manual {
     padding: 2.5rem 1.5rem;
   }
@@ -906,12 +906,12 @@
   background: linear-gradient(135deg, #111 0%, #222 100%);
 }
 
-/* CTA testflight: brighter gradient */
-[data-md-color-scheme="slate"] .cta-testflight {
+/* CTA appstore: brighter gradient */
+[data-md-color-scheme="slate"] .cta-appstore {
   background: linear-gradient(135deg, #00796B 0%, #26A69A 100%);
 }
 
-/* CTA manual: distinct from testflight, visible against page */
+/* CTA manual: distinct from appstore, visible against page */
 [data-md-color-scheme="slate"] .cta-manual {
   background: linear-gradient(135deg, #00695C 0%, #00897B 100%);
 }
@@ -929,13 +929,13 @@
 
 /* CTA headings must stay white (override teal heading color above) */
 .cta-playstore h2,
-.cta-testflight h2,
+.cta-appstore h2,
 .cta-manual h2 {
   color: #fff;
 }
 
 .cta-playstore p,
-.cta-testflight p,
+.cta-appstore p,
 .cta-manual p {
   color: rgba(255, 255, 255, 0.9);
 }
