@@ -1132,4 +1132,10 @@
     <string name="review_prompt_yes">Evet, bayılıyorum!</string>
     <string name="review_prompt_no">Pek sayılmaz</string>
     <string name="review_feedback_thanks">Geri bildiriminiz için teşekkürler! Sürekli geliştirmek için çalışıyoruz.</string>
+    <string name="songbook_import_from_file">Dosyadan içe aktar</string>
+    <string name="songbook_paste_chordpro">ChordPro metni yapıştır</string>
+    <string name="songbook_paste_chordpro_hint">ChordPro içeriğini yapıştır</string>
+    <string name="songbook_paste_import">İçe aktar</string>
+    <string name="songbook_play_chord">%s akorunu çal</string>
+    <string name="songbook_view_in_library">%s akorunu kütüphanede görüntüle</string>
 </resources>

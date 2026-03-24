@@ -1134,4 +1134,10 @@
     <string name="review_prompt_yes">是的，我很喜欢！</string>
     <string name="review_prompt_no">不太喜欢</string>
     <string name="review_feedback_thanks">感谢反馈！我们一直在努力改进。</string>
+    <string name="songbook_import_from_file">从文件导入</string>
+    <string name="songbook_paste_chordpro">粘贴ChordPro文本</string>
+    <string name="songbook_paste_chordpro_hint">粘贴ChordPro内容</string>
+    <string name="songbook_paste_import">导入</string>
+    <string name="songbook_play_chord">播放%s和弦</string>
+    <string name="songbook_view_in_library">在和弦库中查看%s</string>
 </resources>

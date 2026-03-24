@@ -1134,4 +1134,10 @@
     <string name="review_prompt_yes">Да, обожаю!</string>
     <string name="review_prompt_no">Не очень</string>
     <string name="review_feedback_thanks">Спасибо за отзыв! Мы постоянно работаем над улучшениями.</string>
+    <string name="songbook_import_from_file">Импорт из файла</string>
+    <string name="songbook_paste_chordpro">Вставить текст ChordPro</string>
+    <string name="songbook_paste_chordpro_hint">Вставьте содержимое ChordPro</string>
+    <string name="songbook_paste_import">Импортировать</string>
+    <string name="songbook_play_chord">Воспроизвести аккорд %s</string>
+    <string name="songbook_view_in_library">Просмотреть %s в библиотеке аккордов</string>
 </resources>
