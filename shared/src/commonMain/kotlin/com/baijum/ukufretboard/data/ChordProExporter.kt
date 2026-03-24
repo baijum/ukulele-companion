@@ -45,7 +45,7 @@ object ChordProExporter {
         var openSection: String? = null
         val lines = sheet.content.lines()
 
-        lines.forEachIndexed { index, line ->
+        lines.forEach { line ->
             val match = SECTION_LABEL.matchEntire(line.trim())
             if (match != null) {
                 if (openSection != null) {

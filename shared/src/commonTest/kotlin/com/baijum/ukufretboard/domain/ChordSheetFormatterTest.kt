@@ -145,6 +145,24 @@ class ChordSheetFormatterTest {
     }
 
     @Test
+    fun plainTextIncludesSubtitle() {
+        val result = ChordSheetFormatter.formatPlainText(
+            sheet(title = "Song", subtitle = "A Subtitle", content = "text")
+        )
+        assertTrue(result.contains("A Subtitle"), "Should include subtitle: $result")
+    }
+
+    @Test
+    fun plainTextOmitsEmptySubtitle() {
+        val result = ChordSheetFormatter.formatPlainText(
+            sheet(title = "Song", content = "text")
+        )
+        val lines = result.lines()
+        assertEquals("Song", lines[0], "First line should be title")
+        assertTrue(lines[1].isEmpty(), "Second line should be blank when no subtitle/artist")
+    }
+
+    @Test
     fun plainTextPreservesChordBrackets() {
         val result = ChordSheetFormatter.formatPlainText(
             sheet(content = "[Am]Hello [G]world")

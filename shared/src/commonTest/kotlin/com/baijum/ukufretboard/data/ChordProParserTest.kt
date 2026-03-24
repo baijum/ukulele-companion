@@ -181,8 +181,7 @@ class ChordProParserTest {
     @Test
     fun endOfIntroInsertsBlankLine() {
         val sheet = ChordProParser.parse("{start_of_intro}\nRiff\n{end_of_intro}\nVerse")
-        assertTrue(sheet.content.contains("[Intro]"))
-        assertTrue(sheet.content.contains("Verse"))
+        assertTrue(sheet.content.contains("[Intro]\nRiff\n\nVerse"), "Content: ${sheet.content}")
     }
 
     @Test
@@ -194,7 +193,7 @@ class ChordProParserTest {
     @Test
     fun endOfOutroInsertsBlankLine() {
         val sheet = ChordProParser.parse("{start_of_outro}\nFade\n{end_of_outro}")
-        assertTrue(sheet.content.contains("[Outro]"))
+        assertTrue(sheet.content.contains("[Outro]\nFade"), "Content: ${sheet.content}")
     }
 
     @Test
@@ -206,7 +205,7 @@ class ChordProParserTest {
     @Test
     fun endOfInterludeInsertsBlankLine() {
         val sheet = ChordProParser.parse("{start_of_interlude}\nSolo\n{end_of_interlude}")
-        assertTrue(sheet.content.contains("[Interlude]"))
+        assertTrue(sheet.content.contains("[Interlude]\nSolo"), "Content: ${sheet.content}")
     }
 
     // --- parse: tab blocks ---
@@ -318,6 +317,7 @@ class ChordProParserTest {
     fun emptyTempoIsSkipped() {
         val sheet = ChordProParser.parse("{tempo: }\nLyrics")
         assertFalse(sheet.content.contains("Tempo"))
+        assertTrue(sheet.content.contains("Lyrics"))
     }
 
     // --- parse: define directive ---
