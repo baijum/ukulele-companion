@@ -871,7 +871,7 @@
     <string name="onboarding_nav_title">Finding your way around</string>
     <string name="onboarding_next">Next</string>
     <string name="onboarding_page_indicator">Page %1$d of %2$d</string>
-    <string name="onboarding_privacy_no_ads">No ads, no tracking, no account required</string>
+    <string name="onboarding_privacy_no_ads">No tracking, no account required</string>
     <string name="onboarding_privacy_offline">Works completely offline — no internet needed</string>
     <string name="onboarding_privacy_title">Private and offline</string>
     <string name="onboarding_privacy_yours">Your data stays on your device</string>

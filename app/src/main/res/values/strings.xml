@@ -398,7 +398,7 @@
     <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" by stomachache (Freesound.org)</string>
     <string name="settings_license">License</string>
     <string name="settings_license_value">CC BY 3.0</string>
-    <string name="settings_tagline">Your all-in-one ukulele companion for chords, scales, music theory, and composition. Free, offline, no ads, no tracking.</string>
+    <string name="settings_tagline">Your all-in-one ukulele companion for chords, scales, music theory, and composition. Fully offline, no tracking.</string>
     <string name="settings_unknown_version">Unknown</string>
 
     <!-- ── Backup &amp; Restore ──────────────────────────────────────── -->
@@ -680,7 +680,7 @@
     <string name="onboarding_accessibility_contrast">High-contrast theme for better visibility</string>
     <string name="onboarding_privacy_title">Private and offline</string>
     <string name="onboarding_privacy_offline">Works completely offline — no internet needed</string>
-    <string name="onboarding_privacy_no_ads">No ads, no tracking, no account required</string>
+    <string name="onboarding_privacy_no_ads">No tracking, no account required</string>
     <string name="onboarding_privacy_yours">Your data stays on your device</string>
     <string name="onboarding_nav_title">Finding your way around</string>
     <string name="onboarding_nav_instruction">Swipe from the left edge or tap the menu icon to open the navigation drawer.</string>
