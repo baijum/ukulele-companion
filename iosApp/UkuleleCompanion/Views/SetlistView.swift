@@ -5,7 +5,6 @@ struct SetlistView: View {
     @ObservedObject var songbookViewModel: SongbookViewModel
     @State private var showingCreateSheet = false
     @State private var newSetlistName = ""
-    @State private var selectedSetlist: StoredSetlist? = nil
 
     var body: some View {
         NavigationStack {
@@ -22,8 +21,12 @@ struct SetlistView: View {
                 } else {
                     List {
                         ForEach(viewModel.setlists) { setlist in
-                            Button {
-                                selectedSetlist = setlist
+                            NavigationLink {
+                                SetlistDetailView(
+                                    setlist: setlist,
+                                    viewModel: viewModel,
+                                    songbookViewModel: songbookViewModel
+                                )
                             } label: {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(setlist.name)
@@ -33,7 +36,6 @@ struct SetlistView: View {
                                         .foregroundColor(.secondary)
                                 }
                             }
-                            .buttonStyle(.plain)
                             .accessibilityLabel("\(setlist.name), \(setlist.songIds.count) songs")
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 Button(role: .destructive) {
@@ -68,15 +70,6 @@ struct SetlistView: View {
                 }
                 Button("Cancel", role: .cancel) {}
             }
-            .sheet(item: $selectedSetlist) { setlist in
-                NavigationStack {
-                    SetlistDetailView(
-                        setlist: setlist,
-                        viewModel: viewModel,
-                        songbookViewModel: songbookViewModel
-                    )
-                }
-            }
         }
     }
 }
@@ -85,7 +78,6 @@ struct SetlistDetailView: View {
     let setlist: StoredSetlist
     @ObservedObject var viewModel: SetlistViewModel
     @ObservedObject var songbookViewModel: SongbookViewModel
-    @Environment(\.dismiss) private var dismiss
     @State private var showingAddSong = false
 
     private var currentSetlist: StoredSetlist {
@@ -137,9 +129,6 @@ struct SetlistDetailView: View {
         .navigationTitle(currentSetlist.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Button("Done") { dismiss() }
-            }
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     showingAddSong = true
