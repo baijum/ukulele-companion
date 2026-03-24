@@ -3,11 +3,22 @@ package com.baijum.ukufretboard.data
 /**
  * Exports a [ChordSheet] to ChordPro format.
  *
- * Generates a valid ChordPro file with `{title}` and `{artist}` directives
- * followed by the song content. Chord markers `[Am]` are already in ChordPro
- * syntax and pass through unchanged.
+ * Generates a valid ChordPro file with metadata directives followed by the song
+ * content. Chord markers `[Am]` are already in ChordPro syntax and pass through
+ * unchanged. Section labels like `[Chorus]` are converted back to
+ * `{start_of_chorus}` / `{end_of_chorus}` directive pairs.
  */
 object ChordProExporter {
+
+    /**
+     * Matches internal section labels: `[Chorus]`, `[Verse 2]`, `[Bridge]`, etc.
+     * Captures the section type and optional custom label.
+     */
+    private val SECTION_LABEL =
+        Regex("""\[(Chorus|Verse|Bridge|Intro|Outro|Interlude|Tab)(?:\s+(.*))?\]""")
+
+    /** Maps a captured section type to its ChordPro directive base name. */
+    private fun sectionDirective(type: String): String = type.lowercase()
 
     /**
      * Converts a [ChordSheet] to a ChordPro-formatted string.
@@ -15,10 +26,11 @@ object ChordProExporter {
      * @param sheet The chord sheet to export.
      * @return The ChordPro-formatted text.
      */
-    private val SECTION_LABEL = Regex("""\[(Chorus|Verse|Bridge)]""")
-
     fun export(sheet: ChordSheet): String = buildString {
         appendLine("{title: ${sheet.title}}")
+        if (sheet.subtitle.isNotEmpty()) {
+            appendLine("{subtitle: ${sheet.subtitle}}")
+        }
         if (sheet.artist.isNotEmpty()) {
             appendLine("{artist: ${sheet.artist}}")
         }
@@ -30,14 +42,30 @@ object ChordProExporter {
         }
         appendLine()
 
-        sheet.content.lines().forEach { line ->
+        var openSection: String? = null
+        val lines = sheet.content.lines()
+
+        lines.forEachIndexed { index, line ->
             val match = SECTION_LABEL.matchEntire(line.trim())
             if (match != null) {
-                val section = match.groupValues[1].lowercase()
-                appendLine("{start_of_$section}")
+                if (openSection != null) {
+                    appendLine("{end_of_$openSection}")
+                }
+                val type = sectionDirective(match.groupValues[1])
+                val customSuffix = match.groupValues[2].trim()
+                openSection = type
+                if (customSuffix.isNotEmpty()) {
+                    appendLine("{start_of_$type: ${match.groupValues[1]} $customSuffix}")
+                } else {
+                    appendLine("{start_of_$type}")
+                }
             } else {
                 appendLine(line)
             }
+        }
+
+        if (openSection != null) {
+            appendLine("{end_of_$openSection}")
         }
     }
 

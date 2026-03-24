@@ -1,5 +1,6 @@
 package com.baijum.ukufretboard.domain
 
+import com.baijum.ukufretboard.data.ChordParser
 import com.baijum.ukufretboard.data.Notes
 
 /**
@@ -12,7 +13,7 @@ import com.baijum.ukufretboard.data.Notes
 object ChordSheetTranspose {
 
     /** Regex matching `[ChordName]` markers, capturing root and quality separately. */
-    private val CHORD_MARKER = Regex("""\[([A-G][#b]?)([^]]*)]""")
+    private val CHORD_MARKER = Regex("""\[(?!(?:${ChordParser.SECTION_NAMES})\b)([A-G][#b]?)([^]]*)]""")
 
     /**
      * Transposes all `[Chord]` markers in the given content by [semitones].

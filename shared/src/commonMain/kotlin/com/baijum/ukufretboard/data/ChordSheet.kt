@@ -11,6 +11,7 @@ import com.baijum.ukufretboard.platform.generateUuid
  *
  * @property id Unique identifier.
  * @property title Song title.
+ * @property subtitle Subtitle from ChordPro `{subtitle}` directive (optional).
  * @property artist Artist name (optional).
  * @property content Raw text with `[ChordName]` markers.
  * @property key Original key from ChordPro `{key}` directive (optional).
@@ -24,6 +25,7 @@ import com.baijum.ukufretboard.platform.generateUuid
 data class ChordSheet(
     val id: String = generateUuid(),
     val title: String,
+    val subtitle: String = "",
     val artist: String = "",
     val content: String,
     val key: String = "",

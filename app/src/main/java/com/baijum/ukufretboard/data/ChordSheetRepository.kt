@@ -50,6 +50,7 @@ class ChordSheetRepository(context: Context) {
             sheet.capo.toString(),
             sheet.strumPatternName.replace("|", "\\|"),
             serializeLabels(sheet.labels),
+            sheet.subtitle.replace("|", "\\|"),
         ).joinToString(SEPARATOR)
 
     private fun deserialize(value: String?): ChordSheet? {
@@ -68,6 +69,7 @@ class ChordSheetRepository(context: Context) {
                 capo = parts.getOrNull(7)?.toIntOrNull() ?: 0,
                 strumPatternName = parts.getOrNull(8)?.replace("\\|", "|") ?: "",
                 labels = deserializeLabels(parts.getOrNull(9)),
+                subtitle = parts.getOrNull(10)?.replace("\\|", "|") ?: "",
             )
         } catch (e: Exception) {
             null

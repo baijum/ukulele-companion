@@ -80,6 +80,7 @@ data class BackupFavoriteFolder(
 data class BackupChordSheet(
     val id: String,
     val title: String,
+    val subtitle: String = "",
     val artist: String = "",
     val content: String,
     val key: String = "",
