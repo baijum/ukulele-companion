@@ -1151,4 +1151,8 @@
     <string name="songbook_paste_import">导入</string>
     <string name="songbook_play_chord">播放%s和弦</string>
     <string name="songbook_view_in_library">在和弦库中查看%s</string>
+    <string name="nav_setlists">歌单</string>
+    <string name="songbook_font_decrease">减小字号</string>
+    <string name="songbook_font_increase">增大字号</string>
+    <string name="share_as_pdf">导出为 PDF</string>
 </resources>

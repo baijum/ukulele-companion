@@ -1147,4 +1147,8 @@
     <string name="songbook_paste_import">Importar</string>
     <string name="songbook_play_chord">Tocar acorde %s</string>
     <string name="songbook_view_in_library">Ver %s na biblioteca de acordes</string>
+    <string name="nav_setlists">Setlists</string>
+    <string name="songbook_font_decrease">Diminuir tamanho da fonte</string>
+    <string name="songbook_font_increase">Aumentar tamanho da fonte</string>
+    <string name="share_as_pdf">Exportar como PDF</string>
 </resources>

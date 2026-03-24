@@ -1151,4 +1151,8 @@
     <string name="songbook_paste_import">استيراد</string>
     <string name="songbook_play_chord">تشغيل وتر %s</string>
     <string name="songbook_view_in_library">عرض %s في مكتبة الأوتار</string>
+    <string name="nav_setlists">قوائم الأغاني</string>
+    <string name="songbook_font_decrease">تصغير حجم الخط</string>
+    <string name="songbook_font_increase">تكبير حجم الخط</string>
+    <string name="share_as_pdf">تصدير كملف PDF</string>
 </resources>

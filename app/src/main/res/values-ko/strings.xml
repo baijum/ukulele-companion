@@ -1151,4 +1151,8 @@
     <string name="songbook_paste_import">가져오기</string>
     <string name="songbook_play_chord">%s 코드 재생</string>
     <string name="songbook_view_in_library">코드 라이브러리에서 %s 보기</string>
+    <string name="nav_setlists">세트리스트</string>
+    <string name="songbook_font_decrease">글꼴 크기 줄이기</string>
+    <string name="songbook_font_increase">글꼴 크기 늘리기</string>
+    <string name="share_as_pdf">PDF로보내기</string>
 </resources>

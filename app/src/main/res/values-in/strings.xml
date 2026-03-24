@@ -1149,4 +1149,8 @@
     <string name="songbook_paste_import">Impor</string>
     <string name="songbook_play_chord">Mainkan akor %s</string>
     <string name="songbook_view_in_library">Lihat %s di Perpustakaan Akor</string>
+    <string name="nav_setlists">Daftar Lagu</string>
+    <string name="songbook_font_decrease">Perkecil ukuran font</string>
+    <string name="songbook_font_increase">Perbesar ukuran font</string>
+    <string name="share_as_pdf">Ekspor sebagai PDF</string>
 </resources>

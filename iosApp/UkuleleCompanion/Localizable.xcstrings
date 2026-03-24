@@ -116,6 +116,16 @@
         }
       }
     },
+    "%@, %lld songs" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$lld songs"
+          }
+        }
+      }
+    },
     "%@, drag to reorder" : {
 
     },
@@ -206,6 +216,9 @@
     "%lld matches" : {
 
     },
+    "%lld min" : {
+
+    },
     "%lld notes, %lld BPM" : {
       "localizations" : {
         "en" : {
@@ -249,6 +262,28 @@
         }
       }
     },
+    "%lld selected" : {
+
+    },
+    "%lld songs" : {
+
+    },
+    "%lld views" : {
+
+    },
+    "%lld." : {
+
+    },
+    "%lld. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld. %2$@"
+          }
+        }
+      }
+    },
     "%lld/%lld" : {
       "localizations" : {
         "en" : {
@@ -268,6 +303,16 @@
     "%lldfr" : {
 
     },
+    "%lldh %lldm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lldh %2$lldm"
+          }
+        }
+      }
+    },
     "%lldm goal" : {
 
     },
@@ -277,7 +322,16 @@
     "→" : {
 
     },
+    "+" : {
+
+    },
     "+%lld" : {
+
+    },
+    "< 1 min" : {
+
+    },
+    "−" : {
 
     },
     "◀ Prev" : {
@@ -6082,7 +6136,13 @@
     "Add lyrics and chords" : {
 
     },
+    "Add Song" : {
+
+    },
     "Add song or import" : {
+
+    },
+    "Add song to setlist" : {
 
     },
     "Add Step" : {
@@ -6101,6 +6161,9 @@
 
     },
     "All (%lld)" : {
+
+    },
+    "All songs are already in this setlist." : {
 
     },
     "All-time: %lld/%lld (%lld%%)" : {
@@ -6848,6 +6911,9 @@
 
     },
     "Cancel" : {
+
+    },
+    "Cancel Selection" : {
 
     },
     "Capo" : {
@@ -29493,6 +29559,9 @@
     "Create" : {
 
     },
+    "Create a setlist to organize songs for gigs or practice." : {
+
+    },
     "Create new folder" : {
 
     },
@@ -29500,6 +29569,9 @@
 
     },
     "Create Progression" : {
+
+    },
+    "Create setlist" : {
 
     },
     "Credits" : {
@@ -30539,6 +30611,9 @@
     "Decrease capo" : {
 
     },
+    "Decrease font size" : {
+
+    },
     "Decrease tempo" : {
 
     },
@@ -30551,10 +30626,16 @@
     "Delete %@" : {
 
     },
+    "Delete %lld songs" : {
+
+    },
     "Delete Folder?" : {
 
     },
     "Delete progression?" : {
+
+    },
+    "Delete Selected?" : {
 
     },
     "Delete song" : {
@@ -32069,6 +32150,9 @@
     "Duplicate" : {
 
     },
+    "Duplicate song" : {
+
+    },
     "duration_eighth" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -32614,6 +32698,9 @@
 
     },
     "Everything you need" : {
+
+    },
+    "Exit performance mode" : {
 
     },
     "Expand filters" : {
@@ -33940,6 +34027,9 @@
           }
         }
       }
+    },
+    "Export as PDF" : {
+
     },
     "Export Backup" : {
 
@@ -44461,6 +44551,9 @@
     "Increase capo" : {
 
     },
+    "Increase font size" : {
+
+    },
     "Increase tempo" : {
 
     },
@@ -46200,6 +46293,9 @@
       }
     },
     "Inversions" : {
+
+    },
+    "Jump to %@" : {
 
     },
     "Key" : {
@@ -59299,6 +59395,9 @@
     "New Question" : {
 
     },
+    "New Setlist" : {
+
+    },
     "New Song" : {
 
     },
@@ -59351,6 +59450,12 @@
 
     },
     "No notes added yet" : {
+
+    },
+    "No Setlists Yet" : {
+
+    },
+    "No songs in this setlist. Tap + to add songs." : {
 
     },
     "No songs yet. Tap + to add one." : {
@@ -67209,7 +67314,13 @@
         }
       }
     },
+    "Pause" : {
+
+    },
     "Pause auto-scroll" : {
+
+    },
+    "Performance mode" : {
 
     },
     "Pick the musical key and scale for your song. This determines which chords will be suggested." : {
@@ -82130,6 +82241,9 @@
         }
       }
     },
+    "Scroll" : {
+
+    },
     "Search chord (e.g., Cm7, C/E)" : {
 
     },
@@ -82148,7 +82262,13 @@
     "Select a root note and scale to see diatonic triads." : {
 
     },
+    "Select All" : {
+
+    },
     "Select an item from the sidebar" : {
+
+    },
+    "Select Songs" : {
 
     },
     "Select Strum Pattern" : {
@@ -82167,6 +82287,12 @@
 
     },
     "Sessions: %lld" : {
+
+    },
+    "Setlist name" : {
+
+    },
+    "Setlists" : {
 
     },
     "Settings" : {
@@ -93025,6 +93151,12 @@
     "Start metronome" : {
 
     },
+    "Start Metronome" : {
+
+    },
+    "Start metronome at %lld beats per minute" : {
+
+    },
     "Start Quiz" : {
 
     },
@@ -93997,6 +94129,9 @@
       }
     },
     "Tempo" : {
+
+    },
+    "Tempo: %lld BPM" : {
 
     },
     "The file could not be imported. Please check the file format and try again." : {
@@ -99068,6 +99203,9 @@
 
     },
     "This will permanently delete all your learning progress, streaks, and quiz statistics. This action cannot be undone." : {
+
+    },
+    "This will permanently delete the selected songs." : {
 
     },
     "Time Signature" : {

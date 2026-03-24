@@ -1151,4 +1151,8 @@
     <string name="songbook_paste_import">Импортировать</string>
     <string name="songbook_play_chord">Воспроизвести аккорд %s</string>
     <string name="songbook_view_in_library">Просмотреть %s в библиотеке аккордов</string>
+    <string name="nav_setlists">Сетлисты</string>
+    <string name="songbook_font_decrease">Уменьшить размер шрифта</string>
+    <string name="songbook_font_increase">Увеличить размер шрифта</string>
+    <string name="share_as_pdf">Экспорт в PDF</string>
 </resources>

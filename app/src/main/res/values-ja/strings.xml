@@ -1151,4 +1151,8 @@
     <string name="songbook_paste_import">インポート</string>
     <string name="songbook_play_chord">%sコードを再生</string>
     <string name="songbook_view_in_library">コードライブラリで%sを表示</string>
+    <string name="nav_setlists">セットリスト</string>
+    <string name="songbook_font_decrease">文字サイズを小さく</string>
+    <string name="songbook_font_increase">文字サイズを大きく</string>
+    <string name="share_as_pdf">PDFとしてエクスポート</string>
 </resources>

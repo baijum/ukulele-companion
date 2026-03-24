@@ -1018,6 +1018,8 @@ private fun SheetViewer(
             }
 
             // Font size controls overlay
+            val fontDecreaseDesc = stringResource(R.string.songbook_font_decrease)
+            val fontIncreaseDesc = stringResource(R.string.songbook_font_increase)
             Row(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -1029,7 +1031,7 @@ private fun SheetViewer(
                         songFontSize = (songFontSize - 2f).coerceAtLeast(10f)
                         fontSizePrefs.edit().putFloat("song_font_size", songFontSize).apply()
                     },
-                    modifier = Modifier.semantics { contentDescription = context.getString(R.string.songbook_font_decrease) },
+                    modifier = Modifier.semantics { contentDescription = fontDecreaseDesc },
                 ) {
                     Text("A−", fontWeight = FontWeight.Bold, fontSize = 12.sp)
                 }
@@ -1038,7 +1040,7 @@ private fun SheetViewer(
                         songFontSize = (songFontSize + 2f).coerceAtMost(32f)
                         fontSizePrefs.edit().putFloat("song_font_size", songFontSize).apply()
                     },
-                    modifier = Modifier.semantics { contentDescription = context.getString(R.string.songbook_font_increase) },
+                    modifier = Modifier.semantics { contentDescription = fontIncreaseDesc },
                 ) {
                     Text("A+", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }

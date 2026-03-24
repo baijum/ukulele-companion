@@ -1149,4 +1149,8 @@
     <string name="songbook_paste_import">İçe aktar</string>
     <string name="songbook_play_chord">%s akorunu çal</string>
     <string name="songbook_view_in_library">%s akorunu kütüphanede görüntüle</string>
+    <string name="nav_setlists">Şarkı Listeleri</string>
+    <string name="songbook_font_decrease">Yazı boyutunu küçült</string>
+    <string name="songbook_font_increase">Yazı boyutunu büyüt</string>
+    <string name="share_as_pdf">PDF olarak dışa aktar</string>
 </resources>

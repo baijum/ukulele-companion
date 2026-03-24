@@ -1149,4 +1149,8 @@
     <string name="songbook_paste_import">Importuj</string>
     <string name="songbook_play_chord">Odtwórz akord %s</string>
     <string name="songbook_view_in_library">Zobacz %s w bibliotece akordów</string>
+    <string name="nav_setlists">Setlisty</string>
+    <string name="songbook_font_decrease">Zmniejsz rozmiar czcionki</string>
+    <string name="songbook_font_increase">Zwiększ rozmiar czcionki</string>
+    <string name="share_as_pdf">Eksportuj jako PDF</string>
 </resources>

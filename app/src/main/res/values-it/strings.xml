@@ -1149,4 +1149,8 @@
     <string name="songbook_paste_import">Importa</string>
     <string name="songbook_play_chord">Riproduci accordo %s</string>
     <string name="songbook_view_in_library">Visualizza %s nella libreria degli accordi</string>
+    <string name="nav_setlists">Scalette</string>
+    <string name="songbook_font_decrease">Riduci dimensione carattere</string>
+    <string name="songbook_font_increase">Aumenta dimensione carattere</string>
+    <string name="share_as_pdf">Esporta come PDF</string>
 </resources>

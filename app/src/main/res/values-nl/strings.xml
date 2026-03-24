@@ -1149,4 +1149,8 @@
     <string name="songbook_paste_import">Importeren</string>
     <string name="songbook_play_chord">%s-akkoord afspelen</string>
     <string name="songbook_view_in_library">%s bekijken in akkoordenbibliotheek</string>
+    <string name="nav_setlists">Setlijsten</string>
+    <string name="songbook_font_decrease">Lettergrootte verkleinen</string>
+    <string name="songbook_font_increase">Lettergrootte vergroten</string>
+    <string name="share_as_pdf">Exporteren als PDF</string>
 </resources>
