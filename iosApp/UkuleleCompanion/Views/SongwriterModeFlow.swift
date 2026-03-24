@@ -3,7 +3,7 @@ import shared
 
 /// Guided songwriting flow: choose key → build progression → write lyrics → transpose → save.
 struct SongwriterModeFlow: View {
-    @StateObject private var songbookViewModel = SongbookViewModel()
+    @EnvironmentObject var songbookViewModel: SongbookViewModel
     @StateObject private var progressionsViewModel = ProgressionsViewModel()
 
     @State private var currentStep = 0
@@ -40,6 +40,19 @@ struct SongwriterModeFlow: View {
                 .padding()
         }
         .navigationTitle("Start a Song")
+        .onChange(of: currentStep) { newStep in
+            let stepTitles = [
+                "Choose a key and scale",
+                "Build a chord progression",
+                "Add lyrics and chords",
+                "Transpose",
+                "Review and save",
+            ]
+            AccessibilityAnnouncer.shared.announce(
+                "Step \(newStep + 1) of \(totalSteps): \(stepTitles[newStep])",
+                minInterval: 0.5
+            )
+        }
         .onChange(of: selectedRoot) { _ in
             chosenDegrees = []
             transposeSemitones = 0

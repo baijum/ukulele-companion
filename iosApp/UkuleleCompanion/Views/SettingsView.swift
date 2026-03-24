@@ -5,12 +5,12 @@ import shared
 struct SettingsView: View {
     @StateObject private var viewModel = SettingsViewModel()
     @EnvironmentObject private var favoritesVM: FavoritesViewModel
-    @StateObject private var songbookVM = SongbookViewModel()
+    @EnvironmentObject var songbookVM: SongbookViewModel
     @StateObject private var melodyVM = MelodyViewModel()
     @StateObject private var progressionsVM = ProgressionsViewModel()
     @StateObject private var learnVM = LearnViewModel()
     @StateObject private var practiceTimerVM = PracticeTimerViewModel()
-    @StateObject private var customPatternsVM = CustomPatternsViewModel()
+    @EnvironmentObject var customPatternsVM: CustomPatternsViewModel
     @State private var backupManager: BackupRestoreManager?
     @State private var backupDocument: BackupDocument?
     @State private var showExporter = false

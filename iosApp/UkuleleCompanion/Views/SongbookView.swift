@@ -3,7 +3,7 @@ import UniformTypeIdentifiers
 import shared
 
 struct SongbookView: View {
-    @StateObject private var viewModel = SongbookViewModel()
+    @EnvironmentObject var viewModel: SongbookViewModel
     @State private var showingImportSheet = false
     @State private var showingFileImporter = false
     @State private var importText = ""
@@ -287,6 +287,7 @@ private struct ScrollOffsetKey: PreferenceKey {
 
 struct SongViewerView: View {
     @ObservedObject var viewModel: SongbookViewModel
+    @EnvironmentObject var customPatternsVM: CustomPatternsViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var transposeSemitones: Int = 0
     @State private var showingEditor = false
@@ -552,8 +553,9 @@ struct SongViewerView: View {
     private var strumPatternSection: some View {
         Group {
             if !currentSong.strumPatternName.isEmpty {
-                let patterns = StrumPatterns.shared.ALL as! [StrumPattern]
-                let resolvedPattern = patterns.first { $0.name == currentSong.strumPatternName }
+                let builtInPatterns = StrumPatterns.shared.ALL as! [StrumPattern]
+                let resolvedPattern = builtInPatterns.first { $0.name == currentSong.strumPatternName }
+                let resolvedCustom = customPatternsVM.strumPatterns.first { $0.name == currentSong.strumPatternName }
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 4) {
                         Label(currentSong.strumPatternName, systemImage: "waveform")
@@ -561,6 +563,10 @@ struct SongViewerView: View {
                             .foregroundStyle(.secondary)
                         if let pattern = resolvedPattern {
                             Text(pattern.notation)
+                                .font(.caption2.monospaced())
+                                .foregroundStyle(.secondary)
+                        } else if let custom = resolvedCustom {
+                            Text(custom.beats.map { $0.direction.prefix(1).uppercased() }.joined())
                                 .font(.caption2.monospaced())
                                 .foregroundStyle(.secondary)
                         }
@@ -589,25 +595,53 @@ struct SongViewerView: View {
 
     private var strumPatternPicker: some View {
         NavigationStack {
-            let patterns = StrumPatterns.shared.ALL as! [StrumPattern]
-            List(0..<patterns.count, id: \.self) { i in
-                let pattern = patterns[i]
-                let isSelected = pattern.name == currentSong.strumPatternName
-                Button {
-                    viewModel.updateStrumPattern(id: song.id, patternName: pattern.name)
-                    showingStrumPicker = false
-                } label: {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(pattern.name)
-                            .font(.body)
-                            .fontWeight(isSelected ? .bold : .regular)
-                            .foregroundStyle(isSelected ? Color.accentColor : .primary)
-                        Text(pattern.notation)
-                            .font(.caption.monospaced())
-                            .foregroundStyle(.secondary)
+            let builtInPatterns = StrumPatterns.shared.ALL as! [StrumPattern]
+            List {
+                Section("Built-in") {
+                    ForEach(0..<builtInPatterns.count, id: \.self) { i in
+                        let pattern = builtInPatterns[i]
+                        let isSelected = pattern.name == currentSong.strumPatternName
+                        Button {
+                            viewModel.updateStrumPattern(id: song.id, patternName: pattern.name)
+                            showingStrumPicker = false
+                        } label: {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(pattern.name)
+                                    .font(.body)
+                                    .fontWeight(isSelected ? .bold : .regular)
+                                    .foregroundStyle(isSelected ? Color.accentColor : .primary)
+                                Text(pattern.notation)
+                                    .font(.caption.monospaced())
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .accessibilityLabel("Strum pattern \(pattern.name)")
+                        .accessibilityAddTraits(isSelected ? .isSelected : [])
                     }
                 }
-                .accessibilityLabel("Strum pattern \(pattern.name)")
+                if !customPatternsVM.strumPatterns.isEmpty {
+                    Section("Custom") {
+                        ForEach(customPatternsVM.strumPatterns) { custom in
+                            let isSelected = custom.name == currentSong.strumPatternName
+                            Button {
+                                viewModel.updateStrumPattern(id: song.id, patternName: custom.name)
+                                showingStrumPicker = false
+                            } label: {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(custom.name)
+                                        .font(.body)
+                                        .fontWeight(isSelected ? .bold : .regular)
+                                        .foregroundStyle(isSelected ? Color.accentColor : .primary)
+                                    Text(custom.beats.map { $0.direction.prefix(1).uppercased() }.joined())
+                                        .font(.caption.monospaced())
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                            .accessibilityLabel("Custom strum pattern \(custom.name)")
+                            .accessibilityAddTraits(isSelected ? .isSelected : [])
+                        }
+                    }
+                }
             }
             .navigationTitle("Select Strum Pattern")
             .navigationBarTitleDisplayMode(.inline)
@@ -719,6 +753,8 @@ struct SongViewerView: View {
                                 .clipShape(Capsule())
                         }
                         .buttonStyle(.plain)
+                        .accessibilityLabel("Speed \(speed, specifier: "%.1f")x")
+                        .accessibilityAddTraits(scrollSpeed == speed ? .isSelected : [])
                     }
                 }
             }
@@ -806,23 +842,72 @@ struct SongViewerView: View {
         }
     }
 
+    @ViewBuilder
     private func parsedLineView(segments: [ChordParser.TextSegment]) -> some View {
-        HStack(spacing: 0) {
-            ForEach(0..<segments.count, id: \.self) { i in
-                let segment = segments[i]
-                if let chord = segment as? ChordParser.TextSegmentChord {
-                    Text(chord.name)
-                        .font(.system(.body, design: .monospaced))
-                        .foregroundColor(.accentColor)
-                        .bold()
-                        .onTapGesture { tappedChord = chord.name }
-                        .accessibilityLabel("\(chord.name), tap to view diagram")
-                } else if let plain = segment as? ChordParser.TextSegmentPlainText {
-                    Text(plain.text)
+        let hasChords = segments.contains(where: { $0 is ChordParser.TextSegmentChord })
+        if hasChords {
+            let result = Self.buildChordsAboveLyrics(segments: segments)
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(spacing: 0) {
+                    ForEach(0..<result.chordElements.count, id: \.self) { i in
+                        let element = result.chordElements[i]
+                        if element.isChord {
+                            Text(element.text)
+                                .font(.system(.body, design: .monospaced))
+                                .foregroundColor(.accentColor)
+                                .bold()
+                                .onTapGesture { tappedChord = element.text }
+                        } else {
+                            Text(element.text)
+                                .font(.system(.body, design: .monospaced))
+                        }
+                    }
+                }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Chords: \(result.chordNames.joined(separator: ", "))")
+
+                if !result.lyrics.trimmingCharacters(in: .whitespaces).isEmpty {
+                    Text(result.lyrics)
                         .font(.system(.body, design: .monospaced))
                 }
             }
+        } else {
+            let text = segments.compactMap { ($0 as? ChordParser.TextSegmentPlainText)?.text }.joined()
+            Text(text.isEmpty ? " " : text)
+                .font(.system(.body, design: .monospaced))
         }
+    }
+
+    private static func buildChordsAboveLyrics(segments: [ChordParser.TextSegment])
+        -> (chordElements: [(text: String, isChord: Bool)], lyrics: String, chordNames: [String])
+    {
+        var lyrics = ""
+        var chordEntries: [(position: Int, name: String)] = []
+
+        for segment in segments {
+            if let chord = segment as? ChordParser.TextSegmentChord {
+                chordEntries.append((position: lyrics.count, name: chord.name))
+            } else if let plain = segment as? ChordParser.TextSegmentPlainText {
+                lyrics += plain.text
+            }
+        }
+
+        var chordElements: [(text: String, isChord: Bool)] = []
+        var pos = 0
+        for entry in chordEntries {
+            let gap = entry.position - pos
+            if gap > 0 {
+                chordElements.append((String(repeating: " ", count: gap), false))
+                pos = entry.position
+            } else if pos > 0 {
+                chordElements.append((" ", false))
+                pos += 1
+            }
+            chordElements.append((entry.name, true))
+            pos += entry.name.count
+        }
+
+        return (chordElements, lyrics, chordEntries.map { $0.name })
     }
 
     // MARK: - Chord Popover
