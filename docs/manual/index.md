@@ -1,6 +1,6 @@
 # Ukulele Companion — User Manual
 
-Welcome to **Ukulele Companion**, a free, offline, ad-free app for learning ukulele on Android and iOS. Choose your platform below to view the manual tailored to your device.
+Welcome to **Ukulele Companion**, an offline app for learning ukulele on Android and iOS. Choose your platform below to view the manual tailored to your device.
 
 <div class="manual-grid">
 
@@ -109,13 +109,3 @@ Each manual covers 15 sections:
 
 [Download from Internet Archive](https://archive.org/details/ukulele-book)
 
-## About the App
-
-Ukulele Companion is designed with a simple philosophy:
-
-- **Free forever** — no ads, no in-app purchases
-- **Fully offline** — no internet required, no analytics, no tracking
-- **No login** — just open and play
-- **Educational** — built for beginners and learners
-
-Whether you are picking up a ukulele for the first time or brushing up on music theory, this app has tools to help you along the way.

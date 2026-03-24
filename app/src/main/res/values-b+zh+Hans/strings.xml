@@ -365,7 +365,7 @@
     <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" by stomachache (Freesound.org)</string>
     <string name="settings_license">许可</string>
     <string name="settings_license_value">CC BY 3.0</string>
-    <string name="settings_tagline">你的全能尤克里里伴侣，涵盖和弦、音阶、乐理和创作。免费、离线、无广告、无追踪。</string>
+    <string name="settings_tagline">你的全能尤克里里伴侣，涵盖和弦、音阶、乐理和创作。完全离线、无追踪。</string>
     <string name="settings_unknown_version">未知</string>
 
     <!-- ── Backup &amp; Restore ──────────────────────────────────────── -->
@@ -875,7 +875,7 @@
     <string name="onboarding_nav_title">Finding your way around</string>
     <string name="onboarding_next">Next</string>
     <string name="onboarding_page_indicator">Page %1$d of %2$d</string>
-    <string name="onboarding_privacy_no_ads">No ads, no tracking, no account required</string>
+    <string name="onboarding_privacy_no_ads">No tracking, no account required</string>
     <string name="onboarding_privacy_offline">Works completely offline — no internet needed</string>
     <string name="onboarding_privacy_title">Private and offline</string>
     <string name="onboarding_privacy_yours">Your data stays on your device</string>

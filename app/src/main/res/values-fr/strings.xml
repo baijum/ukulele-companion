@@ -365,7 +365,7 @@
     <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" par stomachache (Freesound.org)</string>
     <string name="settings_license">Licence</string>
     <string name="settings_license_value">CC BY 3.0</string>
-    <string name="settings_tagline">Votre compagnon tout-en-un pour le ukulélé : accords, gammes, théorie musicale et composition. Gratuit, hors ligne, sans pub, sans pistage.</string>
+    <string name="settings_tagline">Votre compagnon tout-en-un pour le ukulélé : accords, gammes, théorie musicale et composition. Entièrement hors ligne, sans pistage.</string>
     <string name="settings_unknown_version">Inconnue</string>
 
     <!-- ── Sauvegarde et restauration ─────────────────────────────────── -->
@@ -871,7 +871,7 @@
     <string name="onboarding_nav_title">Finding your way around</string>
     <string name="onboarding_next">Next</string>
     <string name="onboarding_page_indicator">Page %1$d of %2$d</string>
-    <string name="onboarding_privacy_no_ads">No ads, no tracking, no account required</string>
+    <string name="onboarding_privacy_no_ads">No tracking, no account required</string>
     <string name="onboarding_privacy_offline">Works completely offline — no internet needed</string>
     <string name="onboarding_privacy_title">Private and offline</string>
     <string name="onboarding_privacy_yours">Your data stays on your device</string>

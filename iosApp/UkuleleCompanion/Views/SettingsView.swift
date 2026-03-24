@@ -201,7 +201,7 @@ struct SettingsView: View {
                             .foregroundStyle(.secondary)
                     }
 
-                    Text("Your all-in-one ukulele companion for chords, scales, music theory, and composition. Free, offline, no ads, no tracking.")
+                    Text("Your all-in-one ukulele companion for chords, scales, music theory, and composition. Fully offline, no tracking.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
 

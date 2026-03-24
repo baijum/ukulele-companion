@@ -13,7 +13,7 @@ hide:
       <img src="app-icon-512.png" alt="Ukulele Companion logo" class="hero-logo">
       <span>Ukulele Companion</span>
     </div>
-    <p class="hero-kicker">Free. Offline. Ad-free.</p>
+    <p class="hero-kicker">Fully offline. No internet needed.</p>
     <h1>The complete practice companion for ukulele players.</h1>
     <p class="hero-subtitle">
       Master chords, explore scales, train your ear, and build real songs in one
@@ -157,7 +157,7 @@ hide:
 
 <section class="cta-panel cta-playstore">
   <h2>Download on Android</h2>
-  <p>Free, offline, and ad-free. Available now on Google Play.</p>
+  <p>Available now on Google Play.</p>
   <div class="hero-cta">
     <a href="https://play.google.com/store/apps/details?id=com.baijum.ukufretboard" class="store-badge">
       <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
@@ -168,7 +168,7 @@ hide:
 
 <section class="cta-panel cta-appstore">
   <h2>Download on iOS</h2>
-  <p>Free, offline, and ad-free. Available now on the App Store for iPhone and iPad.</p>
+  <p>Available now on the App Store for iPhone and iPad.</p>
   <div class="hero-cta">
     <a href="https://apps.apple.com/app/id6760328302" class="store-badge">
       <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"

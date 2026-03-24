@@ -153,7 +153,7 @@ struct OnboardingView: View {
                     .fontWeight(.bold)
                     .accessibilityAddTraits(.isHeader)
                 featureRow(icon: "wifi.slash", text: "Works completely offline \u{2014} no internet needed")
-                featureRow(icon: "lock.shield", text: "No ads, no tracking, no account required")
+                featureRow(icon: "lock.shield", text: "No tracking, no account required")
                 featureRow(icon: "iphone", text: "Your data stays on your device")
             }
             .padding(.horizontal, 32)

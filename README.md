@@ -5,7 +5,7 @@
 <h1 align="center">🎵 Ukulele Companion</h1>
 
 <p align="center">
-  <b>A free, offline, ad-free app for learning ukulele — on Android and iOS</b><br>
+  <b>An offline app for learning ukulele — on Android and iOS</b><br>
   Chords, scales, music theory, composition tools, and more.<br>
   Built with <b>Kotlin Multiplatform</b>, <b>Jetpack Compose</b>, and <b>SwiftUI</b>.
 </p>
@@ -155,17 +155,6 @@ Ukulele Companion is designed to be usable by everyone, including blind and visu
 
 ---
 
-## 💡 Philosophy
-
-| Principle | What it means |
-|-----------|---------------|
-| **Free forever** | No ads, no in-app purchases — ever |
-| **Fully offline** | No internet required, no analytics, no tracking |
-| **No login** | Just open and play |
-| **Educational** | Designed for beginners and learners |
-
----
-
 ## 🏗️ Tech Stack
 
 | Component | Android | iOS |
@@ -312,21 +301,6 @@ We actively encourage contributors to use **AI coding tools** to accelerate thei
 - **AI-powered documentation** — use AI tools to help write clear commit messages, PR descriptions, and inline documentation.
 
 > **Tip:** This project uses standard Kotlin + Jetpack Compose patterns on Android and SwiftUI on iOS, with shared domain logic via Kotlin Multiplatform. AI tools work exceptionally well with the codebase because it follows consistent conventions throughout.
-
-### 🟢 Good First Issues
-
-Looking for a place to start? Here are some areas where contributions would be especially valuable:
-
-| Area | Description | Difficulty |
-|------|-------------|------------|
-| **UI Tests** | Add Compose UI tests for screens and components | Beginner |
-| **Property Tests** | Add property-based tests for more domain logic (e.g., `KeyDetector`, `QuizGenerator`, `ScaleChordBuilder`) | Beginner |
-| **Accessibility** | Maintain and improve TalkBack support, content descriptions, live regions | Beginner |
-| **New Scales** | Add more scale types to the Scale Overlay feature | Beginner |
-| **New Strumming Patterns** | Expand the strumming pattern library | Beginner |
-| **New Chord Progressions** | Add genre-specific chord progressions | Beginner |
-| **Localization** | Translate the app into other languages | Intermediate |
-| **Instrument Samples** | Replace sine wave synthesis with real ukulele samples | Advanced |
 
 ### Code Style
 

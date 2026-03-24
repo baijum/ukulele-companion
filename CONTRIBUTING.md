@@ -1,6 +1,6 @@
 # Contributing to Ukulele Companion
 
-Thank you for your interest in contributing! This project is a free, offline ukulele learning app for Android, and every contribution — big or small — helps make it better for musicians everywhere.
+Thank you for your interest in contributing! This project is an offline ukulele learning app for Android and iOS, and every contribution — big or small — helps make it better for musicians everywhere.
 
 Please read this guide before submitting your first pull request. If you have questions, feel free to open a [discussion](https://github.com/baijum/ukulele-companion/issues) or ask in your PR.
 
@@ -201,7 +201,7 @@ This app is actively used by blind and visually impaired musicians with screen r
 
 - **Do not add network dependencies** — the app must remain fully offline
 - **Do not add analytics or tracking** — this is a core principle of the project
-- **Do not add ads or monetization** — the app is free forever
+- **Do not add ads or monetization without prior discussion** — changes to the business model require maintainer approval
 - **Do not add third-party SDKs** without prior discussion — keep the dependency footprint minimal
 - **Do not commit** `keystore.properties`, API keys, or other secrets
 

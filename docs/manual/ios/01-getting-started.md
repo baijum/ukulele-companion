@@ -11,7 +11,7 @@ When you open the app for the first time, a short **onboarding wizard** walks yo
 1. **Welcome** — the app name and what it does.
 2. **Features** — a quick overview of the tuner, chord library, fretboard explorer, songbook, and learning tools.
 3. **Accessibility** — VoiceOver support, spoken tuner feedback, and the high-contrast theme.
-4. **Privacy** — fully offline, no ads, no tracking, no account required.
+4. **Privacy** — fully offline, no tracking, no account required.
 5. **Navigation** — how to use the tab bar and what each section contains.
 6. **Quick Setup** — choose your tuning (High-G, Low-G, Baritone, etc.), left-handed mode, and color theme. These choices take effect immediately and can be changed later in Settings.
 

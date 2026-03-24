@@ -11,7 +11,7 @@ Ukulele Companion is a **free, fully offline** multiplatform app (Android + iOS)
 **Hard constraints -- never violate these:**
 - No network dependencies -- the app must remain fully offline
 - No analytics, tracking, or telemetry
-- No ads or monetization code
+- No ads or monetization code without prior discussion
 - No third-party SDKs without prior discussion
 - Never commit `keystore.properties`, API keys, or secrets
 
