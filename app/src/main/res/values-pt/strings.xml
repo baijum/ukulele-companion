@@ -263,13 +263,16 @@
     <string name="songbook_duplicate">Duplicar</string>
     <string name="songbook_tempo_label">Tempo: %1$d BPM</string>
     <string name="songbook_start_metronome">Iniciar metrônomo</string>
-    <string name="stats_views">%1$d visualizações</string>
+    <plurals name="stats_views">
+        <item quantity="one">%1$d visualização</item>
+        <item quantity="other">%1$d visualizações</item>
+    </plurals>
     <string name="stats_time_under_minute">&lt; 1 min</string>
     <string name="stats_time_one_minute">1 min</string>
     <string name="stats_time_minutes">%1$d min</string>
     <string name="stats_time_hours_minutes">%1$dh %2$dm</string>
-    <string name="performance_mode">Modo apresentação</string>
-    <string name="performance_mode_exit">Sair do modo apresentação</string>
+    <string name="performance_mode">Modo de apresentação</string>
+    <string name="performance_mode_exit">Sair do modo de apresentação</string>
     <string name="songbook_duplicate_cd">Duplicar música</string>
     <string name="songbook_save_in_key">Salvar nesta tonalidade</string>
     <string name="songbook_saved_in_key">Música salva na tonalidade transposta</string>
@@ -1151,4 +1154,14 @@
     <string name="songbook_font_decrease">Diminuir tamanho da fonte</string>
     <string name="songbook_font_increase">Aumentar tamanho da fonte</string>
     <string name="share_as_pdf">Exportar como PDF</string>
+    <string name="performance_mode_toggle_controls">Toque para mostrar ou ocultar os controles</string>
+    <string name="performance_scroll_pause">Pausar</string>
+    <string name="performance_scroll_start">Rolar</string>
+    <string name="performance_scroll_speed">%1$sx</string>
+    <string name="performance_decrease_speed">Diminuir velocidade de rolagem</string>
+    <string name="performance_increase_speed">Aumentar velocidade de rolagem</string>
+    <string name="batch_selected">%1$d selecionados</string>
+    <string name="batch_select_all">Todos</string>
+    <string name="batch_cancel">Cancelar</string>
+    <string name="batch_delete">Excluir</string>
 </resources>

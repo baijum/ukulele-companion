@@ -263,7 +263,10 @@
     <string name="songbook_duplicate">Dupliquer</string>
     <string name="songbook_tempo_label">Tempo : %1$d BPM</string>
     <string name="songbook_start_metronome">Démarrer le métronome</string>
-    <string name="stats_views">%1$d vues</string>
+    <plurals name="stats_views">
+        <item quantity="one">%1$d vue</item>
+        <item quantity="other">%1$d vues</item>
+    </plurals>
     <string name="stats_time_under_minute">&lt; 1 min</string>
     <string name="stats_time_one_minute">1 min</string>
     <string name="stats_time_minutes">%1$d min</string>
@@ -1149,4 +1152,14 @@
     <string name="songbook_font_decrease">Réduire la taille de police</string>
     <string name="songbook_font_increase">Augmenter la taille de police</string>
     <string name="share_as_pdf">Exporter en PDF</string>
+    <string name="performance_mode_toggle_controls">Appuyez pour afficher ou masquer les contrôles</string>
+    <string name="performance_scroll_pause">Pause</string>
+    <string name="performance_scroll_start">Défiler</string>
+    <string name="performance_scroll_speed">%1$sx</string>
+    <string name="performance_decrease_speed">Réduire la vitesse de défilement</string>
+    <string name="performance_increase_speed">Augmenter la vitesse de défilement</string>
+    <string name="batch_selected">%1$d sélectionnés</string>
+    <string name="batch_select_all">Tout</string>
+    <string name="batch_cancel">Annuler</string>
+    <string name="batch_delete">Supprimer</string>
 </resources>

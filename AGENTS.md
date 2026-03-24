@@ -69,6 +69,14 @@ Detailed rules auto-attach when editing matching files:
 | `testing-conventions.mdc` | `test/**/*.kt`, `androidTest/**/*.kt` | Kotest property tests, JUnit 4, what to test when |
 | `edge_to_edge.mdc` | `MainActivity.kt`, `Theme.kt`, `libs.versions.toml` | Play Store edge-to-edge warnings (deferred) |
 
+## Skills Reference
+
+Skills in `.cursor/skills/` provide step-by-step workflows for common tasks:
+
+| Skill | When to use |
+|-------|-------------|
+| `add-translations` | Adding new user-facing strings to all 15 supported locales (Android `strings.xml` + iOS `Localizable.xcstrings`) |
+
 ## Build and CI
 
 ```bash

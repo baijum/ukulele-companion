@@ -263,7 +263,12 @@
     <string name="songbook_duplicate">Дублировать</string>
     <string name="songbook_tempo_label">Темп: %1$d BPM</string>
     <string name="songbook_start_metronome">Запустить метроном</string>
-    <string name="stats_views">%1$d просмотров</string>
+    <plurals name="stats_views">
+        <item quantity="one">%1$d просмотр</item>
+        <item quantity="few">%1$d просмотра</item>
+        <item quantity="many">%1$d просмотров</item>
+        <item quantity="other">%1$d просмотров</item>
+    </plurals>
     <string name="stats_time_under_minute">&lt; 1 мин</string>
     <string name="stats_time_one_minute">1 мин</string>
     <string name="stats_time_minutes">%1$d мин</string>
@@ -1155,4 +1160,14 @@
     <string name="songbook_font_decrease">Уменьшить размер шрифта</string>
     <string name="songbook_font_increase">Увеличить размер шрифта</string>
     <string name="share_as_pdf">Экспорт в PDF</string>
+    <string name="performance_mode_toggle_controls">Нажмите для отображения или скрытия элементов управления</string>
+    <string name="performance_scroll_pause">Пауза</string>
+    <string name="performance_scroll_start">Прокрутка</string>
+    <string name="performance_scroll_speed">%1$sx</string>
+    <string name="performance_decrease_speed">Уменьшить скорость прокрутки</string>
+    <string name="performance_increase_speed">Увеличить скорость прокрутки</string>
+    <string name="batch_selected">Выбрано: %1$d</string>
+    <string name="batch_select_all">Все</string>
+    <string name="batch_cancel">Отмена</string>
+    <string name="batch_delete">Удалить</string>
 </resources>

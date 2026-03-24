@@ -263,7 +263,14 @@
     <string name="songbook_duplicate">نسخ</string>
     <string name="songbook_tempo_label">الإيقاع: %1$d نبضة في الدقيقة</string>
     <string name="songbook_start_metronome">بدء الإيقاع</string>
-    <string name="stats_views">%1$d مشاهدات</string>
+    <plurals name="stats_views">
+        <item quantity="zero">لا مشاهدات</item>
+        <item quantity="one">مشاهدة واحدة</item>
+        <item quantity="two">مشاهدتان</item>
+        <item quantity="few">%1$d مشاهدات</item>
+        <item quantity="many">%1$d مشاهدات</item>
+        <item quantity="other">%1$d مشاهدات</item>
+    </plurals>
     <string name="stats_time_under_minute">&lt; ١ دقيقة</string>
     <string name="stats_time_one_minute">١ دقيقة</string>
     <string name="stats_time_minutes">%1$d دقيقة</string>
@@ -1155,4 +1162,14 @@
     <string name="songbook_font_decrease">تصغير حجم الخط</string>
     <string name="songbook_font_increase">تكبير حجم الخط</string>
     <string name="share_as_pdf">تصدير كملف PDF</string>
+    <string name="performance_mode_toggle_controls">انقر لإظهار أو إخفاء عناصر التحكم</string>
+    <string name="performance_scroll_pause">إيقاف مؤقت</string>
+    <string name="performance_scroll_start">تمرير</string>
+    <string name="performance_scroll_speed">%1$sx</string>
+    <string name="performance_decrease_speed">تقليل سرعة التمرير</string>
+    <string name="performance_increase_speed">زيادة سرعة التمرير</string>
+    <string name="batch_selected">%1$d محدد</string>
+    <string name="batch_select_all">الكل</string>
+    <string name="batch_cancel">إلغاء</string>
+    <string name="batch_delete">حذف</string>
 </resources>

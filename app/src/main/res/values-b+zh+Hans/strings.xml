@@ -263,7 +263,9 @@
     <string name="songbook_duplicate">复制</string>
     <string name="songbook_tempo_label">速度：%1$d BPM</string>
     <string name="songbook_start_metronome">启动节拍器</string>
-    <string name="stats_views">%1$d 次查看</string>
+    <plurals name="stats_views">
+        <item quantity="other">%1$d 次查看</item>
+    </plurals>
     <string name="stats_time_under_minute">&lt; 1 分钟</string>
     <string name="stats_time_one_minute">1 分钟</string>
     <string name="stats_time_minutes">%1$d 分钟</string>
@@ -1155,4 +1157,14 @@
     <string name="songbook_font_decrease">减小字号</string>
     <string name="songbook_font_increase">增大字号</string>
     <string name="share_as_pdf">导出为 PDF</string>
+    <string name="performance_mode_toggle_controls">点击显示或隐藏控件</string>
+    <string name="performance_scroll_pause">暂停</string>
+    <string name="performance_scroll_start">滚动</string>
+    <string name="performance_scroll_speed">%1$sx</string>
+    <string name="performance_decrease_speed">降低滚动速度</string>
+    <string name="performance_increase_speed">增加滚动速度</string>
+    <string name="batch_selected">已选择 %1$d 项</string>
+    <string name="batch_select_all">全选</string>
+    <string name="batch_cancel">取消</string>
+    <string name="batch_delete">删除</string>
 </resources>

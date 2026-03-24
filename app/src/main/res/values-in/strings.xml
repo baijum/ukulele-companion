@@ -263,7 +263,9 @@
     <string name="songbook_duplicate">Duplikat</string>
     <string name="songbook_tempo_label">Tempo: %1$d BPM</string>
     <string name="songbook_start_metronome">Mulai metronom</string>
-    <string name="stats_views">%1$d kali dilihat</string>
+    <plurals name="stats_views">
+        <item quantity="other">%1$d kali dilihat</item>
+    </plurals>
     <string name="stats_time_under_minute">&lt; 1 menit</string>
     <string name="stats_time_one_minute">1 menit</string>
     <string name="stats_time_minutes">%1$d menit</string>
@@ -1153,4 +1155,14 @@
     <string name="songbook_font_decrease">Perkecil ukuran font</string>
     <string name="songbook_font_increase">Perbesar ukuran font</string>
     <string name="share_as_pdf">Ekspor sebagai PDF</string>
+    <string name="performance_mode_toggle_controls">Ketuk untuk menampilkan atau menyembunyikan kontrol</string>
+    <string name="performance_scroll_pause">Jeda</string>
+    <string name="performance_scroll_start">Gulir</string>
+    <string name="performance_scroll_speed">%1$sx</string>
+    <string name="performance_decrease_speed">Kurangi kecepatan gulir</string>
+    <string name="performance_increase_speed">Tambah kecepatan gulir</string>
+    <string name="batch_selected">%1$d dipilih</string>
+    <string name="batch_select_all">Semua</string>
+    <string name="batch_cancel">Batal</string>
+    <string name="batch_delete">Hapus</string>
 </resources>

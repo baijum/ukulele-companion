@@ -108,6 +108,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.launch
 import androidx.compose.ui.unit.dp
@@ -410,14 +411,14 @@ private fun SheetList(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            "${selectedIds.size} selected",
+                            stringResource(R.string.batch_selected, selectedIds.size),
                             style = MaterialTheme.typography.titleSmall,
                         )
                         Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                            TextButton(onClick = onSelectAll) { Text("All") }
-                            TextButton(onClick = onClearSelection) { Text("Cancel") }
+                            TextButton(onClick = onSelectAll) { Text(stringResource(R.string.batch_select_all)) }
+                            TextButton(onClick = onClearSelection) { Text(stringResource(R.string.batch_cancel)) }
                             TextButton(onClick = onDeleteSelected) {
-                                Text("Delete", color = MaterialTheme.colorScheme.error)
+                                Text(stringResource(R.string.batch_delete), color = MaterialTheme.colorScheme.error)
                             }
                         }
                     }
@@ -2080,7 +2081,7 @@ private fun SongStatsRow(sheet: ChordSheet) {
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Text(
-            text = stringResource(R.string.stats_views, sheet.viewCount),
+            text = pluralStringResource(R.plurals.stats_views, sheet.viewCount, sheet.viewCount),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -2133,10 +2134,12 @@ private fun PerformanceModeView(
         }
     }
 
+    val toggleControlsLabel = stringResource(R.string.performance_mode_toggle_controls)
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
+            .semantics { contentDescription = toggleControlsLabel }
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
@@ -2170,24 +2173,32 @@ private fun PerformanceModeView(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
+                val scrollLabel = if (autoScrolling) stringResource(R.string.performance_scroll_pause) else stringResource(R.string.performance_scroll_start)
                 FilledTonalButton(
                     onClick = { autoScrolling = !autoScrolling },
                 ) {
                     Icon(
                         imageVector = if (autoScrolling) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-                        contentDescription = null,
+                        contentDescription = scrollLabel,
                         modifier = Modifier.size(18.dp),
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text(if (autoScrolling) "Pause" else "Scroll")
+                    Text(scrollLabel)
                 }
                 if (autoScrolling) {
+                    val decreaseSpeedDesc = stringResource(R.string.performance_decrease_speed)
                     FilledTonalButton(
                         onClick = { scrollSpeed = (scrollSpeed - 0.5f).coerceAtLeast(0.5f) },
+                        modifier = Modifier.semantics { contentDescription = decreaseSpeedDesc },
                     ) { Text("\u2212") }
-                    Text("${scrollSpeed}x", style = MaterialTheme.typography.labelMedium)
+                    Text(
+                        stringResource(R.string.performance_scroll_speed, scrollSpeed.toString()),
+                        style = MaterialTheme.typography.labelMedium,
+                    )
+                    val increaseSpeedDesc = stringResource(R.string.performance_increase_speed)
                     FilledTonalButton(
                         onClick = { scrollSpeed = (scrollSpeed + 0.5f).coerceAtMost(5f) },
+                        modifier = Modifier.semantics { contentDescription = increaseSpeedDesc },
                     ) { Text("+") }
                 }
                 IconButton(onClick = onExit) {

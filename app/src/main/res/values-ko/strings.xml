@@ -263,7 +263,9 @@
     <string name="songbook_duplicate">복제</string>
     <string name="songbook_tempo_label">템포: %1$d BPM</string>
     <string name="songbook_start_metronome">메트로놈 시작</string>
-    <string name="stats_views">%1$d회 조회</string>
+    <plurals name="stats_views">
+        <item quantity="other">%1$d회 조회</item>
+    </plurals>
     <string name="stats_time_under_minute">&lt; 1분</string>
     <string name="stats_time_one_minute">1분</string>
     <string name="stats_time_minutes">%1$d분</string>
@@ -1154,5 +1156,15 @@
     <string name="nav_setlists">세트리스트</string>
     <string name="songbook_font_decrease">글꼴 크기 줄이기</string>
     <string name="songbook_font_increase">글꼴 크기 늘리기</string>
-    <string name="share_as_pdf">PDF로보내기</string>
+    <string name="share_as_pdf">PDF로 내보내기</string>
+    <string name="performance_mode_toggle_controls">탭하여 컨트롤 표시/숨기기</string>
+    <string name="performance_scroll_pause">일시정지</string>
+    <string name="performance_scroll_start">스크롤</string>
+    <string name="performance_scroll_speed">%1$sx</string>
+    <string name="performance_decrease_speed">스크롤 속도 줄이기</string>
+    <string name="performance_increase_speed">스크롤 속도 늘리기</string>
+    <string name="batch_selected">%1$d개 선택됨</string>
+    <string name="batch_select_all">전체</string>
+    <string name="batch_cancel">취소</string>
+    <string name="batch_delete">삭제</string>
 </resources>

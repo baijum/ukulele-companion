@@ -263,7 +263,10 @@
     <string name="songbook_duplicate">प्रतिलिपि</string>
     <string name="songbook_tempo_label">टेम्पो: %1$d BPM</string>
     <string name="songbook_start_metronome">मेट्रोनोम शुरू करें</string>
-    <string name="stats_views">%1$d बार देखा</string>
+    <plurals name="stats_views">
+        <item quantity="one">%1$d बार देखा गया</item>
+        <item quantity="other">%1$d बार देखा गया</item>
+    </plurals>
     <string name="stats_time_under_minute">&lt; 1 मिनट</string>
     <string name="stats_time_one_minute">1 मिनट</string>
     <string name="stats_time_minutes">%1$d मिनट</string>
@@ -1155,4 +1158,14 @@
     <string name="songbook_font_decrease">फ़ॉन्ट आकार घटाएं</string>
     <string name="songbook_font_increase">फ़ॉन्ट आकार बढ़ाएं</string>
     <string name="share_as_pdf">PDF के रूप में निर्यात करें</string>
+    <string name="performance_mode_toggle_controls">नियंत्रण दिखाने या छिपाने के लिए टैप करें</string>
+    <string name="performance_scroll_pause">रोकें</string>
+    <string name="performance_scroll_start">स्क्रॉल</string>
+    <string name="performance_scroll_speed">%1$sx</string>
+    <string name="performance_decrease_speed">स्क्रॉल गति कम करें</string>
+    <string name="performance_increase_speed">स्क्रॉल गति बढ़ाएं</string>
+    <string name="batch_selected">%1$d चयनित</string>
+    <string name="batch_select_all">सभी</string>
+    <string name="batch_cancel">रद्द करें</string>
+    <string name="batch_delete">हटाएं</string>
 </resources>

@@ -9,6 +9,7 @@ import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import android.graphics.Typeface
 import androidx.core.content.FileProvider
+import com.baijum.ukufretboard.R
 import java.io.File
 
 /**
@@ -62,6 +63,7 @@ object ShareUtils {
         val margin = 50f
         val lineHeight = 16f
         val fontSize = 11f
+        val titleBlockHeight = 30f
 
         val paint = Paint().apply {
             typeface = Typeface.MONOSPACE
@@ -77,6 +79,12 @@ object ShareUtils {
         val lines = formattedText.lines()
         val usableHeight = pageHeight - 2 * margin
         val linesPerPage = (usableHeight / lineHeight).toInt()
+        val hasTitle = title.isNotEmpty()
+        val linesPerFirstPage = if (hasTitle) {
+            ((usableHeight - titleBlockHeight) / lineHeight).toInt()
+        } else {
+            linesPerPage
+        }
 
         val document = PdfDocument()
         var pageNum = 0
@@ -89,13 +97,14 @@ object ShareUtils {
             val canvas: Canvas = page.canvas
 
             var y = margin
-            if (pageNum == 1 && title.isNotEmpty()) {
+            if (pageNum == 1 && hasTitle) {
                 canvas.drawText(title, margin, y + 18f, titlePaint)
-                y += 30f
+                y += titleBlockHeight
             }
 
+            val maxLines = if (pageNum == 1) linesPerFirstPage else linesPerPage
             var linesOnPage = 0
-            while (lineIdx < lines.size && linesOnPage < linesPerPage) {
+            while (lineIdx < lines.size && linesOnPage < maxLines) {
                 canvas.drawText(lines[lineIdx], margin, y + lineHeight, paint)
                 y += lineHeight
                 lineIdx++
@@ -105,7 +114,9 @@ object ShareUtils {
             document.finishPage(page)
         }
 
-        val pdfFile = File(context.cacheDir, "${sanitizeFilename(title)}.pdf")
+        val shareDir = File(context.cacheDir, "shared_chords")
+        shareDir.mkdirs()
+        val pdfFile = File(shareDir, "${sanitizeFilename(title)}.pdf")
         pdfFile.outputStream().use { document.writeTo(it) }
         document.close()
 
@@ -114,13 +125,14 @@ object ShareUtils {
             "${context.packageName}.fileprovider",
             pdfFile,
         )
+        val chooserTitle = context.getString(R.string.share_as_pdf)
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "application/pdf"
             putExtra(Intent.EXTRA_STREAM, uri)
             putExtra(Intent.EXTRA_SUBJECT, title)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
-        context.startActivity(Intent.createChooser(intent, "Share PDF"))
+        context.startActivity(Intent.createChooser(intent, chooserTitle))
     }
 
     private fun sanitizeFilename(name: String): String =
