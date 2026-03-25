@@ -58,7 +58,7 @@ Each manual covers 15 sections:
 
   <div class="manual-card">
     <h3>Songs</h3>
-    <p>Creating chord sheets with auto-scroll, transpose, "Save in this key", key detection, and export as ChordPro, plain text, or clipboard copy.</p>
+    <p>Creating chord sheets with auto-scroll, transpose, key detection, performance mode, setlists, batch operations, PDF export, and chord playback.</p>
   </div>
 
   <div class="manual-card">
