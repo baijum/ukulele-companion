@@ -34,6 +34,9 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -270,7 +273,7 @@ fun MelodyNotepadView(
     }
 
     if (showLoadDialog) {
-        LoadMelodyDialog(
+        LoadMelodySheet(
             melodies = state.savedMelodies,
             onDismiss = { showLoadDialog = false },
             onLoad = { melody ->
@@ -1071,32 +1074,44 @@ private fun SaveMelodyDialog(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun LoadMelodyDialog(
+private fun LoadMelodySheet(
     melodies: List<Melody>,
     onDismiss: () -> Unit,
     onLoad: (Melody) -> Unit,
     onDelete: (Melody) -> Unit,
 ) {
-    AlertDialog(
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    ModalBottomSheet(
         onDismissRequest = onDismiss,
-        title = {
+        sheetState = sheetState,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 32.dp),
+        ) {
             Text(
-                stringResource(R.string.melody_load_dialog_title),
-                modifier = Modifier.semantics { heading() },
+                text = stringResource(R.string.melody_load_dialog_title),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(bottom = 16.dp, start = 8.dp)
+                    .semantics { heading() },
             )
-        },
-        text = {
             if (melodies.isEmpty()) {
                 Text(
                     stringResource(R.string.melody_load_empty),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(horizontal = 8.dp),
                 )
             } else {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.height(300.dp),
                 ) {
                     items(melodies, key = { it.id }) { melody ->
                         MelodyListItem(
@@ -1107,14 +1122,8 @@ private fun LoadMelodyDialog(
                     }
                 }
             }
-        },
-        confirmButton = {},
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.dialog_cancel))
-            }
-        },
-    )
+        }
+    }
 }
 
 @Composable

@@ -19,6 +19,9 @@ import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -299,36 +302,85 @@ private fun SetlistDetailView(
         }
 
         if (showAddDialog) {
-            val availableSongs = allSongs.filter { it.id !in setlist.songIds }
-            AlertDialog(
-                onDismissRequest = { showAddDialog = false },
-                title = { Text("Add Song") },
-                text = {
-                    if (availableSongs.isEmpty()) {
-                        Text("All songs are already in this setlist.")
-                    } else {
-                        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                            items(availableSongs) { song ->
+            AddSongSheet(
+                allSongs = allSongs,
+                currentSongIds = setlist.songIds,
+                onAdd = { songId ->
+                    onAddSong(songId)
+                    showAddDialog = false
+                },
+                onDismiss = { showAddDialog = false },
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AddSongSheet(
+    allSongs: List<ChordSheet>,
+    currentSongIds: List<String>,
+    onAdd: (String) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val availableSongs = remember(allSongs, currentSongIds) {
+        val idSet = currentSongIds.toSet()
+        allSongs.filter { it.id !in idSet }
+    }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 32.dp),
+        ) {
+            Text(
+                text = "Add Song",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                modifier = Modifier
+                    .padding(bottom = 16.dp, start = 8.dp)
+                    .semantics { heading() },
+            )
+            if (availableSongs.isEmpty()) {
+                Text(
+                    text = "All songs are already in this setlist.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                )
+            } else {
+                LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                    items(availableSongs, key = { it.id }) { song ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { onAdd(song.id) }
+                                .padding(vertical = 12.dp, horizontal = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
                                 Text(
                                     text = song.title.ifEmpty { "Untitled" },
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clickable {
-                                            onAddSong(song.id)
-                                            showAddDialog = false
-                                        }
-                                        .padding(vertical = 12.dp, horizontal = 8.dp),
                                     style = MaterialTheme.typography.bodyMedium,
                                 )
+                                if (song.artist.isNotEmpty()) {
+                                    Text(
+                                        text = song.artist,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    )
+                                }
                             }
                         }
                     }
-                },
-                confirmButton = {},
-                dismissButton = {
-                    TextButton(onClick = { showAddDialog = false }) { Text("Close") }
-                },
-            )
+                }
+            }
         }
     }
 }

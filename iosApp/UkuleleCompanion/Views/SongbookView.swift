@@ -7,7 +7,6 @@ struct SongbookView: View {
     @State private var showingImportSheet = false
     @State private var showingFileImporter = false
     @State private var importText = ""
-    @State private var selectedSong: StoredSong? = nil
     @State private var showingNewSong = false
     @State private var showImportError = false
     @State private var songToDelete: StoredSong? = nil
@@ -87,11 +86,6 @@ struct SongbookView: View {
         .sheet(isPresented: $showingNewSong) {
             NavigationStack {
                 SongEditorView(viewModel: viewModel, song: nil)
-            }
-        }
-        .sheet(item: $selectedSong) { song in
-            NavigationStack {
-                SongViewerView(viewModel: viewModel, song: song)
             }
         }
         .fileImporter(
@@ -241,58 +235,77 @@ struct SongbookView: View {
             } else {
                 ForEach(songs) { song in
                     let displayTitle = song.title.isEmpty ? "Untitled" : song.title
-                    Button {
-                        if isSelectionMode {
+                    if isSelectionMode {
+                        Button {
                             if multiSelection.contains(song.id) {
                                 multiSelection.remove(song.id)
                             } else {
                                 multiSelection.insert(song.id)
                             }
-                        } else {
-                            selectedSong = song
-                        }
-                    } label: {
-                        HStack {
-                            if isSelectionMode {
-                                Image(systemName: multiSelection.contains(song.id) ? "checkmark.circle.fill" : "circle")
-                                    .foregroundColor(multiSelection.contains(song.id) ? .accentColor : .secondary)
-                            }
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(displayTitle)
-                                    .font(.subheadline.bold())
-                                if !song.artist.isEmpty {
-                                    Text(song.artist)
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                }
-                                if !song.labels.isEmpty {
-                                    HStack(spacing: 4) {
-                                        ForEach(song.labels, id: \.self) { label in
-                                            Text(label)
-                                                .font(.caption2)
-                                                .padding(.horizontal, 6)
-                                                .padding(.vertical, 2)
-                                                .background(Color.accentColor.opacity(0.1))
-                                                .clipShape(Capsule())
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(song.artist.isEmpty ? displayTitle : "\(displayTitle) by \(song.artist)")
-                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                        Button(role: .destructive) {
-                            songToDelete = song
                         } label: {
-                            Label("Delete", systemImage: "trash")
+                            songRowContent(song: song, displayTitle: displayTitle)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(song.artist.isEmpty ? displayTitle : "\(displayTitle) by \(song.artist)")
+                        .accessibilityValue(multiSelection.contains(song.id) ? "Selected" : "Not selected")
+                        .accessibilityHint("Double-tap to toggle selection")
+                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                            Button(role: .destructive) {
+                                songToDelete = song
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        }
+                    } else {
+                        NavigationLink {
+                            SongViewerView(viewModel: viewModel, song: song)
+                        } label: {
+                            songRowContent(song: song, displayTitle: displayTitle)
+                        }
+                        .accessibilityLabel(song.artist.isEmpty ? displayTitle : "\(displayTitle) by \(song.artist)")
+                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                            Button(role: .destructive) {
+                                songToDelete = song
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
                         }
                     }
                 }
             }
         }
         .listStyle(.plain)
+    }
+
+    @ViewBuilder
+    private func songRowContent(song: StoredSong, displayTitle: String) -> some View {
+        HStack {
+            if isSelectionMode {
+                Image(systemName: multiSelection.contains(song.id) ? "checkmark.circle.fill" : "circle")
+                    .foregroundColor(multiSelection.contains(song.id) ? .accentColor : .secondary)
+            }
+            VStack(alignment: .leading, spacing: 4) {
+                Text(displayTitle)
+                    .font(.subheadline.bold())
+                if !song.artist.isEmpty {
+                    Text(song.artist)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                if !song.labels.isEmpty {
+                    HStack(spacing: 4) {
+                        ForEach(song.labels, id: \.self) { label in
+                            Text(label)
+                                .font(.caption2)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color.accentColor.opacity(0.1))
+                                .clipShape(Capsule())
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private var importSheet: some View {
@@ -443,9 +456,6 @@ struct SongViewerView: View {
         .navigationTitle(displayTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Button("Done") { dismiss() }
-            }
             ToolbarItemGroup(placement: .primaryAction) {
                 Button {
                     songFontSize = max(10, songFontSize - 2)
@@ -547,73 +557,38 @@ struct SongViewerView: View {
         }
     }
 
-    @State private var showShareSheet = false
+    @State private var showShareDialog = false
 
     // MARK: - Share Menu
 
     private var shareMenu: some View {
-        Button { showShareSheet = true } label: {
+        let effectiveSong = transposeSemitones != 0 ? displaySong : currentSong
+        return Button { showShareDialog = true } label: {
             Image(systemName: "square.and.arrow.up")
         }
         .accessibilityLabel("Share")
         .accessibilityHint("Choose export format")
-        .sheet(isPresented: $showShareSheet) {
-            shareFormatPicker
-        }
-    }
-
-    private var shareFormatPicker: some View {
-        let effectiveSong = transposeSemitones != 0 ? displaySong : currentSong
-        return NavigationStack {
-            List {
-                Section {
-                    Button {
-                        showShareSheet = false
-                        let chordPro = viewModel.exportChordPro(song: effectiveSong)
-                        shareText(chordPro)
-                    } label: {
-                        Label("ChordPro (.cho)", systemImage: "music.note")
-                    }
-
-                    Button {
-                        showShareSheet = false
-                        let formatted = viewModel.formattedDisplay(song: effectiveSong)
-                        shareText(formatted)
-                    } label: {
-                        Label("Plain text", systemImage: "doc.plaintext")
-                    }
-
-                    Button {
-                        showShareSheet = false
-                        let formatted = viewModel.formattedDisplay(song: effectiveSong)
-                        UIPasteboard.general.string = formatted
-                        AccessibilityAnnouncer.shared.announce("Copied to clipboard")
-                    } label: {
-                        Label("Copy to clipboard", systemImage: "doc.on.doc")
-                    }
-
-                    Button {
-                        showShareSheet = false
-                        let formatted = viewModel.formattedDisplay(song: effectiveSong)
-                        let title = effectiveSong.title.isEmpty ? "Untitled" : effectiveSong.title
-                        sharePdf(title: title, text: formatted)
-                    } label: {
-                        Label("Export as PDF", systemImage: "doc.richtext")
-                    }
-                } header: {
-                    Text("Share chord sheet as")
-                        .accessibilityAddTraits(.isHeader)
-                }
+        .confirmationDialog("Share chord sheet as", isPresented: $showShareDialog, titleVisibility: .visible) {
+            Button("ChordPro (.cho)") {
+                let chordPro = viewModel.exportChordPro(song: effectiveSong)
+                shareText(chordPro)
             }
-            .navigationTitle("Share")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { showShareSheet = false }
-                }
+            Button("Plain text") {
+                let formatted = viewModel.formattedDisplay(song: effectiveSong)
+                shareText(formatted)
             }
+            Button("Copy to clipboard") {
+                let formatted = viewModel.formattedDisplay(song: effectiveSong)
+                UIPasteboard.general.string = formatted
+                AccessibilityAnnouncer.shared.announce("Copied to clipboard")
+            }
+            Button("Export as PDF") {
+                let formatted = viewModel.formattedDisplay(song: effectiveSong)
+                let title = effectiveSong.title.isEmpty ? "Untitled" : effectiveSong.title
+                sharePdf(title: title, text: formatted)
+            }
+            Button("Cancel", role: .cancel) {}
         }
-        .presentationDetents([.medium])
     }
 
     private func shareText(_ text: String) {

@@ -1707,7 +1707,7 @@ private fun StrumPatternRow(
     }
 
     if (showPicker) {
-        StrumPatternPickerDialog(
+        StrumPatternPickerSheet(
             currentName = patternName,
             onSelect = { name ->
                 onPatternChange(name)
@@ -1718,8 +1718,9 @@ private fun StrumPatternRow(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun StrumPatternPickerDialog(
+private fun StrumPatternPickerSheet(
     currentName: String,
     onSelect: (String) -> Unit,
     onDismiss: () -> Unit,
@@ -1733,16 +1734,26 @@ private fun StrumPatternPickerDialog(
         val custom = customPatterns.map { it.pattern.name to it.pattern.notation }
         builtIn + custom
     }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    AlertDialog(
+    ModalBottomSheet(
         onDismissRequest = onDismiss,
-        title = {
+        sheetState = sheetState,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 32.dp),
+        ) {
             Text(
-                stringResource(R.string.songbook_strum_select),
-                modifier = Modifier.semantics { heading() },
+                text = stringResource(R.string.songbook_strum_select),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(bottom = 16.dp, start = 8.dp)
+                    .semantics { heading() },
             )
-        },
-        text = {
             LazyColumn {
                 items(allPatterns) { (name, notation) ->
                     val isSelected = name == currentName
@@ -1750,8 +1761,8 @@ private fun StrumPatternPickerDialog(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { onSelect(name) }
-                            .padding(vertical = 10.dp, horizontal = 4.dp)
+                            .clickable(role = Role.Button) { onSelect(name) }
+                            .padding(vertical = 10.dp, horizontal = 8.dp)
                             .semantics {
                                 contentDescription = itemDesc
                                 if (isSelected) stateDescription = "selected"
@@ -1779,14 +1790,8 @@ private fun StrumPatternPickerDialog(
                     }
                 }
             }
-        },
-        confirmButton = {},
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.dialog_cancel))
-            }
-        },
-    )
+        }
+    }
 }
 
 /**
