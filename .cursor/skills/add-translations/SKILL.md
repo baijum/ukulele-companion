@@ -1,11 +1,13 @@
 ---
 name: add-translations
-description: Add translated strings to Android and iOS locale files. Use when adding new user-facing strings, fixing MissingTranslation lint errors, or when the user asks to translate, localize, or add strings to all languages.
+description: Add translated strings and plurals to Android and iOS locale files. Use when adding new user-facing strings or plurals, fixing MissingTranslation lint errors, or when the user asks to translate, localize, or add strings to all languages.
 ---
 
 # Add Translations
 
-Add new string resources to all supported locales for Android (`strings.xml`) and iOS (`Localizable.xcstrings`).
+Add new string and plural resources to all supported locales for Android (`strings.xml`) and iOS (`Localizable.xcstrings`).
+
+Android `strings.xml` files are the source of truth for translations. The converter script `scripts/convert_strings.py` generates the iOS `Localizable.xcstrings` from Android sources.
 
 ## Supported Locales
 
@@ -24,7 +26,7 @@ Add new string resources to all supported locales for Android (`strings.xml`) an
 | ko | Korean | `values-ko/strings.xml` | `Localizable.xcstrings` → `ko` |
 | nl | Dutch | `values-nl/strings.xml` | `Localizable.xcstrings` → `nl` |
 | pl | Polish | `values-pl/strings.xml` | `Localizable.xcstrings` → `pl` |
-| pt | Portuguese | `values-pt/strings.xml` | `Localizable.xcstrings` → `pt-BR` |
+| pt | Portuguese | `values-pt/strings.xml` | `Localizable.xcstrings` → `pt` |
 | ru | Russian | `values-ru/strings.xml` | `Localizable.xcstrings` → `ru` |
 | tr | Turkish | `values-tr/strings.xml` | `Localizable.xcstrings` → `tr` |
 
@@ -49,11 +51,20 @@ To find missing strings, run:
 
 **Android:** Add `<string name="key">English text</string>` to `app/src/main/res/values/strings.xml`, grouped with related strings.
 
-**iOS:** Strings in SwiftUI are auto-extracted into `Localizable.xcstrings` at build time. No manual English entry needed — just use `Text("English text")` or `LocalizedStringKey` in code.
+For quantity-dependent text, use `<plurals>` instead:
+
+```xml
+<plurals name="key">
+    <item quantity="one">%1$d item</item>
+    <item quantity="other">%1$d items</item>
+</plurals>
+```
+
+Valid quantity values: `zero`, `one`, `two`, `few`, `many`, `other`. Most languages need only `one` and `other`. Arabic needs all six; Russian/Polish need `one`, `few`, `many`, `other`.
 
 ### Step 3: Add translations to all 15 locale files
 
-**Android:** For each locale `strings.xml`, add a `<string name="key">Translated text</string>` entry before `</resources>`.
+**Android:** For each locale `strings.xml`, add a `<string name="key">Translated text</string>` entry before `</resources>`. For plurals, add a `<plurals name="key">` block with the appropriate `<item quantity="...">` entries for each locale.
 
 Use a subagent (`model: fast`) to update all 15 files in parallel when adding multiple strings. Provide the subagent with:
 1. The exact string key(s)
@@ -74,12 +85,17 @@ Translations:
 ...
 ```
 
-**iOS:** `Localizable.xcstrings` is a large JSON file (100k+ lines). Do NOT edit it manually. iOS translations are managed via Xcode's String Catalog or by running `xcodebuild build` which auto-extracts new strings. Translations for iOS can be added by editing `Localizable.xcstrings` programmatically or through Xcode, but the recommended approach is:
-1. Add the English string in SwiftUI code
-2. Build the project to extract the key
-3. Add translations via the xcstrings JSON structure if needed
+### Step 4: Generate iOS string catalog
 
-### Step 4: Verify
+Run the converter script to regenerate `Localizable.xcstrings` from Android sources:
+
+```bash
+python3 scripts/convert_strings.py
+```
+
+This handles both `<string>` and `<plurals>` elements across all locales. Do NOT edit `Localizable.xcstrings` manually.
+
+### Step 5: Verify
 
 ```bash
 ./gradlew lintDebug
@@ -111,5 +127,6 @@ Lint must pass with 0 errors. Warnings are acceptable.
 |------|---------|
 | Check missing translations | `./gradlew lintDebug 2>&1 \| grep MissingTranslation` |
 | Run full lint | `./gradlew lintDebug` |
+| Generate iOS string catalog | `python3 scripts/convert_strings.py` |
 | List all string keys | `grep 'name="' app/src/main/res/values/strings.xml` |
 | Count keys per locale | `grep -c '<string' app/src/main/res/values-de/strings.xml` |
