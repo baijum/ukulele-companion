@@ -82,6 +82,9 @@ def parse_strings_xml(filepath: str) -> dict[str, str]:
     return strings
 
 
+VALID_PLURAL_CATEGORIES = {"zero", "one", "two", "few", "many", "other"}
+
+
 def parse_plurals_xml(filepath: str) -> dict[str, dict[str, str]]:
     """Parse Android strings.xml <plurals> elements.
 
@@ -100,6 +103,13 @@ def parse_plurals_xml(filepath: str) -> dict[str, dict[str, str]]:
             for item in elem.findall("item"):
                 quantity = item.get("quantity")
                 if quantity is None:
+                    continue
+                if quantity not in VALID_PLURAL_CATEGORIES:
+                    print(
+                        f"Warning: Invalid plural quantity '{quantity}' in "
+                        f"{filepath} for '{name}', skipping",
+                        file=sys.stderr,
+                    )
                     continue
                 text = item.text or ""
                 for child in item:
@@ -133,6 +143,13 @@ def build_xcstrings(project_root: str) -> dict:
             all_plural_keys.update(plurals.keys())
         else:
             print(f"Warning: {filepath} not found, skipping {apple_locale}", file=sys.stderr)
+
+    colliding_keys = all_string_keys & all_plural_keys
+    if colliding_keys:
+        raise ValueError(
+            "Keys defined as both <string> and <plurals>: "
+            + ", ".join(sorted(colliding_keys))
+        )
 
     xcstrings = {
         "sourceLanguage": "en",
