@@ -100,19 +100,20 @@ Run both Gradle tasks in a single invocation:
 ./gradlew assembleRelease bundleRelease
 ```
 
-This produces **release** builds that are minified, resource-shrunk, and signed (no debug info):
+This produces **release** builds that are minified and resource-shrunk (no debug info):
 
-| Artifact | Path |
-|----------|------|
-| APK | `app/build/outputs/apk/release/app-release.apk` |
-| AAB | `app/build/outputs/bundle/release/app-release.aab` |
+| Artifact | Path | Notes |
+|----------|------|-------|
+| APK | `app/build/outputs/apk/release/app-release.apk` | Signed (when `keystore.properties` exists) |
+| APK | `app/build/outputs/apk/release/app-release-unsigned.apk` | Unsigned (when `keystore.properties` is missing) |
+| AAB | `app/build/outputs/bundle/release/app-release.aab` | Always signed by the play publisher plugin |
 
 ### Step 4: Verify outputs
 
-Confirm both files exist and print their sizes:
+Confirm the AAB exists. The APK may be signed or unsigned depending on whether `keystore.properties` is present:
 
 ```bash
-ls -lh app/build/outputs/apk/release/app-release.apk \
+ls -lh app/build/outputs/apk/release/app-release*.apk \
        app/build/outputs/bundle/release/app-release.aab
 ```
 
@@ -128,7 +129,15 @@ git push
 
 ### Step 6: Upload to Google Play Store
 
-Follow the [play-store-upload](.cursor/skills/play-store-upload/SKILL.md) skill workflow to upload the AAB to the Play Store internal testing track:
+First, verify the service account key exists:
+
+```bash
+ls app/play-service-account.json
+```
+
+If the file is **missing**, warn the user and skip to Step 7. The AAB can be uploaded manually via the [Google Play Console](https://play.google.com/console/) or by placing the service account key and re-running this step.
+
+If the file **exists**, follow the [play-store-upload](.cursor/skills/play-store-upload/SKILL.md) skill workflow to upload the AAB to the Play Store internal testing track:
 
 ```bash
 ./gradlew publishReleaseBundle
