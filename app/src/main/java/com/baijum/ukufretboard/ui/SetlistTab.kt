@@ -323,7 +323,10 @@ private fun AddSongSheet(
     onAdd: (String) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val availableSongs = allSongs.filter { it.id !in currentSongIds }
+    val availableSongs = remember(allSongs, currentSongIds) {
+        val idSet = currentSongIds.toSet()
+        allSongs.filter { it.id !in idSet }
+    }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     ModalBottomSheet(
@@ -353,7 +356,7 @@ private fun AddSongSheet(
                 )
             } else {
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                    items(availableSongs) { song ->
+                    items(availableSongs, key = { it.id }) { song ->
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()

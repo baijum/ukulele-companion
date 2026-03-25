@@ -247,6 +247,8 @@ struct SongbookView: View {
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel(song.artist.isEmpty ? displayTitle : "\(displayTitle) by \(song.artist)")
+                        .accessibilityValue(multiSelection.contains(song.id) ? "Selected" : "Not selected")
+                        .accessibilityHint("Double-tap to toggle selection")
                         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                             Button(role: .destructive) {
                                 songToDelete = song

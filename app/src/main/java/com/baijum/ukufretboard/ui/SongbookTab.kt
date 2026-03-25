@@ -1761,7 +1761,7 @@ private fun StrumPatternPickerSheet(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { onSelect(name) }
+                            .clickable(role = Role.Button) { onSelect(name) }
                             .padding(vertical = 10.dp, horizontal = 8.dp)
                             .semantics {
                                 contentDescription = itemDesc
