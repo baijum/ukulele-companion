@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -803,7 +804,7 @@ private fun AboutSection() {
         text = stringResource(R.string.settings_open_source_licenses),
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.clickable { showLicenses = true },
+        modifier = Modifier.clickable(role = Role.Button) { showLicenses = true },
     )
     if (showLicenses) {
         OpenSourceLicensesDialog(onDismiss = { showLicenses = false })
@@ -914,7 +915,12 @@ private fun OpenSourceLicensesDialog(onDismiss: () -> Unit) {
     val context = LocalContext.current
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(stringResource(R.string.settings_open_source_licenses)) },
+        title = {
+            Text(
+                text = stringResource(R.string.settings_open_source_licenses),
+                modifier = Modifier.semantics { heading() },
+            )
+        },
         text = {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState()),

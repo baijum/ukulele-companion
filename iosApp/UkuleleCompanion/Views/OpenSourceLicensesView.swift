@@ -99,7 +99,9 @@ struct OpenSourceLicensesView: View {
                             .accessibilityHidden(true)
                     }
                 }
-                .accessibilityHint(expandedEntry == entry.id ? "Double-tap to collapse" : "Double-tap to expand")
+                .accessibilityHint(expandedEntry == entry.id
+                    ? String(localized: "Double-tap to collapse")
+                    : String(localized: "Double-tap to expand"))
 
                 if expandedEntry == entry.id {
                     VStack(alignment: .leading, spacing: 8) {
@@ -111,7 +113,7 @@ struct OpenSourceLicensesView: View {
                                 Text(entry.url)
                                     .font(.caption)
                             }
-                            .accessibilityHint("Opens in Safari")
+                            .accessibilityHint(String(localized: "Opens in Safari"))
                         }
                         Text(entry.licenseText)
                             .font(.caption2)
