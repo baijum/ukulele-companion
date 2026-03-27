@@ -19,7 +19,7 @@ junit5 = "6.0.3"
 material = "1.13.0"
 kotest = "6.1.9"
 jazzer = "0.30.0"
-kover = "0.9.7"
+kover = "0.9.8"
 
 [libraries]
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
