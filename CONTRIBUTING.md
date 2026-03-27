@@ -45,30 +45,41 @@ This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.
 
 ### Requirements
 
+**Android:**
 - **Android Studio** (latest stable — Ladybug or newer)
 - **JDK 11+**
-- **Android SDK** with API level 35 installed
+- **Android SDK** with API level 36 installed
 - An **emulator** or physical device running Android 8.0+ (API 26+)
+
+**iOS (requires macOS):**
+- **Xcode** 16+
+- Run `iosApp/setup_onnxruntime.sh` to download the ONNX Runtime xcframework
 
 ### Project Overview
 
 | Directory | Contents |
 |-----------|----------|
-| `app/src/main/java/com/baijum/ukufretboard/` | All Kotlin source code |
-| `audio/` | Tone generation, metronome, audio capture |
-| `data/` | Notes, chords, scales, repositories, persistence |
-| `domain/` | Pure business logic (chord detection, transposition) |
-| `ui/` | Jetpack Compose screens and components |
-| `viewmodel/` | ViewModels with StateFlow |
-
+| `shared/src/commonMain/` | KMP shared module — domain logic, data types, chord/pitch detection, scales, transposition |
+| `shared/src/androidMain/` | Android platform actuals (UUID, Calendar) |
+| `shared/src/iosMain/` | iOS platform actuals (NSUUID, NSDate) |
+| `app/src/main/java/.../audio/` | Android tone generation, metronome, audio capture |
+| `app/src/main/java/.../data/` | Android repositories, persistence (SharedPreferences) |
+| `app/src/main/java/.../domain/` | Android-specific domain logic (NeuralPitchSupervisor) |
+| `app/src/main/java/.../ui/` | Jetpack Compose screens and components |
+| `app/src/main/java/.../viewmodel/` | Android ViewModels with StateFlow |
+| `iosApp/UkuleleCompanion/Views/` | SwiftUI views |
+| `iosApp/UkuleleCompanion/ViewModels/` | iOS ObservableObject ViewModels |
+| `iosApp/UkuleleCompanion/Audio/` | iOS audio capture, tone playback, neural pitch |
 | `docs/` | Feature specs and user manual |
 
 ### Key Architectural Patterns
 
-- **Single Activity**: Everything runs through `MainActivity` with Compose navigation
-- **ViewModel + StateFlow**: All UI state is managed via ViewModels exposing `StateFlow`
+- **Kotlin Multiplatform (KMP)**: Shared domain logic and data types in the `shared/` module, consumed by both Android and iOS
+- **Single Activity (Android)**: Everything runs through `MainActivity` with Compose navigation
+- **ViewModel + StateFlow (Android)**: UI state managed via ViewModels exposing `StateFlow`
+- **ObservableObject + @Published (iOS)**: SwiftUI state managed via ObservableObject ViewModels
 - **Repository Pattern**: Data access is abstracted through repository classes
-- **Pure Domain Logic**: The `domain/` package has no Android dependencies, making it easy to test
+- **Pure Domain Logic**: The shared `domain/` package has no platform dependencies, making it easy to test
 - **No Network**: The app is fully offline — do not add network dependencies
 
 ## How to Contribute
@@ -115,8 +126,9 @@ We **actively encourage** the use of AI coding assistants for contributing to th
 - Use AI autocomplete to maintain consistency with the codebase's style
 
 **Writing tests:**
-- The project currently has no automated tests — this is a great area for AI-assisted contributions
-- Ask AI to generate unit tests for the pure-logic classes in `domain/` (e.g., `ChordDetector`, `Transpose`, `CapoCalculator`)
+- The project has 50+ test files across shared commonTest (unit + property-based), app unit tests (fuzz), and instrumented tests
+- Use AI to extend coverage — look at existing tests in `shared/src/commonTest/` for patterns to follow
+- Property-based tests use [Kotest](https://kotest.io/docs/proptest/property-based-testing.html) — a great way to verify domain logic invariants
 - Use AI to create Compose UI test scaffolding
 
 **Code review:**
@@ -290,7 +302,7 @@ Before submitting, verify:
 
 Use the [Bug Report](https://github.com/baijum/ukulele-companion/issues/new?template=bug_report.md) issue template and include:
 
-- **Device and Android version**
+- **Device and OS version** (Android or iOS)
 - **App version** (shown in Settings)
 - **Steps to reproduce** the issue
 - **Expected behavior** vs. **actual behavior**

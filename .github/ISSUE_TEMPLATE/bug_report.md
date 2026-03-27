@@ -27,8 +27,9 @@ assignees: ''
 
 ## Environment
 
-- **Device**: <!-- e.g., Pixel 7, Samsung Galaxy S23 -->
-- **Android version**: <!-- e.g., Android 14 -->
+- **Platform**: <!-- Android / iOS -->
+- **Device**: <!-- e.g., Pixel 7, Samsung Galaxy S23, iPhone 15 -->
+- **OS version**: <!-- e.g., Android 14, iOS 17.5 -->
 - **App version**: <!-- e.g., 5.8.1 (shown in Settings) -->
 
 ## Settings
