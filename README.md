@@ -180,7 +180,7 @@ Ukulele Companion is designed to be usable by everyone, including blind and visu
 ukulele-companion/
 ├── shared/                          # Kotlin Multiplatform shared module
 │   └── src/
-│       ├── commonMain/              # 55+ Kotlin files — domain + data logic
+│       ├── commonMain/              # Domain + data logic (Kotlin)
 │       │   ├── domain/              # ChordDetector, PitchDetector, Transpose, etc.
 │       │   └── data/                # Notes, Scales, ChordFormulas, Progressions, etc.
 │       ├── androidMain/             # Android platform actuals (UUID, Calendar)
@@ -191,13 +191,13 @@ ukulele-companion/
 │       ├── audio/                   # SoundPool, metronome, audio capture
 │       ├── data/                    # Repositories (SharedPreferences), backup/restore
 │       ├── domain/                  # NeuralPitchSupervisor, AchievementChecker
-│       ├── ui/                      # 55+ Compose screens and components
-│       └── viewmodel/               # 15 ViewModels (StateFlow)
+│       ├── ui/                      # Compose screens and components
+│       └── viewmodel/               # ViewModels (StateFlow)
 │
 ├── iosApp/                          # iOS app (SwiftUI)
 │   └── UkuleleCompanion/
-│       ├── Views/                   # 48+ SwiftUI views
-│       ├── ViewModels/              # 16 ObservableObject ViewModels
+│       ├── Views/                   # SwiftUI views
+│       ├── ViewModels/              # ObservableObject ViewModels
 │       ├── Audio/                   # AudioCaptureEngine, TonePlayer, NeuralPitchSupervisor
 │       ├── Helpers/                 # Accessibility helpers, backup/restore manager
 │       └── Resources/               # WAV samples, ONNX model
@@ -317,11 +317,11 @@ We actively encourage contributors to use **AI coding tools** to accelerate thei
   <img src="docs/architecture.svg" width="600" alt="Architecture diagram: Shared KMP Module (domain logic, data types, pitch detection, chords) feeds into Android App (Compose + Material3, ViewModel/StateFlow, SharedPreferences, SoundPool) and iOS App (SwiftUI, ObservableObject, UserDefaults, AVFoundation)">
 </p>
 
-- **Shared module**: 55+ Kotlin files — chord detection, pitch detection, scales, notes, transposition, and all domain/data logic shared across platforms
-- **Android UI layer**: 55+ Compose files, single-activity architecture via `MainActivity`
-- **Android ViewModel layer**: 15 ViewModels managing state with `StateFlow`
-- **iOS UI layer**: 48+ SwiftUI views with full feature parity
-- **iOS ViewModel layer**: 16 ObservableObject ViewModels
+- **Shared module**: Kotlin shared logic — chord detection, pitch detection, scales, notes, transposition, and all domain/data logic shared across platforms
+- **Android UI layer**: Compose UI, single-activity architecture via `MainActivity`
+- **Android ViewModel layer**: ViewModels managing state with `StateFlow`
+- **iOS UI layer**: SwiftUI views with full feature parity
+- **iOS ViewModel layer**: ObservableObject ViewModels
 - **Audio layer**: Platform-specific audio capture, tone playback, and ONNX neural pitch detection
 
 ---
