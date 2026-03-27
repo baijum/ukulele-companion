@@ -27,6 +27,7 @@ docs/feature-videos/
 docs/videos/*/clips/
 docs/videos/*/audio/
 store-listing/
+.font-cache/
 site/
 monkey_log_*.txt
 iosApp/build/
