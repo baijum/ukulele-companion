@@ -24,7 +24,7 @@
 <p align="center">
   <a href="https://kotlinlang.org"><img src="https://img.shields.io/badge/Kotlin-2.3-blue.svg?logo=kotlin" alt="Kotlin"></a>
   <a href="https://developer.android.com/compose"><img src="https://img.shields.io/badge/Jetpack%20Compose-Material3-green.svg?logo=jetpackcompose" alt="Jetpack Compose"></a>
-  <a href="https://developer.apple.com/xcode/swiftui/"><img src="https://img.shields.io/badge/SwiftUI-iOS%2017%2B-orange.svg?logo=swift" alt="SwiftUI"></a>
+  <a href="https://developer.apple.com/xcode/swiftui/"><img src="https://img.shields.io/badge/SwiftUI-iOS%2016%2B-orange.svg?logo=swift" alt="SwiftUI"></a>
   <a href="https://developer.android.com/about/versions/oreo"><img src="https://img.shields.io/badge/Min%20SDK-26-orange.svg" alt="Min SDK"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
   <a href="https://github.com/baijum/ukulele-companion/actions/workflows/android.yml"><img src="https://github.com/baijum/ukulele-companion/actions/workflows/android.yml/badge.svg" alt="CI"></a>
@@ -52,16 +52,16 @@ Shift chords up or down by semitones with +/- buttons. Shows the capo equivalent
 The tuner now uses a hybrid pipeline: fast YIN pitch tracking on every frame, supervised by SwiftF0 neural inference at intervals. This improves robustness against octave mistakes and unstable frames while preserving responsive needle movement.
 
 ### 🥁 Strumming & Fingerpicking Patterns
-A reference guide with 15 strumming and 11 fingerpicking patterns — from beginner to advanced — in 4/4, 3/4, and 6/8 time. Each pattern includes visual beat/step display, notation, description, and a **play button with adjustable tempo** so you can hear what each pattern sounds like. Create custom patterns with adjustable beat counts (2–16) and time signatures, or duplicate any preset to make your own variations.
+A reference guide with 14 strumming and 10 fingerpicking patterns — from beginner to advanced — in 4/4, 3/4, and 6/8 time. Each pattern includes visual beat/step display, notation, description, and a **play button with adjustable tempo** so you can hear what each pattern sounds like. Create custom patterns with adjustable beat counts (2–16) and time signatures, or duplicate any preset to make your own variations.
 
 ### 🎶 Chord Progressions
 Common chord progressions for any key across seven modes (Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian). Each chord chip shows its harmonic function (Tonic, Subdominant, Dominant) with colour coding. Includes Pop, Classic Rock, 50s, Folk, Jazz ii-V-I, Reggae, and more. Create custom progressions with diatonic chord suggestions from the selected scale, duplicate presets, copy to clipboard, and use tap tempo for practice.
 
-</td>
-<td width="50%" valign="top">
-
 ### 🎼 Scale Overlay
 Highlight notes from any of 38 scales (Major, Natural/Harmonic/Melodic Minor, Pentatonic, Blues, modes, Bebop, Diminished, and more) directly on the fretboard. Filter by fret position and see the diatonic chords for each scale.
+
+</td>
+<td width="50%" valign="top">
 
 ### ⭐ Favorites
 Long-press any voicing in the Chord Library to save it. Access your saved voicings from the dedicated Favorites tab.
@@ -167,8 +167,8 @@ Ukulele Companion is designed to be usable by everyone, including blind and visu
 | Persistence | SharedPreferences + DataStore | UserDefaults |
 | Serialization | Kotlinx Serialization | Codable + JSONSerialization |
 | Neural Inference | ONNX Runtime Android | ONNX Runtime C API (xcframework) |
-| Build | Gradle 9.3, AGP 9.0, Kotlin DSL | Xcode, min iOS 17.0 |
-| Min SDK | 26 (Android 8.0) | iOS 17.0 |
+| Build | Gradle 9.4, AGP 9.1, Kotlin DSL | Xcode, min iOS 16.0 |
+| Min SDK | 26 (Android 8.0) | iOS 16.0 |
 | Target SDK | 35 | — |
 | Localization | Android resources (16 locales) | Localizable.xcstrings (16 locales) |
 
@@ -180,7 +180,7 @@ Ukulele Companion is designed to be usable by everyone, including blind and visu
 ukulele-companion/
 ├── shared/                          # Kotlin Multiplatform shared module
 │   └── src/
-│       ├── commonMain/              # 55 Kotlin files — domain + data logic
+│       ├── commonMain/              # 55+ Kotlin files — domain + data logic
 │       │   ├── domain/              # ChordDetector, PitchDetector, Transpose, etc.
 │       │   └── data/                # Notes, Scales, ChordFormulas, Progressions, etc.
 │       ├── androidMain/             # Android platform actuals (UUID, Calendar)
@@ -191,13 +191,13 @@ ukulele-companion/
 │       ├── audio/                   # SoundPool, metronome, audio capture
 │       ├── data/                    # Repositories (SharedPreferences), backup/restore
 │       ├── domain/                  # NeuralPitchSupervisor, AchievementChecker
-│       ├── ui/                      # 55 Compose screens and components
-│       └── viewmodel/               # 13 ViewModels (StateFlow)
+│       ├── ui/                      # 55+ Compose screens and components
+│       └── viewmodel/               # 15 ViewModels (StateFlow)
 │
 ├── iosApp/                          # iOS app (SwiftUI)
 │   └── UkuleleCompanion/
-│       ├── Views/                   # 48 SwiftUI views
-│       ├── ViewModels/              # 15 ObservableObject ViewModels
+│       ├── Views/                   # 48+ SwiftUI views
+│       ├── ViewModels/              # 16 ObservableObject ViewModels
 │       ├── Audio/                   # AudioCaptureEngine, TonePlayer, NeuralPitchSupervisor
 │       ├── Helpers/                 # Accessibility helpers, backup/restore manager
 │       └── Resources/               # WAV samples, ONNX model
@@ -317,11 +317,11 @@ We actively encourage contributors to use **AI coding tools** to accelerate thei
   <img src="docs/architecture.svg" width="600" alt="Architecture diagram: Shared KMP Module (domain logic, data types, pitch detection, chords) feeds into Android App (Compose + Material3, ViewModel/StateFlow, SharedPreferences, SoundPool) and iOS App (SwiftUI, ObservableObject, UserDefaults, AVFoundation)">
 </p>
 
-- **Shared module**: 55 Kotlin files — chord detection, pitch detection, scales, notes, transposition, and all domain/data logic shared across platforms
-- **Android UI layer**: 55 Compose files, single-activity architecture via `MainActivity`
-- **Android ViewModel layer**: 13 ViewModels managing state with `StateFlow`
-- **iOS UI layer**: 48 SwiftUI views with full feature parity
-- **iOS ViewModel layer**: 15 ObservableObject ViewModels
+- **Shared module**: 55+ Kotlin files — chord detection, pitch detection, scales, notes, transposition, and all domain/data logic shared across platforms
+- **Android UI layer**: 55+ Compose files, single-activity architecture via `MainActivity`
+- **Android ViewModel layer**: 15 ViewModels managing state with `StateFlow`
+- **iOS UI layer**: 48+ SwiftUI views with full feature parity
+- **iOS ViewModel layer**: 16 ObservableObject ViewModels
 - **Audio layer**: Platform-specific audio capture, tone playback, and ONNX neural pitch detection
 
 ---
