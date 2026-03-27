@@ -378,6 +378,7 @@
     <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" oleh stomachache (Freesound.org)</string>
     <string name="settings_license">Lisensi</string>
     <string name="settings_license_value">CC BY 3.0</string>
+    <string name="settings_open_source_licenses">Lisensi Sumber Terbuka</string>
     <string name="settings_tagline">Teman ukulele lengkap untuk akor, tangga nada, teori musik, dan komposisi. Sepenuhnya offline, tanpa pelacakan.</string>
     <string name="settings_unknown_version">Tidak diketahui</string>
 

@@ -378,6 +378,7 @@
     <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" by stomachache (Freesound.org)</string>
     <string name="settings_license">许可</string>
     <string name="settings_license_value">CC BY 3.0</string>
+    <string name="settings_open_source_licenses">开源许可证</string>
     <string name="settings_tagline">你的全能尤克里里伴侣，涵盖和弦、音阶、乐理和创作。完全离线、无追踪。</string>
     <string name="settings_unknown_version">未知</string>
 
