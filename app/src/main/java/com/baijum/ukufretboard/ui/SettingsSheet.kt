@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -796,6 +797,18 @@ private fun AboutSection() {
         label = stringResource(R.string.settings_license),
         value = stringResource(R.string.settings_license_value),
     )
+    Spacer(modifier = Modifier.height(8.dp))
+
+    var showLicenses by remember { mutableStateOf(false) }
+    Text(
+        text = stringResource(R.string.settings_open_source_licenses),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.clickable(role = Role.Button) { showLicenses = true },
+    )
+    if (showLicenses) {
+        OpenSourceLicensesDialog(onDismiss = { showLicenses = false })
+    }
 
     Spacer(modifier = Modifier.height(16.dp))
 
@@ -828,4 +841,128 @@ private fun CreditItem(label: String, value: String) {
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
+}
+
+private data class LicenseEntry(
+    val name: String,
+    val copyright: String,
+    val licenseType: String,
+    val url: String,
+)
+
+private val licenseEntries = listOf(
+    LicenseEntry(
+        name = "ONNX Runtime",
+        copyright = "Copyright (c) Microsoft Corporation",
+        licenseType = "MIT License",
+        url = "https://github.com/microsoft/onnxruntime",
+    ),
+    LicenseEntry(
+        name = "SwiftF0",
+        copyright = "Copyright (c) lars76",
+        licenseType = "MIT License",
+        url = "https://github.com/lars76/swift-f0",
+    ),
+    LicenseEntry(
+        name = "Reorderable",
+        copyright = "Copyright 2023 Calvin Liang",
+        licenseType = "Apache License 2.0",
+        url = "https://github.com/Calvin-LL/Reorderable",
+    ),
+    LicenseEntry(
+        name = "Kotlin",
+        copyright = "Copyright 2010-2024 JetBrains s.r.o.",
+        licenseType = "Apache License 2.0",
+        url = "https://github.com/JetBrains/kotlin",
+    ),
+    LicenseEntry(
+        name = "Jetpack Compose",
+        copyright = "Copyright The Android Open Source Project",
+        licenseType = "Apache License 2.0",
+        url = "https://developer.android.com/compose",
+    ),
+    LicenseEntry(
+        name = "AndroidX Libraries",
+        copyright = "Copyright The Android Open Source Project",
+        licenseType = "Apache License 2.0",
+        url = "https://developer.android.com/jetpack/androidx",
+    ),
+    LicenseEntry(
+        name = "Material Components for Android",
+        copyright = "Copyright Google LLC",
+        licenseType = "Apache License 2.0",
+        url = "https://github.com/material-components/material-components-android",
+    ),
+    LicenseEntry(
+        name = "Kotlinx Serialization",
+        copyright = "Copyright 2017-2024 JetBrains s.r.o.",
+        licenseType = "Apache License 2.0",
+        url = "https://github.com/Kotlin/kotlinx.serialization",
+    ),
+    LicenseEntry(
+        name = "Kotlinx Coroutines",
+        copyright = "Copyright 2016-2024 JetBrains s.r.o.",
+        licenseType = "Apache License 2.0",
+        url = "https://github.com/Kotlin/kotlinx.coroutines",
+    ),
+)
+
+/**
+ * Dialog showing open source library licenses.
+ */
+@Composable
+private fun OpenSourceLicensesDialog(onDismiss: () -> Unit) {
+    val context = LocalContext.current
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = stringResource(R.string.settings_open_source_licenses),
+                modifier = Modifier.semantics { heading() },
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+            ) {
+                licenseEntries.forEach { entry ->
+                    Column(modifier = Modifier.padding(vertical = 8.dp)) {
+                        Text(
+                            text = entry.name,
+                            style = MaterialTheme.typography.titleSmall,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                        Text(
+                            text = entry.licenseType,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        Text(
+                            text = entry.copyright,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        Text(
+                            text = entry.url,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.clickable {
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(entry.url))
+                                context.startActivity(intent)
+                            },
+                        )
+                    }
+                    if (entry != licenseEntries.last()) {
+                        HorizontalDivider()
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(android.R.string.ok))
+            }
+        },
+    )
 }

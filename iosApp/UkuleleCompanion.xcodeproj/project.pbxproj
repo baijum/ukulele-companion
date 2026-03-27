@@ -77,6 +77,7 @@
 		A10091 /* SetlistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10091 /* SetlistViewModel.swift */; };
 		A10092 /* SetlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10092 /* SetlistView.swift */; };
 		A10093 /* SetlistViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10093 /* SetlistViewModelTests.swift */; };
+		A10094 /* OpenSourceLicensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10094 /* OpenSourceLicensesView.swift */; };
 		A10067 /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10067 /* PlayView.swift */; };
 		A10068 /* ScaleSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10068 /* ScaleSelectorView.swift */; };
 		A10069 /* PlayAlongViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10069 /* PlayAlongViewModel.swift */; };
@@ -217,6 +218,7 @@
 		B10091 /* SetlistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetlistViewModel.swift; sourceTree = "<group>"; };
 		B10092 /* SetlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetlistView.swift; sourceTree = "<group>"; };
 		B10093 /* SetlistViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetlistViewModelTests.swift; sourceTree = "<group>"; };
+		B10094 /* OpenSourceLicensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSourceLicensesView.swift; sourceTree = "<group>"; };
 		B10067 /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
 		B10068 /* ScaleSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleSelectorView.swift; sourceTree = "<group>"; };
 		B10069 /* PlayAlongViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAlongViewModel.swift; sourceTree = "<group>"; };
@@ -382,6 +384,7 @@
 				B10048 /* PitchMonitorView.swift */,
 				B10049 /* SettingsView.swift */,
 				B10050 /* HelpView.swift */,
+				B10094 /* OpenSourceLicensesView.swift */,
 				B10056 /* VoiceLeadingView.swift */,
 				B10057 /* ProgressionPracticeView.swift */,
 				B10058 /* CapoCalculatorView.swift */,
@@ -707,6 +710,7 @@
 				A10048 /* PitchMonitorView.swift in Sources */,
 				A10049 /* SettingsView.swift in Sources */,
 				A10050 /* HelpView.swift in Sources */,
+				A10094 /* OpenSourceLicensesView.swift in Sources */,
 				A10051 /* PitchMonitorViewModel.swift in Sources */,
 				A10052 /* MetronomeViewModel.swift in Sources */,
 				A10053 /* FavoritesViewModel.swift in Sources */,

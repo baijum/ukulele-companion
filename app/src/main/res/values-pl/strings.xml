@@ -381,6 +381,7 @@
     <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" — stomachache (Freesound.org)</string>
     <string name="settings_license">Licencja</string>
     <string name="settings_license_value">CC BY 3.0</string>
+    <string name="settings_open_source_licenses">Licencje open source</string>
     <string name="settings_tagline">Twój kompletny towarzysz ukulele — akordy, skale, teoria muzyki i kompozycja. W pełni offline, bez śledzenia.</string>
     <string name="settings_unknown_version">Nieznana</string>
 

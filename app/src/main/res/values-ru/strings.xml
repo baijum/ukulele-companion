@@ -381,6 +381,7 @@
     <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" by stomachache (Freesound.org)</string>
     <string name="settings_license">Лицензия</string>
     <string name="settings_license_value">CC BY 3.0</string>
+    <string name="settings_open_source_licenses">Лицензии с открытым исходным кодом</string>
     <string name="settings_tagline">Ваш универсальный помощник для укулеле: аккорды, гаммы, теория музыки и сочинение. Полностью офлайн, без отслеживания.</string>
     <string name="settings_unknown_version">Неизвестно</string>
 

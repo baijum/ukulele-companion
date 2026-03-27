@@ -379,6 +379,7 @@
     <string name="settings_audio_samples_value">"Ukelele single notes, close-mic" — stomachache (Freesound.org)</string>
     <string name="settings_license">Lisans</string>
     <string name="settings_license_value">CC BY 3.0</string>
+    <string name="settings_open_source_licenses">Açık Kaynak Lisansları</string>
     <string name="settings_tagline">Akorlar, diziler, müzik teorisi ve kompozisyon için hepsi bir arada ukulele yardımcınız. Tamamen çevrimdışı, izleme yok.</string>
     <string name="settings_unknown_version">Bilinmiyor</string>
 

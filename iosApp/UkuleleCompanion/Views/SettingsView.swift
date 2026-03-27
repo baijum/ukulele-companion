@@ -239,6 +239,9 @@ struct SettingsView: View {
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
+                    NavigationLink("Open Source Licenses") {
+                        OpenSourceLicensesView()
+                    }
                 }
             }
             .navigationTitle("Settings")
