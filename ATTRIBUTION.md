@@ -2,7 +2,7 @@
 
 ## Audio Samples
 
-**Ukulele single notes, close-mic**
+**Ukelele single notes, close-mic**
 - **Author:** [stomachache](https://freesound.org/people/stomachache/)
 - **Source:** [Freesound.org — Pack #8545](https://freesound.org/people/stomachache/packs/8545/)
 - **License:** [Creative Commons Attribution 3.0 Unported (CC BY 3.0)](https://creativecommons.org/licenses/by/3.0/)
