@@ -20,10 +20,10 @@ Ukulele Companion is a **free, fully offline** multiplatform app (Android + iOS)
 | Platform | Key Details |
 |----------|-------------|
 | **Shared (KMP)** | `:shared` module — pure Kotlin business logic in `domain/`, data models in `data/`, `expect/actual` in `platform/` |
-| **Android** | Kotlin 2.3.10, Jetpack Compose (BOM 2026.02.00), Material 3, Single Activity, MVVM, StateFlow |
+| **Android** | Kotlin 2.3.10, Jetpack Compose (BOM 2026.03.01), Material 3, Single Activity, MVVM, StateFlow |
 | **iOS** | Swift 6, SwiftUI, MVVM, `@StateObject`/`@Published`, iOS 16.0+, static `shared.framework` via Gradle |
 | **Audio ML** | ONNX Runtime 1.24.3 on both platforms (Android AAR, iOS xcframework via C API) |
-| **Build** | Gradle 9.3.1, AGP 9.0.1, Kotlin DSL, version catalog (`libs.versions.toml`) |
+| **Build** | Gradle 9.3.1, AGP 9.1.0, Kotlin DSL, version catalog (`libs.versions.toml`) |
 
 ## Package Structure
 

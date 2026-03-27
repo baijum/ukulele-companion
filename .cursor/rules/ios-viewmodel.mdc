@@ -56,4 +56,4 @@ let values = Set(notes.map { ($0 as! NSNumber).int32Value })
 
 ## Existing ViewModels
 
-`FretboardViewModel`, `TunerViewModel`, `MetronomeViewModel`, `FavoritesViewModel`, `SettingsViewModel`, `ChordLibraryViewModel`, `SongbookViewModel`, `MelodyViewModel`, `ProgressionsViewModel`, `LearnViewModel`, `PitchMonitorViewModel`, `ScalePracticeViewModel`, `PracticeTimerViewModel`, `CustomPatternsViewModel`, `PlayAlongViewModel`
+`FretboardViewModel`, `MetronomeViewModel`, `FavoritesViewModel`, `SettingsViewModel`, `ChordLibraryViewModel`, `SongbookViewModel`, `MelodyViewModel`, `ProgressionsViewModel`, `LearnViewModel`, `PitchMonitorViewModel`, `ScalePracticeViewModel`, `PracticeTimerViewModel`, `CustomPatternsViewModel`, `PlayAlongViewModel`, `ChordTransitionsViewModel`, `SetlistViewModel`

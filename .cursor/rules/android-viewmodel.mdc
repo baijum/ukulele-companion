@@ -25,4 +25,4 @@ All async work uses Kotlin coroutines. No RxJava, no callback-based APIs. Use `v
 
 ## Existing ViewModels
 
-`FretboardViewModel`, `TunerViewModel`, `PitchMonitorViewModel`, `ChordLibraryViewModel`, `FavoritesViewModel`, `SongbookViewModel`, `SettingsViewModel`, `ScalePracticeViewModel`, `MetronomeViewModel`, `MelodyViewModel`, `ChordTransitionsViewModel`, `PracticeTimerViewModel`, `CustomPatternsViewModel`, `LearnViewModel`, `PlayAlongViewModel`, `ProgressionsViewModel`
+`FretboardViewModel`, `TunerViewModel`, `PitchMonitorViewModel`, `ChordLibraryViewModel`, `FavoritesViewModel`, `SongbookViewModel`, `SettingsViewModel`, `ScalePracticeViewModel`, `MetronomeViewModel`, `MelodyViewModel`, `BackupRestoreViewModel`, `CustomProgressionViewModel`, `LearningProgressViewModel`, `SetlistViewModel`, `TtsAnnouncementThrottler`
