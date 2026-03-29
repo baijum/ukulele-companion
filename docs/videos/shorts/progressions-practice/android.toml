@@ -1,0 +1,68 @@
+[project]
+title = "Progressions Practice Mode — Ukulele Companion Short"
+description = "35–50s YouTube Short / Instagram Reel: practice mode auto-advances chords on the beat"
+output = "../../../feature-videos/android/shorts/progressions-practice.mp4"
+resolution = "1080x1920"
+
+[branding]
+intro = "../../../jingle-intro.wav"
+outro = "../../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+# ── Scene 1: Hook — progression card with harmonic labels ────
+[[scene]]
+name = "hook-progression"
+video = "clips/android/01-hook-progression.mp4"
+audio = "audio/01-hook-progression.mp3"
+delay = 0.5
+min_clip_duration = 23
+recording_notes = """
+EMULATOR RESOLUTION: Set emulator to 1080x1920 before recording.
+
+Navigate to Chord Progressions via drawer. Default state: Major mode, key of C.
+1. Show the progression list — wait 2s
+2. Scroll down slowly until the chord chips on a card are fully visible
+   (chips labeled Tonic / Subdominant / Dominant below each chord name) — wait 3s
+3. Tap the Play button on that card to hear the progression play through — wait 4s
+4. Remain on the list — wait until clip ends
+
+Do NOT enter practice mode yet (that's scene 2). Do NOT open drawer.
+"""
+narration = """
+Smooth chord changes start with knowing the pattern. Chord Progressions \
+shows every common sequence with Roman numeral analysis and harmonic \
+function labels — Tonic, Subdominant, Dominant — in the key of your choice. \
+Tap play to hear it before you pick up your instrument.
+"""
+
+# ── Scene 2: Payoff — practice mode chords advance on beat ───
+[[scene]]
+name = "payoff-practice"
+video = "clips/android/02-payoff-practice.mp4"
+audio = "audio/02-payoff-practice.mp3"
+delay = 0.5
+min_clip_duration = 20
+recording_notes = """
+EMULATOR RESOLUTION: 1080x1920 — must match scene 1.
+
+On the progression list, tap the Practice button on the first card.
+Wait at the list — DO NOT enter practice mode yet. Tap Practice button on the first card.
+Practice mode opens, showing the current chord highlighted and advancing.
+1. Let it run — watch chords auto-advance on the beat for at least 10s
+2. Gently tap the center of the screen (not any control) to keep frames alive
+3. Wait until clip ends
+
+CRITICAL: Do NOT press Back during practice mode — it may exit the app entirely.
+Do NOT open the drawer.
+"""
+narration = """
+Tap Practice and the chords advance automatically on the beat. \
+Adjust tempo and beats per chord to match your level. \
+Start slow, build up speed — no more fumbling transitions. \
+Free, offline, always with you.
+"""

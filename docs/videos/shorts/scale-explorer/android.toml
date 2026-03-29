@@ -1,0 +1,68 @@
+[project]
+title = "Scale Explorer — Ukulele Companion Short"
+description = "35–50s YouTube Short / Instagram Reel: 38 scales color-mapped across the fretboard"
+output = "../../../feature-videos/android/shorts/scale-explorer.mp4"
+resolution = "1080x1920"
+
+[branding]
+intro = "../../../jingle-intro.wav"
+outro = "../../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+# ── Scene 1: Hook — empty fretboard lights up with scale ─────
+[[scene]]
+name = "hook-light-up"
+video = "clips/android/01-hook-light-up.mp4"
+audio = "audio/01-hook-light-up.mp3"
+delay = 0.5
+min_clip_duration = 23
+recording_notes = """
+EMULATOR RESOLUTION: Set emulator to 1080x1920 before recording.
+
+Navigate to Explorer via drawer. Tap Reset to ensure the fretboard is empty.
+1. Pause 1s on the empty fretboard
+2. Tap the Scales button (use uiautomator: contentDescription "Scales" or similar) — wait 0.5s
+3. Select "Major" from the scale list — wait 3s (fretboard lights up with color-coded notes)
+4. Let the lit fretboard sit on screen — wait 3s
+5. Tap the "Position 1 (0–4)" chip to filter by fret position — wait 2s
+6. Tap the "All" chip to show the full neck again — wait until clip ends
+
+Do NOT tap any fret dots. Do NOT open the drawer or navigate away.
+"""
+narration = """
+Every note on the ukulele neck, mapped by scale. Open Explorer, \
+tap Scales, choose Major, and the entire fretboard lights up \
+with color-coded positions. Root notes stand out so you always \
+know where home is. Filter by fret position to focus on one \
+section at a time.
+"""
+
+# ── Scene 2: Payoff — switch scales, colors update, CTA ──────
+[[scene]]
+name = "payoff-switch"
+video = "clips/android/02-payoff-switch.mp4"
+audio = "audio/02-payoff-switch.mp3"
+delay = 0.5
+min_clip_duration = 17
+recording_notes = """
+EMULATOR RESOLUTION: 1080x1920 — must match scene 1.
+
+The scale overlay should still be active (Major scale visible) from the previous scene setup.
+1. Tap "Natural Minor" from the scale selector — wait 3s (colors update instantly)
+2. Tap "Minor Pentatonic" — wait 3s
+3. Tap "Blues" — wait 3s
+4. Remain on the lit fretboard — wait until clip ends
+
+Move between scales at a comfortable pace — each color change is the visual payoff.
+Do NOT open the drawer or tap Reset.
+"""
+narration = """
+Switch to Natural Minor — the colors update instantly. Thirty-eight \
+scales total: pentatonics, modes, blues, and more. Master the whole \
+neck one scale at a time. Free and offline.
+"""

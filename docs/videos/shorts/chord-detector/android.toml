@@ -1,0 +1,67 @@
+[project]
+title = "Chord Detector - Ukulele Companion Short"
+description = "30–40s YouTube Short / Instagram Reel: tap the fretboard, know your chord instantly"
+output = "../../../feature-videos/android/shorts/chord-detector.mp4"
+resolution = "1080x1920"
+
+[branding]
+intro = "../../../jingle-intro.wav"
+outro = "../../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+# ── Scene 1: Hook — tap notes, chord detected ────────────────
+[[scene]]
+name = "hook-tap"
+video = "clips/android/01-hook-tap.mp4"
+audio = "audio/01-hook-tap.mp3"
+delay = 0.5
+min_clip_duration = 18
+recording_notes = """
+EMULATOR RESOLUTION: Set emulator to 1080x1920 before recording (AVD -> Edit -> Resolution).
+
+Navigate to Explorer via drawer. Tap Reset so the fretboard is empty.
+Move quickly — no long pauses between taps.
+1. Tap open G string (top string, fret 0) — wait 0.3s
+2. Tap open C string (fret 0) — wait 0.3s
+3. Tap open E string (fret 0) — wait 0.3s
+4. Tap fret 3 on A string (bottom string) — wait 2s (chord detects as C Major)
+5. Let the detected chord label sit on screen — wait until clip ends
+
+Use uiautomator to find the fret buttons by content-description (e.g. "String 1, Fret 0").
+Do NOT tap Reset, Play, or the drawer. Do NOT scroll.
+"""
+narration = """
+Ever tapped random notes and wondered what chord you're playing? \
+Tap the fretboard in Ukulele Companion and it names the chord \
+instantly. Open G, open C, open E, fret three on A — \
+that's C Major.
+"""
+
+# ── Scene 2: Payoff — play it, see the detail, CTA ───────────
+[[scene]]
+name = "payoff-play"
+video = "clips/android/02-payoff-play.mp4"
+audio = "audio/02-payoff-play.mp3"
+delay = 0.5
+min_clip_duration = 18
+recording_notes = """
+EMULATOR RESOLUTION: 1080x1920 — must match scene 1.
+
+With C Major still detected on screen:
+1. Tap the Play button to hear the chord strummed — wait 2s
+2. Slowly swipe up (scroll down) to reveal the detail section below the fretboard:
+   intervals, formula, fingering, difficulty, "Also written as" — wait 4s
+3. Scroll back up to show the chord name one more time — wait until clip ends
+
+Do NOT navigate away or open the drawer.
+"""
+narration = """
+Hit play to hear it with real ukulele samples. Scroll down \
+to see intervals, formula, difficulty, and suggested fingering. \
+Free. Offline. No account needed. Download Ukulele Companion.
+"""

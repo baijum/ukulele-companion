@@ -1,0 +1,46 @@
+[project]
+title = "Free and Offline — Ukulele Companion Short"
+description = "30–35s YouTube Short / Instagram Reel: value-prop — free, offline, accessible"
+output = "../../../feature-videos/android/shorts/free-and-offline.mp4"
+resolution = "1080x1920"
+
+[branding]
+intro = "../../../jingle-intro.wav"
+outro = "../../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+# ── Scene 1: Clean Explorer, value prop narration ─────────────
+[[scene]]
+name = "value-prop"
+video = "clips/android/01-value-prop.mp4"
+audio = "audio/01-value-prop.mp3"
+delay = 0.5
+min_clip_duration = 26
+recording_notes = """
+EMULATOR RESOLUTION: Set emulator to 1080x1920 before recording.
+
+Navigate to Explorer via drawer. Tap Reset to clear any selected notes.
+The fretboard should be empty, showing the beginner chord suggestions
+and "Did You Know" section below.
+
+1. Show the clean Explorer screen — wait 3s
+2. Tap "Next Tip" in the Did You Know section once — wait 3s
+3. Scroll down slowly to reveal beginner chord suggestion cards — wait 4s
+4. Scroll back up to the fretboard — wait until clip ends
+
+Keep interaction gentle and unhurried — this scene is calm, not flashy.
+Do NOT open the drawer or tap any fret positions.
+"""
+narration = """
+Ukulele Companion is completely free. No ads. No tracking. \
+No internet connection required — it works entirely offline, \
+every time. Chord detection, tuning, metronome, strumming patterns, \
+chord progressions, songbook, and more. \
+Fully accessible with TalkBack for blind and visually impaired musicians. \
+Download it today.
+"""

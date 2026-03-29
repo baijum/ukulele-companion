@@ -20,6 +20,43 @@ This directory contains TOML project files that define narrated feature videos f
 
 **Ready** = clips recorded, video assembled. **TOML ready** = narration written and audio generated, clips not yet recorded. **--** = TOML not yet created.
 
+## Shorts (YouTube Shorts / Instagram Reels)
+
+Short-form promotional videos targeting 30–50 seconds each. Use true 9:16 resolution (`1080x1920`) — set the emulator to this resolution before recording. Assembled videos land in `docs/feature-videos/android/shorts/`.
+
+| Short | Directory | Scenes | Hook | Android |
+|-------|-----------|--------|------|---------|
+| Chord Detector | [shorts/chord-detector/](shorts/chord-detector/) | 2 | "Tap the fretboard. Know your chord instantly." | TOML ready |
+| Tuner Freeze | [shorts/tuner-freeze/](shorts/tuner-freeze/) | 2 | "The needle freezes so you never lose your note." | TOML ready |
+| Progressions Practice | [shorts/progressions-practice/](shorts/progressions-practice/) | 2 | "Stop fumbling chord changes." | TOML ready |
+| Scale Explorer | [shorts/scale-explorer/](shorts/scale-explorer/) | 2 | "38 scales, color-mapped across the neck." | TOML ready |
+| Free and Offline | [shorts/free-and-offline/](shorts/free-and-offline/) | 1 | Value-prop closer — free / offline / accessible | TOML ready |
+
+### Producing a Short
+
+The workflow is identical to feature videos, but set the emulator resolution to `1080x1920` first:
+
+```bash
+# In Android Studio: AVD Manager → Edit AVD → Screen resolution → 1080 × 1920
+
+# 1. Generate audio and check min_clip_duration values
+source ~/.secrets
+python3 scripts/assemble_video.py docs/videos/shorts/<name>/android.toml --audio-only
+
+# 2. Record clips (use /record-clips skill in Cursor)
+
+# 3. Assemble
+python3 scripts/assemble_video.py docs/videos/shorts/<name>/android.toml
+```
+
+### Suggested production order
+
+1. `chord-detector` — most visually impressive, strongest hook potential
+2. `progressions-practice` — strong emotional arc, straightforward to record
+3. `tuner-freeze` — the freeze moment is a satisfying scroll-stopper
+4. `scale-explorer` — colorful and fast-paced
+5. `free-and-offline` — calm single-scene; can re-use b-roll from other shorts
+
 ## Directory Structure
 
 ```

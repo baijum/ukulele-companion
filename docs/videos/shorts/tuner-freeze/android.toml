@@ -1,0 +1,67 @@
+[project]
+title = "Tuner Freeze — Ukulele Companion Short"
+description = "30–40s YouTube Short / Instagram Reel: neural tuner with freeze-needle moment"
+output = "../../../feature-videos/android/shorts/tuner-freeze.mp4"
+resolution = "1080x1920"
+
+[branding]
+intro = "../../../jingle-intro.wav"
+outro = "../../../jingle-outro.wav"
+
+[voiceover]
+provider = "openai"
+model = "tts-1-hd"
+voice = "nova"
+volume_boost = 3.0
+
+# ── Scene 1: Hook — needle swinging in real time ─────────────
+[[scene]]
+name = "hook-needle"
+video = "clips/android/01-hook-needle.mp4"
+audio = "audio/01-hook-needle.mp3"
+delay = 0.5
+min_clip_duration = 20
+recording_notes = """
+EMULATOR RESOLUTION: Set emulator to 1080x1920 before recording.
+
+Navigate to Tuner via drawer. Confirm SwiftF0 badge is visible at the top.
+1. Tap Start — wait 1s (meter is idle; emulator has no microphone)
+2. Tap the G string button to play the reference pitch — wait 3s
+3. Tap the C string button — wait 3s
+4. Tap the E string button — wait 2s
+5. Let the last tone decay — wait until clip ends
+
+The needle will move slightly on tone playback. Keep the screen active
+by tapping the center gently (not on any button) every few seconds.
+Do NOT tap Stop yet — that happens in scene 2.
+"""
+narration = """
+Your tuner should show you where you landed, even after the string \
+stops ringing. Tap Start in Ukulele Companion and play a string. \
+The needle tracks your pitch in real time. Green means you're in tune.
+"""
+
+# ── Scene 2: Payoff — needle freezes, neural badge, CTA ──────
+[[scene]]
+name = "payoff-freeze"
+video = "clips/android/02-payoff-freeze.mp4"
+audio = "audio/02-payoff-freeze.mp3"
+delay = 0.5
+min_clip_duration = 20
+recording_notes = """
+EMULATOR RESOLUTION: 1080x1920 — must match scene 1.
+
+Still on Tuner screen with listening active.
+1. Tap the A string button to play one more reference pitch — wait 3s
+2. Tap Stop — wait 2s (needle should freeze in its last position on screen)
+3. Let the frozen needle sit prominently — wait 3s
+4. Point out the SwiftF0 Active badge at the top by staying on screen — wait until clip ends
+
+Do NOT navigate away or open the drawer.
+"""
+narration = """
+Stop playing — the needle freezes on the last settled note. \
+No more guessing where you ended up. Neural pitch detection \
+from SwiftF zero keeps readings stable even in a noisy room. \
+Free, offline, always ready.
+"""
