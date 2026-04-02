@@ -65,7 +65,7 @@ jobs:
 
       - name: Upload shared coverage to Codecov
         if: always()
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           files: shared/build/reports/kover/report.xml
           flags: shared-tests
@@ -99,7 +99,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: always()
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           files: app/build/reports/coverage/test/debug/report.xml
           flags: android-unit-tests
@@ -191,7 +191,7 @@ jobs:
 
       - name: Upload instrumented test coverage to Codecov
         if: always()
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           files: app/build/reports/coverage/androidTest/debug/report.xml
           flags: android-instrumented-tests
