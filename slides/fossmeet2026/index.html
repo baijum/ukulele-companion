@@ -1,0 +1,971 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>From Chords To Code — FOSSMeet 2026</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
+  <style>
+    :root {
+      --uk-cream: #faf7f2;
+      --uk-ink: #1c2b24;
+      --uk-teal: #14524d;
+      --uk-teal-deep: #0c3531;
+      --uk-ember: #c45c2d;
+      --uk-sand: #f0e8dc;
+    }
+    .reveal {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      font-size: 32px;
+      color: var(--uk-ink);
+    }
+    .reveal .slides section {
+      background: linear-gradient(180deg, #fffefb 0%, var(--uk-cream) 35%, #f4efe6 100%);
+    }
+    .reveal h1, .reveal h2, .reveal h3 {
+      font-family: Georgia, 'Palatino Linotype', Palatino, 'Times New Roman', serif;
+      letter-spacing: -0.02em;
+      text-transform: none;
+    }
+    .reveal h1 {
+      color: var(--uk-teal-deep);
+      font-size: 1.6em;
+      border-bottom: 3px solid var(--uk-ember);
+      padding-bottom: 0.2em;
+    }
+    .reveal h2 {
+      color: var(--uk-teal);
+      font-size: 1.3em;
+    }
+    .reveal h3 {
+      color: var(--uk-teal);
+      font-size: 1.05em;
+    }
+    .reveal strong { color: var(--uk-teal-deep); }
+    .reveal a { color: var(--uk-teal); }
+    .reveal code {
+      background: rgba(20, 82, 77, 0.09);
+      color: var(--uk-teal-deep);
+      padding: 0.1em 0.35em;
+      border-radius: 5px;
+      font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+      font-size: 0.85em;
+    }
+    .reveal pre {
+      background: var(--uk-teal-deep);
+      border-radius: 10px;
+      padding: 0.7em 1em;
+      border-left: 4px solid var(--uk-ember);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      width: 95%;
+    }
+    .reveal pre code {
+      background: transparent;
+      color: var(--uk-sand);
+      padding: 0;
+      font-size: 0.55em;
+      line-height: 1.5;
+    }
+    .reveal ul, .reveal ol { text-align: left; }
+    .reveal li { margin: 0.3em 0; }
+    .reveal li::marker { color: var(--uk-ember); }
+    .reveal table { font-size: 0.75em; margin: 0 auto; }
+    .reveal th {
+      background: rgba(20, 82, 77, 0.12);
+      color: var(--uk-teal-deep);
+      padding: 0.4em 0.8em;
+    }
+    .reveal td { padding: 0.35em 0.8em; }
+    .reveal blockquote {
+      border-left: 4px solid var(--uk-teal);
+      background: rgba(20, 82, 77, 0.06);
+      padding: 0.5em 1em;
+      font-style: normal;
+      width: 85%;
+    }
+    /* Title / lead slide */
+    .reveal .lead {
+      background: linear-gradient(155deg, #0a2e2b 0%, #14524d 38%, #2d8f82 100%) !important;
+      color: #f7f2ea;
+    }
+    .reveal .lead h1 {
+      color: #fffefb;
+      border-bottom: none;
+      font-size: 1.8em;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.22);
+    }
+    .reveal .lead h2 { color: #d8ebe8; font-size: 1.1em; }
+    .reveal .lead p { color: #d8ebe8; }
+    .reveal .lead strong { color: #e8d9c4; }
+    .reveal .lead code { background: rgba(255,255,255,0.15); color: #fffefb; }
+    /* Section divider slides */
+    .reveal .section-divider {
+      background: linear-gradient(155deg, #0c3531 0%, #14524d 60%, #1a6b63 100%) !important;
+      color: #f7f2ea;
+    }
+    .reveal .section-divider h1 {
+      color: #fffefb;
+      border-bottom: 3px solid var(--uk-ember);
+      font-size: 2em;
+    }
+    .reveal .section-divider p { color: #d8ebe8; }
+    /* Image grids */
+    .img-row {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      align-items: flex-start;
+      margin-top: 0.5em;
+    }
+    .img-row img {
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 0.8em 0;
+    }
+    .stat {
+      background: rgba(20, 82, 77, 0.08);
+      border-radius: 8px;
+      padding: 0.4em 0.8em;
+      font-size: 0.7em;
+      font-weight: 600;
+      color: var(--uk-teal-deep);
+    }
+    /* Pipeline diagram */
+    .pipeline {
+      font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+      font-size: 0.6em;
+      line-height: 1.8;
+      text-align: center;
+      color: var(--uk-teal-deep);
+    }
+    .pipeline .arrow { color: var(--uk-ember); font-weight: bold; }
+    .pipeline .step {
+      display: inline-block;
+      background: rgba(20,82,77,0.08);
+      padding: 0.2em 0.6em;
+      border-radius: 6px;
+      margin: 0.1em;
+    }
+    /* Hybrid diagram */
+    .hybrid-diagram {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin: 1em 0;
+      font-size: 0.7em;
+    }
+    .hybrid-box {
+      border: 2px solid var(--uk-teal);
+      border-radius: 10px;
+      padding: 0.6em 1em;
+      text-align: center;
+      background: rgba(20,82,77,0.05);
+    }
+    .hybrid-box.neural {
+      border-color: var(--uk-ember);
+      background: rgba(196,92,45,0.08);
+    }
+    .hybrid-arrow {
+      color: var(--uk-ember);
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+    /* Slide number */
+    .reveal .slide-number { color: rgba(28,43,36,0.4); font-size: 0.6em; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================ -->
+<!-- SECTION A: OPENING (Slides 1-3)                               -->
+<!-- ============================================================ -->
+
+<!-- Slide 1: Title -->
+<section data-state="lead" class="lead">
+  <img src="img/app-icon-512.png" alt="Ukulele Companion icon" width="140"
+       style="border-radius:24px; filter:drop-shadow(0 6px 18px rgba(0,0,0,0.35)); margin-bottom:0.3em;">
+  <h1>From Chords To Code</h1>
+  <h2>Building A Ukulele Companion App</h2>
+  <p><strong>Baiju Muthukadan</strong> &middot; FOSSMeet 2026 &middot; NIT Calicut</p>
+  <aside class="notes">
+    Good evening everyone. I am Baiju Muthukadan. This talk is about building a free,
+    open-source mobile app for learning ukulele — and the engineering decisions behind it.
+    The project ships on both Google Play and the App Store.
+  </aside>
+</section>
+
+<!-- Slide 2: About Me -->
+<section>
+  <h1>About Me</h1>
+  <ul>
+    <li>Open source contributor and software developer</li>
+    <li>Author: "A Comprehensive Guide to Go Programming"</li>
+    <li>Ukulele hobbyist — built the app I wanted but couldn't find</li>
+  </ul>
+  <p style="margin-top:1em;">
+    <code>github.com/baijum/ukulele-companion</code>
+  </p>
+  <aside class="notes">
+    Quick intro. This project started as a personal tool and grew into something
+    more substantial. Everything I show today is MIT-licensed and on GitHub.
+  </aside>
+</section>
+
+<!-- Slide 3: Why This Talk? -->
+<section>
+  <h1>Why This Talk?</h1>
+  <ul>
+    <li>I wanted to learn ukulele and couldn't find a good <strong>offline, free app</strong></li>
+    <li>What started as one screen became <strong>17 feature areas</strong>, 2 platforms, and a neural network</li>
+    <li>This is a story about building a real product as a <strong>FOSS project</strong></li>
+  </ul>
+  <aside class="notes">
+    Three motivations. First, a personal itch. Second, scope creep as a feature.
+    Third, I want to share what I learned about shipping a cross-platform app as
+    open source. This talk covers architecture, signal processing, accessibility,
+    and the open-source journey.
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION B: WHAT THE APP DOES (Slides 4-9)                     -->
+<!-- ============================================================ -->
+
+<!-- Slide 4: The App at a Glance -->
+<section>
+  <h1>The App at a Glance</h1>
+  <p>A free, fully offline ukulele learning companion</p>
+  <div class="stats-bar">
+    <span class="stat">17 features</span>
+    <span class="stat">2 platforms</span>
+    <span class="stat">16 languages</span>
+    <span class="stat">Fully offline</span>
+    <span class="stat">MIT license</span>
+  </div>
+  <ul style="font-size:0.85em;">
+    <li>No network, no telemetry, no ads</li>
+    <li>Android (Google Play) + iOS (App Store)</li>
+    <li>Localized in Hindi, Arabic, Japanese, Chinese, and 12 more</li>
+  </ul>
+  <aside class="notes">
+    Let me give you the elevator pitch. Ukulele Companion is completely offline — no
+    network, no telemetry, no ads. It runs on Android and iOS. It is localized in 16
+    languages. Everything is MIT-licensed.
+  </aside>
+</section>
+
+<!-- Slide 5: Fretboard Explorer -->
+<section>
+  <h1>Fretboard Explorer</h1>
+  <div class="img-row">
+    <img src="img/chord-detected.png" alt="Chord detected on fretboard" width="260">
+  </div>
+  <ul style="font-size:0.8em;">
+    <li>Tap fret positions &rarr; <strong>instant chord detection</strong> (20 chord types)</li>
+    <li>Shows alternate notation &mdash; Am7 is also written as A-7</li>
+    <li>Pure interval math &mdash; no ML, no lookup table</li>
+  </ul>
+  <aside class="notes">
+    The core feature. You tap on a visual fretboard and the app tells you what chord
+    you are playing. This uses pure interval math — modular arithmetic over pitch classes.
+    We will dig into the algorithm later.
+  </aside>
+</section>
+
+<!-- Slide 6: Chord Library & Scales -->
+<section>
+  <h1>Chord Library &amp; Scale Overlay</h1>
+  <div class="img-row">
+    <img src="img/chord-library.png" alt="Chord library" width="240">
+    <img src="img/scale-overlay.png" alt="Scale overlay" width="240">
+  </div>
+  <ul style="font-size:0.8em;">
+    <li>Browse voicings by root, category, type — <strong>generated algorithmically</strong></li>
+    <li>38 scales overlaid on the fretboard with diatonic chords</li>
+  </ul>
+  <aside class="notes">
+    The chord library generates voicings algorithmically — it is not a static database.
+    The scale overlay highlights notes from any of 38 scales directly on the fretboard.
+    Both features share the same data models from the shared Kotlin module.
+  </aside>
+</section>
+
+<!-- Slide 7: Tuner & Pitch Monitor -->
+<section>
+  <h1>Tuner &amp; Pitch Monitor</h1>
+  <div class="img-row">
+    <img src="img/tuner.png" alt="Tuner screen" width="240">
+    <img src="img/pitch-monitor.png" alt="Pitch monitor" width="240">
+  </div>
+  <ul style="font-size:0.8em;">
+    <li>Hybrid pipeline: <strong>YIN algorithm + SwiftF0 neural model</strong></li>
+    <li>44.1 kHz capture, 4096-frame FFT, ~23 ms latency</li>
+    <li>8 tuning presets: High-G, Low-G, Baritone, D-Tuning, and more</li>
+  </ul>
+  <aside class="notes">
+    The tuner is the most technically interesting part. It uses a classical signal
+    processing algorithm called YIN for real-time pitch detection, supervised by a
+    tiny neural network. I will walk through the full pipeline in the deep-dive section.
+  </aside>
+</section>
+
+<!-- Slide 8: Songbook & Practice -->
+<section>
+  <h1>Songbook &amp; Practice Tools</h1>
+  <div class="img-row">
+    <img src="img/songs.png" alt="Songbook" width="240">
+    <img src="img/metronome.png" alt="Metronome" width="240">
+  </div>
+  <ul style="font-size:0.8em;">
+    <li><strong>ChordPro-format songbook</strong> with transpose, setlists, auto-scroll</li>
+    <li>Metronome: 30&ndash;300 BPM, tap tempo, time signatures, subdivisions</li>
+    <li>14 strumming + 10 fingerpicking patterns with audio playback</li>
+  </ul>
+  <aside class="notes">
+    The app is not just a reference tool. You can build a songbook with inline chords,
+    practice with a metronome, learn strumming patterns. The songbook supports
+    import/export via ChordPro format and sharing as PDF.
+  </aside>
+</section>
+
+<!-- Slide 9: Learning & Composition -->
+<section>
+  <h1>Learning &amp; Composition</h1>
+  <div class="img-row">
+    <img src="img/circle-of-fifths.png" alt="Circle of fifths" width="220">
+  </div>
+  <ul style="font-size:0.8em;">
+    <li>Theory lessons, <strong>ear training</strong>, interval trainer</li>
+    <li>Melody notepad with step sequencer and mic recording</li>
+    <li>Songwriter mode: guided flow from key &rarr; progression &rarr; lyrics</li>
+    <li>Daily challenges, achievements, practice tracking</li>
+  </ul>
+  <aside class="notes">
+    There is also a learning layer. Ear training, theory quizzes, a circle of fifths
+    reference. And composition tools — a melody notepad with a step sequencer, and a
+    guided songwriter mode that walks you through creating a song from scratch.
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION C: ARCHITECTURE (Slides 10-14)                        -->
+<!-- ============================================================ -->
+
+<!-- Slide 10: Architecture Overview -->
+<section>
+  <h1>Architecture Overview</h1>
+  <p style="font-size:0.85em;"><em>Three layers, two platforms, one shared core</em></p>
+  <img src="img/architecture.svg" alt="Architecture diagram" style="max-width:80%; margin-top:0.5em;">
+  <aside class="notes">
+    Here is the 30,000-foot view. A shared Kotlin Multiplatform module sits at the centre.
+    It contains all the domain logic — chord detection, pitch detection, music theory,
+    data models. Below it, two platform-specific apps: Android with Jetpack Compose,
+    iOS with SwiftUI. The shared module has zero platform imports — it is pure Kotlin.
+  </aside>
+</section>
+
+<!-- Slide 11: Shared KMP Module -->
+<section>
+  <h1>The Shared KMP Module</h1>
+  <p style="font-size:0.8em;"><strong>31 domain files, 24 data files</strong> — pure Kotlin, zero platform imports</p>
+  <table>
+    <tr>
+      <th>Layer</th>
+      <th>Contents</th>
+    </tr>
+    <tr>
+      <td><code>domain/</code></td>
+      <td>ChordDetector, PitchDetector, FFTProcessor, Chromagram, Transpose, ScaleChords...</td>
+    </tr>
+    <tr>
+      <td><code>data/</code></td>
+      <td>ChordFormulas (20 types), Scales (38), Progressions, Patterns, Notes...</td>
+    </tr>
+    <tr>
+      <td><code>platform/</code></td>
+      <td><code>expect/actual</code> for UUID and timestamps only</td>
+    </tr>
+  </table>
+  <p style="font-size:0.75em; margin-top:0.8em;">
+    Key decision: <strong>push as much as possible into shared</strong> &mdash;
+    platform code is only for things that truly need native APIs.
+  </p>
+  <aside class="notes">
+    The shared module is the intellectual heart of the app. 31 domain files covering
+    everything from FFT to chord detection to scale theory. 24 data files with all the
+    music theory knowledge. The platform layer is minimal — just UUID generation and timestamps.
+  </aside>
+</section>
+
+<!-- Slide 12: Android Layer -->
+<section>
+  <h1>Android: Jetpack Compose + MVVM</h1>
+  <ul>
+    <li><strong>58 Compose screens</strong>, 15 ViewModels, single Activity</li>
+    <li>Material 3 with <code>ModalNavigationDrawer</code></li>
+    <li><code>StateFlow</code> for reactive state management</li>
+    <li><code>SoundPool</code> with OGG samples for audio playback</li>
+    <li><code>AudioRecord</code> at 44.1 kHz for pitch capture</li>
+    <li>ONNX Runtime Android for neural inference</li>
+  </ul>
+  <aside class="notes">
+    The Android app is a standard Jetpack Compose setup with Material 3. One interesting
+    decision: I use a ModalNavigationDrawer instead of Jetpack Navigation. All screens
+    are managed by a single Activity. Each feature area has its own ViewModel exposing StateFlow.
+  </aside>
+</section>
+
+<!-- Slide 13: iOS Layer -->
+<section>
+  <h1>iOS: SwiftUI + Full Parity</h1>
+  <ul>
+    <li><strong>50 SwiftUI views</strong>, 18 ViewModels, iOS 16+</li>
+    <li><code>ObservableObject</code> + <code>@Published</code> for state</li>
+    <li><code>AVFoundation</code> with WAV samples for playback</li>
+    <li>ONNX Runtime via <strong>C API</strong> (xcframework)</li>
+    <li>Same shared Kotlin module compiled as <strong>static framework</strong></li>
+  </ul>
+  <aside class="notes">
+    The iOS app mirrors the Android feature set using SwiftUI. The shared Kotlin module
+    compiles to a static framework that Swift can call directly. On iOS, ONNX Runtime
+    uses the C API through an xcframework, while on Android it uses the Java/Kotlin AAR.
+  </aside>
+</section>
+
+<!-- Slide 14: Platform Boundaries -->
+<section>
+  <h1>What Stays Platform-Specific</h1>
+  <table style="font-size:0.7em;">
+    <tr><th>Concern</th><th>Android</th><th>iOS</th></tr>
+    <tr><td><strong>Audio capture</strong></td><td>AudioRecord</td><td>AVAudioEngine</td></tr>
+    <tr><td><strong>Playback</strong></td><td>SoundPool (OGG)</td><td>AVAudioPlayer (WAV)</td></tr>
+    <tr><td><strong>Neural inference</strong></td><td>ONNX AAR</td><td>ONNX C API</td></tr>
+    <tr><td><strong>Persistence</strong></td><td>SharedPreferences</td><td>UserDefaults</td></tr>
+    <tr><td><strong>Accessibility</strong></td><td>TalkBack semantics</td><td>VoiceOver traits</td></tr>
+    <tr><td><strong>UI framework</strong></td><td>Jetpack Compose</td><td>SwiftUI</td></tr>
+  </table>
+  <p style="font-size:0.75em; margin-top:0.8em;">
+    This is an <strong>intentional boundary</strong> &mdash; shared module provides algorithms;
+    each platform wraps them in native APIs.
+  </p>
+  <aside class="notes">
+    KMP gives you shared logic but audio, persistence, and accessibility are inherently
+    platform-specific. This is not a weakness — it is an intentional boundary. Trying to
+    abstract audio capture across platforms would be worse than two focused implementations.
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION D: TECHNICAL DEEP-DIVES (Slides 15-23)                -->
+<!-- ============================================================ -->
+
+<!-- Slide 15: Chord Detection Algorithm -->
+<section>
+  <h1>Deep Dive: Chord Detection</h1>
+  <p style="font-size:0.85em;"><em>How does tap-to-chord work?</em></p>
+  <ol style="font-size:0.75em;">
+    <li>User taps fret positions &rarr; list of <strong>pitch classes</strong> (0&ndash;11)</li>
+    <li>Remove duplicates</li>
+    <li>For each pitch class as candidate root, compute intervals:<br>
+        <code>interval = (pc - root + 12) % 12</code></li>
+    <li>Match interval set against <strong>20 chord formulas</strong></li>
+    <li>First match wins (triads prioritized); alternates collected</li>
+  </ol>
+  <aside class="notes">
+    Let me walk through the chord detection algorithm. It is elegant in its simplicity.
+    When you tap frets, the app gets a list of pitch class integers — 0 for C, 1 for C sharp,
+    up to 11 for B. It removes duplicates, then tries every note as a potential root.
+    For each candidate root, it computes the intervals using modular arithmetic.
+    Then it checks if that set of intervals matches any known chord formula.
+  </aside>
+</section>
+
+<!-- Slide 16: Chord Formulas as Data -->
+<section>
+  <h1>Chord Formulas: Music Theory as Data</h1>
+  <pre><code class="language-kotlin">data class ChordFormula(
+    val symbol: String,      // "m", "7", "dim"
+    val quality: String,     // "Minor", "Dominant 7th"
+    val intervals: Set&lt;Int&gt;, // {0, 3, 7} for minor
+    val aliases: List&lt;String&gt; // ["min", "-"]
+)
+
+// Detection is just a set comparison:
+if (intervals == formula.intervals) {
+    matches.add(candidateRoot to formula)
+}</code></pre>
+  <table style="font-size:0.7em; margin-top:0.6em;">
+    <tr><th>Chord</th><th>Intervals</th></tr>
+    <tr><td>Major</td><td>{0, 4, 7}</td></tr>
+    <tr><td>Minor</td><td>{0, 3, 7}</td></tr>
+    <tr><td>Diminished</td><td>{0, 3, 6}</td></tr>
+    <tr><td>Dominant 7th</td><td>{0, 4, 7, 10}</td></tr>
+  </table>
+  <aside class="notes">
+    The chord formulas are pure data. A major chord is the set {0, 4, 7} — root, major third,
+    perfect fifth. The detection is just a set comparison. This makes it trivially testable
+    and extendable — to add a new chord type, you add one data entry.
+  </aside>
+</section>
+
+<!-- Slide 17: YIN Pitch Detection Pipeline -->
+<section>
+  <h1>Deep Dive: YIN Pitch Detection</h1>
+  <p style="font-size:0.8em;"><em>From sound waves to note names</em></p>
+  <div class="pipeline">
+    <span class="step">Mic 44.1kHz PCM</span>
+    <span class="arrow">&rarr;</span>
+    <span class="step">Silence Gate</span>
+    <span class="arrow">&rarr;</span>
+    <span class="step">Difference Function (FFT)</span>
+    <br>
+    <span class="arrow">&darr;</span>
+    <br>
+    <span class="step">CMND Normalization</span>
+    <span class="arrow">&rarr;</span>
+    <span class="step">Threshold Search</span>
+    <span class="arrow">&rarr;</span>
+    <span class="step">Confidence Gate</span>
+    <br>
+    <span class="arrow">&darr;</span>
+    <br>
+    <span class="step">Best Local Estimate</span>
+    <span class="arrow">&rarr;</span>
+    <span class="step">Parabolic Interpolation</span>
+    <span class="arrow">&rarr;</span>
+    <span class="step">Frequency (Hz)</span>
+  </div>
+  <p style="font-size:0.65em; margin-top:0.3em;">
+    YIN algorithm (de Cheveigné &amp; Kawahara, 2002) &mdash; pure Kotlin, no external dependencies
+  </p>
+  <aside class="notes">
+    The tuner uses the YIN algorithm, published in 2002. I implemented it in pure Kotlin — no
+    native DSP libraries. The pipeline has 7 steps. Audio comes in at 44.1 kHz in 4096-sample
+    frames. A silence gate checks RMS amplitude. Then the difference function is computed using
+    FFT for O(N log N) performance. CMND smooths the result. A threshold search finds the first
+    dip below 0.15. Confidence gate rejects noisy frames. Then parabolic interpolation refines
+    the lag, which is converted to a frequency.
+  </aside>
+</section>
+
+<!-- Slide 18: YIN Key Insight -->
+<section>
+  <h1>YIN: The Key Insight</h1>
+  <blockquote style="font-size:0.8em;">
+    Slide the signal against itself at different offsets (lags).<br>
+    At the lag matching the signal's period, the difference is minimal.
+  </blockquote>
+  <pre><code class="language-kotlin">// Difference function: d(tau) = sum of (x[j] - x[j+tau])^2
+// Decomposed as:  d(tau) = E0 + E(tau) - 2*r(tau)
+// where r(tau) = cross-correlation via FFT  -->  O(N log N)
+
+val frequency = sampleRate.toDouble() / refinedTau</code></pre>
+  <ul style="font-size:0.75em;">
+    <li>Frame size: <strong>4096 samples</strong> (~93 ms at 44.1 kHz)</li>
+    <li>Hop size: 1024 samples &rarr; <strong>~43 updates/sec</strong></li>
+    <li>Range: 65&ndash;1100 Hz (covers all ukulele tunings)</li>
+  </ul>
+  <aside class="notes">
+    The intuition is simple. You slide the signal against itself at different offsets.
+    At the lag that matches the signal's period, the difference is minimal. Divide the
+    sample rate by the lag and you get the frequency. The clever part is using FFT to
+    compute this in O(N log N) instead of the naive quadratic approach.
+  </aside>
+</section>
+
+<!-- Slide 19: Neural Pitch Supervisor -->
+<section>
+  <h1>Neural Pitch Supervisor</h1>
+  <p style="font-size:0.8em;"><em>When classical meets neural</em></p>
+  <div class="hybrid-diagram">
+    <div>
+      <div class="hybrid-box" style="margin-bottom:12px;">
+        <strong>Audio Frame</strong><br><span style="font-size:0.8em;">~23 ms</span>
+      </div>
+    </div>
+    <div class="hybrid-arrow">&rarr;</div>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div class="hybrid-box">
+        <strong>YIN</strong><br>
+        <span style="font-size:0.8em;">Every frame<br>Low latency</span>
+      </div>
+      <div class="hybrid-box neural">
+        <strong>SwiftF0 (ONNX)</strong><br>
+        <span style="font-size:0.8em;">Every ~100 ms<br>Octave correction</span>
+      </div>
+    </div>
+    <div class="hybrid-arrow">&rarr;</div>
+    <div class="hybrid-box">
+      <strong>Arbitration</strong><br>
+      <span style="font-size:0.8em;">Agree? Trust YIN<br>Octave off? Trust neural<br>Both differ? Use confidence</span>
+    </div>
+    <div class="hybrid-arrow">&rarr;</div>
+    <div class="hybrid-box">
+      <strong>UI</strong>
+    </div>
+  </div>
+  <aside class="notes">
+    YIN is great but has limitations — octave errors on low strings, degradation in noise.
+    So I added a neural supervisor. SwiftF0 runs every 5th frame, about every 100 ms.
+    YIN still drives the needle on every frame for low-latency response. When they agree,
+    trust YIN for precision. If they disagree by an octave, trust the neural model.
+  </aside>
+</section>
+
+<!-- Slide 20: SwiftF0 Model -->
+<section>
+  <h1>SwiftF0: A Tiny Neural Network</h1>
+  <table>
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>Architecture</td><td>2D CNN</td></tr>
+    <tr><td>Parameters</td><td><strong>~95K</strong> (vs CREPE's 22M)</td></tr>
+    <tr><td>Model size</td><td><strong>398 KB</strong> ONNX</td></tr>
+    <tr><td>Input</td><td>Raw audio at 16 kHz</td></tr>
+    <tr><td>Output</td><td>Pitch (Hz) + confidence (0&ndash;1)</td></tr>
+    <tr><td>Inference</td><td>&lt;10 ms on mid-range phone</td></tr>
+    <tr><td>License</td><td>MIT</td></tr>
+  </table>
+  <p style="font-size:0.7em; margin-top:0.5em;">
+    Nieradzik 2025 &mdash; designed for on-device monophonic pitch tracking
+  </p>
+  <aside class="notes">
+    SwiftF0 is designed for exactly this use case. It is small enough to run on a phone
+    CPU without a GPU. I downsample from 44.1 kHz to 16 kHz. The model runs via
+    ONNX Runtime on both Android and iOS. The actual model is only 398 KB.
+  </aside>
+</section>
+
+<!-- Slide 21: Chromagram -->
+<section>
+  <h1>Chromagram: Audio Chord Detection</h1>
+  <p style="font-size:0.8em;"><em>From FFT to chord recognition</em></p>
+  <ol style="font-size:0.75em;">
+    <li>FFT magnitude spectrum (4096 bins)</li>
+    <li>Map each bin to a pitch class:<br>
+        <code>round(12 * log2(freq / C0)) mod 12</code></li>
+    <li>Accumulate energy into <strong>12 chroma bins</strong></li>
+    <li>Normalize so bins sum to 1.0</li>
+    <li>Match against chord formulas &mdash; <em>same algorithm as fretboard detection</em></li>
+  </ol>
+  <p style="font-size:0.7em; margin-top:0.5em;">
+    Same <code>ChordDetector</code> with different input &mdash; code reuse across features
+  </p>
+  <aside class="notes">
+    The app can also detect chords from audio, not just from fretboard taps. The chromagram
+    is a standard MIR technique. Take the FFT, map each frequency bin to one of 12 pitch
+    classes, accumulate energy, normalize, and feed that into the same chord formula matcher.
+  </aside>
+</section>
+
+<!-- Slide 22: Pure-Kotlin FFT -->
+<section>
+  <h1>Pure-Kotlin FFT</h1>
+  <p style="font-size:0.8em;"><em>No dependencies, no excuses</em></p>
+  <pre><code class="language-kotlin">object FFTProcessor {
+    // Cached twiddle factors — computed once per FFT size,
+    // reused across ~43 frames/second
+    private val twiddleCache = HashMap&lt;Int, TwiddleFactors&gt;()
+
+    fun fft(real: FloatArray, imag: FloatArray) { /* ... */ }
+    fun ifft(real: FloatArray, imag: FloatArray) { /* ... */ }
+    fun magnitudeSpectrum(real: FloatArray, imag: FloatArray): FloatArray
+    fun hanningWindow(samples: FloatArray): FloatArray
+}</code></pre>
+  <ul style="font-size:0.75em;">
+    <li>Radix-2 Cooley&ndash;Tukey, power-of-2 sizes</li>
+    <li>Bit-reversal permutation + butterfly stages</li>
+    <li>Used by: PitchDetector, Chromagram, audio analysis</li>
+    <li>Runs on <strong>both Android and iOS</strong> via KMP</li>
+  </ul>
+  <aside class="notes">
+    I wrote the FFT from scratch in Kotlin. Radix-2 Cooley-Tukey. Twiddle factors are
+    cached so they are computed once per FFT size and reused across the roughly 43 frames
+    per second. This runs on both Android and iOS through the shared KMP module.
+    No JNI, no native libraries. Just math.
+  </aside>
+</section>
+
+<!-- Slide 23: Voicing Generation -->
+<section>
+  <h1>Algorithmic Chord Voicings</h1>
+  <p style="font-size:0.8em;">Voicings are <strong>not stored</strong> &mdash; they are <strong>generated at runtime</strong></p>
+  <ol style="font-size:0.75em;">
+    <li>Given root + chord formula &rarr; required pitch classes</li>
+    <li>Enumerate fret position combinations across 4 strings</li>
+    <li>Filter: each string must contribute a required pitch class</li>
+    <li>Rank by playability (spread, open strings, barre potential)</li>
+  </ol>
+  <blockquote style="font-size:0.75em; margin-top:0.5em;">
+    Adding a new chord formula <strong>automatically generates</strong> voicings for every root note
+  </blockquote>
+  <aside class="notes">
+    The chord library does not have a database of voicings. Given a root note and a chord
+    formula, it enumerates combinations of fret positions across 4 strings, filters for
+    valid combinations, and ranks by playability. Adding a new chord formula automatically
+    generates its voicings — zero manual work.
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION E: QUALITY & ACCESSIBILITY (Slides 24-27)             -->
+<!-- ============================================================ -->
+
+<!-- Slide 24: Testing Strategy -->
+<section>
+  <h1>Testing Strategy</h1>
+  <table>
+    <tr><th>Layer</th><th>Tool</th><th>Purpose</th></tr>
+    <tr>
+      <td>Unit tests</td>
+      <td>kotlin.test</td>
+      <td>Domain logic, data models</td>
+    </tr>
+    <tr>
+      <td>Property-based</td>
+      <td>Kotest</td>
+      <td>Thousands of random inputs per test</td>
+    </tr>
+    <tr>
+      <td>Fuzz tests</td>
+      <td>Jazzer</td>
+      <td>Adversarial inputs: NaN, Infinity, huge buffers</td>
+    </tr>
+  </table>
+  <ul style="font-size:0.75em; margin-top:0.5em;">
+    <li>CI: GitHub Actions on every push and PR</li>
+    <li>Coverage: 86.8% instruction coverage (Kover)</li>
+    <li>39 test files in shared + 7 in app</li>
+  </ul>
+  <aside class="notes">
+    Testing audio and music algorithms is tricky — edge cases are everywhere. I use three
+    layers. Standard unit tests. Property-based tests with Kotest that verify invariants
+    like transposing up then down returns the original. And fuzz tests with Jazzer that
+    throw adversarial data to ensure nothing crashes.
+  </aside>
+</section>
+
+<!-- Slide 25: Property-Based Testing -->
+<section>
+  <h1>Property-Based Testing</h1>
+  <pre><code class="language-kotlin">// Invariant: detect() never throws, regardless of input
+@FuzzTest
+fun fuzzDetect(data: FuzzedDataProvider) {
+    val sampleRate = data.consumeInt(8_000, 192_000)
+    val size = data.consumeInt(0, 16_384)
+    val samples = FloatArray(size) {
+        data.consumeFloat()  // NaN, Inf, denormals...
+    }
+    PitchDetector.detect(samples, sampleRate)
+}
+
+// Property: transpose(n) then transpose(-n) == identity
+checkAll(Arb.int(0..11), Arb.int(-12..12)) { pc, n -&gt;
+    val result = transpose(transpose(pc, n), -n)
+    result shouldBe pc
+}</code></pre>
+  <aside class="notes">
+    Here is what the tests look like. Jazzer generates structured random data. The fuzz
+    test asserts that detect() does not throw. The property test verifies that transpose
+    is its own inverse. These have found real bugs: denormalized floats, division by zero.
+  </aside>
+</section>
+
+<!-- Slide 26: Accessibility -->
+<section>
+  <h1>Accessibility: Not an Afterthought</h1>
+  <p style="font-size:0.8em;"><em>Designed for blind and visually impaired musicians</em></p>
+  <ul style="font-size:0.8em;">
+    <li><strong>TalkBack</strong> (Android) + <strong>VoiceOver</strong> (iOS) on every element</li>
+    <li>Heading semantics for screen reader navigation</li>
+    <li>Live regions: tuner readings announced in real time</li>
+    <li>Canvas components (tuner, fretboard, chord diagrams) have text alternatives</li>
+    <li>High-contrast theme + left-handed mode</li>
+  </ul>
+  <blockquote style="font-size:0.7em;">
+    "Breaking accessibility is treated as seriously as breaking functionality"
+    &mdash; AGENTS.md
+  </blockquote>
+  <aside class="notes">
+    A core user base includes blind and visually impaired musicians. This is not a
+    nice-to-have — it is a design constraint. Every code change must preserve accessibility.
+    The tuner uses live regions so screen readers announce the detected note as it changes.
+    The fretboard and chord diagrams have text alternatives.
+  </aside>
+</section>
+
+<!-- Slide 27: Localization -->
+<section>
+  <h1>Localization: 16 Languages</h1>
+  <div class="stats-bar" style="font-size:0.8em;">
+    <span class="stat">ar</span><span class="stat">de</span><span class="stat">es</span>
+    <span class="stat">fr</span><span class="stat">hi</span><span class="stat">in</span>
+    <span class="stat">it</span><span class="stat">ja</span><span class="stat">ko</span>
+    <span class="stat">nl</span><span class="stat">pl</span><span class="stat">pt</span>
+    <span class="stat">ru</span><span class="stat">tr</span><span class="stat">zh</span>
+    <span class="stat" style="background:rgba(196,92,45,0.15);">en</span>
+  </div>
+  <table style="font-size:0.7em; margin-top:0.5em;">
+    <tr><th>Platform</th><th>Format</th><th>Approach</th></tr>
+    <tr><td>Android</td><td><code>values-XX/strings.xml</code></td><td>One file per locale</td></tr>
+    <tr><td>iOS</td><td><code>Localizable.xcstrings</code></td><td>Single JSON for all locales</td></tr>
+  </table>
+  <p style="font-size:0.7em; margin-top:0.5em;">
+    RTL support for Arabic &mdash; doing localization early saves enormous pain later
+  </p>
+  <aside class="notes">
+    The app ships in 16 languages. On Android, each locale has its own strings.xml.
+    On iOS, Apple uses a single JSON file. We have tooling to add a new string to all
+    15 non-English locales at once. RTL support works for Arabic.
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION F: OPEN SOURCE & LESSONS (Slides 28-31)               -->
+<!-- ============================================================ -->
+
+<!-- Slide 28: Open Source Infrastructure -->
+<section>
+  <h1>Open Source Infrastructure</h1>
+  <ul style="font-size:0.85em;">
+    <li><strong>MIT license</strong> &mdash; the simplest permissive license</li>
+    <li>CONTRIBUTING.md, CODE_OF_CONDUCT.md</li>
+    <li><strong>6 GitHub Actions workflows</strong>: Android, iOS, fuzz, docs, stress, claude</li>
+    <li>Documentation site built with <strong>MkDocs</strong></li>
+    <li><strong>AGENTS.md</strong>: rules for AI coding assistants</li>
+  </ul>
+  <aside class="notes">
+    This is a proper open-source project, not just code on GitHub. There is a contributing
+    guide, code of conduct, CI on every push, a documentation site. The AGENTS.md file
+    encodes the project's non-negotiable constraints: must stay offline, must preserve
+    accessibility, no analytics or tracking.
+  </aside>
+</section>
+
+<!-- Slide 29: AI-Assisted Development -->
+<section>
+  <h1>AI-Assisted Development</h1>
+  <ul style="font-size:0.85em;">
+    <li>Cursor rules auto-enforce patterns when editing files</li>
+    <li><strong>AGENTS.md</strong> encodes constraints for any AI agent</li>
+    <li>AI used for: code generation, test writing, accessibility audits</li>
+    <li>Cross-platform parity checks between Android and iOS</li>
+  </ul>
+  <blockquote style="font-size:0.7em;">
+    AI accelerates; <strong>rules prevent drift</strong><br>
+    "Offline, no telemetry, accessibility is non-negotiable" &mdash; enforced by configuration, not trust
+  </blockquote>
+  <aside class="notes">
+    I want to be honest about AI's role. AI coding tools were used extensively. But the key
+    insight is that you need guardrails. Cursor rules auto-attach when you edit a Compose
+    file and enforce TalkBack patterns. AGENTS.md tells any AI assistant: this app is offline,
+    no telemetry, accessibility is non-negotiable.
+  </aside>
+</section>
+
+<!-- Slide 30: Lessons Learned -->
+<section>
+  <h1>Lessons Learned</h1>
+  <ol style="font-size:0.8em;">
+    <li><strong>Push logic into the shared module</strong> &mdash; platform code handles platform APIs only</li>
+    <li><strong>Accessibility from day one</strong> &mdash; it's 10x harder to add later</li>
+    <li><strong>Offline-first is a feature</strong>, not a limitation &mdash; users trust what they control</li>
+    <li><strong>Property-based testing</strong> catches bugs humans would never write test cases for</li>
+    <li><strong>Parity is a product feature</strong> &mdash; not done when screens match, done when behavior is identical</li>
+  </ol>
+  <aside class="notes">
+    Five lessons. First, maximize shared code. Second, accessibility from the start — I tried
+    adding TalkBack after the fact once and it took three times as long. Third, I shipped
+    cloud sync and then removed it. Fourth, property-based testing found real bugs.
+    Fifth, iOS parity is ongoing work.
+  </aside>
+</section>
+
+<!-- Slide 31: Product Decisions -->
+<section>
+  <h1>Product Decisions That Mattered</h1>
+  <ul style="font-size:0.85em;">
+    <li>
+      <strong>Shipped Google Drive sync &rarr; Removed it in v5.0</strong><br>
+      <span style="font-size:0.85em;">Local backup/restore only &mdash; aligns with offline-first promise</span>
+    </li>
+    <li>
+      <strong>No ads, no analytics, no telemetry &mdash; ever</strong><br>
+      <span style="font-size:0.85em;">Privacy policy is one sentence: "This app does not collect any data"</span>
+    </li>
+    <li>
+      <strong>MIT license</strong><br>
+      <span style="font-size:0.85em;">Removes all friction for contributors</span>
+    </li>
+  </ul>
+  <aside class="notes">
+    Some product decisions defined the project more than any code. Removing cloud sync
+    was hard but right. Zero analytics means I don't know my active user count, but
+    that is acceptable. MIT license removes all friction for contributors.
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION G: CLOSING (Slides 32-33)                             -->
+<!-- ============================================================ -->
+
+<!-- Slide 32: Get Involved -->
+<section>
+  <h1>Get Involved</h1>
+  <p style="font-size:0.9em;">
+    <code>github.com/baijum/ukulele-companion</code>
+  </p>
+  <ul style="font-size:0.8em;">
+    <li>Contributions welcome: features, translations, bug fixes, docs</li>
+    <li>Available on <strong>Google Play</strong> and <strong>App Store</strong></li>
+    <li>Companion book: <em>"The Complete Ukulele Learning Book"</em> (free PDF on archive.org)</li>
+  </ul>
+  <aside class="notes">
+    The project is on GitHub. If you play ukulele, try the app. If you write Kotlin,
+    SwiftUI, or want to learn KMP, contributions are welcome. We particularly need help
+    with translations, accessibility testing, and new strumming patterns.
+  </aside>
+</section>
+
+<!-- Slide 33: Thank You -->
+<section data-state="lead" class="lead">
+  <img src="img/app-icon-512.png" alt="Ukulele Companion icon" width="130"
+       style="border-radius:24px; filter:drop-shadow(0 6px 18px rgba(0,0,0,0.35)); margin-bottom:0.5em;">
+  <h1>Thank You!</h1>
+  <h2>Questions?</h2>
+  <p style="font-size:0.7em; margin-top:1em;">
+    <code>github.com/baijum/ukulele-companion</code>
+  </p>
+  <aside class="notes">
+    Thank you. I have time for questions. I can also do a quick live demo if anyone wants
+    to see the tuner or chord detection in action on a real phone.
+  </aside>
+</section>
+
+</div><!-- .slides -->
+</div><!-- .reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true,
+    transition: 'slide',
+    plugins: [RevealHighlight, RevealNotes]
+  });
+</script>
+</body>
+</html>
