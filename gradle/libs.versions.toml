@@ -8,7 +8,7 @@ appcompat = "1.7.1"
 coreKtx = "1.18.0"
 
 kotlinxCoroutines = "1.10.2"
-kotlinxSerializationJson = "1.10.0"
+kotlinxSerializationJson = "1.11.0"
 kotlinxSerialization = "2.3.10"
 reorderable = "3.0.0"
 onnxruntime = "1.24.3"
