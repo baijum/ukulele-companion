@@ -70,6 +70,11 @@ struct MelodyNotepadView: View {
                 renameName = ""
             }
         }
+        .onDisappear {
+            if viewModel.isRecording {
+                viewModel.stopRecording()
+            }
+        }
     }
 
     private var modeToggle: some View {

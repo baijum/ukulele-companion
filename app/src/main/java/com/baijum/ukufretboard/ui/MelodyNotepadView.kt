@@ -52,6 +52,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -105,6 +106,10 @@ fun MelodyNotepadView(
     var showRenameDialog by remember { mutableStateOf<Melody?>(null) }
     var showMenu by remember { mutableStateOf(false) }
     var bpmSliderValue by remember(state.bpm) { mutableFloatStateOf(state.bpm.toFloat()) }
+
+    DisposableEffect(Unit) {
+        onDispose { viewModel.stopRecording() }
+    }
 
     Column(
         modifier = modifier
@@ -692,11 +697,13 @@ private fun InputModeSection(
             onOctaveUp = onOctaveUp,
             onOctaveDown = onOctaveDown,
         )
-        MelodyInputMode.RECORD -> RecordInputContent(
-            state = state,
-            onStartRecording = onStartRecording,
-            onStopRecording = onStopRecording,
-        )
+        MelodyInputMode.RECORD -> RequireMicPermission {
+            RecordInputContent(
+                state = state,
+                onStartRecording = onStartRecording,
+                onStopRecording = onStopRecording,
+            )
+        }
     }
 }
 
