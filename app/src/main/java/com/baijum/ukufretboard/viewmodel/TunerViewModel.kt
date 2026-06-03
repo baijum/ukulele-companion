@@ -373,6 +373,16 @@ class TunerViewModel : ViewModel() {
 
     /**
      * Stops listening and releases the microphone.
+     *
+     * Internal processing state ([recentFrequencies], [previousFrequency], etc.)
+     * is deliberately **not** cleared here because [processBuffer] may still
+     * be executing on a background thread ([kotlinx.coroutines.Dispatchers.Default]).
+     * Clearing a non-thread-safe [ArrayDeque] from the main thread while the
+     * background thread iterates it causes a [ConcurrentModificationException]
+     * (or [IndexOutOfBoundsException]) that crashes the Activity.
+     *
+     * The internal state is reset in [startTuning] instead, before any
+     * new background work begins.
      */
     fun stopTuning() {
         AudioCaptureEngine.stop()
@@ -389,23 +399,6 @@ class TunerViewModel : ViewModel() {
                 lastSettledCents = 0.0,
             )
         }
-        recentFrequencies.clear()
-        inTuneFrames = 0
-        previousRms = 0f
-        rmsEma = 0f
-        blankingFramesRemaining = 0
-        lostSignalFrames = 0
-        previousFrequency = null
-        displayCentsFiltered = 0.0
-        settledNoteName = null
-        settledNoteFrames = 0
-        settledNoteCents = 0.0
-        neuralFrameCounter = 0
-        lastNeuralResult = null
-        neuralResultAgeFrames = Int.MAX_VALUE
-        consecutiveNeuralFailures = 0
-        lastNeuralFrequencyForConsistency = null
-        neuralConsistencyFrames = 0
     }
 
     /**
@@ -432,8 +425,15 @@ class TunerViewModel : ViewModel() {
 
     /**
      * Processes a single audio buffer through pitch detection and note mapping.
+     *
+     * Called on [kotlinx.coroutines.Dispatchers.Default] from the capture
+     * coroutine. A final buffer may arrive after [stopTuning] has already
+     * set [TunerUiState.isListening] to `false`; the early-return guard
+     * below prevents stale data from briefly flashing in the UI and avoids
+     * a [ConcurrentModificationException] on [recentFrequencies].
      */
     private fun processBuffer(samples: FloatArray) {
+        if (!_uiState.value.isListening) return
         // --- Onset detection (adaptive) -------------------------------------
         // Detect sudden energy spikes (pluck attacks) using an adaptive
         // threshold based on a running EMA of recent RMS values. This makes
