@@ -117,7 +117,10 @@ class PracticeTimerRepository(context: Context) {
             putInt(KEY_TOTAL_SESSIONS, maxOf(totalSessions(), data.totalSessions))
             putInt(KEY_LONGEST_SESSION, maxOf(longestSession(), data.longestSession))
             putLong(KEY_LAST_SESSION, maxOf(lastSessionTime(), data.lastSessionTime))
-            putInt(KEY_DAILY_GOAL, data.dailyGoal)
+            val incomingGoal = data.dailyGoal.coerceIn(5, 120)
+            if (incomingGoal != DEFAULT_DAILY_GOAL) {
+                putInt(KEY_DAILY_GOAL, incomingGoal)
+            }
             data.dailyMinutes.forEach { (day, minutes) ->
                 val key = "$KEY_DAY_MINUTES$day"
                 val existing = prefs.getInt(key, 0)
