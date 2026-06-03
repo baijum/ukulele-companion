@@ -92,6 +92,44 @@ class PracticeTimerRepository(context: Context) {
         lastSessionTime = lastSessionTime(),
     )
 
+    /** Exports all practice timer data for backup. */
+    fun exportAll(): PracticeTimerExport {
+        val dailyMinutes = mutableMapOf<String, Int>()
+        prefs.all.forEach { (key, value) ->
+            if (key.startsWith(KEY_DAY_MINUTES) && value is Int) {
+                dailyMinutes[key.removePrefix(KEY_DAY_MINUTES)] = value
+            }
+        }
+        return PracticeTimerExport(
+            totalMinutes = totalMinutes(),
+            totalSessions = totalSessions(),
+            longestSession = longestSession(),
+            lastSessionTime = lastSessionTime(),
+            dailyGoal = dailyGoal(),
+            dailyMinutes = dailyMinutes,
+        )
+    }
+
+    /** Imports practice timer data from backup, using max-merge for cumulative stats. */
+    fun importAll(data: PracticeTimerExport) {
+        prefs.edit().apply {
+            putInt(KEY_TOTAL_MINUTES, maxOf(totalMinutes(), data.totalMinutes))
+            putInt(KEY_TOTAL_SESSIONS, maxOf(totalSessions(), data.totalSessions))
+            putInt(KEY_LONGEST_SESSION, maxOf(longestSession(), data.longestSession))
+            putLong(KEY_LAST_SESSION, maxOf(lastSessionTime(), data.lastSessionTime))
+            val incomingGoal = data.dailyGoal.coerceIn(5, 120)
+            if (incomingGoal != DEFAULT_DAILY_GOAL) {
+                putInt(KEY_DAILY_GOAL, incomingGoal)
+            }
+            data.dailyMinutes.forEach { (day, minutes) ->
+                val key = "$KEY_DAY_MINUTES$day"
+                val existing = prefs.getInt(key, 0)
+                putInt(key, maxOf(existing, minutes))
+            }
+            apply()
+        }
+    }
+
     /** Clears all practice time data. */
     fun clearAll() {
         prefs.edit().clear().apply()
@@ -113,6 +151,18 @@ class PracticeTimerRepository(context: Context) {
         private const val DEFAULT_DAILY_GOAL = 15
     }
 }
+
+/**
+ * All practice timer data for backup export/import.
+ */
+data class PracticeTimerExport(
+    val totalMinutes: Int = 0,
+    val totalSessions: Int = 0,
+    val longestSession: Int = 0,
+    val lastSessionTime: Long = 0L,
+    val dailyGoal: Int = 15,
+    val dailyMinutes: Map<String, Int> = emptyMap(),
+)
 
 /**
  * Snapshot of practice time statistics.

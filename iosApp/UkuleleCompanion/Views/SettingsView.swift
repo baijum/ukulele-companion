@@ -11,6 +11,7 @@ struct SettingsView: View {
     @StateObject private var learnVM = LearnViewModel()
     @StateObject private var practiceTimerVM = PracticeTimerViewModel()
     @EnvironmentObject var customPatternsVM: CustomPatternsViewModel
+    @StateObject private var setlistVM = SetlistViewModel()
     @State private var backupManager: BackupRestoreManager?
     @State private var backupDocument: BackupDocument?
     @State private var showExporter = false
@@ -292,6 +293,7 @@ struct SettingsView: View {
                 learnVM: learnVM,
                 practiceTimerVM: practiceTimerVM,
                 customPatternsVM: customPatternsVM,
+                setlistVM: setlistVM,
                 settingsVM: viewModel
             )
         }

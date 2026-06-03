@@ -12,6 +12,7 @@ final class BackupRestoreManager: ObservableObject {
     private let learnVM: LearnViewModel
     private let practiceTimerVM: PracticeTimerViewModel
     private let customPatternsVM: CustomPatternsViewModel
+    private let setlistVM: SetlistViewModel
     private let settingsVM: SettingsViewModel
 
     init(
@@ -22,6 +23,7 @@ final class BackupRestoreManager: ObservableObject {
         learnVM: LearnViewModel,
         practiceTimerVM: PracticeTimerViewModel,
         customPatternsVM: CustomPatternsViewModel,
+        setlistVM: SetlistViewModel,
         settingsVM: SettingsViewModel
     ) {
         self.favoritesVM = favoritesVM
@@ -31,6 +33,7 @@ final class BackupRestoreManager: ObservableObject {
         self.learnVM = learnVM
         self.practiceTimerVM = practiceTimerVM
         self.customPatternsVM = customPatternsVM
+        self.setlistVM = setlistVM
         self.settingsVM = settingsVM
     }
 
@@ -50,6 +53,7 @@ final class BackupRestoreManager: ObservableObject {
             "practice_timer": practiceTimerVM.exportData(),
             "custom_strum_patterns": customPatternsVM.exportStrumData(),
             "custom_fingerpicking_patterns": customPatternsVM.exportFingerpickData(),
+            "setlists": setlistVM.exportData(),
         ]
         return (try? JSONSerialization.data(withJSONObject: backup, options: .prettyPrinted)) ?? Data()
     }
@@ -88,6 +92,9 @@ final class BackupRestoreManager: ObservableObject {
         }
         if let fpData = json["custom_fingerpicking_patterns"] as? [[String: Any]] {
             customPatternsVM.importFingerpickData(fpData)
+        }
+        if let setlists = json["setlists"] as? [[String: Any]] {
+            setlistVM.importData(setlists)
         }
     }
 
