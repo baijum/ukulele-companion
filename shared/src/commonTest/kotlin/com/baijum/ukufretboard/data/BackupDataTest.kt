@@ -5,6 +5,7 @@ import com.baijum.ukufretboard.data.sync.BackupData
 import com.baijum.ukufretboard.data.sync.BackupFavorite
 import com.baijum.ukufretboard.data.sync.BackupFavoriteFolder
 import com.baijum.ukufretboard.data.sync.BackupLearningProgress
+import com.baijum.ukufretboard.data.sync.BackupPracticeTimer
 import com.baijum.ukufretboard.data.sync.BackupSetlist
 import com.baijum.ukufretboard.data.sync.BackupSettings
 import kotlinx.serialization.encodeToString
@@ -99,6 +100,7 @@ class BackupDataTest {
         assertTrue(data.melodies.isEmpty())
         assertTrue(data.knownChords.isEmpty())
         assertTrue(data.setlists.isEmpty())
+        assertTrue(data.achievements.isEmpty())
     }
 
     @Test
@@ -183,5 +185,58 @@ class BackupDataTest {
         assertEquals(0L, decoded.chordSheets[0].lastViewedAt)
         assertEquals(0L, decoded.chordSheets[0].totalViewTimeMs)
         assertTrue(decoded.setlists.isEmpty())
+        assertTrue(decoded.achievements.isEmpty())
+        assertEquals(BackupPracticeTimer(), decoded.practiceTimer)
+    }
+
+    @Test
+    fun backupWithAchievementsRoundTrips() {
+        val achievements = mapOf(
+            "first_chord" to 1000L,
+            "ten_songs" to 2000L,
+        )
+        val data = BackupData(
+            exportedAt = 12345L,
+            achievements = achievements,
+        )
+        val jsonStr = json.encodeToString(data)
+        val decoded = json.decodeFromString<BackupData>(jsonStr)
+        assertEquals(2, decoded.achievements.size)
+        assertEquals(1000L, decoded.achievements["first_chord"])
+        assertEquals(2000L, decoded.achievements["ten_songs"])
+    }
+
+    @Test
+    fun backupWithPracticeTimerRoundTrips() {
+        val timer = BackupPracticeTimer(
+            totalMinutes = 120,
+            totalSessions = 15,
+            longestSession = 30,
+            lastSessionTime = 99999L,
+            dailyGoal = 20,
+            dailyMinutes = mapOf("2026-06-01" to 25, "2026-06-02" to 15),
+        )
+        val data = BackupData(
+            exportedAt = 12345L,
+            practiceTimer = timer,
+        )
+        val jsonStr = json.encodeToString(data)
+        val decoded = json.decodeFromString<BackupData>(jsonStr)
+        assertEquals(120, decoded.practiceTimer.totalMinutes)
+        assertEquals(15, decoded.practiceTimer.totalSessions)
+        assertEquals(30, decoded.practiceTimer.longestSession)
+        assertEquals(99999L, decoded.practiceTimer.lastSessionTime)
+        assertEquals(20, decoded.practiceTimer.dailyGoal)
+        assertEquals(2, decoded.practiceTimer.dailyMinutes.size)
+        assertEquals(25, decoded.practiceTimer.dailyMinutes["2026-06-01"])
+    }
+
+    @Test
+    fun defaultAchievementsAndPracticeTimerAreEmpty() {
+        val data = BackupData()
+        assertTrue(data.achievements.isEmpty())
+        assertEquals(0, data.practiceTimer.totalMinutes)
+        assertEquals(0, data.practiceTimer.totalSessions)
+        assertTrue(data.practiceTimer.dailyMinutes.isEmpty())
     }
 }

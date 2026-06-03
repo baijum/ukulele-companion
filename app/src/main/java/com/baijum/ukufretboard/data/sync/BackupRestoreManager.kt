@@ -1,6 +1,7 @@
 package com.baijum.ukufretboard.data.sync
 
 import android.content.Context
+import com.baijum.ukufretboard.data.AchievementRepository
 import com.baijum.ukufretboard.data.ChordSheetRepository
 import com.baijum.ukufretboard.data.CustomFingerpickingPatternRepository
 import com.baijum.ukufretboard.data.CustomProgressionRepository
@@ -13,13 +14,10 @@ import com.baijum.ukufretboard.data.Melody
 import com.baijum.ukufretboard.data.MelodyNote
 import com.baijum.ukufretboard.data.MelodyRepository
 import com.baijum.ukufretboard.data.NoteDuration
-import com.baijum.ukufretboard.data.AppSettings
-import com.baijum.ukufretboard.data.SoundSettings
-import com.baijum.ukufretboard.data.DisplaySettings
-import com.baijum.ukufretboard.data.FretboardSettings
-
+import com.baijum.ukufretboard.data.PracticeTimerRepository
+import com.baijum.ukufretboard.data.Setlist
+import com.baijum.ukufretboard.data.SetlistRepository
 import com.baijum.ukufretboard.data.ThemeMode
-import com.baijum.ukufretboard.data.TuningSettings
 import com.baijum.ukufretboard.data.UkuleleTuning
 import com.baijum.ukufretboard.viewmodel.SettingsViewModel
 import kotlinx.serialization.json.Json
@@ -48,6 +46,9 @@ class BackupRestoreManager(
     private val fingerpickingRepo by lazy { CustomFingerpickingPatternRepository(context) }
     private val learningProgressRepo by lazy { LearningProgressRepository(context) }
     private val melodyRepo by lazy { MelodyRepository(context) }
+    private val setlistRepo by lazy { SetlistRepository(context) }
+    private val achievementRepo by lazy { AchievementRepository(context) }
+    private val practiceTimerRepo by lazy { PracticeTimerRepository(context) }
     /**
      * Collects all user data from all repositories and serializes to JSON.
      *
@@ -157,6 +158,26 @@ class BackupRestoreManager(
             learningProgress = BackupLearningProgress(
                 entries = learningProgressRepo.exportAll(),
             ),
+            setlists = setlistRepo.getAll().map { sl ->
+                BackupSetlist(
+                    id = sl.id,
+                    name = sl.name,
+                    songIds = sl.songIds,
+                    createdAt = sl.createdAt,
+                    updatedAt = sl.updatedAt,
+                )
+            },
+            achievements = achievementRepo.exportAll(),
+            practiceTimer = practiceTimerRepo.exportAll().let { pt ->
+                BackupPracticeTimer(
+                    totalMinutes = pt.totalMinutes,
+                    totalSessions = pt.totalSessions,
+                    longestSession = pt.longestSession,
+                    lastSessionTime = pt.lastSessionTime,
+                    dailyGoal = pt.dailyGoal,
+                    dailyMinutes = pt.dailyMinutes,
+                )
+            },
             settings = settingsViewModel.exportSettings().let { s ->
                 BackupSettings(
                     soundEnabled = s.sound.enabled,
@@ -184,10 +205,13 @@ class BackupRestoreManager(
      * Deserializes a JSON backup string and imports all data into local storage.
      *
      * Merge strategy:
-     * - Favorites, folders, chord sheets, progressions, patterns: union merge
+     * - Favorites, folders, chord sheets, progressions, patterns, setlists: union merge
      *   (existing data is preserved, new data is added).
-     * - Learning progress: merged (entries are combined).
-     * - Settings: replaced with backup values.
+     * - Learning progress, achievements: merged (entries are combined).
+     * - Practice timer: max-merge (cumulative stats keep the higher value).
+     * - Settings: backup fields are merged into the current settings so that
+     *   settings not covered by the backup (scale practice, tuner, noise gate,
+     *   onboarding, etc.) are preserved at their current values.
      *
      * @param jsonContent The JSON string from a backup file.
      */
@@ -254,11 +278,39 @@ class BackupRestoreManager(
         // --- Learning progress ---
         learningProgressRepo.importAll(backup.learningProgress.entries)
 
-        // --- Settings (replace) ---
+        // --- Setlists ---
+        setlistRepo.importAll(backup.setlists.map { sl ->
+            Setlist(
+                id = sl.id,
+                name = sl.name,
+                songIds = sl.songIds,
+                createdAt = sl.createdAt,
+                updatedAt = sl.updatedAt,
+            )
+        })
+
+        // --- Achievements ---
+        achievementRepo.importAll(backup.achievements)
+
+        // --- Practice timer ---
+        practiceTimerRepo.importAll(
+            com.baijum.ukufretboard.data.PracticeTimerExport(
+                totalMinutes = backup.practiceTimer.totalMinutes,
+                totalSessions = backup.practiceTimer.totalSessions,
+                longestSession = backup.practiceTimer.longestSession,
+                lastSessionTime = backup.practiceTimer.lastSessionTime,
+                dailyGoal = backup.practiceTimer.dailyGoal,
+                dailyMinutes = backup.practiceTimer.dailyMinutes,
+            )
+        )
+
+        // --- Settings (merge into current -- backup only covers a subset of
+        //     AppSettings, so we must preserve fields that were never exported) ---
+        val current = settingsViewModel.exportSettings()
         val bs = backup.settings
         settingsViewModel.replaceAll(
-            AppSettings(
-                sound = SoundSettings(
+            current.copy(
+                sound = current.sound.copy(
                     enabled = bs.soundEnabled,
                     volume = bs.volume,
                     noteDurationMs = bs.noteDurationMs,
@@ -266,24 +318,24 @@ class BackupRestoreManager(
                     strumDown = bs.strumDown,
                     playOnTap = bs.playOnTap,
                 ),
-                display = DisplaySettings(
+                display = current.display.copy(
                     themeMode = try {
                         ThemeMode.valueOf(bs.themeMode)
                     } catch (_: Exception) {
-                        ThemeMode.SYSTEM
+                        current.display.themeMode
                     },
                     showExplorerTips = bs.showExplorerTips,
                     showLearnSection = bs.showLearnSection,
                     showReferenceSection = bs.showReferenceSection,
                 ),
-                tuning = TuningSettings(
+                tuning = current.tuning.copy(
                     tuning = try {
                         UkuleleTuning.valueOf(bs.tuning)
                     } catch (_: Exception) {
-                        UkuleleTuning.HIGH_G
+                        current.tuning.tuning
                     },
                 ),
-                fretboard = FretboardSettings(
+                fretboard = current.fretboard.copy(
                     leftHanded = bs.leftHanded,
                     lastFret = bs.lastFret,
                     showNoteNames = bs.showNoteNames,

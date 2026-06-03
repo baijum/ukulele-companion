@@ -35,6 +35,8 @@ data class BackupData(
     val melodies: List<BackupMelody> = emptyList(),
     val learningProgress: BackupLearningProgress = BackupLearningProgress(),
     val settings: BackupSettings = BackupSettings(),
+    val achievements: Map<String, Long> = emptyMap(),
+    val practiceTimer: BackupPracticeTimer = BackupPracticeTimer(),
     val knownChords: List<String> = emptyList(),
 ) {
     companion object {
@@ -231,6 +233,27 @@ data class BackupMelodyNote(
 @Serializable
 data class BackupLearningProgress(
     val entries: Map<String, String> = emptyMap(),
+)
+
+// =============================================================================
+// Practice Timer
+// =============================================================================
+
+/**
+ * Serializable snapshot of practice timer statistics for backup.
+ *
+ * Import uses max-merge for cumulative stats so restoring never loses progress.
+ *
+ * @property dailyMinutes Per-day practice minutes keyed by "yyyy-MM-dd".
+ */
+@Serializable
+data class BackupPracticeTimer(
+    val totalMinutes: Int = 0,
+    val totalSessions: Int = 0,
+    val longestSession: Int = 0,
+    val lastSessionTime: Long = 0L,
+    val dailyGoal: Int = 15,
+    val dailyMinutes: Map<String, Int> = emptyMap(),
 )
 
 // =============================================================================
