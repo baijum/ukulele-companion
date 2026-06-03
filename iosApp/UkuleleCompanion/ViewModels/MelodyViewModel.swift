@@ -267,7 +267,24 @@ final class MelodyViewModel: ObservableObject {
     }
 
     func startRecording() {
-        isRecording = true
+        Task { @MainActor in
+            let granted: Bool
+            if #available(iOS 17.0, *) {
+                granted = await AVAudioApplication.requestRecordPermission()
+            } else {
+                granted = await withCheckedContinuation { continuation in
+                    AVAudioSession.sharedInstance().requestRecordPermission { g in
+                        continuation.resume(returning: g)
+                    }
+                }
+            }
+            if granted {
+                beginCapture()
+            }
+        }
+    }
+
+    private func beginCapture() {
         stableCount = 0
         lastDetectedPitchClass = nil
 
@@ -330,6 +347,7 @@ final class MelodyViewModel: ObservableObject {
         }
 
         audioEngine.start()
+        isRecording = true
     }
 
     func stopRecording() {
