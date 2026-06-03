@@ -446,6 +446,20 @@ class MelodyViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Stops recording and releases the microphone.
+     *
+     * Internal processing state ([recentFrequencies], [previousFrequency], etc.)
+     * is deliberately **not** cleared here because [processRecordingBuffer] may
+     * still be executing on a background thread
+     * ([kotlinx.coroutines.Dispatchers.Default]). Clearing a non-thread-safe
+     * [ArrayDeque] from the main thread while the background thread iterates it
+     * causes a [ConcurrentModificationException] (or [IndexOutOfBoundsException])
+     * that crashes the Activity.
+     *
+     * The internal state is reset in [startRecording] instead, before any
+     * new background work begins.
+     */
     fun stopRecording() {
         AudioCaptureEngine.stop()
         _uiState.update {
@@ -456,7 +470,6 @@ class MelodyViewModel : ViewModel() {
                 lastAddedFeedback = null,
             )
         }
-        resetRecordingState()
     }
 
     private fun resetRecordingState() {
@@ -469,7 +482,17 @@ class MelodyViewModel : ViewModel() {
         awaitingSilence = false
     }
 
+    /**
+     * Processes a single audio buffer through pitch detection for note recording.
+     *
+     * Called on [kotlinx.coroutines.Dispatchers.Default] from the capture
+     * coroutine. A final buffer may arrive after [stopRecording] has already
+     * set [MelodyUiState.isRecording] to `false`; the early-return guard
+     * below prevents stale data from briefly flashing in the UI and avoids
+     * a [ConcurrentModificationException] on [recentFrequencies].
+     */
     private fun processRecordingBuffer(samples: FloatArray) {
+        if (!_uiState.value.isRecording) return
         val currentRms = PitchDetector.rms(samples)
         if (previousRms > 0f && currentRms / previousRms > ONSET_RATIO_THRESHOLD) {
             blankingFramesRemaining = BLANKING_FRAMES
