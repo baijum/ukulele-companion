@@ -74,7 +74,7 @@ final class BackupRestoreManager: ObservableObject {
             "chordSheets": songbookVM.exportData(),
             "customProgressions": convertProgressionsToKMP(progressionsVM.exportData()),
             "customStrumPatterns": customPatternsVM.exportStrumData(),
-            "customFingerpickingPatterns": customPatternsVM.exportFingerpickData(),
+            "customFingerpickingPatterns": convertFingerpickToKMP(customPatternsVM.exportFingerpickData()),
             "setlists": setlistVM.exportData(),
             "melodies": convertMelodiesToKMP(melodyVM.exportData()),
             "learningProgress": convertLearnProgressToKMP(learnData),
@@ -171,14 +171,15 @@ final class BackupRestoreManager: ObservableObject {
             if let lp = json["learningProgress"] as? [String: Any],
                let entries = lp["entries"] as? [String: Any] {
                 learnVM.importProgress(convertLearnProgressFromKMP(entries))
+                importedAny = true
             }
             if let achievements = json["achievements"] as? [String: Any] {
                 let ids = Array(achievements.keys)
                 if !ids.isEmpty {
                     learnVM.importProgress(["unlocked_achievements": ids])
+                    importedAny = true
                 }
             }
-            importedAny = true
         } else {
             if let learnData = json["learn_progress"] as? [String: Any] {
                 learnVM.importProgress(learnData)
@@ -203,7 +204,11 @@ final class BackupRestoreManager: ObservableObject {
         // --- Custom fingerpicking patterns ---
         let fpKey = isKMPFormat ? "customFingerpickingPatterns" : "custom_fingerpicking_patterns"
         if let fpData = json[fpKey] as? [[String: Any]] {
-            customPatternsVM.importFingerpickData(fpData)
+            if isKMPFormat {
+                customPatternsVM.importFingerpickData(convertFingerpickFromKMP(fpData))
+            } else {
+                customPatternsVM.importFingerpickData(fpData)
+            }
             importedAny = true
         }
 
@@ -249,12 +254,20 @@ final class BackupRestoreManager: ObservableObject {
 
     private func convertProgressionsToKMP(_ progs: [[String: Any]]) -> [[String: Any]] {
         progs.map { p in
+            let createdAt: Any = {
+                if let ts = p["createdAt"] as? Double {
+                    return Int64(ts * 1000)
+                } else if let ts = p["createdAt"] {
+                    return ts
+                }
+                return Int64(Date().timeIntervalSince1970 * 1000)
+            }()
             var out: [String: Any] = [
                 "id": p["id"] ?? UUID().uuidString,
                 "name": p["name"] ?? "",
                 "description": p["description"] ?? "",
                 "scaleType": p["scaleType"] ?? "MAJOR",
-                "createdAt": Int64(Date().timeIntervalSince1970 * 1000),
+                "createdAt": createdAt,
             ]
             if let intervals = p["degreeIntervals"] as? [Int],
                let qualities = p["degreeQualities"] as? [String],
@@ -285,6 +298,30 @@ final class BackupRestoreManager: ObservableObject {
     private static let durationFromKMP: [String: String] = {
         Dictionary(uniqueKeysWithValues: durationToKMP.map { ($0.value, $0.key) })
     }()
+
+    private static let fingerToKMP: [String: String] = [
+        "T": "THUMB", "I": "INDEX", "M": "MIDDLE", "R": "RING", "P": "PINKY",
+    ]
+
+    private static let fingerFromKMP: [String: String] = {
+        Dictionary(uniqueKeysWithValues: fingerToKMP.map { ($0.value, $0.key) })
+    }()
+
+    private func convertFingerpickToKMP(_ patterns: [[String: Any]]) -> [[String: Any]] {
+        patterns.map { p in
+            var out = p
+            if let steps = p["steps"] as? [[String: Any]] {
+                out["steps"] = steps.map { step in
+                    var s = step
+                    if let finger = step["finger"] as? String {
+                        s["finger"] = Self.fingerToKMP[finger] ?? finger
+                    }
+                    return s
+                }
+            }
+            return out
+        }
+    }
 
     private func convertMelodiesToKMP(_ melodies: [[String: Any]]) -> [[String: Any]] {
         melodies.map { melody in
@@ -454,6 +491,22 @@ final class BackupRestoreManager: ObservableObject {
                     n.removeValue(forKey: "stringIndex")
                     n.removeValue(forKey: "fret")
                     return n
+                }
+            }
+            return out
+        }
+    }
+
+    private func convertFingerpickFromKMP(_ patterns: [[String: Any]]) -> [[String: Any]] {
+        patterns.map { p in
+            var out = p
+            if let steps = p["steps"] as? [[String: Any]] {
+                out["steps"] = steps.map { step in
+                    var s = step
+                    if let finger = step["finger"] as? String {
+                        s["finger"] = Self.fingerFromKMP[finger] ?? finger
+                    }
+                    return s
                 }
             }
             return out

@@ -506,14 +506,18 @@ class BackupRestoreManager(
             val ts = root["timestamp"]?.jsonPrimitive?.doubleOrNull ?: 0.0
             put("exportedAt", JsonPrimitive((ts * 1000).toLong()))
 
-            copyArray(root, "favorites")?.let { put("favorites", it) }
-            (copyArray(root, "favoriteFolders") ?: copyArray(root, "folders"))
-                ?.let { put("favoriteFolders", it) }
+            normalizeIosFavorites(root, "favorites", "addedAt")
+                ?.let { put("favorites", it) }
+            normalizeIosFavorites(root, "folders", "createdAt")
+                ?.let { arr ->
+                    put("favoriteFolders", arr)
+                } ?: normalizeIosFavorites(root, "favoriteFolders", "createdAt")
+                    ?.let { put("favoriteFolders", it) }
             copyArray(root, "chord_sheets")?.let { put("chordSheets", it) }
             normalizeIosProgressions(root)?.let { put("customProgressions", it) }
             copyArray(root, "custom_strum_patterns")
                 ?.let { put("customStrumPatterns", it) }
-            copyArray(root, "custom_fingerpicking_patterns")
+            normalizeIosFingerpicking(root)
                 ?.let { put("customFingerpickingPatterns", it) }
             copyArray(root, "setlists")?.let { put("setlists", it) }
             normalizeIosMelodies(root)?.let { put("melodies", it) }
@@ -532,6 +536,74 @@ class BackupRestoreManager(
 
     private fun copyArray(src: JsonObject, srcKey: String): JsonArray? =
         src[srcKey] as? JsonArray
+
+    private fun normalizeIosFavorites(
+        root: JsonObject,
+        key: String,
+        tsField: String,
+    ): JsonArray? {
+        val arr = root[key] as? JsonArray ?: return null
+        return buildJsonArray {
+            for (elem in arr) {
+                val obj = elem.jsonObject
+                val ts = obj[tsField]?.jsonPrimitive?.doubleOrNull
+                if (ts != null && ts < 1_000_000_000_000) {
+                    val updated = buildJsonObject {
+                        for ((k, v) in obj) {
+                            if (k == tsField) {
+                                put(k, JsonPrimitive((ts * 1000).toLong()))
+                            } else {
+                                put(k, v)
+                            }
+                        }
+                    }
+                    add(updated)
+                } else {
+                    add(elem)
+                }
+            }
+        }
+    }
+
+    private val iosFingerToKMP = mapOf(
+        "T" to "THUMB", "I" to "INDEX", "M" to "MIDDLE", "R" to "RING", "P" to "PINKY",
+    )
+
+    private fun normalizeIosFingerpicking(root: JsonObject): JsonArray? {
+        val arr = root["custom_fingerpicking_patterns"] as? JsonArray ?: return null
+        return buildJsonArray {
+            for (elem in arr) {
+                val pattern = elem.jsonObject
+                val steps = pattern["steps"]?.jsonArray
+                if (steps != null) {
+                    val converted = buildJsonArray {
+                        for (stepElem in steps) {
+                            val step = stepElem.jsonObject
+                            val finger = step["finger"]?.jsonPrimitive?.contentOrNull
+                            val kmpFinger = finger?.let { iosFingerToKMP[it] ?: it } ?: finger
+                            add(buildJsonObject {
+                                for ((k, v) in step) {
+                                    if (k == "finger" && kmpFinger != null) {
+                                        put(k, JsonPrimitive(kmpFinger))
+                                    } else {
+                                        put(k, v)
+                                    }
+                                }
+                            })
+                        }
+                    }
+                    add(buildJsonObject {
+                        for ((k, v) in pattern) {
+                            if (k == "steps") put(k, converted)
+                            else put(k, v)
+                        }
+                    })
+                } else {
+                    add(elem)
+                }
+            }
+        }
+    }
 
     private fun normalizeIosProgressions(root: JsonObject): JsonArray? {
         val arr = root["custom_progressions"] as? JsonArray ?: return null
