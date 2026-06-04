@@ -71,7 +71,7 @@ final class BackupRestoreManager: ObservableObject {
             "exportedAt": Int64(Date().timeIntervalSince1970 * 1000),
             "favorites": convertFavoritesToKMP(favs),
             "favoriteFolders": convertFoldersToKMP(folders),
-            "chordSheets": songbookVM.exportData(),
+            "chordSheets": convertChordSheetsToKMP(songbookVM.exportData()),
             "customProgressions": convertProgressionsToKMP(progressionsVM.exportData()),
             "customStrumPatterns": customPatternsVM.exportStrumData(),
             "customFingerpickingPatterns": convertFingerpickToKMP(customPatternsVM.exportFingerpickData()),
@@ -247,6 +247,19 @@ final class BackupRestoreManager: ObservableObject {
             var out = f
             if let createdAt = f["createdAt"] as? Double {
                 out["createdAt"] = Int64(createdAt * 1000)
+            }
+            return out
+        }
+    }
+
+    private func convertChordSheetsToKMP(_ sheets: [[String: Any]]) -> [[String: Any]] {
+        let tsKeys: Set<String> = ["createdAt", "updatedAt", "lastViewedAt", "totalViewTimeMs"]
+        return sheets.map { sheet in
+            var out = sheet
+            for key in tsKeys {
+                if let val = sheet[key] as? Double {
+                    out[key] = Int64(val)
+                }
             }
             return out
         }
