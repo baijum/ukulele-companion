@@ -21,6 +21,18 @@ import com.baijum.ukufretboard.data.ThemeMode
 import com.baijum.ukufretboard.data.UkuleleTuning
 import com.baijum.ukufretboard.viewmodel.SettingsViewModel
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.doubleOrNull
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.put
 
 /**
  * Manages exporting all user data to a JSON string and importing it back.
@@ -216,7 +228,8 @@ class BackupRestoreManager(
      * @param jsonContent The JSON string from a backup file.
      */
     fun importBackup(jsonContent: String) {
-        val backup = json.decodeFromString(BackupData.serializer(), jsonContent)
+        val normalized = normalizeIosFormat(jsonContent)
+        val backup = json.decodeFromString(BackupData.serializer(), normalized)
 
         // --- Favorites ---
         favoritesRepo.importAll(backup.favorites.map { f ->
@@ -462,5 +475,213 @@ class BackupRestoreManager(
             }
         }
         melodyRepo.importAll(domainItems)
+    }
+
+    // =========================================================================
+    // iOS backup format normalization
+    // =========================================================================
+
+    /**
+     * Detects old iOS-format backup JSON and normalizes it to the KMP
+     * [BackupData] schema so that [importBackup] can decode it unchanged.
+     *
+     * iOS-format is identified by the presence of `"timestamp"` (epoch seconds)
+     * and absence of `"exportedAt"`. If the JSON is already KMP format it is
+     * returned as-is.
+     */
+    private fun normalizeIosFormat(jsonContent: String): String {
+        val root = try {
+            json.parseToJsonElement(jsonContent).jsonObject
+        } catch (_: Exception) {
+            return jsonContent
+        }
+
+        val hasTimestamp = "timestamp" in root
+        val hasExportedAt = "exportedAt" in root
+        if (!hasTimestamp || hasExportedAt) return jsonContent
+
+        val out = buildJsonObject {
+            put("version", root["version"] ?: JsonPrimitive(3))
+
+            val ts = root["timestamp"]?.jsonPrimitive?.doubleOrNull ?: 0.0
+            put("exportedAt", JsonPrimitive((ts * 1000).toLong()))
+
+            copyArray(root, "favorites")?.let { put("favorites", it) }
+            (copyArray(root, "favoriteFolders") ?: copyArray(root, "folders"))
+                ?.let { put("favoriteFolders", it) }
+            copyArray(root, "chord_sheets")?.let { put("chordSheets", it) }
+            normalizeIosProgressions(root)?.let { put("customProgressions", it) }
+            copyArray(root, "custom_strum_patterns")
+                ?.let { put("customStrumPatterns", it) }
+            copyArray(root, "custom_fingerpicking_patterns")
+                ?.let { put("customFingerpickingPatterns", it) }
+            copyArray(root, "setlists")?.let { put("setlists", it) }
+            normalizeIosMelodies(root)?.let { put("melodies", it) }
+            normalizeIosLearnProgress(root)?.let { (lp, achievements) ->
+                put("learningProgress", lp)
+                put("achievements", achievements)
+            }
+            normalizeIosPracticeTimer(root)?.let { put("practiceTimer", it) }
+            normalizeIosSettings(root)?.let { put("settings", it) }
+
+            put("knownChords", root["knownChords"] ?: buildJsonArray {})
+        }
+
+        return json.encodeToString(JsonObject.serializer(), out)
+    }
+
+    private fun copyArray(src: JsonObject, srcKey: String): JsonArray? =
+        src[srcKey] as? JsonArray
+
+    private fun normalizeIosProgressions(root: JsonObject): JsonArray? {
+        val arr = root["custom_progressions"] as? JsonArray ?: return null
+        return buildJsonArray {
+            for (elem in arr) {
+                val obj = elem.jsonObject
+                val intervals = obj["degreeIntervals"]?.jsonArray
+                val qualities = obj["degreeQualities"]?.jsonArray
+                val numerals = obj["degreeNumerals"]?.jsonArray
+                if (intervals != null && qualities != null && numerals != null) {
+                    val count = minOf(intervals.size, qualities.size, numerals.size)
+                    val degrees = buildJsonArray {
+                        for (i in 0 until count) {
+                            add(buildJsonObject {
+                                put("interval", intervals[i])
+                                put("quality", qualities[i])
+                                put("numeral", numerals[i])
+                            })
+                        }
+                    }
+                    add(buildJsonObject {
+                        put("id", obj["id"] ?: JsonPrimitive(""))
+                        put("name", obj["name"] ?: JsonPrimitive(""))
+                        put("description", obj["description"] ?: JsonPrimitive(""))
+                        put("scaleType", obj["scaleType"] ?: JsonPrimitive("MAJOR"))
+                        put("degrees", degrees)
+                        put("createdAt", obj["createdAt"]
+                            ?: JsonPrimitive(System.currentTimeMillis()))
+                    })
+                }
+            }
+        }
+    }
+
+    private val iosDurationToKMP = mapOf(
+        "\uD834\uDD5D" to "WHOLE",     // 𝅝
+        "\uD834\uDD5E" to "HALF",      // 𝅗𝅥
+        "\u2669" to "QUARTER",          // ♩
+        "\u266A" to "EIGHTH",           // ♪
+        "\uD834\uDD63" to "SIXTEENTH", // 𝅘𝅥𝅯
+    )
+
+    private fun normalizeIosMelodies(root: JsonObject): JsonArray? {
+        val arr = root["melodies"] as? JsonArray ?: return null
+        return buildJsonArray {
+            for (elem in arr) {
+                val melody = elem.jsonObject
+                val notes = melody["notes"]?.jsonArray ?: continue
+                val convertedNotes = buildJsonArray {
+                    for (noteElem in notes) {
+                        val note = noteElem.jsonObject
+                        val dur = note["duration"]?.jsonPrimitive?.contentOrNull ?: "QUARTER"
+                        val kmpDur = iosDurationToKMP[dur] ?: dur
+                        add(buildJsonObject {
+                            note["pitchClass"]?.let { put("pitchClass", it) }
+                            put("octave", note["octave"] ?: JsonPrimitive(4))
+                            put("duration", JsonPrimitive(kmpDur))
+                        })
+                    }
+                }
+                add(buildJsonObject {
+                    put("id", melody["id"] ?: JsonPrimitive(""))
+                    put("name", melody["name"] ?: JsonPrimitive(""))
+                    put("notes", convertedNotes)
+                    put("bpm", melody["bpm"] ?: JsonPrimitive(120))
+                    put("createdAt", melody["createdAt"]
+                        ?: JsonPrimitive(System.currentTimeMillis()))
+                })
+            }
+        }
+    }
+
+    private fun normalizeIosLearnProgress(
+        root: JsonObject,
+    ): Pair<JsonObject, JsonObject>? {
+        val lp = root["learn_progress"]?.jsonObject ?: return null
+        val entries = buildJsonObject {
+            for ((key, value) in lp) {
+                if (key == "unlocked_achievements") continue
+                put(key, JsonPrimitive(value.jsonPrimitive.contentOrNull ?: ""))
+            }
+        }
+        val achievements = buildJsonObject {
+            val unlocked = lp["unlocked_achievements"]?.jsonArray
+            if (unlocked != null) {
+                for (id in unlocked) {
+                    put(id.jsonPrimitive.content, JsonPrimitive(0L))
+                }
+            }
+        }
+        return buildJsonObject { put("entries", entries) } to achievements
+    }
+
+    private fun normalizeIosPracticeTimer(root: JsonObject): JsonElement? =
+        root["practice_timer"]
+
+    private val iosSettingsToKMP = mapOf(
+        "sound_enabled" to "soundEnabled",
+        "volume" to "volume",
+        "note_duration_ms" to "noteDurationMs",
+        "strum_delay_ms" to "strumDelayMs",
+        "strum_down" to "strumDown",
+        "play_on_tap" to "playOnTap",
+        "show_tips" to "showExplorerTips",
+        "show_learn_tab" to "showLearnSection",
+        "show_reference_tab" to "showReferenceSection",
+        "left_handed" to "leftHanded",
+        "show_note_names" to "showNoteNames",
+        "last_fret" to "lastFret",
+    )
+
+    private val iosThemeToKMP = mapOf(
+        "Light" to "LIGHT",
+        "Dark" to "DARK",
+        "System" to "SYSTEM",
+        "High Contrast" to "HIGH_CONTRAST",
+    )
+
+    private val iosTuningToKMP = mapOf(
+        "High-G (Standard)" to "HIGH_G",
+        "Low-G" to "LOW_G",
+        "Baritone (DGBE)" to "BARITONE",
+        "D-Tuning (ADF#B)" to "D_TUNING",
+        "Slack Key (GCEG)" to "SLACK_KEY",
+        "Open A (AC#EA)" to "OPEN_A",
+        "Low A (GCEa)" to "LOW_A",
+        "Half-Step Down" to "HALF_STEP_DOWN",
+    )
+
+    private fun normalizeIosSettings(root: JsonObject): JsonObject? {
+        val settings = root["settings"]?.jsonObject ?: return null
+        return buildJsonObject {
+            for ((key, value) in settings) {
+                when (key) {
+                    "theme_mode" -> {
+                        val label = value.jsonPrimitive.contentOrNull ?: "System"
+                        put("themeMode", JsonPrimitive(iosThemeToKMP[label] ?: "SYSTEM"))
+                    }
+                    "selected_tuning" -> {
+                        val label = value.jsonPrimitive.contentOrNull ?: "High-G (Standard)"
+                        put("tuning", JsonPrimitive(iosTuningToKMP[label] ?: "HIGH_G"))
+                    }
+                    else -> {
+                        val kmpKey = iosSettingsToKMP[key]
+                        if (kmpKey != null) {
+                            put(kmpKey, value)
+                        }
+                    }
+                }
+            }
+        }
     }
 }

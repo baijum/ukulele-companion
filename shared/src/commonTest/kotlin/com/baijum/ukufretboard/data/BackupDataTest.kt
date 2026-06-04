@@ -1,11 +1,15 @@
 package com.baijum.ukufretboard.data
 
+import com.baijum.ukufretboard.data.sync.BackupChordDegree
 import com.baijum.ukufretboard.data.sync.BackupChordSheet
 import com.baijum.ukufretboard.data.sync.BackupData
 import com.baijum.ukufretboard.data.sync.BackupFavorite
 import com.baijum.ukufretboard.data.sync.BackupFavoriteFolder
 import com.baijum.ukufretboard.data.sync.BackupLearningProgress
+import com.baijum.ukufretboard.data.sync.BackupMelody
+import com.baijum.ukufretboard.data.sync.BackupMelodyNote
 import com.baijum.ukufretboard.data.sync.BackupPracticeTimer
+import com.baijum.ukufretboard.data.sync.BackupProgression
 import com.baijum.ukufretboard.data.sync.BackupSetlist
 import com.baijum.ukufretboard.data.sync.BackupSettings
 import kotlinx.serialization.encodeToString
@@ -238,5 +242,164 @@ class BackupDataTest {
         assertEquals(0, data.practiceTimer.totalMinutes)
         assertEquals(0, data.practiceTimer.totalSessions)
         assertTrue(data.practiceTimer.dailyMinutes.isEmpty())
+    }
+
+    /**
+     * Verifies that a JSON string representing a normalized iOS backup
+     * (with KMP field names and structure) round-trips correctly through
+     * the KMP [BackupData] deserializer. This tests the end-to-end path
+     * that Android's `normalizeIosFormat()` produces.
+     */
+    @Test
+    fun normalizedIosFormatDeserializesCorrectly() {
+        val iosNormalized = """
+        {
+            "version": 3,
+            "exportedAt": 1717430400000,
+            "favorites": [
+                {
+                    "rootPitchClass": 0,
+                    "chordSymbol": "",
+                    "frets": [0, 0, 0, 3],
+                    "addedAt": 1717430400000,
+                    "folderIds": ["f1"]
+                }
+            ],
+            "favoriteFolders": [
+                {
+                    "id": "f1",
+                    "name": "Jazz",
+                    "createdAt": 1717430400000
+                }
+            ],
+            "chordSheets": [
+                {
+                    "id": "cs-1",
+                    "title": "Test Song",
+                    "content": "[C]Hello [G]World",
+                    "createdAt": 1717430400000,
+                    "updatedAt": 1717430400000
+                }
+            ],
+            "customProgressions": [
+                {
+                    "id": "cp-1",
+                    "name": "I-IV-V",
+                    "description": "Basic",
+                    "scaleType": "MAJOR",
+                    "degrees": [
+                        {"interval": 0, "quality": "major", "numeral": "I"},
+                        {"interval": 5, "quality": "major", "numeral": "IV"},
+                        {"interval": 7, "quality": "major", "numeral": "V"}
+                    ],
+                    "createdAt": 1717430400000
+                }
+            ],
+            "melodies": [
+                {
+                    "id": "m-1",
+                    "name": "Test Melody",
+                    "notes": [
+                        {"pitchClass": 0, "octave": 4, "duration": "QUARTER"},
+                        {"pitchClass": 4, "octave": 4, "duration": "HALF"},
+                        {"octave": 4, "duration": "EIGHTH"}
+                    ],
+                    "bpm": 120,
+                    "createdAt": 1717430400000
+                }
+            ],
+            "setlists": [
+                {
+                    "id": "sl-1",
+                    "name": "Gig Set",
+                    "songIds": ["cs-1"],
+                    "createdAt": 1717430400000,
+                    "updatedAt": 1717430400000
+                }
+            ],
+            "learningProgress": {
+                "entries": {
+                    "lesson_done_chords": "true",
+                    "quiz_total_ALL": "42",
+                    "streak_days": "5"
+                }
+            },
+            "settings": {
+                "soundEnabled": true,
+                "volume": 0.8,
+                "noteDurationMs": 500,
+                "strumDelayMs": 40,
+                "strumDown": true,
+                "playOnTap": false,
+                "themeMode": "DARK",
+                "showExplorerTips": true,
+                "showLearnSection": true,
+                "showReferenceSection": true,
+                "tuning": "LOW_G",
+                "leftHanded": true,
+                "lastFret": 15,
+                "showNoteNames": false
+            },
+            "achievements": {
+                "first_chord": 1717430400000,
+                "ten_songs": 1717430400000
+            },
+            "practiceTimer": {
+                "totalMinutes": 60,
+                "totalSessions": 10,
+                "longestSession": 20,
+                "lastSessionTime": 1717430400000,
+                "dailyGoal": 15,
+                "dailyMinutes": {"2026-06-01": 25}
+            },
+            "knownChords": []
+        }
+        """.trimIndent()
+
+        val decoded = json.decodeFromString<BackupData>(iosNormalized)
+
+        assertEquals(3, decoded.version)
+        assertEquals(1717430400000L, decoded.exportedAt)
+
+        assertEquals(1, decoded.favorites.size)
+        assertEquals(0, decoded.favorites[0].rootPitchClass)
+        assertEquals(listOf("f1"), decoded.favorites[0].folderIds)
+
+        assertEquals(1, decoded.favoriteFolders.size)
+        assertEquals("Jazz", decoded.favoriteFolders[0].name)
+
+        assertEquals(1, decoded.chordSheets.size)
+        assertEquals("Test Song", decoded.chordSheets[0].title)
+
+        assertEquals(1, decoded.customProgressions.size)
+        assertEquals("I-IV-V", decoded.customProgressions[0].name)
+        assertEquals(3, decoded.customProgressions[0].degrees.size)
+        assertEquals(0, decoded.customProgressions[0].degrees[0].interval)
+        assertEquals("major", decoded.customProgressions[0].degrees[0].quality)
+        assertEquals("I", decoded.customProgressions[0].degrees[0].numeral)
+
+        assertEquals(1, decoded.melodies.size)
+        assertEquals(3, decoded.melodies[0].notes.size)
+        assertEquals("QUARTER", decoded.melodies[0].notes[0].duration)
+        assertEquals("HALF", decoded.melodies[0].notes[1].duration)
+        assertEquals(null, decoded.melodies[0].notes[2].pitchClass)
+
+        assertEquals(1, decoded.setlists.size)
+        assertEquals("Gig Set", decoded.setlists[0].name)
+
+        assertEquals("true", decoded.learningProgress.entries["lesson_done_chords"])
+        assertEquals("42", decoded.learningProgress.entries["quiz_total_ALL"])
+
+        assertTrue(decoded.settings.leftHanded)
+        assertEquals("DARK", decoded.settings.themeMode)
+        assertEquals("LOW_G", decoded.settings.tuning)
+        assertEquals(15, decoded.settings.lastFret)
+
+        assertEquals(2, decoded.achievements.size)
+        assertEquals(1717430400000L, decoded.achievements["first_chord"])
+
+        assertEquals(60, decoded.practiceTimer.totalMinutes)
+        assertEquals(10, decoded.practiceTimer.totalSessions)
+        assertEquals(25, decoded.practiceTimer.dailyMinutes["2026-06-01"])
     }
 }

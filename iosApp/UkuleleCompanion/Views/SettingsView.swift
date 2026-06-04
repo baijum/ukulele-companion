@@ -18,6 +18,11 @@ struct SettingsView: View {
     @State private var showImporter = false
     @State private var showRestoreAlert = false
     @State private var showLanguageRestart = false
+    @State private var showExportSuccess = false
+    @State private var showExportError = false
+    @State private var showRestoreSuccess = false
+    @State private var showRestoreError = false
+    @State private var alertErrorMessage = ""
 
     private let tuningOptions = [
         "High-G (Standard)", "Low-G", "Baritone (DGBE)", "D-Tuning (ADF#B)",
@@ -181,9 +186,15 @@ struct SettingsView: View {
 
                 Section(header: Text("Backup & Restore").accessibilityAddTraits(.isHeader)) {
                     Button("Export Backup") {
-                        ensureBackupManager()
-                        backupDocument = BackupDocument(data: backupManager!.buildBackupData())
-                        showExporter = true
+                        do {
+                            ensureBackupManager()
+                            backupDocument = BackupDocument(data: try backupManager!.buildBackupData())
+                            showExporter = true
+                        } catch {
+                            alertErrorMessage = error.localizedDescription
+                            showExportError = true
+                            AccessibilityAnnouncer.shared.announce("Export failed")
+                        }
                     }
                     Button("Restore from Backup") { showRestoreAlert = true }
                     if let date = backupManager?.lastBackupDate {
@@ -252,15 +263,35 @@ struct SettingsView: View {
                       document: backupDocument,
                       contentType: .json,
                       defaultFilename: "ukulele_companion_backup.json") { result in
-            if case .success = result {
-                backupManager?.recordBackupDate()
-            }
             backupDocument = nil
+            switch result {
+            case .success:
+                backupManager?.recordBackupDate()
+                showExportSuccess = true
+                AccessibilityAnnouncer.shared.announce("Backup saved successfully")
+            case .failure(let error):
+                alertErrorMessage = error.localizedDescription
+                showExportError = true
+                AccessibilityAnnouncer.shared.announce("Export failed")
+            }
         }
         .fileImporter(isPresented: $showImporter,
                       allowedContentTypes: [.json]) { result in
-            if case .success(let url) = result {
-                getBackupManager().restoreFromURL(url)
+            switch result {
+            case .success(let url):
+                do {
+                    try getBackupManager().restoreFromURL(url)
+                    showRestoreSuccess = true
+                    AccessibilityAnnouncer.shared.announce("Data restored successfully")
+                } catch {
+                    alertErrorMessage = error.localizedDescription
+                    showRestoreError = true
+                    AccessibilityAnnouncer.shared.announce("Restore failed")
+                }
+            case .failure(let error):
+                alertErrorMessage = error.localizedDescription
+                showRestoreError = true
+                AccessibilityAnnouncer.shared.announce("Restore failed")
             }
         }
         .alert("Language Changed", isPresented: $showLanguageRestart) {
@@ -276,6 +307,26 @@ struct SettingsView: View {
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("This will merge the backup data with your current data. Existing items will not be overwritten.")
+        }
+        .alert("Backup Saved", isPresented: $showExportSuccess) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("Your backup was saved successfully.")
+        }
+        .alert("Export Failed", isPresented: $showExportError) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(alertErrorMessage)
+        }
+        .alert("Restore Complete", isPresented: $showRestoreSuccess) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("Your data was restored successfully.")
+        }
+        .alert("Restore Failed", isPresented: $showRestoreError) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(alertErrorMessage)
         }
     }
 
