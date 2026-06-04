@@ -52,11 +52,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.baijum.ukufretboard.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import com.baijum.ukufretboard.audio.AudioCaptureEngine
 import com.baijum.ukufretboard.audio.MetronomeEngine
 import com.baijum.ukufretboard.data.ChordFormulas
@@ -146,12 +152,14 @@ fun PlayAlongView(
             AudioCaptureEngine.start(scope) { samples ->
                 val result = AudioChordDetector.detect(samples)
                 val chordFound = result.detection as? ChordDetector.DetectionResult.ChordFound
-                if (chordFound != null && result.confidence > 0.3f) {
-                    detectedChord = chordFound.result.name
-                    detectionConfidence = result.confidence
-                } else {
-                    detectedChord = null
-                    detectionConfidence = 0f
+                scope.launch(Dispatchers.Main) {
+                    if (chordFound != null && result.confidence > 0.3f) {
+                        detectedChord = chordFound.result.name
+                        detectionConfidence = result.confidence
+                    } else {
+                        detectedChord = null
+                        detectionConfidence = 0f
+                    }
                 }
             }
         }
@@ -266,11 +274,16 @@ fun PlayAlongView(
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f),
                 )
+                val currentChordName = chordNames.getOrElse(currentChordIndex) { "?" }
                 Text(
-                    text = chordNames.getOrElse(currentChordIndex) { "?" },
+                    text = currentChordName,
                     style = MaterialTheme.typography.displaySmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    modifier = Modifier.semantics {
+                        liveRegion = LiveRegionMode.Assertive
+                        contentDescription = currentChordName
+                    },
                 )
 
                 if (isPlaying && detectedChord != null) {
@@ -303,6 +316,9 @@ fun PlayAlongView(
                                 MaterialTheme.colorScheme.primary
                             } else {
                                 MaterialTheme.colorScheme.error
+                            },
+                            modifier = Modifier.semantics {
+                                liveRegion = LiveRegionMode.Polite
                             },
                         )
                     }
