@@ -498,12 +498,13 @@ class FretboardViewModel : ViewModel() {
      */
     fun playVoicing(voicing: com.baijum.ukufretboard.domain.ChordVoicing) {
         if (!soundSettings.enabled) return
+        val capo = _uiState.value.capoFret
 
         val notes = voicing.frets.mapIndexedNotNull { index, fret ->
             if (fret == com.baijum.ukufretboard.domain.ChordVoicing.MUTED) return@mapIndexedNotNull null
             val string = tuning[index]
-            val pitchClass = ((string.openPitchClass + fret) % Notes.PITCH_CLASS_COUNT + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
-            val octave = computeOctave(string.openPitchClass, string.octave, fret)
+            val pitchClass = ((string.openPitchClass + fret + capo) % Notes.PITCH_CLASS_COUNT + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
+            val octave = computeOctave(string.openPitchClass, string.octave, fret + capo)
             pitchClass to octave
         }
 
@@ -547,14 +548,15 @@ class FretboardViewModel : ViewModel() {
         pauseMs: Long = 1000L,
     ) {
         if (!soundSettings.enabled || voicings.isEmpty()) return
+        val capo = _uiState.value.capoFret
 
         viewModelScope.launch {
             voicings.forEach { voicing ->
                 val notes = voicing.frets.mapIndexedNotNull { index, fret ->
                     if (fret == com.baijum.ukufretboard.domain.ChordVoicing.MUTED) return@mapIndexedNotNull null
                     val string = tuning[index]
-                    val pitchClass = ((string.openPitchClass + fret) % Notes.PITCH_CLASS_COUNT + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
-                    val octave = computeOctave(string.openPitchClass, string.octave, fret)
+                    val pitchClass = ((string.openPitchClass + fret + capo) % Notes.PITCH_CLASS_COUNT + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
+                    val octave = computeOctave(string.openPitchClass, string.octave, fret + capo)
                     pitchClass to octave
                 }
                 ToneGenerator.playChord(
