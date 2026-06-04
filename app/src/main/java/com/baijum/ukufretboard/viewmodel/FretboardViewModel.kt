@@ -306,7 +306,7 @@ class FretboardViewModel : ViewModel() {
                     .sortedBy { it.key }
                     .mapNotNull { (i, fret) ->
                         fret?.let {
-                            val pc = (tuning[i].openPitchClass + it) % Notes.PITCH_CLASS_COUNT
+                            val pc = ((tuning[i].openPitchClass + it) % Notes.PITCH_CLASS_COUNT + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
                             Note(pitchClass = pc, name = Notes.pitchClassToName(pc))
                         }
                     }
@@ -437,7 +437,7 @@ class FretboardViewModel : ViewModel() {
     fun getNoteAt(stringIndex: Int, fret: Int): Note {
         val openPitchClass = tuning[stringIndex].openPitchClass
         val capo = _uiState.value.capoFret
-        val pitchClass = (openPitchClass + fret + capo) % Notes.PITCH_CLASS_COUNT
+        val pitchClass = ((openPitchClass + fret + capo) % Notes.PITCH_CLASS_COUNT + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
         val overlay = _uiState.value.scaleOverlay
         val name = if (overlay.enabled && overlay.scale != null) {
             // Use key-aware enharmonic spelling when a scale is active
@@ -471,7 +471,7 @@ class FretboardViewModel : ViewModel() {
             .filter { it.value != null }
             .map { (stringIndex, fret) ->
                 val string = tuning[stringIndex]
-                val pitchClass = (string.openPitchClass + fret!! + capo) % Notes.PITCH_CLASS_COUNT
+                val pitchClass = ((string.openPitchClass + fret!! + capo) % Notes.PITCH_CLASS_COUNT + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
                 val octave = computeOctave(string.openPitchClass, string.octave, fret + capo)
                 pitchClass to octave
             }
@@ -502,7 +502,7 @@ class FretboardViewModel : ViewModel() {
         val notes = voicing.frets.mapIndexedNotNull { index, fret ->
             if (fret == com.baijum.ukufretboard.domain.ChordVoicing.MUTED) return@mapIndexedNotNull null
             val string = tuning[index]
-            val pitchClass = (string.openPitchClass + fret) % Notes.PITCH_CLASS_COUNT
+            val pitchClass = ((string.openPitchClass + fret) % Notes.PITCH_CLASS_COUNT + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
             val octave = computeOctave(string.openPitchClass, string.octave, fret)
             pitchClass to octave
         }
@@ -553,7 +553,7 @@ class FretboardViewModel : ViewModel() {
                 val notes = voicing.frets.mapIndexedNotNull { index, fret ->
                     if (fret == com.baijum.ukufretboard.domain.ChordVoicing.MUTED) return@mapIndexedNotNull null
                     val string = tuning[index]
-                    val pitchClass = (string.openPitchClass + fret) % Notes.PITCH_CLASS_COUNT
+                    val pitchClass = ((string.openPitchClass + fret) % Notes.PITCH_CLASS_COUNT + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
                     val octave = computeOctave(string.openPitchClass, string.octave, fret)
                     pitchClass to octave
                 }
@@ -579,7 +579,7 @@ class FretboardViewModel : ViewModel() {
     private fun playNoteAt(stringIndex: Int, fret: Int) {
         val string = tuning[stringIndex]
         val capo = _uiState.value.capoFret
-        val pitchClass = (string.openPitchClass + fret + capo) % Notes.PITCH_CLASS_COUNT
+        val pitchClass = ((string.openPitchClass + fret + capo) % Notes.PITCH_CLASS_COUNT + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
         val octave = computeOctave(string.openPitchClass, string.octave, fret + capo)
         viewModelScope.launch {
             ToneGenerator.playNote(
@@ -641,7 +641,7 @@ class FretboardViewModel : ViewModel() {
             .filter { it.value != null }
             .map { (stringIndex, fret) ->
                 val openPitchClass = tuning[stringIndex].openPitchClass
-                (openPitchClass + fret!! + capo) % Notes.PITCH_CLASS_COUNT
+                ((openPitchClass + fret!! + capo) % Notes.PITCH_CLASS_COUNT + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
             }
         return ChordDetector.detect(pitchClasses)
     }

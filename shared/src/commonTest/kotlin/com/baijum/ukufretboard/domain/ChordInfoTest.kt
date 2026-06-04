@@ -291,6 +291,15 @@ class ChordInfoTest {
         assertEquals(2, ChordInfo.bassPitchClass(listOf(0, 2, 0, 0), highG))
     }
 
+    @Test
+    fun bassPitchClassNeverNegativeWithMutedStrings() {
+        // findBassStringIndex filters MUTED (-1) strings, but if a non-muted
+        // fret produces a negative sum the result must still be 0..11
+        val frets = listOf(-1, 0, 0, 0) // G muted, C/E/A open
+        val result = ChordInfo.bassPitchClass(frets, highG)
+        assertTrue(result in 0..11, "bassPitchClass=$result should be in 0..11")
+    }
+
     // --- slashNotation() ---
 
     @Test

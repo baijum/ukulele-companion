@@ -1,6 +1,7 @@
 package com.baijum.ukufretboard.domain
 
 import kotlin.math.log2
+import kotlin.math.roundToInt
 
 /**
  * Extracts a 12-bin chromagram (pitch-class energy profile) from an FFT
@@ -56,7 +57,7 @@ object Chromagram {
             // Map frequency → pitch class using equal temperament.
             // pitchClass = round(12 * log2(freq / C0)) mod 12
             val semitones = (12.0 * log2(freq.toDouble() / C0_HZ)).toFloat()
-            val pitchClass = ((semitones.toInt() % 12) + 12) % 12
+            val pitchClass = ((semitones.roundToInt() % 12) + 12) % 12
 
             // Accumulate squared magnitude for better energy representation.
             chroma[pitchClass] += magnitudes[bin] * magnitudes[bin]

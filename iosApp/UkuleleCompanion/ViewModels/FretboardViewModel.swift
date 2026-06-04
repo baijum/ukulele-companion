@@ -105,7 +105,7 @@ final class FretboardViewModel: ObservableObject {
     func getNoteAt(stringIndex: Int, fret: Int) -> (pitchClass: Int32, name: String) {
         let openPC = tuning[stringIndex].openPitchClass
         let effectiveFret = Int32(fret) + Int32(capoFret)
-        let pc = (openPC + effectiveFret) % Int32(Notes.shared.PITCH_CLASS_COUNT)
+        let pc = ((openPC + effectiveFret) % 12 + 12) % 12
 
         if scaleOverlay.enabled, scaleOverlay.scale != nil {
             let isMinor = scaleOverlay.scale!.intervals.count > 2
@@ -133,7 +133,7 @@ final class FretboardViewModel: ObservableObject {
         let pitchClasses: [Int32] = ordered.compactMap { (stringIndex, maybeFret) in
             guard let fret = maybeFret else { return nil }
             let openPC = tuning[stringIndex].openPitchClass
-            return (openPC + Int32(fret) + Int32(capoFret)) % 12
+            return ((openPC + Int32(fret) + Int32(capoFret)) % 12 + 12) % 12
         }
 
         tonePlayer.playChord(
@@ -152,7 +152,7 @@ final class FretboardViewModel: ObservableObject {
             let fret = frets[stringIndex]
             guard fret >= 0 else { return nil }
             let openPC = tuning[stringIndex].openPitchClass
-            return (openPC + Int32(fret) + Int32(capoFret)) % 12
+            return ((openPC + Int32(fret) + Int32(capoFret)) % 12 + 12) % 12
         }
 
         tonePlayer.playChord(
@@ -224,7 +224,7 @@ final class FretboardViewModel: ObservableObject {
 
     private func playNoteAt(stringIndex: Int, fret: Int) {
         let openPC = tuning[stringIndex].openPitchClass
-        let pc = (openPC + Int32(fret) + Int32(capoFret)) % 12
+        let pc = ((openPC + Int32(fret) + Int32(capoFret)) % 12 + 12) % 12
         tonePlayer.playNote(pitchClass: pc)
     }
 
@@ -232,7 +232,7 @@ final class FretboardViewModel: ObservableObject {
         selections.sorted(by: { $0.key < $1.key }).compactMap { (stringIndex, fret) in
             guard let f = fret else { return nil }
             let openPC = tuning[stringIndex].openPitchClass
-            return (openPC + Int32(f) + Int32(capoFret)) % 12
+            return ((openPC + Int32(f) + Int32(capoFret)) % 12 + 12) % 12
         }
     }
 
@@ -240,7 +240,7 @@ final class FretboardViewModel: ObservableObject {
         selections.sorted(by: { $0.key < $1.key }).compactMap { (stringIndex, fret) in
             guard let f = fret else { return nil }
             let openPC = tuning[stringIndex].openPitchClass
-            let pc = (openPC + Int32(f) + Int32(capoFret)) % 12
+            let pc = ((openPC + Int32(f) + Int32(capoFret)) % 12 + 12) % 12
             return (pc, Notes.shared.pitchClassToName(pitchClass: pc))
         }
     }

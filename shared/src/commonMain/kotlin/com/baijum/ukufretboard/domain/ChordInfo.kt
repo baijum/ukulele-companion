@@ -232,7 +232,8 @@ object ChordInfo {
     fun bassPitchClass(frets: List<Int>, tuning: List<UkuleleString>): Int {
         val bassIndex = findBassStringIndex(frets, tuning)
         val string = tuning[bassIndex]
-        return (string.openPitchClass + frets[bassIndex]) % Notes.PITCH_CLASS_COUNT
+        val raw = string.openPitchClass + frets[bassIndex]
+        return ((raw % Notes.PITCH_CLASS_COUNT) + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
     }
 
     /**

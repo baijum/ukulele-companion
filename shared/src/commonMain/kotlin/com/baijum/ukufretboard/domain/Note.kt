@@ -34,7 +34,7 @@ data class Note(
  * @return A [Note] representing the pitch at the given string/fret position.
  */
 fun calculateNote(openStringPitchClass: Int, fret: Int): Note {
-    val pitchClass = (openStringPitchClass + fret) % Notes.PITCH_CLASS_COUNT
+    val pitchClass = ((openStringPitchClass + fret) % Notes.PITCH_CLASS_COUNT + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
     return Note(
         pitchClass = pitchClass,
         name = Notes.pitchClassToName(pitchClass),
