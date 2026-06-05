@@ -38,7 +38,7 @@ struct FullScreenFretboardView: View {
                 }
             }
             .onTapGesture { showOverlayBriefly() }
-            .accessibilityHint("Double tap to show or hide controls")
+            .accessibilityHint(UIAccessibility.isVoiceOverRunning ? "Controls remain visible for VoiceOver" : "Double tap to show or hide controls")
         }
         .statusBarHidden(true)
         .onAppear { scheduleOverlayHide() }

@@ -1293,8 +1293,14 @@ struct PerformanceModeView: View {
             }
         }
         .background(Color(uiColor: .systemBackground))
-        .onTapGesture { showControls.toggle() }
-        .accessibilityHint("Tap anywhere to show or hide controls")
+        .onTapGesture {
+            if UIAccessibility.isVoiceOverRunning {
+                showControls = true
+            } else {
+                showControls.toggle()
+            }
+        }
+        .accessibilityHint(UIAccessibility.isVoiceOverRunning ? "Controls remain visible for VoiceOver" : "Tap anywhere to show or hide controls")
         .statusBarHidden(true)
         .onAppear {
             if UIAccessibility.isVoiceOverRunning {
