@@ -20,14 +20,18 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
+dependencyLocking {
+    lockAllConfigurations()
+}
+
 android {
     namespace = "com.baijum.ukufretboard"
-    compileSdk = 36
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.baijum.ukufretboard"
-        minSdk = 26
-        targetSdk = 35
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 106
         versionName = "9.11.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
