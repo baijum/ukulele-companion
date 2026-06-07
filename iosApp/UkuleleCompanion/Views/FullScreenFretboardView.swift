@@ -38,6 +38,7 @@ struct FullScreenFretboardView: View {
                 }
             }
             .onTapGesture { showOverlayBriefly() }
+            .accessibilityHint(UIAccessibility.isVoiceOverRunning ? "Controls remain visible for VoiceOver" : "Double tap to show or hide controls")
         }
         .statusBarHidden(true)
         .onAppear { scheduleOverlayHide() }
@@ -150,8 +151,11 @@ struct FullScreenFretboardView: View {
                 Text(name).font(.title2.bold()).foregroundStyle(.white)
                 Text(quality).font(.caption).foregroundStyle(.gray)
             }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("\(name) \(quality)")
         case .singleNote(let name, _):
             Text(name).font(.title2.bold()).foregroundStyle(.white)
+                .accessibilityLabel("Note: \(name)")
         default:
             Text("Tap frets").font(.subheadline).foregroundStyle(.gray)
         }
@@ -171,6 +175,7 @@ struct FullScreenFretboardView: View {
     }
 
     private func scheduleOverlayHide() {
+        guard !UIAccessibility.isVoiceOverRunning else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + autoHideDelay) {
             showOverlay = false
         }

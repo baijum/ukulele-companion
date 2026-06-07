@@ -1104,14 +1104,16 @@ struct SongViewerView: View {
                                 .foregroundColor(.accentColor)
                                 .bold()
                                 .onTapGesture { tappedChord = element.text }
+                                .accessibilityLabel(element.text)
+                                .accessibilityAddTraits(.isButton)
+                                .accessibilityHint("Show chord diagram")
                         } else {
                             Text(element.text)
                                 .font(songFont)
+                                .accessibilityHidden(true)
                         }
                     }
                 }
-                .accessibilityElement(children: .ignore)
-                .accessibilityLabel("Chords: \(result.chordNames.joined(separator: ", "))")
 
                 if !result.lyrics.trimmingCharacters(in: .whitespaces).isEmpty {
                     Text(result.lyrics)
@@ -1255,6 +1257,7 @@ struct PerformanceModeView: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .controlSize(.small)
+                    .accessibilityLabel(isAutoScrolling ? "Pause auto-scroll" : "Start auto-scroll")
 
                     if isAutoScrolling {
                         Button { scrollSpeed = max(0.5, scrollSpeed - 0.5) } label: {
@@ -1262,15 +1265,18 @@ struct PerformanceModeView: View {
                         }
                         .buttonStyle(.bordered)
                         .controlSize(.small)
+                        .accessibilityLabel("Decrease speed")
 
                         Text(String(format: "%.1fx", scrollSpeed))
                             .font(.caption.monospacedDigit())
+                            .accessibilityLabel("Speed \(String(format: "%.1f", scrollSpeed))x")
 
                         Button { scrollSpeed = min(5.0, scrollSpeed + 0.5) } label: {
                             Text("+")
                         }
                         .buttonStyle(.bordered)
                         .controlSize(.small)
+                        .accessibilityLabel("Increase speed")
                     }
 
                     Button { dismiss() } label: {
@@ -1287,7 +1293,24 @@ struct PerformanceModeView: View {
             }
         }
         .background(Color(uiColor: .systemBackground))
-        .onTapGesture { showControls.toggle() }
+        .onTapGesture {
+            if UIAccessibility.isVoiceOverRunning {
+                showControls = true
+            } else {
+                showControls.toggle()
+            }
+        }
+        .accessibilityHint(UIAccessibility.isVoiceOverRunning ? "Controls remain visible for VoiceOver" : "Tap anywhere to show or hide controls")
         .statusBarHidden(true)
+        .onAppear {
+            if UIAccessibility.isVoiceOverRunning {
+                showControls = true
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIAccessibility.voiceOverStatusDidChangeNotification)) { _ in
+            if UIAccessibility.isVoiceOverRunning {
+                showControls = true
+            }
+        }
     }
 }
