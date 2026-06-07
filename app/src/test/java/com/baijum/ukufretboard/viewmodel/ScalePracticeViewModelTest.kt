@@ -91,6 +91,8 @@ class ScalePracticeViewModelTest {
         assertFalse(vm.uiState.value.loopPlayback)
         vm.toggleLoop()
         assertTrue(vm.uiState.value.loopPlayback)
+        vm.toggleLoop()
+        assertFalse(vm.uiState.value.loopPlayback)
     }
 
     @Test
@@ -125,6 +127,14 @@ class ScalePracticeViewModelTest {
         assertEquals(1, vm.uiState.value.earCorrect)
         assertEquals(1, vm.uiState.value.earTotal)
         assertEquals(1, vm.uiState.value.earStreak)
+
+        vm.generateEarQuestion()
+        val wrongIdx = (vm.uiState.value.earQuestion!!.correctIndex + 1) % 4
+        assertFalse(vm.submitEarAnswer(wrongIdx))
+        assertEquals(1, vm.uiState.value.earCorrect)
+        assertEquals(2, vm.uiState.value.earTotal)
+        assertEquals(0, vm.uiState.value.earStreak)
+        assertEquals(1, vm.uiState.value.earBestStreak)
     }
 
     @Test

@@ -79,8 +79,9 @@ class ChordLibraryViewModelTest {
 
     @Test
     fun currentChordNameCombinesRootAndSymbol() {
+        val defaultFormula = ChordFormulas.BY_CATEGORY[ChordCategory.TRIAD]!!.first()
         vm.selectRoot(0)
-        assertEquals("C", vm.currentChordName().substringBefore("m").takeIf { it == "C" } ?: vm.currentChordName())
+        assertEquals("C${defaultFormula.symbol}", vm.currentChordName())
 
         val minorFormula = ChordFormulas.BY_CATEGORY[ChordCategory.TRIAD]!!.first { it.symbol == "m" }
         vm.selectRoot(9)
@@ -99,11 +100,10 @@ class ChordLibraryViewModelTest {
     fun selectSearchResultUpdatesState() {
         vm.updateSearchQuery("Dm7")
         val results = vm.searchResults.value
-        if (results.isNotEmpty()) {
-            vm.selectSearchResult(results[0])
-            assertEquals("", vm.searchQuery.value)
-            assertTrue(vm.searchResults.value.isEmpty())
-        }
+        assertTrue("Search for 'Dm7' should return results", results.isNotEmpty())
+        vm.selectSearchResult(results[0])
+        assertEquals("", vm.searchQuery.value)
+        assertTrue(vm.searchResults.value.isEmpty())
     }
 
     @Test
