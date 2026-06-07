@@ -978,10 +978,13 @@ struct SongViewerView: View {
     @discardableResult
     private func createScrollTimer(proxy: ScrollViewProxy) -> Timer {
         let interval = 1.0 / (scrollSpeed * 2)
+        nonisolated(unsafe) let scrollProxy = proxy
         let timer = Timer(timeInterval: interval, repeats: true) { [self] _ in
-            guard isAutoScrolling else { return }
-            scrollOffset += 1
-            proxy.scrollTo("bottom", anchor: .init(x: 0.5, y: min(1.0, scrollOffset / 500)))
+            MainActor.assumeIsolated {
+                guard self.isAutoScrolling else { return }
+                self.scrollOffset += 1
+                scrollProxy.scrollTo("bottom", anchor: .init(x: 0.5, y: min(1.0, self.scrollOffset / 500)))
+            }
         }
         RunLoop.current.add(timer, forMode: .common)
         return timer
