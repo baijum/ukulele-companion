@@ -1,5 +1,7 @@
 package com.baijum.ukufretboard.domain
 
+import com.baijum.ukufretboard.platform.PlatformLock
+import com.baijum.ukufretboard.platform.withLock
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -25,6 +27,7 @@ object FFTProcessor {
      * Key: FFT size N. Value: array of pairs (wReal, wImag) indexed by
      * stage length. Lazily populated on first use and reused thereafter.
      */
+    private val cacheLock = PlatformLock()
     private val twiddleCache = HashMap<Int, TwiddleFactors>()
 
     /**
@@ -61,7 +64,9 @@ object FFTProcessor {
     }
 
     private fun getTwiddle(n: Int): TwiddleFactors {
-        return twiddleCache.getOrPut(n) { TwiddleFactors(n) }
+        return cacheLock.withLock {
+            twiddleCache.getOrPut(n) { TwiddleFactors(n) }
+        }
     }
 
     /**

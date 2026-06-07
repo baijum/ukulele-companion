@@ -1,5 +1,7 @@
 package com.baijum.ukufretboard.domain
 
+import com.baijum.ukufretboard.platform.PlatformLock
+import com.baijum.ukufretboard.platform.withLock
 import kotlin.math.abs
 import kotlin.math.pow
 
@@ -89,6 +91,7 @@ object PitchDetector {
     // --- Pre-allocated FFT work buffers ------------------------------------
     // These are reused across frames (~43/sec) to avoid GC pressure from
     // allocating 4 large arrays per frame in computeDifferenceFunctionFFT.
+    private val bufferLock = PlatformLock()
     private var cachedFftSize = 0
     private var fftRefReal = FloatArray(0)
     private var fftRefImag = FloatArray(0)
@@ -324,40 +327,43 @@ object PitchDetector {
 
         // --- FFT-based cross-correlation ------------------------------------
         val fftSize = nextPow2(n * 2) // zero-pad to avoid circular aliasing
-        ensureFftBuffers(fftSize)
 
-        // Reference window: x[0..W-1], zero-padded
-        for (i in 0 until halfLen) fftRefReal[i] = samples[i]
-        // fftRefImag already zeroed by ensureFftBuffers
+        return bufferLock.withLock {
+            ensureFftBuffers(fftSize)
 
-        // Full signal: x[0..N-1], zero-padded
-        for (i in 0 until n) fftSigReal[i] = samples[i]
-        // fftSigImag already zeroed by ensureFftBuffers
+            // Reference window: x[0..W-1], zero-padded
+            for (i in 0 until halfLen) fftRefReal[i] = samples[i]
+            // fftRefImag already zeroed by ensureFftBuffers
 
-        FFTProcessor.fft(fftRefReal, fftRefImag)
-        FFTProcessor.fft(fftSigReal, fftSigImag)
+            // Full signal: x[0..N-1], zero-padded
+            for (i in 0 until n) fftSigReal[i] = samples[i]
+            // fftSigImag already zeroed by ensureFftBuffers
 
-        // Cross-spectrum: conj(Ref) * Sig
-        // Reuse fftRefReal/fftRefImag to store the result.
-        for (i in 0 until fftSize) {
-            val ar = fftRefReal[i]; val ai = fftRefImag[i]
-            val br = fftSigReal[i]; val bi = fftSigImag[i]
-            fftRefReal[i] = ar * br + ai * bi   // real part of conj(A)*B
-            fftRefImag[i] = ai * br - ar * bi   // imag part of conj(A)*B
+            FFTProcessor.fft(fftRefReal, fftRefImag)
+            FFTProcessor.fft(fftSigReal, fftSigImag)
+
+            // Cross-spectrum: conj(Ref) * Sig
+            // Reuse fftRefReal/fftRefImag to store the result.
+            for (i in 0 until fftSize) {
+                val ar = fftRefReal[i]; val ai = fftRefImag[i]
+                val br = fftSigReal[i]; val bi = fftSigImag[i]
+                fftRefReal[i] = ar * br + ai * bi   // real part of conj(A)*B
+                fftRefImag[i] = ai * br - ar * bi   // imag part of conj(A)*B
+            }
+
+            FFTProcessor.ifft(fftRefReal, fftRefImag)
+            // fftRefReal[tau] now contains r(tau) = sum_{j=0}^{W-1} x[j]*x[j+tau]
+
+            // --- Assemble SDF ---------------------------------------------------
+            val diff = FloatArray(maxLag + 1)
+            for (tau in 1..maxLag) {
+                val energyTau = prefixSq[tau + halfLen] - prefixSq[tau]
+                diff[tau] = (energy0 + energyTau - 2.0 * fftRefReal[tau].toDouble())
+                    .coerceAtLeast(0.0) // clamp tiny negative values from FP rounding
+                    .toFloat()
+            }
+            diff
         }
-
-        FFTProcessor.ifft(fftRefReal, fftRefImag)
-        // fftRefReal[tau] now contains r(tau) = sum_{j=0}^{W-1} x[j]*x[j+tau]
-
-        // --- Assemble SDF ---------------------------------------------------
-        val diff = FloatArray(maxLag + 1)
-        for (tau in 1..maxLag) {
-            val energyTau = prefixSq[tau + halfLen] - prefixSq[tau]
-            diff[tau] = (energy0 + energyTau - 2.0 * fftRefReal[tau].toDouble())
-                .coerceAtLeast(0.0) // clamp tiny negative values from FP rounding
-                .toFloat()
-        }
-        return diff
     }
 
     /**
