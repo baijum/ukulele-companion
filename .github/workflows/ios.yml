@@ -88,6 +88,19 @@ jobs:
             -enableCodeCoverage YES \
             -resultBundlePath TestResults
 
+      - name: Build shared Release framework
+        run: ./gradlew :shared:linkReleaseFrameworkIosSimulatorArm64
+
+      - name: Build iOS app (Release)
+        run: |
+          xcodebuild build \
+            -project iosApp/UkuleleCompanion.xcodeproj \
+            -scheme UkuleleCompanion \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -configuration Release \
+            ONLY_ACTIVE_ARCH=YES \
+            CODE_SIGNING_ALLOWED=NO
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v7
