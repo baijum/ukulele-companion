@@ -6,6 +6,7 @@ import com.baijum.ukufretboard.data.AchievementRepository
 import com.baijum.ukufretboard.data.ChordSheetRepository
 import com.baijum.ukufretboard.data.CustomFingerpickingPatternRepository
 import com.baijum.ukufretboard.data.CustomProgressionRepository
+import com.baijum.ukufretboard.data.CustomStrumPatternRepository
 import com.baijum.ukufretboard.data.FavoritesRepository
 import com.baijum.ukufretboard.data.LearningProgressRepository
 import com.baijum.ukufretboard.data.MelodyRepository
@@ -88,7 +89,7 @@ class IosBackupNormalizationTest {
         val folders = FavoritesRepository(app).getAllFolders()
         assertEquals(1, folders.size)
         assertEquals("Hawaiian", folders[0].name)
-        assertTrue("Folder createdAt should be in millis", folders[0].createdAt >= 1_000_000_000_000)
+        assertEquals(1700000000000L, folders[0].createdAt)
     }
 
     @Test
@@ -122,7 +123,7 @@ class IosBackupNormalizationTest {
             strumPatternsKey = "custom_strum_patterns",
         )
         manager.importBackup(iosBackup)
-        val repo = com.baijum.ukufretboard.data.CustomStrumPatternRepository(app)
+        val repo = CustomStrumPatternRepository(app)
         val all = repo.getAll()
         assertEquals(1, all.size)
         assertEquals("Island", all[0].pattern.name)
