@@ -96,8 +96,9 @@ jobs:
           xcodebuild build \
             -project iosApp/UkuleleCompanion.xcodeproj \
             -scheme UkuleleCompanion \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest,arch=arm64' \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
             -configuration Release \
+            ONLY_ACTIVE_ARCH=YES \
             CODE_SIGNING_ALLOWED=NO
 
       - name: Upload test results
