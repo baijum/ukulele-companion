@@ -5,13 +5,17 @@ plugins {
     alias(libs.plugins.kover)
 }
 
+dependencyLocking {
+    lockAllConfigurations()
+}
+
 kotlin {
     jvm()
 
     androidLibrary {
         namespace = "com.baijum.ukufretboard.shared"
-        compileSdk = 36
-        minSdk = 26
+        compileSdk = libs.versions.compileSdk.get().toInt()
+        minSdk = libs.versions.minSdk.get().toInt()
     }
 
     listOf(
