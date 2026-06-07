@@ -198,6 +198,19 @@ class TunerViewModel : ViewModel() {
         private const val TELEMETRY_LOG_INTERVAL_FRAMES = 25L
 
         private const val TAG = "TunerViewModel"
+
+        @androidx.annotation.VisibleForTesting
+        internal fun semitoneDistance(aHz: Double, bHz: Double): Double {
+            if (aHz <= 0.0 || bHz <= 0.0) return Double.MAX_VALUE
+            return abs(12.0 * log2(aHz / bHz))
+        }
+
+        @androidx.annotation.VisibleForTesting
+        internal fun isOctaveRelation(aHz: Double, bHz: Double): Boolean {
+            if (aHz <= 0.0 || bHz <= 0.0) return false
+            val semitones = semitoneDistance(aHz, bHz)
+            return abs(semitones - 12.0) <= 1.0 || abs(semitones - 24.0) <= 1.0
+        }
     }
 
     // --- State ---------------------------------------------------------------
@@ -799,16 +812,11 @@ class TunerViewModel : ViewModel() {
         }
     }
 
-    private fun semitoneDistance(aHz: Double, bHz: Double): Double {
-        if (aHz <= 0.0 || bHz <= 0.0) return Double.MAX_VALUE
-        return abs(12.0 * log2(aHz / bHz))
-    }
+    private fun semitoneDistance(aHz: Double, bHz: Double): Double =
+        Companion.semitoneDistance(aHz, bHz)
 
-    private fun isOctaveRelation(aHz: Double, bHz: Double): Boolean {
-        if (aHz <= 0.0 || bHz <= 0.0) return false
-        val semitones = semitoneDistance(aHz, bHz)
-        return abs(semitones - 12.0) <= 1.0 || abs(semitones - 24.0) <= 1.0
-    }
+    private fun isOctaveRelation(aHz: Double, bHz: Double): Boolean =
+        Companion.isOctaveRelation(aHz, bHz)
 
     private fun updateNeuralConsistency(neuralFrequencyHz: Double) {
         if (neuralFrequencyHz <= 0.0) {
