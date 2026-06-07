@@ -12,6 +12,9 @@ final class PatternPlayer: ObservableObject {
 
     private var timer: Timer?
     private let tonePlayer = TonePlayer()
+    private var currentBeats: [StrumBeat] = []
+    private var currentSteps: [FingerpickStep] = []
+    private var playbackIndex = 0
 
     private let emphasisVolume: Float = 1.0
     private let normalVolume: Float = 0.7
@@ -24,18 +27,18 @@ final class PatternPlayer: ObservableObject {
 
     func playStrum(pattern: StrumPattern, bpm: Int) {
         stop()
-        let beats = pattern.beats as [StrumBeat]
-        guard !beats.isEmpty else { return }
+        currentBeats = pattern.beats as [StrumBeat]
+        guard !currentBeats.isEmpty else { return }
 
         let beatInterval = 60.0 / Double(max(30, min(bpm, 300)))
-        var index = 0
+        playbackIndex = 0
         isPlaying = true
 
         timer = Timer.scheduledTimer(withTimeInterval: beatInterval, repeats: true) { [weak self] _ in
             Task { @MainActor in
                 guard let self, self.isPlaying else { return }
-                let beat = beats[index]
-                self.currentIndex = index
+                let beat = self.currentBeats[self.playbackIndex]
+                self.currentIndex = self.playbackIndex
                 let vol = beat.emphasis ? self.emphasisVolume : self.normalVolume
 
                 switch beat.direction {
@@ -49,30 +52,30 @@ final class PatternPlayer: ObservableObject {
                     break
                 }
 
-                index = (index + 1) % beats.count
+                self.playbackIndex = (self.playbackIndex + 1) % self.currentBeats.count
             }
         }
     }
 
     func playFingerpick(pattern: FingerpickingPattern, bpm: Int) {
         stop()
-        let steps = pattern.steps as [FingerpickStep]
-        guard !steps.isEmpty else { return }
+        currentSteps = pattern.steps as [FingerpickStep]
+        guard !currentSteps.isEmpty else { return }
 
         let stepInterval = 60.0 / Double(max(30, min(bpm, 300)))
-        var index = 0
+        playbackIndex = 0
         isPlaying = true
 
         timer = Timer.scheduledTimer(withTimeInterval: stepInterval, repeats: true) { [weak self] _ in
             Task { @MainActor in
                 guard let self, self.isPlaying else { return }
-                let step = steps[index]
-                self.currentIndex = index
+                let step = self.currentSteps[self.playbackIndex]
+                self.currentIndex = self.playbackIndex
 
                 let pc = self.openPitchClasses[Int(step.stringIndex)]
                 self.tonePlayer.playNote(pitchClass: pc)
 
-                index = (index + 1) % steps.count
+                self.playbackIndex = (self.playbackIndex + 1) % self.currentSteps.count
             }
         }
     }
@@ -82,6 +85,9 @@ final class PatternPlayer: ObservableObject {
         timer = nil
         isPlaying = false
         currentIndex = -1
+        playbackIndex = 0
+        currentBeats = []
+        currentSteps = []
     }
 
 }
