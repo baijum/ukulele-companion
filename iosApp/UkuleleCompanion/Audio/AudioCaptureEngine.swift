@@ -14,6 +14,7 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
 
     private let engine = AVAudioEngine()
     private let sessionQueue = DispatchQueue(label: "com.baijum.ukufretboard.audiocapture")
+    private let bufferLock = NSLock()
     private var _isRunning = false  // only accessed on sessionQueue
     private var hardwareSampleRate: Double = sampleRate
     private var resampleAccumulator: Double = 0.0
@@ -37,7 +38,6 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
             guard !_isRunning else { return false }
 
             #if !targetEnvironment(simulator)
-            // Upgrade audio session for recording
             let session = AVAudioSession.sharedInstance()
             do {
                 try session.setCategory(.playAndRecord, mode: .measurement,
@@ -53,6 +53,7 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
             let inputFormat = inputNode.inputFormat(forBus: 0)
             guard inputFormat.channelCount > 0, inputFormat.sampleRate > 0 else {
                 print("AudioCaptureEngine: invalid input format (channels=\(inputFormat.channelCount), rate=\(inputFormat.sampleRate))")
+                deactivateRecordingSession()
                 return false
             }
             hardwareSampleRate = inputFormat.sampleRate
@@ -65,7 +66,10 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
                 sampleRate: hardwareSampleRate,
                 channels: 1,
                 interleaved: false
-            ) else { return false }
+            ) else {
+                deactivateRecordingSession()
+                return false
+            }
 
             inputNode.installTap(onBus: 0, bufferSize: AVAudioFrameCount(Self.hopSize), format: tapFormat) { [weak self] buffer, _ in
                 self?.processBuffer(buffer)
@@ -78,6 +82,7 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
             } catch {
                 print("AudioCaptureEngine failed to start: \(error)")
                 inputNode.removeTap(onBus: 0)
+                deactivateRecordingSession()
                 return false
             }
         }
@@ -96,26 +101,14 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
             engine.stop()
             _isRunning = false
 
-            #if !targetEnvironment(simulator)
-            // Deactivate recording session, then downgrade to playback-only
-            let session = AVAudioSession.sharedInstance()
-            do {
-                try session.setActive(false, options: .notifyOthersOnDeactivation)
-            } catch {
-                print("AudioCaptureEngine: failed to deactivate audio session: \(error)")
-            }
-            do {
-                try session.setCategory(.playback, mode: .default, options: [.defaultToSpeaker])
-                try session.setActive(true)
-            } catch {
-                print("AudioCaptureEngine: failed to downgrade audio session: \(error)")
-            }
-            #endif
+            deactivateRecordingSession()
 
+            bufferLock.lock()
             writePos = 0
             filled = 0
             resampleAccumulator = 0.0
             ringBuffer = [Float](repeating: 0, count: Self.frameSize)
+            bufferLock.unlock()
             return true
         }
         if didStop {
@@ -130,11 +123,12 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
         let samples = channelData[0]
         let count = Int(buffer.frameLength)
 
+        bufferLock.lock()
+        defer { bufferLock.unlock() }
+
         let needsResample = abs(hardwareSampleRate - Self.sampleRate) > 1.0
 
         if needsResample {
-            // Resample from hardware rate to 44.1kHz via linear interpolation.
-            // srcPos tracks fractional position in the input buffer, carried across calls.
             let step = hardwareSampleRate / Self.sampleRate
             var srcPos = resampleAccumulator
             while Int(srcPos) + 1 < count {
@@ -165,6 +159,24 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
             onBuffer?(analysisBuf)
             filled -= Self.hopSize
         }
+    }
+
+    /// Deactivates the recording audio session and restores playback-only mode.
+    private func deactivateRecordingSession() {
+        #if !targetEnvironment(simulator)
+        let session = AVAudioSession.sharedInstance()
+        do {
+            try session.setActive(false, options: .notifyOthersOnDeactivation)
+        } catch {
+            print("AudioCaptureEngine: failed to deactivate audio session: \(error)")
+        }
+        do {
+            try session.setCategory(.playback, mode: .default, options: [.defaultToSpeaker])
+            try session.setActive(true)
+        } catch {
+            print("AudioCaptureEngine: failed to restore playback session: \(error)")
+        }
+        #endif
     }
 
     deinit {
