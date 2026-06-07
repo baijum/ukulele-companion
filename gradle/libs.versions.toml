@@ -9,7 +9,6 @@ coreKtx = "1.18.0"
 
 kotlinxCoroutines = "1.11.0"
 kotlinxSerializationJson = "1.11.0"
-kotlinxSerialization = "2.3.20"
 reorderable = "3.1.0"
 onnxruntime = "1.24.3"
 playPublisher = "4.0.0"
@@ -54,7 +53,7 @@ junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engi
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinxSerialization" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 android-kmp-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 play-publisher = { id = "com.github.triplet.play", version.ref = "playPublisher" }
