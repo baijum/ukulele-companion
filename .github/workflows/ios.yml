@@ -96,7 +96,7 @@ jobs:
           xcodebuild build \
             -project iosApp/UkuleleCompanion.xcodeproj \
             -scheme UkuleleCompanion \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest,arch=arm64' \
             -configuration Release \
             CODE_SIGNING_ALLOWED=NO
 
