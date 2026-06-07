@@ -27,15 +27,20 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
 
-      - name: Run lint
+      - name: Run Debug lint
         run: ./gradlew lintDebug
 
-      - name: Upload lint report
+      - name: Run Release lint
+        run: ./gradlew lintRelease
+
+      - name: Upload lint reports
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: lint-report
-          path: app/build/reports/lint-results-debug.html
+          name: lint-reports
+          path: |
+            app/build/reports/lint-results-debug.html
+            app/build/reports/lint-results-release.html
 
   shared-tests:
     name: Shared Module Tests
@@ -131,6 +136,40 @@ jobs:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
 
+  release-build:
+    name: Release Build
+    needs: [ lint, unit-tests ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Build release APK
+        run: ./gradlew assembleRelease
+
+      - name: Upload R8 mapping file
+        uses: actions/upload-artifact@v7
+        with:
+          name: r8-mapping
+          path: app/build/outputs/mapping/release/mapping.txt
+
+      - name: Report release APK size
+        run: |
+          APK=$(find app/build/outputs/apk/release -name '*.apk' | head -1)
+          SIZE_BYTES=$(stat -c%s "$APK")
+          SIZE_MB=$(awk "BEGIN {printf \"%.2f\", $SIZE_BYTES / 1048576}")
+          echo "### Release APK Size" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Release APK**: ${SIZE_MB} MB (${SIZE_BYTES} bytes)" >> "$GITHUB_STEP_SUMMARY"
+
   apk-size:
     name: APK Size
     needs: build
@@ -154,7 +193,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        api-level: [33]
+        api-level: [26, 33, 35]
     steps:
       - name: Checkout
         uses: actions/checkout@v6
