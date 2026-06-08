@@ -2,6 +2,7 @@ import SwiftUI
 import shared
 
 struct ChordLibraryView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @StateObject private var viewModel = ChordLibraryViewModel()
     @EnvironmentObject private var favoritesVM: FavoritesViewModel
     var onApplyVoicing: ((ChordVoicing, Int32, ChordFormula) -> Void)?
@@ -175,7 +176,7 @@ struct ChordLibraryView: View {
     // MARK: - Filter Toggle
 
     private var filterToggleRow: some View {
-        Button(action: { withAnimation { filtersExpanded.toggle() } }) {
+        Button(action: { withAnimation(reduceMotion ? nil : .default) { filtersExpanded.toggle() } }) {
             HStack {
                 Image(systemName: "line.3.horizontal.decrease.circle")
                 if filtersExpanded {

@@ -2,6 +2,7 @@ import SwiftUI
 import shared
 
 struct StrumPatternsView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @StateObject private var customPatternsVM = CustomPatternsViewModel()
     @StateObject private var patternPlayer = PatternPlayer()
     @State private var selectedTab = 0
@@ -344,7 +345,7 @@ struct StrumPatternsView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .black.opacity(0.08), radius: 2, y: 1)
         .onTapGesture {
-            withAnimation {
+            withAnimation(reduceMotion ? nil : .default) {
                 expandedIndex = expandedIndex == index ? nil : index
             }
         }
@@ -518,7 +519,7 @@ struct StrumPatternsView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .black.opacity(0.08), radius: 2, y: 1)
         .onTapGesture {
-            withAnimation {
+            withAnimation(reduceMotion ? nil : .default) {
                 expandedIndex = expandedIndex == index ? nil : index
             }
         }

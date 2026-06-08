@@ -73,13 +73,14 @@ private let licenseEntries: [LicenseEntry] = [
 ]
 
 struct OpenSourceLicensesView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var expandedEntry: String?
 
     var body: some View {
         List(licenseEntries) { entry in
             VStack(alignment: .leading, spacing: 8) {
                 Button {
-                    withAnimation {
+                    withAnimation(reduceMotion ? nil : .default) {
                         expandedEntry = expandedEntry == entry.id ? nil : entry.id
                     }
                 } label: {
@@ -119,7 +120,7 @@ struct OpenSourceLicensesView: View {
                             .font(.caption2)
                             .foregroundStyle(.secondary)
                     }
-                    .transition(.opacity)
+                    .transition(reduceMotion ? .identity : .opacity)
                 }
             }
         }

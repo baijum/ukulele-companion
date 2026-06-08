@@ -3,6 +3,7 @@ import UniformTypeIdentifiers
 import shared
 
 struct SongbookView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @EnvironmentObject var viewModel: SongbookViewModel
     @State private var showingImportSheet = false
     @State private var showingFileImporter = false
@@ -1026,7 +1027,7 @@ struct SongViewerView: View {
                 HStack(spacing: 8) {
                     ForEach(Array(sections.enumerated()), id: \.offset) { _, section in
                         Button {
-                            withAnimation {
+                            withAnimation(reduceMotion ? nil : .default) {
                                 proxy.scrollTo("line_\(section.lineIndex)", anchor: .top)
                             }
                         } label: {

@@ -149,6 +149,7 @@ struct MetronomeView: View {
 }
 
 struct BeatIndicatorView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     let index: Int
     let type: BeatType
     let isActive: Bool
@@ -161,7 +162,7 @@ struct BeatIndicatorView: View {
                 .background(Circle().fill(fillColor))
                 .frame(width: 44, height: 44)
                 .scaleEffect(isActive ? 1.3 : 1.0)
-                .animation(.easeInOut(duration: 0.1), value: isActive)
+                .animation(reduceMotion ? nil : .easeInOut(duration: 0.1), value: isActive)
                 .onTapGesture { onTap() }
             Text("\(index + 1)")
                 .font(.caption2)
