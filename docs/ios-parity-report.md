@@ -1,6 +1,6 @@
 # iOS Parity Report
 
-Generated: 2026-03-08 (v3, post P0-P5 fixes) | Branch: `ios-porting-new`
+Generated: 2026-03-08 (v3, post P0-P5 fixes) | Updated: 2026-06-08 (v4, post accessibility + performance) | Branch: `main`
 
 Systematic comparison of the iOS port against the Android reference implementation using code-level structural analysis (Layer 1) and TOML-based feature verification (Layer 2).
 
@@ -15,6 +15,14 @@ Systematic comparison of the iOS port against the Android reference implementati
 | P0-P5 gaps fixed | 54 / 54 |
 
 All 54 prioritized gaps from the initial audit (P0 through P5) have been resolved. Both platforms are at full feature parity across all screens, sub-features, and settings.
+
+### Post-parity updates (June 2026)
+
+**Accessibility parity (#140):** Haptic in-tune feedback, reduce motion support, per-string chord diagram exploration, needle meter zone descriptions, color-only state differentiation fixes, and accessibility hints have been implemented on both platforms simultaneously.
+
+**Performance parity (#141):** Frame-dropping backpressure, async ONNX model loading, and the "SwiftF0 Loading..." badge state are implemented identically on both platforms. Shared KMP buffer optimizations (PitchDetector, AudioResampler) benefit both platforms equally.
+
+**Test coverage (#136, #137):** Both platforms now have ViewModel-level unit tests covering tuner arbitration, pitch monitor, metronome, fretboard, chord transitions, scale practice, melody, play-along, and neural pitch supervision.
 
 ---
 

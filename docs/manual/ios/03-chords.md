@@ -45,9 +45,14 @@ Tap the **heart icon** on any voicing card to save it to your Favorites. A fille
 
 See [Favorites](06-favorites.md) for more about managing your saved voicings.
 
+## Accessibility
+
+- **Per-string exploration** — When using VoiceOver, chord diagrams provide per-string details (note, fret, and role such as bass note or common tone) accessible through the VoiceOver rotor's custom content.
+- **Share hint** — Long-pressing a chord diagram to share is announced with an accessibility hint so VoiceOver users know the action is available.
+
 ## Sharing Voicings
 
-Tap the **share icon** on any voicing card to export it as an image you can send to others.
+Tap the **share icon** on any voicing card to export it as an image you can send to others. You can also **long-press** a chord diagram to share it directly.
 
 ## Playing Voicings
 

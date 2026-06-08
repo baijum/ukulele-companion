@@ -2,7 +2,7 @@ import Foundation
 import onnxruntime
 import shared
 
-final class NeuralPitchSupervisor {
+final class NeuralPitchSupervisor: @unchecked Sendable {
     static let minFreqHz: Double = 46.875
     static let maxFreqHz: Double = 2093.75
     static let minConfidence: Double = 0.50

@@ -1,11 +1,12 @@
 # Neural Pitch Supervisor — SwiftF0 Integration
 
-Future enhancement plan for adding a lightweight neural pitch estimator
-(SwiftF0) as a supervisory layer alongside the existing Fast YIN tuner pipeline.
 This document describes the hybrid architecture, integration design, alternative
-approaches, and trigger criteria for when to pursue this work.
+approaches, and performance optimizations for the SwiftF0 neural pitch estimator
+that runs as a supervisory layer alongside the Fast YIN tuner pipeline.
 
-**Status:** Potential future enhancement — not yet scheduled.
+**Status:** Fully implemented and shipped on both Android and iOS. The original
+spec below has been annotated with "Implementation note" callouts where the
+shipped code differs from the initial design.
 
 ## Motivation
 
@@ -583,24 +584,61 @@ inference performance.
 
 ---
 
-## When to Pursue This
+## Implementation Notes (June 2026)
 
-This enhancement is **not currently scheduled**. Trigger criteria for
-prioritising it:
+The neural pitch supervisor was fully implemented across both platforms.
+This section documents key differences from the original spec above.
 
-- **User feedback:** Reports of poor tuner performance in noisy environments
-  (stage, rehearsal rooms, outdoor busking).
-- **Competitive pressure:** Other ukulele/guitar tuner apps ship neural-backed
-  pitch detection with demonstrably better noise robustness.
-- **Use case expansion:** If the app targets professional or live-performance
-  users who need reliable tuning in challenging acoustic conditions.
-- **APK size tolerance:** If the app already adds other native dependencies
-  (e.g., audio effects, Bluetooth MIDI) that normalize the ~10 MB ONNX
-  Runtime overhead.
+### Platforms
 
-Until these triggers are met, the current Fast YIN pipeline with all four
-phases of improvements provides excellent accuracy and responsiveness for
-typical ukulele practice environments.
+The spec originally targeted Android only. The shipped implementation covers
+both platforms:
+
+- **Android:** `NeuralPitchSupervisor.kt` uses ONNX Runtime Android AAR.
+- **iOS:** `NeuralPitchSupervisor.swift` uses ONNX Runtime via the C API
+  (`ort_c_api.h`), with `KotlinFloatArray` interop for the shared KMP
+  `AudioResampler`.
+
+### Async Model Loading (PR #174)
+
+The spec's `init` block loaded the model synchronously, which caused a
+50-100ms hitch on the main thread when opening the tuner. The shipped code
+loads asynchronously:
+
+- **Android:** `initializeNeuralSupervisor()` launches on `Dispatchers.IO`
+  via `viewModelScope`. The UI shows `NeuralRuntimeStatus.LOADING` until
+  the model is ready.
+- **iOS:** `TunerViewModel.init()` spawns a `Task` calling a
+  `nonisolated static` loader. The badge shows `.loading` → `.active`
+  or `.fallback`.
+
+### Frame-Dropping / Backpressure (PR #173)
+
+The spec assumed the audio pipeline would always keep up. Under thermal
+throttling on low-end devices, processing time can exceed the 23ms hop
+budget. Both `TunerViewModel` and `PitchMonitorViewModel` now guard
+`processBuffer` with an `isProcessing` flag that drops incoming frames
+when the previous frame is still being processed.
+
+### Cached AudioResampler Buffers (PR #177)
+
+The spec's `AudioResampler` allocated `filtered` and `output` arrays on
+every call. The shipped `AudioResampler` caches these as instance fields
+(`cachedFiltered`, `cachedOutput`) and reuses them when the input size is
+unchanged, eliminating ~104 KB/s of GC pressure.
+
+### Cached PitchDetector Buffers (PR #175)
+
+The `diff`, `cmnd`, and `prefixSq` arrays in `PitchDetector.detect()` are
+now cached alongside the existing FFT work buffers, following the same
+`ensureDiffBuffers` / `ensureFftBuffers` pattern.
+
+### NeedleMeter Optimization (PR #176)
+
+The Android `NeedleMeter` Canvas composable uses `Modifier.drawWithCache`
+to separate static elements (background arc, highlight zone, tick marks)
+from the dynamic needle. Static elements are only recomputed when the
+size or color keys change.
 
 ---
 
