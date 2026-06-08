@@ -1,6 +1,8 @@
 package com.baijum.ukufretboard.ui
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.snap
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -199,12 +201,14 @@ private fun PageIndicator(pageCount: Int, currentPage: Int) {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        val reduceMotion = LocalReduceMotion.current
         repeat(pageCount) { index ->
             val color by animateColorAsState(
                 targetValue = if (index == currentPage)
                     MaterialTheme.colorScheme.primary
                 else
                     MaterialTheme.colorScheme.outlineVariant,
+                animationSpec = if (reduceMotion) snap() else tween(),
                 label = "dot",
             )
             Box(

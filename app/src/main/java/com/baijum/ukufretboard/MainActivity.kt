@@ -7,13 +7,16 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.baijum.ukufretboard.ui.FretboardScreen
+import com.baijum.ukufretboard.ui.LocalReduceMotion
 import com.baijum.ukufretboard.ui.OnboardingScreen
+import com.baijum.ukufretboard.ui.rememberReduceMotion
 import com.baijum.ukufretboard.ui.theme.UkuleleCompanionTheme
 import com.baijum.ukufretboard.viewmodel.SettingsViewModel
 
@@ -41,9 +44,11 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val appSettings by settingsViewModel.settings.collectAsState()
             val windowSizeClass = calculateWindowSizeClass(this)
+            val reduceMotion = rememberReduceMotion()
             var onboardingDone by rememberSaveable {
                 mutableStateOf(appSettings.onboardingCompleted)
             }
+            CompositionLocalProvider(LocalReduceMotion provides reduceMotion) {
             UkuleleCompanionTheme(themeMode = appSettings.display.themeMode) {
                 if (onboardingDone) {
                     FretboardScreen(
@@ -57,6 +62,7 @@ class MainActivity : AppCompatActivity() {
                         onFinished = { onboardingDone = true },
                     )
                 }
+            }
             }
         }
     }

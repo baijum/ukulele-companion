@@ -2,6 +2,7 @@ package com.baijum.ukufretboard.ui
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -267,9 +268,10 @@ private fun BeatIndicator(
     isActive: Boolean,
     onClick: () -> Unit,
 ) {
+    val reduceMotion = LocalReduceMotion.current
     val targetScale by animateFloatAsState(
         targetValue = if (isActive) 1.3f else 1.0f,
-        animationSpec = tween(durationMillis = 100),
+        animationSpec = if (reduceMotion) snap() else tween(durationMillis = 100),
         label = "beatScale",
     )
     val backgroundColor by animateColorAsState(
@@ -281,7 +283,7 @@ private fun BeatIndicator(
             type == BeatType.NORMAL -> MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f)
             else -> Color.Transparent
         },
-        animationSpec = tween(durationMillis = 100),
+        animationSpec = if (reduceMotion) snap() else tween(durationMillis = 100),
         label = "beatColor",
     )
     val borderColor = when (type) {
