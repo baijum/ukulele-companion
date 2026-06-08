@@ -121,7 +121,7 @@ object AudioChordDetector {
         val detection = if (activePitchClasses.size >= MIN_PITCH_CLASSES) {
             ChordDetector.detect(activePitchClasses.toList())
         } else {
-            ChordDetector.detect(activePitchClasses.toList())
+            ChordDetector.DetectionResult.NoSelection
         }
 
         // Confidence: fraction of total energy captured by the active bins
