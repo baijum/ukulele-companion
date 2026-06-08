@@ -1,5 +1,6 @@
 import Foundation
 import AVFoundation
+import os
 import shared
 
 struct PitchPoint {
@@ -28,8 +29,8 @@ final class PitchMonitorViewModel: ObservableObject {
     private static let smoothingWindow = 5
     private static let historyDurationMs: Int64 = 10_000
 
-    // Frame-dropping (backpressure)
-    private var isProcessing = false
+    // Frame-dropping (backpressure) — checked on audio thread, not MainActor
+    private nonisolated(unsafe) let processingLock = OSAllocatedUnfairLock(initialState: false)
 
     // Neural state
     private var neuralFrameCounter: Int = 0
@@ -74,8 +75,16 @@ final class PitchMonitorViewModel: ObservableObject {
     init() {
         neuralSupervisor = nil
         audioEngine.onBuffer = { [weak self] samples in
+            guard let self else { return }
+            let shouldProcess = self.processingLock.withLock { isProcessing -> Bool in
+                if isProcessing { return false }
+                isProcessing = true
+                return true
+            }
+            guard shouldProcess else { return }
             Task { @MainActor in
-                self?.processBuffer(samples)
+                self.processBuffer(samples)
+                self.processingLock.withLock { $0 = false }
             }
         }
         Task {
@@ -149,10 +158,6 @@ final class PitchMonitorViewModel: ObservableObject {
     }
 
     private func processBuffer(_ samples: [Float]) {
-        guard !isProcessing else { return }
-        isProcessing = true
-        defer { isProcessing = false }
-
         let kotlinArray = KotlinFloatArray(size: Int32(samples.count))
         for i in 0..<samples.count {
             kotlinArray.set(index: Int32(i), value: samples[i])
