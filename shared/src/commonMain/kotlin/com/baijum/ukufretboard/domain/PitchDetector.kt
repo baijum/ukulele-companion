@@ -88,17 +88,24 @@ object PitchDetector {
      */
     private val CONTINUITY_FACTOR = 2.0.pow(MAX_SEMITONE_JUMP / 12.0)
 
-    // --- Pre-allocated FFT work buffers ------------------------------------
-    // These are reused across frames (~43/sec) to avoid GC pressure from
-    // allocating 4 large arrays per frame in computeDifferenceFunctionFFT.
+    // --- Pre-allocated work buffers ------------------------------------------
+    // Reused across frames (~43/sec) to avoid GC pressure.
     private val bufferLock = PlatformLock()
+
+    // FFT work buffers (used in computeDifferenceFunctionFFT)
     private var cachedFftSize = 0
     private var fftRefReal = FloatArray(0)
     private var fftRefImag = FloatArray(0)
     private var fftSigReal = FloatArray(0)
     private var fftSigImag = FloatArray(0)
 
-    /** Ensures work buffers are at least [size] and zeros them out. */
+    // Difference / CMND / prefix-sum buffers
+    private var cachedSampleSize = 0
+    private var cachedMaxLag = 0
+    private var cachedPrefixSq = DoubleArray(0)
+    private var cachedDiff = FloatArray(0)
+    private var cachedCmnd = FloatArray(0)
+
     private fun ensureFftBuffers(size: Int) {
         if (size != cachedFftSize) {
             cachedFftSize = size
@@ -111,6 +118,25 @@ object PitchDetector {
             fftRefImag.fill(0f)
             fftSigReal.fill(0f)
             fftSigImag.fill(0f)
+        }
+    }
+
+    private fun ensureDiffBuffers(sampleSize: Int, maxLag: Int) {
+        val prefixSize = sampleSize + 1
+        val diffSize = maxLag + 1
+        if (sampleSize != cachedSampleSize) {
+            cachedSampleSize = sampleSize
+            cachedPrefixSq = DoubleArray(prefixSize)
+        } else {
+            cachedPrefixSq.fill(0.0)
+        }
+        if (maxLag != cachedMaxLag) {
+            cachedMaxLag = maxLag
+            cachedDiff = FloatArray(diffSize)
+            cachedCmnd = FloatArray(diffSize)
+        } else {
+            cachedDiff.fill(0f)
+            cachedCmnd.fill(0f)
         }
     }
 
@@ -146,83 +172,68 @@ object PitchDetector {
         val maxLag = (sampleRate / MIN_FREQUENCY).toInt().coerceAtMost(halfLen)
         if (minLag >= maxLag) return null
 
-        // --- Step 1: Difference function (Fast YIN via FFT) -----------------
-        // Decompose the SDF as d(tau) = E0 + E(tau) - 2*r(tau) where:
-        //   E0     = sum x[j]^2  for j = 0..W-1        (reference energy)
-        //   E(tau) = sum x[j]^2  for j = tau..tau+W-1   (shifted energy)
-        //   r(tau) = sum x[j]*x[j+tau] for j = 0..W-1   (cross-correlation)
-        // E0 is constant; E(tau) uses a prefix-sum; r(tau) uses FFT.
+        return bufferLock.withLock {
+            ensureDiffBuffers(samples.size, maxLag)
+            val diff = cachedDiff
+            val cmnd = cachedCmnd
 
-        val diff = computeDifferenceFunctionFFT(samples, halfLen, maxLag)
+            // --- Step 1: Difference function (Fast YIN via FFT) -------------
+            computeDifferenceFunctionFFTLocked(samples, halfLen, maxLag, diff)
 
-        // --- Step 2: Cumulative mean normalised difference (CMND) -----------
-        val cmnd = FloatArray(maxLag + 1)
-        cmnd[0] = 1.0f
-        var runningSum = 0.0f
-        for (tau in 1..maxLag) {
-            runningSum += diff[tau]
-            cmnd[tau] = if (runningSum > 0) diff[tau] * tau / runningSum else 1.0f
-        }
-
-        // --- Step 3: Absolute threshold (with continuity constraint) ---------
-        // If a previous frequency is available, first search a narrow window
-        // (±MAX_SEMITONE_JUMP semitones) to prevent wild pitch jumps during
-        // sustained notes.  Fall back to the full range if the constrained
-        // search finds nothing (e.g. the user switched strings).
-        var bestTau = -1
-
-        if (previousFrequency != null && previousFrequency > 0.0) {
-            val cMinFreq = previousFrequency / CONTINUITY_FACTOR
-            val cMaxFreq = previousFrequency * CONTINUITY_FACTOR
-            // Frequency ↔ lag is inverted: higher freq → lower lag.
-            val cMinLag = (sampleRate / cMaxFreq).toInt().coerceAtLeast(minLag)
-            val cMaxLag = (sampleRate / cMinFreq).toInt().coerceAtMost(maxLag)
-            if (cMinLag < cMaxLag) {
-                bestTau = findFirstDipBelow(cmnd, cMinLag, cMaxLag, threshold)
+            // --- Step 2: Cumulative mean normalised difference (CMND) -------
+            cmnd[0] = 1.0f
+            var runningSum = 0.0f
+            for (tau in 1..maxLag) {
+                runningSum += diff[tau]
+                cmnd[tau] = if (runningSum > 0) diff[tau] * tau / runningSum else 1.0f
             }
-        }
 
-        // Full-range fallback.
-        if (bestTau < 0) {
-            bestTau = findFirstDipBelow(cmnd, minLag, maxLag, threshold)
-        }
+            // --- Step 3: Absolute threshold (with continuity constraint) -----
+            var bestTau = -1
 
-        if (bestTau < 0) return null
-
-        // --- Step 4: Confidence gate ----------------------------------------
-        // Reject frames where the CMND dip is not deep enough.  During
-        // attack transients the signal is aperiodic and the dip is shallow,
-        // so this prevents "flashing" a wrong note on pluck.
-        if (cmnd[bestTau] > CONFIDENCE_REJECT_THRESHOLD) return null
-
-        // --- Step 5: Best Local Estimate (YIN paper, Step 5) ----------------
-        // The CMND normalisation can slightly shift the minimum location.
-        // Search the vicinity in the raw difference function for the true
-        // least-squares minimum before interpolating.
-        var localBestTau = bestTau
-        var localBestVal = diff[bestTau]
-        val searchStart = (bestTau - BEST_LOCAL_RADIUS).coerceAtLeast(minLag)
-        val searchEnd = (bestTau + BEST_LOCAL_RADIUS).coerceAtMost(maxLag)
-        for (candidate in searchStart..searchEnd) {
-            if (diff[candidate] < localBestVal) {
-                localBestVal = diff[candidate]
-                localBestTau = candidate
+            if (previousFrequency != null && previousFrequency > 0.0) {
+                val cMinFreq = previousFrequency / CONTINUITY_FACTOR
+                val cMaxFreq = previousFrequency * CONTINUITY_FACTOR
+                val cMinLag = (sampleRate / cMaxFreq).toInt().coerceAtLeast(minLag)
+                val cMaxLag = (sampleRate / cMinFreq).toInt().coerceAtMost(maxLag)
+                if (cMinLag < cMaxLag) {
+                    bestTau = findFirstDipBelow(cmnd, cMinLag, cMaxLag, threshold)
+                }
             }
+
+            if (bestTau < 0) {
+                bestTau = findFirstDipBelow(cmnd, minLag, maxLag, threshold)
+            }
+
+            if (bestTau < 0) return@withLock null
+
+            // --- Step 4: Confidence gate ------------------------------------
+            if (cmnd[bestTau] > CONFIDENCE_REJECT_THRESHOLD) return@withLock null
+
+            // --- Step 5: Best Local Estimate (YIN paper, Step 5) ------------
+            var localBestTau = bestTau
+            var localBestVal = diff[bestTau]
+            val searchStart = (bestTau - BEST_LOCAL_RADIUS).coerceAtLeast(minLag)
+            val searchEnd = (bestTau + BEST_LOCAL_RADIUS).coerceAtMost(maxLag)
+            for (candidate in searchStart..searchEnd) {
+                if (diff[candidate] < localBestVal) {
+                    localBestVal = diff[candidate]
+                    localBestTau = candidate
+                }
+            }
+
+            // --- Step 6: Parabolic interpolation on raw SDF -----------------
+            val refinedTau = parabolicInterpolation(diff, localBestTau, maxLag)
+
+            // --- Step 7: Convert lag → frequency ----------------------------
+            val frequency = sampleRate.toDouble() / refinedTau
+            if (frequency < MIN_FREQUENCY || frequency > MAX_FREQUENCY) return@withLock null
+
+            PitchResult(
+                frequencyHz = frequency,
+                confidence = cmnd[bestTau].toDouble(),
+            )
         }
-
-        // --- Step 6: Parabolic interpolation on raw SDF ---------------------
-        val refinedTau = parabolicInterpolation(diff, localBestTau, maxLag)
-
-        // --- Step 7: Convert lag → frequency --------------------------------
-        val frequency = sampleRate.toDouble() / refinedTau
-        if (frequency < MIN_FREQUENCY || frequency > MAX_FREQUENCY) return null
-
-        return PitchResult(
-            frequencyHz = frequency,
-            // Confidence still comes from the CMND — it provides a
-            // normalised 0-to-1 periodicity metric for downstream gating.
-            confidence = cmnd[bestTau].toDouble(),
-        )
     }
 
     // --- Helpers ------------------------------------------------------------
@@ -311,58 +322,47 @@ object PitchDetector {
      * @param maxLag  Maximum lag to compute.
      * @return A [FloatArray] of size maxLag+1 containing d(0)..d(maxLag).
      */
-    private fun computeDifferenceFunctionFFT(
+    /**
+     * Computes the squared difference function into [outDiff] using
+     * FFT-based cross-correlation. Must be called while [bufferLock] is held.
+     */
+    private fun computeDifferenceFunctionFFTLocked(
         samples: FloatArray,
         halfLen: Int,
         maxLag: Int,
-    ): FloatArray {
+        outDiff: FloatArray,
+    ) {
         val n = samples.size
 
-        // --- Prefix sum of squares for energy terms -------------------------
-        val prefixSq = DoubleArray(n + 1)
+        val prefixSq = cachedPrefixSq
         for (i in 0 until n) {
             prefixSq[i + 1] = prefixSq[i] + samples[i].toDouble() * samples[i]
         }
-        val energy0 = prefixSq[halfLen] // E_x(0) = sum x[j]^2, j=0..W-1
+        val energy0 = prefixSq[halfLen]
 
-        // --- FFT-based cross-correlation ------------------------------------
-        val fftSize = nextPow2(n * 2) // zero-pad to avoid circular aliasing
+        val fftSize = nextPow2(n * 2)
+        ensureFftBuffers(fftSize)
 
-        return bufferLock.withLock {
-            ensureFftBuffers(fftSize)
+        for (i in 0 until halfLen) fftRefReal[i] = samples[i]
+        for (i in 0 until n) fftSigReal[i] = samples[i]
 
-            // Reference window: x[0..W-1], zero-padded
-            for (i in 0 until halfLen) fftRefReal[i] = samples[i]
-            // fftRefImag already zeroed by ensureFftBuffers
+        FFTProcessor.fft(fftRefReal, fftRefImag)
+        FFTProcessor.fft(fftSigReal, fftSigImag)
 
-            // Full signal: x[0..N-1], zero-padded
-            for (i in 0 until n) fftSigReal[i] = samples[i]
-            // fftSigImag already zeroed by ensureFftBuffers
+        for (i in 0 until fftSize) {
+            val ar = fftRefReal[i]; val ai = fftRefImag[i]
+            val br = fftSigReal[i]; val bi = fftSigImag[i]
+            fftRefReal[i] = ar * br + ai * bi
+            fftRefImag[i] = ai * br - ar * bi
+        }
 
-            FFTProcessor.fft(fftRefReal, fftRefImag)
-            FFTProcessor.fft(fftSigReal, fftSigImag)
+        FFTProcessor.ifft(fftRefReal, fftRefImag)
 
-            // Cross-spectrum: conj(Ref) * Sig
-            // Reuse fftRefReal/fftRefImag to store the result.
-            for (i in 0 until fftSize) {
-                val ar = fftRefReal[i]; val ai = fftRefImag[i]
-                val br = fftSigReal[i]; val bi = fftSigImag[i]
-                fftRefReal[i] = ar * br + ai * bi   // real part of conj(A)*B
-                fftRefImag[i] = ai * br - ar * bi   // imag part of conj(A)*B
-            }
-
-            FFTProcessor.ifft(fftRefReal, fftRefImag)
-            // fftRefReal[tau] now contains r(tau) = sum_{j=0}^{W-1} x[j]*x[j+tau]
-
-            // --- Assemble SDF ---------------------------------------------------
-            val diff = FloatArray(maxLag + 1)
-            for (tau in 1..maxLag) {
-                val energyTau = prefixSq[tau + halfLen] - prefixSq[tau]
-                diff[tau] = (energy0 + energyTau - 2.0 * fftRefReal[tau].toDouble())
-                    .coerceAtLeast(0.0) // clamp tiny negative values from FP rounding
-                    .toFloat()
-            }
-            diff
+        for (tau in 1..maxLag) {
+            val energyTau = prefixSq[tau + halfLen] - prefixSq[tau]
+            outDiff[tau] = (energy0 + energyTau - 2.0 * fftRefReal[tau].toDouble())
+                .coerceAtLeast(0.0)
+                .toFloat()
         }
     }
 
