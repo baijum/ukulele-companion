@@ -42,6 +42,7 @@ struct TunerView: View {
                 NeedleMeterView(cents: viewModel.centsDeviation)
                     .frame(height: 100)
                     .padding(.horizontal, 24)
+                    .accessibilityValue(viewModel.centsAccessibilityValue)
 
                 // Frequency display
                 if let freq = viewModel.frequency {
@@ -145,6 +146,7 @@ struct TunerView: View {
                     .background(Color.green.opacity(0.15))
                     .foregroundStyle(.green)
                     .clipShape(Capsule())
+                    .accessibilityLabel("Neural pitch detection active")
             case .fallback:
                 Text("SwiftF0 Fallback")
                     .font(.caption2.bold())
@@ -153,6 +155,7 @@ struct TunerView: View {
                     .background(Color.red.opacity(0.15))
                     .foregroundStyle(.red)
                     .clipShape(Capsule())
+                    .accessibilityLabel("Neural pitch detection fallback mode")
             }
         }
     }
@@ -316,6 +319,7 @@ struct NeedleMeterView: View {
         }
         .accessibilityElement()
         .accessibilityLabel(meterAccessibilityLabel)
+        .accessibilityAddTraits(.updatesFrequently)
     }
 
     private var needleColor: Color {
