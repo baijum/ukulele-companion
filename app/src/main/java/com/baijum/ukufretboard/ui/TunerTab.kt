@@ -491,7 +491,10 @@ private fun SwiftF0StatusBadge(
     Box(
         modifier = modifier
             .background(color = bgColor, shape = RoundedCornerShape(999.dp))
-            .padding(horizontal = 12.dp, vertical = 6.dp),
+            .padding(horizontal = 12.dp, vertical = 6.dp)
+            .semantics {
+                contentDescription = label
+            },
     ) {
         Text(
             text = label,
@@ -627,16 +630,18 @@ private fun NeedleMeter(
  */
 @Composable
 private fun PrecisionModeBadge(modifier: Modifier = Modifier) {
+    val label = stringResource(R.string.tuner_precision_mode)
     Box(
         modifier = modifier
             .background(
                 color = MaterialTheme.colorScheme.tertiaryContainer,
                 shape = RoundedCornerShape(999.dp),
             )
-            .padding(horizontal = 12.dp, vertical = 6.dp),
+            .padding(horizontal = 12.dp, vertical = 6.dp)
+            .semantics { contentDescription = label },
     ) {
         Text(
-            text = stringResource(R.string.tuner_precision_mode),
+            text = label,
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onTertiaryContainer,
             fontWeight = FontWeight.SemiBold,
