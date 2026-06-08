@@ -95,6 +95,7 @@
 		A10095 /* MetronomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10095 /* MetronomeViewModelTests.swift */; };
 		A10096 /* ScalePracticeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10096 /* ScalePracticeViewModelTests.swift */; };
 		A10097 /* ChordTransitionsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10097 /* ChordTransitionsViewModelTests.swift */; };
+		A10098 /* FretboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10098 /* FretboardViewModelTests.swift */; };
 		A20001 /* click_high.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20001 /* click_high.wav */; };
 		A20002 /* click_low.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20002 /* click_low.wav */; };
 		A20003 /* uke_a.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20003 /* uke_a.wav */; };
@@ -239,6 +240,7 @@
 		B10095 /* MetronomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetronomeViewModelTests.swift; sourceTree = "<group>"; };
 		B10096 /* ScalePracticeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalePracticeViewModelTests.swift; sourceTree = "<group>"; };
 		B10097 /* ChordTransitionsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordTransitionsViewModelTests.swift; sourceTree = "<group>"; };
+		B10098 /* FretboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FretboardViewModelTests.swift; sourceTree = "<group>"; };
 		B20001 /* click_high.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_high.wav; sourceTree = "<group>"; };
 		B20002 /* click_low.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_low.wav; sourceTree = "<group>"; };
 		B20003 /* uke_a.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_a.wav; sourceTree = "<group>"; };
@@ -496,6 +498,7 @@
 				B10095 /* MetronomeViewModelTests.swift */,
 				B10096 /* ScalePracticeViewModelTests.swift */,
 				B10097 /* ChordTransitionsViewModelTests.swift */,
+				B10098 /* FretboardViewModelTests.swift */,
 			);
 			path = UkuleleCompanionTests;
 			sourceTree = "<group>";
@@ -762,6 +765,7 @@
 				A10095 /* MetronomeViewModelTests.swift in Sources */,
 				A10096 /* ScalePracticeViewModelTests.swift in Sources */,
 				A10097 /* ChordTransitionsViewModelTests.swift in Sources */,
+				A10098 /* FretboardViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
