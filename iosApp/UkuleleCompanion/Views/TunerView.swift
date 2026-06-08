@@ -319,6 +319,7 @@ struct NeedleMeterView: View {
         }
         .accessibilityElement()
         .accessibilityLabel(meterAccessibilityLabel)
+        .accessibilityValue(meterZone)
         .accessibilityAddTraits(.updatesFrequently)
     }
 
@@ -334,6 +335,13 @@ struct NeedleMeterView: View {
         if absCents <= 6 { return "Tuning meter, in tune" }
         let direction = cents > 0 ? "sharp" : "flat"
         return String(format: "Tuning meter, %.0f cents %@", absCents, direction)
+    }
+
+    private var meterZone: String {
+        let absCents = abs(cents)
+        if absCents <= 6 { return "In tune zone" }
+        if absCents <= 15 { return "Close zone" }
+        return cents > 0 ? "Sharp zone" : "Flat zone"
     }
 }
 
