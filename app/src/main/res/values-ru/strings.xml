@@ -162,6 +162,7 @@
     <string name="tuner_meter_sharp">Шкала настройки, выше на %d центов</string>
     <string name="tuner_direction_flat">ниже</string>
     <string name="tuner_direction_sharp">выше</string>
+    <string name="tuner_swiftf0_loading">SwiftF0 Loading…</string>
     <string name="tuner_swiftf0_active">SwiftF0 Active</string>
     <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
     <string name="tuner_precision_mode">Точный режим</string>

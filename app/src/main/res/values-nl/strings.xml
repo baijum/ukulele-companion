@@ -162,6 +162,7 @@
     <string name="tuner_meter_sharp">Stemmeter, %d cent te hoog</string>
     <string name="tuner_direction_flat">te laag</string>
     <string name="tuner_direction_sharp">te hoog</string>
+    <string name="tuner_swiftf0_loading">SwiftF0 Loading…</string>
     <string name="tuner_swiftf0_active">SwiftF0 Active</string>
     <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
     <string name="tuner_precision_mode">Precisiemodus</string>

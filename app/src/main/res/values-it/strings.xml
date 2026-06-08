@@ -162,6 +162,7 @@
     <string name="tuner_meter_sharp">Indicatore di accordatura, %d centesimi crescente</string>
     <string name="tuner_direction_flat">calante</string>
     <string name="tuner_direction_sharp">crescente</string>
+    <string name="tuner_swiftf0_loading">SwiftF0 Loading…</string>
     <string name="tuner_swiftf0_active">SwiftF0 Active</string>
     <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
     <string name="tuner_precision_mode">Modalità precisione</string>

@@ -162,6 +162,7 @@
     <string name="tuner_meter_sharp">Medidor de afinación, %d cents sostenido</string>
     <string name="tuner_direction_flat">bemol</string>
     <string name="tuner_direction_sharp">sostenido</string>
+    <string name="tuner_swiftf0_loading">SwiftF0 Loading…</string>
     <string name="tuner_swiftf0_active">SwiftF0 Active</string>
     <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
     <string name="tuner_precision_mode">Modo de precisión</string>
