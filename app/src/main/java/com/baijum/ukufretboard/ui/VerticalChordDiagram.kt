@@ -187,6 +187,7 @@ fun VerticalChordDiagram(
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick,
+                onLongClickLabel = if (onLongClick != null) "Share chord image" else null,
             )
             .semantics {
                 contentDescription = chordDescription

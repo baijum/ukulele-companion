@@ -320,6 +320,13 @@ private fun TunerContent(
                 .padding(horizontal = 16.dp)
                 .clearAndSetSemantics {
                     contentDescription = meterDescription
+                    stateDescription = when (meterTuningStatus) {
+                        TuningStatus.IN_TUNE -> "In tune zone"
+                        TuningStatus.CLOSE -> "Close zone"
+                        TuningStatus.FLAT -> "Flat zone"
+                        TuningStatus.SHARP -> "Sharp zone"
+                        TuningStatus.SILENT -> "No signal"
+                    }
                 },
         )
 

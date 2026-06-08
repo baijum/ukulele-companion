@@ -155,7 +155,11 @@ struct ChordDiagramView: View {
             }
         }
         .padding(8)
-        .accessibilityCombined(label: chordName ?? "Chord diagram", value: fretDescription)
+        .accessibilityCombined(
+            label: chordName ?? "Chord diagram",
+            value: fretDescription,
+            hint: "Long press to share as image"
+        )
         .accessibilityCustomContent(
             AccessibilityCustomContentKey("String 1", id: "s1"),
             perStringDescriptions.count > 0 ? perStringDescriptions[0] : ""
