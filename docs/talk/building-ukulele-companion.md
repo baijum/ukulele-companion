@@ -146,7 +146,7 @@ Mention what you run before release: assembleDebug, lint, tests from AGENTS.md. 
 
 - **`:shared`** module and **full iOS port** land together (`995d9bf`)
 - **iOS 16** deployment target (`a2fe375`); **iPad** sidebar / adaptive layout (`00b52a4`)
-- **Parity is ongoing** — Favorites, Progressions, Songbook, audio, chord diagrams (many fix commits)
+- **Full feature parity achieved** — all 54 P0-P5 gaps resolved across Favorites, Progressions, Songbook, audio, chord diagrams, accessibility, and performance
 
 <!--
 Android remains the spine of the talk; iOS is “same product, second surface.” Mention shared.framework via Gradle if the audience cares.
