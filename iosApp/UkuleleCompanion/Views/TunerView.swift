@@ -389,6 +389,9 @@ final class TunerViewModel: ObservableObject {
     private static let ttsInTuneInterval: TimeInterval = 3.0
     private static let ttsCentsBucketSize = 5
 
+    // Frame-dropping (backpressure)
+    private var isProcessing = false
+
     // Neural pitch supervision
     private let neuralSupervisor: NeuralPitchSupervisor?
     private var neuralFrameCounter: Int = 0
@@ -479,6 +482,10 @@ final class TunerViewModel: ObservableObject {
     }
 
     private func processAudioBuffer(_ samples: [Float]) {
+        guard !isProcessing else { return }
+        isProcessing = true
+        defer { isProcessing = false }
+
         let rms = sqrt(samples.reduce(0) { $0 + $1 * $1 } / Float(max(samples.count, 1)))
         if rms < noiseGateRms {
             return
