@@ -332,7 +332,12 @@ final class PitchMonitorViewModel: ObservableObject {
     }
 
     private func medianFrequency() -> Double {
-        let sorted = recentFrequencies.sorted()
+        Self.medianFrequency(from: recentFrequencies)
+    }
+
+    nonisolated static func medianFrequency(from values: [Double]) -> Double {
+        guard !values.isEmpty else { return 0 }
+        let sorted = values.sorted()
         let mid = sorted.count / 2
         if sorted.count % 2 == 0 && sorted.count >= 2 {
             return (sorted[mid - 1] + sorted[mid]) / 2.0
@@ -364,11 +369,11 @@ final class PitchMonitorViewModel: ObservableObject {
     }
 
     private func arbitrate(yinFreq: Double, yinConf: Double, neuralResult: NeuralPitchResult) -> Double {
-        let semitoneGap = semitoneDistance(yinFreq, neuralResult.frequencyHz)
+        let semitoneGap = Self.semitoneDistance(yinFreq, neuralResult.frequencyHz)
         if semitoneGap <= Self.arbitrationIgnoreSemitones { return yinFreq }
         if neuralConsistencyFrames < Self.neuralConsistencyRequired { return yinFreq }
 
-        if isOctaveRelation(yinFreq, neuralResult.frequencyHz)
+        if Self.isOctaveRelation(yinFreq, neuralResult.frequencyHz)
             && neuralResult.confidence >= 0.85 && yinConf >= 0.12 {
             return neuralResult.frequencyHz
         }
@@ -379,12 +384,12 @@ final class PitchMonitorViewModel: ObservableObject {
         return yinFreq
     }
 
-    private func semitoneDistance(_ a: Double, _ b: Double) -> Double {
+    nonisolated static func semitoneDistance(_ a: Double, _ b: Double) -> Double {
         guard a > 0, b > 0 else { return Double.greatestFiniteMagnitude }
         return abs(12.0 * log2(a / b))
     }
 
-    private func isOctaveRelation(_ a: Double, _ b: Double) -> Bool {
+    nonisolated static func isOctaveRelation(_ a: Double, _ b: Double) -> Bool {
         guard a > 0, b > 0 else { return false }
         let st = semitoneDistance(a, b)
         return abs(st - 12.0) <= 1.0 || abs(st - 24.0) <= 1.0
@@ -397,7 +402,7 @@ final class PitchMonitorViewModel: ObservableObject {
             return
         }
         if let prev = lastNeuralFrequencyForConsistency,
-           semitoneDistance(prev, hz) <= 0.5 {
+           Self.semitoneDistance(prev, hz) <= 0.5 {
             neuralConsistencyFrames += 1
         } else {
             neuralConsistencyFrames = 1
