@@ -98,6 +98,7 @@
 		A10098 /* FretboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10098 /* FretboardViewModelTests.swift */; };
 		A10099 /* MelodyViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10099 /* MelodyViewModelTests.swift */; };
 		A10100 /* PitchMonitorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10100 /* PitchMonitorViewModelTests.swift */; };
+		A10101 /* PlayAlongAndNeuralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10101 /* PlayAlongAndNeuralTests.swift */; };
 		A20001 /* click_high.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20001 /* click_high.wav */; };
 		A20002 /* click_low.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20002 /* click_low.wav */; };
 		A20003 /* uke_a.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20003 /* uke_a.wav */; };
@@ -245,6 +246,7 @@
 		B10098 /* FretboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FretboardViewModelTests.swift; sourceTree = "<group>"; };
 		B10099 /* MelodyViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MelodyViewModelTests.swift; sourceTree = "<group>"; };
 		B10100 /* PitchMonitorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchMonitorViewModelTests.swift; sourceTree = "<group>"; };
+		B10101 /* PlayAlongAndNeuralTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAlongAndNeuralTests.swift; sourceTree = "<group>"; };
 		B20001 /* click_high.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_high.wav; sourceTree = "<group>"; };
 		B20002 /* click_low.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_low.wav; sourceTree = "<group>"; };
 		B20003 /* uke_a.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_a.wav; sourceTree = "<group>"; };
@@ -505,6 +507,7 @@
 				B10098 /* FretboardViewModelTests.swift */,
 				B10099 /* MelodyViewModelTests.swift */,
 				B10100 /* PitchMonitorViewModelTests.swift */,
+				B10101 /* PlayAlongAndNeuralTests.swift */,
 			);
 			path = UkuleleCompanionTests;
 			sourceTree = "<group>";
@@ -774,6 +777,7 @@
 				A10098 /* FretboardViewModelTests.swift in Sources */,
 				A10099 /* MelodyViewModelTests.swift in Sources */,
 				A10100 /* PitchMonitorViewModelTests.swift in Sources */,
+				A10101 /* PlayAlongAndNeuralTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
