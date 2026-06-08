@@ -21,6 +21,9 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
 
     /// Ring buffer holding the most recent `frameSize` samples.
     private var ringBuffer: [Float]
+    /// Reusable linear buffer passed to `onBuffer`. Callers must not hold a
+    /// reference beyond the callback invocation.
+    private var analysisBuf: [Float]
     private var writePos = 0
     private var filled = 0
 
@@ -29,6 +32,7 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
 
     init() {
         ringBuffer = [Float](repeating: 0, count: Self.frameSize)
+        analysisBuf = [Float](repeating: 0, count: Self.frameSize)
     }
 
     func start() {
@@ -108,6 +112,7 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
             filled = 0
             resampleAccumulator = 0.0
             ringBuffer = [Float](repeating: 0, count: Self.frameSize)
+            analysisBuf = [Float](repeating: 0, count: Self.frameSize)
             bufferLock.unlock()
             return true
         }
@@ -152,7 +157,6 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
         }
 
         if filled >= Self.frameSize {
-            var analysisBuf = [Float](repeating: 0, count: Self.frameSize)
             for i in 0..<Self.frameSize {
                 analysisBuf[i] = ringBuffer[(writePos + i) % Self.frameSize]
             }
