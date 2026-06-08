@@ -92,6 +92,7 @@
 		A10078 /* ChordLibraryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10078 /* ChordLibraryViewModelTests.swift */; };
 		A10079 /* ChordVoicing+Frets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10079 /* ChordVoicing+Frets.swift */; };
 		A10080 /* SongwriterModeFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10080 /* SongwriterModeFlow.swift */; };
+		A10095 /* MetronomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10095 /* MetronomeViewModelTests.swift */; };
 		A20001 /* click_high.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20001 /* click_high.wav */; };
 		A20002 /* click_low.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20002 /* click_low.wav */; };
 		A20003 /* uke_a.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20003 /* uke_a.wav */; };
@@ -233,6 +234,7 @@
 		B10078 /* ChordLibraryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordLibraryViewModelTests.swift; sourceTree = "<group>"; };
 		B10079 /* ChordVoicing+Frets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChordVoicing+Frets.swift"; sourceTree = "<group>"; };
 		B10080 /* SongwriterModeFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongwriterModeFlow.swift; sourceTree = "<group>"; };
+		B10095 /* MetronomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetronomeViewModelTests.swift; sourceTree = "<group>"; };
 		B20001 /* click_high.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_high.wav; sourceTree = "<group>"; };
 		B20002 /* click_low.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_low.wav; sourceTree = "<group>"; };
 		B20003 /* uke_a.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_a.wav; sourceTree = "<group>"; };
@@ -487,6 +489,7 @@
 				B10065 /* SettingsViewModelTests.swift */,
 				B10076 /* SongbookViewModelTests.swift */,
 				B10093 /* SetlistViewModelTests.swift */,
+				B10095 /* MetronomeViewModelTests.swift */,
 			);
 			path = UkuleleCompanionTests;
 			sourceTree = "<group>";
@@ -750,6 +753,7 @@
 				A10065 /* SettingsViewModelTests.swift in Sources */,
 				A10076 /* SongbookViewModelTests.swift in Sources */,
 				A10093 /* SetlistViewModelTests.swift in Sources */,
+				A10095 /* MetronomeViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
