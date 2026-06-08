@@ -3,9 +3,13 @@ import onnxruntime
 import shared
 
 final class NeuralPitchSupervisor {
-    private static let minFreqHz: Double = 46.875
-    private static let maxFreqHz: Double = 2093.75
-    private static let minConfidence: Double = 0.50
+    static let minFreqHz: Double = 46.875
+    static let maxFreqHz: Double = 2093.75
+    static let minConfidence: Double = 0.50
+
+    static func isValidEstimate(frequencyHz: Double, confidence: Double) -> Bool {
+        frequencyHz >= minFreqHz && frequencyHz <= maxFreqHz && confidence >= minConfidence
+    }
 
     private let api: UnsafePointer<OrtApi>
     private let session: OpaquePointer

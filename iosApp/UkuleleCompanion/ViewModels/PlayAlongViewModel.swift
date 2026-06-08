@@ -137,8 +137,8 @@ final class PlayAlongViewModel: ObservableObject {
             confidence: displayedChord != nil ? 0.8 : 0.0
         )
 
-        let normalized = displayedChord.map { normalizeForComparison($0) }
-        let expectedNorm = normalizeForComparison(expectedChord)
+        let normalized = displayedChord.map { Self.normalizeForComparison($0) }
+        let expectedNorm = Self.normalizeForComparison(expectedChord)
         isChordCorrect = normalized == expectedNorm
 
         if currentBeat >= beatsPerChord {
@@ -225,7 +225,7 @@ final class PlayAlongViewModel: ObservableObject {
         return name + degree.quality
     }
 
-    private func normalizeForComparison(_ name: String) -> String {
+    nonisolated static func normalizeForComparison(_ name: String) -> String {
         name.replacingOccurrences(of: "7", with: "")
             .replacingOccurrences(of: "9", with: "")
             .replacingOccurrences(of: "maj", with: "")
