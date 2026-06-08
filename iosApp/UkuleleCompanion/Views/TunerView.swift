@@ -1,6 +1,7 @@
 import SwiftUI
 import AVFoundation
 import Foundation
+import os
 import shared
 
 struct TunerView: View {
@@ -398,8 +399,8 @@ final class TunerViewModel: ObservableObject {
     private static let ttsInTuneInterval: TimeInterval = 3.0
     private static let ttsCentsBucketSize = 5
 
-    // Frame-dropping (backpressure)
-    private var isProcessing = false
+    // Frame-dropping (backpressure) — checked on audio thread, not MainActor
+    private nonisolated(unsafe) let processingLock = OSAllocatedUnfairLock(initialState: false)
 
     // Neural pitch supervision
     private var neuralSupervisor: NeuralPitchSupervisor?
@@ -446,8 +447,16 @@ final class TunerViewModel: ObservableObject {
     init() {
         neuralSupervisor = nil
         audioEngine.onBuffer = { [weak self] samples in
+            guard let self else { return }
+            let shouldProcess = self.processingLock.withLock { isProcessing -> Bool in
+                if isProcessing { return false }
+                isProcessing = true
+                return true
+            }
+            guard shouldProcess else { return }
             Task { @MainActor in
-                self?.processAudioBuffer(samples)
+                self.processAudioBuffer(samples)
+                self.processingLock.withLock { $0 = false }
             }
         }
         Task {
@@ -500,10 +509,6 @@ final class TunerViewModel: ObservableObject {
     }
 
     private func processAudioBuffer(_ samples: [Float]) {
-        guard !isProcessing else { return }
-        isProcessing = true
-        defer { isProcessing = false }
-
         let rms = sqrt(samples.reduce(0) { $0 + $1 * $1 } / Float(max(samples.count, 1)))
         if rms < noiseGateRms {
             return
