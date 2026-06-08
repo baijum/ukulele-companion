@@ -2,6 +2,7 @@ import SwiftUI
 import shared
 
 struct MelodyNotepadView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @StateObject private var viewModel = MelodyViewModel()
     @State private var showingSaveDialog = false
     @State private var saveName = ""
@@ -239,8 +240,8 @@ struct MelodyNotepadView: View {
                     .background(Color.accentColor.opacity(0.9))
                     .foregroundStyle(.white)
                     .clipShape(Capsule())
-                    .transition(.move(edge: .top).combined(with: .opacity))
-                    .animation(.easeInOut(duration: 0.3), value: viewModel.lastAddedFeedback)
+                    .transition(reduceMotion ? .identity : .move(edge: .top).combined(with: .opacity))
+                    .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: viewModel.lastAddedFeedback)
             }
         }
     }

@@ -88,6 +88,7 @@ private let helpSections: [HelpSection] = [
 ]
 
 struct HelpView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var expandedEntry: String?
 
     var body: some View {
@@ -110,7 +111,7 @@ struct HelpView: View {
                         ForEach(Array(section.entries.enumerated()), id: \.element.id) { index, entry in
                             VStack(alignment: .leading, spacing: 4) {
                                 Button {
-                                    withAnimation {
+                                    withAnimation(reduceMotion ? nil : .default) {
                                         expandedEntry = expandedEntry == entry.id ? nil : entry.id
                                     }
                                 } label: {

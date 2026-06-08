@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct OnboardingView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @StateObject private var settingsVM = SettingsViewModel()
     let onFinished: () -> Void
 
@@ -42,7 +43,7 @@ struct OnboardingView: View {
             HStack {
                 if currentPage > 0 {
                     Button("Back") {
-                        withAnimation { currentPage -= 1 }
+                        withAnimation(reduceMotion ? nil : .default) { currentPage -= 1 }
                     }
                 } else {
                     Spacer().frame(width: 1)
@@ -57,7 +58,7 @@ struct OnboardingView: View {
                     .buttonStyle(.borderedProminent)
                 } else {
                     Button("Next") {
-                        withAnimation { currentPage += 1 }
+                        withAnimation(reduceMotion ? nil : .default) { currentPage += 1 }
                     }
                     .buttonStyle(.borderedProminent)
                 }

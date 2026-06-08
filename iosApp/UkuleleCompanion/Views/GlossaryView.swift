@@ -2,6 +2,7 @@ import SwiftUI
 import shared
 
 struct GlossaryView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var searchText = ""
     @State private var expandedTerm: String?
 
@@ -41,7 +42,7 @@ struct GlossaryView: View {
     private func glossaryRow(_ entry: GlossaryEntry) -> some View {
         let isExpanded = expandedTerm == entry.term
         Button {
-            withAnimation {
+            withAnimation(reduceMotion ? nil : .default) {
                 expandedTerm = isExpanded ? nil : entry.term
             }
         } label: {
