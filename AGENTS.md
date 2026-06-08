@@ -20,10 +20,10 @@ Ukulele Companion is a **free, fully offline** multiplatform app (Android + iOS)
 | Platform | Key Details |
 |----------|-------------|
 | **Shared (KMP)** | `:shared` module — pure Kotlin business logic in `domain/`, data models in `data/`, `expect/actual` in `platform/` |
-| **Android** | Kotlin 2.3.10, Jetpack Compose (BOM 2026.03.01), Material 3, Single Activity, MVVM, StateFlow |
+| **Android** | Kotlin 2.4.0, Jetpack Compose (BOM 2026.05.01), Material 3, Single Activity, MVVM, StateFlow |
 | **iOS** | Swift 6, SwiftUI, MVVM, `@StateObject`/`@Published`, iOS 16.0+, static `shared.framework` via Gradle |
-| **Audio ML** | ONNX Runtime 1.24.3 on both platforms (Android AAR, iOS xcframework via C API) |
-| **Build** | Gradle 9.3.1, AGP 9.1.0, Kotlin DSL, version catalog (`libs.versions.toml`) |
+| **Audio ML** | ONNX Runtime 1.26.0 on both platforms (Android AAR, iOS xcframework via C API) |
+| **Build** | Gradle 9.4.1, AGP 9.2.1, Kotlin DSL, version catalog (`libs.versions.toml`) |
 
 ## Package Structure
 
@@ -54,6 +54,22 @@ Ukulele Companion is a **free, fully offline** multiplatform app (Android + iOS)
 | `ViewModels/` | 15 ViewModels using `@Published` |
 | `Helpers/` | `AccessibilityHelper`, `BackupRestoreManager` |
 
+## Key Patterns
+
+### Accessibility patterns
+
+- **Reduce motion:** Android uses `LocalReduceMotion` (from `ReduceMotion.kt`, provided in `MainActivity`). iOS uses `@Environment(\.accessibilityReduceMotion)`. All animations must check this and use `snap()` / `nil` animation when enabled.
+- **Haptic feedback:** The tuner provides haptic feedback when a string enters the in-tune zone. Android: `HapticFeedbackType.LongPress` via `LocalHapticFeedback`. iOS: `UINotificationFeedbackGenerator.success`.
+- **Chord diagram exploration:** Both platforms expose per-string details via screen reader custom actions (Android: `CustomAccessibilityAction`; iOS: `accessibilityCustomContent`).
+- **NeedleMeter zones:** The meter announces zone names (In tune / Close / Flat / Sharp / No signal) via `stateDescription` (Android) and `accessibilityValue` (iOS).
+- **Hints:** Long-press actions (e.g. share chord diagram) must declare `onLongClickLabel` (Android) or `accessibilityHint` (iOS).
+
+### Audio pipeline patterns
+
+- **Frame-dropping:** Both `TunerViewModel` and `PitchMonitorViewModel` guard `processBuffer` with an `isProcessing` flag (Android: `AtomicBoolean`; iOS: `Bool` on `@MainActor`) to drop frames when processing falls behind under thermal throttling.
+- **Async ONNX loading:** The neural pitch supervisor loads on a background thread (`Dispatchers.IO` on Android, `nonisolated static` + `Task` on iOS). `NeuralRuntimeStatus` has three states: `LOADING`, `ACTIVE`, `FALLBACK`.
+- **Buffer reuse:** `PitchDetector` and `AudioResampler` in the shared KMP module cache work buffers across frames to avoid per-frame GC pressure. Follow the `ensureFftBuffers` / `ensureDiffBuffers` pattern when adding new array allocations in the audio path.
+
 ## Cursor Rules Reference
 
 Detailed rules auto-attach when editing matching files:
@@ -66,6 +82,7 @@ Detailed rules auto-attach when editing matching files:
 | `android-viewmodel.mdc` | `viewmodel/**/*.kt` | StateFlow, repository abstraction, coroutines |
 | `ios-viewmodel.mdc` | `ViewModels/**/*.swift` | @Published, @StateObject vs @ObservedObject, KMP naming |
 | `compose-ui.mdc` | `ui/**/*.kt` | Material 3, recomposition, Compose-only UI |
+| `compose-coroutines.mdc` | `ui/**/*.kt` | Compose scroll/coroutine patterns, programmatic vs user scroll |
 | `testing-conventions.mdc` | `test/**/*.kt`, `androidTest/**/*.kt` | Kotest property tests, JUnit 4, what to test when |
 | `edge_to_edge.mdc` | `MainActivity.kt`, `Theme.kt`, `libs.versions.toml` | Play Store edge-to-edge warnings (deferred) |
 
@@ -76,6 +93,13 @@ Skills in `.cursor/skills/` provide step-by-step workflows for common tasks:
 | Skill | When to use |
 |-------|-------------|
 | `add-translations` | Adding new user-facing strings to all 15 supported locales (Android `strings.xml` + iOS `Localizable.xcstrings`) |
+| `android-release` | Build and upload an Android release based on an existing git tag |
+| `ios-release` | Build an iOS release based on an existing git tag |
+| `github-release` | Create a GitHub release with a version tag and auto-generated release notes |
+| `android-bug-reproduce` | Reproduce and debug Android bugs on an emulator using ADB |
+| `platform-parity-audit` | Audit iOS port parity against the Android app |
+| `record-clips` | Record scene video clips for a TOML video project |
+| `assemble-video` | Assemble a narrated video from a TOML project file |
 
 ## Build and CI
 
@@ -94,8 +118,8 @@ xcodebuild -project iosApp/UkuleleCompanion.xcodeproj \
 ```
 
 **CI** (GitHub Actions on push/PR to `main`):
-- **Android** (`android.yml`): JDK 17, lint, unit tests, debug APK, APK size report
-- **iOS** (`ios.yml`): JDK 17 + Xcode 16.2, shared KMP framework, iOS build, unit tests
+- **Android** (`android.yml`): JDK 17, lint (debug + release), unit tests, shared module tests, debug APK, release APK + R8 mapping, APK size report, instrumented tests (API 26/33/35)
+- **iOS** (`ios.yml`): JDK 17 + Xcode 16.4, shared KMP framework (debug + release), iOS build (debug + release), unit tests
 
 **Commit format:**
 ```
@@ -111,6 +135,8 @@ Types: `Add`, `Fix`, `Update`, `Refactor`, `Test`, `Docs`, `Chore`
 - [ ] Shared module builds (`./gradlew :shared:build`)
 - [ ] Both High-G and Low-G tuning work (if chord/note logic changed)
 - [ ] Left-handed mode not broken (if fretboard UI changed)
+- [ ] New animations respect reduce motion (see Key Patterns above)
+- [ ] No per-frame allocations added in audio hot path
 
 ### Android
 - [ ] Builds without errors (`./gradlew assembleDebug`)

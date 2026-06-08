@@ -23,9 +23,19 @@ The Tuner is a chromatic tuner that listens to your ukulele through the micropho
 
 Four buttons at the bottom show the open strings for your selected tuning (G, C, E, A in standard High-G). Tap a string button to hear its reference pitch. A checkmark appears on strings that have been successfully tuned.
 
+## Haptic Feedback
+
+The tuner vibrates briefly when a string enters the in-tune zone, providing tactile confirmation that is especially useful when visual attention is elsewhere or for users who rely on non-visual feedback.
+
 ## Neural Pitch Detection
 
-The tuner uses a hybrid pitch detection pipeline. A **SwiftF0 Active** badge indicates that neural pitch supervision is running alongside the standard YIN algorithm, improving accuracy for difficult-to-detect pitches and reducing octave errors.
+The tuner uses a hybrid pitch detection pipeline. When you first open the tuner, a **SwiftF0 Loading...** badge appears while the neural model initializes in the background. Once ready, the badge changes to **SwiftF0 Active**, indicating that neural pitch supervision is running alongside the standard YIN algorithm, improving accuracy for difficult-to-detect pitches and reducing octave errors. If the model fails to load, the badge shows **SwiftF0 Fallback** and the tuner continues with the YIN algorithm alone.
+
+## Accessibility
+
+- **Needle meter zones** — VoiceOver announces the current zone (In tune, Close, Flat, Sharp, or No signal) as the pitch changes, so you can tune by ear and spoken feedback alone.
+- **Reduce motion** — If reduce motion is enabled in system accessibility settings, all tuner animations (needle, color transitions, celebration effects) are replaced with instant state changes.
+- **Neural badge** — The SwiftF0 status badge is announced to VoiceOver with its current state.
 
 ## Tuning Modes
 

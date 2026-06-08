@@ -45,6 +45,10 @@ Tap the large play button to start the metronome. The beat indicators pulse in s
 
 A **measure counter** at the bottom shows how many complete measures have elapsed since you started, helping you track your practice.
 
+## Accessibility
+
+- **Reduce motion** — If reduce motion is enabled in system accessibility settings, the beat indicator pulse and color animations are replaced with instant state changes.
+
 ## Tips
 
 - Start at a comfortable tempo and gradually increase as you build consistency.
