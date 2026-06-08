@@ -21,16 +21,29 @@ object AudioResampler {
      */
     private const val MA_HALF = 2  // 5-tap: indices -2..+2
 
+    // Cached work buffers, reused across calls to avoid per-frame allocation.
+    // Thread safety relies on the caller holding a lock or being single-threaded
+    // (NeuralPitchSupervisor calls this from one thread at a time).
+    private var cachedInputSize = 0
+    private var cachedFiltered = FloatArray(0)
+    private var cachedOutput = FloatArray(0)
+
     fun downsample44kTo16k(input: FloatArray): FloatArray {
         if (input.isEmpty()) return FloatArray(0)
 
-        // --- Anti-aliasing: 5-tap moving average ----------------------------
-        val filtered = applyMovingAverage(input)
+        val n = input.size
+        if (n != cachedInputSize) {
+            cachedInputSize = n
+            cachedFiltered = FloatArray(n)
+            val outLen = (n / SOURCE_TO_TARGET_RATIO).toInt().coerceAtLeast(1)
+            cachedOutput = FloatArray(outLen)
+        }
 
-        val outputLength = (filtered.size / SOURCE_TO_TARGET_RATIO).toInt().coerceAtLeast(1)
-        val output = FloatArray(outputLength)
+        applyMovingAverageInto(input, cachedFiltered)
+        val filtered = cachedFiltered
+        val output = cachedOutput
 
-        for (i in 0 until outputLength) {
+        for (i in output.indices) {
             val sourcePos = i * SOURCE_TO_TARGET_RATIO
             val baseIdx = sourcePos.toInt().coerceIn(0, filtered.lastIndex)
             val nextIdx = (baseIdx + 1).coerceAtMost(filtered.lastIndex)
@@ -42,15 +55,16 @@ object AudioResampler {
     }
 
     /**
-     * Applies a simple 5-tap moving average low-pass filter.
-     *
-     * Boundary samples use a narrower kernel to avoid index-out-of-bounds.
+     * Applies a simple 5-tap moving average low-pass filter, writing results
+     * into the pre-allocated [out] buffer.
      */
-    private fun applyMovingAverage(input: FloatArray): FloatArray {
+    private fun applyMovingAverageInto(input: FloatArray, out: FloatArray) {
         val n = input.size
-        if (n <= MA_HALF * 2) return input.copyOf()
+        if (n <= MA_HALF * 2) {
+            input.copyInto(out, 0, 0, n)
+            return
+        }
 
-        val out = FloatArray(n)
         for (i in 0 until n) {
             val lo = (i - MA_HALF).coerceAtLeast(0)
             val hi = (i + MA_HALF).coerceAtMost(n - 1)
@@ -58,6 +72,5 @@ object AudioResampler {
             for (j in lo..hi) sum += input[j]
             out[i] = sum / (hi - lo + 1)
         }
-        return out
     }
 }
