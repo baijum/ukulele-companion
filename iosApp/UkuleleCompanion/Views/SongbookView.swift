@@ -360,6 +360,7 @@ struct SongViewerView: View {
     @EnvironmentObject var customPatternsVM: CustomPatternsViewModel
     @EnvironmentObject var metronomeVM: MetronomeViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var transposeSemitones: Int = 0
     @State private var showingEditor = false
     @State private var tappedChord: String? = nil
