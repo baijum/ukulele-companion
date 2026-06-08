@@ -164,6 +164,17 @@ private fun TunerContent(
         previousTunedCount = currentTunedCount
     }
 
+    // --- Haptic feedback on entering the in-tune zone --------------------
+    var previousTuningStatus by remember { mutableStateOf(state.tuningStatus) }
+    LaunchedEffect(state.tuningStatus) {
+        if (state.tuningStatus == TuningStatus.IN_TUNE &&
+            previousTuningStatus != TuningStatus.IN_TUNE
+        ) {
+            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+        }
+        previousTuningStatus = state.tuningStatus
+    }
+
     // --- All strings tuned detection --------------------------------------
     val allTuned by remember {
         derivedStateOf { state.stringProgress.all { it } && state.isListening }

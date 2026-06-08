@@ -111,6 +111,11 @@ struct TunerView: View {
         .onChange(of: settings.selectedTuning) { _ in
             viewModel.currentTuning = tuning
         }
+        .onChange(of: viewModel.isInTune) { inTune in
+            if inTune {
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
+            }
+        }
         .onDisappear {
             viewModel.stopCapture()
         }
@@ -346,6 +351,7 @@ final class TunerViewModel: ObservableObject {
     @Published var tuningStatus: String = ""
     @Published var isCapturing: Bool = false
     @Published var neuralStatus: NeuralRuntimeStatus = .active
+    @Published var isInTune: Bool = false
 
     // String progress tracking
     @Published var stringProgress: [Bool] = [false, false, false, false]
@@ -530,6 +536,7 @@ final class TunerViewModel: ObservableObject {
 
                     let cents = stringResult.centsFromTarget
                     let justTuned: Bool
+                    self.isInTune = abs(cents) <= 6
                     if abs(cents) <= 6 {
                         self.tuningStatus = "In tune!"
                         self.settledFrames += 1
