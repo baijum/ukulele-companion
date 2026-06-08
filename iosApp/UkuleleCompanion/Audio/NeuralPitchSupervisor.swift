@@ -126,7 +126,8 @@ final class NeuralPitchSupervisor: @unchecked Sendable {
 
         // Get output count
         var outputCount: Int = 0
-        api.pointee.SessionGetOutputCount(session, &outputCount)
+        let countStatus = api.pointee.SessionGetOutputCount(session, &outputCount)
+        if let s = countStatus { api.pointee.ReleaseStatus(s); return nil }
         let actualOutputCount = min(outputCount, 2)
 
         // Get allocator for output names
@@ -139,7 +140,14 @@ final class NeuralPitchSupervisor: @unchecked Sendable {
         var outputNameCPtrs: [UnsafePointer<CChar>?] = []
         for i in 0..<actualOutputCount {
             var namePtr: UnsafeMutablePointer<CChar>?
-            api.pointee.SessionGetOutputName(session, i, allocator, &namePtr)
+            let nameStatus = api.pointee.SessionGetOutputName(session, i, allocator, &namePtr)
+            if let s = nameStatus {
+                api.pointee.ReleaseStatus(s)
+                for ptr in outputNamePtrs {
+                    if let ptr = ptr { api.pointee.AllocatorFree(allocator, ptr) }
+                }
+                return nil
+            }
             outputNamePtrs.append(namePtr)
             outputNameCPtrs.append(namePtr.map { UnsafePointer($0) })
         }
