@@ -1,6 +1,8 @@
 package com.baijum.ukufretboard.ui
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.snap
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -634,9 +636,11 @@ private fun BeatArrow(beat: StrumBeat, isActive: Boolean = false) {
     val fontWeight = if (beat.emphasis) FontWeight.ExtraBold else FontWeight.Normal
     val fontSize = if (beat.emphasis) 20.sp else 18.sp
 
+    val reduceMotion = LocalReduceMotion.current
     val bgColor by animateColorAsState(
         targetValue = if (isActive) MaterialTheme.colorScheme.primaryContainer
         else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0f),
+        animationSpec = if (reduceMotion) snap() else tween(),
         label = "beatHighlight",
     )
 
@@ -879,9 +883,11 @@ private fun FingerpickStepIndicator(step: FingerpickStep, isActive: Boolean = fa
     }
     val fontWeight = if (step.emphasis) FontWeight.ExtraBold else FontWeight.Normal
 
+    val reduceMotion = LocalReduceMotion.current
     val bgColor by animateColorAsState(
         targetValue = if (isActive) MaterialTheme.colorScheme.primaryContainer
         else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0f),
+        animationSpec = if (reduceMotion) snap() else tween(),
         label = "stepHighlight",
     )
 

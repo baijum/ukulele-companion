@@ -1,9 +1,11 @@
 package com.baijum.ukufretboard.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -145,6 +147,7 @@ private fun TunerContent(
     val state by viewModel.uiState.collectAsState()
     val scope = rememberCoroutineScope()
     val haptic = LocalHapticFeedback.current
+    val reduceMotion = LocalReduceMotion.current
 
     // --- Auto-start: begin listening when entering the tab ----------------
     if (tunerSettings.autoStart && !state.isListening) {
@@ -221,7 +224,7 @@ private fun TunerContent(
                 state.tuningStatus == TuningStatus.SILENT -> MaterialTheme.colorScheme.onSurfaceVariant
                 else -> MaterialTheme.colorScheme.error
             },
-            animationSpec = tween(durationMillis = 200),
+            animationSpec = if (reduceMotion) snap() else tween(durationMillis = 200),
             label = "noteColor",
         )
 
@@ -229,7 +232,7 @@ private fun TunerContent(
         val confidenceAlpha by animateFloatAsState(
             targetValue = if (state.tuningStatus == TuningStatus.SILENT) 1f
             else (1.0f - state.confidence.toFloat() * 2f).coerceIn(0.4f, 1.0f),
-            animationSpec = tween(durationMillis = 150),
+            animationSpec = if (reduceMotion) snap() else tween(durationMillis = 150),
             label = "confidenceAlpha",
         )
 
@@ -273,7 +276,7 @@ private fun TunerContent(
         }
         val animatedCents by animateFloatAsState(
             targetValue = needleTarget,
-            animationSpec = tween(durationMillis = 120),
+            animationSpec = if (reduceMotion) snap() else tween(durationMillis = 120),
             label = "needleCents",
         )
 
@@ -378,7 +381,8 @@ private fun TunerContent(
         // --- All strings tuned celebration ----------------------------------
         AnimatedVisibility(
             visible = allTuned,
-            enter = scaleIn(
+            enter = if (reduceMotion) EnterTransition.None
+            else scaleIn(
                 animationSpec = spring(
                     dampingRatio = Spring.DampingRatioMediumBouncy,
                     stiffness = Spring.StiffnessLow,
@@ -697,10 +701,11 @@ private fun StringButton(
 @Composable
 private fun StringButtonContent(label: String, isTuned: Boolean) {
     if (isTuned) {
-        // Animate the checkmark appearing with a bouncy scale-in.
+        val reduceMotion = LocalReduceMotion.current
         val checkScale by animateFloatAsState(
             targetValue = 1f,
-            animationSpec = spring(
+            animationSpec = if (reduceMotion) snap()
+            else spring(
                 dampingRatio = Spring.DampingRatioMediumBouncy,
                 stiffness = Spring.StiffnessMedium,
             ),

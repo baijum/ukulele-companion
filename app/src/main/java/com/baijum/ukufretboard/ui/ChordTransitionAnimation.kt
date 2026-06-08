@@ -94,20 +94,25 @@ fun ChordTransitionAnimation(
     val fromFingering = remember(fromVoicing) { ChordInfo.suggestFingering(fromVoicing.frets) }
     val toFingering = remember(toVoicing) { ChordInfo.suggestFingering(toVoicing.frets) }
 
+    val reduceMotion = LocalReduceMotion.current
+
     // Animation controller
     LaunchedEffect(isAnimating, animationSpeed) {
         if (isAnimating) {
-            // Animate from 0 to 1
             progress.snapTo(0f)
-            delay((500 / animationSpeed).toLong()) // Hold on from chord
-            progress.animateTo(
-                targetValue = 1f,
-                animationSpec = tween(
-                    durationMillis = (1000 / animationSpeed).toInt(),
-                    easing = EaseInOutCubic,
-                ),
-            )
-            delay((500 / animationSpeed).toLong()) // Hold on to chord
+            if (reduceMotion) {
+                progress.snapTo(1f)
+            } else {
+                delay((500 / animationSpeed).toLong())
+                progress.animateTo(
+                    targetValue = 1f,
+                    animationSpec = tween(
+                        durationMillis = (1000 / animationSpeed).toInt(),
+                        easing = EaseInOutCubic,
+                    ),
+                )
+                delay((500 / animationSpeed).toLong())
+            }
             isAnimating = false
         }
     }

@@ -1,6 +1,8 @@
 package com.baijum.ukufretboard.ui
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.snap
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -355,8 +357,10 @@ private fun ReorderableFavoritesGrid(
     ) {
         itemsIndexed(localList, key = { _, fav -> fav.key }) { _, favorite ->
             ReorderableItem(reorderableState, key = favorite.key) { isDragging ->
+                val reduceMotion = LocalReduceMotion.current
                 val elevation by animateDpAsState(
                     if (isDragging) 8.dp else 0.dp,
+                    animationSpec = if (reduceMotion) snap() else tween(),
                     label = "dragElevation",
                 )
 
