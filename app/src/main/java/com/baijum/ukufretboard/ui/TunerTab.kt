@@ -11,6 +11,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.Canvas
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -528,6 +529,8 @@ private fun SwiftF0StatusBadge(
  * of the arc's base. The centre zone (±5 cents) is highlighted in
  * [inTuneColor].
  */
+private val TICK_CENTS = floatArrayOf(-50f, -25f, 0f, 25f, 50f)
+
 @Composable
 private fun NeedleMeter(
     cents: Float,
@@ -541,60 +544,70 @@ private fun NeedleMeter(
     needleColor: Color,
     modifier: Modifier = Modifier,
 ) {
-    Canvas(modifier = modifier) {
-        val cx = size.width / 2f
-        val cy = size.height          // centre at bottom-centre (semicircle)
-        val radius = size.height * 0.85f
-        val trackStroke = 6.dp.toPx()
-
-        // --- Background arc -------------------------------------------------
-        drawArc(
-            color = trackColor,
-            startAngle = 180f,
-            sweepAngle = 180f,
-            useCenter = false,
-            topLeft = Offset(cx - radius, cy - radius),
-            size = androidx.compose.ui.geometry.Size(radius * 2, radius * 2),
-            style = Stroke(width = trackStroke, cap = StrokeCap.Round),
-        )
-
-        // --- In-tune highlight zone -----------------------------------------
-        val highlightSweep = (inTuneCents / 50.0 * 180.0).toFloat()
-        drawArc(
-            color = inTuneColor.copy(alpha = 0.25f),
-            startAngle = 270f - highlightSweep,
-            sweepAngle = highlightSweep * 2,
-            useCenter = false,
-            topLeft = Offset(cx - radius, cy - radius),
-            size = androidx.compose.ui.geometry.Size(radius * 2, radius * 2),
-            style = Stroke(width = trackStroke * 2.5f, cap = StrokeCap.Round),
-        )
-
-        // --- Tick marks -----------------------------------------------------
-        val tickAngles = listOf(-50f, -25f, 0f, 25f, 50f)
-        for (tickCents in tickAngles) {
-            val angle = PI - (tickCents + 50f) / 100f * PI
+    Canvas(
+        modifier = modifier.drawWithCache {
+            val cx = size.width / 2f
+            val cy = size.height
+            val radius = size.height * 0.85f
+            val trackStroke = 6.dp.toPx()
+            val arcSize = androidx.compose.ui.geometry.Size(radius * 2, radius * 2)
+            val arcTopLeft = Offset(cx - radius, cy - radius)
+            val highlightSweep = (inTuneCents / 50.0 * 180.0).toFloat()
             val innerR = radius - 12.dp.toPx()
             val outerR = radius + 12.dp.toPx()
-            val isCentre = tickCents == 0f
-            drawLine(
-                color = if (isCentre) inTuneColor else trackColor,
-                start = Offset(
-                    cx + (innerR * cos(angle)).toFloat(),
-                    cy - (innerR * sin(angle)).toFloat(),
-                ),
-                end = Offset(
-                    cx + (outerR * cos(angle)).toFloat(),
-                    cy - (outerR * sin(angle)).toFloat(),
-                ),
-                strokeWidth = if (isCentre) 3.dp.toPx() else 1.5.dp.toPx(),
-                cap = StrokeCap.Round,
-            )
-        }
+            val centreStrokeW = 3.dp.toPx()
+            val tickStrokeW = 1.5.dp.toPx()
 
-        // --- Needle ---------------------------------------------------------
+            onDrawBehind {
+                // --- Background arc (static) --------------------------------
+                drawArc(
+                    color = trackColor,
+                    startAngle = 180f,
+                    sweepAngle = 180f,
+                    useCenter = false,
+                    topLeft = arcTopLeft,
+                    size = arcSize,
+                    style = Stroke(width = trackStroke, cap = StrokeCap.Round),
+                )
+
+                // --- In-tune highlight zone (static) ------------------------
+                drawArc(
+                    color = inTuneColor.copy(alpha = 0.25f),
+                    startAngle = 270f - highlightSweep,
+                    sweepAngle = highlightSweep * 2,
+                    useCenter = false,
+                    topLeft = arcTopLeft,
+                    size = arcSize,
+                    style = Stroke(width = trackStroke * 2.5f, cap = StrokeCap.Round),
+                )
+
+                // --- Tick marks (static) ------------------------------------
+                for (tickCents in TICK_CENTS) {
+                    val angle = PI - (tickCents + 50f) / 100f * PI
+                    val isCentre = tickCents == 0f
+                    drawLine(
+                        color = if (isCentre) inTuneColor else trackColor,
+                        start = Offset(
+                            cx + (innerR * cos(angle)).toFloat(),
+                            cy - (innerR * sin(angle)).toFloat(),
+                        ),
+                        end = Offset(
+                            cx + (outerR * cos(angle)).toFloat(),
+                            cy - (outerR * sin(angle)).toFloat(),
+                        ),
+                        strokeWidth = if (isCentre) centreStrokeW else tickStrokeW,
+                        cap = StrokeCap.Round,
+                    )
+                }
+            }
+        },
+    ) {
+        val cx = size.width / 2f
+        val cy = size.height
+        val radius = size.height * 0.85f
+
+        // --- Needle (dynamic) -----------------------------------------------
         if (tuningStatus != TuningStatus.SILENT) {
-            // Map cents (-50..+50) to angle (PI..0).  -50 = left, +50 = right.
             val clampedCents = cents.coerceIn(-50f, 50f)
             val needleAngle = PI - (clampedCents + 50f) / 100f * PI
             val needleLen = radius * 0.92f
@@ -607,7 +620,6 @@ private fun NeedleMeter(
                 TuningStatus.CLOSE -> closeColor
                 else -> offColor
             }
-            // Modulate needle opacity by detection confidence.
             val needleCol = baseNeedleCol.copy(
                 alpha = baseNeedleCol.alpha * confidenceAlpha,
             )
@@ -620,7 +632,6 @@ private fun NeedleMeter(
                 cap = StrokeCap.Round,
             )
 
-            // Pivot dot
             drawCircle(
                 color = needleCol,
                 radius = 6.dp.toPx(),
