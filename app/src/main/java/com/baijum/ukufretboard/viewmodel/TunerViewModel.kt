@@ -15,10 +15,13 @@ import com.baijum.ukufretboard.domain.PitchDetector
 import com.baijum.ukufretboard.domain.PitchResult
 import com.baijum.ukufretboard.domain.StringMatch
 import com.baijum.ukufretboard.domain.TunerNoteMapper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.abs
@@ -41,6 +44,7 @@ enum class TuningStatus {
 }
 
 enum class NeuralRuntimeStatus {
+    LOADING,
     ACTIVE,
     FALLBACK,
 }
@@ -72,7 +76,7 @@ data class TunerUiState(
     /** Whether SwiftF0 is actively producing usable runtime estimates. */
     val isNeuralActive: Boolean = false,
     /** High-level status shown in the permanent tuner badge. */
-    val neuralRuntimeStatus: NeuralRuntimeStatus = NeuralRuntimeStatus.FALLBACK,
+    val neuralRuntimeStatus: NeuralRuntimeStatus = NeuralRuntimeStatus.LOADING,
     /** Index of the string that auto-advance is suggesting the user tune next, or -1 if none. */
     val autoAdvanceTarget: Int = -1,
     /** Note name that was sustained long enough before silence (e.g. "A4"), or null. */
@@ -703,22 +707,34 @@ class TunerViewModel : ViewModel() {
     private fun initializeNeuralSupervisor() {
         if (neuralSupervisor != null) return
         val ctx = appContext ?: return
-        neuralSupervisor = try {
-            NeuralPitchSupervisor(ctx).also {
+        updateNeuralStatus(
+            available = false,
+            active = false,
+            status = NeuralRuntimeStatus.LOADING,
+        )
+        viewModelScope.launch {
+            val supervisor = withContext(Dispatchers.IO) {
+                try {
+                    NeuralPitchSupervisor(ctx)
+                } catch (e: Exception) {
+                    Log.w(TAG, "Neural supervisor unavailable: ${e.message}")
+                    null
+                }
+            }
+            neuralSupervisor = supervisor
+            if (supervisor != null) {
                 updateNeuralStatus(
                     available = true,
                     active = true,
                     status = NeuralRuntimeStatus.ACTIVE,
                 )
+            } else {
+                updateNeuralStatus(
+                    available = false,
+                    active = false,
+                    status = NeuralRuntimeStatus.FALLBACK,
+                )
             }
-        } catch (e: Exception) {
-            Log.w(TAG, "Neural supervisor unavailable: ${e.message}")
-            updateNeuralStatus(
-                available = false,
-                active = false,
-                status = NeuralRuntimeStatus.FALLBACK,
-            )
-            null
         }
     }
 

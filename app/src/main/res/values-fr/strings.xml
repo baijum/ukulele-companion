@@ -162,6 +162,7 @@
     <string name="tuner_meter_sharp">Indicateur d\'accordage, %d cents dièse</string>
     <string name="tuner_direction_flat">bémol</string>
     <string name="tuner_direction_sharp">dièse</string>
+    <string name="tuner_swiftf0_loading">SwiftF0 Loading…</string>
     <string name="tuner_swiftf0_active">SwiftF0 Active</string>
     <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
     <string name="tuner_precision_mode">Mode précision</string>

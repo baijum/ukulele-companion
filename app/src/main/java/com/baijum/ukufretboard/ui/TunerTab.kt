@@ -483,6 +483,11 @@ private fun SwiftF0StatusBadge(
     modifier: Modifier = Modifier,
 ) {
     val (label, bgColor, fgColor) = when (status) {
+        NeuralRuntimeStatus.LOADING -> Triple(
+            stringResource(R.string.tuner_swiftf0_loading),
+            MaterialTheme.colorScheme.surfaceVariant,
+            MaterialTheme.colorScheme.onSurfaceVariant,
+        )
         NeuralRuntimeStatus.ACTIVE -> Triple(
             stringResource(R.string.tuner_swiftf0_active),
             MaterialTheme.colorScheme.primaryContainer,

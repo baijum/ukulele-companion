@@ -162,6 +162,7 @@
     <string name="tuner_meter_sharp">튜닝 미터, %d센트 높음</string>
     <string name="tuner_direction_flat">낮음</string>
     <string name="tuner_direction_sharp">높음</string>
+    <string name="tuner_swiftf0_loading">SwiftF0 Loading…</string>
     <string name="tuner_swiftf0_active">SwiftF0 Active</string>
     <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
     <string name="tuner_precision_mode">정밀 모드</string>

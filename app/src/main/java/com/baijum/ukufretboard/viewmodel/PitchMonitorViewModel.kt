@@ -15,10 +15,13 @@ import com.baijum.ukufretboard.domain.PitchResult
 import com.baijum.ukufretboard.domain.TunerNoteMapper
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.abs
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.log2
 import kotlin.math.roundToInt
 
@@ -607,11 +610,16 @@ class PitchMonitorViewModel : ViewModel() {
     private fun initializeNeuralSupervisor() {
         if (neuralSupervisor != null) return
         val ctx = appContext ?: return
-        neuralSupervisor = try {
-            NeuralPitchSupervisor(ctx)
-        } catch (e: Exception) {
-            Log.w(TAG, "Neural supervisor unavailable: ${e.message}")
-            null
+        viewModelScope.launch {
+            val supervisor = withContext(Dispatchers.IO) {
+                try {
+                    NeuralPitchSupervisor(ctx)
+                } catch (e: Exception) {
+                    Log.w(TAG, "Neural supervisor unavailable: ${e.message}")
+                    null
+                }
+            }
+            neuralSupervisor = supervisor
         }
     }
 

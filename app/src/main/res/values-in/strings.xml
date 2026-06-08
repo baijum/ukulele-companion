@@ -162,6 +162,7 @@
     <string name="tuner_meter_sharp">Pengukur tuning, %d sen tinggi</string>
     <string name="tuner_direction_flat">rendah</string>
     <string name="tuner_direction_sharp">tinggi</string>
+    <string name="tuner_swiftf0_loading">SwiftF0 Loading…</string>
     <string name="tuner_swiftf0_active">SwiftF0 Active</string>
     <string name="tuner_swiftf0_fallback">SwiftF0 Fallback</string>
     <string name="tuner_precision_mode">Mode Presisi</string>

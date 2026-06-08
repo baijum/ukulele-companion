@@ -20,7 +20,7 @@ final class PitchMonitorViewModel: ObservableObject {
     var noiseGateRms: Float = 0.005
 
     private let audioEngine = AudioCaptureEngine()
-    private let neuralSupervisor: NeuralPitchSupervisor?
+    private var neuralSupervisor: NeuralPitchSupervisor?
     private var previousFrequency: Double?
 
     // Smoothing
@@ -72,12 +72,20 @@ final class PitchMonitorViewModel: ObservableObject {
     private static let arpeggioHoldFrames = 2
 
     init() {
-        neuralSupervisor = NeuralPitchSupervisor()
+        neuralSupervisor = nil
         audioEngine.onBuffer = { [weak self] samples in
             Task { @MainActor in
                 self?.processBuffer(samples)
             }
         }
+        Task {
+            let supervisor = await Self.loadNeuralSupervisor()
+            self.neuralSupervisor = supervisor
+        }
+    }
+
+    private nonisolated static func loadNeuralSupervisor() async -> NeuralPitchSupervisor? {
+        NeuralPitchSupervisor()
     }
 
     func toggleCapture() {

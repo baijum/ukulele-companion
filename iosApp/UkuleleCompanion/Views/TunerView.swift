@@ -138,6 +138,15 @@ struct TunerView: View {
     private var neuralBadge: some View {
         Group {
             switch viewModel.neuralStatus {
+            case .loading:
+                Text("SwiftF0 Loading…")
+                    .font(.caption2.bold())
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(Color.secondary.opacity(0.15))
+                    .foregroundStyle(.secondary)
+                    .clipShape(Capsule())
+                    .accessibilityLabel("Neural pitch detection loading")
             case .active:
                 Text("SwiftF0 Active")
                     .font(.caption2.bold())
@@ -348,7 +357,7 @@ struct NeedleMeterView: View {
 // MARK: - Neural Runtime Status
 
 enum NeuralRuntimeStatus {
-    case active, fallback
+    case loading, active, fallback
 }
 
 // MARK: - View Model
@@ -362,7 +371,7 @@ final class TunerViewModel: ObservableObject {
     @Published var stringMatch: String?
     @Published var tuningStatus: String = ""
     @Published var isCapturing: Bool = false
-    @Published var neuralStatus: NeuralRuntimeStatus = .active
+    @Published var neuralStatus: NeuralRuntimeStatus = .loading
     @Published var isInTune: Bool = false
 
     // String progress tracking
@@ -393,7 +402,7 @@ final class TunerViewModel: ObservableObject {
     private var isProcessing = false
 
     // Neural pitch supervision
-    private let neuralSupervisor: NeuralPitchSupervisor?
+    private var neuralSupervisor: NeuralPitchSupervisor?
     private var neuralFrameCounter: Int = 0
     private var lastNeuralResult: NeuralPitchResult?
     private var neuralResultAgeFrames: Int = Int.max
@@ -435,12 +444,21 @@ final class TunerViewModel: ObservableObject {
     }
 
     init() {
-        neuralSupervisor = NeuralPitchSupervisor()
+        neuralSupervisor = nil
         audioEngine.onBuffer = { [weak self] samples in
             Task { @MainActor in
                 self?.processAudioBuffer(samples)
             }
         }
+        Task {
+            let supervisor = await Self.loadNeuralSupervisor()
+            self.neuralSupervisor = supervisor
+            self.neuralStatus = supervisor != nil ? .active : .fallback
+        }
+    }
+
+    private nonisolated static func loadNeuralSupervisor() async -> NeuralPitchSupervisor? {
+        NeuralPitchSupervisor()
     }
 
     func toggleCapture() {
