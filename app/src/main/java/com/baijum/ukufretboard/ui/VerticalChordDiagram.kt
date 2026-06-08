@@ -33,8 +33,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -129,24 +132,30 @@ fun VerticalChordDiagram(
     }
     val isAtNut = startFret == 0
 
-    // Build accessibility description in composable scope for stringResource access
+    // Build per-string descriptions for accessibility exploration
+    val stringNames = listOf("G", "C", "E", "A")
+    val indices = if (leftHanded) voicing.frets.indices.reversed() else voicing.frets.indices.toList()
+    val perStringDescs = indices.map { i ->
+        val name = stringNames.getOrElse(i) { "String $i" }
+        val fret = voicing.frets[i]
+        val role = when {
+            bassStringIndex == i -> ", bass note"
+            commonToneIndices?.contains(i) == true -> ", common tone"
+            else -> ""
+        }
+        when (fret) {
+            ChordVoicing.MUTED -> "$name ${stringResource(R.string.diagram_string_muted)}$role"
+            0 -> "$name ${stringResource(R.string.diagram_string_open)}$role"
+            else -> "$name ${stringResource(R.string.diagram_string_fret, fret)}$role"
+        }
+    }
+
     val chordDescription = run {
-        val stringNames = listOf("G", "C", "E", "A")
         val parts = mutableListOf<String>()
         val notesSummary = soundingNotes
             ?: voicing.notes.joinToString(" ") { it?.name ?: "x" }
         parts.add(stringResource(R.string.diagram_chord_cd, notesSummary))
-        val indices = if (leftHanded) voicing.frets.indices.reversed() else voicing.frets.indices.toList()
-        for (i in indices) {
-            val name = stringNames.getOrElse(i) { "String $i" }
-            val fret = voicing.frets[i]
-            val desc = when (fret) {
-                ChordVoicing.MUTED -> "$name ${stringResource(R.string.diagram_string_muted)}"
-                0 -> "$name ${stringResource(R.string.diagram_string_open)}"
-                else -> "$name ${stringResource(R.string.diagram_string_fret, fret)}"
-            }
-            parts.add(desc)
-        }
+        parts.addAll(perStringDescs)
         if (capoFret != null) {
             parts.add(stringResource(R.string.diagram_capo_fret, capoFret))
         }
@@ -156,13 +165,33 @@ fun VerticalChordDiagram(
         parts.joinToString(", ")
     }
 
+    val context = LocalContext.current
+    val customStringActions = perStringDescs.map { desc ->
+        CustomAccessibilityAction(desc) {
+            context.getSystemService(android.view.accessibility.AccessibilityManager::class.java)
+                ?.let { am ->
+                    if (am.isEnabled) {
+                        val event = android.view.accessibility.AccessibilityEvent.obtain(
+                            android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT,
+                        )
+                        event.text.add(desc)
+                        am.sendAccessibilityEvent(event)
+                    }
+                }
+            true
+        }
+    }
+
     Card(
         modifier = modifier
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick,
             )
-            .semantics { contentDescription = chordDescription },
+            .semantics {
+                contentDescription = chordDescription
+                customActions = customStringActions
+            },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,

@@ -47,13 +47,30 @@ struct ChordDiagramView: View {
 
     private var showNut: Bool { startFret == 0 }
 
-    private var fretDescription: String {
-        let descriptions = frets.map { fret -> String in
-            if fret == 0 { return "open" }
-            if fret < 0 { return "muted" }
-            return "\(fret)"
+    private var stringNames: [String] {
+        leftHanded ? ["A", "E", "C", "G"] : ["G", "C", "E", "A"]
+    }
+
+    private var perStringDescriptions: [String] {
+        frets.enumerated().map { (index, fret) in
+            let name = stringNames[index]
+            let role: String
+            let originalIndex = leftHanded ? (stringCount - 1 - index) : index
+            if originalIndex == bassStringIndex {
+                role = ", bass note"
+            } else if let common = commonToneIndices, common.contains(originalIndex) {
+                role = ", common tone"
+            } else {
+                role = ""
+            }
+            if fret == 0 { return "\(name) string open\(role)" }
+            if fret < 0 { return "\(name) string muted\(role)" }
+            return "\(name) string fret \(fret)\(role)"
         }
-        return "Strings: " + descriptions.joined(separator: ", ")
+    }
+
+    private var fretDescription: String {
+        perStringDescriptions.joined(separator: ", ")
     }
 
     var body: some View {
@@ -139,6 +156,22 @@ struct ChordDiagramView: View {
         }
         .padding(8)
         .accessibilityCombined(label: chordName ?? "Chord diagram", value: fretDescription)
+        .accessibilityCustomContent(
+            AccessibilityCustomContentKey("String 1", id: "s1"),
+            perStringDescriptions.count > 0 ? perStringDescriptions[0] : ""
+        )
+        .accessibilityCustomContent(
+            AccessibilityCustomContentKey("String 2", id: "s2"),
+            perStringDescriptions.count > 1 ? perStringDescriptions[1] : ""
+        )
+        .accessibilityCustomContent(
+            AccessibilityCustomContentKey("String 3", id: "s3"),
+            perStringDescriptions.count > 2 ? perStringDescriptions[2] : ""
+        )
+        .accessibilityCustomContent(
+            AccessibilityCustomContentKey("String 4", id: "s4"),
+            perStringDescriptions.count > 3 ? perStringDescriptions[3] : ""
+        )
     }
 
     private func dotColor(for stringIndex: Int) -> Color {
