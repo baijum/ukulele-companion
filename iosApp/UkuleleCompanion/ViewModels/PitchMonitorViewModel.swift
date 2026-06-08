@@ -28,6 +28,9 @@ final class PitchMonitorViewModel: ObservableObject {
     private static let smoothingWindow = 5
     private static let historyDurationMs: Int64 = 10_000
 
+    // Frame-dropping (backpressure)
+    private var isProcessing = false
+
     // Neural state
     private var neuralFrameCounter: Int = 0
     private var lastNeuralResult: NeuralPitchResult?
@@ -138,6 +141,10 @@ final class PitchMonitorViewModel: ObservableObject {
     }
 
     private func processBuffer(_ samples: [Float]) {
+        guard !isProcessing else { return }
+        isProcessing = true
+        defer { isProcessing = false }
+
         let kotlinArray = KotlinFloatArray(size: Int32(samples.count))
         for i in 0..<samples.count {
             kotlinArray.set(index: Int32(i), value: samples[i])

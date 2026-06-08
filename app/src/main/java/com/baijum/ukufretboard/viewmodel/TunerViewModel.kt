@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.util.Locale
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.abs
 import kotlin.math.log2
 
@@ -282,6 +283,9 @@ class TunerViewModel : ViewModel() {
         LOST_SIGNAL_HOLD_MS / FRAME_INTERVAL_MS
     ).toInt().coerceAtLeast(1)
 
+    // --- Frame-dropping (backpressure) ----------------------------------------
+    private val isProcessing = AtomicBoolean(false)
+
     // --- Neural supervisor state --------------------------------------------
 
     private var neuralSupervisor: NeuralPitchSupervisor? = null
@@ -447,6 +451,15 @@ class TunerViewModel : ViewModel() {
      */
     private fun processBuffer(samples: FloatArray) {
         if (!_uiState.value.isListening) return
+        if (!isProcessing.compareAndSet(false, true)) return
+        try {
+            processBufferInner(samples)
+        } finally {
+            isProcessing.set(false)
+        }
+    }
+
+    private fun processBufferInner(samples: FloatArray) {
         // --- Onset detection (adaptive) -------------------------------------
         // Detect sudden energy spikes (pluck attacks) using an adaptive
         // threshold based on a running EMA of recent RMS values. This makes

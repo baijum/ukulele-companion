@@ -13,6 +13,7 @@ import com.baijum.ukufretboard.domain.NeuralPitchSupervisor
 import com.baijum.ukufretboard.domain.PitchDetector
 import com.baijum.ukufretboard.domain.PitchResult
 import com.baijum.ukufretboard.domain.TunerNoteMapper
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.abs
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -239,6 +240,9 @@ class PitchMonitorViewModel : ViewModel() {
      */
     private var previousFrequency: Double? = null
 
+    // --- Frame-dropping (backpressure) ----------------------------------------
+    private val isProcessing = AtomicBoolean(false)
+
     // --- Neural supervisor state ----------------------------------------------
 
     private var neuralSupervisor: NeuralPitchSupervisor? = null
@@ -347,7 +351,15 @@ class PitchMonitorViewModel : ViewModel() {
      */
     private fun processBuffer(samples: FloatArray) {
         if (!_uiState.value.isListening) return
+        if (!isProcessing.compareAndSet(false, true)) return
+        try {
+            processBufferInner(samples)
+        } finally {
+            isProcessing.set(false)
+        }
+    }
 
+    private fun processBufferInner(samples: FloatArray) {
         // Guard: the FFT requires a power-of-2 buffer.  When the recorder is
         // stopped, a partial (non-power-of-2) buffer may slip through; drop it.
         val n = samples.size
