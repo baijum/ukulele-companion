@@ -248,6 +248,7 @@ class PitchMonitorViewModel : ViewModel() {
 
     // --- Neural supervisor state ----------------------------------------------
 
+    @Volatile
     private var neuralSupervisor: NeuralPitchSupervisor? = null
     private var neuralFrameCounter = 0
     private var lastNeuralResult: NeuralPitchResult? = null
@@ -337,9 +338,10 @@ class PitchMonitorViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        AudioCaptureEngine.stop()
-        neuralSupervisor?.close()
+        val supervisor = neuralSupervisor
         neuralSupervisor = null
+        AudioCaptureEngine.stop()
+        supervisor?.close()
     }
 
     // --- Internal pipeline ---------------------------------------------------

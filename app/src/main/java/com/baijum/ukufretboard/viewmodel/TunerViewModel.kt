@@ -292,6 +292,7 @@ class TunerViewModel : ViewModel() {
 
     // --- Neural supervisor state --------------------------------------------
 
+    @Volatile
     private var neuralSupervisor: NeuralPitchSupervisor? = null
     private var neuralFrameCounter = 0
     private var lastNeuralResult: NeuralPitchResult? = null
@@ -436,9 +437,10 @@ class TunerViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        AudioCaptureEngine.stop()
-        neuralSupervisor?.close()
+        val supervisor = neuralSupervisor
         neuralSupervisor = null
+        AudioCaptureEngine.stop()
+        supervisor?.close()
         shutdownTts()
     }
 
