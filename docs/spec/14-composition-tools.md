@@ -2,6 +2,10 @@
 
 **Status: DONE** *(all five ideas implemented on both platforms)*
 
+> **Note:** This is a historical design spec. All items described below have been
+> shipped. Some sections still use planning language ("Missing", "Proposed") that
+> reflects the state at design time, not the current codebase.
+
 ## Summary
 
 A collection of features aimed at helping ukulele players compose original music directly within
@@ -305,7 +309,7 @@ class MelodyViewModel : ViewModel() {
 
 - **Existing:** `shared/src/commonMain/.../data/MelodyNote.kt` — data model *(implemented)*
 - **Existing:** `app/src/main/java/.../data/MelodyRepository.kt` — SharedPreferences persistence *(implemented)*
-- **New/Rework:** `ui/MelodyNotepad.kt` — step sequencer grid UI
+- **New/Rework:** `ui/MelodyNotepadView.kt` — step sequencer grid UI
 - **Modify:** `viewmodel/MelodyViewModel.kt` — add step sequencer mode (`setStep()`, `linkedProgressionId`) to existing ViewModel
 
 ### Files — iOS
