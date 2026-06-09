@@ -512,6 +512,7 @@ final class TunerViewModel: ObservableObject {
     private func processAudioBuffer(_ samples: [Float]) {
         let rms = sqrt(samples.reduce(0) { $0 + $1 * $1 } / Float(max(samples.count, 1)))
         if rms < noiseGateRms {
+            self.isInTune = false
             return
         }
 
@@ -609,6 +610,7 @@ final class TunerViewModel: ObservableObject {
                 }
             } else {
                 self.settledFrames = 0
+                self.isInTune = false
             }
         }
     }
@@ -757,6 +759,7 @@ final class TunerViewModel: ObservableObject {
         previousFrequency = nil
         activeStringIndex = nil
         settledFrames = 0
+        isInTune = false
     }
 }
 
