@@ -269,32 +269,37 @@ class PitchMonitorViewModel : ViewModel() {
 
         initializeNeuralSupervisor()
 
-        _uiState.update { it.copy(isListening = true) }
-        recentFrequencies.clear()
-        lastChordName = null
-        chordHoldCount = 0
-        displayedChord = null
-        displayedChordNotes = emptyList()
-        lastChordConfidence = 0f
-        chordMissCount = 0
-        chordFrameCounter = 0
-        lastChromaEnergy = FloatArray(12)
-        arpeggioDetector.clear()
-        lastArpeggioChordName = null
-        arpeggioHoldCount = 0
-        displayedArpeggioChord = null
-        displayedArpeggioChordNotes = emptyList()
-        lastSimultaneousChordMs = 0L
-        lastArpeggioChordMs = 0L
-        previousRms = 0f
-        blankingFramesRemaining = 0
-        previousFrequency = null
-        neuralFrameCounter = 0
-        lastNeuralResult = null
-        neuralResultAgeFrames = Int.MAX_VALUE
-        lastNeuralFrequencyForConsistency = null
-        neuralConsistencyFrames = 0
-        telemetryFrameCounter = 0
+        while (!isProcessing.compareAndSet(false, true)) { /* spin until in-flight buffer finishes */ }
+        try {
+            _uiState.update { it.copy(isListening = true) }
+            recentFrequencies.clear()
+            lastChordName = null
+            chordHoldCount = 0
+            displayedChord = null
+            displayedChordNotes = emptyList()
+            lastChordConfidence = 0f
+            chordMissCount = 0
+            chordFrameCounter = 0
+            lastChromaEnergy = FloatArray(12)
+            arpeggioDetector.clear()
+            lastArpeggioChordName = null
+            arpeggioHoldCount = 0
+            displayedArpeggioChord = null
+            displayedArpeggioChordNotes = emptyList()
+            lastSimultaneousChordMs = 0L
+            lastArpeggioChordMs = 0L
+            previousRms = 0f
+            blankingFramesRemaining = 0
+            previousFrequency = null
+            neuralFrameCounter = 0
+            lastNeuralResult = null
+            neuralResultAgeFrames = Int.MAX_VALUE
+            lastNeuralFrequencyForConsistency = null
+            neuralConsistencyFrames = 0
+            telemetryFrameCounter = 0
+        } finally {
+            isProcessing.set(false)
+        }
 
         AudioCaptureEngine.start(
             viewModelScope,

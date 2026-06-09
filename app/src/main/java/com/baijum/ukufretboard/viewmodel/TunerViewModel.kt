@@ -360,35 +360,40 @@ class TunerViewModel : ViewModel() {
         if (_uiState.value.isListening) return
         val ctx = appContext ?: return
 
-        _uiState.update {
-            it.copy(
-                isListening = true,
-                tuningStatus = TuningStatus.SILENT,
-                lastSettledNote = null,
-                lastSettledCents = 0.0,
-            )
+        while (!isProcessing.compareAndSet(false, true)) { /* spin until in-flight buffer finishes */ }
+        try {
+            _uiState.update {
+                it.copy(
+                    isListening = true,
+                    tuningStatus = TuningStatus.SILENT,
+                    lastSettledNote = null,
+                    lastSettledCents = 0.0,
+                )
+            }
+            recentFrequencies.clear()
+            inTuneFrames = 0
+            inTuneStringIndex = -1
+            previousRms = 0f
+            rmsEma = 0f
+            blankingFramesRemaining = 0
+            lostSignalFrames = 0
+            previousFrequency = null
+            displayCentsFiltered = 0.0
+            settledNoteName = null
+            settledNoteFrames = 0
+            settledNoteCents = 0.0
+            neuralFrameCounter = 0
+            lastNeuralResult = null
+            neuralResultAgeFrames = Int.MAX_VALUE
+            consecutiveNeuralFailures = 0
+            lastNeuralFrequencyForConsistency = null
+            neuralConsistencyFrames = 0
+            telemetryFrameCounter = 0
+            telemetryOverrideCount = 0
+            lastLoggedStatus = TuningStatus.SILENT
+        } finally {
+            isProcessing.set(false)
         }
-        recentFrequencies.clear()
-        inTuneFrames = 0
-        inTuneStringIndex = -1
-        previousRms = 0f
-        rmsEma = 0f
-        blankingFramesRemaining = 0
-        lostSignalFrames = 0
-        previousFrequency = null
-        displayCentsFiltered = 0.0
-        settledNoteName = null
-        settledNoteFrames = 0
-        settledNoteCents = 0.0
-        neuralFrameCounter = 0
-        lastNeuralResult = null
-        neuralResultAgeFrames = Int.MAX_VALUE
-        consecutiveNeuralFailures = 0
-        lastNeuralFrequencyForConsistency = null
-        neuralConsistencyFrames = 0
-        telemetryFrameCounter = 0
-        telemetryOverrideCount = 0
-        lastLoggedStatus = TuningStatus.SILENT
 
         AudioCaptureEngine.start(
             viewModelScope,
