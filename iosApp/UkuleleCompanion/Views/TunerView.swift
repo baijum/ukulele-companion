@@ -619,22 +619,23 @@ final class TunerViewModel: ObservableObject {
         neuralFrameCounter += 1
 
         if neuralFrameCounter % Self.neuralSupervisorInterval == 0 {
-            let estimate = supervisor.estimate(samples)
-            lastNeuralResult = estimate
-            neuralResultAgeFrames = 0
-            if let estimate = estimate {
-                consecutiveNeuralFailures = 0
-                updateNeuralConsistency(estimate.frequencyHz)
-                DispatchQueue.main.async { [weak self] in
-                    self?.neuralStatus = .active
-                }
-            } else {
-                consecutiveNeuralFailures += 1
-                neuralConsistencyFrames = 0
-                lastNeuralFrequencyForConsistency = nil
-                if consecutiveNeuralFailures >= Self.neuralFailureThreshold {
-                    DispatchQueue.main.async { [weak self] in
-                        self?.neuralStatus = .fallback
+            Task.detached(priority: .userInitiated) { [weak self] in
+                let estimate = supervisor.estimate(samples)
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
+                    self.lastNeuralResult = estimate
+                    self.neuralResultAgeFrames = 0
+                    if let estimate = estimate {
+                        self.consecutiveNeuralFailures = 0
+                        self.updateNeuralConsistency(estimate.frequencyHz)
+                        self.neuralStatus = .active
+                    } else {
+                        self.consecutiveNeuralFailures += 1
+                        self.neuralConsistencyFrames = 0
+                        self.lastNeuralFrequencyForConsistency = nil
+                        if self.consecutiveNeuralFailures >= Self.neuralFailureThreshold {
+                            self.neuralStatus = .fallback
+                        }
                     }
                 }
             }
@@ -642,10 +643,7 @@ final class TunerViewModel: ObservableObject {
             neuralResultAgeFrames += 1
         }
 
-        if neuralResultAgeFrames <= Self.neuralResultTTLFrames {
-            return lastNeuralResult
-        }
-        return nil
+        return neuralResultAgeFrames <= Self.neuralResultTTLFrames ? lastNeuralResult : nil
     }
 
     private func arbitrate(yinFreq: Double, yinConf: Double, neuralResult: NeuralPitchResult) -> Double {
