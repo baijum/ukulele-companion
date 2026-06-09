@@ -555,6 +555,7 @@
     <!-- ── Jouer ensemble ────────────────────────────────────────────── -->
     <string name="play_along_title">Jouer ensemble</string>
     <string name="play_along_subtitle">Écoutez et jouez les bons accords !</string>
+    <string name="play_along_empty_progression">Aucun accord dans cette progression. Veuillez sélectionner une progression avec des accords.</string>
     <string name="play_along_mic_needed">Accès au microphone requis pour la détection d\'accords</string>
     <string name="cd_grant_permission">Autoriser l\'accès au microphone</string>
     <string name="play_along_grant">Autoriser</string>

@@ -554,6 +554,7 @@
     <!-- ── Bermain Bersama ────────────────────────────────────────────── -->
     <string name="play_along_title">Bermain Bersama</string>
     <string name="play_along_subtitle">Dengarkan dan mainkan akor yang tepat!</string>
+    <string name="play_along_empty_progression">Tidak ada akor dalam progresi ini. Silakan pilih progresi yang memiliki akor.</string>
     <string name="play_along_mic_needed">Akses mikrofon diperlukan untuk deteksi akor</string>
     <string name="cd_grant_permission">Berikan izin mikrofon</string>
     <string name="play_along_grant">Berikan Izin</string>

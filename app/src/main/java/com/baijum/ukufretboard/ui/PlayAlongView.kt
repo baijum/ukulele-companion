@@ -195,6 +195,20 @@ fun PlayAlongView(
 
         Spacer(modifier = Modifier.height(12.dp))
 
+        if (chordNames.isEmpty()) {
+            Text(
+                text = stringResource(R.string.play_along_empty_progression),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp)
+                    .semantics { liveRegion = LiveRegionMode.Assertive },
+                textAlign = TextAlign.Center,
+            )
+            return
+        }
+
         // Microphone permission
         if (!hasMicPermission) {
             Card(

@@ -609,6 +609,7 @@
     <!-- ── Play Along ───────────────────────────────────────────────── -->
     <string name="play_along_title">Play Along</string>
     <string name="play_along_subtitle">Listen and play the right chords!</string>
+    <string name="play_along_empty_progression">No chords in this progression. Please select a progression with chords.</string>
     <string name="play_along_mic_needed">Microphone access needed for chord detection</string>
     <string name="cd_grant_permission">Grant microphone permission</string>
     <string name="play_along_grant">Grant Permission</string>

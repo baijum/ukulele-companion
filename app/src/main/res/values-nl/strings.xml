@@ -555,6 +555,7 @@
     <!-- ── Meespelen ──────────────────────────────────────────────────── -->
     <string name="play_along_title">Meespelen</string>
     <string name="play_along_subtitle">Luister en speel de juiste akkoorden!</string>
+    <string name="play_along_empty_progression">Geen akkoorden in deze progressie. Selecteer een progressie met akkoorden.</string>
     <string name="play_along_mic_needed">Microfoontoegang nodig voor akkoorddetectie</string>
     <string name="cd_grant_permission">Microfoontoestemming verlenen</string>
     <string name="play_along_grant">Toestemming verlenen</string>
