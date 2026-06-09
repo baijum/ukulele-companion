@@ -153,6 +153,7 @@ final class PitchMonitorViewModel: ObservableObject {
         lastSimultaneousChordMs = 0
         lastArpeggioChordMs = 0
 
+        audioEngine.onInterrupted = { [weak self] in self?.stopCapture() }
         audioEngine.start()
         isListening = true
     }

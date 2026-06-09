@@ -1,8 +1,13 @@
 package com.baijum.ukufretboard.audio
 
+import android.content.Context
+import android.media.AudioFocusRequest
 import android.media.AudioFormat
+import android.media.AudioManager
 import android.media.AudioRecord
 import android.media.MediaRecorder
+import android.os.Handler
+import android.os.Looper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.CoroutineScope
@@ -51,6 +56,9 @@ object AudioCaptureEngine {
 
     private var audioRecord: AudioRecord? = null
     private var captureJob: Job? = null
+    private var focusRequest: AudioFocusRequest? = null
+    private var audioManager: AudioManager? = null
+    private var onInterrupted: (() -> Unit)? = null
 
     /** Whether capture is currently active. */
     val isCapturing: Boolean get() = captureJob?.isActive == true
@@ -63,12 +71,19 @@ object AudioCaptureEngine {
      * overlapping analysis frame is linearised and passed to [onBuffer] on a
      * background thread every [HOP_SIZE] new samples.
      *
-     * @param scope    Coroutine scope that owns the capture lifetime.
-     * @param onBuffer Callback receiving a [FloatArray] of [FRAME_SIZE]
+     * @param scope          Coroutine scope that owns the capture lifetime.
+     * @param context        Application context for audio focus requests.
+     * @param onInterrupted  Optional callback when another app takes audio focus.
+     * @param onBuffer       Callback receiving a [FloatArray] of [FRAME_SIZE]
      *   normalised samples. The array is reused across calls; consumers must
      *   not hold a reference beyond the callback invocation.
      */
-    fun start(scope: CoroutineScope, onBuffer: (FloatArray) -> Unit) {
+    fun start(
+        scope: CoroutineScope,
+        context: Context,
+        onInterrupted: (() -> Unit)? = null,
+        onBuffer: (FloatArray) -> Unit,
+    ) {
         if (isCapturing) return
 
         val minBuf = AudioRecord.getMinBufferSize(
@@ -98,6 +113,25 @@ object AudioCaptureEngine {
 
         audioRecord = recorder
         recorder.startRecording()
+
+        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val request = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+            .setOnAudioFocusChangeListener({ focusChange ->
+                if (focusChange == AudioManager.AUDIOFOCUS_LOSS ||
+                    focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT
+                ) {
+                    val callback = onInterrupted
+                    stop()
+                    Handler(Looper.getMainLooper()).post {
+                        callback?.invoke()
+                    }
+                }
+            }, Handler(Looper.getMainLooper()))
+            .build()
+        am.requestAudioFocus(request)
+        audioManager = am
+        focusRequest = request
+        this.onInterrupted = onInterrupted
 
         captureJob = scope.launch {
             try {
@@ -184,5 +218,10 @@ object AudioCaptureEngine {
         captureJob?.cancel()
         captureJob = null
         audioRecord = null
+
+        focusRequest?.let { audioManager?.abandonAudioFocusRequest(it) }
+        focusRequest = null
+        audioManager = null
+        onInterrupted = null
     }
 }

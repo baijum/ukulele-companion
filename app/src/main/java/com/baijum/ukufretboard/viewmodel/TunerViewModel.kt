@@ -389,7 +389,11 @@ class TunerViewModel : ViewModel() {
         telemetryOverrideCount = 0
         lastLoggedStatus = TuningStatus.SILENT
 
-        AudioCaptureEngine.start(viewModelScope) { buffer ->
+        AudioCaptureEngine.start(
+            viewModelScope,
+            appContext!!,
+            onInterrupted = { stopTuning() },
+        ) { buffer ->
             processBuffer(buffer)
         }
     }

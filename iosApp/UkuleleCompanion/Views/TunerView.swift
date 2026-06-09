@@ -503,6 +503,7 @@ final class TunerViewModel: ObservableObject {
     }
 
     private func startCapture() {
+        audioEngine.onInterrupted = { [weak self] in self?.stopCapture() }
         audioEngine.start()
         isCapturing = true
         previousFrequency = nil
