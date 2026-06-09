@@ -295,7 +295,11 @@ class PitchMonitorViewModel : ViewModel() {
         neuralConsistencyFrames = 0
         telemetryFrameCounter = 0
 
-        AudioCaptureEngine.start(viewModelScope) { buffer ->
+        AudioCaptureEngine.start(
+            viewModelScope,
+            appContext!!,
+            onInterrupted = { stopListening() },
+        ) { buffer ->
             processBuffer(buffer)
         }
     }

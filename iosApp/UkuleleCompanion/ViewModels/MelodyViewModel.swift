@@ -346,6 +346,7 @@ final class MelodyViewModel: ObservableObject {
             }
         }
 
+        audioEngine.onInterrupted = { [weak self] in self?.stopRecording() }
         audioEngine.start()
         isRecording = true
     }

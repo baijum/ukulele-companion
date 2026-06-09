@@ -96,6 +96,7 @@ class MelodyViewModel : ViewModel() {
     val uiState: StateFlow<MelodyUiState> = _uiState.asStateFlow()
 
     private var repository: MelodyRepository? = null
+    private var appContext: Context? = null
     private var soundSettings: SoundSettings = SoundSettings()
 
     // --- Recording state ---
@@ -111,6 +112,9 @@ class MelodyViewModel : ViewModel() {
     private var awaitingSilence = false
 
     fun setApplicationContext(context: Context) {
+        if (appContext == null) {
+            appContext = context.applicationContext
+        }
         if (repository == null) {
             repository = MelodyRepository(context.applicationContext)
             refreshSavedMelodies()
@@ -441,7 +445,12 @@ class MelodyViewModel : ViewModel() {
             )
         }
 
-        AudioCaptureEngine.start(viewModelScope) { buffer ->
+        val ctx = appContext ?: return
+        AudioCaptureEngine.start(
+            viewModelScope,
+            ctx,
+            onInterrupted = { stopRecording() },
+        ) { buffer ->
             processRecordingBuffer(buffer)
         }
     }

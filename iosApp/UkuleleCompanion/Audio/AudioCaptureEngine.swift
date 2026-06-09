@@ -30,6 +30,10 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
     /// Called on a background queue with each analysis frame.
     var onBuffer: (([Float]) -> Void)?
 
+    /// Called on the main actor when the system interrupts capture (phone call, Siri, etc.).
+    var onInterrupted: (() -> Void)?
+    private var interruptionObserver: NSObjectProtocol?
+
     init() {
         ringBuffer = [Float](repeating: 0, count: Self.frameSize)
         analysisBuf = [Float](repeating: 0, count: Self.frameSize)
@@ -82,6 +86,15 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
             do {
                 try engine.start()
                 _isRunning = true
+                #if !targetEnvironment(simulator)
+                interruptionObserver = NotificationCenter.default.addObserver(
+                    forName: AVAudioSession.interruptionNotification,
+                    object: AVAudioSession.sharedInstance(),
+                    queue: nil
+                ) { [weak self] notification in
+                    self?.handleInterruption(notification)
+                }
+                #endif
                 return true
             } catch {
                 print("AudioCaptureEngine failed to start: \(error)")
@@ -100,6 +113,11 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
     func stop() {
         let didStop: Bool = sessionQueue.sync {
             guard _isRunning else { return false }
+
+            if let observer = interruptionObserver {
+                NotificationCenter.default.removeObserver(observer)
+                interruptionObserver = nil
+            }
 
             engine.inputNode.removeTap(onBus: 0)
             engine.stop()
@@ -162,6 +180,20 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
             }
             onBuffer?(analysisBuf)
             filled -= Self.hopSize
+        }
+    }
+
+    private func handleInterruption(_ notification: Notification) {
+        guard let info = notification.userInfo,
+              let typeValue = info[AVAudioSessionInterruptionTypeKey] as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else { return }
+
+        if type == .began {
+            let callback = onInterrupted
+            stop()
+            Task { @MainActor in
+                callback?()
+            }
         }
     }
 

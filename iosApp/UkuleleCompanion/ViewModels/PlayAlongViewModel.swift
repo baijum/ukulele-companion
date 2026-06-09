@@ -107,6 +107,7 @@ final class PlayAlongViewModel: ObservableObject {
     }
 
     private func beginSession() {
+        audioEngine.onInterrupted = { [weak self] in self?.stop() }
         audioEngine.start()
         isPlaying = true
 

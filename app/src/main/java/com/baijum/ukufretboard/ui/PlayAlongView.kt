@@ -149,7 +149,11 @@ fun PlayAlongView(
     // Audio detection callback
     LaunchedEffect(isListening) {
         if (isListening && hasMicPermission) {
-            AudioCaptureEngine.start(scope) { samples ->
+            AudioCaptureEngine.start(
+                scope,
+                context.applicationContext,
+                onInterrupted = { isListening = false },
+            ) { samples ->
                 val result = AudioChordDetector.detect(samples)
                 val chordFound = result.detection as? ChordDetector.DetectionResult.ChordFound
                 scope.launch(Dispatchers.Main) {
