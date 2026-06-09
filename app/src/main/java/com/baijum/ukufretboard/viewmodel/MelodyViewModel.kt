@@ -14,6 +14,7 @@ import com.baijum.ukufretboard.data.SoundSettings
 import com.baijum.ukufretboard.domain.NoteInfo
 import com.baijum.ukufretboard.domain.PitchDetector
 import com.baijum.ukufretboard.domain.TunerNoteMapper
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -106,6 +107,7 @@ class MelodyViewModel : ViewModel() {
     private var previousRms = 0f
     private var blankingFramesRemaining = 0
     private var previousFrequency: Double? = null
+    private val isProcessing = AtomicBoolean(false)
     private val recentFrequencies = ArrayDeque<Double>(SMOOTHING_WINDOW)
     private var stableNoteInfo: NoteInfo? = null
     private var stabilizationFrames = 0
@@ -437,13 +439,18 @@ class MelodyViewModel : ViewModel() {
         val ctx = appContext ?: return
         if (_uiState.value.isPlaying) stopPlayback()
 
-        resetRecordingState()
-        _uiState.update {
-            it.copy(
-                isRecording = true,
-                detectedNote = null,
-                stabilizationProgress = 0f,
-            )
+        while (!isProcessing.compareAndSet(false, true)) { /* spin until in-flight buffer finishes */ }
+        try {
+            resetRecordingState()
+            _uiState.update {
+                it.copy(
+                    isRecording = true,
+                    detectedNote = null,
+                    stabilizationProgress = 0f,
+                )
+            }
+        } finally {
+            isProcessing.set(false)
         }
 
         AudioCaptureEngine.start(
@@ -502,6 +509,15 @@ class MelodyViewModel : ViewModel() {
      */
     private fun processRecordingBuffer(samples: FloatArray) {
         if (!_uiState.value.isRecording) return
+        if (!isProcessing.compareAndSet(false, true)) return
+        try {
+            processRecordingBufferInner(samples)
+        } finally {
+            isProcessing.set(false)
+        }
+    }
+
+    private fun processRecordingBufferInner(samples: FloatArray) {
         val currentRms = PitchDetector.rms(samples)
         if (previousRms > 0f && currentRms / previousRms > ONSET_RATIO_THRESHOLD) {
             blankingFramesRemaining = BLANKING_FRAMES
