@@ -1,5 +1,8 @@
 package com.baijum.ukufretboard.domain
 
+import com.baijum.ukufretboard.platform.PlatformLock
+import com.baijum.ukufretboard.platform.withLock
+
 /**
  * Utility to downsample mono audio from 44.1 kHz to 16 kHz.
  *
@@ -21,9 +24,10 @@ object AudioResampler {
      */
     private const val MA_HALF = 2  // 5-tap: indices -2..+2
 
+    private val lock = PlatformLock()
+
     // Cached work buffers, reused across calls to avoid per-frame allocation.
-    // Thread safety relies on the caller holding a lock or being single-threaded
-    // (NeuralPitchSupervisor calls this from one thread at a time).
+    // Guarded by [lock] — all access goes through [downsample44kTo16k].
     private var cachedInputSize = 0
     private var cachedFiltered = FloatArray(0)
     private var cachedOutput = FloatArray(0)
@@ -31,27 +35,29 @@ object AudioResampler {
     fun downsample44kTo16k(input: FloatArray): FloatArray {
         if (input.isEmpty()) return FloatArray(0)
 
-        val n = input.size
-        if (n != cachedInputSize) {
-            cachedInputSize = n
-            cachedFiltered = FloatArray(n)
-            val outLen = (n / SOURCE_TO_TARGET_RATIO).toInt().coerceAtLeast(1)
-            cachedOutput = FloatArray(outLen)
+        return lock.withLock {
+            val n = input.size
+            if (n != cachedInputSize) {
+                cachedInputSize = n
+                cachedFiltered = FloatArray(n)
+                val outLen = (n / SOURCE_TO_TARGET_RATIO).toInt().coerceAtLeast(1)
+                cachedOutput = FloatArray(outLen)
+            }
+
+            applyMovingAverageInto(input, cachedFiltered)
+            val filtered = cachedFiltered
+            val output = cachedOutput
+
+            for (i in output.indices) {
+                val sourcePos = i * SOURCE_TO_TARGET_RATIO
+                val baseIdx = sourcePos.toInt().coerceIn(0, filtered.lastIndex)
+                val nextIdx = (baseIdx + 1).coerceAtMost(filtered.lastIndex)
+                val frac = (sourcePos - baseIdx).toFloat()
+                output[i] = filtered[baseIdx] * (1f - frac) + filtered[nextIdx] * frac
+            }
+
+            output
         }
-
-        applyMovingAverageInto(input, cachedFiltered)
-        val filtered = cachedFiltered
-        val output = cachedOutput
-
-        for (i in output.indices) {
-            val sourcePos = i * SOURCE_TO_TARGET_RATIO
-            val baseIdx = sourcePos.toInt().coerceIn(0, filtered.lastIndex)
-            val nextIdx = (baseIdx + 1).coerceAtMost(filtered.lastIndex)
-            val frac = (sourcePos - baseIdx).toFloat()
-            output[i] = filtered[baseIdx] * (1f - frac) + filtered[nextIdx] * frac
-        }
-
-        return output
     }
 
     /**
