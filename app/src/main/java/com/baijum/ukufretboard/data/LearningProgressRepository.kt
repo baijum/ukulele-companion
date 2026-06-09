@@ -61,22 +61,30 @@ class LearningProgressRepository(context: Context) {
      */
     fun recordQuizAnswer(category: QuizGenerator.QuizCategory, correct: Boolean) {
         val catKey = category.name
-        incrementInt("$KEY_QUIZ_TOTAL$catKey")
-        incrementInt(KEY_QUIZ_TOTAL_ALL)
+        val editor = prefs.edit()
+
+        editor.putInt("$KEY_QUIZ_TOTAL$catKey", prefs.getInt("$KEY_QUIZ_TOTAL$catKey", 0) + 1)
+        editor.putInt(KEY_QUIZ_TOTAL_ALL, prefs.getInt(KEY_QUIZ_TOTAL_ALL, 0) + 1)
+
         if (correct) {
-            incrementInt("$KEY_QUIZ_CORRECT$catKey")
-            incrementInt(KEY_QUIZ_CORRECT_ALL)
-            val newStreak = incrementInt("$KEY_QUIZ_STREAK$catKey")
-            updateBestStreak("$KEY_QUIZ_BEST$catKey", newStreak)
-            val newOverallStreak = incrementInt(KEY_QUIZ_STREAK_ALL)
-            updateBestStreak(KEY_QUIZ_BEST_ALL, newOverallStreak)
+            editor.putInt("$KEY_QUIZ_CORRECT$catKey", prefs.getInt("$KEY_QUIZ_CORRECT$catKey", 0) + 1)
+            editor.putInt(KEY_QUIZ_CORRECT_ALL, prefs.getInt(KEY_QUIZ_CORRECT_ALL, 0) + 1)
+            val newStreak = prefs.getInt("$KEY_QUIZ_STREAK$catKey", 0) + 1
+            editor.putInt("$KEY_QUIZ_STREAK$catKey", newStreak)
+            if (newStreak > prefs.getInt("$KEY_QUIZ_BEST$catKey", 0)) {
+                editor.putInt("$KEY_QUIZ_BEST$catKey", newStreak)
+            }
+            val newOverallStreak = prefs.getInt(KEY_QUIZ_STREAK_ALL, 0) + 1
+            editor.putInt(KEY_QUIZ_STREAK_ALL, newOverallStreak)
+            if (newOverallStreak > prefs.getInt(KEY_QUIZ_BEST_ALL, 0)) {
+                editor.putInt(KEY_QUIZ_BEST_ALL, newOverallStreak)
+            }
         } else {
-            prefs.edit()
-                .putInt("$KEY_QUIZ_STREAK$catKey", 0)
-                .putInt(KEY_QUIZ_STREAK_ALL, 0)
-                .apply()
+            editor.putInt("$KEY_QUIZ_STREAK$catKey", 0)
+            editor.putInt(KEY_QUIZ_STREAK_ALL, 0)
         }
-        recordActivity()
+
+        applyActivityUpdate(editor)
     }
 
     /** Returns quiz stats for a category, or overall if null. */
@@ -101,22 +109,30 @@ class LearningProgressRepository(context: Context) {
      */
     fun recordIntervalAnswer(level: Int, correct: Boolean) {
         val lvl = level.coerceIn(1, 4)
-        incrementInt("$KEY_INTERVAL_TOTAL$lvl")
-        incrementInt(KEY_INTERVAL_TOTAL_ALL)
+        val editor = prefs.edit()
+
+        editor.putInt("$KEY_INTERVAL_TOTAL$lvl", prefs.getInt("$KEY_INTERVAL_TOTAL$lvl", 0) + 1)
+        editor.putInt(KEY_INTERVAL_TOTAL_ALL, prefs.getInt(KEY_INTERVAL_TOTAL_ALL, 0) + 1)
+
         if (correct) {
-            incrementInt("$KEY_INTERVAL_CORRECT$lvl")
-            incrementInt(KEY_INTERVAL_CORRECT_ALL)
-            val newStreak = incrementInt("$KEY_INTERVAL_STREAK$lvl")
-            updateBestStreak("$KEY_INTERVAL_BEST$lvl", newStreak)
-            val newOverallStreak = incrementInt(KEY_INTERVAL_STREAK_ALL)
-            updateBestStreak(KEY_INTERVAL_BEST_ALL, newOverallStreak)
+            editor.putInt("$KEY_INTERVAL_CORRECT$lvl", prefs.getInt("$KEY_INTERVAL_CORRECT$lvl", 0) + 1)
+            editor.putInt(KEY_INTERVAL_CORRECT_ALL, prefs.getInt(KEY_INTERVAL_CORRECT_ALL, 0) + 1)
+            val newStreak = prefs.getInt("$KEY_INTERVAL_STREAK$lvl", 0) + 1
+            editor.putInt("$KEY_INTERVAL_STREAK$lvl", newStreak)
+            if (newStreak > prefs.getInt("$KEY_INTERVAL_BEST$lvl", 0)) {
+                editor.putInt("$KEY_INTERVAL_BEST$lvl", newStreak)
+            }
+            val newOverallStreak = prefs.getInt(KEY_INTERVAL_STREAK_ALL, 0) + 1
+            editor.putInt(KEY_INTERVAL_STREAK_ALL, newOverallStreak)
+            if (newOverallStreak > prefs.getInt(KEY_INTERVAL_BEST_ALL, 0)) {
+                editor.putInt(KEY_INTERVAL_BEST_ALL, newOverallStreak)
+            }
         } else {
-            prefs.edit()
-                .putInt("$KEY_INTERVAL_STREAK$lvl", 0)
-                .putInt(KEY_INTERVAL_STREAK_ALL, 0)
-                .apply()
+            editor.putInt("$KEY_INTERVAL_STREAK$lvl", 0)
+            editor.putInt(KEY_INTERVAL_STREAK_ALL, 0)
         }
-        recordActivity()
+
+        applyActivityUpdate(editor)
     }
 
     /** Returns interval trainer stats for a level (1–4), or overall if null. */
@@ -136,15 +152,22 @@ class LearningProgressRepository(context: Context) {
 
     /** Records a note quiz answer. Updates overall stats. */
     fun recordNoteQuizAnswer(correct: Boolean) {
-        incrementInt(KEY_NOTE_QUIZ_TOTAL)
+        val editor = prefs.edit()
+
+        editor.putInt(KEY_NOTE_QUIZ_TOTAL, prefs.getInt(KEY_NOTE_QUIZ_TOTAL, 0) + 1)
+
         if (correct) {
-            incrementInt(KEY_NOTE_QUIZ_CORRECT)
-            val newStreak = incrementInt(KEY_NOTE_QUIZ_STREAK)
-            updateBestStreak(KEY_NOTE_QUIZ_BEST, newStreak)
+            editor.putInt(KEY_NOTE_QUIZ_CORRECT, prefs.getInt(KEY_NOTE_QUIZ_CORRECT, 0) + 1)
+            val newStreak = prefs.getInt(KEY_NOTE_QUIZ_STREAK, 0) + 1
+            editor.putInt(KEY_NOTE_QUIZ_STREAK, newStreak)
+            if (newStreak > prefs.getInt(KEY_NOTE_QUIZ_BEST, 0)) {
+                editor.putInt(KEY_NOTE_QUIZ_BEST, newStreak)
+            }
         } else {
-            prefs.edit().putInt(KEY_NOTE_QUIZ_STREAK, 0).apply()
+            editor.putInt(KEY_NOTE_QUIZ_STREAK, 0)
         }
-        recordActivity()
+
+        applyActivityUpdate(editor)
     }
 
     /** Returns note quiz stats. */
@@ -163,22 +186,30 @@ class LearningProgressRepository(context: Context) {
      */
     fun recordChordEarAnswer(level: Int, correct: Boolean) {
         val lvl = level.coerceIn(1, 4)
-        incrementInt("$KEY_CHORD_EAR_TOTAL$lvl")
-        incrementInt(KEY_CHORD_EAR_TOTAL_ALL)
+        val editor = prefs.edit()
+
+        editor.putInt("$KEY_CHORD_EAR_TOTAL$lvl", prefs.getInt("$KEY_CHORD_EAR_TOTAL$lvl", 0) + 1)
+        editor.putInt(KEY_CHORD_EAR_TOTAL_ALL, prefs.getInt(KEY_CHORD_EAR_TOTAL_ALL, 0) + 1)
+
         if (correct) {
-            incrementInt("$KEY_CHORD_EAR_CORRECT$lvl")
-            incrementInt(KEY_CHORD_EAR_CORRECT_ALL)
-            val newStreak = incrementInt("$KEY_CHORD_EAR_STREAK$lvl")
-            updateBestStreak("$KEY_CHORD_EAR_BEST$lvl", newStreak)
-            val newOverallStreak = incrementInt(KEY_CHORD_EAR_STREAK_ALL)
-            updateBestStreak(KEY_CHORD_EAR_BEST_ALL, newOverallStreak)
+            editor.putInt("$KEY_CHORD_EAR_CORRECT$lvl", prefs.getInt("$KEY_CHORD_EAR_CORRECT$lvl", 0) + 1)
+            editor.putInt(KEY_CHORD_EAR_CORRECT_ALL, prefs.getInt(KEY_CHORD_EAR_CORRECT_ALL, 0) + 1)
+            val newStreak = prefs.getInt("$KEY_CHORD_EAR_STREAK$lvl", 0) + 1
+            editor.putInt("$KEY_CHORD_EAR_STREAK$lvl", newStreak)
+            if (newStreak > prefs.getInt("$KEY_CHORD_EAR_BEST$lvl", 0)) {
+                editor.putInt("$KEY_CHORD_EAR_BEST$lvl", newStreak)
+            }
+            val newOverallStreak = prefs.getInt(KEY_CHORD_EAR_STREAK_ALL, 0) + 1
+            editor.putInt(KEY_CHORD_EAR_STREAK_ALL, newOverallStreak)
+            if (newOverallStreak > prefs.getInt(KEY_CHORD_EAR_BEST_ALL, 0)) {
+                editor.putInt(KEY_CHORD_EAR_BEST_ALL, newOverallStreak)
+            }
         } else {
-            prefs.edit()
-                .putInt("$KEY_CHORD_EAR_STREAK$lvl", 0)
-                .putInt(KEY_CHORD_EAR_STREAK_ALL, 0)
-                .apply()
+            editor.putInt("$KEY_CHORD_EAR_STREAK$lvl", 0)
+            editor.putInt(KEY_CHORD_EAR_STREAK_ALL, 0)
         }
-        recordActivity()
+
+        applyActivityUpdate(editor)
     }
 
     /** Returns chord ear training stats for a level (1–4), or overall if null. */
@@ -204,22 +235,30 @@ class LearningProgressRepository(context: Context) {
      */
     fun recordScalePracticeAnswer(mode: String, correct: Boolean) {
         val m = mode.lowercase()
-        incrementInt("$KEY_SCALE_PRACTICE_TOTAL$m")
-        incrementInt(KEY_SCALE_PRACTICE_TOTAL_ALL)
+        val editor = prefs.edit()
+
+        editor.putInt("$KEY_SCALE_PRACTICE_TOTAL$m", prefs.getInt("$KEY_SCALE_PRACTICE_TOTAL$m", 0) + 1)
+        editor.putInt(KEY_SCALE_PRACTICE_TOTAL_ALL, prefs.getInt(KEY_SCALE_PRACTICE_TOTAL_ALL, 0) + 1)
+
         if (correct) {
-            incrementInt("$KEY_SCALE_PRACTICE_CORRECT$m")
-            incrementInt(KEY_SCALE_PRACTICE_CORRECT_ALL)
-            val newStreak = incrementInt("$KEY_SCALE_PRACTICE_STREAK$m")
-            updateBestStreak("$KEY_SCALE_PRACTICE_BEST$m", newStreak)
-            val newOverallStreak = incrementInt(KEY_SCALE_PRACTICE_STREAK_ALL)
-            updateBestStreak(KEY_SCALE_PRACTICE_BEST_ALL, newOverallStreak)
+            editor.putInt("$KEY_SCALE_PRACTICE_CORRECT$m", prefs.getInt("$KEY_SCALE_PRACTICE_CORRECT$m", 0) + 1)
+            editor.putInt(KEY_SCALE_PRACTICE_CORRECT_ALL, prefs.getInt(KEY_SCALE_PRACTICE_CORRECT_ALL, 0) + 1)
+            val newStreak = prefs.getInt("$KEY_SCALE_PRACTICE_STREAK$m", 0) + 1
+            editor.putInt("$KEY_SCALE_PRACTICE_STREAK$m", newStreak)
+            if (newStreak > prefs.getInt("$KEY_SCALE_PRACTICE_BEST$m", 0)) {
+                editor.putInt("$KEY_SCALE_PRACTICE_BEST$m", newStreak)
+            }
+            val newOverallStreak = prefs.getInt(KEY_SCALE_PRACTICE_STREAK_ALL, 0) + 1
+            editor.putInt(KEY_SCALE_PRACTICE_STREAK_ALL, newOverallStreak)
+            if (newOverallStreak > prefs.getInt(KEY_SCALE_PRACTICE_BEST_ALL, 0)) {
+                editor.putInt(KEY_SCALE_PRACTICE_BEST_ALL, newOverallStreak)
+            }
         } else {
-            prefs.edit()
-                .putInt("$KEY_SCALE_PRACTICE_STREAK$m", 0)
-                .putInt(KEY_SCALE_PRACTICE_STREAK_ALL, 0)
-                .apply()
+            editor.putInt("$KEY_SCALE_PRACTICE_STREAK$m", 0)
+            editor.putInt(KEY_SCALE_PRACTICE_STREAK_ALL, 0)
         }
-        recordActivity()
+
+        applyActivityUpdate(editor)
     }
 
     /** Returns scale practice stats for a mode ("quiz"/"ear"), or overall if null. */
@@ -239,6 +278,10 @@ class LearningProgressRepository(context: Context) {
 
     /** Records a learning activity for today. Updates the daily streak. */
     fun recordActivity() {
+        applyActivityUpdate(prefs.edit())
+    }
+
+    private fun applyActivityUpdate(editor: SharedPreferences.Editor) {
         val today = todayString()
         val lastDate = prefs.getString(KEY_LAST_ACTIVITY, null)
         val currentStreak = prefs.getInt(KEY_STREAK_DAYS, 0)
@@ -251,7 +294,7 @@ class LearningProgressRepository(context: Context) {
 
         val bestStreak = maxOf(prefs.getInt(KEY_BEST_STREAK_DAYS, 0), newStreak)
 
-        prefs.edit()
+        editor
             .putString(KEY_LAST_ACTIVITY, today)
             .putInt(KEY_STREAK_DAYS, newStreak)
             .putInt(KEY_BEST_STREAK_DAYS, bestStreak)
@@ -308,19 +351,6 @@ class LearningProgressRepository(context: Context) {
     }
 
     // ── Helpers ──────────────────────────────────────────────────────
-
-    private fun incrementInt(key: String): Int {
-        val newValue = prefs.getInt(key, 0) + 1
-        prefs.edit().putInt(key, newValue).apply()
-        return newValue
-    }
-
-    private fun updateBestStreak(bestKey: String, currentStreak: Int) {
-        val best = prefs.getInt(bestKey, 0)
-        if (currentStreak > best) {
-            prefs.edit().putInt(bestKey, currentStreak).apply()
-        }
-    }
 
     private fun todayString(): String =
         SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
