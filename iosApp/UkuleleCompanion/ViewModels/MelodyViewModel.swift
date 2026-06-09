@@ -1,5 +1,6 @@
 import Foundation
 import AVFoundation
+import os
 import shared
 
 enum NoteDuration: String, CaseIterable, Codable {
@@ -88,6 +89,7 @@ final class MelodyViewModel: ObservableObject {
     private let tonePlayer = TonePlayer()
     private var playbackTask: Task<Void, Never>?
     private let audioEngine = AudioCaptureEngine()
+    private nonisolated(unsafe) let processingLock = OSAllocatedUnfairLock(initialState: false)
     private var stableCount = 0
     private var lastDetectedPitchClass: Int? = nil
 
@@ -290,41 +292,48 @@ final class MelodyViewModel: ObservableObject {
         lastDetectedPitchClass = nil
 
         audioEngine.onBuffer = { [weak self] samples in
-            Task { @MainActor in
             guard let self else { return }
-            let floatArray = KotlinFloatArray(size: Int32(samples.count))
-            for i in 0..<samples.count {
-                floatArray.set(index: Int32(i), value: samples[i])
+            let shouldProcess = self.processingLock.withLock { isProcessing -> Bool in
+                if isProcessing { return false }
+                isProcessing = true
+                return true
             }
-
-            let result = PitchDetector.shared.detect(
-                samples: floatArray,
-                sampleRate: Int32(AudioCaptureEngine.sampleRate),
-                threshold: 0.15,
-                previousFrequency: nil
-            )
-
-            guard let result, result.confidence > 0.8 else {
+            guard shouldProcess else { return }
             Task { @MainActor in
-                self.detectedNote = nil
-                self.stableCount = 0
-                self.lastDetectedPitchClass = nil
-                self.stabilizationProgress = 0
-            }
-            return
-            }
+                let floatArray = KotlinFloatArray(size: Int32(samples.count))
+                for i in 0..<samples.count {
+                    floatArray.set(index: Int32(i), value: samples[i])
+                }
 
-            let noteInfo = TunerNoteMapper.shared.mapFrequency(
-                hz: result.frequencyHz,
-                a4Reference: 440.0
-            )
+                let result = PitchDetector.shared.detect(
+                    samples: floatArray,
+                    sampleRate: Int32(AudioCaptureEngine.sampleRate),
+                    threshold: 0.15,
+                    previousFrequency: nil
+                )
 
-            guard let noteInfo else { return }
+                guard let result, result.confidence > 0.8 else {
+                    self.detectedNote = nil
+                    self.stableCount = 0
+                    self.lastDetectedPitchClass = nil
+                    self.stabilizationProgress = 0
+                    self.processingLock.withLock { $0 = false }
+                    return
+                }
 
-            let pc = Int(noteInfo.pitchClass)
-            let oct = Int(noteInfo.octave)
+                let noteInfo = TunerNoteMapper.shared.mapFrequency(
+                    hz: result.frequencyHz,
+                    a4Reference: 440.0
+                )
 
-            Task { @MainActor in
+                guard let noteInfo else {
+                    self.processingLock.withLock { $0 = false }
+                    return
+                }
+
+                let pc = Int(noteInfo.pitchClass)
+                let oct = Int(noteInfo.octave)
+
                 self.detectedNote = noteInfo.noteName + "\(oct)"
 
                 if pc == self.lastDetectedPitchClass {
@@ -343,7 +352,8 @@ final class MelodyViewModel: ObservableObject {
                     self.detectedNote = nil
                     self.stabilizationProgress = 0
                 }
-            }
+
+                self.processingLock.withLock { $0 = false }
             }
         }
 
