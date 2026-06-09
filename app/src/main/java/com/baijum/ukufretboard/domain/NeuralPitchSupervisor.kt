@@ -83,11 +83,14 @@ class NeuralPitchSupervisor(context: Context) : AutoCloseable {
 
     init {
         val bytes = context.assets.open(MODEL_ASSET).use { it.readBytes() }
-        val options = OrtSession.SessionOptions().apply {
-            setInterOpNumThreads(1)
-            setIntraOpNumThreads(1)
+        val options = OrtSession.SessionOptions()
+        try {
+            options.setInterOpNumThreads(1)
+            options.setIntraOpNumThreads(1)
+            session = env.createSession(bytes, options)
+        } finally {
+            options.close()
         }
-        session = env.createSession(bytes, options)
         inputName = session.inputNames.first()
     }
 
