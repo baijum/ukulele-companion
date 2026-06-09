@@ -1,5 +1,6 @@
 import Foundation
 import AVFoundation
+import os
 import shared
 
 /// Orchestrates Play Along: metronome timing, mic capture, chord detection, and scoring.
@@ -17,6 +18,7 @@ final class PlayAlongViewModel: ObservableObject {
     // MARK: - Dependencies
 
     private let audioEngine = AudioCaptureEngine()
+    private nonisolated(unsafe) let processingLock = OSAllocatedUnfairLock(initialState: false)
     let tonePlayer = TonePlayer()
     private let scorer = PlayAlongScorer()
 
@@ -42,8 +44,16 @@ final class PlayAlongViewModel: ObservableObject {
 
     init() {
         audioEngine.onBuffer = { [weak self] samples in
+            guard let self else { return }
+            let shouldProcess = self.processingLock.withLock { isProcessing -> Bool in
+                if isProcessing { return false }
+                isProcessing = true
+                return true
+            }
+            guard shouldProcess else { return }
             Task { @MainActor in
-                self?.processAudioBuffer(samples)
+                self.processAudioBuffer(samples)
+                self.processingLock.withLock { $0 = false }
             }
         }
     }
