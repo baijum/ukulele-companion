@@ -265,6 +265,7 @@ class PitchMonitorViewModel : ViewModel() {
      */
     fun startListening() {
         if (_uiState.value.isListening) return
+        val ctx = appContext ?: return
 
         initializeNeuralSupervisor()
 
@@ -297,7 +298,7 @@ class PitchMonitorViewModel : ViewModel() {
 
         AudioCaptureEngine.start(
             viewModelScope,
-            appContext!!,
+            ctx,
             onInterrupted = { stopListening() },
         ) { buffer ->
             processBuffer(buffer)

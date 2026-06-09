@@ -434,6 +434,7 @@ class MelodyViewModel : ViewModel() {
 
     fun startRecording() {
         if (_uiState.value.isRecording) return
+        val ctx = appContext ?: return
         if (_uiState.value.isPlaying) stopPlayback()
 
         resetRecordingState()
@@ -445,7 +446,6 @@ class MelodyViewModel : ViewModel() {
             )
         }
 
-        val ctx = appContext ?: return
         AudioCaptureEngine.start(
             viewModelScope,
             ctx,

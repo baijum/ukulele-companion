@@ -358,6 +358,7 @@ class TunerViewModel : ViewModel() {
      */
     fun startTuning() {
         if (_uiState.value.isListening) return
+        val ctx = appContext ?: return
 
         _uiState.update {
             it.copy(
@@ -391,7 +392,7 @@ class TunerViewModel : ViewModel() {
 
         AudioCaptureEngine.start(
             viewModelScope,
-            appContext!!,
+            ctx,
             onInterrupted = { stopTuning() },
         ) { buffer ->
             processBuffer(buffer)
