@@ -372,14 +372,19 @@ final class PitchMonitorViewModel: ObservableObject {
         neuralFrameCounter += 1
 
         if neuralFrameCounter % Self.neuralSupervisorInterval == 0 {
-            let estimate = supervisor.estimate(samples)
-            lastNeuralResult = estimate
-            neuralResultAgeFrames = 0
-            if let estimate = estimate {
-                updateNeuralConsistency(estimate.frequencyHz)
-            } else {
-                neuralConsistencyFrames = 0
-                lastNeuralFrequencyForConsistency = nil
+            Task.detached(priority: .userInitiated) { [weak self] in
+                let estimate = supervisor.estimate(samples)
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
+                    self.lastNeuralResult = estimate
+                    self.neuralResultAgeFrames = 0
+                    if let estimate = estimate {
+                        self.updateNeuralConsistency(estimate.frequencyHz)
+                    } else {
+                        self.neuralConsistencyFrames = 0
+                        self.lastNeuralFrequencyForConsistency = nil
+                    }
+                }
             }
         } else if neuralResultAgeFrames < Int.max {
             neuralResultAgeFrames += 1
