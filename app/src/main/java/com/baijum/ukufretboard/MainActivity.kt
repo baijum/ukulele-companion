@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import com.baijum.ukufretboard.audio.ToneGenerator
 import com.baijum.ukufretboard.ui.FretboardScreen
 import com.baijum.ukufretboard.ui.LocalReduceMotion
 import com.baijum.ukufretboard.ui.OnboardingScreen
@@ -65,5 +66,10 @@ class MainActivity : AppCompatActivity() {
             }
             }
         }
+    }
+
+    override fun onDestroy() {
+        ToneGenerator.release()
+        super.onDestroy()
     }
 }
