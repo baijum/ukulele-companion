@@ -555,6 +555,7 @@
     <!-- ── Tocar junto ───────────────────────────────────────────────── -->
     <string name="play_along_title">Tocar junto</string>
     <string name="play_along_subtitle">Ouça e toque os acordes certos!</string>
+    <string name="play_along_empty_progression">Nenhum acorde nesta progressão. Selecione uma progressão com acordes.</string>
     <string name="play_along_mic_needed">Acesso ao microfone necessário para detecção de acordes</string>
     <string name="cd_grant_permission">Conceder permissão de microfone</string>
     <string name="play_along_grant">Conceder permissão</string>

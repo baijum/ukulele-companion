@@ -555,6 +555,7 @@
     <!-- ── Eşlik Et ───────────────────────────────────────────────────── -->
     <string name="play_along_title">Eşlik Et</string>
     <string name="play_along_subtitle">Dinleyin ve doğru akorları çalın!</string>
+    <string name="play_along_empty_progression">Bu ilerlemede akor yok. Lütfen akor içeren bir ilerleme seçin.</string>
     <string name="play_along_mic_needed">Akor algılama için mikrofon erişimi gerekli</string>
     <string name="cd_grant_permission">Mikrofon izni ver</string>
     <string name="play_along_grant">İzin Ver</string>

@@ -554,6 +554,7 @@
     <!-- ── Play Along ───────────────────────────────────────────────── -->
     <string name="play_along_title">跟弹练习</string>
     <string name="play_along_subtitle">聆听并弹奏正确的和弦！</string>
+    <string name="play_along_empty_progression">此和弦进行中没有和弦。请选择包含和弦的进行。</string>
     <string name="play_along_mic_needed">和弦检测需要麦克风权限</string>
     <string name="cd_grant_permission">授予麦克风权限</string>
     <string name="play_along_grant">授予权限</string>

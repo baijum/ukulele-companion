@@ -557,6 +557,7 @@
     <!-- ── Play Along ───────────────────────────────────────────────── -->
     <string name="play_along_title">Играть вместе</string>
     <string name="play_along_subtitle">Слушайте и играйте правильные аккорды!</string>
+    <string name="play_along_empty_progression">В этой последовательности нет аккордов. Выберите последовательность с аккордами.</string>
     <string name="play_along_mic_needed">Для определения аккордов нужен доступ к микрофону</string>
     <string name="cd_grant_permission">Предоставить доступ к микрофону</string>
     <string name="play_along_grant">Предоставить доступ</string>

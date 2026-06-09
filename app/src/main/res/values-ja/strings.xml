@@ -554,6 +554,7 @@
     <!-- ── Play Along ───────────────────────────────────────────────── -->
     <string name="play_along_title">一緒に演奏</string>
     <string name="play_along_subtitle">聴いて正しいコードを弾きましょう！</string>
+    <string name="play_along_empty_progression">このコード進行にはコードがありません。コードのある進行を選択してください。</string>
     <string name="play_along_mic_needed">コード検出にマイクへのアクセスが必要です</string>
     <string name="cd_grant_permission">マイクの権限を許可</string>
     <string name="play_along_grant">許可する</string>

@@ -557,6 +557,7 @@
     <!-- ── Graj razem ─────────────────────────────────────────────────── -->
     <string name="play_along_title">Graj razem</string>
     <string name="play_along_subtitle">Słuchaj i graj właściwe akordy!</string>
+    <string name="play_along_empty_progression">Brak akordów w tej progresji. Wybierz progresję z akordami.</string>
     <string name="play_along_mic_needed">Dostęp do mikrofonu wymagany do wykrywania akordów</string>
     <string name="cd_grant_permission">Przyznaj uprawnienie do mikrofonu</string>
     <string name="play_along_grant">Przyznaj uprawnienie</string>

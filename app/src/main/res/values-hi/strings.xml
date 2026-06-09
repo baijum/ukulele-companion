@@ -555,6 +555,7 @@
     <!-- ── Play Along ───────────────────────────────────────────────── -->
     <string name="play_along_title">साथ बजाएँ</string>
     <string name="play_along_subtitle">सुनें और सही कॉर्ड बजाएँ!</string>
+    <string name="play_along_empty_progression">इस प्रगति में कोई कॉर्ड नहीं हैं। कृपया कॉर्ड वाली प्रगति चुनें।</string>
     <string name="play_along_mic_needed">कॉर्ड पहचान के लिए माइक्रोफ़ोन एक्सेस आवश्यक</string>
     <string name="cd_grant_permission">माइक्रोफ़ोन अनुमति दें</string>
     <string name="play_along_grant">अनुमति दें</string>

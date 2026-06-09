@@ -555,6 +555,7 @@
     <!-- ── Play Along ───────────────────────────────────────────────── -->
     <string name="play_along_title">Mitspielen</string>
     <string name="play_along_subtitle">Höre zu und spiele die richtigen Akkorde!</string>
+    <string name="play_along_empty_progression">Keine Akkorde in dieser Progression. Bitte wähle eine Progression mit Akkorden.</string>
     <string name="play_along_mic_needed">Mikrofonzugriff für Akkorderkennung erforderlich</string>
     <string name="cd_grant_permission">Mikrofonberechtigung erteilen</string>
     <string name="play_along_grant">Berechtigung erteilen</string>

@@ -14,6 +14,7 @@ final class PlayAlongViewModel: ObservableObject {
     @Published var detectedChord: String?
     @Published var isChordCorrect: Bool?
     @Published var score: PlayAlongScorer.PlayAlongScore?
+    @Published var errorMessage: String?
 
     // MARK: - Dependencies
 
@@ -67,7 +68,11 @@ final class PlayAlongViewModel: ObservableObject {
         rootPitchClass: Int32,
         isMinorScale: Bool
     ) {
-        guard !degrees.isEmpty else { return }
+        guard !degrees.isEmpty else {
+            errorMessage = "No chords in this progression. Please select a progression first."
+            return
+        }
+        errorMessage = nil
         self.degrees = degrees
         self.bpm = bpm
         self.beatsPerChord = beatsPerChord
