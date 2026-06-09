@@ -76,6 +76,7 @@ import com.baijum.ukufretboard.domain.ChordDetector
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.domain.PlayAlongScorer
 import com.baijum.ukufretboard.viewmodel.UkuleleString
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Real-Time Play-Along with feedback view.
@@ -127,6 +128,7 @@ fun PlayAlongView(
     var score by remember { mutableStateOf(PlayAlongScorer.PlayAlongScore()) }
     var sessionComplete by remember { mutableStateOf(false) }
     var isListening by remember { mutableStateOf(false) }
+    val isProcessing = remember { AtomicBoolean(false) }
 
     // Build chord names for the progression
     val chordNames = remember(progression, keyRoot) {
@@ -154,16 +156,21 @@ fun PlayAlongView(
                 context.applicationContext,
                 onInterrupted = { isListening = false },
             ) { samples ->
-                val result = AudioChordDetector.detect(samples)
-                val chordFound = result.detection as? ChordDetector.DetectionResult.ChordFound
-                scope.launch(Dispatchers.Main) {
-                    if (chordFound != null && result.confidence > 0.3f) {
-                        detectedChord = chordFound.result.name
-                        detectionConfidence = result.confidence
-                    } else {
-                        detectedChord = null
-                        detectionConfidence = 0f
+                if (!isProcessing.compareAndSet(false, true)) return@start
+                try {
+                    val result = AudioChordDetector.detect(samples)
+                    val chordFound = result.detection as? ChordDetector.DetectionResult.ChordFound
+                    scope.launch(Dispatchers.Main) {
+                        if (chordFound != null && result.confidence > 0.3f) {
+                            detectedChord = chordFound.result.name
+                            detectionConfidence = result.confidence
+                        } else {
+                            detectedChord = null
+                            detectionConfidence = 0f
+                        }
                     }
+                } finally {
+                    isProcessing.set(false)
                 }
             }
         }
