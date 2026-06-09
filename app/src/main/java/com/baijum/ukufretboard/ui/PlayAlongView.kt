@@ -293,10 +293,12 @@ fun PlayAlongView(
                 if (isPlaying && detectedChord != null) {
                     Spacer(modifier = Modifier.height(8.dp))
                     val expectedChord = chordNames.getOrElse(currentChordIndex) { "" }
-                    val isCorrect = detectedChord?.contains(
-                        expectedChord.take(2),
-                        ignoreCase = true,
-                    ) == true
+                    val isCorrect = detectedChord?.let {
+                        normalizeChordForComparison(it).equals(
+                            normalizeChordForComparison(expectedChord),
+                            ignoreCase = true,
+                        )
+                    } == true
 
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -668,3 +670,8 @@ fun PlayAlongSetup(
         }
     }
 }
+
+private fun normalizeChordForComparison(name: String): String =
+    name.replace(Regex("[79]$"), "")
+        .replace("maj", "")
+        .trim()
