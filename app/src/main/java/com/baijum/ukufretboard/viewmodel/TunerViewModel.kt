@@ -292,7 +292,8 @@ class TunerViewModel : ViewModel() {
 
     // --- Neural supervisor state --------------------------------------------
 
-    @Volatile
+    private val supervisorLock = Any()
+    private var isCleared = false
     private var neuralSupervisor: NeuralPitchSupervisor? = null
     private var neuralFrameCounter = 0
     private var lastNeuralResult: NeuralPitchResult? = null
@@ -437,8 +438,12 @@ class TunerViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        val supervisor = neuralSupervisor
-        neuralSupervisor = null
+        val supervisor = synchronized(supervisorLock) {
+            isCleared = true
+            val s = neuralSupervisor
+            neuralSupervisor = null
+            s
+        }
         AudioCaptureEngine.stop()
         supervisor?.close()
         shutdownTts()
@@ -707,7 +712,9 @@ class TunerViewModel : ViewModel() {
     }
 
     private fun initializeNeuralSupervisor() {
-        if (neuralSupervisor != null) return
+        synchronized(supervisorLock) {
+            if (neuralSupervisor != null) return
+        }
         val ctx = appContext ?: return
         updateNeuralStatus(
             available = false,
@@ -723,7 +730,13 @@ class TunerViewModel : ViewModel() {
                     null
                 }
             }
-            neuralSupervisor = supervisor
+            synchronized(supervisorLock) {
+                if (isCleared) {
+                    supervisor?.close()
+                    return@launch
+                }
+                neuralSupervisor = supervisor
+            }
             if (supervisor != null) {
                 updateNeuralStatus(
                     available = true,
@@ -741,7 +754,7 @@ class TunerViewModel : ViewModel() {
     }
 
     private fun runNeuralSupervisor(samples: FloatArray): NeuralPitchResult? {
-        val supervisor = neuralSupervisor ?: return null
+        val supervisor = synchronized(supervisorLock) { neuralSupervisor } ?: return null
         neuralFrameCounter++
 
         if (neuralFrameCounter % NEURAL_SUPERVISOR_INTERVAL == 0) {
@@ -997,7 +1010,8 @@ class TunerViewModel : ViewModel() {
 
         val neuralFreq = neuralResult?.frequencyHz?.let { "%.2f".format(it) } ?: "null"
         val neuralConf = neuralResult?.confidence?.let { "%.2f".format(it) } ?: "null"
-        val inferenceMs = neuralSupervisor?.lastInferenceMs()?.let { "%.2f".format(it) } ?: "null"
+        val inferenceMs = synchronized(supervisorLock) { neuralSupervisor }
+            ?.lastInferenceMs()?.let { "%.2f".format(it) } ?: "null"
 
         Log.d(
             TAG,
