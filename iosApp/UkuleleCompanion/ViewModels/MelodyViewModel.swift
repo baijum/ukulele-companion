@@ -192,14 +192,15 @@ final class MelodyViewModel: ObservableObject {
         playbackTask = Task { @MainActor [weak self] in
             guard let self else { return }
             repeat {
-                for i in 0..<self.steps.count {
+                let snapshot = self.steps
+                for i in 0..<snapshot.count {
                     if Task.isCancelled { break }
                     guard self.isPlaying else { break }
                     self.playingIndex = i
-                    if let note = self.steps[i], let pc = note.pitchClass {
+                    if let note = snapshot[i], let pc = note.pitchClass {
                         self.tonePlayer.playNote(pitchClass: Int32(pc))
                     }
-                    let duration = (self.steps[i]?.duration ?? self.selectedDuration).beats
+                    let duration = (snapshot[i]?.duration ?? self.selectedDuration).beats
                     let ms = duration * 60_000.0 / Double(self.bpm)
                     try? await Task.sleep(nanoseconds: UInt64(ms * 1_000_000))
                 }
