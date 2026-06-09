@@ -122,11 +122,8 @@ object IntervalTrainer {
                 note2Octave = if (note1 + interval >= 12) baseOctave + 1 else baseOctave
             }
             IntervalDirection.DESCENDING -> {
-                note1Octave = baseOctave + 1
-                // Descending: second note is lower
+                note1Octave = baseOctave
                 note2Octave = if (note1 + interval >= 12) baseOctave + 1 else baseOctave
-                // Actually for descending we want note1 high, note2 low
-                // note2 = note1 - interval
             }
         }
 
