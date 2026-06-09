@@ -248,7 +248,8 @@ class PitchMonitorViewModel : ViewModel() {
 
     // --- Neural supervisor state ----------------------------------------------
 
-    @Volatile
+    private val supervisorLock = Any()
+    private var isCleared = false
     private var neuralSupervisor: NeuralPitchSupervisor? = null
     private var neuralFrameCounter = 0
     private var lastNeuralResult: NeuralPitchResult? = null
@@ -338,8 +339,12 @@ class PitchMonitorViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        val supervisor = neuralSupervisor
-        neuralSupervisor = null
+        val supervisor = synchronized(supervisorLock) {
+            isCleared = true
+            val s = neuralSupervisor
+            neuralSupervisor = null
+            s
+        }
         AudioCaptureEngine.stop()
         supervisor?.close()
     }
@@ -610,7 +615,9 @@ class PitchMonitorViewModel : ViewModel() {
     }
 
     private fun initializeNeuralSupervisor() {
-        if (neuralSupervisor != null) return
+        synchronized(supervisorLock) {
+            if (neuralSupervisor != null) return
+        }
         val ctx = appContext ?: return
         viewModelScope.launch {
             val supervisor = withContext(Dispatchers.IO) {
@@ -621,12 +628,18 @@ class PitchMonitorViewModel : ViewModel() {
                     null
                 }
             }
-            neuralSupervisor = supervisor
+            synchronized(supervisorLock) {
+                if (isCleared) {
+                    supervisor?.close()
+                    return@launch
+                }
+                neuralSupervisor = supervisor
+            }
         }
     }
 
     private fun runNeuralSupervisor(samples: FloatArray): NeuralPitchResult? {
-        val supervisor = neuralSupervisor ?: return null
+        val supervisor = synchronized(supervisorLock) { neuralSupervisor } ?: return null
         neuralFrameCounter++
 
         if (neuralFrameCounter % NEURAL_SUPERVISOR_INTERVAL == 0) {
@@ -734,7 +747,8 @@ class PitchMonitorViewModel : ViewModel() {
         val neuralConf = neuralResult?.confidence?.let { "%.2f".format(it) } ?: "null"
         val finalHz = finalResult?.frequencyHz?.let { "%.2f".format(it) } ?: "null"
         val finalConf = finalResult?.confidence?.let { "%.2f".format(it) } ?: "null"
-        val neuralMs = neuralSupervisor?.lastInferenceMs()?.let { "%.2f".format(it) } ?: "null"
+        val neuralMs = synchronized(supervisorLock) { neuralSupervisor }
+            ?.lastInferenceMs()?.let { "%.2f".format(it) } ?: "null"
 
         Log.d(
             TAG,
