@@ -57,6 +57,7 @@ final class PlayAlongViewModel: ObservableObject {
         rootPitchClass: Int32,
         isMinorScale: Bool
     ) {
+        guard !degrees.isEmpty else { return }
         self.degrees = degrees
         self.bpm = bpm
         self.beatsPerChord = beatsPerChord
