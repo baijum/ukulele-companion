@@ -106,9 +106,12 @@ final class TonePlayer {
             let delaySeconds = Double(index) * Double(strumDelayMs) / 1000.0
 
             if delaySeconds > 0 {
-                nonisolated(unsafe) let p = player
+                nonisolated(unsafe) let weakSelf = self
                 nonisolated(unsafe) let b = buffer
+                let nodeIndex = (nextNodeIndex - 1) % nodePoolSize
                 DispatchQueue.main.asyncAfter(deadline: .now() + delaySeconds) {
+                    guard let engine = weakSelf.audioEngine, engine.isRunning else { return }
+                    let p = weakSelf.playerNodes[nodeIndex]
                     p.stop()
                     p.scheduleBuffer(b, at: nil, options: .interrupts)
                     p.play()
