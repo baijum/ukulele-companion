@@ -125,8 +125,9 @@ final class CustomPatternsViewModel: ObservableObject {
                   !existingIds.contains(id),
                   let name = dict["name"] as? String,
                   let beatDicts = dict["beats"] as? [[String: Any]],
-                  let createdAt = dict["createdAt"] as? Double
+                  let rawCreatedAt = dict["createdAt"] as? Double
             else { continue }
+            let createdAt = rawCreatedAt > 100_000_000_000 ? rawCreatedAt / 1000.0 : rawCreatedAt
             let timeSignature = dict["timeSignature"] as? String ?? "4/4"
             let beats = beatDicts.compactMap { bd -> StrumBeatData? in
                 guard let dir = bd["direction"] as? String,
@@ -159,8 +160,9 @@ final class CustomPatternsViewModel: ObservableObject {
                   !existingIds.contains(id),
                   let name = dict["name"] as? String,
                   let stepDicts = dict["steps"] as? [[String: Any]],
-                  let createdAt = dict["createdAt"] as? Double
+                  let rawCreatedAt = dict["createdAt"] as? Double
             else { continue }
+            let createdAt = rawCreatedAt > 100_000_000_000 ? rawCreatedAt / 1000.0 : rawCreatedAt
             let timeSignature = dict["timeSignature"] as? String ?? "4/4"
             let steps = stepDicts.compactMap { sd -> FingerpickStepData? in
                 guard let finger = sd["finger"] as? String,

@@ -12,6 +12,7 @@ import com.baijum.ukufretboard.data.LearningProgressRepository
 import com.baijum.ukufretboard.data.MelodyRepository
 import com.baijum.ukufretboard.data.NoteDuration
 import com.baijum.ukufretboard.data.PracticeTimerRepository
+import com.baijum.ukufretboard.data.SetlistRepository
 import com.baijum.ukufretboard.viewmodel.SettingsViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -278,6 +279,65 @@ class IosBackupNormalizationTest {
                 vm.exportSettings().display.themeMode.name,
             )
         }
+    }
+
+    @Test
+    fun kmpFormatFractionalTimestampsNormalized() {
+        val kmpBackup = """
+        {
+            "version": 3,
+            "exportedAt": 1700000000000,
+            "favorites": [],
+            "favoriteFolders": [],
+            "chordSheets": [],
+            "customProgressions": [],
+            "customStrumPatterns": [
+                {"id":"sp1","name":"Island","beats":[{"direction":"DOWN","emphasis":true}],"createdAt":1700000000.123,"timeSignature":"4/4"}
+            ],
+            "customFingerpickingPatterns": [
+                {"id":"fp1","name":"Travis","steps":[{"finger":"THUMB","stringIndex":3,"emphasis":false}],"createdAt":1700000000.456,"timeSignature":"4/4"}
+            ],
+            "setlists": [
+                {"id":"sl1","name":"Gig","songIds":[],"createdAt":1700000000000.789,"updatedAt":1700000000000.999}
+            ],
+            "melodies": [],
+            "learningProgress": {"entries":{}},
+            "achievements": {},
+            "practiceTimer": {"totalMinutes":10,"totalSessions":2,"longestSession":8,"lastSessionTime":1700000000.321,"dailyGoal":15,"dailyMinutes":{}},
+            "settings": {"soundEnabled":true,"volume":0.7,"noteDurationMs":600,"strumDelayMs":50,"strumDown":true,"playOnTap":false,"themeMode":"SYSTEM","showExplorerTips":true,"showLearnSection":true,"showReferenceSection":true,"tuning":"HIGH_G","leftHanded":false,"lastFret":12,"showNoteNames":true},
+            "knownChords": []
+        }
+        """.trimIndent()
+        manager.importBackup(kmpBackup)
+
+        val strumRepo = CustomStrumPatternRepository(app)
+        val strumAll = strumRepo.getAll()
+        assertEquals(1, strumAll.size)
+        assertTrue(
+            "Strum createdAt (seconds) should be converted to millis",
+            strumAll[0].createdAt >= 1_000_000_000_000,
+        )
+
+        val fpRepo = CustomFingerpickingPatternRepository(app)
+        val fpAll = fpRepo.getAll()
+        assertEquals(1, fpAll.size)
+        assertTrue(
+            "Fingerpick createdAt (seconds) should be converted to millis",
+            fpAll[0].createdAt >= 1_000_000_000_000,
+        )
+
+        val setlistRepo = SetlistRepository(app)
+        val setlists = setlistRepo.getAll()
+        assertEquals(1, setlists.size)
+        assertEquals("Gig", setlists[0].name)
+        assertEquals(1700000000000L, setlists[0].createdAt)
+        assertEquals(1700000000000L, setlists[0].updatedAt)
+
+        val practiceRepo = PracticeTimerRepository(app)
+        assertTrue(
+            "Practice lastSessionTime (seconds) should be converted to millis",
+            practiceRepo.lastSessionTime() >= 1_000_000_000_000,
+        )
     }
 
     // ── Helper ───────────────────────────────────────────────────────

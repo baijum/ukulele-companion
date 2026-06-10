@@ -73,14 +73,14 @@ final class BackupRestoreManager: ObservableObject {
             "favoriteFolders": convertFoldersToKMP(folders),
             "chordSheets": convertChordSheetsToKMP(songbookVM.exportData()),
             "customProgressions": convertProgressionsToKMP(progressionsVM.exportData()),
-            "customStrumPatterns": customPatternsVM.exportStrumData(),
+            "customStrumPatterns": convertStrumToKMP(customPatternsVM.exportStrumData()),
             "customFingerpickingPatterns": convertFingerpickToKMP(customPatternsVM.exportFingerpickData()),
-            "setlists": setlistVM.exportData(),
+            "setlists": convertSetlistsToKMP(setlistVM.exportData()),
             "melodies": convertMelodiesToKMP(melodyVM.exportData()),
             "learningProgress": convertLearnProgressToKMP(learnData),
             "settings": convertSettingsToKMP(settingsVM.exportSettings()),
             "achievements": extractAchievementsForKMP(learnData),
-            "practiceTimer": practiceTimerVM.exportData(),
+            "practiceTimer": convertPracticeTimerToKMP(practiceTimerVM.exportData()),
             "knownChords": [] as [String],
         ]
         do {
@@ -320,9 +320,22 @@ final class BackupRestoreManager: ObservableObject {
         Dictionary(uniqueKeysWithValues: fingerToKMP.map { ($0.value, $0.key) })
     }()
 
+    private func convertStrumToKMP(_ patterns: [[String: Any]]) -> [[String: Any]] {
+        patterns.map { p in
+            var out = p
+            if let createdAt = p["createdAt"] as? Double {
+                out["createdAt"] = Int64(createdAt * 1000)
+            }
+            return out
+        }
+    }
+
     private func convertFingerpickToKMP(_ patterns: [[String: Any]]) -> [[String: Any]] {
         patterns.map { p in
             var out = p
+            if let createdAt = p["createdAt"] as? Double {
+                out["createdAt"] = Int64(createdAt * 1000)
+            }
             if let steps = p["steps"] as? [[String: Any]] {
                 out["steps"] = steps.map { step in
                     var s = step
@@ -334,6 +347,27 @@ final class BackupRestoreManager: ObservableObject {
             }
             return out
         }
+    }
+
+    private func convertSetlistsToKMP(_ setlists: [[String: Any]]) -> [[String: Any]] {
+        setlists.map { sl in
+            var out = sl
+            if let createdAt = sl["createdAt"] as? Double {
+                out["createdAt"] = Int64(createdAt)
+            }
+            if let updatedAt = sl["updatedAt"] as? Double {
+                out["updatedAt"] = Int64(updatedAt)
+            }
+            return out
+        }
+    }
+
+    private func convertPracticeTimerToKMP(_ timer: [String: Any]) -> [String: Any] {
+        var out = timer
+        if let lastSessionTime = timer["lastSessionTime"] as? Double {
+            out["lastSessionTime"] = Int64(lastSessionTime * 1000)
+        }
+        return out
     }
 
     private func convertMelodiesToKMP(_ melodies: [[String: Any]]) -> [[String: Any]] {
