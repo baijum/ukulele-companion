@@ -104,11 +104,12 @@ final class NeuralPitchSupervisor: @unchecked Sendable {
         }
         defer { api.pointee.ReleaseMemoryInfo(memInfo) }
 
-        // Create input tensor
-        var inputShape: [Int64] = [1, Int64(numSamples)]
-        var inputTensor: OpaquePointer?
-        let tensorStatus = samples16k.withUnsafeMutableBufferPointer { buf in
-            api.pointee.CreateTensorWithDataAsOrtValue(
+        // Create input tensor and run inference inside buffer scope so
+        // samples16k stays alive for the full lifetime of the OrtValue.
+        return samples16k.withUnsafeMutableBufferPointer { buf -> NeuralPitchResult? in
+            var inputShape: [Int64] = [1, Int64(numSamples)]
+            var inputTensor: OpaquePointer?
+            let tensorStatus = api.pointee.CreateTensorWithDataAsOrtValue(
                 memInfo,
                 buf.baseAddress,
                 numSamples * MemoryLayout<Float>.size,
@@ -117,74 +118,74 @@ final class NeuralPitchSupervisor: @unchecked Sendable {
                 ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT,
                 &inputTensor
             )
-        }
-        guard tensorStatus == nil, let inputTensor = inputTensor else {
-            if let s = tensorStatus { api.pointee.ReleaseStatus(s) }
-            return nil
-        }
-        defer { api.pointee.ReleaseValue(inputTensor) }
+            guard tensorStatus == nil, let inputTensor = inputTensor else {
+                if let s = tensorStatus { api.pointee.ReleaseStatus(s) }
+                return nil
+            }
+            defer { api.pointee.ReleaseValue(inputTensor) }
 
-        // Get output count
-        var outputCount: Int = 0
-        let countStatus = api.pointee.SessionGetOutputCount(session, &outputCount)
-        if let s = countStatus { api.pointee.ReleaseStatus(s); return nil }
-        let actualOutputCount = min(outputCount, 2)
+            // Get output count
+            var outputCount: Int = 0
+            let countStatus = api.pointee.SessionGetOutputCount(session, &outputCount)
+            if let s = countStatus { api.pointee.ReleaseStatus(s); return nil }
+            let actualOutputCount = min(outputCount, 2)
 
-        // Get allocator for output names
-        var allocator: UnsafeMutablePointer<OrtAllocator>?
-        api.pointee.GetAllocatorWithDefaultOptions(&allocator)
-        guard let allocator = allocator else { return nil }
+            // Get allocator for output names
+            var allocator: UnsafeMutablePointer<OrtAllocator>?
+            api.pointee.GetAllocatorWithDefaultOptions(&allocator)
+            guard let allocator = allocator else { return nil }
 
-        // Get output names
-        var outputNamePtrs: [UnsafeMutablePointer<CChar>?] = []
-        var outputNameCPtrs: [UnsafePointer<CChar>?] = []
-        for i in 0..<actualOutputCount {
-            var namePtr: UnsafeMutablePointer<CChar>?
-            let nameStatus = api.pointee.SessionGetOutputName(session, i, allocator, &namePtr)
-            if let s = nameStatus {
-                api.pointee.ReleaseStatus(s)
+            // Get output names
+            var outputNamePtrs: [UnsafeMutablePointer<CChar>?] = []
+            var outputNameCPtrs: [UnsafePointer<CChar>?] = []
+            for i in 0..<actualOutputCount {
+                var namePtr: UnsafeMutablePointer<CChar>?
+                let nameStatus = api.pointee.SessionGetOutputName(session, i, allocator, &namePtr)
+                if let s = nameStatus {
+                    api.pointee.ReleaseStatus(s)
+                    for ptr in outputNamePtrs {
+                        if let ptr = ptr { api.pointee.AllocatorFree(allocator, ptr) }
+                    }
+                    return nil
+                }
+                outputNamePtrs.append(namePtr)
+                outputNameCPtrs.append(namePtr.map { UnsafePointer($0) })
+            }
+            defer {
                 for ptr in outputNamePtrs {
                     if let ptr = ptr { api.pointee.AllocatorFree(allocator, ptr) }
                 }
+            }
+
+            // Run inference
+            var inputNameCPtrs: [UnsafePointer<CChar>?] = [inputName.withCString { UnsafePointer(strdup($0)) }]
+            defer { inputNameCPtrs.compactMap { $0 }.forEach { free(UnsafeMutablePointer(mutating: $0)) } }
+
+            var inputValues: [OpaquePointer?] = [inputTensor]
+            var outputValues = [OpaquePointer?](repeating: nil, count: actualOutputCount)
+
+            let runStatus = api.pointee.Run(
+                session,
+                nil,
+                &inputNameCPtrs,
+                &inputValues,
+                1,
+                &outputNameCPtrs,
+                actualOutputCount,
+                &outputValues
+            )
+            guard runStatus == nil else {
+                if let s = runStatus { api.pointee.ReleaseStatus(s) }
                 return nil
             }
-            outputNamePtrs.append(namePtr)
-            outputNameCPtrs.append(namePtr.map { UnsafePointer($0) })
-        }
-        defer {
-            for ptr in outputNamePtrs {
-                if let ptr = ptr { api.pointee.AllocatorFree(allocator, ptr) }
+            defer {
+                for val in outputValues {
+                    if let val = val { api.pointee.ReleaseValue(val) }
+                }
             }
+
+            return extractMiddleEstimate(outputValues: outputValues, outputCount: actualOutputCount)
         }
-
-        // Run inference
-        var inputNameCPtrs: [UnsafePointer<CChar>?] = [inputName.withCString { UnsafePointer(strdup($0)) }]
-        defer { inputNameCPtrs.compactMap { $0 }.forEach { free(UnsafeMutablePointer(mutating: $0)) } }
-
-        var inputValues: [OpaquePointer?] = [inputTensor]
-        var outputValues = [OpaquePointer?](repeating: nil, count: actualOutputCount)
-
-        let runStatus = api.pointee.Run(
-            session,
-            nil,
-            &inputNameCPtrs,
-            &inputValues,
-            1,
-            &outputNameCPtrs,
-            actualOutputCount,
-            &outputValues
-        )
-        guard runStatus == nil else {
-            if let s = runStatus { api.pointee.ReleaseStatus(s) }
-            return nil
-        }
-        defer {
-            for val in outputValues {
-                if let val = val { api.pointee.ReleaseValue(val) }
-            }
-        }
-
-        return extractMiddleEstimate(outputValues: outputValues, outputCount: actualOutputCount)
     }
 
     private func extractMiddleEstimate(outputValues: [OpaquePointer?], outputCount: Int) -> NeuralPitchResult? {
