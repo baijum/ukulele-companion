@@ -18,6 +18,8 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
     private var _isRunning = false  // only accessed on sessionQueue
     private var hardwareSampleRate: Double = sampleRate
     private var resampleAccumulator: Double = 0.0
+    private var lastResampleSample: Float = 0
+    private var hasLastResampleSample = false
 
     /// Ring buffer holding the most recent `frameSize` samples.
     private var ringBuffer: [Float]
@@ -129,6 +131,8 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
             writePos = 0
             filled = 0
             resampleAccumulator = 0.0
+            lastResampleSample = 0
+            hasLastResampleSample = false
             ringBuffer = [Float](repeating: 0, count: Self.frameSize)
             analysisBuf = [Float](repeating: 0, count: Self.frameSize)
             bufferLock.unlock()
@@ -155,18 +159,25 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
         if needsResample {
             let step = hardwareSampleRate / Self.sampleRate
             var srcPos = resampleAccumulator
-            while Int(srcPos) + 1 < count {
-                let idx = Int(srcPos)
-                let frac = Float(srcPos - Double(idx))
-                let s0 = samples[idx]
-                let s1 = samples[idx + 1]
-                ringBuffer[writePos] = s0 + frac * (s1 - s0)
+            while srcPos < Double(count - 1) {
+                let interpolated: Float
+                if srcPos < 0 {
+                    guard hasLastResampleSample else { srcPos = 0; continue }
+                    let frac = Float(srcPos + 1)
+                    interpolated = lastResampleSample + frac * (samples[0] - lastResampleSample)
+                } else {
+                    let idx = Int(srcPos)
+                    let frac = Float(srcPos - Double(idx))
+                    interpolated = samples[idx] + frac * (samples[idx + 1] - samples[idx])
+                }
+                ringBuffer[writePos] = interpolated
                 writePos = (writePos + 1) % Self.frameSize
                 filled += 1
                 srcPos += step
             }
             resampleAccumulator = srcPos - Double(count)
-            if resampleAccumulator < 0 { resampleAccumulator = 0 }
+            lastResampleSample = samples[count - 1]
+            hasLastResampleSample = true
         } else {
             for i in 0..<count {
                 ringBuffer[writePos] = samples[i]
