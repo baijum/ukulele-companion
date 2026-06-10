@@ -62,6 +62,21 @@ class NotesTest {
         assertEquals("Bb", Notes.pitchClassToName(10))
     }
 
+    @Test
+    fun pitchClassToNameReturnsQuestionMarkForNegative() {
+        assertEquals("?", Notes.pitchClassToName(-1))
+    }
+
+    @Test
+    fun pitchClassToNameReturnsQuestionMarkFor12() {
+        assertEquals("?", Notes.pitchClassToName(12))
+    }
+
+    @Test
+    fun pitchClassToNameReturnsQuestionMarkForLargeValue() {
+        assertEquals("?", Notes.pitchClassToName(100))
+    }
+
     // --- enharmonicForKey ---
 
     @Test

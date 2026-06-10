@@ -54,11 +54,10 @@ object Notes {
      * using the standard enharmonic spellings ([NOTE_NAMES_STANDARD]).
      *
      * @param pitchClass An integer from 0 to 11 representing a pitch class.
-     * @return The note name (e.g., "C", "F#", "Bb").
-     * @throws IndexOutOfBoundsException if [pitchClass] is not in 0..11.
+     * @return The note name (e.g., "C", "F#", "Bb"), or "?" if out of range.
      */
     fun pitchClassToName(pitchClass: Int): String =
-        NOTE_NAMES_STANDARD[pitchClass]
+        NOTE_NAMES_STANDARD.getOrElse(pitchClass) { "?" }
 
     /**
      * Key roots (pitch classes) whose major scales use flats.

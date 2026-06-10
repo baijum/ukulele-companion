@@ -233,7 +233,8 @@ class BackupRestoreManager(
         val backup = json.decodeFromString(BackupData.serializer(), normalized)
 
         // --- Favorites ---
-        favoritesRepo.importAll(backup.favorites.map { f ->
+        favoritesRepo.importAll(backup.favorites.mapNotNull { f ->
+            if (f.rootPitchClass !in 0..11) return@mapNotNull null
             // Backward compat: if folderIds is empty but old folderId is present, migrate
             val ids = f.folderIds.ifEmpty {
                 listOfNotNull(f.folderId)
@@ -422,13 +423,16 @@ class BackupRestoreManager(
     private fun importFingerpickingPatterns(items: List<BackupFingerpickingPattern>) {
         val domainItems = items.mapNotNull { bfp ->
             try {
-                val steps = bfp.steps.map { s ->
+                val validRange = 0 until com.baijum.ukufretboard.data.FingerpickingPatterns.STRING_NAMES.size
+                val steps = bfp.steps.mapNotNull { s ->
+                    if (s.stringIndex !in validRange) return@mapNotNull null
                     com.baijum.ukufretboard.data.FingerpickStep(
                         finger = com.baijum.ukufretboard.data.Finger.valueOf(s.finger),
                         stringIndex = s.stringIndex,
                         emphasis = s.emphasis,
                     )
                 }
+                if (steps.isEmpty()) return@mapNotNull null
                 val notation = steps.joinToString(" ") { s ->
                     val stringName = com.baijum.ukufretboard.data.FingerpickingPatterns.STRING_NAMES[s.stringIndex]
                     "${s.finger.label}($stringName)"
@@ -461,10 +465,10 @@ class BackupRestoreManager(
                     name = bm.name,
                     notes = bm.notes.map { n ->
                         MelodyNote(
-                            pitchClass = n.pitchClass,
-                            octave = n.octave,
+                            pitchClass = n.pitchClass?.takeIf { it in 0..11 },
+                            octave = n.octave.coerceIn(3, 5),
                             duration = NoteDuration.valueOf(n.duration),
-                            stringIndex = n.stringIndex,
+                            stringIndex = n.stringIndex?.takeIf { it in 0..3 },
                             fret = n.fret,
                         )
                     },

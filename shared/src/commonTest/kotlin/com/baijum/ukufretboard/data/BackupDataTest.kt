@@ -244,6 +244,56 @@ class BackupDataTest {
         assertTrue(data.practiceTimer.dailyMinutes.isEmpty())
     }
 
+    @Test
+    fun melodyNoteWithOutOfRangePitchClassDeserializes() {
+        val noteJson = """{"pitchClass": 12, "octave": 4, "duration": "QUARTER"}"""
+        val note = json.decodeFromString<BackupMelodyNote>(noteJson)
+        assertEquals(12, note.pitchClass)
+        val sanitized = note.pitchClass?.takeIf { it in 0..11 }
+        assertEquals(null, sanitized)
+    }
+
+    @Test
+    fun melodyNoteWithNegativePitchClassDeserializes() {
+        val noteJson = """{"pitchClass": -1, "octave": 4, "duration": "QUARTER"}"""
+        val note = json.decodeFromString<BackupMelodyNote>(noteJson)
+        assertEquals(-1, note.pitchClass)
+        val sanitized = note.pitchClass?.takeIf { it in 0..11 }
+        assertEquals(null, sanitized)
+    }
+
+    @Test
+    fun melodyNoteWithValidPitchClassPassesValidation() {
+        for (pc in 0..11) {
+            val noteJson = """{"pitchClass": $pc, "octave": 4, "duration": "QUARTER"}"""
+            val note = json.decodeFromString<BackupMelodyNote>(noteJson)
+            val sanitized = note.pitchClass?.takeIf { it in 0..11 }
+            assertEquals(pc, sanitized)
+        }
+    }
+
+    @Test
+    fun favoriteWithOutOfRangeRootPitchClassIsDetected() {
+        val fav = BackupFavorite(
+            rootPitchClass = 12,
+            chordSymbol = "",
+            frets = listOf(0, 0, 0, 3),
+            addedAt = 1000L,
+        )
+        assertTrue(fav.rootPitchClass !in 0..11)
+    }
+
+    @Test
+    fun favoriteWithNegativeRootPitchClassIsDetected() {
+        val fav = BackupFavorite(
+            rootPitchClass = -1,
+            chordSymbol = "m",
+            frets = listOf(2, 0, 0, 0),
+            addedAt = 1000L,
+        )
+        assertTrue(fav.rootPitchClass !in 0..11)
+    }
+
     /**
      * Verifies that a JSON string representing a normalized iOS backup
      * (with KMP field names and structure) round-trips correctly through

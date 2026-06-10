@@ -151,7 +151,7 @@ object ToneGenerator {
         volume: Float = 1f,
     ) {
         val sp = soundPool ?: return
-        val sampleId = sampleIds[pitchClass % 12]
+        val sampleId = sampleIds[Math.floorMod(pitchClass, 12)]
         if (sampleId == 0) return
 
         val rate = playbackRate(octave)
@@ -189,7 +189,7 @@ object ToneGenerator {
         playbackMutex.withLock {
             withContext(Dispatchers.Default) {
                 notes.forEachIndexed { index, (pitchClass, octave) ->
-                    val sampleId = sampleIds[pitchClass % 12]
+                    val sampleId = sampleIds[Math.floorMod(pitchClass, 12)]
                     if (sampleId != 0) {
                         val rate = playbackRate(octave)
                         sp.play(sampleId, vol, vol, 1, 0, rate)
@@ -216,7 +216,7 @@ object ToneGenerator {
      */
     fun fireNote(pitchClass: Int, octave: Int, volume: Float = 1f) {
         val sp = soundPool ?: return
-        val sampleId = sampleIds[pitchClass % 12]
+        val sampleId = sampleIds[Math.floorMod(pitchClass, 12)]
         if (sampleId == 0) return
         val rate = playbackRate(octave)
         val vol = volume.coerceIn(0f, 1f)
@@ -244,7 +244,7 @@ object ToneGenerator {
 
         withContext(Dispatchers.Default) {
             notes.forEachIndexed { index, (pitchClass, octave) ->
-                val sampleId = sampleIds[pitchClass % 12]
+                val sampleId = sampleIds[Math.floorMod(pitchClass, 12)]
                 if (sampleId != 0) {
                     val rate = playbackRate(octave)
                     sp.play(sampleId, vol, vol, 1, 0, rate)
