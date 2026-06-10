@@ -552,41 +552,34 @@ class BackupRestoreManager(
 
         if ("exportedAt" !in root) return jsonContent
 
+        val arrayFields = mapOf(
+            "setlists" to arrayOf("createdAt", "updatedAt"),
+            "customStrumPatterns" to arrayOf("createdAt"),
+            "customFingerpickingPatterns" to arrayOf("createdAt"),
+        )
+        val objectFields = mapOf(
+            "practiceTimer" to arrayOf("lastSessionTime"),
+        )
+
         var modified = false
         val out = buildJsonObject {
             for ((key, value) in root) {
-                when (key) {
-                    "setlists" -> {
+                val arrTsFields = arrayFields[key]
+                val objTsFields = objectFields[key]
+                when {
+                    arrTsFields != null -> {
                         val arr = value as? JsonArray
                         if (arr != null) {
-                            put(key, normalizeTimestampArray(arr, "createdAt", "updatedAt"))
+                            put(key, normalizeTimestampArray(arr, *arrTsFields))
                             modified = true
                         } else {
                             put(key, value)
                         }
                     }
-                    "customStrumPatterns" -> {
-                        val arr = value as? JsonArray
-                        if (arr != null) {
-                            put(key, normalizeTimestampArray(arr, "createdAt"))
-                            modified = true
-                        } else {
-                            put(key, value)
-                        }
-                    }
-                    "customFingerpickingPatterns" -> {
-                        val arr = value as? JsonArray
-                        if (arr != null) {
-                            put(key, normalizeTimestampArray(arr, "createdAt"))
-                            modified = true
-                        } else {
-                            put(key, value)
-                        }
-                    }
-                    "practiceTimer" -> {
+                    objTsFields != null -> {
                         val obj = value as? JsonObject
                         if (obj != null) {
-                            put(key, normalizeTimestampObject(obj, "lastSessionTime"))
+                            put(key, normalizeTimestampObject(obj, *objTsFields))
                             modified = true
                         } else {
                             put(key, value)
@@ -618,7 +611,7 @@ class BackupRestoreManager(
     ): JsonObject = buildJsonObject {
         for ((k, v) in obj) {
             if (k in tsFields) {
-                val ts = v.jsonPrimitive.doubleOrNull
+                val ts = (v as? JsonPrimitive)?.doubleOrNull
                 if (ts != null) {
                     val millis = if (ts < 100_000_000_000) {
                         (ts * 1000).toLong()
