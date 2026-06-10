@@ -356,7 +356,12 @@ class PitchMonitorViewModel : ViewModel() {
             s
         }
         AudioCaptureEngine.stop()
-        supervisor?.close()
+        while (!isProcessing.compareAndSet(false, true)) { /* spin until in-flight buffer finishes */ }
+        try {
+            supervisor?.close()
+        } finally {
+            isProcessing.set(false)
+        }
     }
 
     // --- Internal pipeline ---------------------------------------------------
