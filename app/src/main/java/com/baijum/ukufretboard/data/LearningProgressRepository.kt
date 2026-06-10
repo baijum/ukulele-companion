@@ -331,20 +331,39 @@ class LearningProgressRepository(context: Context) {
     }
 
     /**
-     * Imports learning progress from a map of key-value pairs.
-     * Numeric values (Int) are detected and stored as integers;
-     * "true"/"false" strings are stored as booleans; all else as strings.
+     * Imports learning progress from a backup, merging with existing data
+     * so that restoring never loses progress:
+     * - Booleans (lesson flags): OR — once completed, stays completed.
+     * - Integers (counters, streaks, bests): max(existing, imported).
+     * - `last_activity_date`: keep the more recent date.
+     * - Other strings: keep existing if present, else use imported.
      */
     fun importAll(entries: Map<String, String>) {
         val editor = prefs.edit()
         for ((key, value) in entries) {
             when {
-                value == "true" || value == "false" ->
-                    editor.putBoolean(key, value.toBoolean())
-                value.toIntOrNull() != null ->
-                    editor.putInt(key, value.toInt())
-                else ->
-                    editor.putString(key, value)
+                value == "true" || value == "false" -> {
+                    val incoming = value.toBoolean()
+                    if (incoming) {
+                        editor.putBoolean(key, true)
+                    }
+                }
+                value.toIntOrNull() != null -> {
+                    val incoming = value.toInt()
+                    val existing = prefs.getInt(key, 0)
+                    editor.putInt(key, maxOf(existing, incoming))
+                }
+                key == KEY_LAST_ACTIVITY -> {
+                    val existing = prefs.getString(key, null)
+                    if (existing == null || value > existing) {
+                        editor.putString(key, value)
+                    }
+                }
+                else -> {
+                    if (!prefs.contains(key)) {
+                        editor.putString(key, value)
+                    }
+                }
             }
         }
         editor.apply()
