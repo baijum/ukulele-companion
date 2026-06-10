@@ -228,7 +228,8 @@ class BackupRestoreManager(
      * @param jsonContent The JSON string from a backup file.
      */
     fun importBackup(jsonContent: String) {
-        val normalized = normalizeIosFormat(jsonContent)
+        val afterLegacy = normalizeIosFormat(jsonContent)
+        val normalized = normalizeKmpTimestamps(afterLegacy)
         val backup = json.decodeFromString(BackupData.serializer(), normalized)
 
         // --- Favorites ---
@@ -532,6 +533,99 @@ class BackupRestoreManager(
         }
 
         return json.encodeToString(JsonObject.serializer(), out)
+    }
+
+    /**
+     * Normalizes timestamp fields in KMP-format backups that may contain
+     * fractional Doubles (from iOS JSONSerialization) or epoch-seconds values.
+     *
+     * Truncates fractional parts so kotlinx.serialization can decode to Long,
+     * and converts seconds to milliseconds using the same heuristic as
+     * [normalizeIosFavorites].
+     */
+    private fun normalizeKmpTimestamps(jsonContent: String): String {
+        val root = try {
+            json.parseToJsonElement(jsonContent).jsonObject
+        } catch (_: Exception) {
+            return jsonContent
+        }
+
+        if ("exportedAt" !in root) return jsonContent
+
+        val arrayFields = mapOf(
+            "setlists" to arrayOf("createdAt", "updatedAt"),
+            "customStrumPatterns" to arrayOf("createdAt"),
+            "customFingerpickingPatterns" to arrayOf("createdAt"),
+        )
+        val objectFields = mapOf(
+            "practiceTimer" to arrayOf("lastSessionTime"),
+        )
+
+        var modified = false
+        val out = buildJsonObject {
+            for ((key, value) in root) {
+                val arrTsFields = arrayFields[key]
+                val objTsFields = objectFields[key]
+                when {
+                    arrTsFields != null -> {
+                        val arr = value as? JsonArray
+                        if (arr != null) {
+                            put(key, normalizeTimestampArray(arr, *arrTsFields))
+                            modified = true
+                        } else {
+                            put(key, value)
+                        }
+                    }
+                    objTsFields != null -> {
+                        val obj = value as? JsonObject
+                        if (obj != null) {
+                            put(key, normalizeTimestampObject(obj, *objTsFields))
+                            modified = true
+                        } else {
+                            put(key, value)
+                        }
+                    }
+                    else -> put(key, value)
+                }
+            }
+        }
+
+        return if (modified) json.encodeToString(JsonObject.serializer(), out)
+        else jsonContent
+    }
+
+    private fun normalizeTimestampArray(
+        arr: JsonArray,
+        vararg tsFields: String,
+    ): JsonArray = buildJsonArray {
+        for (elem in arr) {
+            val obj = elem as? JsonObject
+            if (obj == null) { add(elem); continue }
+            add(normalizeTimestampObject(obj, *tsFields))
+        }
+    }
+
+    private fun normalizeTimestampObject(
+        obj: JsonObject,
+        vararg tsFields: String,
+    ): JsonObject = buildJsonObject {
+        for ((k, v) in obj) {
+            if (k in tsFields) {
+                val ts = (v as? JsonPrimitive)?.doubleOrNull
+                if (ts != null) {
+                    val millis = if (ts < 100_000_000_000) {
+                        (ts * 1000).toLong()
+                    } else {
+                        ts.toLong()
+                    }
+                    put(k, JsonPrimitive(millis))
+                } else {
+                    put(k, v)
+                }
+            } else {
+                put(k, v)
+            }
+        }
     }
 
     private fun copyArray(src: JsonObject, srcKey: String): JsonArray? =

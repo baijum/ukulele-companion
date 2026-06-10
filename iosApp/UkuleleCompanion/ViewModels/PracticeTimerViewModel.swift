@@ -97,7 +97,8 @@ final class PracticeTimerViewModel: ObservableObject {
             data.longestSession = max(data.longestSession, longest)
         }
         if let lastTime = dict["lastSessionTime"] as? Double {
-            data.lastSessionTime = max(data.lastSessionTime, lastTime)
+            let normalized = lastTime > 100_000_000_000 ? lastTime / 1000.0 : lastTime
+            data.lastSessionTime = max(data.lastSessionTime, normalized)
         }
         if let goal = dict["dailyGoal"] as? Int {
             data.dailyGoal = goal
