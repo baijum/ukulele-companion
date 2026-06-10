@@ -401,6 +401,7 @@ final class TunerViewModel: ObservableObject {
 
     // Frame-dropping (backpressure) — checked on audio thread, not MainActor
     private nonisolated(unsafe) let processingLock = OSAllocatedUnfairLock(initialState: false)
+    private nonisolated(unsafe) let neuralInferenceLock = OSAllocatedUnfairLock(initialState: false)
 
     // Neural pitch supervision
     private var neuralSupervisor: NeuralPitchSupervisor?
@@ -622,24 +623,32 @@ final class TunerViewModel: ObservableObject {
         neuralFrameCounter += 1
 
         if neuralFrameCounter % Self.neuralSupervisorInterval == 0 {
-            Task.detached(priority: .userInitiated) { [weak self] in
-                let estimate = supervisor.estimate(samples)
-                await MainActor.run { [weak self] in
-                    guard let self else { return }
-                    self.lastNeuralResult = estimate
-                    self.neuralResultAgeFrames = 0
-                    if let estimate = estimate {
-                        self.consecutiveNeuralFailures = 0
-                        self.updateNeuralConsistency(estimate.frequencyHz)
-                        self.neuralStatus = .active
-                    } else {
-                        self.consecutiveNeuralFailures += 1
-                        self.neuralConsistencyFrames = 0
-                        self.lastNeuralFrequencyForConsistency = nil
-                        if self.consecutiveNeuralFailures >= Self.neuralFailureThreshold {
-                            self.neuralStatus = .fallback
+            let canRun = neuralInferenceLock.withLock { inFlight -> Bool in
+                if inFlight { return false }
+                inFlight = true
+                return true
+            }
+            if canRun {
+                Task.detached(priority: .userInitiated) { [weak self] in
+                    let estimate = supervisor.estimate(samples)
+                    await MainActor.run { [weak self] in
+                        guard let self else { return }
+                        self.lastNeuralResult = estimate
+                        self.neuralResultAgeFrames = 0
+                        if let estimate = estimate {
+                            self.consecutiveNeuralFailures = 0
+                            self.updateNeuralConsistency(estimate.frequencyHz)
+                            self.neuralStatus = .active
+                        } else {
+                            self.consecutiveNeuralFailures += 1
+                            self.neuralConsistencyFrames = 0
+                            self.lastNeuralFrequencyForConsistency = nil
+                            if self.consecutiveNeuralFailures >= Self.neuralFailureThreshold {
+                                self.neuralStatus = .fallback
+                            }
                         }
                     }
+                    self?.neuralInferenceLock.withLock { $0 = false }
                 }
             }
         } else if neuralResultAgeFrames < Int.max {

@@ -56,7 +56,7 @@ object AudioResampler {
                 output[i] = filtered[baseIdx] * (1f - frac) + filtered[nextIdx] * frac
             }
 
-            output
+            output.copyOf()
         }
     }
 

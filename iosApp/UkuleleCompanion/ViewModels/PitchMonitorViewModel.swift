@@ -31,6 +31,7 @@ final class PitchMonitorViewModel: ObservableObject {
 
     // Frame-dropping (backpressure) — checked on audio thread, not MainActor
     private nonisolated(unsafe) let processingLock = OSAllocatedUnfairLock(initialState: false)
+    private nonisolated(unsafe) let neuralInferenceLock = OSAllocatedUnfairLock(initialState: false)
 
     // Neural state
     private var neuralFrameCounter: Int = 0
@@ -373,18 +374,26 @@ final class PitchMonitorViewModel: ObservableObject {
         neuralFrameCounter += 1
 
         if neuralFrameCounter % Self.neuralSupervisorInterval == 0 {
-            Task.detached(priority: .userInitiated) { [weak self] in
-                let estimate = supervisor.estimate(samples)
-                await MainActor.run { [weak self] in
-                    guard let self else { return }
-                    self.lastNeuralResult = estimate
-                    self.neuralResultAgeFrames = 0
-                    if let estimate = estimate {
-                        self.updateNeuralConsistency(estimate.frequencyHz)
-                    } else {
-                        self.neuralConsistencyFrames = 0
-                        self.lastNeuralFrequencyForConsistency = nil
+            let canRun = neuralInferenceLock.withLock { inFlight -> Bool in
+                if inFlight { return false }
+                inFlight = true
+                return true
+            }
+            if canRun {
+                Task.detached(priority: .userInitiated) { [weak self] in
+                    let estimate = supervisor.estimate(samples)
+                    await MainActor.run { [weak self] in
+                        guard let self else { return }
+                        self.lastNeuralResult = estimate
+                        self.neuralResultAgeFrames = 0
+                        if let estimate = estimate {
+                            self.updateNeuralConsistency(estimate.frequencyHz)
+                        } else {
+                            self.neuralConsistencyFrames = 0
+                            self.lastNeuralFrequencyForConsistency = nil
+                        }
                     }
+                    self?.neuralInferenceLock.withLock { $0 = false }
                 }
             }
         } else if neuralResultAgeFrames < Int.max {
