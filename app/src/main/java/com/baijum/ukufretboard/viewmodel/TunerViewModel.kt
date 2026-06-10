@@ -737,33 +737,38 @@ class TunerViewModel : ViewModel() {
             status = NeuralRuntimeStatus.LOADING,
         )
         viewModelScope.launch {
-            val supervisor = withContext(Dispatchers.IO) {
-                try {
-                    NeuralPitchSupervisor(ctx)
-                } catch (e: Exception) {
-                    Log.w(TAG, "Neural supervisor unavailable: ${e.message}")
-                    null
+            var supervisor: NeuralPitchSupervisor? = null
+            var registered = false
+            try {
+                supervisor = withContext(Dispatchers.IO) {
+                    try {
+                        NeuralPitchSupervisor(ctx)
+                    } catch (e: Exception) {
+                        Log.w(TAG, "Neural supervisor unavailable: ${e.message}")
+                        null
+                    }
                 }
-            }
-            synchronized(supervisorLock) {
-                if (isCleared) {
-                    supervisor?.close()
-                    return@launch
+                synchronized(supervisorLock) {
+                    if (!isCleared) {
+                        neuralSupervisor = supervisor
+                        registered = true
+                    }
                 }
-                neuralSupervisor = supervisor
-            }
-            if (supervisor != null) {
-                updateNeuralStatus(
-                    available = true,
-                    active = true,
-                    status = NeuralRuntimeStatus.ACTIVE,
-                )
-            } else {
-                updateNeuralStatus(
-                    available = false,
-                    active = false,
-                    status = NeuralRuntimeStatus.FALLBACK,
-                )
+                if (registered && supervisor != null) {
+                    updateNeuralStatus(
+                        available = true,
+                        active = true,
+                        status = NeuralRuntimeStatus.ACTIVE,
+                    )
+                } else if (registered) {
+                    updateNeuralStatus(
+                        available = false,
+                        active = false,
+                        status = NeuralRuntimeStatus.FALLBACK,
+                    )
+                }
+            } finally {
+                if (!registered) supervisor?.close()
             }
         }
     }
