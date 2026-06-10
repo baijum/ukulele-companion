@@ -104,15 +104,15 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
             }
         }
         if started {
-            Task { @MainActor in
-                self.isCapturing = true
+            Task { @MainActor [weak self] in
+                self?.isCapturing = true
             }
         }
     }
 
-    func stop() {
-        let didStop: Bool = sessionQueue.sync {
-            guard _isRunning else { return false }
+    private func tearDown() {
+        sessionQueue.sync {
+            guard _isRunning else { return }
 
             if let observer = interruptionObserver {
                 NotificationCenter.default.removeObserver(observer)
@@ -132,12 +132,13 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
             ringBuffer = [Float](repeating: 0, count: Self.frameSize)
             analysisBuf = [Float](repeating: 0, count: Self.frameSize)
             bufferLock.unlock()
-            return true
         }
-        if didStop {
-            Task { @MainActor in
-                self.isCapturing = false
-            }
+    }
+
+    func stop() {
+        tearDown()
+        Task { @MainActor [weak self] in
+            self?.isCapturing = false
         }
     }
 
@@ -216,6 +217,6 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
     }
 
     deinit {
-        stop()
+        tearDown()
     }
 }
