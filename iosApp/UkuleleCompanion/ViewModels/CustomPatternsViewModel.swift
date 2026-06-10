@@ -167,10 +167,12 @@ final class CustomPatternsViewModel: ObservableObject {
             let steps = stepDicts.compactMap { sd -> FingerpickStepData? in
                 guard let finger = sd["finger"] as? String,
                       let strIdx = sd["stringIndex"] as? Int,
+                      (0...3).contains(strIdx),
                       let emph = sd["emphasis"] as? Bool
                 else { return nil }
                 return FingerpickStepData(finger: finger, stringIndex: strIdx, emphasis: emph)
             }
+            guard !steps.isEmpty else { continue }
             fingerpickingPatterns.append(CustomFingerpickingData(
                 id: id, name: name, steps: steps, createdAt: createdAt, timeSignature: timeSignature))
         }

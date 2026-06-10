@@ -229,6 +229,7 @@ final class FavoritesViewModel: ObservableObject {
     func importData(favorites: [[String: Any]], folders: [[String: Any]]) {
         for dict in favorites {
             guard let rpc = dict["rootPitchClass"] as? Int,
+                  (0...11).contains(rpc),
                   let sym = dict["chordSymbol"] as? String,
                   let frets = dict["frets"] as? [Int],
                   let addedAt = dict["addedAt"] as? Double

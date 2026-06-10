@@ -513,7 +513,7 @@ private fun NoteBlock(
 ) {
     val pc = note.pitchClass
     val noteName = if (pc != null) {
-        noteNames[pc]
+        noteNames.getOrElse(pc) { "?" }
     } else {
         "\u2014"
     }

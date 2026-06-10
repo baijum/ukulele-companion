@@ -51,6 +51,20 @@ struct MelodyData: Codable, Identifiable {
     var notes: [MelodyNoteData]
     var bpm: Int
     var createdAt: Double
+
+    func sanitized() -> MelodyData {
+        var copy = self
+        copy.notes = notes.map { note in
+            MelodyNoteData(
+                id: note.id,
+                pitchClass: note.pitchClass.flatMap { (0...11).contains($0) ? $0 : nil },
+                octave: min(max(note.octave, 3), 5),
+                duration: note.duration,
+                isRest: note.isRest
+            )
+        }
+        return copy
+    }
 }
 
 enum MelodyInputMode {
@@ -412,8 +426,9 @@ final class MelodyViewModel: ObservableObject {
         let decoder = JSONDecoder()
         for item in incoming {
             guard let jsonData = try? JSONSerialization.data(withJSONObject: item),
-                  let melody = try? decoder.decode(MelodyData.self, from: jsonData)
+                  let decoded = try? decoder.decode(MelodyData.self, from: jsonData)
             else { continue }
+            let melody = decoded.sanitized()
             if let idx = savedMelodies.firstIndex(where: { $0.id == melody.id }) {
                 // Keep the one with the latest createdAt
                 if melody.createdAt > savedMelodies[idx].createdAt {
