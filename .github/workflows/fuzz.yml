@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -71,3 +72,19 @@ jobs:
         with:
           name: fuzz-test-report
           path: app/build/reports/tests/testDebugUnitTest/
+
+      - name: File issue on scheduled failure
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          EXISTING=$(gh issue list --label ci-failure --state open \
+            --search "in:title ${{ github.workflow }}" --json number -q '.[0].number')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "Still failing: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          else
+            gh issue create \
+              --title "Nightly failure: ${{ github.workflow }}" \
+              --label "ci-failure,bug" \
+              --body "Scheduled run failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} — check the uploaded artifacts (crash inputs / xcresult bundles) before they expire."
+          fi
