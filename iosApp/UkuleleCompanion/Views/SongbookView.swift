@@ -394,7 +394,7 @@ struct SongViewerView: View {
     }
 
     private var detectedKey: String? {
-        let chords = ChordParser.shared.extractChords(text: displaySong.content) as! [String]
+        let chords = ChordParser.shared.extractChords(text: displaySong.content).asStrings
         guard !chords.isEmpty else { return nil }
         guard let result = KeyDetector.shared.detectKey(chordNames: chords) else { return nil }
         return result.displayName
@@ -740,7 +740,7 @@ struct SongViewerView: View {
     private var strumPatternSection: some View {
         Group {
             if !currentSong.strumPatternName.isEmpty {
-                let builtInPatterns = StrumPatterns.shared.ALL as! [StrumPattern]
+                let builtInPatterns = StrumPatterns.shared.ALL.asArray(of: StrumPattern.self)
                 let resolvedPattern = builtInPatterns.first { $0.name == currentSong.strumPatternName }
                 let resolvedCustom = customPatternsVM.strumPatterns.first { $0.name == currentSong.strumPatternName }
                 VStack(alignment: .leading, spacing: 4) {
@@ -782,7 +782,7 @@ struct SongViewerView: View {
 
     private var strumPatternPicker: some View {
         NavigationStack {
-            let builtInPatterns = StrumPatterns.shared.ALL as! [StrumPattern]
+            let builtInPatterns = StrumPatterns.shared.ALL.asArray(of: StrumPattern.self)
             List {
                 Section("Built-in") {
                     ForEach(0..<builtInPatterns.count, id: \.self) { i in
@@ -1082,7 +1082,7 @@ struct SongViewerView: View {
         return VStack(alignment: .leading, spacing: 2) {
             ForEach(0..<lines.count, id: \.self) { i in
                 let segments = ChordParser.shared.parseLine(line: lines[i])
-                parsedLineView(segments: segments as! [ChordParser.TextSegment])
+                parsedLineView(segments: segments.asArray(of: ChordParser.TextSegment.self))
                     .id("line_\(i)")
             }
         }
@@ -1170,21 +1170,14 @@ struct SongViewerView: View {
             let rootPc = parsed.rootPitchClass
             let formula = parsed.formula
 
-            let tuning = (0..<4).map { i -> shared.UkuleleString in
-                let t = UkuleleTuning.highG
-                return shared.UkuleleString(
-                    name: t.stringNames[i] as! String,
-                    openPitchClass: (t.pitchClasses[i] as! NSNumber).int32Value,
-                    octave: (t.octaves[i] as! NSNumber).int32Value
-                )
-            }
+            let tuning = UkuleleTuning.highG.asUkuleleStrings
 
             let voicings = VoicingGenerator.shared.generate(
                 rootPitchClass: Int32(rootPc),
                 formula: formula,
                 tuning: tuning,
                 allowMutedStrings: false
-            ) as! [ChordVoicing]
+            ).asArray(of: ChordVoicing.self)
 
             VStack(spacing: 8) {
                 Text(chord)
@@ -1196,7 +1189,7 @@ struct SongViewerView: View {
                         let pitchClasses = (0..<fretList.count).compactMap { i -> Int32? in
                             let fret = fretList[i]
                             guard fret >= 0 else { return nil }
-                            let openPc = (UkuleleTuning.highG.pitchClasses[i] as! NSNumber).int32Value
+                            let openPc = UkuleleTuning.highG.pitchClassInts[i]
                             return (openPc + Int32(fret)) % 12
                         }
                         tonePlayer.playChord(pitchClasses: pitchClasses, strumDelayMs: 40)

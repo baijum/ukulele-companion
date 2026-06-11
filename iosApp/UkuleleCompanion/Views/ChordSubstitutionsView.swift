@@ -4,9 +4,9 @@ import shared
 struct ChordSubstitutionsView: View {
     @State private var selectedKey: Int32 = 0
 
-    private let noteNamesSharp = Notes.shared.NOTE_NAMES_SHARP as! [String]
-    private let noteNamesFlat = Notes.shared.NOTE_NAMES_FLAT as! [String]
-    private let categories = ChordSubstitutions.shared.CATEGORIES as! [SubstitutionCategory]
+    private let noteNamesSharp = Notes.shared.NOTE_NAMES_SHARP.asStrings
+    private let noteNamesFlat = Notes.shared.NOTE_NAMES_FLAT.asStrings
+    private let categories = ChordSubstitutions.shared.CATEGORIES.asArray(of: SubstitutionCategory.self)
 
     var body: some View {
         ScrollView {
@@ -61,7 +61,7 @@ struct ChordSubstitutionsView: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            let subs = category.substitutions as! [Substitution]
+            let subs = category.substitutions.asArray(of: Substitution.self)
             ForEach(Array(subs.enumerated()), id: \.offset) { _, sub in
                 substitutionRow(sub)
             }

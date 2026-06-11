@@ -60,8 +60,8 @@ struct FretboardNoteMapView: View {
                     }
                     .accessibilityHidden(true)
 
-                    let pitchClasses = tuning.pitchClasses as! [NSNumber]
-                    let stringNames = tuning.stringNames as! [String]
+                    let pitchClasses = tuning.pitchClassInts
+                    let stringNames = tuning.stringNameArray
 
                     ForEach(Array((0..<4).reversed()), id: \.self) { stringIndex in
                         HStack(spacing: 0) {
@@ -71,7 +71,7 @@ struct FretboardNoteMapView: View {
                                 .accessibilityHidden(true)
 
                             ForEach(0...fretCount, id: \.self) { fret in
-                                let openPC = pitchClasses[stringIndex].int32Value
+                                let openPC = pitchClasses[stringIndex]
                                 let note = NoteKt.calculateNote(
                                     openStringPitchClass: openPC,
                                     fret: Int32(fret)

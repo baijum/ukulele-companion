@@ -10,11 +10,11 @@ struct CapoGuideView: View {
     }
 
     private var pitchClasses: [Int32] {
-        (0..<Int(tuning.pitchClasses.count)).map { (tuning.pitchClasses[$0] as! NSNumber).int32Value }
+        tuning.pitchClassInts
     }
 
     private var stringNames: [String] {
-        (0..<Int(tuning.stringNames.count)).map { tuning.stringNames[$0] as! String }
+        tuning.stringNameArray
     }
 
     var body: some View {
@@ -99,7 +99,7 @@ struct CapoGuideView: View {
 
                 // Section 4: Common Positions Reference Table
                 sectionCard(number: 4, title: "Common Capo Positions") {
-                    let positions = CapoReference.shared.COMMON_POSITIONS as! [CapoReference.CapoPosition]
+                    let positions = CapoReference.shared.COMMON_POSITIONS.asArray(of: CapoReference.CapoPosition.self)
                     VStack(spacing: 0) {
                         // Header
                         HStack {
@@ -139,7 +139,7 @@ struct CapoGuideView: View {
                     NavigationLink {
                         CapoCalculatorView(mode: .singleChord(
                             rootPitchClass: 0,
-                            formula: (ChordFormulas.shared.ALL as! [ChordFormula]).first!
+                            formula: ChordFormulas.shared.ALL.asArray(of: ChordFormula.self).first!
                         ))
                     } label: {
                         Label("Open Capo Calculator", systemImage: "guitars")
@@ -151,7 +151,7 @@ struct CapoGuideView: View {
 
                 // Section 6: Scenarios
                 sectionCard(number: 6, title: "Practical Scenarios") {
-                    let scenarios = CapoReference.shared.SCENARIOS as! [CapoReference.Scenario]
+                    let scenarios = CapoReference.shared.SCENARIOS.asArray(of: CapoReference.Scenario.self)
                     VStack(spacing: 12) {
                         ForEach(Array(scenarios.enumerated()), id: \.offset) { _, scenario in
                             VStack(alignment: .leading, spacing: 4) {
@@ -181,7 +181,7 @@ struct CapoGuideView: View {
                         .font(.subheadline.bold())
                         .padding(.top, 8)
 
-                    let shapes = CapoReference.shared.FRIENDLY_SHAPES as! [KotlinPair<NSString, NSString>]
+                    let shapes = CapoReference.shared.FRIENDLY_SHAPES.asArray(of: KotlinPair<NSString, NSString>.self)
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 80), spacing: 8)], spacing: 8) {
                         ForEach(Array(shapes.enumerated()), id: \.offset) { _, pair in
                             let name = pair.first! as String

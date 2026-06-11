@@ -152,7 +152,7 @@ struct ProgressionsView: View {
 
             ForEach(viewModel.filteredCustomProgressions) { custom in
                 let progression = viewModel.toProgression(custom)
-                let degrees = progression.degrees as! [ChordDegree]
+                let degrees = progression.degrees.asArray(of: ChordDegree.self)
                 let chips = degrees.map { degree in
                     (degree.numeral, viewModel.resolvedChordName(degree: degree))
                 }
@@ -193,7 +193,7 @@ struct ProgressionsView: View {
             let presets = viewModel.presetProgressions
             ForEach(0..<presets.count, id: \.self) { i in
                 let progression = presets[i]
-                let degrees = progression.degrees as! [ChordDegree]
+                let degrees = progression.degrees.asArray(of: ChordDegree.self)
                 let chips = degrees.map { degree in
                     (degree.numeral, viewModel.resolvedChordName(degree: degree))
                 }
@@ -396,7 +396,7 @@ struct CreateProgressionSheet: View {
     }
 
     private var qualityFormulas: [ChordFormula] {
-        let all = ChordFormulas.shared.ALL as! [ChordFormula]
+        let all = ChordFormulas.shared.ALL.asArray(of: ChordFormula.self)
         return all.filter { $0.category != .triad }
     }
 
@@ -821,28 +821,21 @@ private struct ProgressionPlaybackBar: View {
         let rootPc = parsed.rootPitchClass
         let formula = parsed.formula
 
-        let tuning = (0..<4).map { i -> shared.UkuleleString in
-            let t = UkuleleTuning.highG
-            return shared.UkuleleString(
-                name: t.stringNames[i] as! String,
-                openPitchClass: (t.pitchClasses[i] as! NSNumber).int32Value,
-                octave: (t.octaves[i] as! NSNumber).int32Value
-            )
-        }
+        let tuning = UkuleleTuning.highG.asUkuleleStrings
 
         let voicings = VoicingGenerator.shared.generate(
             rootPitchClass: Int32(rootPc),
             formula: formula,
             tuning: tuning,
             allowMutedStrings: false
-        ) as! [ChordVoicing]
+        ).asArray(of: ChordVoicing.self)
 
         if let voicing = voicings.first {
             let fretList = voicing.fretInts
             let pitchClasses = (0..<fretList.count).compactMap { i -> Int32? in
                 let fret = fretList[i]
                 guard fret >= 0 else { return nil }
-                let openPc = (UkuleleTuning.highG.pitchClasses[i] as! NSNumber).int32Value
+                let openPc = UkuleleTuning.highG.pitchClassInts[i]
                 return (openPc + Int32(fret)) % 12
             }
             tonePlayer.playChord(pitchClasses: pitchClasses, strumDelayMs: 40)

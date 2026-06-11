@@ -7,7 +7,7 @@ struct GlossaryView: View {
     @State private var expandedTerm: String?
 
     private var entries: [GlossaryEntry] {
-        let all = Glossary.shared.ALL as! [GlossaryEntry]
+        let all = Glossary.shared.ALL.asArray(of: GlossaryEntry.self)
         if searchText.isEmpty { return all }
         let query = searchText.lowercased()
         return all.filter {

@@ -119,7 +119,7 @@ struct ChordEarTrainingView: View {
     }
 
     private func playChord(_ q: ChordEarTrainer.ChordEarQuestion) {
-        let notes = q.notes as! [KotlinPair<KotlinInt, KotlinInt>]
+        let notes = q.notes.asArray(of: KotlinPair<KotlinInt, KotlinInt>.self)
         let pitchClasses = notes.map { $0.first!.int32Value }
         tonePlayer.playChord(pitchClasses: pitchClasses, strumDelayMs: 40)
     }

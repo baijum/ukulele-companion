@@ -45,7 +45,7 @@ struct ShareableChordDiagramView: View {
     private var fingering: [Int] {
         let kotlinFrets = frets.map { KotlinInt(int: Int32($0)) }
         let result = ChordInfo.shared.suggestFingering(frets: kotlinFrets)
-        return (0..<result.count).map { (result[$0] as! NSNumber).intValue }
+        return result.asInts
     }
 
     private var diagramWidth: CGFloat { CGFloat(stringCount - 1) * stringSpacing }

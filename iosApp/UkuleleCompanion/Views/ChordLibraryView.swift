@@ -561,16 +561,7 @@ struct ChordLibraryView: View {
         [.triad, .seventh, .suspended, .extended]
     }
 
-    private static let tuningStrings: [shared.UkuleleString] = {
-        let t = UkuleleTuning.highG
-        return (0..<4).map { i in
-            shared.UkuleleString(
-                name: t.stringNames[i] as! String,
-                openPitchClass: (t.pitchClasses[i] as! NSNumber).int32Value,
-                octave: (t.octaves[i] as! NSNumber).int32Value
-            )
-        }
-    }()
+    private static let tuningStrings: [shared.UkuleleString] = UkuleleTuning.highG.asUkuleleStrings
 
     private func bassStringIndex(_ voicing: ChordVoicing) -> Int? {
         let frets = voicing.fretInts.map { KotlinInt(int: Int32($0)) }

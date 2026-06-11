@@ -71,15 +71,15 @@ final class ScalePracticeViewModel: ObservableObject {
 
     var availableScales: [Scale] {
         let list = Scales.shared.forCategory(category: selectedCategory)
-        return list as! [Scale]
+        return list.asArray(of: Scale.self)
     }
 
     var scaleNotes: [Int] {
         guard let scale = selectedScale else { return [] }
         let noteSet = Scales.shared.scaleNotes(root: selectedRoot, scale: scale)
-        let pitchClasses = (noteSet as! Set<KotlinInt>).map { $0.intValue }
+        let pitchClasses = noteSet.compactMap { ($0 as? KotlinInt)?.intValue }
         var ordered: [Int] = []
-        for interval in scale.intervals as! [KotlinInt] {
+        for interval in scale.intervals.asArray(of: KotlinInt.self) {
             let pc = (Int(selectedRoot) + interval.intValue) % 12
             ordered.append(pc)
         }
@@ -116,7 +116,7 @@ final class ScalePracticeViewModel: ObservableObject {
         guard let question = currentEarQuestion else { return }
         let scale = question.scale
         let root = Int(question.root)
-        let intervals = scale.intervals as! [KotlinInt]
+        let intervals = scale.intervals.asArray(of: KotlinInt.self)
         let notes = intervals.map { (root + $0.intValue) % 12 }
         playNoteSequence(notes)
     }
@@ -125,7 +125,7 @@ final class ScalePracticeViewModel: ObservableObject {
         guard let scale = selectedScale else { return }
         isPlaying = true
         currentNoteIndex = -1
-        let intervals = scale.intervals as! [KotlinInt]
+        let intervals = scale.intervals.asArray(of: KotlinInt.self)
         var notes = intervals.map { (Int(selectedRoot) + $0.intValue) % 12 }
 
         switch playDirection {

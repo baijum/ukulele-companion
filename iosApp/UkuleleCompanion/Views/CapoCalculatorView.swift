@@ -10,16 +10,7 @@ struct CapoCalculatorView: View {
     let mode: Mode
     private let leftHanded: Bool
 
-    private let tuning: [shared.UkuleleString] = {
-        let t = UkuleleTuning.highG
-        return (0..<4).map { i in
-            shared.UkuleleString(
-                name: t.stringNames[i] as! String,
-                openPitchClass: (t.pitchClasses[i] as! NSNumber).int32Value,
-                octave: (t.octaves[i] as! NSNumber).int32Value
-            )
-        }
-    }()
+    private let tuning: [shared.UkuleleString] = UkuleleTuning.highG.asUkuleleStrings
 
     init(mode: Mode) {
         self.mode = mode
@@ -47,7 +38,7 @@ struct CapoCalculatorView: View {
             rootPitchClass: rootPitchClass,
             formula: formula,
             tuning: tuning
-        ) as! [CapoCalculator.SingleChordResult]
+        ).asArray(of: CapoCalculator.SingleChordResult.self)
 
         return ScrollView {
             VStack(spacing: 12) {
@@ -88,7 +79,7 @@ struct CapoCalculatorView: View {
             progression: progression,
             keyRoot: keyRoot,
             tuning: tuning
-        ) as! [CapoCalculator.ProgressionResult]
+        ).asArray(of: CapoCalculator.ProgressionResult.self)
 
         return ScrollView {
             VStack(spacing: 12) {
@@ -175,7 +166,7 @@ struct CapoCalculatorView: View {
         isRecommended: Bool,
         maxScore: Int32
     ) -> some View {
-        let chordResults = result.chordResults as! [CapoCalculator.SingleChordResult]
+        let chordResults = result.chordResults.asArray(of: CapoCalculator.SingleChordResult.self)
 
         return VStack(alignment: .leading, spacing: 8) {
             // Header row

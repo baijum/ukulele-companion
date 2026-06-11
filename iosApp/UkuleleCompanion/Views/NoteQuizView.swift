@@ -33,7 +33,7 @@ struct NoteQuizView: View {
 
     private var stringOpenNotes: [KotlinInt] {
         let t = currentTuning
-        return (0..<4).map { KotlinInt(int: (t.pitchClasses[$0] as! NSNumber).int32Value) }
+        return (0..<4).map { KotlinInt(int: t.pitchClassInts[$0]) }
     }
 
     private var stringNames: [String] {
@@ -131,7 +131,7 @@ struct NoteQuizView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
 
-                let options = q.options as! [String]
+                let options = q.options.asStrings
                 ForEach(Array(options.enumerated()), id: \.offset) { index, option in
                     Button {
                         guard nameSelectedAnswer == nil else { return }
@@ -171,7 +171,7 @@ struct NoteQuizView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
 
-                let options = q.options as! [String]
+                let options = q.options.asStrings
                 ForEach(Array(options.enumerated()), id: \.offset) { index, option in
                     Button {
                         guard findSelectedAnswer == nil else { return }

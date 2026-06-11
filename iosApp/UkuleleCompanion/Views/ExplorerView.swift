@@ -160,7 +160,7 @@ struct ExplorerView: View {
             formula: formula,
             tuning: fretboardVM.tuning,
             allowMutedStrings: false
-        ) as! [ChordVoicing]
+        ).asArray(of: ChordVoicing.self)
 
         if let voicing = voicings.first {
             fretboardVM.applyVoicing(voicing, rootPitchClass: Int32(rootPc), formula: formula)

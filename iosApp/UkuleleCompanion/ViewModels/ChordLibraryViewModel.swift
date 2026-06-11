@@ -11,16 +11,7 @@ final class ChordLibraryViewModel: ObservableObject {
     @Published var searchQuery: String = ""
     @Published var searchResults: [ChordSearchResult] = []
 
-    private let tuning: [shared.UkuleleString] = {
-        let t = UkuleleTuning.highG
-        return (0..<4).map { i in
-            shared.UkuleleString(
-                name: t.stringNames[i] as! String,
-                openPitchClass: (t.pitchClasses[i] as! NSNumber).int32Value,
-                octave: (t.octaves[i] as! NSNumber).int32Value
-            )
-        }
-    }()
+    private let tuning: [shared.UkuleleString] = UkuleleTuning.highG.asUkuleleStrings
 
     init() {
         let formulas = formulasForCategory(.triad)
@@ -36,7 +27,7 @@ final class ChordLibraryViewModel: ObservableObject {
 
     func formulasForCategory(_ category: ChordCategory) -> [ChordFormula] {
         guard let list = ChordFormulas.shared.BY_CATEGORY[category] else { return [] }
-        return list as! [ChordFormula]
+        return list.asArray(of: ChordFormula.self)
     }
 
     var currentChordName: String {
@@ -95,6 +86,6 @@ final class ChordLibraryViewModel: ObservableObject {
             tuning: tuning,
             allowMutedStrings: false
         )
-        return result as! [ChordVoicing]
+        return result.asArray(of: ChordVoicing.self)
     }
 }

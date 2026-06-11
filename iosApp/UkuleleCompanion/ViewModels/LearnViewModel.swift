@@ -44,12 +44,12 @@ final class LearnViewModel: ObservableObject {
     }
 
     func completedLessonCount() -> Int {
-        let all = TheoryLessons.shared.ALL as! [TheoryLesson]
+        let all = TheoryLessons.shared.ALL.asArray(of: TheoryLesson.self)
         return all.filter { isLessonCompleted($0.id) }.count
     }
 
     func passedQuizCount() -> Int {
-        let all = TheoryLessons.shared.ALL as! [TheoryLesson]
+        let all = TheoryLessons.shared.ALL.asArray(of: TheoryLesson.self)
         return all.filter { isLessonQuizPassed($0.id) }.count
     }
 
@@ -278,7 +278,7 @@ final class LearnViewModel: ObservableObject {
         var result: [String: Any] = [:]
 
         // Theory lessons
-        let lessons = TheoryLessons.shared.ALL as! [TheoryLesson]
+        let lessons = TheoryLessons.shared.ALL.asArray(of: TheoryLesson.self)
         for lesson in lessons {
             let doneKey = "lesson_done_\(lesson.id)"
             let quizKey = "lesson_quiz_\(lesson.id)"

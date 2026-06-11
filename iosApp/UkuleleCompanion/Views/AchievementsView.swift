@@ -180,7 +180,7 @@ struct AchievementsView: View {
     }
 
     private func buildContext() -> AchievementContextSwift {
-        let totalLessons = (TheoryLessons.shared.ALL as! [TheoryLesson]).count
+        let totalLessons = TheoryLessons.shared.ALL.asArray(of: TheoryLesson.self).count
         let quizStats = learnVM.quizStats()
         let intervalStats = learnVM.intervalStats()
         let chordEarStats = learnVM.chordEarStats()

@@ -152,7 +152,7 @@ struct TheoryQuizView: View {
             Text(question.question)
                 .font(.title3.weight(.medium))
 
-            let options = question.options as! [String]
+            let options = question.options.asStrings
             ForEach(Array(options.enumerated()), id: \.offset) { index, option in
                 Button {
                     if selectedAnswer == nil {
@@ -267,7 +267,7 @@ struct TheoryQuizView: View {
             Text(question.question)
                 .font(.title3.weight(.medium))
 
-            let options = question.options as! [String]
+            let options = question.options.asStrings
             ForEach(Array(options.enumerated()), id: \.offset) { index, option in
                 Button {
                     guard selectedAnswer == nil else { return }

@@ -112,7 +112,7 @@ final class MelodyViewModel: ObservableObject {
     }
 
     var noteNames: [String] {
-        Notes.shared.NOTE_NAMES_SHARP as! [String]
+        Notes.shared.NOTE_NAMES_SHARP.asStrings
     }
 
     func addNote(pitchClass: Int, octave: Int) {

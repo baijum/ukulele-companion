@@ -211,7 +211,7 @@ final class SongbookViewModel: ObservableObject {
             key: sheet.key,
             capo: Int(sheet.capo),
             strumPatternName: sheet.strumPatternName,
-            labels: sheet.labels as! [String],
+            labels: sheet.labels.asStrings,
             createdAt: Double(sheet.createdAt),
             updatedAt: Double(sheet.updatedAt)
         )

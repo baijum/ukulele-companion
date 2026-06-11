@@ -35,12 +35,12 @@ final class ProgressionsViewModel: ObservableObject {
 
     var presetProgressions: [Progression] {
         let list = Progressions.shared.forScale(scaleType: selectedScaleType)
-        return list as! [Progression]
+        return list.asArray(of: Progression.self)
     }
 
     var diatonicDegrees: [ChordDegree] {
         let list = Progressions.shared.diatonicDegrees(scaleType: selectedScaleType)
-        return list as! [ChordDegree]
+        return list.asArray(of: ChordDegree.self)
     }
 
     var filteredCustomProgressions: [CustomProgression] {
@@ -49,7 +49,7 @@ final class ProgressionsViewModel: ObservableObject {
 
     func diatonicDegreesForScale(_ scaleType: ScaleType) -> [ChordDegree] {
         let list = Progressions.shared.diatonicDegrees(scaleType: scaleType)
-        return list as! [ChordDegree]
+        return list.asArray(of: ChordDegree.self)
     }
 
     func toProgression(_ custom: CustomProgression) -> Progression {

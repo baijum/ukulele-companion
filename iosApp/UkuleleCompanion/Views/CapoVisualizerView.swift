@@ -17,14 +17,7 @@ struct CapoVisualizerView: View {
         self.formula = formula
         let defaults = UserDefaults(suiteName: "app_settings") ?? .standard
         self.leftHanded = defaults.bool(forKey: "left_handed")
-        let t = UkuleleTuning.highG
-        self.tuning = (0..<4).map { i in
-            shared.UkuleleString(
-                name: t.stringNames[i] as! String,
-                openPitchClass: (t.pitchClasses[i] as! NSNumber).int32Value,
-                octave: (t.octaves[i] as! NSNumber).int32Value
-            )
-        }
+        self.tuning = UkuleleTuning.highG.asUkuleleStrings
     }
 
     private var capoFret: Int { Int(capoPosition) }

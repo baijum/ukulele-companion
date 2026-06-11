@@ -90,7 +90,7 @@ struct SongEditorView: View {
             }
 
             Section("Strum Pattern") {
-                let builtInPatterns = StrumPatterns.shared.ALL as! [StrumPattern]
+                let builtInPatterns = StrumPatterns.shared.ALL.asArray(of: StrumPattern.self)
                 Picker("Pattern", selection: $strumPatternName) {
                     Text("None").tag("")
                     Section("Built-in") {
@@ -263,7 +263,7 @@ struct SongEditorView: View {
         let lines = content.components(separatedBy: "\n")
         return VStack(alignment: .leading, spacing: 2) {
             ForEach(0..<lines.count, id: \.self) { i in
-                let segments = ChordParser.shared.parseLine(line: lines[i]) as! [ChordParser.TextSegment]
+                let segments = ChordParser.shared.parseLine(line: lines[i]).asArray(of: ChordParser.TextSegment.self)
                 previewLineView(segments: segments)
             }
         }

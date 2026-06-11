@@ -15,7 +15,7 @@ struct PlayAlongView: View {
     }
 
     private var presetProgressions: [Progression] {
-        Progressions.shared.forScale(scaleType: selectedScaleType) as! [Progression]
+        Progressions.shared.forScale(scaleType: selectedScaleType).asArray(of: Progression.self)
     }
 
     var body: some View {
@@ -81,7 +81,7 @@ struct PlayAlongView: View {
                 .padding(.horizontal)
 
                 if let prog = selectedProgression {
-                    let degrees = prog.degrees as! [ChordDegree]
+                    let degrees = prog.degrees.asArray(of: ChordDegree.self)
 
                     VStack(spacing: 12) {
                         if viewModel.isPlaying && viewModel.currentChordIndex < degrees.count {

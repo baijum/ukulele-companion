@@ -30,16 +30,7 @@ final class FretboardViewModel: ObservableObject {
 
     let tonePlayer = TonePlayer()
 
-    var tuning: [shared.UkuleleString] = {
-        let t = UkuleleTuning.highG
-        return (0..<4).map { i in
-            shared.UkuleleString(
-                name: t.stringNames[i] as! String,
-                openPitchClass: (t.pitchClasses[i] as! NSNumber).int32Value,
-                octave: (t.octaves[i] as! NSNumber).int32Value
-            )
-        }
-    }()
+    var tuning: [shared.UkuleleString] = UkuleleTuning.highG.asUkuleleStrings
 
     /// Applies current settings from a SettingsViewModel.
     func applySoundSettings(from settings: SettingsViewModel) {
@@ -109,7 +100,7 @@ final class FretboardViewModel: ObservableObject {
 
         if scaleOverlay.enabled, scaleOverlay.scale != nil {
             let isMinor = scaleOverlay.scale!.intervals.count > 2
-                && (scaleOverlay.scale!.intervals[2] as! NSNumber).intValue == 3
+                && (scaleOverlay.scale!.intervals[2] as? NSNumber)?.intValue == 3
             let name = Notes.shared.enharmonicForKey(
                 pitchClass: pc,
                 keyRoot: KotlinInt(int: scaleOverlay.root),
@@ -204,14 +195,14 @@ final class FretboardViewModel: ObservableObject {
         scaleOverlay.root = root
         if let scale = scaleOverlay.scale {
             let notes = Scales.shared.scaleNotes(root: root, scale: scale)
-            scaleOverlay.scaleNotes = Set(notes.map { ($0 as! NSNumber).int32Value })
+            scaleOverlay.scaleNotes = Set(notes.asInt32s)
         }
     }
 
     func setScale(_ scale: Scale) {
         let notes = Scales.shared.scaleNotes(root: scaleOverlay.root, scale: scale)
         scaleOverlay.scale = scale
-        scaleOverlay.scaleNotes = Set(notes.map { ($0 as! NSNumber).int32Value })
+        scaleOverlay.scaleNotes = Set(notes.asInt32s)
         scaleOverlay.enabled = true
         scaleOverlay.positionFretRange = nil
     }
@@ -256,21 +247,16 @@ final class FretboardViewModel: ObservableObject {
         } else if let single = result as? ChordDetector.DetectionResultSingleNote {
             detectionResult = .singleNote(name: single.note.name, pitchClass: single.note.pitchClass)
         } else if let interval = result as? ChordDetector.DetectionResultInterval {
-            let notes: [(pitchClass: Int32, name: String)] = interval.notes.map { n in
-                let note = n as! Note
-                return (note.pitchClass, note.name)
+            let notes: [(pitchClass: Int32, name: String)] = interval.notes.asArray(of: Note.self).map { note in
+                (note.pitchClass, note.name)
             }
             detectionResult = .interval(notes: notes)
         } else if let found = result as? ChordDetector.DetectionResultChordFound {
             let r = found.result
-            let chordNotes: [(pitchClass: Int32, name: String)] = r.notes.map { n in
-                let note = n as! Note
-                return (note.pitchClass, note.name)
+            let chordNotes: [(pitchClass: Int32, name: String)] = r.notes.asArray(of: Note.self).map { note in
+                (note.pitchClass, note.name)
             }
-            let alts: [String] = r.alternates.map { a in
-                let alt = a as! AlternateChord
-                return alt.name
-            }
+            let alts: [String] = r.alternates.asArray(of: AlternateChord.self).map { $0.name }
             detectionResult = .chordFound(
                 name: r.name,
                 quality: r.quality,
@@ -281,9 +267,8 @@ final class FretboardViewModel: ObservableObject {
                 matchedFormula: r.matchedFormula
             )
         } else if let noMatch = result as? ChordDetector.DetectionResultNoMatch {
-            let notes: [(pitchClass: Int32, name: String)] = noMatch.notes.map { n in
-                let note = n as! Note
-                return (note.pitchClass, note.name)
+            let notes: [(pitchClass: Int32, name: String)] = noMatch.notes.asArray(of: Note.self).map { note in
+                (note.pitchClass, note.name)
             }
             detectionResult = .noMatch(notes: notes)
         }

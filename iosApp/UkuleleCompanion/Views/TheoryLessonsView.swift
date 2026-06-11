@@ -5,8 +5,8 @@ struct TheoryLessonsView: View {
     @EnvironmentObject var learnVM: LearnViewModel
 
     var body: some View {
-        let modules = TheoryLessons.shared.MODULES as! [String]
-        let byModule = TheoryLessons.shared.byModule() as! [String: [TheoryLesson]]
+        let modules = TheoryLessons.shared.MODULES.asStrings
+        let byModule = TheoryLessons.shared.byModule() as? [String: [TheoryLesson]] ?? [:]
 
         List {
             ForEach(modules, id: \.self) { module in
