@@ -17,6 +17,7 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
@@ -48,6 +49,7 @@ jobs:
   shared-tests:
     name: Shared Module Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
@@ -82,6 +84,7 @@ jobs:
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
@@ -117,6 +120,7 @@ jobs:
     name: Build
     needs: [ lint, unit-tests ]
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
@@ -139,10 +143,19 @@ jobs:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
 
+      - name: Report debug APK size
+        run: |
+          APK=$(find app/build/outputs/apk/debug -name '*.apk' | head -1)
+          SIZE_BYTES=$(stat -c%s "$APK")
+          SIZE_MB=$(awk "BEGIN {printf \"%.2f\", $SIZE_BYTES / 1048576}")
+          echo "### Debug APK Size" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Debug APK**: ${SIZE_MB} MB (${SIZE_BYTES} bytes)" >> "$GITHUB_STEP_SUMMARY"
+
   release-build:
     name: Release Build
     needs: [ lint, unit-tests ]
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
@@ -173,27 +186,11 @@ jobs:
           echo "### Release APK Size" >> "$GITHUB_STEP_SUMMARY"
           echo "**Release APK**: ${SIZE_MB} MB (${SIZE_BYTES} bytes)" >> "$GITHUB_STEP_SUMMARY"
 
-  apk-size:
-    name: APK Size
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download debug APK
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          name: app-debug
-
-      - name: Report APK size
-        run: |
-          SIZE_BYTES=$(stat -c%s app-debug.apk)
-          SIZE_MB=$(awk "BEGIN {printf \"%.2f\", $SIZE_BYTES / 1048576}")
-          echo "### APK Size" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Debug APK**: ${SIZE_MB} MB (${SIZE_BYTES} bytes)" >> "$GITHUB_STEP_SUMMARY"
-
   instrumented-tests:
     name: Instrumented Tests
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       matrix:
         api-level: [26, 33, 35]
@@ -243,6 +240,7 @@ jobs:
     name: Dependency Review
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
