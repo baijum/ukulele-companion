@@ -65,12 +65,6 @@ final class ScalePracticeViewModel: ObservableObject {
         loadSettings()
     }
 
-    private static let sampleNames = [
-        "uke_a", "uke_asharp", "uke_b", "uke_c", "uke_csharp",
-        "uke_d", "uke_dsharp", "uke_e", "uke_f", "uke_fsharp",
-        "uke_g", "uke_gsharp"
-    ]
-
     var rootNoteNames: [String] {
         (0..<Int32(12)).map { Notes.shared.pitchClassToName(pitchClass: $0) }
     }
@@ -166,8 +160,7 @@ final class ScalePracticeViewModel: ObservableObject {
                 if index < notes.count {
                     self.currentNoteIndex = index
                     let pc = notes[index]
-                    let sampleIndex = (pc + 9) % 12
-                    self.tonePlayer.play(Self.sampleNames[sampleIndex])
+                    self.tonePlayer.playNote(pitchClass: Int32(pc))
                     index += 1
                 } else if self.loopPlayback {
                     index = 0
