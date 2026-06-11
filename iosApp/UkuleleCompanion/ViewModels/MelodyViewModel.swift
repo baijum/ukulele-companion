@@ -103,7 +103,7 @@ final class MelodyViewModel: ObservableObject {
     private let tonePlayer = TonePlayer()
     private var playbackTask: Task<Void, Never>?
     private let audioEngine = AudioCaptureEngine()
-    private nonisolated(unsafe) let processingLock = OSAllocatedUnfairLock(initialState: false)
+    private nonisolated(unsafe) let frameGate = FrameGate()
     private var stableCount = 0
     private var lastDetectedPitchClass: Int? = nil
 
@@ -307,12 +307,7 @@ final class MelodyViewModel: ObservableObject {
 
         audioEngine.onBuffer = { [weak self] samples in
             guard let self else { return }
-            let shouldProcess = self.processingLock.withLock { isProcessing -> Bool in
-                if isProcessing { return false }
-                isProcessing = true
-                return true
-            }
-            guard shouldProcess else { return }
+            guard self.frameGate.tryEnter() else { return }
             Task { @MainActor in
                 let floatArray = KotlinFloatArray(size: Int32(samples.count))
                 for i in 0..<samples.count {
@@ -331,7 +326,7 @@ final class MelodyViewModel: ObservableObject {
                     self.stableCount = 0
                     self.lastDetectedPitchClass = nil
                     self.stabilizationProgress = 0
-                    self.processingLock.withLock { $0 = false }
+                    self.frameGate.exit()
                     return
                 }
 
@@ -341,7 +336,7 @@ final class MelodyViewModel: ObservableObject {
                 )
 
                 guard let noteInfo else {
-                    self.processingLock.withLock { $0 = false }
+                    self.frameGate.exit()
                     return
                 }
 
@@ -367,7 +362,7 @@ final class MelodyViewModel: ObservableObject {
                     self.stabilizationProgress = 0
                 }
 
-                self.processingLock.withLock { $0 = false }
+                self.frameGate.exit()
             }
         }
 

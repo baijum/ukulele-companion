@@ -76,7 +76,7 @@ import com.baijum.ukufretboard.domain.ChordDetector
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.domain.PlayAlongScorer
 import com.baijum.ukufretboard.viewmodel.UkuleleString
-import java.util.concurrent.atomic.AtomicBoolean
+import com.baijum.ukufretboard.domain.FrameGate
 
 /**
  * Real-Time Play-Along with feedback view.
@@ -128,7 +128,7 @@ fun PlayAlongView(
     var score by remember { mutableStateOf(PlayAlongScorer.PlayAlongScore()) }
     var sessionComplete by remember { mutableStateOf(false) }
     var isListening by remember { mutableStateOf(false) }
-    val isProcessing = remember { AtomicBoolean(false) }
+    val frameGate = remember { FrameGate() }
 
     // Build chord names for the progression
     val chordNames = remember(progression, keyRoot) {
@@ -156,7 +156,7 @@ fun PlayAlongView(
                 context.applicationContext,
                 onInterrupted = { isListening = false },
             ) { samples ->
-                if (!isProcessing.compareAndSet(false, true)) return@start
+                if (!frameGate.tryEnter()) return@start
                 try {
                     val result = AudioChordDetector.detect(samples)
                     val chordFound = result.detection as? ChordDetector.DetectionResult.ChordFound
@@ -170,7 +170,7 @@ fun PlayAlongView(
                         }
                     }
                 } finally {
-                    isProcessing.set(false)
+                    frameGate.exit()
                 }
             }
         }

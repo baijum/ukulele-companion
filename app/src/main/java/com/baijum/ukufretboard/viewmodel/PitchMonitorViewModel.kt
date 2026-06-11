@@ -13,7 +13,7 @@ import com.baijum.ukufretboard.domain.NeuralPitchSupervisor
 import com.baijum.ukufretboard.domain.PitchDetector
 import com.baijum.ukufretboard.domain.PitchResult
 import com.baijum.ukufretboard.domain.TunerNoteMapper
-import java.util.concurrent.atomic.AtomicBoolean
+import com.baijum.ukufretboard.domain.FrameGate
 import kotlin.math.abs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -244,7 +244,7 @@ class PitchMonitorViewModel : ViewModel() {
     private var previousFrequency: Double? = null
 
     // --- Frame-dropping (backpressure) ----------------------------------------
-    private val isProcessing = AtomicBoolean(false)
+    private val frameGate = FrameGate()
 
     // --- Neural supervisor state ----------------------------------------------
 
@@ -269,7 +269,7 @@ class PitchMonitorViewModel : ViewModel() {
 
         initializeNeuralSupervisor()
 
-        while (!isProcessing.compareAndSet(false, true)) { /* spin until in-flight buffer finishes */ }
+        frameGate.awaitEnter()
         try {
             _uiState.update { it.copy(isListening = true) }
             recentFrequencies.clear()
@@ -298,7 +298,7 @@ class PitchMonitorViewModel : ViewModel() {
             neuralConsistencyFrames = 0
             telemetryFrameCounter = 0
         } finally {
-            isProcessing.set(false)
+            frameGate.exit()
         }
 
         AudioCaptureEngine.start(
@@ -356,11 +356,11 @@ class PitchMonitorViewModel : ViewModel() {
             s
         }
         AudioCaptureEngine.stop()
-        while (!isProcessing.compareAndSet(false, true)) { /* spin until in-flight buffer finishes */ }
+        frameGate.awaitEnter()
         try {
             supervisor?.close()
         } finally {
-            isProcessing.set(false)
+            frameGate.exit()
         }
     }
 
@@ -376,11 +376,11 @@ class PitchMonitorViewModel : ViewModel() {
      */
     private fun processBuffer(samples: FloatArray) {
         if (!_uiState.value.isListening) return
-        if (!isProcessing.compareAndSet(false, true)) return
+        if (!frameGate.tryEnter()) return
         try {
             processBufferInner(samples)
         } finally {
-            isProcessing.set(false)
+            frameGate.exit()
         }
     }
 
