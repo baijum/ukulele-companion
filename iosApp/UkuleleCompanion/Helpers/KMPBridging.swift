@@ -1,25 +1,25 @@
 import Foundation
 import shared
 
-// MARK: - NSArray / KotlinArray element conversions
+// MARK: - Collection element conversions (works on both NSArray and typed [T])
 
-extension NSArray {
-    /// Converts a KMP-bridged list of NSNumber to a Swift `[Int]`.
+extension Sequence {
+    /// Converts elements via NSNumber to a Swift `[Int]`.
     var asInts: [Int] {
         compactMap { ($0 as? NSNumber)?.intValue }
     }
 
-    /// Converts a KMP-bridged list of NSNumber to a Swift `[Int32]`.
+    /// Converts elements via NSNumber to a Swift `[Int32]`.
     var asInt32s: [Int32] {
         compactMap { ($0 as? NSNumber)?.int32Value }
     }
 
-    /// Converts a KMP-bridged list of NSNumber to a Swift `[Float]`.
+    /// Converts elements via NSNumber to a Swift `[Float]`.
     var asFloats: [Float] {
         compactMap { ($0 as? NSNumber)?.floatValue }
     }
 
-    /// Converts a KMP-bridged list to a Swift `[String]`.
+    /// Converts elements to a Swift `[String]`.
     var asStrings: [String] {
         compactMap { $0 as? String }
     }
@@ -44,9 +44,9 @@ extension Set where Element == KotlinInt {
     }
 }
 
-// MARK: - Typed list casts (KMP collections bridged as NSArray)
+// MARK: - Typed list casts (works on both NSArray and typed Swift arrays)
 
-extension NSArray {
+extension Sequence {
     /// Safely casts every element to `T`, dropping any that don't match.
     func asArray<T>(of _: T.Type) -> [T] {
         compactMap { $0 as? T }
