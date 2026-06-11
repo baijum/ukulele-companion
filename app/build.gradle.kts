@@ -120,7 +120,7 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.jazzer.junit)
     testImplementation(libs.jazzer.api)
-    testImplementation("org.robolectric:robolectric:4.14.1")
+    testImplementation("org.robolectric:robolectric:4.16.1")
     testImplementation("androidx.test:core:1.6.1")
     testRuntimeOnly(libs.junit.vintage.engine)
     testRuntimeOnly(libs.junit.jupiter.engine)
