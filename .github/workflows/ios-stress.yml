@@ -34,56 +34,10 @@ jobs:
         run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app
 
       - name: Prepare iOS Simulator
-        run: |
-          set -e
-          for i in $(seq 1 5); do
-            if xcrun simctl list runtimes | grep -q "com.apple.CoreSimulator.SimRuntime.iOS"; then
-              break
-            fi
-            echo "Waiting for iOS simulator runtime (attempt $i/5)..."
-            sleep 10
-          done
-
-          xcrun simctl list runtimes
-
-          RUNTIME=$(xcrun simctl list runtimes | grep "^iOS" | tail -1 | awk '{print $NF}')
-          if [ -z "$RUNTIME" ]; then
-            echo "::error::No iOS simulator runtime found"
-            exit 1
-          fi
-          echo "Runtime: $RUNTIME"
-
-          if ! xcrun simctl list devices available | grep -q "iPhone 16"; then
-            echo "Creating iPhone 16 simulator..."
-            xcrun simctl create "iPhone 16" \
-              "com.apple.CoreSimulator.SimDeviceType.iPhone-16" \
-              "$RUNTIME"
-          fi
-
-          # Find UDID for the last (latest-runtime) available iPhone 16
-          SIM_UDID=$(xcrun simctl list devices available -j \
-            | python3 -c "
-          import json, sys
-          data = json.load(sys.stdin)
-          # Devices are grouped by runtime; pick the latest runtime's iPhone 16
-          udid = None
-          for runtime in sorted(data['devices'].keys()):
-              for dev in data['devices'][runtime]:
-                  if dev['name'] == 'iPhone 16' and dev['isAvailable']:
-                      udid = dev['udid']
-          print(udid or '')
-          ")
-          if [ -z "$SIM_UDID" ]; then
-            echo "::error::Could not find iPhone 16 simulator UDID"
-            exit 1
-          fi
-          echo "Booting simulator $SIM_UDID ..."
-          xcrun simctl boot "$SIM_UDID" || true
-          # Wait for the simulator to finish booting
-          xcrun simctl bootstatus "$SIM_UDID" -b
-          echo "SIM_UDID=$SIM_UDID" >> "$GITHUB_ENV"
-
-          xcrun simctl list devices available | grep "iPhone"
+        id: sim
+        uses: ./.github/actions/prepare-ios-simulator
+        with:
+          boot: 'true'
 
       - name: Cache Kotlin/Native toolchain
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
@@ -110,7 +64,7 @@ jobs:
           xcodebuild test \
             -project iosApp/UkuleleCompanion.xcodeproj \
             -scheme UkuleleCompanion \
-            -destination "id=$SIM_UDID" \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO \
             -only-testing:UkuleleCompanionUITests \
@@ -167,56 +121,10 @@ jobs:
         run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app
 
       - name: Prepare iOS Simulator
-        run: |
-          set -e
-          for i in $(seq 1 5); do
-            if xcrun simctl list runtimes | grep -q "com.apple.CoreSimulator.SimRuntime.iOS"; then
-              break
-            fi
-            echo "Waiting for iOS simulator runtime (attempt $i/5)..."
-            sleep 10
-          done
-
-          xcrun simctl list runtimes
-
-          RUNTIME=$(xcrun simctl list runtimes | grep "^iOS" | tail -1 | awk '{print $NF}')
-          if [ -z "$RUNTIME" ]; then
-            echo "::error::No iOS simulator runtime found"
-            exit 1
-          fi
-          echo "Runtime: $RUNTIME"
-
-          if ! xcrun simctl list devices available | grep -q "iPhone 16"; then
-            echo "Creating iPhone 16 simulator..."
-            xcrun simctl create "iPhone 16" \
-              "com.apple.CoreSimulator.SimDeviceType.iPhone-16" \
-              "$RUNTIME"
-          fi
-
-          # Find UDID for the last (latest-runtime) available iPhone 16
-          SIM_UDID=$(xcrun simctl list devices available -j \
-            | python3 -c "
-          import json, sys
-          data = json.load(sys.stdin)
-          # Devices are grouped by runtime; pick the latest runtime's iPhone 16
-          udid = None
-          for runtime in sorted(data['devices'].keys()):
-              for dev in data['devices'][runtime]:
-                  if dev['name'] == 'iPhone 16' and dev['isAvailable']:
-                      udid = dev['udid']
-          print(udid or '')
-          ")
-          if [ -z "$SIM_UDID" ]; then
-            echo "::error::Could not find iPhone 16 simulator UDID"
-            exit 1
-          fi
-          echo "Booting simulator $SIM_UDID ..."
-          xcrun simctl boot "$SIM_UDID" || true
-          # Wait for the simulator to finish booting
-          xcrun simctl bootstatus "$SIM_UDID" -b
-          echo "SIM_UDID=$SIM_UDID" >> "$GITHUB_ENV"
-
-          xcrun simctl list devices available | grep "iPhone"
+        id: sim
+        uses: ./.github/actions/prepare-ios-simulator
+        with:
+          boot: 'true'
 
       - name: Cache Kotlin/Native toolchain
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
@@ -243,7 +151,7 @@ jobs:
           xcodebuild test \
             -project iosApp/UkuleleCompanion.xcodeproj \
             -scheme UkuleleCompanion \
-            -destination "id=$SIM_UDID" \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO \
             -enableThreadSanitizer YES \

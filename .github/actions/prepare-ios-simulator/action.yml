@@ -1,0 +1,71 @@
+name: Prepare iOS Simulator
+description: Wait for iOS runtime, create device if missing, optionally boot and return UDID
+inputs:
+  device-name:
+    description: Simulator device name
+    default: iPhone 16
+  device-type:
+    description: CoreSimulator device type identifier
+    default: com.apple.CoreSimulator.SimDeviceType.iPhone-16
+  boot:
+    description: Boot the simulator and wait for bootstatus
+    default: 'false'
+outputs:
+  udid:
+    description: UDID of the prepared simulator
+    value: ${{ steps.prepare.outputs.udid }}
+runs:
+  using: composite
+  steps:
+    - id: prepare
+      shell: bash
+      run: |
+        set -e
+        for i in $(seq 1 5); do
+          if xcrun simctl list runtimes | grep -q "com.apple.CoreSimulator.SimRuntime.iOS"; then
+            break
+          fi
+          echo "Waiting for iOS simulator runtime (attempt $i/5)..."
+          sleep 10
+        done
+
+        xcrun simctl list runtimes
+
+        RUNTIME=$(xcrun simctl list runtimes | grep "^iOS" | tail -1 | awk '{print $NF}')
+        if [ -z "$RUNTIME" ]; then
+          echo "::error::No iOS simulator runtime found"
+          exit 1
+        fi
+        echo "Runtime: $RUNTIME"
+
+        if ! xcrun simctl list devices available | grep -q "${{ inputs.device-name }}"; then
+          echo "Creating ${{ inputs.device-name }} simulator..."
+          xcrun simctl create "${{ inputs.device-name }}" \
+            "${{ inputs.device-type }}" \
+            "$RUNTIME"
+        fi
+
+        SIM_UDID=$(xcrun simctl list devices available -j \
+          | python3 -c "
+        import json, sys
+        data = json.load(sys.stdin)
+        udid = None
+        for runtime in sorted(data['devices'].keys()):
+            for dev in data['devices'][runtime]:
+                if dev['name'] == '${{ inputs.device-name }}' and dev['isAvailable']:
+                    udid = dev['udid']
+        print(udid or '')
+        ")
+        if [ -z "$SIM_UDID" ]; then
+          echo "::error::Could not find ${{ inputs.device-name }} simulator UDID"
+          exit 1
+        fi
+        echo "udid=$SIM_UDID" >> "$GITHUB_OUTPUT"
+
+        if [ "${{ inputs.boot }}" = "true" ]; then
+          echo "Booting simulator $SIM_UDID ..."
+          xcrun simctl boot "$SIM_UDID" || true
+          xcrun simctl bootstatus "$SIM_UDID" -b
+        fi
+
+        xcrun simctl list devices available | grep "iPhone"
