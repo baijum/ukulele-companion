@@ -41,11 +41,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
-import com.baijum.ukufretboard.domain.Achievement
 import com.baijum.ukufretboard.domain.AchievementCategory
-import com.baijum.ukufretboard.domain.AchievementChecker
-import com.baijum.ukufretboard.domain.AchievementContext
-import com.baijum.ukufretboard.domain.toAchievementContext
+import com.baijum.ukufretboard.domain.AchievementDef
+import com.baijum.ukufretboard.domain.Achievements
 import com.baijum.ukufretboard.viewmodel.LearningProgressViewModel
 
 /**
@@ -72,14 +70,14 @@ fun AchievementsView(
 
     val achievements = remember(selectedCategory) {
         if (selectedCategory == null) {
-            AchievementChecker.ALL
+            Achievements.ALL
         } else {
-            AchievementChecker.ALL.filter { it.category == selectedCategory }
+            Achievements.ALL.filter { it.category == selectedCategory }
         }
     }
 
     val unlockedCount = unlockedIds.size
-    val totalCount = AchievementChecker.totalCount()
+    val totalCount = Achievements.totalCount()
 
     Column(
         modifier = modifier
@@ -186,7 +184,7 @@ fun AchievementsView(
  */
 @Composable
 private fun AchievementCard(
-    achievement: Achievement,
+    achievement: AchievementDef,
     isUnlocked: Boolean,
 ) {
     Card(
@@ -209,7 +207,7 @@ private fun AchievementCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
-                imageVector = achievement.icon,
+                imageVector = achievementIcon(achievement.id),
                 contentDescription = achievementTitle(achievement.id),
                 modifier = Modifier.size(32.dp),
                 tint = if (isUnlocked) {
