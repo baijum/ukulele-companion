@@ -1166,14 +1166,14 @@ struct SongViewerView: View {
 
     @ViewBuilder
     private func chordPopover(chord: String) -> some View {
-        let rootName = String(chord.prefix(while: { $0.isLetter || $0 == "#" || $0 == "b" }))
-        let quality = String(chord.dropFirst(rootName.count))
-        let noteMap: [String: Int32] = [
-            "C": 0, "C#": 1, "Db": 1, "D": 2, "D#": 3, "Eb": 3,
-            "E": 4, "F": 5, "F#": 6, "Gb": 6, "G": 7, "G#": 8,
-            "Ab": 8, "A": 9, "A#": 10, "Bb": 10, "B": 11
-        ]
-        let rootPc = noteMap[rootName] ?? 0
+        let parsed = ChordNameParser.shared.parse(input: chord)
+        let rootPc = parsed?.rootPitchClass ?? 0
+        let formula: ChordFormula
+        if let p = parsed {
+            formula = p.formula
+        } else {
+            formula = (ChordFormulas.shared.ALL as! [ChordFormula]).first { $0.symbol == "" }!
+        }
 
         let tuning = (0..<4).map { i -> shared.UkuleleString in
             let t = UkuleleTuning.highG
@@ -1184,10 +1184,8 @@ struct SongViewerView: View {
             )
         }
 
-        let formulas = ChordFormulas.shared.ALL as! [ChordFormula]
-        let formula = formulas.first { $0.symbol == quality } ?? formulas.first { $0.symbol == "" }!
         let voicings = VoicingGenerator.shared.generate(
-            rootPitchClass: rootPc,
+            rootPitchClass: Int32(rootPc),
             formula: formula,
             tuning: tuning,
             allowMutedStrings: false

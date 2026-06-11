@@ -151,26 +151,19 @@ struct ExplorerView: View {
     }
 
     private func applySuggestedChord(_ name: String) {
-        let rootName = String(name.prefix(while: { $0.isLetter || $0 == "#" || $0 == "b" }))
-        let quality = String(name.dropFirst(rootName.count))
-        let noteMap: [String: Int32] = [
-            "C": 0, "C#": 1, "Db": 1, "D": 2, "D#": 3, "Eb": 3,
-            "E": 4, "F": 5, "F#": 6, "Gb": 6, "G": 7, "G#": 8,
-            "Ab": 8, "A": 9, "A#": 10, "Bb": 10, "B": 11
-        ]
-        let rootPc = noteMap[rootName] ?? 0
+        guard let parsed = ChordNameParser.shared.parse(input: name) else { return }
+        let rootPc = parsed.rootPitchClass
+        let formula = parsed.formula
 
-        let formulas = ChordFormulas.shared.ALL as! [ChordFormula]
-        let formula = formulas.first { $0.symbol == quality } ?? formulas.first { $0.symbol == "" }!
         let voicings = VoicingGenerator.shared.generate(
-            rootPitchClass: rootPc,
+            rootPitchClass: Int32(rootPc),
             formula: formula,
             tuning: fretboardVM.tuning,
             allowMutedStrings: false
         ) as! [ChordVoicing]
 
         if let voicing = voicings.first {
-            fretboardVM.applyVoicing(voicing, rootPitchClass: rootPc, formula: formula)
+            fretboardVM.applyVoicing(voicing, rootPitchClass: Int32(rootPc), formula: formula)
         }
     }
 
