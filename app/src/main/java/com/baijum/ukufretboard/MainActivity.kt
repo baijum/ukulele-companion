@@ -14,7 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.baijum.ukufretboard.audio.ToneGenerator
-import com.baijum.ukufretboard.ui.FretboardScreen
+import com.baijum.ukufretboard.ui.navigation.FretboardScreen
 import com.baijum.ukufretboard.ui.LocalReduceMotion
 import com.baijum.ukufretboard.ui.OnboardingScreen
 import com.baijum.ukufretboard.ui.rememberReduceMotion
