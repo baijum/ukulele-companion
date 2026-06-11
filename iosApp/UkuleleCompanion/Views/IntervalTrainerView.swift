@@ -15,11 +15,6 @@ struct IntervalTrainerView: View {
     @State private var isAudioMode = true
 
     private let tonePlayer = TonePlayer()
-    private static let sampleNames = [
-        "uke_a", "uke_asharp", "uke_b", "uke_c", "uke_csharp",
-        "uke_d", "uke_dsharp", "uke_e", "uke_f", "uke_fsharp",
-        "uke_g", "uke_gsharp"
-    ]
 
     var body: some View {
         ScrollView {
@@ -193,11 +188,9 @@ struct IntervalTrainerView: View {
                 strumDelayMs: 0
             )
         } else {
-            let idx1 = (Int(q.note1PitchClass) + 9) % 12
-            tonePlayer.play(Self.sampleNames[idx1])
+            tonePlayer.playNote(pitchClass: q.note1PitchClass)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                let idx2 = (Int(q.note2PitchClass) + 9) % 12
-                self.tonePlayer.play(Self.sampleNames[idx2])
+                self.tonePlayer.playNote(pitchClass: q.note2PitchClass)
             }
         }
     }
