@@ -46,7 +46,7 @@ struct IntervalTrainerView: View {
                         Picker("Direction", selection: $direction) {
                             Text("Up").tag(IntervalTrainer.IntervalDirection.ascending)
                             Text("Down").tag(IntervalTrainer.IntervalDirection.descending)
-                            Text("Both").tag(IntervalTrainer.IntervalDirection.harmonic)
+                            Text("Harmonic").tag(IntervalTrainer.IntervalDirection.harmonic)
                         }
                         .pickerStyle(.segmented)
                     }
@@ -182,16 +182,22 @@ struct IntervalTrainerView: View {
     }
 
     private func playInterval(_ q: IntervalTrainer.IntervalQuestion) {
-        if direction == .harmonic {
-            tonePlayer.playChord(
-                pitchClasses: [q.note1PitchClass, q.note2PitchClass],
-                strumDelayMs: 0
-            )
-        } else {
-            tonePlayer.playNote(pitchClass: q.note1PitchClass)
+        switch q.direction {
+        case .ascending:
+            tonePlayer.playNote(pitchClass: q.note1PitchClass, octave: q.note1Octave)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                self.tonePlayer.playNote(pitchClass: q.note2PitchClass)
+                self.tonePlayer.playNote(pitchClass: q.note2PitchClass, octave: q.note2Octave)
             }
+        case .descending:
+            tonePlayer.playNote(pitchClass: q.note2PitchClass, octave: q.note2Octave)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                self.tonePlayer.playNote(pitchClass: q.note1PitchClass, octave: q.note1Octave)
+            }
+        case .harmonic:
+            tonePlayer.playNote(pitchClass: q.note1PitchClass, octave: q.note1Octave)
+            tonePlayer.playNote(pitchClass: q.note2PitchClass, octave: q.note2Octave)
+        default:
+            break
         }
     }
 

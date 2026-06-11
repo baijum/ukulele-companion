@@ -7,6 +7,7 @@ import AVFoundation
 final class TonePlayer {
     private var audioEngine: AVAudioEngine?
     private var playerNodes: [AVAudioPlayerNode] = []
+    private var varispeedNodes: [AVAudioUnitVarispeed] = []
     private var cachedBuffers: [String: AVAudioPCMBuffer] = [:]
     private let nodePoolSize = 8
     private var nextNodeIndex = 0
@@ -37,9 +38,13 @@ final class TonePlayer {
 
         for _ in 0..<nodePoolSize {
             let player = AVAudioPlayerNode()
+            let varispeed = AVAudioUnitVarispeed()
             engine.attach(player)
-            engine.connect(player, to: engine.mainMixerNode, format: sampleFormat)
+            engine.attach(varispeed)
+            engine.connect(player, to: varispeed, format: sampleFormat)
+            engine.connect(varispeed, to: engine.mainMixerNode, format: sampleFormat)
             playerNodes.append(player)
+            varispeedNodes.append(varispeed)
         }
 
         do {
@@ -57,6 +62,8 @@ final class TonePlayer {
         return player
     }
 
+    private static let baseOctave: Int32 = 4
+
     /// Plays the named WAV sample from the app bundle on a single player node.
     func play(_ sampleName: String) {
         guard let player = nextPlayer(), let engine = audioEngine else { return }
@@ -64,6 +71,9 @@ final class TonePlayer {
         if !engine.isRunning {
             try? engine.start()
         }
+
+        let idx = (nextNodeIndex - 1) % nodePoolSize
+        varispeedNodes[idx].rate = 1.0
 
         if let buffer = loadBuffer(named: sampleName) {
             player.stop()
@@ -74,9 +84,29 @@ final class TonePlayer {
 
     /// Plays a single note by pitch class using the corresponding WAV sample.
     func playNote(pitchClass: Int32) {
-        if let sample = Self.pitchClassToSample[pitchClass] {
-            play(sample)
-        }
+        playNote(pitchClass: pitchClass, octave: Self.baseOctave)
+    }
+
+    /// Plays a single note by pitch class and octave.
+    ///
+    /// Samples are recorded at octave 4. Other octaves are rendered via
+    /// rate-based pitch shifting (2x rate = +1 octave).
+    func playNote(pitchClass: Int32, octave: Int32) {
+        guard let sample = Self.pitchClassToSample[pitchClass],
+              let buffer = loadBuffer(named: sample),
+              let engine = audioEngine else { return }
+
+        if !engine.isRunning { try? engine.start() }
+
+        let idx = nextNodeIndex % nodePoolSize
+        let player = playerNodes[idx]
+        let varispeed = varispeedNodes[idx]
+        nextNodeIndex += 1
+
+        varispeed.rate = Float(pow(2.0, Double(octave - Self.baseOctave)))
+        player.stop()
+        player.scheduleBuffer(buffer, at: nil, options: .interrupts)
+        player.play()
     }
 
     /// Plays a chord as a strum: notes are triggered with a configurable delay
