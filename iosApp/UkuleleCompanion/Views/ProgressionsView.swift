@@ -800,12 +800,9 @@ private struct ProgressionPlaybackBar: View {
     }
 
     private func playResolvedChord(_ resolved: String) {
-        let rootName = String(resolved.prefix(while: { $0.isLetter || $0 == "#" || $0 == "b" }))
-        let quality = String(resolved.dropFirst(rootName.count))
-        let noteMap = ["C": 0, "C#": 1, "Db": 1, "D": 2, "D#": 3, "Eb": 3,
-                       "E": 4, "F": 5, "F#": 6, "Gb": 6, "G": 7, "G#": 8,
-                       "Ab": 8, "A": 9, "A#": 10, "Bb": 10, "B": 11]
-        let rootPc = noteMap[rootName] ?? 0
+        guard let parsed = ChordNameParser.shared.parse(input: resolved) else { return }
+        let rootPc = parsed.rootPitchClass
+        let formula = parsed.formula
 
         let tuning = (0..<4).map { i -> shared.UkuleleString in
             let t = UkuleleTuning.highG
@@ -816,8 +813,6 @@ private struct ProgressionPlaybackBar: View {
             )
         }
 
-        let formulas = ChordFormulas.shared.ALL as! [ChordFormula]
-        let formula = formulas.first { $0.symbol == quality } ?? formulas.first { $0.symbol == "" }!
         let voicings = VoicingGenerator.shared.generate(
             rootPitchClass: Int32(rootPc),
             formula: formula,
