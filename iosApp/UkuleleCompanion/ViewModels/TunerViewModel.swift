@@ -51,19 +51,7 @@ final class TunerViewModel: ObservableObject {
 
     // Neural pitch supervision
     private var neuralSupervisor: NeuralPitchSupervisor?
-    private var neuralFrameCounter: Int = 0
-    private var lastNeuralResult: NeuralPitchResult?
-    private var neuralResultAgeFrames: Int = Int.max
-    private var consecutiveNeuralFailures: Int = 0
-    private var neuralConsistencyFrames: Int = 0
-    private var lastNeuralFrequencyForConsistency: Double?
-
-    private static let neuralSupervisorInterval = 5
-    private static let neuralResultTTLFrames = 10
-    private static let neuralFailureThreshold = 15
-    private static let neuralConsistencyRequired = 2
-    private static let arbitrationIgnoreSemitones = 1.5
-    private static let arbitrationStrongSemitones = 2.5
+    private let neuralArbitrator = NeuralArbitrator()
 
     var noteAccessibilityLabel: String {
         if noteName == "--" { return "No note detected" }
@@ -185,18 +173,11 @@ final class TunerViewModel: ObservableObject {
             guard let self = self else { return }
 
             if let result = result {
-                // Apply arbitration between YIN and neural results
-                let finalHz: Double
-                if let neural = neuralResult {
-                    let arbitrated = self.arbitrate(
-                        yinFreq: result.frequencyHz,
-                        yinConf: result.confidence,
-                        neuralResult: neural
-                    )
-                    finalHz = arbitrated
-                } else {
-                    finalHz = result.frequencyHz
-                }
+                let arbitration = self.neuralArbitrator.arbitrate(
+                    yinResult: result,
+                    neuralResult: neuralResult
+                )
+                let finalHz = arbitration.frequencyHz
 
                 self.previousFrequency = finalHz
 
@@ -266,9 +247,8 @@ final class TunerViewModel: ObservableObject {
 
     private func maybeRunNeural(_ samples: [Float]) -> NeuralPitchResult? {
         guard let supervisor = neuralSupervisor else { return nil }
-        neuralFrameCounter += 1
 
-        if neuralFrameCounter % Self.neuralSupervisorInterval == 0 {
+        if neuralArbitrator.shouldRunInference() {
             let canRun = neuralInferenceLock.withLock { inFlight -> Bool in
                 if inFlight { return false }
                 inFlight = true
@@ -279,17 +259,12 @@ final class TunerViewModel: ObservableObject {
                     let estimate = supervisor.estimate(samples)
                     await MainActor.run { [weak self] in
                         guard let self else { return }
-                        self.lastNeuralResult = estimate
-                        self.neuralResultAgeFrames = 0
                         if let estimate = estimate {
-                            self.consecutiveNeuralFailures = 0
-                            self.updateNeuralConsistency(estimate.frequencyHz)
+                            self.neuralArbitrator.onInferenceResult(result: estimate)
                             self.neuralStatus = .active
                         } else {
-                            self.consecutiveNeuralFailures += 1
-                            self.neuralConsistencyFrames = 0
-                            self.lastNeuralFrequencyForConsistency = nil
-                            if self.consecutiveNeuralFailures >= Self.neuralFailureThreshold {
+                            let disabled = self.neuralArbitrator.onInferenceFailure()
+                            if disabled {
                                 self.neuralStatus = .fallback
                             }
                         }
@@ -297,65 +272,11 @@ final class TunerViewModel: ObservableObject {
                     self?.neuralInferenceLock.withLock { $0 = false }
                 }
             }
-        } else if neuralResultAgeFrames < Int.max {
-            neuralResultAgeFrames += 1
         }
 
-        return neuralResultAgeFrames <= Self.neuralResultTTLFrames ? lastNeuralResult : nil
+        return neuralArbitrator.currentResult()
     }
 
-    private func arbitrate(yinFreq: Double, yinConf: Double, neuralResult: NeuralPitchResult) -> Double {
-        let semitoneGap = semitoneDistance(yinFreq, neuralResult.frequencyHz)
-
-        if semitoneGap <= Self.arbitrationIgnoreSemitones {
-            return yinFreq
-        }
-
-        if neuralConsistencyFrames < Self.neuralConsistencyRequired {
-            return yinFreq
-        }
-
-        if isOctaveRelation(yinFreq, neuralResult.frequencyHz)
-            && neuralResult.confidence >= 0.85
-            && yinConf >= 0.12 {
-            return neuralResult.frequencyHz
-        }
-
-        if semitoneGap >= Self.arbitrationStrongSemitones
-            && neuralResult.confidence >= 0.93
-            && yinConf >= 0.16 {
-            return neuralResult.frequencyHz
-        }
-
-        return yinFreq
-    }
-
-    private func semitoneDistance(_ aHz: Double, _ bHz: Double) -> Double {
-        guard aHz > 0, bHz > 0 else { return Double.greatestFiniteMagnitude }
-        return abs(12.0 * log2(aHz / bHz))
-    }
-
-    private func isOctaveRelation(_ aHz: Double, _ bHz: Double) -> Bool {
-        guard aHz > 0, bHz > 0 else { return false }
-        let semitones = semitoneDistance(aHz, bHz)
-        return abs(semitones - 12.0) <= 1.0 || abs(semitones - 24.0) <= 1.0
-    }
-
-    private func updateNeuralConsistency(_ neuralFrequencyHz: Double) {
-        guard neuralFrequencyHz > 0 else {
-            neuralConsistencyFrames = 0
-            lastNeuralFrequencyForConsistency = nil
-            return
-        }
-
-        if let previous = lastNeuralFrequencyForConsistency,
-           semitoneDistance(previous, neuralFrequencyHz) <= 0.5 {
-            neuralConsistencyFrames += 1
-        } else {
-            neuralConsistencyFrames = 1
-        }
-        lastNeuralFrequencyForConsistency = neuralFrequencyHz
-    }
 
     // MARK: - Spoken Feedback
 
@@ -415,5 +336,6 @@ final class TunerViewModel: ObservableObject {
         activeStringIndex = nil
         settledFrames = 0
         isInTune = false
+        neuralArbitrator.reset()
     }
 }

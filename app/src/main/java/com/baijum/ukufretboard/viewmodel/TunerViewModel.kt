@@ -8,6 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.baijum.ukufretboard.audio.AudioCaptureEngine
 import com.baijum.ukufretboard.data.TunerSettings
 import com.baijum.ukufretboard.data.UkuleleTuning
+import com.baijum.ukufretboard.domain.ArbitrationResult
+import com.baijum.ukufretboard.domain.FrameGate
+import com.baijum.ukufretboard.domain.NeuralArbitrator
 import com.baijum.ukufretboard.domain.NeuralPitchResult
 import com.baijum.ukufretboard.domain.NeuralPitchSupervisor
 import com.baijum.ukufretboard.domain.NoteInfo
@@ -23,9 +26,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
-import com.baijum.ukufretboard.domain.FrameGate
 import kotlin.math.abs
-import kotlin.math.log2
 
 /**
  * Tuning accuracy status shown to the user.
@@ -170,26 +171,6 @@ class TunerViewModel : ViewModel() {
          */
         private const val LOST_SIGNAL_HOLD_MS = 400L
 
-        /**
-         * Neural supervisor cadence. At ~23 ms per frame, 5 frames ≈ 115 ms.
-         */
-        private const val NEURAL_SUPERVISOR_INTERVAL = 5
-
-        /** If stale, neural estimates are ignored until refreshed. */
-        private const val NEURAL_RESULT_TTL_FRAMES = 10
-
-        /** Mark runtime fallback if this many inferences fail in a row. */
-        private const val NEURAL_FAILURE_THRESHOLD = 15
-
-        /** Ignore tiny YIN-vs-neural disagreements. */
-        private const val ARBITRATION_IGNORE_SEMITONES = 1.5
-
-        /** Strong disagreement threshold for non-octave correction. */
-        private const val ARBITRATION_STRONG_SEMITONES = 2.5
-
-        /** Required consecutive similar neural readings before override. */
-        private const val NEURAL_CONSISTENCY_FRAMES = 2
-
         /** Hysteresis for keeping previous target string assignment. */
         private const val STRING_SWITCH_HYSTERESIS_CENTS = 4.0
 
@@ -203,19 +184,6 @@ class TunerViewModel : ViewModel() {
         private const val TELEMETRY_LOG_INTERVAL_FRAMES = 25L
 
         private const val TAG = "TunerViewModel"
-
-        @androidx.annotation.VisibleForTesting
-        internal fun semitoneDistance(aHz: Double, bHz: Double): Double {
-            if (aHz <= 0.0 || bHz <= 0.0) return Double.MAX_VALUE
-            return abs(12.0 * log2(aHz / bHz))
-        }
-
-        @androidx.annotation.VisibleForTesting
-        internal fun isOctaveRelation(aHz: Double, bHz: Double): Boolean {
-            if (aHz <= 0.0 || bHz <= 0.0) return false
-            val semitones = semitoneDistance(aHz, bHz)
-            return abs(semitones - 12.0) <= 1.0 || abs(semitones - 24.0) <= 1.0
-        }
     }
 
     // --- State ---------------------------------------------------------------
@@ -295,12 +263,7 @@ class TunerViewModel : ViewModel() {
     private val supervisorLock = Any()
     private var isCleared = false
     private var neuralSupervisor: NeuralPitchSupervisor? = null
-    private var neuralFrameCounter = 0
-    private var lastNeuralResult: NeuralPitchResult? = null
-    private var neuralResultAgeFrames = Int.MAX_VALUE
-    private var consecutiveNeuralFailures = 0
-    private var lastNeuralFrequencyForConsistency: Double? = null
-    private var neuralConsistencyFrames = 0
+    private val neuralArbitrator = NeuralArbitrator()
 
     // --- Settled note tracking ------------------------------------------------
 
@@ -382,12 +345,7 @@ class TunerViewModel : ViewModel() {
             settledNoteName = null
             settledNoteFrames = 0
             settledNoteCents = 0.0
-            neuralFrameCounter = 0
-            lastNeuralResult = null
-            neuralResultAgeFrames = Int.MAX_VALUE
-            consecutiveNeuralFailures = 0
-            lastNeuralFrequencyForConsistency = null
-            neuralConsistencyFrames = 0
+            neuralArbitrator.reset()
             telemetryFrameCounter = 0
             telemetryOverrideCount = 0
             lastLoggedStatus = TuningStatus.SILENT
@@ -577,17 +535,16 @@ class TunerViewModel : ViewModel() {
         lostSignalFrames = 0
 
         val neuralResultForFrame = runNeuralSupervisor(samples)
-        val arbitration = arbitrate(result, neuralResultForFrame)
-        val finalPitch = arbitration.result
+        val arbitration = neuralArbitrator.arbitrate(result, neuralResultForFrame)
         if (arbitration.overrideApplied) {
             telemetryOverrideCount++
         }
 
         // Track for next frame's continuity constraint.
-        previousFrequency = finalPitch.frequencyHz
+        previousFrequency = arbitration.frequencyHz
 
         // --- Smoothing -------------------------------------------------------
-        recentFrequencies.addLast(finalPitch.frequencyHz)
+        recentFrequencies.addLast(arbitration.frequencyHz)
         if (recentFrequencies.size > SMOOTHING_WINDOW) {
             recentFrequencies.removeFirst()
         }
@@ -677,7 +634,7 @@ class TunerViewModel : ViewModel() {
                 detectedNote = displayNote,
                 centsDeviation = clampedCents,
                 displayCentsDeviation = displayCents,
-                confidence = finalPitch.confidence,
+                confidence = arbitration.confidence,
                 tuningStatus = status,
                 targetString = stringMatch,
                 stringProgress = progress,
@@ -702,11 +659,10 @@ class TunerViewModel : ViewModel() {
         logCalibrationTelemetry(
             yinResult = result,
             neuralResult = neuralResultForFrame,
-            finalPitch = finalPitch,
+            arbitration = arbitration,
             cents = clampedCents,
             status = status,
             stringMatch = stringMatch,
-            arbitrationReason = arbitration.reason,
         )
     }
 
@@ -775,25 +731,19 @@ class TunerViewModel : ViewModel() {
 
     private fun runNeuralSupervisor(samples: FloatArray): NeuralPitchResult? {
         val supervisor = synchronized(supervisorLock) { neuralSupervisor } ?: return null
-        neuralFrameCounter++
 
-        if (neuralFrameCounter % NEURAL_SUPERVISOR_INTERVAL == 0) {
+        if (neuralArbitrator.shouldRunInference()) {
             val estimate = supervisor.estimate(samples)
-            lastNeuralResult = estimate
-            neuralResultAgeFrames = 0
             if (estimate != null) {
-                consecutiveNeuralFailures = 0
-                updateNeuralConsistency(estimate.frequencyHz)
+                neuralArbitrator.onInferenceResult(estimate)
                 updateNeuralStatus(
                     available = true,
                     active = true,
                     status = NeuralRuntimeStatus.ACTIVE,
                 )
             } else {
-                consecutiveNeuralFailures++
-                neuralConsistencyFrames = 0
-                lastNeuralFrequencyForConsistency = null
-                if (consecutiveNeuralFailures >= NEURAL_FAILURE_THRESHOLD) {
+                val disabled = neuralArbitrator.onInferenceFailure()
+                if (disabled) {
                     updateNeuralStatus(
                         available = true,
                         active = false,
@@ -801,104 +751,11 @@ class TunerViewModel : ViewModel() {
                     )
                 }
             }
-        } else if (neuralResultAgeFrames < Int.MAX_VALUE) {
-            neuralResultAgeFrames++
         }
 
-        return if (neuralResultAgeFrames <= NEURAL_RESULT_TTL_FRAMES) {
-            lastNeuralResult
-        } else {
-            null
-        }
+        return neuralArbitrator.currentResult()
     }
 
-    private data class ArbitrationDecision(
-        val result: PitchResult,
-        val overrideApplied: Boolean,
-        val reason: String,
-    )
-
-    private fun arbitrate(
-        yinResult: PitchResult,
-        neuralResult: NeuralPitchResult?,
-    ): ArbitrationDecision {
-        if (neuralResult == null) {
-            return ArbitrationDecision(
-                result = yinResult,
-                overrideApplied = false,
-                reason = "no_neural",
-            )
-        }
-
-        val semitoneGap = semitoneDistance(yinResult.frequencyHz, neuralResult.frequencyHz)
-        if (semitoneGap <= ARBITRATION_IGNORE_SEMITONES) {
-            return ArbitrationDecision(
-                result = yinResult,
-                overrideApplied = false,
-                reason = "small_gap",
-            )
-        }
-
-        if (neuralConsistencyFrames < NEURAL_CONSISTENCY_FRAMES) {
-            return ArbitrationDecision(
-                result = yinResult,
-                overrideApplied = false,
-                reason = "neural_inconsistent",
-            )
-        }
-
-        if (isOctaveRelation(yinResult.frequencyHz, neuralResult.frequencyHz) &&
-            neuralResult.confidence >= 0.85 &&
-            yinResult.confidence >= 0.12
-        ) {
-            return ArbitrationDecision(
-                result = yinResult.copy(frequencyHz = neuralResult.frequencyHz),
-                overrideApplied = true,
-                reason = "octave_correction",
-            )
-        }
-
-        return if (semitoneGap >= ARBITRATION_STRONG_SEMITONES &&
-            neuralResult.confidence >= 0.93 &&
-            yinResult.confidence >= 0.16
-        ) {
-            ArbitrationDecision(
-                result = yinResult.copy(frequencyHz = neuralResult.frequencyHz),
-                overrideApplied = true,
-                reason = "strong_disagreement",
-            )
-        } else {
-            ArbitrationDecision(
-                result = yinResult,
-                overrideApplied = false,
-                reason = "keep_yin",
-            )
-        }
-    }
-
-    private fun semitoneDistance(aHz: Double, bHz: Double): Double =
-        Companion.semitoneDistance(aHz, bHz)
-
-    private fun isOctaveRelation(aHz: Double, bHz: Double): Boolean =
-        Companion.isOctaveRelation(aHz, bHz)
-
-    private fun updateNeuralConsistency(neuralFrequencyHz: Double) {
-        if (neuralFrequencyHz <= 0.0) {
-            neuralConsistencyFrames = 0
-            lastNeuralFrequencyForConsistency = null
-            return
-        }
-
-        val previous = lastNeuralFrequencyForConsistency
-        neuralConsistencyFrames = if (previous != null &&
-            semitoneDistance(previous, neuralFrequencyHz) <= 0.5
-        ) {
-            neuralConsistencyFrames + 1
-        } else {
-            1
-        }
-        lastNeuralFrequencyForConsistency = neuralFrequencyHz
-    }
 
     private fun smoothDisplayCents(rawCents: Double): Double {
         val target = if (abs(rawCents) < DISPLAY_DEADBAND_CENTS) 0.0 else rawCents
@@ -1007,11 +864,10 @@ class TunerViewModel : ViewModel() {
     private fun logCalibrationTelemetry(
         yinResult: PitchResult,
         neuralResult: NeuralPitchResult?,
-        finalPitch: PitchResult,
+        arbitration: ArbitrationResult,
         cents: Double,
         status: TuningStatus,
         stringMatch: StringMatch,
-        arbitrationReason: String,
     ) {
         if (!Log.isLoggable(TAG, Log.DEBUG)) return
 
@@ -1038,9 +894,9 @@ class TunerViewModel : ViewModel() {
             "Telemetry frame=$telemetryFrameCounter " +
                 "yinHz=${"%.2f".format(yinResult.frequencyHz)} yinConf=${"%.2f".format(yinResult.confidence)} " +
                 "neuralHz=$neuralFreq neuralConf=$neuralConf neuralMs=$inferenceMs " +
-                "finalHz=${"%.2f".format(finalPitch.frequencyHz)} finalConf=${"%.2f".format(finalPitch.confidence)} " +
+                "finalHz=${"%.2f".format(arbitration.frequencyHz)} finalConf=${"%.2f".format(arbitration.confidence)} " +
                 "string=${stringMatch.stringName} cents=${"%.2f".format(cents)} status=$status " +
-                "reason=$arbitrationReason overrides=$telemetryOverrideCount",
+                "reason=${arbitration.reason} overrides=$telemetryOverrideCount",
         )
     }
 }
