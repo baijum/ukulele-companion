@@ -120,7 +120,7 @@ final class ChordTransitionsViewModel: ObservableObject {
             let pitchClasses = (0..<fretList.count).compactMap { i -> Int32? in
                 let fret = fretList[i]
                 guard fret >= 0 else { return nil }
-                let openPc = (UkuleleTuning.highG.pitchClasses[i] as? NSNumber)?.int32Value ?? 0
+                let openPc = UkuleleTuning.highG.pitchClassInts[i]
                 return (openPc + Int32(fret)) % 12
             }
             tonePlayer.playChord(pitchClasses: pitchClasses, strumDelayMs: 40)

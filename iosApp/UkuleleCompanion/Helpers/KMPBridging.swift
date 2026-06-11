@@ -4,24 +4,44 @@ import shared
 // MARK: - Collection element conversions (works on both NSArray and typed [T])
 
 extension Sequence {
+    private func bridged<T>(_ transform: (Element) -> T?) -> [T] {
+        var result: [T] = []
+        var total = 0
+        for element in self {
+            total += 1
+            if let value = transform(element) { result.append(value) }
+        }
+        #if DEBUG
+        if result.count != total {
+            assertionFailure("KMP bridge conversion dropped \(total - result.count) element(s)")
+        }
+        #endif
+        return result
+    }
+
     /// Converts elements via NSNumber to a Swift `[Int]`.
     var asInts: [Int] {
-        compactMap { ($0 as? NSNumber)?.intValue }
+        bridged { ($0 as? NSNumber)?.intValue }
     }
 
     /// Converts elements via NSNumber to a Swift `[Int32]`.
     var asInt32s: [Int32] {
-        compactMap { ($0 as? NSNumber)?.int32Value }
+        bridged { ($0 as? NSNumber)?.int32Value }
     }
 
     /// Converts elements via NSNumber to a Swift `[Float]`.
     var asFloats: [Float] {
-        compactMap { ($0 as? NSNumber)?.floatValue }
+        bridged { ($0 as? NSNumber)?.floatValue }
     }
 
     /// Converts elements to a Swift `[String]`.
     var asStrings: [String] {
-        compactMap { $0 as? String }
+        bridged { $0 as? String }
+    }
+
+    /// Safely casts every element to `T`, dropping any that don't match.
+    func asArray<T>(of _: T.Type) -> [T] {
+        bridged { $0 as? T }
     }
 }
 
@@ -44,21 +64,16 @@ extension Set where Element == KotlinInt {
     }
 }
 
-// MARK: - Typed list casts (works on both NSArray and typed Swift arrays)
-
-extension Sequence {
-    /// Safely casts every element to `T`, dropping any that don't match.
-    func asArray<T>(of _: T.Type) -> [T] {
-        compactMap { $0 as? T }
-    }
-}
-
 // MARK: - UkuleleTuning convenience
 
 extension UkuleleTuning {
     /// Builds the `[shared.UkuleleString]` array for this tuning.
     var asUkuleleStrings: [shared.UkuleleString] {
-        (0..<4).map { i in
+        let count = min(Int(stringNames.count), Int(pitchClasses.count), Int(octaves.count))
+        #if DEBUG
+        if count != 4 { assertionFailure("Unexpected tuning element count: \(count)") }
+        #endif
+        return (0..<count).map { i in
             shared.UkuleleString(
                 name: (stringNames[i] as? String) ?? "",
                 openPitchClass: (pitchClasses[i] as? NSNumber)?.int32Value ?? 0,
