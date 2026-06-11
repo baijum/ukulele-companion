@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
-import java.util.concurrent.atomic.AtomicBoolean
+import com.baijum.ukufretboard.domain.FrameGate
 import kotlin.math.abs
 import kotlin.math.log2
 
@@ -288,7 +288,7 @@ class TunerViewModel : ViewModel() {
     ).toInt().coerceAtLeast(1)
 
     // --- Frame-dropping (backpressure) ----------------------------------------
-    private val isProcessing = AtomicBoolean(false)
+    private val frameGate = FrameGate()
 
     // --- Neural supervisor state --------------------------------------------
 
@@ -360,7 +360,7 @@ class TunerViewModel : ViewModel() {
         if (_uiState.value.isListening) return
         val ctx = appContext ?: return
 
-        while (!isProcessing.compareAndSet(false, true)) { /* spin until in-flight buffer finishes */ }
+        frameGate.awaitEnter()
         try {
             _uiState.update {
                 it.copy(
@@ -392,7 +392,7 @@ class TunerViewModel : ViewModel() {
             telemetryOverrideCount = 0
             lastLoggedStatus = TuningStatus.SILENT
         } finally {
-            isProcessing.set(false)
+            frameGate.exit()
         }
 
         AudioCaptureEngine.start(
@@ -455,11 +455,11 @@ class TunerViewModel : ViewModel() {
             s
         }
         AudioCaptureEngine.stop()
-        while (!isProcessing.compareAndSet(false, true)) { /* spin until in-flight buffer finishes */ }
+        frameGate.awaitEnter()
         try {
             supervisor?.close()
         } finally {
-            isProcessing.set(false)
+            frameGate.exit()
         }
         shutdownTts()
     }
@@ -477,11 +477,11 @@ class TunerViewModel : ViewModel() {
      */
     private fun processBuffer(samples: FloatArray) {
         if (!_uiState.value.isListening) return
-        if (!isProcessing.compareAndSet(false, true)) return
+        if (!frameGate.tryEnter()) return
         try {
             processBufferInner(samples)
         } finally {
-            isProcessing.set(false)
+            frameGate.exit()
         }
     }
 

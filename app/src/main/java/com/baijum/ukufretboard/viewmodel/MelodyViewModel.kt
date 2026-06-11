@@ -14,7 +14,7 @@ import com.baijum.ukufretboard.data.SoundSettings
 import com.baijum.ukufretboard.domain.NoteInfo
 import com.baijum.ukufretboard.domain.PitchDetector
 import com.baijum.ukufretboard.domain.TunerNoteMapper
-import java.util.concurrent.atomic.AtomicBoolean
+import com.baijum.ukufretboard.domain.FrameGate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -107,7 +107,7 @@ class MelodyViewModel : ViewModel() {
     private var previousRms = 0f
     private var blankingFramesRemaining = 0
     private var previousFrequency: Double? = null
-    private val isProcessing = AtomicBoolean(false)
+    private val frameGate = FrameGate()
     private val recentFrequencies = ArrayDeque<Double>(SMOOTHING_WINDOW)
     private var stableNoteInfo: NoteInfo? = null
     private var stabilizationFrames = 0
@@ -439,7 +439,7 @@ class MelodyViewModel : ViewModel() {
         val ctx = appContext ?: return
         if (_uiState.value.isPlaying) stopPlayback()
 
-        while (!isProcessing.compareAndSet(false, true)) { /* spin until in-flight buffer finishes */ }
+        frameGate.awaitEnter()
         try {
             resetRecordingState()
             _uiState.update {
@@ -450,7 +450,7 @@ class MelodyViewModel : ViewModel() {
                 )
             }
         } finally {
-            isProcessing.set(false)
+            frameGate.exit()
         }
 
         AudioCaptureEngine.start(
@@ -509,11 +509,11 @@ class MelodyViewModel : ViewModel() {
      */
     private fun processRecordingBuffer(samples: FloatArray) {
         if (!_uiState.value.isRecording) return
-        if (!isProcessing.compareAndSet(false, true)) return
+        if (!frameGate.tryEnter()) return
         try {
             processRecordingBufferInner(samples)
         } finally {
-            isProcessing.set(false)
+            frameGate.exit()
         }
     }
 

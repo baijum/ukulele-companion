@@ -30,7 +30,7 @@ final class PitchMonitorViewModel: ObservableObject {
     private static let historyDurationMs: Int64 = 10_000
 
     // Frame-dropping (backpressure) — checked on audio thread, not MainActor
-    private nonisolated(unsafe) let processingLock = OSAllocatedUnfairLock(initialState: false)
+    private nonisolated(unsafe) let frameGate = FrameGate()
     private nonisolated(unsafe) let neuralInferenceLock = OSAllocatedUnfairLock(initialState: false)
 
     // Neural state
@@ -77,15 +77,10 @@ final class PitchMonitorViewModel: ObservableObject {
         neuralSupervisor = nil
         audioEngine.onBuffer = { [weak self] samples in
             guard let self else { return }
-            let shouldProcess = self.processingLock.withLock { isProcessing -> Bool in
-                if isProcessing { return false }
-                isProcessing = true
-                return true
-            }
-            guard shouldProcess else { return }
+            guard self.frameGate.tryEnter() else { return }
             Task { @MainActor in
                 self.processBuffer(samples)
-                self.processingLock.withLock { $0 = false }
+                self.frameGate.exit()
             }
         }
         Task {
