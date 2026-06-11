@@ -14,8 +14,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      android: ${{ steps.filter.outputs.android }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - name: Check paths
+        id: filter
+        uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        with:
+          filters: |
+            android:
+              - 'app/**'
+              - 'shared/**'
+              - 'gradle/**'
+              - '*.gradle.kts'
+              - 'gradle.properties'
+              - 'gradlew'
+              - 'gradlew.bat'
+              - '.github/workflows/android.yml'
+
   lint:
     name: Lint
+    needs: [changes]
+    if: needs.changes.outputs.android == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -48,6 +75,8 @@ jobs:
 
   shared-tests:
     name: Shared Module Tests
+    needs: [changes]
+    if: needs.changes.outputs.android == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -83,6 +112,8 @@ jobs:
 
   unit-tests:
     name: Unit Tests
+    needs: [changes]
+    if: needs.changes.outputs.android == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -118,7 +149,8 @@ jobs:
 
   build:
     name: Build
-    needs: [ lint, unit-tests ]
+    needs: [changes, lint, unit-tests]
+    if: needs.changes.outputs.android == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -153,7 +185,8 @@ jobs:
 
   release-build:
     name: Release Build
-    needs: [ lint, unit-tests ]
+    needs: [changes, lint, unit-tests]
+    if: needs.changes.outputs.android == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -188,7 +221,8 @@ jobs:
 
   instrumented-tests:
     name: Instrumented Tests
-    needs: build
+    needs: [changes, build]
+    if: needs.changes.outputs.android == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
