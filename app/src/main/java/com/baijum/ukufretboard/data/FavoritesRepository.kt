@@ -2,6 +2,7 @@ package com.baijum.ukufretboard.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.baijum.ukufretboard.domain.mergeKeepExisting
 
 /**
  * Repository for persisting favorite voicings using SharedPreferences.
@@ -191,15 +192,18 @@ class FavoritesRepository(context: Context) {
     }
 
     /**
-     * Merges the given list of favorites into local storage.
-     * Only adds entries that are not already present (union merge).
+     * Merges the given list of favorites into local storage using merge-by-ID.
+     * Keeps the newer version (by addedAt) when a voicing exists in both.
      */
     fun importAll(favorites: List<FavoriteVoicing>) {
+        val merged = mergeKeepExisting(
+            existing = getAll(),
+            incoming = favorites,
+            idOf = { it.key },
+        )
         val editor = prefs.edit()
-        for (voicing in favorites) {
-            if (!prefs.contains(voicing.key)) {
-                editor.putString(voicing.key, serialize(voicing))
-            }
+        for (voicing in merged) {
+            editor.putString(voicing.key, serialize(voicing))
         }
         editor.apply()
     }
@@ -209,11 +213,14 @@ class FavoritesRepository(context: Context) {
      * Only adds folders that are not already present.
      */
     fun importFolders(folders: List<FavoriteFolder>) {
+        val merged = mergeKeepExisting(
+            existing = getAllFolders(),
+            incoming = folders,
+            idOf = { it.id },
+        )
         val editor = folderPrefs.edit()
-        for (folder in folders) {
-            if (!folderPrefs.contains(folder.id)) {
-                editor.putString(folder.id, serializeFolder(folder))
-            }
+        for (folder in merged) {
+            editor.putString(folder.id, serializeFolder(folder))
         }
         editor.apply()
     }

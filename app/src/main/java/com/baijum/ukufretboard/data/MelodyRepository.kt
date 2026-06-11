@@ -2,6 +2,7 @@ package com.baijum.ukufretboard.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.baijum.ukufretboard.domain.mergeNewerWins
 
 /**
  * Repository for persisting melodies using SharedPreferences.
@@ -34,17 +35,19 @@ class MelodyRepository(context: Context) {
     }
 
     /**
-     * Merges the given list of melodies into local storage.
-     * For each melody, if it doesn't exist locally it is added.
-     * If it already exists, the newer version (by createdAt) wins.
+     * Merges the given list of melodies into local storage using merge-by-ID.
+     * Keeps the newer version (by createdAt) when a melody exists in both.
      */
     fun importAll(melodies: List<Melody>) {
+        val merged = mergeNewerWins(
+            existing = getAll(),
+            incoming = melodies,
+            idOf = { it.id },
+            timestampOf = { it.createdAt },
+        )
         val editor = prefs.edit()
-        for (melody in melodies) {
-            val existing = get(melody.id)
-            if (existing == null || melody.createdAt > existing.createdAt) {
-                editor.putString(melody.id, serialize(melody))
-            }
+        for (melody in merged) {
+            editor.putString(melody.id, serialize(melody))
         }
         editor.apply()
     }

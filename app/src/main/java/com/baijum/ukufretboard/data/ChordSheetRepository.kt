@@ -1,35 +1,41 @@
 package com.baijum.ukufretboard.data
 
 import android.content.Context
-import android.content.SharedPreferences
+import com.baijum.ukufretboard.domain.mergeNewerWins
 
 /**
  * Repository for persisting chord sheets using SharedPreferences.
  *
- * Each sheet is serialized as a pipe-delimited string.
+ * Stores the full list as a single JSON array under [KEY_SHEETS].
+ * On first access, migrates from the legacy pipe-delimited per-entry format.
  */
-class ChordSheetRepository(context: Context) {
+class ChordSheetRepository(context: Context) : JsonListRepository<ChordSheet>(
+    context,
+    PREFS_NAME,
+    KEY_SHEETS,
+    ChordSheet.serializer(),
+) {
+    override fun entityId(item: ChordSheet) = item.id
+    override fun entityTimestamp(item: ChordSheet) = item.updatedAt
 
-    private val prefs: SharedPreferences =
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-
-    fun getAll(): List<ChordSheet> {
-        return prefs.all.entries
-            .mapNotNull { (_, value) -> deserialize(value as? String) }
-            .sortedByDescending { it.updatedAt }
+    override fun importAll(items: List<ChordSheet>) {
+        val merged = mergeNewerWins(getAll(), items, ::entityId, ::entityTimestamp)
+        persist(merged)
     }
 
-    fun get(id: String): ChordSheet? {
-        val value = prefs.getString(id, null)
-        return deserialize(value)
-    }
-
-    fun save(sheet: ChordSheet) {
-        prefs.edit().putString(sheet.id, serialize(sheet)).apply()
-    }
-
-    fun delete(id: String) {
-        prefs.edit().remove(id).apply()
+    override fun getAll(): List<ChordSheet> {
+        val raw = prefs.getString(KEY_SHEETS, null)
+        if (raw != null) {
+            return try {
+                json.decodeFromString(
+                    kotlinx.serialization.builtins.ListSerializer(ChordSheet.serializer()),
+                    raw,
+                )
+            } catch (_: Exception) {
+                emptyList()
+            }
+        }
+        return migrateLegacyPipeEntries()
     }
 
     /**
@@ -38,27 +44,25 @@ class ChordSheetRepository(context: Context) {
     fun getAllLabels(): Set<String> =
         getAll().flatMap { it.labels }.toSortedSet(String.CASE_INSENSITIVE_ORDER)
 
-    private fun serialize(sheet: ChordSheet): String =
-        listOf(
-            sheet.id,
-            sheet.title.replace("|", "\\|"),
-            sheet.artist.replace("|", "\\|"),
-            sheet.content.replace("|", "\\|"),
-            sheet.createdAt.toString(),
-            sheet.updatedAt.toString(),
-            sheet.key.replace("|", "\\|"),
-            sheet.capo.toString(),
-            sheet.strumPatternName.replace("|", "\\|"),
-            serializeLabels(sheet.labels),
-            sheet.subtitle.replace("|", "\\|"),
-            sheet.viewCount.toString(),
-            sheet.lastViewedAt.toString(),
-            sheet.totalViewTimeMs.toString(),
-        ).joinToString(SEPARATOR)
+    fun get(id: String): ChordSheet? = getAll().firstOrNull { it.id == id }
 
-    private fun deserialize(value: String?): ChordSheet? {
+    private fun migrateLegacyPipeEntries(): List<ChordSheet> {
+        val entries = prefs.all.entries
+            .filter { it.key != KEY_SHEETS }
+            .mapNotNull { (_, value) -> deserializeLegacy(value as? String) }
+            .sortedByDescending { it.updatedAt }
+        if (entries.isNotEmpty()) {
+            persist(entries)
+            val editor = prefs.edit()
+            prefs.all.keys.filter { it != KEY_SHEETS }.forEach { editor.remove(it) }
+            editor.apply()
+        }
+        return entries
+    }
+
+    private fun deserializeLegacy(value: String?): ChordSheet? {
         if (value == null) return null
-        val parts = value.split(SEPARATOR)
+        val parts = value.split(LEGACY_SEPARATOR)
         if (parts.size < 6) return null
         return try {
             ChordSheet(
@@ -71,21 +75,18 @@ class ChordSheetRepository(context: Context) {
                 key = parts.getOrNull(6)?.replace("\\|", "|") ?: "",
                 capo = parts.getOrNull(7)?.toIntOrNull() ?: 0,
                 strumPatternName = parts.getOrNull(8)?.replace("\\|", "|") ?: "",
-                labels = deserializeLabels(parts.getOrNull(9)),
+                labels = deserializeLegacyLabels(parts.getOrNull(9)),
                 subtitle = parts.getOrNull(10)?.replace("\\|", "|") ?: "",
                 viewCount = parts.getOrNull(11)?.toIntOrNull() ?: 0,
                 lastViewedAt = parts.getOrNull(12)?.toLongOrNull() ?: 0L,
                 totalViewTimeMs = parts.getOrNull(13)?.toLongOrNull() ?: 0L,
             )
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
     }
 
-    private fun serializeLabels(labels: List<String>): String =
-        labels.joinToString(",") { it.replace("\\", "\\\\").replace(",", "\\,").replace("|", "\\|") }
-
-    private fun deserializeLabels(raw: String?): List<String> {
+    private fun deserializeLegacyLabels(raw: String?): List<String> {
         if (raw.isNullOrEmpty()) return emptyList()
         val result = mutableListOf<String>()
         val current = StringBuilder()
@@ -107,24 +108,9 @@ class ChordSheetRepository(context: Context) {
         return result.filter { it.isNotEmpty() }
     }
 
-    /**
-     * Merges the given list of chord sheets into local storage.
-     * For each sheet, if it doesn't exist locally it is added.
-     * If it already exists, the version with the latest [ChordSheet.updatedAt] wins.
-     */
-    fun importAll(sheets: List<ChordSheet>) {
-        val editor = prefs.edit()
-        for (sheet in sheets) {
-            val existing = get(sheet.id)
-            if (existing == null || sheet.updatedAt > existing.updatedAt) {
-                editor.putString(sheet.id, serialize(sheet))
-            }
-        }
-        editor.apply()
-    }
-
     companion object {
         private const val PREFS_NAME = "chord_sheets"
-        private const val SEPARATOR = "|||"
+        private const val KEY_SHEETS = "sheets_json"
+        private const val LEGACY_SEPARATOR = "|||"
     }
 }
