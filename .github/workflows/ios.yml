@@ -155,6 +155,7 @@ jobs:
         if: always()
         run: |
           curl -fsSL -o /tmp/xcresultparser.zip https://github.com/a7ex/xcresultparser/releases/download/2.0.1/xcresultparser.zip
+          echo "0af7cadc7d77431fab6fd15c3382ebcb35ea48881172aa780a43b757edfec1b7  /tmp/xcresultparser.zip" | shasum -a 256 -c -
           unzip -o /tmp/xcresultparser.zip -d /tmp/xcresultparser
           cp /tmp/xcresultparser/product/xcresultparser /usr/local/bin/xcresultparser
           chmod +x /usr/local/bin/xcresultparser
