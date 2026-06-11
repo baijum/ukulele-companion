@@ -24,12 +24,12 @@ jobs:
       issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 1
 
       - name: Run Claude Code
         id: claude
-        uses: anthropics/claude-code-action@v1
+        uses: anthropics/claude-code-action@baa00e1092c6252b7f9eeb21364a432779460b17 # v1.0.144
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
