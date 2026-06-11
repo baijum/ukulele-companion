@@ -20,6 +20,7 @@ class ChordSheetTransposePropertyTest {
         "No chords in this line",
         "[C] simple [C] repeated",
         "[Ab]Flat [Eb]keys [Bb]only",
+        "[D/F#]Slash [C/G]chords [Am7/G]here",
     )
 
     @Test
@@ -122,6 +123,49 @@ class ChordSheetTransposePropertyTest {
                 )
             }
         }
+    }
+
+    @Test
+    fun transposeSimpleSlashChord() {
+        assertEquals("[D/A]", ChordSheetTranspose.transpose("[C/G]", 2))
+    }
+
+    @Test
+    fun transposeQualityAndSlashChord() {
+        assertEquals("[Cm7/Bb]", ChordSheetTranspose.transpose("[Am7/G]", 3))
+    }
+
+    @Test
+    fun transposeSharpBassSlashChord() {
+        assertEquals("[E/Ab]", ChordSheetTranspose.transpose("[D/F#]", 2))
+    }
+
+    @Test
+    fun transposeFlatBassSlashChord() {
+        assertEquals("[A/E]", ChordSheetTranspose.transpose("[Ab/Eb]", 1))
+    }
+
+    @Test
+    fun transposeNonSlashChordUnchanged() {
+        assertEquals("[Dmaj7]", ChordSheetTranspose.transpose("[Cmaj7]", 2))
+    }
+
+    @Test
+    fun slashChordRoundTrip() {
+        val content = "[C/G]"
+        val transposed = ChordSheetTranspose.transpose(content, 5)
+        assertEquals("[F/C]", transposed)
+        assertEquals(content, ChordSheetTranspose.transpose(transposed, -5))
+    }
+
+    @Test
+    fun sectionLabelUntouchedByTranspose() {
+        assertEquals("[Chorus]", ChordSheetTranspose.transpose("[Chorus]", 2))
+    }
+
+    @Test
+    fun unknownBassPreservedOnTranspose() {
+        assertEquals("[D/X]", ChordSheetTranspose.transpose("[C/X]", 2))
     }
 
     @Test
