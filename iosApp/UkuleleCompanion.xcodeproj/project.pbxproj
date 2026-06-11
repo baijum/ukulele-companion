@@ -90,7 +90,7 @@
 		A10076 /* SongbookViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10076 /* SongbookViewModelTests.swift */; };
 		A10077 /* ProgressionsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10077 /* ProgressionsViewModelTests.swift */; };
 		A10078 /* ChordLibraryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10078 /* ChordLibraryViewModelTests.swift */; };
-		A10079 /* ChordVoicing+Frets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10079 /* ChordVoicing+Frets.swift */; };
+		A10079 /* KMPBridging.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10079 /* KMPBridging.swift */; };
 		A10080 /* SongwriterModeFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10080 /* SongwriterModeFlow.swift */; };
 		A10095 /* MetronomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10095 /* MetronomeViewModelTests.swift */; };
 		A10096 /* ScalePracticeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10096 /* ScalePracticeViewModelTests.swift */; };
@@ -239,7 +239,7 @@
 		B10076 /* SongbookViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongbookViewModelTests.swift; sourceTree = "<group>"; };
 		B10077 /* ProgressionsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionsViewModelTests.swift; sourceTree = "<group>"; };
 		B10078 /* ChordLibraryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordLibraryViewModelTests.swift; sourceTree = "<group>"; };
-		B10079 /* ChordVoicing+Frets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChordVoicing+Frets.swift"; sourceTree = "<group>"; };
+		B10079 /* KMPBridging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KMPBridging.swift"; sourceTree = "<group>"; };
 		B10080 /* SongwriterModeFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongwriterModeFlow.swift; sourceTree = "<group>"; };
 		B10095 /* MetronomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetronomeViewModelTests.swift; sourceTree = "<group>"; };
 		B10096 /* ScalePracticeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalePracticeViewModelTests.swift; sourceTree = "<group>"; };
@@ -485,7 +485,7 @@
 			children = (
 				B10055 /* AccessibilityHelper.swift */,
 				B10066 /* BackupRestoreManager.swift */,
-				B10079 /* ChordVoicing+Frets.swift */,
+				B10079 /* KMPBridging.swift */,
 				B10090 /* ReviewPromptManager.swift */,
 			);
 			path = Helpers;
@@ -740,7 +740,7 @@
 				A10053 /* FavoritesViewModel.swift in Sources */,
 				A10054 /* SettingsViewModel.swift in Sources */,
 				A10055 /* AccessibilityHelper.swift in Sources */,
-				A10079 /* ChordVoicing+Frets.swift in Sources */,
+				A10079 /* KMPBridging.swift in Sources */,
 				A10056 /* VoiceLeadingView.swift in Sources */,
 				A10057 /* ProgressionPracticeView.swift in Sources */,
 				A10058 /* CapoCalculatorView.swift in Sources */,

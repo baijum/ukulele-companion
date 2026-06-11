@@ -118,7 +118,7 @@ struct DailyChallengeView: View {
 
     private func loadChallenges() {
         let list = DailyChallengeGenerator.shared.today()
-        challenges = list as! [DailyChallengeGenerator.DailyChallenge]
+        challenges = list.asArray(of: DailyChallengeGenerator.DailyChallenge.self)
         loadDayProgress()
     }
 

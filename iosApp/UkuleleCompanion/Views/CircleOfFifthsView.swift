@@ -5,10 +5,7 @@ struct CircleOfFifthsView: View {
     @State private var selectedKeyIndex: Int? = 0
     @State private var showMinor = false
 
-    private let circleOrder: [Int32] = {
-        let list = KeySignatures.shared.CIRCLE_ORDER
-        return (0..<list.count).map { (list[$0] as! NSNumber).int32Value }
-    }()
+    private let circleOrder: [Int32] = KeySignatures.shared.CIRCLE_ORDER.asInt32s
 
     var body: some View {
         ScrollView {
@@ -214,10 +211,10 @@ struct CircleOfFifthsView: View {
                     let chords: [KotlinPair<NSString, NSString>] = showMinor
                         ? KeySignatures.shared.diatonicChordsForMinor(
                             pitchClass: keySig.relativeMinorPitchClass
-                        ) as! [KotlinPair<NSString, NSString>]
+                        ).asArray(of: KotlinPair<NSString, NSString>.self)
                         : KeySignatures.shared.diatonicChordsForMajor(
                             pitchClass: pitchClass
-                        ) as! [KotlinPair<NSString, NSString>]
+                        ).asArray(of: KotlinPair<NSString, NSString>.self)
                     ForEach(Array(chords.enumerated()), id: \.offset) { _, pair in
                         let numeral = pair.first! as String
                         let chordName = pair.second! as String

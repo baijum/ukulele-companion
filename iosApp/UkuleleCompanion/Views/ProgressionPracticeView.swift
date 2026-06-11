@@ -31,17 +31,11 @@ struct ProgressionPracticeView: View {
         let defaults = UserDefaults(suiteName: "app_settings") ?? .standard
         self.leftHanded = defaults.bool(forKey: "left_handed")
         let t = UkuleleTuning.highG
-        let tuning = (0..<4).map { i in
-            shared.UkuleleString(
-                name: t.stringNames[i] as! String,
-                openPitchClass: (t.pitchClasses[i] as! NSNumber).int32Value,
-                octave: (t.octaves[i] as! NSNumber).int32Value
-            )
-        }
+        let tuning = t.asUkuleleStrings
         self.tuning = tuning
 
-        let degrees = progression.degrees as! [ChordDegree]
-        let formulas = ChordFormulas.shared.ALL as! [ChordFormula]
+        let degrees = progression.degrees.asArray(of: ChordDegree.self)
+        let formulas = ChordFormulas.shared.ALL.asArray(of: ChordFormula.self)
         self.cachedVoicings = degrees.map { degree in
             let chordRoot = (keyRoot + degree.interval) % 12
             guard let formula = formulas.first(where: { $0.symbol == degree.quality }) else {
@@ -53,7 +47,7 @@ struct ProgressionPracticeView: View {
                 tuning: tuning,
                 allowMutedStrings: false
             )
-            return voicings as! [ChordVoicing]
+            return voicings.asArray(of: ChordVoicing.self)
         }
     }
 
@@ -68,7 +62,7 @@ struct ProgressionPracticeView: View {
         let currentVoicing = voicingFor(currentChordIndex)
         let currentVoicingCount = currentChordIndex < voicings.count ? voicings[currentChordIndex].count : 0
         let currentVoicingIdx = min(selectedVoicingIndex[currentChordIndex] ?? 0, max(0, currentVoicingCount - 1))
-        let degrees = progression.degrees as! [ChordDegree]
+        let degrees = progression.degrees.asArray(of: ChordDegree.self)
 
         ScrollView {
             VStack(spacing: 12) {

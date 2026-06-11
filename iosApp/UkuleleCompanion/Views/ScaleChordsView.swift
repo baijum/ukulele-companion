@@ -6,7 +6,7 @@ struct ScaleChordsView: View {
     @State private var selectedScale: Scale?
 
     private let noteNames: [String] = (0..<12).map { Notes.shared.pitchClassToName(pitchClass: Int32($0)) }
-    private let scales: [Scale] = Scales.shared.ALL as! [Scale]
+    private let scales: [Scale] = Scales.shared.ALL.asArray(of: Scale.self)
 
     var body: some View {
         ScrollView {
@@ -47,7 +47,7 @@ struct ScaleChordsView: View {
 
                 // Triads list
                 if let scale = selectedScale {
-                    let chords = ScaleChordBuilder.shared.buildTriads(rootPitchClass: selectedRoot, scale: scale) as! [ScaleChord]
+                    let chords = ScaleChordBuilder.shared.buildTriads(rootPitchClass: selectedRoot, scale: scale).asArray(of: ScaleChord.self)
                     if chords.isEmpty {
                         Text("This scale has too few notes to build triads.")
                             .foregroundStyle(.secondary)
@@ -57,7 +57,7 @@ struct ScaleChordsView: View {
                             .font(.headline)
                             .accessibilityAddTraits(.isHeader)
                         ForEach(chords, id: \.degree) { chord in
-                            let notes = chord.notes as! [String]
+                            let notes = chord.notes.asStrings
                             HStack(spacing: 16) {
                                 Text(chord.numeral)
                                     .font(.title3.bold())

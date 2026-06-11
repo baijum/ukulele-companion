@@ -65,7 +65,7 @@ struct LearningProgressView: View {
                 .padding(.horizontal)
 
                 // Lessons
-                let totalLessons = (TheoryLessons.shared.ALL as! [TheoryLesson]).count
+                let totalLessons = TheoryLessons.shared.ALL.asArray(of: TheoryLesson.self).count
                 let completedLessons = learnVM.completedLessonCount()
                 let passedQuizzes = learnVM.passedQuizCount()
 

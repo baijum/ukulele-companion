@@ -90,7 +90,7 @@ struct PracticeRoutineView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(routine.title)
                 .font(.title3.weight(.bold))
-            Text("\(routine.totalMinutes) minutes, \((routine.steps as! [PracticeStep]).count) steps")
+            Text("\(routine.totalMinutes) minutes, \(routine.steps.asArray(of: PracticeStep.self).count) steps")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -101,7 +101,7 @@ struct PracticeRoutineView: View {
 
     @ViewBuilder
     private func activeRoutineContent(_ routine: PracticeRoutine) -> some View {
-        let steps = routine.steps as! [PracticeStep]
+        let steps = routine.steps.asArray(of: PracticeStep.self)
 
         VStack(spacing: 12) {
             Text(routine.title)

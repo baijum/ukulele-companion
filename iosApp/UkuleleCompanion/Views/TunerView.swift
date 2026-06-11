@@ -128,7 +128,7 @@ struct TunerView: View {
     }
 
     private var tuningLabel: some View {
-        let stringNames = (0..<Int(tuning.stringNames.count)).map { tuning.stringNames[$0] as! String }
+        let stringNames = tuning.stringNameArray
         let a4 = settings.a4Reference
         let a4Text = a4 != 440.0 ? String(format: " (A4=%.1f Hz)", a4) : ""
         return Text("\(tuning.label) — \(stringNames.joined(separator: " "))\(a4Text)")
@@ -174,8 +174,8 @@ struct TunerView: View {
 
     private var stringButtonsRow: some View {
         let count = Int(tuning.stringNames.count)
-        let stringNames = (0..<count).map { tuning.stringNames[$0] as! String }
-        let pitchClasses = (0..<count).map { (tuning.pitchClasses[$0] as! NSNumber).int32Value }
+        let stringNames = tuning.stringNameArray
+        let pitchClasses = tuning.pitchClassInts
 
         return HStack(spacing: 12) {
             ForEach(0..<count, id: \.self) { idx in

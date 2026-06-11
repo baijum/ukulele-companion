@@ -24,13 +24,7 @@ struct VoiceLeadingView: View {
         let defaults = UserDefaults(suiteName: "app_settings") ?? .standard
         self.leftHanded = defaults.bool(forKey: "left_handed")
         let t = UkuleleTuning.highG
-        self.tuning = (0..<4).map { i in
-            shared.UkuleleString(
-                name: t.stringNames[i] as! String,
-                openPitchClass: (t.pitchClasses[i] as! NSNumber).int32Value,
-                octave: (t.octaves[i] as! NSNumber).int32Value
-            )
-        }
+        self.tuning = t.asUkuleleStrings
     }
 
     var body: some View {
@@ -63,8 +57,8 @@ struct VoiceLeadingView: View {
 
     @ViewBuilder
     private func pathContent(_ path: VoiceLeading.Path) -> some View {
-        let steps = path.steps as! [VoiceLeading.Step]
-        let transitions = path.transitions as! [VoiceLeading.TransitionInfo]
+        let steps = path.steps.asArray(of: VoiceLeading.Step.self)
+        let transitions = path.transitions.asArray(of: VoiceLeading.TransitionInfo.self)
         let hasTransitions = !transitions.isEmpty
 
         VStack(spacing: 0) {
@@ -174,7 +168,7 @@ struct VoiceLeadingView: View {
         to toStep: VoiceLeading.Step,
         transition: VoiceLeading.TransitionInfo
     ) -> some View {
-        let commonIndices = (transition.commonToneIndices as! Set<KotlinInt>)
+        let commonIndices = ((transition.commonToneIndices as? Set<KotlinInt>) ?? Set())
             .map { $0.intValue }
         let commonSet = Set(commonIndices)
 
@@ -227,9 +221,9 @@ struct VoiceLeadingView: View {
         to toStep: VoiceLeading.Step,
         transition: VoiceLeading.TransitionInfo
     ) -> some View {
-        let commonIndices = transition.commonToneIndices as! Set<KotlinInt>
+        let commonIndices = (transition.commonToneIndices as? Set<KotlinInt>) ?? Set()
         let commonCount = commonIndices.count
-        let movements = transition.movements as! [NSNumber]
+        let movements = transition.movements.asInts
 
         return VStack(alignment: .leading, spacing: 8) {
             let commonLabel = commonCount == 1 ? "1 common tone" : "\(commonCount) common tones"
@@ -244,7 +238,7 @@ struct VoiceLeadingView: View {
             ForEach(0..<tuning.count, id: \.self) { i in
                 let fromFret = fromFrets[i]
                 let toFret = toFrets[i]
-                let movement = movements[i].intValue
+                let movement = movements[i]
                 let isCommon = commonIndices.contains(KotlinInt(int: Int32(i)))
 
                 HStack(spacing: 4) {
@@ -295,7 +289,7 @@ struct VoiceLeadingView: View {
     // MARK: - Total Path Summary
 
     private func totalPathSummary(path: VoiceLeading.Path) -> some View {
-        let transCount = (path.transitions as! [Any]).count
+        let transCount = path.transitions.count
         return Text("Total path: \(path.totalDistance) frets across \(transCount) transition\(transCount == 1 ? "" : "s")")
             .font(.caption)
             .foregroundStyle(.secondary)
@@ -358,7 +352,7 @@ struct VoiceLeadingView: View {
 
     private func playAllVoicings() {
         guard let path = path else { return }
-        let steps = path.steps as! [VoiceLeading.Step]
+        let steps = path.steps.asArray(of: VoiceLeading.Step.self)
         for (i, step) in steps.enumerated() {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.6) {
                 self.playVoicing(step.voicing)

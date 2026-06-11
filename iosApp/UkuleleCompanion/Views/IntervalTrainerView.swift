@@ -111,7 +111,7 @@ struct IntervalTrainerView: View {
                                 .foregroundStyle(.secondary)
                         }
 
-                        let options = question.options as! [String]
+                        let options = question.options.asStrings
                         ForEach(Array(options.enumerated()), id: \.offset) { index, option in
                             Button {
                                 if selectedAnswer == nil {

@@ -23,7 +23,7 @@ struct StrumPatternsView: View {
     }
 
     private var allStrumPatterns: [StrumPattern] {
-        StrumPatterns.shared.ALL as! [StrumPattern]
+        StrumPatterns.shared.ALL.asArray(of: StrumPattern.self)
     }
 
     private var filteredStrumPatterns: [StrumPattern] {
@@ -32,7 +32,7 @@ struct StrumPatternsView: View {
     }
 
     private var allFingerpickPatterns: [FingerpickingPattern] {
-        FingerpickingPatterns.shared.ALL as! [FingerpickingPattern]
+        FingerpickingPatterns.shared.ALL.asArray(of: FingerpickingPattern.self)
     }
 
     private var filteredFingerpickPatterns: [FingerpickingPattern] {
@@ -274,8 +274,8 @@ struct StrumPatternsView: View {
 
     private func fingerpickPatternCard(pattern: FingerpickingPattern, index: Int) -> some View {
         let cardKey = "fp_\(pattern.name)"
-        let steps = pattern.steps as! [FingerpickStep]
-        let stringNames = FingerpickingPatterns.shared.STRING_NAMES as! [String]
+        let steps = pattern.steps.asArray(of: FingerpickStep.self)
+        let stringNames = FingerpickingPatterns.shared.STRING_NAMES.asStrings
         let isThisPlaying = patternPlayer.isPlaying && playingPatternId == cardKey
         let currentBpm = bpm(for: cardKey)
 
@@ -359,7 +359,7 @@ struct StrumPatternsView: View {
     }
 
     private func duplicatePresetFingerpick(_ pattern: FingerpickingPattern) {
-        let steps = (pattern.steps as! [FingerpickStep]).map {
+        let steps = pattern.steps.asArray(of: FingerpickStep.self).map {
             FingerpickStepData(finger: $0.finger.label, stringIndex: Int($0.stringIndex), emphasis: $0.emphasis)
         }
         let copy = CustomFingerpickingData(
@@ -426,7 +426,7 @@ struct StrumPatternsView: View {
     private func patternCard(pattern: StrumPattern, index: Int) -> some View {
         let cardKey = "strum_\(pattern.name)"
         let isThisPlaying = patternPlayer.isPlaying && playingPatternId == pattern.name
-        let beats = pattern.beats as! [StrumBeat]
+        let beats = pattern.beats.asArray(of: StrumBeat.self)
         let currentBpm = bpm(for: cardKey)
 
         return VStack(alignment: .leading, spacing: 8) {
@@ -459,7 +459,7 @@ struct StrumPatternsView: View {
                     .foregroundStyle(.secondary)
             }
 
-            let genres = pattern.genres as! [String]
+            let genres = pattern.genres.asStrings
             if !genres.isEmpty {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 4) {
@@ -533,7 +533,7 @@ struct StrumPatternsView: View {
     }
 
     private func duplicatePresetStrum(_ pattern: StrumPattern) {
-        let beats = (pattern.beats as! [StrumBeat]).map {
+        let beats = pattern.beats.asArray(of: StrumBeat.self).map {
             StrumBeatData(direction: directionString($0.direction), emphasis: $0.emphasis)
         }
         let copy = CustomStrumPatternData(

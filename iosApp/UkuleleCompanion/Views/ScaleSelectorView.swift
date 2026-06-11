@@ -14,7 +14,7 @@ struct ScaleSelectorView: View {
     private let noteNames: [String] = (0..<12).map {
         Notes.shared.pitchClassToName(pitchClass: Int32($0))
     }
-    private let scales: [Scale] = Scales.shared.ALL as! [Scale]
+    private let scales: [Scale] = Scales.shared.ALL.asArray(of: Scale.self)
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -183,14 +183,14 @@ struct ScaleSelectorView: View {
 
     private func generatePositions() -> [ScalePosition] {
         guard let scale = state.scale else { return [] }
-        let intervals = (scale.intervals as! [NSNumber]).map { $0.intValue }
+        let intervals = scale.intervals.asInts
         let tuning = tuningPitchClasses.map { Int($0) }
         let result = ScalePositions.shared.generate(
             root: Int32(state.root),
             intervals: intervals.map { KotlinInt(int: Int32($0)) },
             tuningPitchClasses: tuning.map { KotlinInt(int: Int32($0)) }
         )
-        return result as! [ScalePosition]
+        return result.asArray(of: ScalePosition.self)
     }
 
     private func buildChords() -> [ScaleChord] {
@@ -199,6 +199,6 @@ struct ScaleSelectorView: View {
             rootPitchClass: state.root,
             scale: scale
         )
-        return result as! [ScaleChord]
+        return result.asArray(of: ScaleChord.self)
     }
 }

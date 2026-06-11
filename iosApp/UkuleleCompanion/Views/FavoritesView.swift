@@ -199,7 +199,7 @@ struct FavoritesView: View {
     private func playFavorite(_ fav: FavoriteVoicingData) {
         let pitchClasses = fav.frets.enumerated().compactMap { i, fret -> Int32? in
             guard fret >= 0 else { return nil }
-            let openPc = (UkuleleTuning.highG.pitchClasses[i] as! NSNumber).int32Value
+            let openPc = UkuleleTuning.highG.pitchClassInts[i]
             return (openPc + Int32(fret)) % 12
         }
         tonePlayer.playChord(pitchClasses: pitchClasses, strumDelayMs: 40)
