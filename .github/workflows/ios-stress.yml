@@ -84,8 +84,20 @@ jobs:
 
           xcrun simctl list devices available | grep "iPhone"
 
+      - name: Cache Kotlin/Native toolchain
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: ~/.konan
+          key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+
       - name: Build shared framework
         run: ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64
+
+      - name: Cache ONNX Runtime xcframework
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: iosApp/Frameworks
+          key: onnxruntime-${{ hashFiles('iosApp/setup_onnxruntime.sh') }}
 
       - name: Download ONNX Runtime
         run: bash iosApp/setup_onnxruntime.sh
@@ -189,8 +201,20 @@ jobs:
 
           xcrun simctl list devices available | grep "iPhone"
 
+      - name: Cache Kotlin/Native toolchain
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: ~/.konan
+          key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+
       - name: Build shared framework
         run: ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64
+
+      - name: Cache ONNX Runtime xcframework
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: iosApp/Frameworks
+          key: onnxruntime-${{ hashFiles('iosApp/setup_onnxruntime.sh') }}
 
       - name: Download ONNX Runtime
         run: bash iosApp/setup_onnxruntime.sh
