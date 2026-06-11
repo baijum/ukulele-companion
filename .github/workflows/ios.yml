@@ -155,7 +155,8 @@ jobs:
         if: always()
         run: |
           curl -fsSL -o /tmp/xcresultparser.zip https://github.com/a7ex/xcresultparser/releases/download/2.0.1/xcresultparser.zip
-          unzip -o /tmp/xcresultparser.zip -d /usr/local/bin
+          unzip -o /tmp/xcresultparser.zip -d /tmp/xcresultparser
+          cp /tmp/xcresultparser/product/xcresultparser /usr/local/bin/xcresultparser
           chmod +x /usr/local/bin/xcresultparser
 
       - name: Convert xcresult to Cobertura XML
