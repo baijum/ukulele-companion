@@ -81,6 +81,7 @@
 		A10067 /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10067 /* PlayView.swift */; };
 		A10068 /* ScaleSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10068 /* ScaleSelectorView.swift */; };
 		A10069 /* PlayAlongViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10069 /* PlayAlongViewModel.swift */; };
+		A10200 /* TunerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10200 /* TunerViewModel.swift */; };
 		A10070 /* PatternPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10070 /* PatternPlayer.swift */; };
 		A10071 /* FullScreenFretboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10071 /* FullScreenFretboardView.swift */; };
 		A10072 /* PracticeTimerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10072 /* PracticeTimerViewModelTests.swift */; };
@@ -230,6 +231,7 @@
 		B10067 /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
 		B10068 /* ScaleSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleSelectorView.swift; sourceTree = "<group>"; };
 		B10069 /* PlayAlongViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAlongViewModel.swift; sourceTree = "<group>"; };
+		B10200 /* TunerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunerViewModel.swift; sourceTree = "<group>"; };
 		B10070 /* PatternPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternPlayer.swift; sourceTree = "<group>"; };
 		B10071 /* FullScreenFretboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenFretboardView.swift; sourceTree = "<group>"; };
 		B10072 /* PracticeTimerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTimerViewModelTests.swift; sourceTree = "<group>"; };
@@ -476,6 +478,7 @@
 				B10062 /* PracticeTimerViewModel.swift */,
 				B10063 /* CustomPatternsViewModel.swift */,
 				B10069 /* PlayAlongViewModel.swift */,
+				B10200 /* TunerViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -755,6 +758,7 @@
 				A10067 /* PlayView.swift in Sources */,
 				A10068 /* ScaleSelectorView.swift in Sources */,
 				A10069 /* PlayAlongViewModel.swift in Sources */,
+				A10200 /* TunerViewModel.swift in Sources */,
 				A10070 /* PatternPlayer.swift in Sources */,
 				A10071 /* FullScreenFretboardView.swift in Sources */,
 				A10080 /* SongwriterModeFlow.swift in Sources */,

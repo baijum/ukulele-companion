@@ -1,31 +1,16 @@
-package com.baijum.ukufretboard.ui
+package com.baijum.ukufretboard.ui.navigation
 
-import com.baijum.ukufretboard.domain.ChordNameParser
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Equalizer
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
@@ -35,16 +20,9 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.automirrored.filled.QueueMusic
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.Equalizer
-import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.material.icons.filled.Fullscreen
-import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Speed
-import androidx.compose.material.icons.filled.TouchApp
-import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,21 +31,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.NavigationDrawerItemDefaults
-import androidx.compose.material3.Button
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -81,14 +52,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.baijum.ukufretboard.R
@@ -99,11 +67,47 @@ import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.PracticeTimerRepository
 import com.baijum.ukufretboard.data.ReviewPromptRepository
 import com.baijum.ukufretboard.data.SoundSettings
-
 import com.baijum.ukufretboard.domain.AchievementChecker
 import com.baijum.ukufretboard.domain.ChordInfo
-import com.baijum.ukufretboard.domain.toAchievementContext
+import com.baijum.ukufretboard.domain.ChordNameParser
 import com.baijum.ukufretboard.domain.ChordVoicing
+import com.baijum.ukufretboard.domain.toAchievementContext
+import com.baijum.ukufretboard.ui.AchievementsView
+import com.baijum.ukufretboard.ui.CapoGuideView
+import com.baijum.ukufretboard.ui.ChordEarTrainingView
+import com.baijum.ukufretboard.ui.ChordLibraryTab
+import com.baijum.ukufretboard.ui.ChordSubstitutionsView
+import com.baijum.ukufretboard.ui.ChordTransitionView
+import com.baijum.ukufretboard.ui.CircleOfFifthsView
+import com.baijum.ukufretboard.ui.DailyChallengeView
+import com.baijum.ukufretboard.ui.FavoriteFolderSheet
+import com.baijum.ukufretboard.ui.FavoritesTab
+import com.baijum.ukufretboard.ui.FretboardNoteMapView
+import com.baijum.ukufretboard.ui.FullScreenFretboard
+import com.baijum.ukufretboard.ui.GlossaryView
+import com.baijum.ukufretboard.ui.HelpView
+import com.baijum.ukufretboard.ui.IntervalTrainerView
+import com.baijum.ukufretboard.ui.LearningProgressView
+import com.baijum.ukufretboard.ui.MetronomeTab
+import com.baijum.ukufretboard.ui.NoteQuizView
+import com.baijum.ukufretboard.ui.PitchMonitorTab
+import com.baijum.ukufretboard.ui.PlayAlongSetup
+import com.baijum.ukufretboard.ui.PracticeRoutineView
+import com.baijum.ukufretboard.ui.ProgressionsTab
+import com.baijum.ukufretboard.ui.ReviewPromptDialog
+import com.baijum.ukufretboard.ui.ScaleChordView
+import com.baijum.ukufretboard.ui.ScalePracticeView
+import com.baijum.ukufretboard.ui.SetlistTab
+import com.baijum.ukufretboard.ui.SettingsSheet
+import com.baijum.ukufretboard.ui.ShareChordBottomSheet
+import com.baijum.ukufretboard.ui.ShareChordInfo
+import com.baijum.ukufretboard.ui.SongwriterModeFlow
+import com.baijum.ukufretboard.ui.songbook.SongbookTab
+import com.baijum.ukufretboard.ui.TheoryLessonsView
+import com.baijum.ukufretboard.ui.TheoryQuizView
+import com.baijum.ukufretboard.ui.TunerTab
+import com.baijum.ukufretboard.ui.melody.MelodyNotepadView
+import com.baijum.ukufretboard.ui.patterns.StrumPatternsTab
 import com.baijum.ukufretboard.viewmodel.ChordLibraryViewModel
 import com.baijum.ukufretboard.viewmodel.CustomProgressionViewModel
 import com.baijum.ukufretboard.viewmodel.FavoritesViewModel
@@ -119,64 +123,55 @@ import com.baijum.ukufretboard.viewmodel.MetronomeViewModel
 import com.baijum.ukufretboard.viewmodel.ScalePracticeViewModel
 import com.baijum.ukufretboard.viewmodel.SetlistViewModel
 
-/** Navigation section indices. */
-private const val NAV_EXPLORER = 0
-private const val NAV_LIBRARY = 1
-private const val NAV_PATTERNS = 2
-private const val NAV_PROGRESSIONS = 3
-private const val NAV_FAVORITES = 4
-private const val NAV_SONGBOOK = 5
-private const val NAV_CAPO_GUIDE = 6
-private const val NAV_CIRCLE_OF_FIFTHS = 7
-private const val NAV_THEORY_QUIZ = 8
-private const val NAV_INTERVAL_TRAINER = 9
-private const val NAV_CHORD_SUBS = 10
-private const val NAV_THEORY_LESSONS = 11
-private const val NAV_MELODY_NOTEPAD = 12
-private const val NAV_TUNER = 13
-private const val NAV_LEARNING_PROGRESS = 14
-private const val NAV_SCALE_CHORDS = 15
-private const val NAV_GLOSSARY = 16
-private const val NAV_NOTE_MAP = 17
-private const val NAV_NOTE_QUIZ = 18
-private const val NAV_CHORD_EAR = 19
-private const val NAV_HELP = 20
-private const val NAV_PITCH_MONITOR = 21
-private const val NAV_SCALE_PRACTICE = 22
-private const val NAV_ACHIEVEMENTS = 23
-private const val NAV_CHORD_TRANSITION = 25
-private const val NAV_DAILY_CHALLENGE = 26
+internal const val NAV_EXPLORER = 0
+internal const val NAV_LIBRARY = 1
+internal const val NAV_PATTERNS = 2
+internal const val NAV_PROGRESSIONS = 3
+internal const val NAV_FAVORITES = 4
+internal const val NAV_SONGBOOK = 5
+internal const val NAV_CAPO_GUIDE = 6
+internal const val NAV_CIRCLE_OF_FIFTHS = 7
+internal const val NAV_THEORY_QUIZ = 8
+internal const val NAV_INTERVAL_TRAINER = 9
+internal const val NAV_CHORD_SUBS = 10
+internal const val NAV_THEORY_LESSONS = 11
+internal const val NAV_MELODY_NOTEPAD = 12
+internal const val NAV_TUNER = 13
+internal const val NAV_LEARNING_PROGRESS = 14
+internal const val NAV_SCALE_CHORDS = 15
+internal const val NAV_GLOSSARY = 16
+internal const val NAV_NOTE_MAP = 17
+internal const val NAV_NOTE_QUIZ = 18
+internal const val NAV_CHORD_EAR = 19
+internal const val NAV_HELP = 20
+internal const val NAV_PITCH_MONITOR = 21
+internal const val NAV_SCALE_PRACTICE = 22
+internal const val NAV_ACHIEVEMENTS = 23
+internal const val NAV_CHORD_TRANSITION = 25
+internal const val NAV_DAILY_CHALLENGE = 26
 
-private const val NAV_PRACTICE_ROUTINE = 28
-private const val NAV_PLAY_ALONG = 29
-private const val NAV_METRONOME = 30
-private const val NAV_SONGWRITER_MODE = 27
-private const val NAV_SETLISTS = 31
+internal const val NAV_PRACTICE_ROUTINE = 28
+internal const val NAV_PLAY_ALONG = 29
+internal const val NAV_METRONOME = 30
+internal const val NAV_SONGWRITER_MODE = 27
+internal const val NAV_SETLISTS = 31
 
-/** Play and Create section indices for review prompt active-day tracking. */
 private val PLAY_CREATE_NAV_INDICES = setOf(
     NAV_EXPLORER, NAV_TUNER, NAV_PITCH_MONITOR, NAV_METRONOME, NAV_LIBRARY, NAV_FAVORITES,
     NAV_SONGWRITER_MODE, NAV_SONGBOOK, NAV_MELODY_NOTEPAD, NAV_PATTERNS, NAV_PROGRESSIONS,
 )
 
-/**
- * Drawer navigation item metadata.
- */
-private data class DrawerItem(
+internal data class DrawerItem(
     val index: Int,
     val label: String,
     val icon: ImageVector,
 )
 
-/**
- * A labeled group of drawer items rendered under a section header.
- */
-private data class DrawerSection(
+internal data class DrawerSection(
     val title: String,
     val items: List<DrawerItem>,
 )
 
-/** Drawer items organised into four groups: Play, Create, Learn, Reference. */
 @Composable
 private fun drawerSections(): List<DrawerSection> = listOf(
     DrawerSection(stringResource(R.string.nav_section_play), listOf(
@@ -205,7 +200,6 @@ private fun drawerSections(): List<DrawerSection> = listOf(
         DrawerItem(NAV_LEARNING_PROGRESS, stringResource(R.string.nav_progress), Icons.Filled.Favorite),
         DrawerItem(NAV_DAILY_CHALLENGE, stringResource(R.string.nav_daily_challenge), Icons.Filled.Star),
         DrawerItem(NAV_PRACTICE_ROUTINE, stringResource(R.string.nav_practice_routine), Icons.Filled.PlayArrow),
-
         DrawerItem(NAV_CHORD_TRANSITION, stringResource(R.string.nav_chord_transitions), Icons.Filled.PlayArrow),
         DrawerItem(NAV_PLAY_ALONG, stringResource(R.string.nav_play_along), Icons.Filled.Mic),
         DrawerItem(NAV_ACHIEVEMENTS, stringResource(R.string.nav_achievements), Icons.Filled.Star),
@@ -220,22 +214,28 @@ private fun drawerSections(): List<DrawerSection> = listOf(
     )),
 )
 
+private data class SheetVoicingInfo(
+    val rootPitchClass: Int,
+    val chordSymbol: String,
+    val frets: List<Int>,
+)
+
+private fun navigateToChord(
+    chordName: String,
+    libraryViewModel: ChordLibraryViewModel,
+    switchTab: () -> Unit,
+) {
+    val result = ChordNameParser.parse(chordName) ?: return
+    libraryViewModel.selectRoot(result.rootPitchClass)
+    libraryViewModel.selectCategory(result.formula.category)
+    libraryViewModel.selectFormula(result.formula)
+    switchTab()
+}
+
 /**
  * Top-level screen composable for Ukulele Companion.
  *
- * Uses a [ModalNavigationDrawer] to navigate between sections:
- * Explorer, Chords, Patterns, Progressions, Favorites, and Songs.
- *
- * A hamburger menu icon in the top app bar opens the drawer.
- * Both Explorer and Chord Library share the same [FretboardViewModel]
- * so that selecting a voicing in the library can load it onto the
- * explorer's fretboard.
- *
- * @param fretboardViewModel The shared [FretboardViewModel] instance.
- * @param libraryViewModel The [ChordLibraryViewModel] for the library section.
- * @param settingsViewModel The shared [SettingsViewModel] for app-wide settings.
- * @param favoritesViewModel The [FavoritesViewModel] for managing favorites.
- * @param songbookViewModel The [SongbookViewModel] for managing chord sheets.
+ * Uses a [ModalNavigationDrawer] to navigate between sections.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -265,7 +265,6 @@ fun FretboardScreen(
     var showSettings by remember { mutableStateOf(false) }
     var showFullScreen by rememberSaveable { mutableStateOf(false) }
     var shareChordInfo by remember { mutableStateOf<ShareChordInfo?>(null) }
-    // State for the "Save to Folders" bottom sheet (shared between Library and Favorites)
     var sheetVoicing by remember { mutableStateOf<SheetVoicingInfo?>(null) }
     val currentFolders by favoritesViewModel.folders.collectAsState()
 
@@ -274,41 +273,35 @@ fun FretboardScreen(
         previousSection = null
     }
 
-    // Initialize BackupRestoreViewModel with SettingsViewModel reference
     LaunchedEffect(Unit) {
         backupRestoreViewModel.init(settingsViewModel)
     }
 
-    // Initialize sampled audio engine (loads OGG samples into SoundPool)
     val context = LocalContext.current
     LaunchedEffect(Unit) {
         ToneGenerator.init(context)
     }
 
-    // Achievement system
     val achievementRepository = remember { AchievementRepository(context) }
     var unlockedAchievementIds by remember {
         mutableStateOf(achievementRepository.getUnlocked().keys)
     }
 
-    // Review prompt system
     val reviewPromptRepository = remember { ReviewPromptRepository(context) }
     LaunchedEffect(Unit) {
         reviewPromptRepository.initFirstLaunch()
-        reviewPromptRepository.recordActiveDay() // Explorer (Play section) is the default screen
+        reviewPromptRepository.recordActiveDay()
     }
     var reviewPromptAchievement by remember { mutableStateOf<String?>(null) }
 
-    // Practice session timer — tracks time spent in the app
     val practiceTimerRepository = remember { PracticeTimerRepository(context) }
     val sessionStartMs = remember { System.currentTimeMillis() }
     var practiceStats by remember { mutableStateOf(practiceTimerRepository.stats()) }
 
-    // Record session when leaving the app (onStop/onDestroy via DisposableEffect)
     androidx.compose.runtime.DisposableEffect(Unit) {
         onDispose {
             val durationMs = System.currentTimeMillis() - sessionStartMs
-            if (durationMs >= 60_000L) { // Only record sessions >= 1 minute
+            if (durationMs >= 60_000L) {
                 practiceTimerRepository.recordSession(durationMs)
             }
         }
@@ -321,45 +314,36 @@ fun FretboardScreen(
 
     val appSettings by settingsViewModel.settings.collectAsState()
 
-    // Collect favorites so that isFavorite checks trigger recomposition
     val currentFavorites by favoritesViewModel.favorites.collectAsState()
 
-    // Collect custom progressions
     val customProgressions by customProgressionViewModel.progressions.collectAsState()
 
-    // Keep FretboardViewModel in sync with sound settings
     LaunchedEffect(appSettings.sound) {
         fretboardViewModel.setSoundSettings(appSettings.sound)
         melodyViewModel.setSoundSettings(appSettings.sound)
     }
 
-    // Initialize MelodyViewModel with application context
     LaunchedEffect(Unit) {
         melodyViewModel.setApplicationContext(context)
     }
 
-    // Sync tuning settings
     LaunchedEffect(appSettings.tuning) {
         fretboardViewModel.setTuningSettings(appSettings.tuning)
         libraryViewModel.setTuning(fretboardViewModel.tuning)
     }
 
-    // Sync fret count setting
     LaunchedEffect(appSettings.fretboard.lastFret) {
         fretboardViewModel.setLastFret(appSettings.fretboard.lastFret)
     }
 
-    // Sync muted strings setting with chord library
     LaunchedEffect(appSettings.fretboard.allowMutedStrings) {
         libraryViewModel.setAllowMutedStrings(appSettings.fretboard.allowMutedStrings)
     }
 
-    // Sync show-note-names setting
     LaunchedEffect(appSettings.fretboard.showNoteNames) {
         fretboardViewModel.setShowNoteNames(appSettings.fretboard.showNoteNames)
     }
 
-    // Sync noise gate filtering to all recording features
     LaunchedEffect(appSettings.sound.noiseGateFiltering) {
         val rms = SoundSettings.filteringToRms(appSettings.sound.noiseGateFiltering)
         tunerViewModel.setNoiseGateRms(rms)
@@ -367,12 +351,10 @@ fun FretboardScreen(
         melodyViewModel.setNoiseGateRms(rms)
     }
 
-    // Restore scale practice settings once
     LaunchedEffect(Unit) {
         scalePracticeViewModel.restoreSettings(appSettings.scalePractice)
     }
 
-    // Full-screen landscape fretboard mode
     if (showFullScreen) {
         FullScreenFretboard(
             viewModel = fretboardViewModel,
@@ -453,7 +435,6 @@ fun FretboardScreen(
                     .fillMaxSize()
                     .padding(innerPadding),
             ) {
-                // Section content
                 when (selectedSection) {
                     NAV_EXPLORER -> ExplorerTabContent(
                         viewModel = fretboardViewModel,
@@ -529,7 +510,6 @@ fun FretboardScreen(
                             )
                         },
                     isFavorite = { voicing ->
-                        // Reference currentFavorites to trigger recomposition on change
                         val state = libraryViewModel.uiState.value
                         val symbol = state.selectedFormula?.symbol ?: ""
                         val key = "${state.selectedRoot}|$symbol|${voicing.frets.joinToString(",")}"
@@ -726,7 +706,6 @@ fun FretboardScreen(
                         },
                     )
                     NAV_ACHIEVEMENTS -> {
-                        // Check for new achievements whenever the view is shown
                         val progressState by learningProgressViewModel.state.collectAsState()
                         val sheetsState by songbookViewModel.sheets.collectAsState()
                         val achievementContext = progressState.toAchievementContext(
@@ -801,7 +780,6 @@ fun FretboardScreen(
         }
     }
 
-    // Settings bottom sheet
     if (showSettings) {
         SettingsSheet(
             soundSettings = appSettings.sound,
@@ -830,7 +808,6 @@ fun FretboardScreen(
         )
     }
 
-    // Review prompt dialog (triggered after achievement unlock when eligible)
     reviewPromptAchievement?.let { achievementId ->
         ReviewPromptDialog(
             achievementId = achievementId,
@@ -839,7 +816,6 @@ fun FretboardScreen(
         )
     }
 
-    // Share chord bottom sheet
     shareChordInfo?.let { info ->
         ShareChordBottomSheet(
             info = info,
@@ -847,7 +823,6 @@ fun FretboardScreen(
         )
     }
 
-    // "Save to Folders" bottom sheet (shared between Chord Library and Favorites tabs)
     sheetVoicing?.let { info ->
         val isAlreadyFavorited = favoritesViewModel.isFavorite(
             info.rootPitchClass, info.chordSymbol, info.frets,
@@ -899,450 +874,6 @@ private fun ConstrainedWidthContent(
             Box(modifier = Modifier.widthIn(max = 840.dp)) {
                 content()
             }
-        }
-    }
-}
-
-@Composable
-private fun DrawerContent(
-    visibleSections: List<DrawerSection>,
-    expandedState: MutableMap<String, Boolean>,
-    selectedSection: Int,
-    onItemSelected: (Int) -> Unit,
-) {
-    Column(
-        modifier = Modifier.verticalScroll(rememberScrollState()),
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 28.dp, vertical = 24.dp),
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFF0F4C6B)),
-                contentAlignment = Alignment.Center,
-            ) {
-                Image(
-                    painter = painterResource(R.mipmap.ic_launcher_foreground),
-                    contentDescription = null,
-                    modifier = Modifier.size(36.dp),
-                )
-            }
-            Spacer(modifier = Modifier.width(12.dp))
-            Text(
-                text = stringResource(R.string.app_full_name),
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.semantics { heading() },
-            )
-        }
-        visibleSections.forEachIndexed { sectionIndex, section ->
-            if (sectionIndex > 0) {
-                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            }
-            val expanded = expandedState.getOrPut(section.title) { true }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { expandedState[section.title] = !expanded }
-                    .padding(horizontal = 28.dp, vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = section.title,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.semantics { heading() },
-                )
-                Icon(
-                    imageVector = if (expanded) Icons.Filled.ExpandLess
-                    else Icons.Filled.ExpandMore,
-                    contentDescription = if (expanded) {
-                        stringResource(R.string.cd_collapse_section, section.title)
-                    } else {
-                        stringResource(R.string.cd_expand_section, section.title)
-                    },
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(20.dp),
-                )
-            }
-            AnimatedVisibility(
-                visible = expanded,
-                enter = expandVertically(),
-                exit = shrinkVertically(),
-            ) {
-                Column {
-                    section.items.forEach { item ->
-                        NavigationDrawerItem(
-                            icon = { Icon(item.icon, contentDescription = item.label) },
-                            label = { Text(item.label) },
-                            selected = selectedSection == item.index,
-                            onClick = { onItemSelected(item.index) },
-                            modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-                        )
-                    }
-                }
-            }
-        }
-
-        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-        NavigationDrawerItem(
-            icon = { Icon(Icons.Filled.Info, contentDescription = stringResource(R.string.nav_help)) },
-            label = { Text(stringResource(R.string.nav_help)) },
-            selected = selectedSection == NAV_HELP,
-            onClick = { onItemSelected(NAV_HELP) },
-            modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(R.string.drawer_copyright),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp),
-        )
-    }
-}
-
-/**
- * Holds the identifying information for a voicing whose folder sheet is open.
- */
-private data class SheetVoicingInfo(
-    val rootPitchClass: Int,
-    val chordSymbol: String,
-    val frets: List<Int>,
-)
-
-/**
- * Navigates to the Chord Library tab with the given chord name parsed into root + quality.
- */
-private fun navigateToChord(
-    chordName: String,
-    libraryViewModel: ChordLibraryViewModel,
-    switchTab: () -> Unit,
-) {
-    val result = ChordNameParser.parse(chordName) ?: return
-    libraryViewModel.selectRoot(result.rootPitchClass)
-    libraryViewModel.selectCategory(result.formula.category)
-    libraryViewModel.selectFormula(result.formula)
-    switchTab()
-}
-
-/**
- * Content for the Explorer tab — the original interactive fretboard UI.
- *
- * @param viewModel The [FretboardViewModel] managing fretboard state.
- * @param soundEnabled Whether sound playback is enabled (controls play button visibility).
- */
-@Composable
-private fun ExplorerTabContent(
-    viewModel: FretboardViewModel,
-    settingsViewModel: SettingsViewModel,
-    soundEnabled: Boolean,
-    leftHanded: Boolean = false,
-    showTips: Boolean = false,
-    showDidYouKnow: Boolean = true,
-    onDismissTips: () -> Unit = {},
-    onFullScreen: () -> Unit = {},
-    onShareChord: ((ChordVoicing, String, String?) -> Unit)? = null,
-    onShowInLibrary: ((rootPitchClass: Int, formula: com.baijum.ukufretboard.data.ChordFormula) -> Unit)? = null,
-    isTabletWidth: Boolean = false,
-) {
-    val uiState by viewModel.uiState.collectAsState()
-    val currentTuning = uiState.tuning.ifEmpty { viewModel.tuning }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-    ) {
-        if (showTips) {
-            ExplorerTipsCard(onDismiss = onDismissTips)
-        }
-
-        // Scale selector (collapsible)
-        ScaleSelector(
-            state = uiState.scaleOverlay,
-            tuningPitchClasses = currentTuning.map { it.openPitchClass },
-            onRootChanged = viewModel::setScaleRoot,
-            onScaleChanged = viewModel::setScale,
-            onToggle = viewModel::toggleScaleOverlay,
-            onPositionChanged = { position ->
-                viewModel.setScalePositionRange(position?.fretRange)
-            },
-            onChordTapped = { chord ->
-                val formula = com.baijum.ukufretboard.data.ChordFormulas.ALL
-                    .firstOrNull { it.symbol == chord.quality }
-                if (formula != null) {
-                    val voicings = com.baijum.ukufretboard.data.VoicingGenerator.generate(
-                        rootPitchClass = chord.rootPitchClass,
-                        formula = formula,
-                        tuning = currentTuning,
-                    )
-                    voicings.firstOrNull()?.let { viewModel.applyVoicing(it) }
-                }
-            },
-        )
-
-        // Interactive fretboard
-        val fretboardCellSize = if (isTabletWidth) 64.dp else 48.dp
-        FretboardView(
-            tuning = currentTuning,
-            selections = uiState.selections,
-            showNoteNames = uiState.showNoteNames,
-            onFretTap = viewModel::toggleFret,
-            getNoteAt = viewModel::getNoteAt,
-            leftHanded = leftHanded,
-            scaleNotes = if (uiState.scaleOverlay.enabled) uiState.scaleOverlay.scaleNotes else emptySet(),
-            scaleRoot = if (uiState.scaleOverlay.enabled) uiState.scaleOverlay.root else null,
-            scalePositionFretRange = if (uiState.scaleOverlay.enabled) uiState.scaleOverlay.positionFretRange else null,
-            capoFret = uiState.capoFret,
-            lastFret = uiState.lastFret,
-            cellWidth = fretboardCellSize,
-            cellHeight = fretboardCellSize,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp, bottom = 16.dp),
-        )
-
-        // Capo selector
-        CapoSelector(
-            capoFret = uiState.capoFret,
-            lastFret = uiState.lastFret,
-            onCapoChange = viewModel::setCapoFret,
-            modifier = Modifier.fillMaxWidth(),
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Action buttons
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(
-                space = 12.dp,
-                alignment = Alignment.CenterHorizontally,
-            ),
-        ) {
-            OutlinedButton(onClick = viewModel::clearAll) {
-                Text(stringResource(R.string.explorer_reset))
-            }
-            OutlinedButton(onClick = viewModel::toggleScaleOverlay) {
-                Text(if (uiState.scaleOverlay.enabled) stringResource(R.string.explorer_hide_scale) else stringResource(R.string.explorer_scales))
-            }
-            IconButton(onClick = onFullScreen) {
-                Icon(
-                    imageVector = Icons.Filled.Fullscreen,
-                    contentDescription = stringResource(R.string.cd_full_screen),
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Chord detection result with play button and detailed info
-        val fretsList = uiState.selections.entries
-            .sortedBy { it.key }
-            .map { it.value ?: 0 }
-
-        // Build share callback only when a chord is found
-        val shareCallback: (() -> Unit)? = if (
-            onShareChord != null &&
-            uiState.detectionResult is com.baijum.ukufretboard.domain.ChordDetector.DetectionResult.ChordFound
-        ) {
-            val chordFound = uiState.detectionResult as com.baijum.ukufretboard.domain.ChordDetector.DetectionResult.ChordFound
-            val chordResult = chordFound.result
-            val formula = chordResult.matchedFormula
-            // Use capo-adjusted frets for inversion/bass calculation
-            val capoAdjustedFrets = fretsList.map { it + uiState.capoFret }
-            val inversion = if (capoAdjustedFrets.size == 4 && formula != null) {
-                ChordInfo.determineInversion(capoAdjustedFrets, chordResult.root.pitchClass, formula, currentTuning)
-            } else null
-            val invLabel = if (inversion != null && inversion != ChordInfo.Inversion.ROOT) inversion.localizedLabel() else null
-            val displayName = if (inversion != null && inversion != ChordInfo.Inversion.ROOT) {
-                val bassPc = ChordInfo.bassPitchClass(capoAdjustedFrets, currentTuning)
-                ChordInfo.slashNotation(chordResult.name, inversion, bassPc)
-            } else {
-                chordResult.name
-            }
-            val shareVoicing = ChordVoicing(
-                frets = fretsList,
-                notes = chordResult.notes,
-                minFret = fretsList.filter { it > 0 }.minOrNull() ?: 0,
-                maxFret = fretsList.maxOrNull() ?: 0,
-            );
-            { onShareChord(shareVoicing, displayName, invLabel) }
-        } else {
-            null
-        }
-
-        // Build library navigation callback only when a chord with a known formula is found
-        val showInLibraryCallback: (() -> Unit)? = if (
-            onShowInLibrary != null &&
-            uiState.detectionResult is com.baijum.ukufretboard.domain.ChordDetector.DetectionResult.ChordFound
-        ) {
-            val chordFound = uiState.detectionResult as com.baijum.ukufretboard.domain.ChordDetector.DetectionResult.ChordFound
-            val formula = chordFound.result.matchedFormula
-            if (formula != null) {
-                { onShowInLibrary(chordFound.result.root.pitchClass, formula) }
-            } else null
-        } else null
-
-        ChordResultView(
-            detectionResult = uiState.detectionResult,
-            fingerPositions = uiState.fingerPositions,
-            onPlayChord = viewModel::playChord,
-            soundEnabled = soundEnabled,
-            frets = fretsList,
-            tuning = currentTuning,
-            capoFret = uiState.capoFret,
-            onShareChord = shareCallback,
-            onShowInLibrary = showInLibraryCallback,
-            onAlternateChordTapped = if (onShowInLibrary != null) {
-                { alt -> onShowInLibrary(alt.rootPitchClass, alt.formula) }
-            } else null,
-            onSuggestedChordTapped = { rootPitchClass, symbol ->
-                val formula = com.baijum.ukufretboard.data.ChordFormulas.ALL
-                    .firstOrNull { it.symbol == symbol }
-                if (formula != null) {
-                    val voicings = com.baijum.ukufretboard.data.VoicingGenerator.generate(
-                        rootPitchClass = rootPitchClass,
-                        formula = formula,
-                        tuning = currentTuning,
-                    )
-                    voicings.firstOrNull()?.let { viewModel.applyVoicing(it) }
-                }
-            },
-            showDidYouKnow = showDidYouKnow,
-            modifier = Modifier.fillMaxWidth(),
-        )
-    }
-}
-
-/**
- * Dismissible tips card shown on the Explorer screen for first-time users.
- * Explains tapping, scales, and capo features.
- */
-@Composable
-private fun ExplorerTipsCard(onDismiss: () -> Unit) {
-    ElevatedCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp),
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = stringResource(R.string.explorer_tips_title),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.semantics { heading() },
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            TipRow(
-                icon = Icons.Filled.TouchApp,
-                text = stringResource(R.string.explorer_tips_tap),
-            )
-            TipRow(
-                icon = Icons.Filled.MusicNote,
-                text = stringResource(R.string.explorer_tips_scales),
-            )
-            TipRow(
-                icon = Icons.Filled.Equalizer,
-                text = stringResource(R.string.explorer_tips_capo),
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                Button(onClick = onDismiss) {
-                    Text(stringResource(R.string.explorer_tips_dismiss))
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun TipRow(icon: ImageVector, text: String) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(24.dp),
-        )
-        Spacer(modifier = Modifier.width(12.dp))
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyMedium,
-        )
-    }
-}
-
-/**
- * Compact capo position selector with minus/plus buttons and a fret label.
- *
- * Displays "No capo" when fret is 0, otherwise shows "Capo: fret N".
- */
-@Composable
-private fun CapoSelector(
-    capoFret: Int,
-    lastFret: Int = FretboardViewModel.LAST_FRET,
-    onCapoChange: (Int) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier.padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-    ) {
-        Text(
-            text = stringResource(R.string.label_capo),
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        Spacer(modifier = Modifier.width(12.dp))
-        IconButton(
-            onClick = { onCapoChange((capoFret - 1).coerceAtLeast(0)) },
-            enabled = capoFret > 0,
-        ) {
-            Text(
-                text = "−",
-                style = MaterialTheme.typography.titleLarge,
-                color = if (capoFret > 0)
-                    MaterialTheme.colorScheme.primary
-                else
-                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
-            )
-        }
-        Text(
-            text = if (capoFret == 0) stringResource(R.string.explorer_capo_off) else "$capoFret",
-            style = MaterialTheme.typography.titleMedium,
-            color = if (capoFret > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.width(32.dp),
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-        )
-        IconButton(
-            onClick = { onCapoChange((capoFret + 1).coerceAtMost(lastFret)) },
-            enabled = capoFret < lastFret,
-        ) {
-            Text(
-                text = "+",
-                style = MaterialTheme.typography.titleLarge,
-                color = if (capoFret < lastFret)
-                    MaterialTheme.colorScheme.primary
-                else
-                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
-            )
         }
     }
 }
