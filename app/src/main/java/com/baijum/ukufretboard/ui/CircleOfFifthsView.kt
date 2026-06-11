@@ -1,6 +1,7 @@
 package com.baijum.ukufretboard.ui
 
 import androidx.compose.foundation.Canvas
+import com.baijum.ukufretboard.domain.ChordNameParser
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -417,12 +418,8 @@ private fun MajorKeyDetail(
                     SuggestionChip(
                         onClick = {
                             if (onChordTapped != null) {
-                                val root = chordName.takeWhile { it.isLetter() || it == '#' || it == 'b' }
-                                val quality = chordName.removePrefix(root)
-                                val rootPc = Notes.NOTE_NAMES_SHARP.indexOf(root).takeIf { it >= 0 }
-                                    ?: Notes.NOTE_NAMES_FLAT.indexOf(root).takeIf { it >= 0 }
-                                    ?: return@SuggestionChip
-                                onChordTapped(rootPc, quality)
+                                val parsed = ChordNameParser.parse(chordName) ?: return@SuggestionChip
+                                onChordTapped(parsed.rootPitchClass, parsed.formula.symbol)
                             }
                         },
                         label = {
@@ -538,12 +535,8 @@ private fun MinorKeyDetail(
                     SuggestionChip(
                         onClick = {
                             if (onChordTapped != null) {
-                                val root = chordName.takeWhile { it.isLetter() || it == '#' || it == 'b' }
-                                val quality = chordName.removePrefix(root)
-                                val rootPc = Notes.NOTE_NAMES_SHARP.indexOf(root).takeIf { it >= 0 }
-                                    ?: Notes.NOTE_NAMES_FLAT.indexOf(root).takeIf { it >= 0 }
-                                    ?: return@SuggestionChip
-                                onChordTapped(rootPc, quality)
+                                val parsed = ChordNameParser.parse(chordName) ?: return@SuggestionChip
+                                onChordTapped(parsed.rootPitchClass, parsed.formula.symbol)
                             }
                         },
                         label = {
