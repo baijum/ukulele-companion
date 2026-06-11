@@ -67,11 +67,11 @@ import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.PracticeTimerRepository
 import com.baijum.ukufretboard.data.ReviewPromptRepository
 import com.baijum.ukufretboard.data.SoundSettings
-import com.baijum.ukufretboard.domain.AchievementChecker
+import com.baijum.ukufretboard.domain.Achievements
 import com.baijum.ukufretboard.domain.ChordInfo
 import com.baijum.ukufretboard.domain.ChordNameParser
 import com.baijum.ukufretboard.domain.ChordVoicing
-import com.baijum.ukufretboard.domain.toAchievementContext
+import com.baijum.ukufretboard.viewmodel.toAchievementContext
 import com.baijum.ukufretboard.ui.AchievementsView
 import com.baijum.ukufretboard.ui.CapoGuideView
 import com.baijum.ukufretboard.ui.ChordEarTrainingView
@@ -712,7 +712,7 @@ fun FretboardScreen(
                             songsCount = sheetsState.size,
                             favoritesCount = currentFavorites.size,
                         )
-                        val newlyEarned = AchievementChecker.checkNewlyEarned(
+                        val newlyEarned = Achievements.checkNewlyEarned(
                             achievementContext,
                             unlockedAchievementIds,
                         )

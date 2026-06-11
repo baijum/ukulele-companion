@@ -1,6 +1,15 @@
 package com.baijum.ukufretboard.ui
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.ChordCategory
@@ -252,6 +261,21 @@ fun achievementDescription(id: String): String = stringResource(
         else -> R.string.app_name
     },
 )
+
+/**
+ * Returns the Material icon for an achievement, looked up by its unique ID.
+ */
+fun achievementIcon(id: String): ImageVector = when (id) {
+    "streak_3", "streak_7", "streak_30" -> Icons.Filled.Star
+    "first_lesson", "half_lessons", "all_lessons" -> Icons.Filled.Info
+    "quiz_10", "quiz_50", "quiz_100" -> Icons.Filled.Search
+    "perfect_streak_5", "perfect_streak_10" -> Icons.Filled.Star
+    "ear_first", "ear_50", "ear_accuracy_80" -> Icons.Filled.PlayArrow
+    "first_song", "songs_5", "songs_10" -> Icons.Filled.Create
+    "fav_5", "fav_25" -> Icons.Filled.Favorite
+    "scale_first", "scale_25" -> Icons.Filled.Home
+    else -> Icons.Filled.Star
+}
 
 /**
  * Returns the localized theory module name.

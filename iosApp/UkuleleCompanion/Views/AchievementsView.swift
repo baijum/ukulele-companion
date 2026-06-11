@@ -1,13 +1,12 @@
 import SwiftUI
 import shared
 
-struct AchievementDef: Identifiable {
+struct AchievementDisplayInfo: Identifiable {
     let id: String
     let title: String
     let description: String
     let icon: String
     let category: AchievementCategorySwift
-    let condition: (AchievementContextSwift) -> Bool
 }
 
 enum AchievementCategorySwift: String, CaseIterable {
@@ -38,57 +37,37 @@ enum AchievementCategorySwift: String, CaseIterable {
     }
 }
 
-struct AchievementContextSwift {
-    let currentStreak: Int
-    let bestStreak: Int
-    let completedLessons: Int
-    let totalLessons: Int
-    let quizCorrect: Int
-    let quizBestStreak: Int
-    let intervalTotal: Int
-    let intervalCorrect: Int
-    let chordEarTotal: Int
-    let chordEarCorrect: Int
-    let scalePracticeTotal: Int
-    let songsCount: Int
-    let favoritesCount: Int
-}
-
-private nonisolated(unsafe) let allAchievements: [AchievementDef] = [
+private nonisolated(unsafe) let allAchievements: [AchievementDisplayInfo] = [
     // Practice
-    AchievementDef(id: "streak_3", title: String(localized: "achievement_streak_3_title"), description: String(localized: "achievement_streak_3_desc"), icon: "star.fill", category: .practice) { $0.currentStreak >= 3 },
-    AchievementDef(id: "streak_7", title: String(localized: "achievement_streak_7_title"), description: String(localized: "achievement_streak_7_desc"), icon: "star.fill", category: .practice) { $0.currentStreak >= 7 },
-    AchievementDef(id: "streak_30", title: String(localized: "achievement_streak_30_title"), description: String(localized: "achievement_streak_30_desc"), icon: "star.fill", category: .practice) { $0.currentStreak >= 30 },
-    AchievementDef(id: "scale_first", title: String(localized: "achievement_scale_first_title"), description: String(localized: "achievement_scale_first_desc"), icon: "figure.walk", category: .practice) { $0.scalePracticeTotal >= 1 },
-    AchievementDef(id: "scale_25", title: String(localized: "achievement_scale_25_title"), description: String(localized: "achievement_scale_25_desc"), icon: "figure.walk", category: .practice) { $0.scalePracticeTotal >= 25 },
+    AchievementDisplayInfo(id: "streak_3", title: String(localized: "achievement_streak_3_title"), description: String(localized: "achievement_streak_3_desc"), icon: "star.fill", category: .practice),
+    AchievementDisplayInfo(id: "streak_7", title: String(localized: "achievement_streak_7_title"), description: String(localized: "achievement_streak_7_desc"), icon: "star.fill", category: .practice),
+    AchievementDisplayInfo(id: "streak_30", title: String(localized: "achievement_streak_30_title"), description: String(localized: "achievement_streak_30_desc"), icon: "star.fill", category: .practice),
+    AchievementDisplayInfo(id: "scale_first", title: String(localized: "achievement_scale_first_title"), description: String(localized: "achievement_scale_first_desc"), icon: "figure.walk", category: .practice),
+    AchievementDisplayInfo(id: "scale_25", title: String(localized: "achievement_scale_25_title"), description: String(localized: "achievement_scale_25_desc"), icon: "figure.walk", category: .practice),
 
     // Learning
-    AchievementDef(id: "first_lesson", title: String(localized: "achievement_first_lesson_title"), description: String(localized: "achievement_first_lesson_desc"), icon: "book.fill", category: .learning) { $0.completedLessons >= 1 },
-    AchievementDef(id: "half_lessons", title: String(localized: "achievement_half_lessons_title"), description: String(localized: "achievement_half_lessons_desc"), icon: "book.fill", category: .learning) { $0.totalLessons > 0 && $0.completedLessons >= $0.totalLessons / 2 },
-    AchievementDef(id: "all_lessons", title: String(localized: "achievement_all_lessons_title"), description: String(localized: "achievement_all_lessons_desc"), icon: "book.fill", category: .learning) { $0.totalLessons > 0 && $0.completedLessons >= $0.totalLessons },
-    AchievementDef(id: "quiz_10", title: String(localized: "achievement_quiz_10_title"), description: String(localized: "achievement_quiz_10_desc"), icon: "book.fill", category: .learning) { $0.quizCorrect >= 10 },
-    AchievementDef(id: "quiz_50", title: String(localized: "achievement_quiz_50_title"), description: String(localized: "achievement_quiz_50_desc"), icon: "book.fill", category: .learning) { $0.quizCorrect >= 50 },
-    AchievementDef(id: "quiz_100", title: String(localized: "achievement_quiz_100_title"), description: String(localized: "achievement_quiz_100_desc"), icon: "book.fill", category: .learning) { $0.quizCorrect >= 100 },
-    AchievementDef(id: "perfect_streak_5", title: String(localized: "achievement_perfect_streak_5_title"), description: String(localized: "achievement_perfect_streak_5_desc"), icon: "star.fill", category: .learning) { $0.quizBestStreak >= 5 },
-    AchievementDef(id: "perfect_streak_10", title: String(localized: "achievement_perfect_streak_10_title"), description: String(localized: "achievement_perfect_streak_10_desc"), icon: "star.fill", category: .learning) { $0.quizBestStreak >= 10 },
+    AchievementDisplayInfo(id: "first_lesson", title: String(localized: "achievement_first_lesson_title"), description: String(localized: "achievement_first_lesson_desc"), icon: "book.fill", category: .learning),
+    AchievementDisplayInfo(id: "half_lessons", title: String(localized: "achievement_half_lessons_title"), description: String(localized: "achievement_half_lessons_desc"), icon: "book.fill", category: .learning),
+    AchievementDisplayInfo(id: "all_lessons", title: String(localized: "achievement_all_lessons_title"), description: String(localized: "achievement_all_lessons_desc"), icon: "book.fill", category: .learning),
+    AchievementDisplayInfo(id: "quiz_10", title: String(localized: "achievement_quiz_10_title"), description: String(localized: "achievement_quiz_10_desc"), icon: "book.fill", category: .learning),
+    AchievementDisplayInfo(id: "quiz_50", title: String(localized: "achievement_quiz_50_title"), description: String(localized: "achievement_quiz_50_desc"), icon: "book.fill", category: .learning),
+    AchievementDisplayInfo(id: "quiz_100", title: String(localized: "achievement_quiz_100_title"), description: String(localized: "achievement_quiz_100_desc"), icon: "book.fill", category: .learning),
+    AchievementDisplayInfo(id: "perfect_streak_5", title: String(localized: "achievement_perfect_streak_5_title"), description: String(localized: "achievement_perfect_streak_5_desc"), icon: "star.fill", category: .learning),
+    AchievementDisplayInfo(id: "perfect_streak_10", title: String(localized: "achievement_perfect_streak_10_title"), description: String(localized: "achievement_perfect_streak_10_desc"), icon: "star.fill", category: .learning),
 
     // Ear
-    AchievementDef(id: "ear_first", title: String(localized: "achievement_ear_first_title"), description: String(localized: "achievement_ear_first_desc"), icon: "ear.fill", category: .ear) { $0.intervalTotal >= 1 || $0.chordEarTotal >= 1 },
-    AchievementDef(id: "ear_50", title: String(localized: "achievement_ear_50_title"), description: String(localized: "achievement_ear_50_desc"), icon: "ear.fill", category: .ear) { ($0.intervalTotal + $0.chordEarTotal) >= 50 },
-    AchievementDef(id: "ear_accuracy_80", title: String(localized: "achievement_ear_accuracy_80_title"), description: String(localized: "achievement_ear_accuracy_80_desc"), icon: "ear.fill", category: .ear) {
-        let total = $0.intervalTotal + $0.chordEarTotal
-        let correct = $0.intervalCorrect + $0.chordEarCorrect
-        return total >= 50 && correct * 100 / total >= 80
-    },
+    AchievementDisplayInfo(id: "ear_first", title: String(localized: "achievement_ear_first_title"), description: String(localized: "achievement_ear_first_desc"), icon: "ear.fill", category: .ear),
+    AchievementDisplayInfo(id: "ear_50", title: String(localized: "achievement_ear_50_title"), description: String(localized: "achievement_ear_50_desc"), icon: "ear.fill", category: .ear),
+    AchievementDisplayInfo(id: "ear_accuracy_80", title: String(localized: "achievement_ear_accuracy_80_title"), description: String(localized: "achievement_ear_accuracy_80_desc"), icon: "ear.fill", category: .ear),
 
     // Songs
-    AchievementDef(id: "first_song", title: String(localized: "achievement_first_song_title"), description: String(localized: "achievement_first_song_desc"), icon: "music.note.list", category: .songs) { $0.songsCount >= 1 },
-    AchievementDef(id: "songs_5", title: String(localized: "achievement_songs_5_title"), description: String(localized: "achievement_songs_5_desc"), icon: "music.note.list", category: .songs) { $0.songsCount >= 5 },
-    AchievementDef(id: "songs_10", title: String(localized: "achievement_songs_10_title"), description: String(localized: "achievement_songs_10_desc"), icon: "music.note.list", category: .songs) { $0.songsCount >= 10 },
+    AchievementDisplayInfo(id: "first_song", title: String(localized: "achievement_first_song_title"), description: String(localized: "achievement_first_song_desc"), icon: "music.note.list", category: .songs),
+    AchievementDisplayInfo(id: "songs_5", title: String(localized: "achievement_songs_5_title"), description: String(localized: "achievement_songs_5_desc"), icon: "music.note.list", category: .songs),
+    AchievementDisplayInfo(id: "songs_10", title: String(localized: "achievement_songs_10_title"), description: String(localized: "achievement_songs_10_desc"), icon: "music.note.list", category: .songs),
 
     // Chords
-    AchievementDef(id: "fav_5", title: String(localized: "achievement_fav_5_title"), description: String(localized: "achievement_fav_5_desc"), icon: "heart.fill", category: .chords) { $0.favoritesCount >= 5 },
-    AchievementDef(id: "fav_25", title: String(localized: "achievement_fav_25_title"), description: String(localized: "achievement_fav_25_desc"), icon: "heart.fill", category: .chords) { $0.favoritesCount >= 25 },
+    AchievementDisplayInfo(id: "fav_5", title: String(localized: "achievement_fav_5_title"), description: String(localized: "achievement_fav_5_desc"), icon: "heart.fill", category: .chords),
+    AchievementDisplayInfo(id: "fav_25", title: String(localized: "achievement_fav_25_title"), description: String(localized: "achievement_fav_25_desc"), icon: "heart.fill", category: .chords),
 ]
 
 struct AchievementsView: View {
@@ -100,11 +79,12 @@ struct AchievementsView: View {
         let _ = learnVM.stateVersion
         let context = buildContext()
         let unlocked = learnVM.unlockedAchievementIds
+        let earnedIds = Achievements.shared.earned(context: context) as? Set<String> ?? Set()
 
         ScrollView {
             VStack(spacing: 16) {
                 // Summary
-                let unlockedCount = allAchievements.filter { unlocked.contains($0.id) || $0.condition(context) }.count
+                let unlockedCount = allAchievements.filter { unlocked.contains($0.id) || earnedIds.contains($0.id) }.count
                 Text(String(format: String(localized: "achievements_unlocked"), unlockedCount))
                     .font(.headline)
                     .padding()
@@ -119,7 +99,7 @@ struct AchievementsView: View {
                                 .accessibilityAddTraits(.isHeader)
 
                             ForEach(categoryAchievements) { achievement in
-                                let isUnlocked = unlocked.contains(achievement.id) || achievement.condition(context)
+                                let isUnlocked = unlocked.contains(achievement.id) || earnedIds.contains(achievement.id)
                                 achievementRow(achievement, unlocked: isUnlocked)
                             }
                         }
@@ -145,7 +125,7 @@ struct AchievementsView: View {
         }
     }
 
-    private func achievementRow(_ achievement: AchievementDef, unlocked: Bool) -> some View {
+    private func achievementRow(_ achievement: AchievementDisplayInfo, unlocked: Bool) -> some View {
         HStack(spacing: 12) {
             Image(systemName: achievement.icon)
                 .font(.title2)
@@ -179,7 +159,7 @@ struct AchievementsView: View {
         .accessibilityCombined(label: achievement.title, value: "\(achievement.description). \(unlocked ? "Unlocked" : "Locked")")
     }
 
-    private func buildContext() -> AchievementContextSwift {
+    private func buildContext() -> AchievementContext {
         let totalLessons = TheoryLessons.shared.ALL.asArray(of: TheoryLesson.self).count
         let quizStats = learnVM.quizStats()
         let intervalStats = learnVM.intervalStats()
@@ -202,27 +182,29 @@ struct AchievementsView: View {
             favCount = arr.count
         }
 
-        return AchievementContextSwift(
-            currentStreak: learnVM.currentDayStreak(),
-            bestStreak: learnVM.bestDayStreak(),
-            completedLessons: learnVM.completedLessonCount(),
-            totalLessons: totalLessons,
-            quizCorrect: quizStats.correct,
-            quizBestStreak: quizStats.bestStreak,
-            intervalTotal: intervalStats.total,
-            intervalCorrect: intervalStats.correct,
-            chordEarTotal: chordEarStats.total,
-            chordEarCorrect: chordEarStats.correct,
-            scalePracticeTotal: scaleStats.total,
-            songsCount: songsCount,
-            favoritesCount: favCount
+        return AchievementContext(
+            currentStreak: Int32(learnVM.currentDayStreak()),
+            bestStreak: Int32(learnVM.bestDayStreak()),
+            completedLessons: Int32(learnVM.completedLessonCount()),
+            totalLessons: Int32(totalLessons),
+            quizCorrect: Int32(quizStats.correct),
+            quizTotal: Int32(quizStats.total),
+            quizBestStreak: Int32(quizStats.bestStreak),
+            intervalTotal: Int32(intervalStats.total),
+            intervalCorrect: Int32(intervalStats.correct),
+            chordEarTotal: Int32(chordEarStats.total),
+            chordEarCorrect: Int32(chordEarStats.correct),
+            scalePracticeTotal: Int32(scaleStats.total),
+            songsCount: Int32(songsCount),
+            favoritesCount: Int32(favCount)
         )
     }
 
-    private func checkNewAchievements(context: AchievementContextSwift, unlocked: Set<String>) {
+    private func checkNewAchievements(context: AchievementContext, unlocked: Set<String>) {
+        let earnedIds = Achievements.shared.earned(context: context) as? Set<String> ?? Set()
         var firstNewTitle: String?
         for achievement in allAchievements {
-            if !unlocked.contains(achievement.id) && achievement.condition(context) {
+            if !unlocked.contains(achievement.id) && earnedIds.contains(achievement.id) {
                 learnVM.unlockAchievement(achievement.id)
                 if firstNewTitle == nil { firstNewTitle = achievement.title }
             }
