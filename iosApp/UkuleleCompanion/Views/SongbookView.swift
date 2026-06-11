@@ -1168,12 +1168,8 @@ struct SongViewerView: View {
     private func chordPopover(chord: String) -> some View {
         let parsed = ChordNameParser.shared.parse(input: chord)
         let rootPc = parsed?.rootPitchClass ?? 0
-        let formula: ChordFormula
-        if let p = parsed {
-            formula = p.formula
-        } else {
-            formula = (ChordFormulas.shared.ALL as! [ChordFormula]).first { $0.symbol == "" }!
-        }
+        let formula = parsed?.formula
+            ?? (ChordFormulas.shared.ALL as! [ChordFormula]).first { $0.symbol == "" }!
 
         let tuning = (0..<4).map { i -> shared.UkuleleString in
             let t = UkuleleTuning.highG
