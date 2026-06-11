@@ -50,6 +50,12 @@ struct ProgressionsView: View {
                 initialScaleType: scaleType
             )
         }
+        .onDisappear {
+            playbackState.isPlaying = false
+            playbackState.playingId = nil
+            playbackState.currentChordIndex = 0
+            tonePlayer.stop()
+        }
         .alert("Delete progression?", isPresented: showingDeleteAlert) {
             Button("Cancel", role: .cancel) {
                 deletingCustomId = nil
@@ -744,6 +750,10 @@ private struct ProgressionPlaybackBar: View {
                 .accessibilityLabel(state.loop ? "Loop on" : "Loop off")
             }
         }
+        .onDisappear {
+            timer?.invalidate()
+            timer = nil
+        }
     }
 
     private func togglePlayback() {
@@ -773,7 +783,14 @@ private struct ProgressionPlaybackBar: View {
     private func scheduleTimer() {
         timer?.invalidate()
         let t = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
-            DispatchQueue.main.async { advanceChord() }
+            DispatchQueue.main.async {
+                guard state.isPlaying else {
+                    timer?.invalidate()
+                    timer = nil
+                    return
+                }
+                advanceChord()
+            }
         }
         timer = t
     }
