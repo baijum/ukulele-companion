@@ -1,6 +1,7 @@
 package com.baijum.ukufretboard.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import com.baijum.ukufretboard.domain.ChordNameParser
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -140,16 +141,11 @@ fun ChordSubstitutionsView(
  * Handles names like "C", "Am", "G7", "Db7", "Fm", "Bdim".
  */
 private fun transposeChordName(name: String, targetKey: Int): String {
-    if (name == "\u2014" || name.isBlank()) return name // em-dash or empty
-    // Extract root note (letter + optional # or b)
-    val root = name.takeWhile { it.isLetter() || it == '#' || it == 'b' }
-    val quality = name.removePrefix(root)
-    val rootPc = Notes.NOTE_NAMES_SHARP.indexOf(root).takeIf { it >= 0 }
-        ?: Notes.NOTE_NAMES_FLAT.indexOf(root).takeIf { it >= 0 }
-        ?: return name // can't parse
-    val transposedPc = (rootPc + targetKey) % 12
+    if (name == "\u2014" || name.isBlank()) return name
+    val parsed = ChordNameParser.parse(name) ?: return name
+    val transposedPc = (parsed.rootPitchClass + targetKey) % 12
     val transposedName = Notes.pitchClassToName(transposedPc)
-    return "$transposedName$quality"
+    return "$transposedName${parsed.formula.symbol}"
 }
 
 /**
