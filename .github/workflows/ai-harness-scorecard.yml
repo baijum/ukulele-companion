@@ -1,0 +1,40 @@
+name: AI Harness Scorecard
+
+on:
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scorecard:
+    name: Scorecard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          persist-credentials: false
+
+      - name: Run AI Harness Scorecard
+        id: scorecard
+        uses: markmishaev76/ai-harness-scorecard@baf1c269e091415d6616a9502a6a045a1bcf78b0 # v1.1.0
+        with:
+          format: markdown
+          output-file: scorecard-report.md
+          badge-file: ''
+
+      - name: Publish report to job summary
+        run: cat scorecard-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload report
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ai-harness-scorecard
+          path: scorecard-report.md
+
+      - name: Show grade
+        run: echo "Grade ${{ steps.scorecard.outputs.grade }} (${{ steps.scorecard.outputs.score }}/100)"
