@@ -39,7 +39,7 @@ jobs:
         uses: gradle/actions/setup-gradle@cf4beec8b4cca436a7b646657f74edc125658df8 # v6.1.1
 
       - name: Restore fuzz corpus cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: app/src/test/resources/corpus
           key: fuzz-corpus-${{ github.sha }}
@@ -53,6 +53,13 @@ jobs:
           ./gradlew :app:testDebugUnitTest --tests "com.baijum.ukufretboard.fuzz.*"
           -Djazzer.instrumentation_includes="com.baijum.ukufretboard.**"
           -Djazzer.max_duration="${{ github.event.inputs.duration_seconds || '60' }}s"
+
+      - name: Save fuzz corpus cache
+        if: always()
+        uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: app/src/test/resources/corpus
+          key: fuzz-corpus-${{ github.sha }}-${{ github.run_id }}
 
       - name: Upload fuzz findings
         if: failure()
