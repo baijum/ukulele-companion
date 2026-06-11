@@ -1166,53 +1166,62 @@ struct SongViewerView: View {
 
     @ViewBuilder
     private func chordPopover(chord: String) -> some View {
-        let parsed = ChordNameParser.shared.parse(input: chord)
-        let rootPc = parsed?.rootPitchClass ?? 0
-        let formula = parsed?.formula
-            ?? (ChordFormulas.shared.ALL as! [ChordFormula]).first { $0.symbol == "" }!
+        if let parsed = ChordNameParser.shared.parse(input: chord) {
+            let rootPc = parsed.rootPitchClass
+            let formula = parsed.formula
 
-        let tuning = (0..<4).map { i -> shared.UkuleleString in
-            let t = UkuleleTuning.highG
-            return shared.UkuleleString(
-                name: t.stringNames[i] as! String,
-                openPitchClass: (t.pitchClasses[i] as! NSNumber).int32Value,
-                octave: (t.octaves[i] as! NSNumber).int32Value
-            )
-        }
+            let tuning = (0..<4).map { i -> shared.UkuleleString in
+                let t = UkuleleTuning.highG
+                return shared.UkuleleString(
+                    name: t.stringNames[i] as! String,
+                    openPitchClass: (t.pitchClasses[i] as! NSNumber).int32Value,
+                    octave: (t.octaves[i] as! NSNumber).int32Value
+                )
+            }
 
-        let voicings = VoicingGenerator.shared.generate(
-            rootPitchClass: Int32(rootPc),
-            formula: formula,
-            tuning: tuning,
-            allowMutedStrings: false
-        ) as! [ChordVoicing]
+            let voicings = VoicingGenerator.shared.generate(
+                rootPitchClass: Int32(rootPc),
+                formula: formula,
+                tuning: tuning,
+                allowMutedStrings: false
+            ) as! [ChordVoicing]
 
-        VStack(spacing: 8) {
-            Text(chord)
-                .font(.headline)
-            if let voicing = voicings.first {
-                ChordDiagramView(voicing: voicing, chordName: chord)
-                Button {
-                    let fretList = voicing.fretInts
-                    let pitchClasses = (0..<fretList.count).compactMap { i -> Int32? in
-                        let fret = fretList[i]
-                        guard fret >= 0 else { return nil }
-                        let openPc = (UkuleleTuning.highG.pitchClasses[i] as! NSNumber).int32Value
-                        return (openPc + Int32(fret)) % 12
+            VStack(spacing: 8) {
+                Text(chord)
+                    .font(.headline)
+                if let voicing = voicings.first {
+                    ChordDiagramView(voicing: voicing, chordName: chord)
+                    Button {
+                        let fretList = voicing.fretInts
+                        let pitchClasses = (0..<fretList.count).compactMap { i -> Int32? in
+                            let fret = fretList[i]
+                            guard fret >= 0 else { return nil }
+                            let openPc = (UkuleleTuning.highG.pitchClasses[i] as! NSNumber).int32Value
+                            return (openPc + Int32(fret)) % 12
+                        }
+                        tonePlayer.playChord(pitchClasses: pitchClasses, strumDelayMs: 40)
+                    } label: {
+                        Label("Play", systemImage: "play.fill")
+                            .font(.caption)
                     }
-                    tonePlayer.playChord(pitchClasses: pitchClasses, strumDelayMs: 40)
-                } label: {
-                    Label("Play", systemImage: "play.fill")
+                    .buttonStyle(.bordered)
+                } else {
+                    Text("No voicing found")
                         .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
-                .buttonStyle(.bordered)
-            } else {
-                Text("No voicing found")
+            }
+            .padding()
+        } else {
+            VStack(spacing: 8) {
+                Text(chord)
+                    .font(.headline)
+                Text("Chord not recognized")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+            .padding()
         }
-        .padding()
     }
 }
 
