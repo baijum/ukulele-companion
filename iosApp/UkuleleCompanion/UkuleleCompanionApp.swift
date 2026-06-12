@@ -42,7 +42,7 @@ struct UkuleleCompanionApp: App {
         #else
         let session = AVAudioSession.sharedInstance()
         do {
-            try session.setCategory(.playback, mode: .default, options: [.defaultToSpeaker])
+            try session.setCategory(.playback, mode: .default)
             try session.setPreferredSampleRate(44100)
             try session.setActive(true)
         } catch {
