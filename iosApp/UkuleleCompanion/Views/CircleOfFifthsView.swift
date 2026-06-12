@@ -58,9 +58,9 @@ struct CircleOfFifthsView: View {
                     context.fill(path, with: .color(.accentColor.opacity(0.2)))
                 }
 
-                // Draw segment lines
+                // Draw segment lines (offset by 15° so they fall between labels)
                 for i in 0..<12 {
-                    let angle = Angle.degrees(Double(i) * 30 - 90)
+                    let angle = Angle.degrees(Double(i) * 30 - 90 + 15)
                     var line = Path()
                     let x1 = c.x + cos(angle.radians) * innerRadius * 0.85
                     let y1 = c.y + sin(angle.radians) * innerRadius * 0.85
@@ -140,10 +140,12 @@ struct CircleOfFifthsView: View {
                         .onEnded { value in
                             let dx = value.location.x - center.x
                             let dy = value.location.y - center.y
+                            let dist = sqrt(dx * dx + dy * dy)
+                            guard dist <= outerRadius else { return }
                             let angle = atan2(dy, dx)
                             var degrees = angle * 180 / .pi + 90
                             if degrees < 0 { degrees += 360 }
-                            let segment = Int(degrees / 30) % 12
+                            let segment = Int((degrees + 15) / 30) % 12
                             selectedKeyIndex = segment
                         }
                 )

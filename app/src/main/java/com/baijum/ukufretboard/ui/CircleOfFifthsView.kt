@@ -134,7 +134,7 @@ fun CircleOfFifthsView(
                                 // Rotate so 0° is at top (subtract 90°)
                                 angle += PI / 2
                                 if (angle < 0) angle += 2 * PI
-                                val segmentIndex = ((angle / (2 * PI)) * 12).toInt() % 12
+                                val segmentIndex = (((angle + PI / 12) / (2 * PI)) * 12).toInt() % 12
                                 selectedKey = if (dist >= innerRadius) {
                                     // Outer ring — major key
                                     circleOrder[segmentIndex]
