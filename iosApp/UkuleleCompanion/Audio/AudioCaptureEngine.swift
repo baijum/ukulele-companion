@@ -219,7 +219,7 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
             print("AudioCaptureEngine: failed to deactivate audio session: \(error)")
         }
         do {
-            try session.setCategory(.playback, mode: .default, options: [.defaultToSpeaker])
+            try session.setCategory(.playback, mode: .default)
             try session.setActive(true)
         } catch {
             print("AudioCaptureEngine: failed to restore playback session: \(error)")
