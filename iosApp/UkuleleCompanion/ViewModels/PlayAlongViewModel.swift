@@ -67,6 +67,7 @@ final class PlayAlongViewModel: ObservableObject {
             errorMessage = "No chords in this progression. Please select a progression first."
             return
         }
+        guard !isPlaying else { return }
         errorMessage = nil
         self.degrees = degrees
         self.bpm = bpm
@@ -122,6 +123,7 @@ final class PlayAlongViewModel: ObservableObject {
         audioEngine.start()
         isPlaying = true
 
+        timer?.invalidate()
         let interval = 60.0 / bpm
         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
             DispatchQueue.main.async {
