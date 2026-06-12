@@ -20,6 +20,10 @@ object ChordProExporter {
     /** Maps a captured section type to its ChordPro directive base name. */
     private fun sectionDirective(type: String): String = type.lowercase()
 
+    /** Strips `{`, `}`, and newlines from a metadata value to prevent directive injection. */
+    private fun sanitizeMeta(value: String): String =
+        value.replace("{", "").replace("}", "").replace("\n", " ").replace("\r", "")
+
     /**
      * Converts a [ChordSheet] to a ChordPro-formatted string.
      *
@@ -27,15 +31,15 @@ object ChordProExporter {
      * @return The ChordPro-formatted text.
      */
     fun export(sheet: ChordSheet): String = buildString {
-        appendLine("{title: ${sheet.title}}")
+        appendLine("{title: ${sanitizeMeta(sheet.title)}}")
         if (sheet.subtitle.isNotEmpty()) {
-            appendLine("{subtitle: ${sheet.subtitle}}")
+            appendLine("{subtitle: ${sanitizeMeta(sheet.subtitle)}}")
         }
         if (sheet.artist.isNotEmpty()) {
-            appendLine("{artist: ${sheet.artist}}")
+            appendLine("{artist: ${sanitizeMeta(sheet.artist)}}")
         }
         if (sheet.key.isNotEmpty()) {
-            appendLine("{key: ${sheet.key}}")
+            appendLine("{key: ${sanitizeMeta(sheet.key)}}")
         }
         if (sheet.capo > 0) {
             appendLine("{capo: ${sheet.capo}}")
@@ -60,7 +64,14 @@ object ChordProExporter {
                     appendLine("{start_of_$type}")
                 }
             } else {
-                appendLine(line)
+                val trimmed = line.trimStart()
+                if (trimmed.startsWith("#")) {
+                    appendLine("{comment: $line}")
+                } else if (trimmed.startsWith("{")) {
+                    appendLine("\\$line")
+                } else {
+                    appendLine(line)
+                }
             }
         }
 
