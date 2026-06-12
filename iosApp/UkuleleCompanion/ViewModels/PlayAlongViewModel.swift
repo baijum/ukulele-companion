@@ -32,6 +32,7 @@ final class PlayAlongViewModel: ObservableObject {
     private var chordHoldCount: Int = 0
     private var displayedChord: String?
     private var chordMissCount: Int = 0
+    private var detectionConfidence: Float = 0
     private static let chordDetectionInterval = 2
     private static let chordHoldFrames = 2
     private static let chordMissTolerance = 3
@@ -103,6 +104,7 @@ final class PlayAlongViewModel: ObservableObject {
         chordHoldCount = 0
         displayedChord = nil
         chordMissCount = 0
+        detectionConfidence = 0
 
         requestMicAndBegin()
     }
@@ -165,7 +167,7 @@ final class PlayAlongViewModel: ObservableObject {
         scorer.recordBeat(
             expectedChord: expectedChord,
             detectedChord: displayedChord,
-            confidence: displayedChord != nil ? 0.8 : 0.0
+            confidence: detectionConfidence
         )
 
         let normalized = displayedChord.map { Self.normalizeForComparison($0) }
@@ -194,6 +196,11 @@ final class PlayAlongViewModel: ObservableObject {
         let rms = sqrt(sumSq / Float(samples.count))
         if rms < 0.005 {
             detectedChord = nil
+            displayedChord = nil
+            lastChordName = nil
+            chordHoldCount = 0
+            chordMissCount = 0
+            detectionConfidence = 0
             return
         }
 
@@ -216,10 +223,12 @@ final class PlayAlongViewModel: ObservableObject {
 
             if chordHoldCount >= Self.chordHoldFrames {
                 displayedChord = rawChordName
+                detectionConfidence = chordResult.confidence
             } else if rawChordName == nil && chordMissCount > Self.chordMissTolerance {
                 displayedChord = nil
                 lastChordName = nil
                 chordHoldCount = 0
+                detectionConfidence = 0
             }
         }
         chordFrameCounter += 1
