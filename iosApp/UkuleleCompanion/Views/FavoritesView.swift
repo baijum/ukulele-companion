@@ -394,7 +394,11 @@ private struct CreateFolderAlertContent: View {
 
     var body: some View {
         TextField("Folder name", text: $name)
-        Button("Create") { if !name.isEmpty { onCreate(name) } }
+            .accessibilityHint("Enter a name for the new folder")
+        Button("Create") {
+            let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmed.isEmpty { onCreate(trimmed) }
+        }
         Button("Cancel", role: .cancel) {}
     }
 }
@@ -410,7 +414,11 @@ private struct RenameFolderAlertContent: View {
 
     var body: some View {
         TextField("Folder name", text: $name)
-        Button("Rename") { if !name.isEmpty { onRename(name) } }
+            .accessibilityHint("Edit the folder name")
+        Button("Rename") {
+            let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmed.isEmpty { onRename(trimmed) }
+        }
         Button("Cancel", role: .cancel) {}
     }
 }
