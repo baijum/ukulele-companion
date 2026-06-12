@@ -146,7 +146,7 @@ struct ExplorerView: View {
             if let maybeFret = fretboardVM.selections[s], let fret = maybeFret {
                 return Int32(fret)
             }
-            return 0
+            return -1
         }
     }
 
