@@ -79,6 +79,10 @@ final class TunerViewModel: ObservableObject {
         return .red
     }
 
+    private nonisolated(unsafe) let audioProcessingQueue = DispatchQueue(
+        label: "com.baijum.ukufretboard.tuner.dsp", qos: .userInitiated
+    )
+
     init() {
         neuralSupervisor = nil
         audioEngine.onBuffer = { [weak self] samples in
@@ -89,9 +93,22 @@ final class TunerViewModel: ObservableObject {
                 return true
             }
             guard shouldProcess else { return }
-            Task { @MainActor in
-                self.processAudioBuffer(samples)
-                self.processingLock.withLock { $0 = false }
+            self.audioProcessingQueue.async {
+                let kotlinArray = KotlinFloatArray(size: Int32(samples.count))
+                for i in 0..<samples.count {
+                    kotlinArray.set(index: Int32(i), value: samples[i])
+                }
+                let result = PitchDetector.shared.detect(
+                    samples: kotlinArray,
+                    sampleRate: 44100,
+                    threshold: PitchDetector.shared.DEFAULT_THRESHOLD,
+                    previousFrequency: nil
+                )
+                Task { @MainActor [weak self] in
+                    guard let self else { return }
+                    self.applyPitchResult(result, samples: samples)
+                    self.processingLock.withLock { $0 = false }
+                }
             }
         }
         Task {
@@ -144,7 +161,7 @@ final class TunerViewModel: ObservableObject {
         previousFrequency = nil
     }
 
-    private func processAudioBuffer(_ samples: [Float]) {
+    private func applyPitchResult(_ yinResult: PitchResult?, samples: [Float]) {
         guard isCapturing else { return }
 
         let rms = sqrt(samples.reduce(0) { $0 + $1 * $1 } / Float(max(samples.count, 1)))
@@ -153,22 +170,8 @@ final class TunerViewModel: ObservableObject {
             return
         }
 
-        // Convert [Float] to KotlinFloatArray for KMP interop
-        let kotlinArray = KotlinFloatArray(size: Int32(samples.count))
-        for i in 0..<samples.count {
-            kotlinArray.set(index: Int32(i), value: samples[i])
-        }
+        let result = yinResult
 
-        let prevFreq = previousFrequency.map { KotlinDouble(value: $0) }
-
-        let result = PitchDetector.shared.detect(
-            samples: kotlinArray,
-            sampleRate: 44100,
-            threshold: PitchDetector.shared.DEFAULT_THRESHOLD,
-            previousFrequency: prevFreq
-        )
-
-        // Run neural supervision
         let neuralResult = maybeRunNeural(samples)
 
         if let result = result {

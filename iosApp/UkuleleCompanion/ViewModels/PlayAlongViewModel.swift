@@ -20,6 +20,9 @@ final class PlayAlongViewModel: ObservableObject {
 
     private let audioEngine = AudioCaptureEngine()
     private nonisolated(unsafe) let frameGate = FrameGate()
+    private nonisolated(unsafe) let audioProcessingQueue = DispatchQueue(
+        label: "com.baijum.ukufretboard.playalong.dsp", qos: .userInitiated
+    )
     let tonePlayer = TonePlayer()
     private let scorer = PlayAlongScorer()
 
@@ -47,9 +50,23 @@ final class PlayAlongViewModel: ObservableObject {
         audioEngine.onBuffer = { [weak self] samples in
             guard let self else { return }
             guard self.frameGate.tryEnter() else { return }
-            Task { @MainActor in
-                self.processAudioBuffer(samples)
-                self.frameGate.exit()
+            self.audioProcessingQueue.async {
+                let kotlinArray = KotlinFloatArray(size: Int32(samples.count))
+                for i in 0..<samples.count {
+                    kotlinArray.set(index: Int32(i), value: samples[i])
+                }
+                let chordResult = AudioChordDetector.shared.detect(
+                    samples: kotlinArray,
+                    sampleRate: 44100,
+                    threshold: 0.28,
+                    preferredRootPitchClass: nil,
+                    preferredRootWeight: 1.15
+                )
+                Task { @MainActor [weak self] in
+                    guard let self else { return }
+                    self.processAudioBuffer(samples, chordResult: chordResult)
+                    self.frameGate.exit()
+                }
             }
         }
     }
@@ -168,33 +185,19 @@ final class PlayAlongViewModel: ObservableObject {
 
     // MARK: - Audio Processing
 
-    private func processAudioBuffer(_ samples: [Float]) {
-        let kotlinArray = KotlinFloatArray(size: Int32(samples.count))
-        for i in 0..<samples.count {
-            kotlinArray.set(index: Int32(i), value: samples[i])
-        }
-
-        // Noise gate
+    private func processAudioBuffer(
+        _ samples: [Float],
+        chordResult: AudioChordDetector.ChordDetectionResult
+    ) {
         var sumSq: Float = 0
         for s in samples { sumSq += s * s }
         let rms = sqrt(sumSq / Float(samples.count))
         if rms < 0.005 {
-            DispatchQueue.main.async { [weak self] in
-                self?.detectedChord = nil
-            }
+            detectedChord = nil
             return
         }
 
-        // Throttled chord detection
         if chordFrameCounter % Self.chordDetectionInterval == 0 {
-            let chordResult = AudioChordDetector.shared.detect(
-                samples: kotlinArray,
-                sampleRate: 44100,
-                threshold: 0.28,
-                preferredRootPitchClass: nil,
-                preferredRootWeight: 1.15
-            )
-
             let rawChordName: String? = {
                 if let found = chordResult.detection as? ChordDetector.DetectionResultChordFound {
                     return found.result.name
