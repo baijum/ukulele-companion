@@ -153,7 +153,7 @@ internal fun ExplorerTabContent(
 
         val fretsList = uiState.selections.entries
             .sortedBy { it.key }
-            .map { it.value ?: 0 }
+            .map { it.value ?: ChordVoicing.MUTED }
 
         val shareCallback: (() -> Unit)? = if (
             onShareChord != null &&
