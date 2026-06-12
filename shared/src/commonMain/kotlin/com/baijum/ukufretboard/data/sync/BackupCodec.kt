@@ -43,6 +43,7 @@ object BackupCodec {
      * - Old iOS format (identified by `"timestamp"` field in epoch seconds)
      * - KMP-format backups with fractional or seconds-unit timestamps
      */
+    @Throws(Exception::class)
     fun decode(jsonString: String): BackupData {
         val afterLegacy = normalizeIosFormat(jsonString)
         val normalized = normalizeKmpTimestamps(afterLegacy)
