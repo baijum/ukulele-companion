@@ -1,7 +1,7 @@
 package com.baijum.ukufretboard.platform
 
 import platform.Foundation.NSCalendar
-import platform.Foundation.NSCalendarUnitDayOfYear
+import platform.Foundation.NSCalendarUnitDay
 import platform.Foundation.NSCalendarUnitYear
 import platform.Foundation.NSDate
 import platform.Foundation.NSUUID
@@ -18,8 +18,7 @@ actual fun currentYear(): Int {
     return components.year.toInt()
 }
 
-actual fun currentDayOfYear(): Int {
-    val calendar = NSCalendar.currentCalendar
-    val components = calendar.components(NSCalendarUnitDayOfYear, fromDate = NSDate())
-    return components.day.toInt()
-}
+actual fun currentDayOfYear(): Int =
+    NSCalendar.currentCalendar
+        .ordinalityOfUnit(NSCalendarUnitDay, inUnit = NSCalendarUnitYear, forDate = NSDate())
+        .toInt()
