@@ -36,6 +36,8 @@ final class TunerViewModel: ObservableObject {
     private var previousFrequency: Double?
     private var settledFrames: Int = 0
     private static let settledThreshold = 8
+    private var lostSignalFrames: Int = 0
+    private static let lostSignalHoldFrames = 17
 
     // TTS
     private let synthesizer = AVSpeechSynthesizer()
@@ -171,7 +173,19 @@ final class TunerViewModel: ObservableObject {
 
         let rms = sqrt(samples.reduce(0) { $0 + $1 * $1 } / Float(max(samples.count, 1)))
         if rms < noiseGateRms {
-            self.isInTune = false
+            lostSignalFrames = 0
+            previousFrequency = nil
+            lastFrequencyLock.withLock { $0 = nil }
+            settledFrames = 0
+            isInTune = false
+            noteName = "--"
+            octave = nil
+            centsDeviation = 0
+            frequency = nil
+            stringMatch = nil
+            tuningStatus = ""
+            activeStringIndex = nil
+            neuralArbitrator.reset()
             return
         }
 
@@ -180,6 +194,8 @@ final class TunerViewModel: ObservableObject {
         let neuralResult = maybeRunNeural(samples)
 
         if let result = result {
+            lostSignalFrames = 0
+
             let arbitration = neuralArbitrator.arbitrate(
                 yinResult: result,
                 neuralResult: neuralResult
@@ -245,8 +261,23 @@ final class TunerViewModel: ObservableObject {
                 )
             }
         } else {
+            lostSignalFrames += 1
+            if lostSignalFrames < Self.lostSignalHoldFrames && noteName != "--" {
+                return
+            }
+            lostSignalFrames = 0
+            previousFrequency = nil
+            lastFrequencyLock.withLock { $0 = nil }
             settledFrames = 0
             isInTune = false
+            noteName = "--"
+            octave = nil
+            centsDeviation = 0
+            frequency = nil
+            stringMatch = nil
+            tuningStatus = ""
+            activeStringIndex = nil
+            neuralArbitrator.reset()
         }
     }
 
@@ -343,6 +374,7 @@ final class TunerViewModel: ObservableObject {
         lastFrequencyLock.withLock { $0 = nil }
         activeStringIndex = nil
         settledFrames = 0
+        lostSignalFrames = 0
         isInTune = false
         neuralArbitrator.reset()
     }
