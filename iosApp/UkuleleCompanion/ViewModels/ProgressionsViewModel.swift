@@ -19,10 +19,11 @@ final class ProgressionsViewModel: ObservableObject {
     @Published var showingCreateSheet = false
     @Published var editingCustomId: String?
 
-    private let userDefaultsKey = "custom_progressions"
+    private let repository: ProgressionsRepository
 
-    init() {
-        loadCustomProgressions()
+    init(repository: ProgressionsRepository = ProgressionsRepository()) {
+        self.repository = repository
+        customProgressions = repository.getAll()
     }
 
     var rootNoteNames: [String] {
@@ -106,7 +107,7 @@ final class ProgressionsViewModel: ObservableObject {
             scaleType: selectedScaleType.name
         )
         customProgressions.insert(custom, at: 0)
-        saveCustomProgressions()
+        repository.save(customProgressions)
     }
 
     func createCustomFromDegrees(name: String, description: String, degrees: [ChordDegree], scaleType: ScaleType) {
@@ -121,7 +122,7 @@ final class ProgressionsViewModel: ObservableObject {
             scaleType: scaleType.name
         )
         customProgressions.insert(custom, at: 0)
-        saveCustomProgressions()
+        repository.save(customProgressions)
     }
 
     func updateCustom(id: String, name: String, description: String, degrees: [ChordDegree], scaleType: ScaleType) {
@@ -137,12 +138,12 @@ final class ProgressionsViewModel: ObservableObject {
             scaleType: scaleType.name
         )
         customProgressions[index] = updated
-        saveCustomProgressions()
+        repository.save(customProgressions)
     }
 
     func deleteCustom(id: String) {
         customProgressions.removeAll { $0.id == id }
-        saveCustomProgressions()
+        repository.save(customProgressions)
     }
 
     func resolvedChordNameForCustomDegree(interval: Int, quality: String) -> String {
@@ -156,38 +157,10 @@ final class ProgressionsViewModel: ObservableObject {
     }
 
     func importData(_ incoming: [[String: Any]]) {
-        let decoder = JSONDecoder()
-        let existingIds = Set(customProgressions.map { $0.id })
-        for item in incoming {
-            guard let jsonData = try? JSONSerialization.data(withJSONObject: item),
-                  let progression = try? decoder.decode(CustomProgression.self, from: jsonData)
-            else { continue }
-            if !existingIds.contains(progression.id) {
-                customProgressions.append(progression)
-            }
-        }
-        saveCustomProgressions()
+        repository.importData(incoming, into: &customProgressions)
     }
 
     func exportData() -> [[String: Any]] {
-        let encoder = JSONEncoder()
-        return customProgressions.compactMap { prog in
-            guard let data = try? encoder.encode(prog),
-                  let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
-            else { return nil }
-            return dict
-        }
-    }
-
-    private func loadCustomProgressions() {
-        guard let data = UserDefaults.standard.data(forKey: userDefaultsKey),
-              let decoded = try? JSONDecoder().decode([CustomProgression].self, from: data)
-        else { return }
-        customProgressions = decoded
-    }
-
-    private func saveCustomProgressions() {
-        guard let data = try? JSONEncoder().encode(customProgressions) else { return }
-        UserDefaults.standard.set(data, forKey: userDefaultsKey)
+        repository.exportData(customProgressions)
     }
 }

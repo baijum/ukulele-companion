@@ -58,10 +58,10 @@ final class ScalePracticeViewModel: ObservableObject {
 
     private let tonePlayer = TonePlayer()
     private var playTimer: AnyCancellable?
-    private let defaults = UserDefaults.standard
-    private static let settingsKey = "scale_practice_settings"
+    private let repository: ScalePracticeRepository
 
-    init() {
+    init(repository: ScalePracticeRepository = ScalePracticeRepository()) {
+        self.repository = repository
         loadSettings()
     }
 
@@ -178,11 +178,11 @@ final class ScalePracticeViewModel: ObservableObject {
             "loop": loopPlayback,
             "fret_position": fretPosition.rawValue
         ]
-        defaults.set(dict, forKey: Self.settingsKey)
+        repository.saveSettings(dict)
     }
 
     private func loadSettings() {
-        guard let dict = defaults.dictionary(forKey: Self.settingsKey) else { return }
+        guard let dict = repository.loadSettings() else { return }
         if let v = dict["root"] as? Int32 { selectedRoot = v }
         if let v = dict["bpm"] as? Double { bpm = v }
         if let v = dict["direction"] as? String { playDirection = PlayDirection(rawValue: v) ?? .ascending }

@@ -38,12 +38,12 @@ final class CustomPatternsViewModel: ObservableObject {
     @Published var strumPatterns: [CustomStrumPatternData] = []
     @Published var fingerpickingPatterns: [CustomFingerpickingData] = []
 
-    private let strumKey = "custom_strum_patterns"
-    private let fingerpickKey = "custom_fingerpicking_patterns"
+    private let repository: CustomPatternsRepository
 
-    init() {
-        loadStrum()
-        loadFingerpicking()
+    init(repository: CustomPatternsRepository = CustomPatternsRepository()) {
+        self.repository = repository
+        strumPatterns = repository.getAllStrum()
+        fingerpickingPatterns = repository.getAllFingerpicking()
     }
 
     // MARK: - Strum Patterns
@@ -54,12 +54,12 @@ final class CustomPatternsViewModel: ObservableObject {
         } else {
             strumPatterns.insert(pattern, at: 0)
         }
-        persistStrum()
+        repository.saveStrum(strumPatterns)
     }
 
     func deleteStrumPattern(id: String) {
         strumPatterns.removeAll { $0.id == id }
-        persistStrum()
+        repository.saveStrum(strumPatterns)
     }
 
     // MARK: - Fingerpicking Patterns
@@ -70,112 +70,29 @@ final class CustomPatternsViewModel: ObservableObject {
         } else {
             fingerpickingPatterns.insert(pattern, at: 0)
         }
-        persistFingerpicking()
+        repository.saveFingerpicking(fingerpickingPatterns)
     }
 
     func deleteFingerpickingPattern(id: String) {
         fingerpickingPatterns.removeAll { $0.id == id }
-        persistFingerpicking()
-    }
-
-    // MARK: - Persistence
-
-    private func persistStrum() {
-        guard let data = try? JSONEncoder().encode(strumPatterns) else { return }
-        UserDefaults.standard.set(data, forKey: strumKey)
-    }
-
-    private func loadStrum() {
-        guard let data = UserDefaults.standard.data(forKey: strumKey),
-              let decoded = try? JSONDecoder().decode([CustomStrumPatternData].self, from: data)
-        else { return }
-        strumPatterns = decoded
-    }
-
-    private func persistFingerpicking() {
-        guard let data = try? JSONEncoder().encode(fingerpickingPatterns) else { return }
-        UserDefaults.standard.set(data, forKey: fingerpickKey)
-    }
-
-    private func loadFingerpicking() {
-        guard let data = UserDefaults.standard.data(forKey: fingerpickKey),
-              let decoded = try? JSONDecoder().decode([CustomFingerpickingData].self, from: data)
-        else { return }
-        fingerpickingPatterns = decoded
+        repository.saveFingerpicking(fingerpickingPatterns)
     }
 
     // MARK: - Export/Import for Backup
 
     func exportStrumData() -> [[String: Any]] {
-        strumPatterns.map { p in
-            [
-                "id": p.id,
-                "name": p.name,
-                "beats": p.beats.map { ["direction": $0.direction, "emphasis": $0.emphasis] },
-                "createdAt": p.createdAt,
-                "timeSignature": p.timeSignature,
-            ]
-        }
+        repository.exportStrumData(strumPatterns)
     }
 
     func importStrumData(_ items: [[String: Any]]) {
-        let existingIds = Set(strumPatterns.map(\.id))
-        for dict in items {
-            guard let id = dict["id"] as? String,
-                  !existingIds.contains(id),
-                  let name = dict["name"] as? String,
-                  let beatDicts = dict["beats"] as? [[String: Any]],
-                  let rawCreatedAt = dict["createdAt"] as? Double
-            else { continue }
-            let createdAt = rawCreatedAt > 100_000_000_000 ? rawCreatedAt / 1000.0 : rawCreatedAt
-            let timeSignature = dict["timeSignature"] as? String ?? "4/4"
-            let beats = beatDicts.compactMap { bd -> StrumBeatData? in
-                guard let dir = bd["direction"] as? String,
-                      let emph = bd["emphasis"] as? Bool
-                else { return nil }
-                return StrumBeatData(direction: dir, emphasis: emph)
-            }
-            strumPatterns.append(CustomStrumPatternData(
-                id: id, name: name, beats: beats, createdAt: createdAt, timeSignature: timeSignature))
-        }
-        persistStrum()
+        repository.importStrumData(items, into: &strumPatterns)
     }
 
     func exportFingerpickData() -> [[String: Any]] {
-        fingerpickingPatterns.map { p in
-            [
-                "id": p.id,
-                "name": p.name,
-                "steps": p.steps.map { ["finger": $0.finger, "stringIndex": $0.stringIndex, "emphasis": $0.emphasis] as [String: Any] },
-                "createdAt": p.createdAt,
-                "timeSignature": p.timeSignature,
-            ]
-        }
+        repository.exportFingerpickData(fingerpickingPatterns)
     }
 
     func importFingerpickData(_ items: [[String: Any]]) {
-        let existingIds = Set(fingerpickingPatterns.map(\.id))
-        for dict in items {
-            guard let id = dict["id"] as? String,
-                  !existingIds.contains(id),
-                  let name = dict["name"] as? String,
-                  let stepDicts = dict["steps"] as? [[String: Any]],
-                  let rawCreatedAt = dict["createdAt"] as? Double
-            else { continue }
-            let createdAt = rawCreatedAt > 100_000_000_000 ? rawCreatedAt / 1000.0 : rawCreatedAt
-            let timeSignature = dict["timeSignature"] as? String ?? "4/4"
-            let steps = stepDicts.compactMap { sd -> FingerpickStepData? in
-                guard let finger = sd["finger"] as? String,
-                      let strIdx = sd["stringIndex"] as? Int,
-                      (0...3).contains(strIdx),
-                      let emph = sd["emphasis"] as? Bool
-                else { return nil }
-                return FingerpickStepData(finger: finger, stringIndex: strIdx, emphasis: emph)
-            }
-            guard !steps.isEmpty else { continue }
-            fingerpickingPatterns.append(CustomFingerpickingData(
-                id: id, name: name, steps: steps, createdAt: createdAt, timeSignature: timeSignature))
-        }
-        persistFingerpicking()
+        repository.importFingerpickData(items, into: &fingerpickingPatterns)
     }
 }

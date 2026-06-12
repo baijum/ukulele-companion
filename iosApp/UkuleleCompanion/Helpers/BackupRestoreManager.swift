@@ -28,6 +28,16 @@ enum BackupError: LocalizedError {
 final class BackupRestoreManager: ObservableObject {
     @Published var lastBackupDate: String?
 
+    private let favoritesRepo: FavoritesRepository
+    private let songbookRepo: SongbookRepository
+    private let melodyRepo: MelodyRepository
+    private let progressionsRepo: ProgressionsRepository
+    private let learnRepo: LearnRepository
+    private let practiceTimerRepo: PracticeTimerRepository
+    private let customPatternsRepo: CustomPatternsRepository
+    private let setlistRepo: SetlistRepository
+    private let settingsRepo: SettingsRepository
+
     private let favoritesVM: FavoritesViewModel
     private let songbookVM: SongbookViewModel
     private let melodyVM: MelodyViewModel
@@ -58,6 +68,16 @@ final class BackupRestoreManager: ObservableObject {
         self.customPatternsVM = customPatternsVM
         self.setlistVM = setlistVM
         self.settingsVM = settingsVM
+
+        self.favoritesRepo = FavoritesRepository()
+        self.songbookRepo = SongbookRepository()
+        self.melodyRepo = MelodyRepository()
+        self.progressionsRepo = ProgressionsRepository()
+        self.learnRepo = LearnRepository()
+        self.practiceTimerRepo = PracticeTimerRepository()
+        self.customPatternsRepo = CustomPatternsRepository()
+        self.setlistRepo = SetlistRepository()
+        self.settingsRepo = SettingsRepository()
     }
 
     // MARK: - Export (KMP-compatible format)

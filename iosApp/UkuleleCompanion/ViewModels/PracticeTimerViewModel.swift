@@ -13,10 +13,11 @@ struct PracticeTimerData: Codable {
 final class PracticeTimerViewModel: ObservableObject {
     @Published var data = PracticeTimerData()
 
-    private let storageKey = "practice_timer"
+    private let repository: PracticeTimerRepository
 
-    init() {
-        load()
+    init(repository: PracticeTimerRepository = PracticeTimerRepository()) {
+        self.repository = repository
+        data = repository.load()
     }
 
     func recordSession(durationSeconds: Int) {
@@ -30,7 +31,7 @@ final class PracticeTimerViewModel: ObservableObject {
             data.longestSession = minutes
         }
         data.lastSessionTime = Date().timeIntervalSince1970
-        save()
+        repository.save(data)
     }
 
     var todayMinutes: Int {
@@ -49,21 +50,17 @@ final class PracticeTimerViewModel: ObservableObject {
 
     func setDailyGoal(_ minutes: Int) {
         data.dailyGoal = min(max(minutes, 5), 120)
-        save()
+        repository.save(data)
     }
 
-    // MARK: - Persistence
+    // MARK: - Export/Import for Backup
 
-    private func save() {
-        guard let encoded = try? JSONEncoder().encode(data) else { return }
-        UserDefaults.standard.set(encoded, forKey: storageKey)
+    func exportData() -> [String: Any] {
+        repository.exportData(data)
     }
 
-    private func load() {
-        guard let stored = UserDefaults.standard.data(forKey: storageKey),
-              let decoded = try? JSONDecoder().decode(PracticeTimerData.self, from: stored)
-        else { return }
-        data = decoded
+    func importData(_ dict: [String: Any]) {
+        repository.importData(dict, into: &data)
     }
 
     private func todayKey() -> String {
@@ -71,43 +68,5 @@ final class PracticeTimerViewModel: ObservableObject {
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter.string(from: Date())
-    }
-
-    // MARK: - Export/Import for Backup
-
-    func exportData() -> [String: Any] {
-        [
-            "totalMinutes": data.totalMinutes,
-            "totalSessions": data.totalSessions,
-            "dailyMinutes": data.dailyMinutes,
-            "longestSession": data.longestSession,
-            "lastSessionTime": data.lastSessionTime,
-            "dailyGoal": data.dailyGoal,
-        ]
-    }
-
-    func importData(_ dict: [String: Any]) {
-        if let total = dict["totalMinutes"] as? Int {
-            data.totalMinutes = max(data.totalMinutes, total)
-        }
-        if let sessions = dict["totalSessions"] as? Int {
-            data.totalSessions = max(data.totalSessions, sessions)
-        }
-        if let longest = dict["longestSession"] as? Int {
-            data.longestSession = max(data.longestSession, longest)
-        }
-        if let lastTime = dict["lastSessionTime"] as? Double {
-            let normalized = lastTime > 100_000_000_000 ? lastTime / 1000.0 : lastTime
-            data.lastSessionTime = max(data.lastSessionTime, normalized)
-        }
-        if let goal = dict["dailyGoal"] as? Int {
-            data.dailyGoal = goal
-        }
-        if let daily = dict["dailyMinutes"] as? [String: Int] {
-            for (key, value) in daily {
-                data.dailyMinutes[key] = max(data.dailyMinutes[key] ?? 0, value)
-            }
-        }
-        save()
     }
 }
