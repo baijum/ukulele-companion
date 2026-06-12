@@ -353,7 +353,7 @@ object PitchDetector {
             val ar = fftRefReal[i]; val ai = fftRefImag[i]
             val br = fftSigReal[i]; val bi = fftSigImag[i]
             fftRefReal[i] = ar * br + ai * bi
-            fftRefImag[i] = ai * br - ar * bi
+            fftRefImag[i] = ar * bi - ai * br
         }
 
         FFTProcessor.ifft(fftRefReal, fftRefImag)
