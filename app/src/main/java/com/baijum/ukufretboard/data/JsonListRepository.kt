@@ -1,6 +1,7 @@
 package com.baijum.ukufretboard.data
 
 import android.content.Context
+import android.util.Log
 import com.baijum.ukufretboard.domain.mergeKeepExisting
 import com.baijum.ukufretboard.domain.mergeNewerWins
 import kotlinx.serialization.KSerializer
@@ -26,10 +27,18 @@ abstract class JsonListRepository<T>(
     abstract fun entityTimestamp(item: T): Long
 
     protected val backupKey get() = "${key}_backup"
+    private val quarantineKey get() = "${key}_quarantine"
 
     open fun getAll(): List<T> {
         val raw = prefs.getString(key, null) ?: return emptyList()
-        return tryParse(raw) ?: tryParse(prefs.getString(backupKey, null)) ?: emptyList()
+        tryParse(raw)?.let { return it }
+
+        val backupRaw = prefs.getString(backupKey, null)
+        tryParse(backupRaw)?.let { return it }
+
+        Log.e("JsonListRepository", "Both primary and backup keys unparseable for '$key'; quarantining data")
+        prefs.edit().putString(quarantineKey, raw).apply()
+        return emptyList()
     }
 
     protected fun tryParse(raw: String?): List<T>? {
@@ -63,8 +72,9 @@ abstract class JsonListRepository<T>(
 
     protected fun persist(items: List<T>) {
         val raw = json.encodeToString(ListSerializer(serializer), items)
+        val previousGood = prefs.getString(key, null)
         prefs.edit()
-            .putString(backupKey, raw)
+            .putString(backupKey, previousGood ?: raw)
             .putString(key, raw)
             .apply()
     }
