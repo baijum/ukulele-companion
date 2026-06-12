@@ -109,6 +109,9 @@ final class MelodyViewModel: ObservableObject {
     )
     private var stableCount = 0
     private var lastDetectedPitchClass: Int? = nil
+    private var lastDetectedOctave: Int? = nil
+    private var awaitingSilence = false
+    private var previousFrequency: KotlinDouble? = nil
 
     init(repository: MelodyRepository = MelodyRepository()) {
         self.repository = repository
@@ -308,6 +311,9 @@ final class MelodyViewModel: ObservableObject {
     private func beginCapture() {
         stableCount = 0
         lastDetectedPitchClass = nil
+        lastDetectedOctave = nil
+        awaitingSilence = false
+        previousFrequency = nil
 
         audioEngine.onBuffer = { [weak self] samples in
             guard let self else { return }
@@ -318,24 +324,31 @@ final class MelodyViewModel: ObservableObject {
                     floatArray.set(index: Int32(i), value: samples[i])
                 }
 
+                let prevFreq = self.previousFrequency
+
                 let result = PitchDetector.shared.detect(
                     samples: floatArray,
                     sampleRate: Int32(AudioCaptureEngine.sampleRate),
                     threshold: 0.15,
-                    previousFrequency: nil
+                    previousFrequency: prevFreq
                 )
 
                 Task { @MainActor [weak self] in
                     guard let self else { return }
                     defer { self.frameGate.exit() }
 
-                    guard let result, result.confidence > 0.8 else {
+                    guard let result else {
                         self.detectedNote = nil
                         self.stableCount = 0
                         self.lastDetectedPitchClass = nil
+                        self.lastDetectedOctave = nil
                         self.stabilizationProgress = 0
+                        self.previousFrequency = nil
+                        self.awaitingSilence = false
                         return
                     }
+
+                    self.previousFrequency = KotlinDouble(value: result.frequencyHz)
 
                     let noteInfo = TunerNoteMapper.shared.mapFrequency(
                         hz: result.frequencyHz,
@@ -349,21 +362,27 @@ final class MelodyViewModel: ObservableObject {
 
                     self.detectedNote = noteInfo.noteName + "\(oct)"
 
-                    if pc == self.lastDetectedPitchClass {
+                    if pc == self.lastDetectedPitchClass && oct == self.lastDetectedOctave {
                         self.stableCount += 1
                     } else {
                         self.lastDetectedPitchClass = pc
+                        self.lastDetectedOctave = oct
                         self.stableCount = 1
                     }
 
                     self.stabilizationProgress = Float(self.stableCount) / Float(Self.stabilizationThreshold)
 
                     if self.stableCount >= Self.stabilizationThreshold {
-                        self.addNote(pitchClass: pc, octave: oct)
+                        if !self.awaitingSilence {
+                            self.addNote(pitchClass: pc, octave: oct)
+                            self.awaitingSilence = true
+                        }
                         self.stableCount = 0
                         self.lastDetectedPitchClass = nil
+                        self.lastDetectedOctave = nil
                         self.detectedNote = nil
                         self.stabilizationProgress = 0
+                        self.previousFrequency = nil
                     }
                 }
             }
@@ -381,6 +400,9 @@ final class MelodyViewModel: ObservableObject {
         detectedNote = nil
         stableCount = 0
         lastDetectedPitchClass = nil
+        lastDetectedOctave = nil
+        awaitingSilence = false
+        previousFrequency = nil
     }
 
     func save(name: String) {
