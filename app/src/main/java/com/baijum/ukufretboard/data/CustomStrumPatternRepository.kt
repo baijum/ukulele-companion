@@ -36,14 +36,9 @@ class CustomStrumPatternRepository(context: Context) : JsonListRepository<Custom
     override fun getAll(): List<CustomStrumPattern> {
         val raw = prefs.getString(KEY_PATTERNS, null)
         if (raw != null) {
-            return try {
-                json.decodeFromString(
-                    kotlinx.serialization.builtins.ListSerializer(CustomStrumPattern.serializer()),
-                    raw,
-                )
-            } catch (_: Exception) {
-                emptyList()
-            }
+            return tryParse(raw)
+                ?: tryParse(prefs.getString(backupKey, null))
+                ?: migrateLegacyPipeEntries()
         }
         return migrateLegacyPipeEntries()
     }

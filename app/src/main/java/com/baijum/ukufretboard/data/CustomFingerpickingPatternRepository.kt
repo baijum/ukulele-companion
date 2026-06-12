@@ -36,14 +36,9 @@ class CustomFingerpickingPatternRepository(context: Context) : JsonListRepositor
     override fun getAll(): List<CustomFingerpickingPattern> {
         val raw = prefs.getString(KEY_PATTERNS, null)
         if (raw != null) {
-            return try {
-                json.decodeFromString(
-                    kotlinx.serialization.builtins.ListSerializer(CustomFingerpickingPattern.serializer()),
-                    raw,
-                )
-            } catch (_: Exception) {
-                emptyList()
-            }
+            return tryParse(raw)
+                ?: tryParse(prefs.getString(backupKey, null))
+                ?: migrateLegacyPipeEntries()
         }
         return migrateLegacyPipeEntries()
     }

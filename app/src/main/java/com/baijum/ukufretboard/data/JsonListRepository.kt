@@ -25,12 +25,19 @@ abstract class JsonListRepository<T>(
     abstract fun entityId(item: T): String
     abstract fun entityTimestamp(item: T): Long
 
+    protected val backupKey get() = "${key}_backup"
+
     open fun getAll(): List<T> {
         val raw = prefs.getString(key, null) ?: return emptyList()
+        return tryParse(raw) ?: tryParse(prefs.getString(backupKey, null)) ?: emptyList()
+    }
+
+    protected fun tryParse(raw: String?): List<T>? {
+        if (raw == null) return null
         return try {
             json.decodeFromString(ListSerializer(serializer), raw)
         } catch (_: Exception) {
-            emptyList()
+            null
         }
     }
 
@@ -56,6 +63,9 @@ abstract class JsonListRepository<T>(
 
     protected fun persist(items: List<T>) {
         val raw = json.encodeToString(ListSerializer(serializer), items)
-        prefs.edit().putString(key, raw).apply()
+        prefs.edit()
+            .putString(backupKey, raw)
+            .putString(key, raw)
+            .apply()
     }
 }

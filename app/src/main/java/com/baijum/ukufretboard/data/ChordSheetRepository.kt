@@ -26,14 +26,9 @@ class ChordSheetRepository(context: Context) : JsonListRepository<ChordSheet>(
     override fun getAll(): List<ChordSheet> {
         val raw = prefs.getString(KEY_SHEETS, null)
         if (raw != null) {
-            return try {
-                json.decodeFromString(
-                    kotlinx.serialization.builtins.ListSerializer(ChordSheet.serializer()),
-                    raw,
-                )
-            } catch (_: Exception) {
-                emptyList()
-            }
+            return tryParse(raw)
+                ?: tryParse(prefs.getString(backupKey, null))
+                ?: migrateLegacyPipeEntries()
         }
         return migrateLegacyPipeEntries()
     }
