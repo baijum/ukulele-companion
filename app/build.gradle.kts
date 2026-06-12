@@ -32,7 +32,7 @@ android {
         applicationId = "com.baijum.ukufretboard"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 106
+        versionCode = 107
         versionName = "9.11.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
