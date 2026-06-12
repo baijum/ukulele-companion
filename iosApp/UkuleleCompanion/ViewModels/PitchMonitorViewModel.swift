@@ -155,6 +155,8 @@ final class PitchMonitorViewModel: ObservableObject {
     }
 
     private func processBuffer(_ samples: [Float]) {
+        guard isListening else { return }
+
         let kotlinArray = KotlinFloatArray(size: Int32(samples.count))
         for i in 0..<samples.count {
             kotlinArray.set(index: Int32(i), value: samples[i])
@@ -175,9 +177,7 @@ final class PitchMonitorViewModel: ObservableObject {
         if blankingFramesRemaining > 0 {
             blankingFramesRemaining -= 1
             let newPoint = PitchPoint(timestampMs: now, midiNote: nil)
-            DispatchQueue.main.async { [weak self] in
-                self?.appendPoint(newPoint, now: now)
-            }
+            appendPoint(newPoint, now: now)
             return
         }
 
@@ -186,12 +186,9 @@ final class PitchMonitorViewModel: ObservableObject {
             previousFrequency = nil
             recentFrequencies.removeAll()
             let newPoint = PitchPoint(timestampMs: now, midiNote: nil)
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.appendPoint(newPoint, now: now)
-                self.currentNote = nil
-                self.chromaEnergy = Array(repeating: 0, count: 12)
-            }
+            appendPoint(newPoint, now: now)
+            currentNote = nil
+            chromaEnergy = Array(repeating: 0, count: 12)
             return
         }
 
@@ -322,23 +319,20 @@ final class PitchMonitorViewModel: ObservableObject {
             finalChord = nil; finalIsArpeggio = false
         }
 
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.appendPoint(newPoint, now: now)
-            self.currentNote = noteStr
-            self.detectedChord = finalChord
-            self.isArpeggioChord = finalIsArpeggio
-            if let chord = finalChord, chord != self.lastAnnouncedChord {
-                self.lastAnnouncedChord = chord
-                let prefix = finalIsArpeggio ? "Arpeggio chord: " : "Chord: "
-                AccessibilityAnnouncer.shared.announce("\(prefix)\(chord)", minInterval: 2.0)
-            }
-            self.chromaEnergy = self.lastChromaEnergy
-            if let note = noteStr, note != self.recentNotes.last {
-                self.recentNotes.append(note)
-                if self.recentNotes.count > 20 {
-                    self.recentNotes.removeFirst()
-                }
+        appendPoint(newPoint, now: now)
+        currentNote = noteStr
+        detectedChord = finalChord
+        isArpeggioChord = finalIsArpeggio
+        if let chord = finalChord, chord != lastAnnouncedChord {
+            lastAnnouncedChord = chord
+            let prefix = finalIsArpeggio ? "Arpeggio chord: " : "Chord: "
+            AccessibilityAnnouncer.shared.announce("\(prefix)\(chord)", minInterval: 2.0)
+        }
+        chromaEnergy = lastChromaEnergy
+        if let note = noteStr, note != recentNotes.last {
+            recentNotes.append(note)
+            if recentNotes.count > 20 {
+                recentNotes.removeFirst()
             }
         }
     }
@@ -378,7 +372,7 @@ final class PitchMonitorViewModel: ObservableObject {
                 Task.detached(priority: .userInitiated) { [weak self] in
                     let estimate = supervisor.estimate(samples)
                     await MainActor.run { [weak self] in
-                        guard let self else { return }
+                        guard let self, self.isListening else { return }
                         self.lastNeuralResult = estimate
                         self.neuralResultAgeFrames = 0
                         if let estimate = estimate {

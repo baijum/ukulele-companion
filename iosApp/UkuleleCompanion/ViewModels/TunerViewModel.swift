@@ -145,6 +145,8 @@ final class TunerViewModel: ObservableObject {
     }
 
     private func processAudioBuffer(_ samples: [Float]) {
+        guard isCapturing else { return }
+
         let rms = sqrt(samples.reduce(0) { $0 + $1 * $1 } / Float(max(samples.count, 1)))
         if rms < noiseGateRms {
             self.isInTune = false
@@ -169,77 +171,73 @@ final class TunerViewModel: ObservableObject {
         // Run neural supervision
         let neuralResult = maybeRunNeural(samples)
 
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+        if let result = result {
+            let arbitration = neuralArbitrator.arbitrate(
+                yinResult: result,
+                neuralResult: neuralResult
+            )
+            let finalHz = arbitration.frequencyHz
 
-            if let result = result {
-                let arbitration = self.neuralArbitrator.arbitrate(
-                    yinResult: result,
-                    neuralResult: neuralResult
-                )
-                let finalHz = arbitration.frequencyHz
+            previousFrequency = finalHz
 
-                self.previousFrequency = finalHz
+            if let noteInfo = TunerNoteMapper.shared.mapFrequency(hz: finalHz, a4Reference: a4Reference) {
+                let newNoteName = noteInfo.noteName
+                noteName = newNoteName
+                octave = Int(noteInfo.octave)
+                centsDeviation = noteInfo.centsDeviation
+                frequency = finalHz
 
-                if let noteInfo = TunerNoteMapper.shared.mapFrequency(hz: finalHz, a4Reference: self.a4Reference) {
-                    let newNoteName = noteInfo.noteName
-                    self.noteName = newNoteName
-                    self.octave = Int(noteInfo.octave)
-                    self.centsDeviation = noteInfo.centsDeviation
-                    self.frequency = finalHz
-
-                    // Announce note changes to VoiceOver
-                    let noteWithOctave = "\(newNoteName)\(noteInfo.octave)"
-                    if noteWithOctave != self.lastAnnouncedNote {
-                        self.lastAnnouncedNote = noteWithOctave
-                        AccessibilityAnnouncer.shared.announce(
-                            "Detected \(newNoteName) \(noteInfo.octave)"
-                        )
-                    }
-
-                    let stringResult = TunerNoteMapper.shared.findNearestString(
-                        noteInfo: noteInfo,
-                        tuning: self.currentTuning,
-                        a4Reference: self.a4Reference
-                    )
-                    self.stringMatch = stringResult.stringName
-                    let stringIdx = Int(stringResult.stringIndex)
-                    self.activeStringIndex = stringIdx
-
-                    let cents = stringResult.centsFromTarget
-                    let justTuned: Bool
-                    self.isInTune = abs(cents) <= 6
-                    if abs(cents) <= 6 {
-                        self.tuningStatus = "In tune!"
-                        self.settledFrames += 1
-                        if self.settledFrames >= Self.settledThreshold && !self.stringProgress[stringIdx] {
-                            self.stringProgress[stringIdx] = true
-                            justTuned = true
-                            self.advanceToNextUntuned()
-                        } else {
-                            justTuned = false
-                        }
-                    } else {
-                        justTuned = false
-                        self.settledFrames = 0
-                        if cents > 0 {
-                            self.tuningStatus = String(format: "%.0f cents sharp", cents)
-                        } else {
-                            self.tuningStatus = String(format: "%.0f cents flat", abs(cents))
-                        }
-                    }
-
-                    self.speakTunerState(
-                        note: newNoteName,
-                        cents: cents,
-                        stringTuned: justTuned,
-                        stringName: stringResult.stringName
+                // Announce note changes to VoiceOver
+                let noteWithOctave = "\(newNoteName)\(noteInfo.octave)"
+                if noteWithOctave != lastAnnouncedNote {
+                    lastAnnouncedNote = noteWithOctave
+                    AccessibilityAnnouncer.shared.announce(
+                        "Detected \(newNoteName) \(noteInfo.octave)"
                     )
                 }
-            } else {
-                self.settledFrames = 0
-                self.isInTune = false
+
+                let stringResult = TunerNoteMapper.shared.findNearestString(
+                    noteInfo: noteInfo,
+                    tuning: currentTuning,
+                    a4Reference: a4Reference
+                )
+                stringMatch = stringResult.stringName
+                let stringIdx = Int(stringResult.stringIndex)
+                activeStringIndex = stringIdx
+
+                let cents = stringResult.centsFromTarget
+                let justTuned: Bool
+                isInTune = abs(cents) <= 6
+                if abs(cents) <= 6 {
+                    tuningStatus = "In tune!"
+                    settledFrames += 1
+                    if settledFrames >= Self.settledThreshold && !stringProgress[stringIdx] {
+                        stringProgress[stringIdx] = true
+                        justTuned = true
+                        advanceToNextUntuned()
+                    } else {
+                        justTuned = false
+                    }
+                } else {
+                    justTuned = false
+                    settledFrames = 0
+                    if cents > 0 {
+                        tuningStatus = String(format: "%.0f cents sharp", cents)
+                    } else {
+                        tuningStatus = String(format: "%.0f cents flat", abs(cents))
+                    }
+                }
+
+                speakTunerState(
+                    note: newNoteName,
+                    cents: cents,
+                    stringTuned: justTuned,
+                    stringName: stringResult.stringName
+                )
             }
+        } else {
+            settledFrames = 0
+            isInTune = false
         }
     }
 
@@ -258,7 +256,7 @@ final class TunerViewModel: ObservableObject {
                 Task.detached(priority: .userInitiated) { [weak self] in
                     let estimate = supervisor.estimate(samples)
                     await MainActor.run { [weak self] in
-                        guard let self else { return }
+                        guard let self, self.isCapturing else { return }
                         if let estimate = estimate {
                             self.neuralArbitrator.onInferenceResult(result: estimate)
                             self.neuralStatus = .active
