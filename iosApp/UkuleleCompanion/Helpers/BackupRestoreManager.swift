@@ -238,7 +238,7 @@ final class BackupRestoreManager: ObservableObject {
     private func buildFavorites(_ favs: [[String: Any]]) -> [BackupFavorite] {
         favs.map { f in
             let addedAt = f["addedAt"] as? Double ?? 0
-            BackupFavorite(
+            return BackupFavorite(
                 rootPitchClass: Int32(f["rootPitchClass"] as? Int ?? 0),
                 chordSymbol: f["chordSymbol"] as? String ?? "",
                 frets: (f["frets"] as? [Int] ?? []).map { KotlinInt(int: Int32($0)) },
@@ -252,7 +252,7 @@ final class BackupRestoreManager: ObservableObject {
     private func buildFolders(_ folders: [[String: Any]]) -> [BackupFavoriteFolder] {
         folders.map { f in
             let createdAt = f["createdAt"] as? Double ?? 0
-            BackupFavoriteFolder(
+            return BackupFavoriteFolder(
                 id: f["id"] as? String ?? UUID().uuidString,
                 name: f["name"] as? String ?? "",
                 createdAt: Int64(createdAt * 1000),
@@ -333,7 +333,7 @@ final class BackupRestoreManager: ObservableObject {
         patterns.map { p in
             let steps: [BackupFingerpickStep] = (p["steps"] as? [[String: Any]] ?? []).map { s in
                 let finger = s["finger"] as? String ?? "T"
-                BackupFingerpickStep(
+                return BackupFingerpickStep(
                     finger: Self.fingerToKMP[finger] ?? finger,
                     stringIndex: Int32(s["stringIndex"] as? Int ?? 0),
                     emphasis: s["emphasis"] as? Bool ?? false
