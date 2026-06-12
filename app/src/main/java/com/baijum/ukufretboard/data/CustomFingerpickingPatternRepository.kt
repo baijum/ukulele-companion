@@ -1,7 +1,7 @@
 package com.baijum.ukufretboard.data
 
 import android.content.Context
-import android.content.SharedPreferences
+import kotlinx.serialization.Serializable
 import java.util.UUID
 
 /**
@@ -11,6 +11,7 @@ import java.util.UUID
  * @property pattern The fingerpicking pattern data.
  * @property createdAt Epoch millis when the pattern was created.
  */
+@Serializable
 data class CustomFingerpickingPattern(
     val id: String = UUID.randomUUID().toString(),
     val pattern: FingerpickingPattern,
@@ -20,52 +21,48 @@ data class CustomFingerpickingPattern(
 /**
  * Repository for persisting user-created fingerpicking patterns using SharedPreferences.
  *
- * Serialization format:
- * ```
- * id|||name|||steps|||createdAt|||timeSignature
- * ```
- * Where each step is: `finger:stringIndex:emphasis` (e.g., "THUMB:0:true;INDEX:2:false").
- * Field 5 (`timeSignature`) was originally stored as an integer (`beatsPerMeasure`).
- * Older entries with a bare integer (e.g., "3") are converted to "3/4"; missing field defaults to "4/4".
+ * Stores the full list as a single JSON array under [KEY_PATTERNS].
+ * On first access, migrates from the legacy pipe-delimited per-entry format.
  */
-class CustomFingerpickingPatternRepository(context: Context) {
+class CustomFingerpickingPatternRepository(context: Context) : JsonListRepository<CustomFingerpickingPattern>(
+    context,
+    PREFS_NAME,
+    KEY_PATTERNS,
+    CustomFingerpickingPattern.serializer(),
+) {
+    override fun entityId(item: CustomFingerpickingPattern) = item.id
+    override fun entityTimestamp(item: CustomFingerpickingPattern) = item.createdAt
 
-    private val prefs: SharedPreferences =
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-
-    /**
-     * Returns all custom patterns, sorted by creation time (newest first).
-     */
-    fun getAll(): List<CustomFingerpickingPattern> {
-        return prefs.all.entries
-            .mapNotNull { (_, value) -> deserialize(value as? String) }
-            .sortedByDescending { it.createdAt }
-    }
-
-    /**
-     * Saves a custom pattern. Overwrites if the same ID exists.
-     */
-    fun save(custom: CustomFingerpickingPattern) {
-        prefs.edit().putString(custom.id, serialize(custom)).apply()
-    }
-
-    /**
-     * Deletes a custom pattern by ID.
-     */
-    fun delete(id: String) {
-        prefs.edit().remove(id).apply()
-    }
-
-    private fun serialize(custom: CustomFingerpickingPattern): String {
-        val p = custom.pattern
-        val stepsStr = p.steps.joinToString(";") { s ->
-            "${s.finger.name}:${s.stringIndex}:${s.emphasis}"
+    override fun getAll(): List<CustomFingerpickingPattern> {
+        val raw = prefs.getString(KEY_PATTERNS, null)
+        if (raw != null) {
+            return try {
+                json.decodeFromString(
+                    kotlinx.serialization.builtins.ListSerializer(CustomFingerpickingPattern.serializer()),
+                    raw,
+                )
+            } catch (_: Exception) {
+                emptyList()
+            }
         }
-        val safeName = p.name.replace("|", "\\|")
-        return "${custom.id}|||$safeName|||$stepsStr|||${custom.createdAt}|||${p.timeSignature}"
+        return migrateLegacyPipeEntries()
     }
 
-    private fun deserialize(value: String?): CustomFingerpickingPattern? {
+    private fun migrateLegacyPipeEntries(): List<CustomFingerpickingPattern> {
+        val entries = prefs.all.entries
+            .filter { it.key != KEY_PATTERNS }
+            .mapNotNull { (_, value) -> deserializeLegacy(value as? String) }
+            .sortedByDescending { it.createdAt }
+        if (entries.isNotEmpty()) {
+            persist(entries)
+            val editor = prefs.edit()
+            prefs.all.keys.filter { it != KEY_PATTERNS }.forEach { editor.remove(it) }
+            editor.apply()
+        }
+        return entries
+    }
+
+    private fun deserializeLegacy(value: String?): CustomFingerpickingPattern? {
         if (value == null) return null
         val parts = value.split("|||")
         if (parts.size < 4) return null
@@ -102,26 +99,13 @@ class CustomFingerpickingPatternRepository(context: Context) {
                 ),
                 createdAt = createdAt,
             )
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
     }
 
-    /**
-     * Merges the given list of patterns into local storage.
-     * Only adds entries that are not already present (by ID).
-     */
-    fun importAll(items: List<CustomFingerpickingPattern>) {
-        val editor = prefs.edit()
-        for (item in items) {
-            if (!prefs.contains(item.id)) {
-                editor.putString(item.id, serialize(item))
-            }
-        }
-        editor.apply()
-    }
-
     companion object {
         private const val PREFS_NAME = "custom_fingerpicking_patterns"
+        private const val KEY_PATTERNS = "patterns_json"
     }
 }

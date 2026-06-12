@@ -2,6 +2,7 @@ package com.baijum.ukufretboard.data
 
 import com.baijum.ukufretboard.platform.currentTimeMillis
 import com.baijum.ukufretboard.platform.generateUuid
+import kotlinx.serialization.Serializable
 
 /**
  * A chord sheet containing lyrics with inline chord markers.
@@ -25,6 +26,7 @@ import com.baijum.ukufretboard.platform.generateUuid
  * @property lastViewedAt Timestamp of the most recent viewing (0 = never viewed).
  * @property totalViewTimeMs Cumulative time spent viewing the song, in milliseconds.
  */
+@Serializable
 data class ChordSheet(
     val id: String = generateUuid(),
     val title: String,

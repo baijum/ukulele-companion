@@ -1,8 +1,11 @@
 package com.baijum.ukufretboard.data
 
+import kotlinx.serialization.Serializable
+
 /**
  * Which finger plucks the string in a fingerpicking step.
  */
+@Serializable
 enum class Finger(val label: String) {
     THUMB("T"),
     INDEX("I"),
@@ -17,6 +20,7 @@ enum class Finger(val label: String) {
  * @property stringIndex The string to pluck (0=G, 1=C, 2=E, 3=A).
  * @property emphasis Whether this step is accented.
  */
+@Serializable
 data class FingerpickStep(
     val finger: Finger,
     val stringIndex: Int,
@@ -34,6 +38,7 @@ data class FingerpickStep(
  * @property notation Compact text notation showing finger labels.
  * @property suggestedBpm Recommended tempo range in BPM.
  */
+@Serializable
 data class FingerpickingPattern(
     val name: String,
     val description: String,
@@ -41,6 +46,7 @@ data class FingerpickingPattern(
     val timeSignature: String = "4/4",
     val steps: List<FingerpickStep>,
     val notation: String,
+    @Serializable(with = IntRangeSerializer::class)
     val suggestedBpm: IntRange,
 )
 

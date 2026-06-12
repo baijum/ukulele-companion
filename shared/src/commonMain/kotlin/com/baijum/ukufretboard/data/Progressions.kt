@@ -1,8 +1,11 @@
 package com.baijum.ukufretboard.data
 
+import kotlinx.serialization.Serializable
+
 /**
  * Scale type used for generating diatonic chord progressions.
  */
+@Serializable
 enum class ScaleType(val label: String) {
     MAJOR("Major"),
     MINOR("Minor"),
@@ -21,6 +24,7 @@ enum class ScaleType(val label: String) {
  * @property quality The chord quality symbol (e.g., "", "m", "dim").
  * @property numeral The Roman numeral label (e.g., "I", "vi", "vii°").
  */
+@Serializable
 data class ChordDegree(
     val interval: Int,
     val quality: String,
@@ -35,6 +39,7 @@ data class ChordDegree(
  * @property degrees The sequence of chord degrees in the progression.
  * @property scaleType The scale type this progression is derived from.
  */
+@Serializable
 data class Progression(
     val name: String,
     val description: String,

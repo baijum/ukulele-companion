@@ -1,7 +1,7 @@
 package com.baijum.ukufretboard.data
 
 import android.content.Context
-import android.content.SharedPreferences
+import kotlinx.serialization.Serializable
 import java.util.UUID
 
 /**
@@ -11,6 +11,7 @@ import java.util.UUID
  * @property pattern The strumming pattern data.
  * @property createdAt Epoch millis when the pattern was created.
  */
+@Serializable
 data class CustomStrumPattern(
     val id: String = UUID.randomUUID().toString(),
     val pattern: StrumPattern,
@@ -20,51 +21,48 @@ data class CustomStrumPattern(
 /**
  * Repository for persisting user-created strumming patterns using SharedPreferences.
  *
- * Serialization format:
- * ```
- * id|||name|||beats|||createdAt|||timeSignature
- * ```
- * Where each beat is: `direction:emphasis` (e.g., "DOWN:true;UP:false;PAUSE:false").
- * The `timeSignature` field was added later; older entries with only 4 fields default to "4/4".
+ * Stores the full list as a single JSON array under [KEY_PATTERNS].
+ * On first access, migrates from the legacy pipe-delimited per-entry format.
  */
-class CustomStrumPatternRepository(context: Context) {
+class CustomStrumPatternRepository(context: Context) : JsonListRepository<CustomStrumPattern>(
+    context,
+    PREFS_NAME,
+    KEY_PATTERNS,
+    CustomStrumPattern.serializer(),
+) {
+    override fun entityId(item: CustomStrumPattern) = item.id
+    override fun entityTimestamp(item: CustomStrumPattern) = item.createdAt
 
-    private val prefs: SharedPreferences =
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-
-    /**
-     * Returns all custom patterns, sorted by creation time (newest first).
-     */
-    fun getAll(): List<CustomStrumPattern> {
-        return prefs.all.entries
-            .mapNotNull { (_, value) -> deserialize(value as? String) }
-            .sortedByDescending { it.createdAt }
-    }
-
-    /**
-     * Saves a custom pattern. Overwrites if the same ID exists.
-     */
-    fun save(custom: CustomStrumPattern) {
-        prefs.edit().putString(custom.id, serialize(custom)).apply()
-    }
-
-    /**
-     * Deletes a custom pattern by ID.
-     */
-    fun delete(id: String) {
-        prefs.edit().remove(id).apply()
-    }
-
-    private fun serialize(custom: CustomStrumPattern): String {
-        val p = custom.pattern
-        val beatsStr = p.beats.joinToString(";") { b ->
-            "${b.direction.name}:${b.emphasis}"
+    override fun getAll(): List<CustomStrumPattern> {
+        val raw = prefs.getString(KEY_PATTERNS, null)
+        if (raw != null) {
+            return try {
+                json.decodeFromString(
+                    kotlinx.serialization.builtins.ListSerializer(CustomStrumPattern.serializer()),
+                    raw,
+                )
+            } catch (_: Exception) {
+                emptyList()
+            }
         }
-        val safeName = p.name.replace("|", "\\|")
-        return "${custom.id}|||$safeName|||$beatsStr|||${custom.createdAt}|||${p.timeSignature}"
+        return migrateLegacyPipeEntries()
     }
 
-    private fun deserialize(value: String?): CustomStrumPattern? {
+    private fun migrateLegacyPipeEntries(): List<CustomStrumPattern> {
+        val entries = prefs.all.entries
+            .filter { it.key != KEY_PATTERNS }
+            .mapNotNull { (_, value) -> deserializeLegacy(value as? String) }
+            .sortedByDescending { it.createdAt }
+        if (entries.isNotEmpty()) {
+            persist(entries)
+            val editor = prefs.edit()
+            prefs.all.keys.filter { it != KEY_PATTERNS }.forEach { editor.remove(it) }
+            editor.apply()
+        }
+        return entries
+    }
+
+    private fun deserializeLegacy(value: String?): CustomStrumPattern? {
         if (value == null) return null
         val parts = value.split("|||")
         if (parts.size < 4) return null
@@ -97,26 +95,13 @@ class CustomStrumPatternRepository(context: Context) {
                 ),
                 createdAt = createdAt,
             )
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
     }
 
-    /**
-     * Merges the given list of patterns into local storage.
-     * Only adds entries that are not already present (by ID).
-     */
-    fun importAll(items: List<CustomStrumPattern>) {
-        val editor = prefs.edit()
-        for (item in items) {
-            if (!prefs.contains(item.id)) {
-                editor.putString(item.id, serialize(item))
-            }
-        }
-        editor.apply()
-    }
-
     companion object {
         private const val PREFS_NAME = "custom_strum_patterns"
+        private const val KEY_PATTERNS = "patterns_json"
     }
 }

@@ -1,8 +1,11 @@
 package com.baijum.ukufretboard.data
 
+import kotlinx.serialization.Serializable
+
 /**
  * Direction of a single strum beat.
  */
+@Serializable
 enum class StrumDirection(val symbol: String) {
     DOWN("↓"),
     UP("↑"),
@@ -14,6 +17,7 @@ enum class StrumDirection(val symbol: String) {
 /**
  * Difficulty level for strumming patterns.
  */
+@Serializable
 enum class Difficulty(val label: String) {
     BEGINNER("Beginner"),
     INTERMEDIATE("Intermediate"),
@@ -26,6 +30,7 @@ enum class Difficulty(val label: String) {
  * @property direction The strum direction for this beat.
  * @property emphasis Whether this beat is accented.
  */
+@Serializable
 data class StrumBeat(
     val direction: StrumDirection,
     val emphasis: Boolean = false,
@@ -42,6 +47,7 @@ data class StrumBeat(
  * @property notation Compact text notation (e.g., "D - D U - U D U").
  * @property suggestedBpm Recommended tempo range in BPM.
  */
+@Serializable
 data class StrumPattern(
     val name: String,
     val description: String,
@@ -49,6 +55,7 @@ data class StrumPattern(
     val timeSignature: String = "4/4",
     val beats: List<StrumBeat>,
     val notation: String,
+    @Serializable(with = IntRangeSerializer::class)
     val suggestedBpm: IntRange,
     val counting: String = "",
     val genres: List<String> = emptyList(),

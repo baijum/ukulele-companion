@@ -1,7 +1,7 @@
 package com.baijum.ukufretboard.data
 
 import android.content.Context
-import android.content.SharedPreferences
+import kotlinx.serialization.Serializable
 import java.util.UUID
 
 /**
@@ -13,6 +13,7 @@ import java.util.UUID
  * @property progression The chord progression data.
  * @property createdAt Epoch millis when the progression was created.
  */
+@Serializable
 data class CustomProgression(
     val id: String = UUID.randomUUID().toString(),
     val progression: Progression,
@@ -22,56 +23,48 @@ data class CustomProgression(
 /**
  * Repository for persisting user-created chord progressions using SharedPreferences.
  *
- * Each progression is stored as a pipe-delimited string.
- * Follows the same pattern as [FavoritesRepository] — intentionally simple,
- * no Room or DataStore dependencies.
- *
- * Serialization format:
- * ```
- * id|||name|||description|||scaleType|||degree1;degree2;...|||createdAt
- * ```
- * Where each degree is: `interval:quality:numeral`
+ * Stores the full list as a single JSON array under [KEY_PROGRESSIONS].
+ * On first access, migrates from the legacy pipe-delimited per-entry format.
  */
-class CustomProgressionRepository(context: Context) {
+class CustomProgressionRepository(context: Context) : JsonListRepository<CustomProgression>(
+    context,
+    PREFS_NAME,
+    KEY_PROGRESSIONS,
+    CustomProgression.serializer(),
+) {
+    override fun entityId(item: CustomProgression) = item.id
+    override fun entityTimestamp(item: CustomProgression) = item.createdAt
 
-    private val prefs: SharedPreferences =
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-
-    /**
-     * Returns all custom progressions, sorted by creation time (newest first).
-     */
-    fun getAll(): List<CustomProgression> {
-        return prefs.all.entries
-            .mapNotNull { (_, value) -> deserialize(value as? String) }
-            .sortedByDescending { it.createdAt }
-    }
-
-    /**
-     * Saves a custom progression. Overwrites if the same ID exists.
-     */
-    fun save(custom: CustomProgression) {
-        prefs.edit().putString(custom.id, serialize(custom)).apply()
-    }
-
-    /**
-     * Deletes a custom progression by ID.
-     */
-    fun delete(id: String) {
-        prefs.edit().remove(id).apply()
-    }
-
-    private fun serialize(custom: CustomProgression): String {
-        val p = custom.progression
-        val degreesStr = p.degrees.joinToString(";") { d ->
-            "${d.interval}:${d.quality}:${d.numeral}"
+    override fun getAll(): List<CustomProgression> {
+        val raw = prefs.getString(KEY_PROGRESSIONS, null)
+        if (raw != null) {
+            return try {
+                json.decodeFromString(
+                    kotlinx.serialization.builtins.ListSerializer(CustomProgression.serializer()),
+                    raw,
+                )
+            } catch (_: Exception) {
+                emptyList()
+            }
         }
-        // Escape pipes in name/description to avoid breaking the delimiter
-        val safeName = p.name.replace("|", "\\|")
-        val safeDesc = p.description.replace("|", "\\|")
-        return "${custom.id}|||$safeName|||$safeDesc|||${p.scaleType.name}|||$degreesStr|||${custom.createdAt}"
+        return migrateLegacyPipeEntries()
     }
 
-    private fun deserialize(value: String?): CustomProgression? {
+    private fun migrateLegacyPipeEntries(): List<CustomProgression> {
+        val entries = prefs.all.entries
+            .filter { it.key != KEY_PROGRESSIONS }
+            .mapNotNull { (_, value) -> deserializeLegacy(value as? String) }
+            .sortedByDescending { it.createdAt }
+        if (entries.isNotEmpty()) {
+            persist(entries)
+            val editor = prefs.edit()
+            prefs.all.keys.filter { it != KEY_PROGRESSIONS }.forEach { editor.remove(it) }
+            editor.apply()
+        }
+        return entries
+    }
+
+    private fun deserializeLegacy(value: String?): CustomProgression? {
         if (value == null) return null
         val parts = value.split("|||")
         if (parts.size < 6) return null
@@ -99,26 +92,13 @@ class CustomProgressionRepository(context: Context) {
                 ),
                 createdAt = createdAt,
             )
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
     }
 
-    /**
-     * Merges the given list of progressions into local storage.
-     * Only adds entries that are not already present (by ID).
-     */
-    fun importAll(items: List<CustomProgression>) {
-        val editor = prefs.edit()
-        for (item in items) {
-            if (!prefs.contains(item.id)) {
-                editor.putString(item.id, serialize(item))
-            }
-        }
-        editor.apply()
-    }
-
     companion object {
         private const val PREFS_NAME = "custom_progressions"
+        private const val KEY_PROGRESSIONS = "progressions_json"
     }
 }

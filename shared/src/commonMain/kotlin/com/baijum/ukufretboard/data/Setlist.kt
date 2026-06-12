@@ -2,6 +2,7 @@ package com.baijum.ukufretboard.data
 
 import com.baijum.ukufretboard.platform.currentTimeMillis
 import com.baijum.ukufretboard.platform.generateUuid
+import kotlinx.serialization.Serializable
 
 /**
  * An ordered collection of songs for gigs or practice sessions.
@@ -12,6 +13,7 @@ import com.baijum.ukufretboard.platform.generateUuid
  * @property createdAt Timestamp when created.
  * @property updatedAt Timestamp when last modified.
  */
+@Serializable
 data class Setlist(
     val id: String = generateUuid(),
     val name: String,
