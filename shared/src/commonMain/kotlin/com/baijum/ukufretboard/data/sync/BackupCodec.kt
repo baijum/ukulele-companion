@@ -131,6 +131,11 @@ object BackupCodec {
             "setlists" to arrayOf("createdAt", "updatedAt"),
             "customStrumPatterns" to arrayOf("createdAt"),
             "customFingerpickingPatterns" to arrayOf("createdAt"),
+            "chordSheets" to arrayOf("createdAt", "updatedAt", "lastViewedAt"),
+            "melodies" to arrayOf("createdAt"),
+            "customProgressions" to arrayOf("createdAt"),
+            "favorites" to arrayOf("addedAt"),
+            "favoriteFolders" to arrayOf("createdAt"),
         )
         val objectFields = mapOf(
             "practiceTimer" to arrayOf("lastSessionTime"),
