@@ -104,6 +104,9 @@ final class MelodyViewModel: ObservableObject {
     private var playbackTask: Task<Void, Never>?
     private let audioEngine = AudioCaptureEngine()
     private nonisolated(unsafe) let frameGate = FrameGate()
+    private nonisolated(unsafe) let audioProcessingQueue = DispatchQueue(
+        label: "com.baijum.ukufretboard.melody.dsp", qos: .userInitiated
+    )
     private var stableCount = 0
     private var lastDetectedPitchClass: Int? = nil
 
@@ -309,7 +312,7 @@ final class MelodyViewModel: ObservableObject {
         audioEngine.onBuffer = { [weak self] samples in
             guard let self else { return }
             guard self.frameGate.tryEnter() else { return }
-            Task { @MainActor in
+            self.audioProcessingQueue.async {
                 let floatArray = KotlinFloatArray(size: Int32(samples.count))
                 for i in 0..<samples.count {
                     floatArray.set(index: Int32(i), value: samples[i])
@@ -322,48 +325,47 @@ final class MelodyViewModel: ObservableObject {
                     previousFrequency: nil
                 )
 
-                guard let result, result.confidence > 0.8 else {
-                    self.detectedNote = nil
-                    self.stableCount = 0
-                    self.lastDetectedPitchClass = nil
-                    self.stabilizationProgress = 0
-                    self.frameGate.exit()
-                    return
+                Task { @MainActor [weak self] in
+                    guard let self else { return }
+                    defer { self.frameGate.exit() }
+
+                    guard let result, result.confidence > 0.8 else {
+                        self.detectedNote = nil
+                        self.stableCount = 0
+                        self.lastDetectedPitchClass = nil
+                        self.stabilizationProgress = 0
+                        return
+                    }
+
+                    let noteInfo = TunerNoteMapper.shared.mapFrequency(
+                        hz: result.frequencyHz,
+                        a4Reference: 440.0
+                    )
+
+                    guard let noteInfo else { return }
+
+                    let pc = Int(noteInfo.pitchClass)
+                    let oct = Int(noteInfo.octave)
+
+                    self.detectedNote = noteInfo.noteName + "\(oct)"
+
+                    if pc == self.lastDetectedPitchClass {
+                        self.stableCount += 1
+                    } else {
+                        self.lastDetectedPitchClass = pc
+                        self.stableCount = 1
+                    }
+
+                    self.stabilizationProgress = Float(self.stableCount) / Float(Self.stabilizationThreshold)
+
+                    if self.stableCount >= Self.stabilizationThreshold {
+                        self.addNote(pitchClass: pc, octave: oct)
+                        self.stableCount = 0
+                        self.lastDetectedPitchClass = nil
+                        self.detectedNote = nil
+                        self.stabilizationProgress = 0
+                    }
                 }
-
-                let noteInfo = TunerNoteMapper.shared.mapFrequency(
-                    hz: result.frequencyHz,
-                    a4Reference: 440.0
-                )
-
-                guard let noteInfo else {
-                    self.frameGate.exit()
-                    return
-                }
-
-                let pc = Int(noteInfo.pitchClass)
-                let oct = Int(noteInfo.octave)
-
-                self.detectedNote = noteInfo.noteName + "\(oct)"
-
-                if pc == self.lastDetectedPitchClass {
-                    self.stableCount += 1
-                } else {
-                    self.lastDetectedPitchClass = pc
-                    self.stableCount = 1
-                }
-
-                self.stabilizationProgress = Float(self.stableCount) / Float(Self.stabilizationThreshold)
-
-                if self.stableCount >= Self.stabilizationThreshold {
-                    self.addNote(pitchClass: pc, octave: oct)
-                    self.stableCount = 0
-                    self.lastDetectedPitchClass = nil
-                    self.detectedNote = nil
-                    self.stabilizationProgress = 0
-                }
-
-                self.frameGate.exit()
             }
         }
 

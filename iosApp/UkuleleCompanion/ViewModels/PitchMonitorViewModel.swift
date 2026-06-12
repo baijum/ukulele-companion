@@ -73,14 +73,38 @@ final class PitchMonitorViewModel: ObservableObject {
     private var lastArpeggioChordMs: Int64 = 0
     private static let arpeggioHoldFrames = 2
 
+    private nonisolated(unsafe) let audioProcessingQueue = DispatchQueue(
+        label: "com.baijum.ukufretboard.pitchmonitor.dsp", qos: .userInitiated
+    )
+
     init() {
         neuralSupervisor = nil
         audioEngine.onBuffer = { [weak self] samples in
             guard let self else { return }
             guard self.frameGate.tryEnter() else { return }
-            Task { @MainActor in
-                self.processBuffer(samples)
-                self.frameGate.exit()
+            self.audioProcessingQueue.async {
+                let kotlinArray = KotlinFloatArray(size: Int32(samples.count))
+                for i in 0..<samples.count {
+                    kotlinArray.set(index: Int32(i), value: samples[i])
+                }
+                let yinResult = PitchDetector.shared.detect(
+                    samples: kotlinArray,
+                    sampleRate: 44100,
+                    threshold: PitchDetector.shared.DEFAULT_THRESHOLD,
+                    previousFrequency: nil
+                )
+                let chordResult = AudioChordDetector.shared.detect(
+                    samples: kotlinArray,
+                    sampleRate: 44100,
+                    threshold: 0.28,
+                    preferredRootPitchClass: nil,
+                    preferredRootWeight: 1.15
+                )
+                Task { @MainActor [weak self] in
+                    guard let self else { return }
+                    self.processBuffer(samples, yinResult: yinResult, chordResult: chordResult)
+                    self.frameGate.exit()
+                }
             }
         }
         Task {
@@ -154,15 +178,13 @@ final class PitchMonitorViewModel: ObservableObject {
         isListening = true
     }
 
-    private func processBuffer(_ samples: [Float]) {
+    private func processBuffer(
+        _ samples: [Float],
+        yinResult: PitchResult?,
+        chordResult: AudioChordDetector.ChordDetectionResult
+    ) {
         guard isListening else { return }
 
-        let kotlinArray = KotlinFloatArray(size: Int32(samples.count))
-        for i in 0..<samples.count {
-            kotlinArray.set(index: Int32(i), value: samples[i])
-        }
-
-        // RMS for onset detection
         var sumSq: Float = 0
         for s in samples { sumSq += s * s }
         let currentRms = sqrt(sumSq / Float(samples.count))
@@ -181,7 +203,6 @@ final class PitchMonitorViewModel: ObservableObject {
             return
         }
 
-        // Noise gate
         if currentRms < noiseGateRms {
             previousFrequency = nil
             recentFrequencies.removeAll()
@@ -192,19 +213,8 @@ final class PitchMonitorViewModel: ObservableObject {
             return
         }
 
-        // Pitch detection
-        let prevFreq = previousFrequency.map { KotlinDouble(value: $0) }
-        let yinResult = PitchDetector.shared.detect(
-            samples: kotlinArray,
-            sampleRate: 44100,
-            threshold: PitchDetector.shared.DEFAULT_THRESHOLD,
-            previousFrequency: prevFreq
-        )
-
-        // Neural supervision
         let neuralResult = maybeRunNeural(samples)
 
-        // Arbitrate
         var finalHz: Double?
         if let yin = yinResult {
             if let neural = neuralResult {
@@ -241,15 +251,7 @@ final class PitchMonitorViewModel: ObservableObject {
             arpeggioDetector.addNote(timestampMs: Int64(now), pitchClass: pitchClass)
         }
 
-        // Chord detection (throttled)
         if chordFrameCounter % Self.chordDetectionInterval == 0 {
-            let chordResult = AudioChordDetector.shared.detect(
-                samples: kotlinArray,
-                sampleRate: 44100,
-                threshold: 0.28,
-                preferredRootPitchClass: nil,
-                preferredRootWeight: 1.15
-            )
             let rawChordName: String? = {
                 if let found = chordResult.detection as? ChordDetector.DetectionResultChordFound {
                     return found.result.name
