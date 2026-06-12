@@ -132,17 +132,17 @@ private fun NoteBlock(
     }
 
     val durationLabel = when (note.duration) {
-        NoteDuration.WHOLE -> "whole"
-        NoteDuration.HALF -> "half"
-        NoteDuration.QUARTER -> "quarter"
-        NoteDuration.EIGHTH -> "eighth"
-        NoteDuration.SIXTEENTH -> "sixteenth"
+        NoteDuration.WHOLE -> stringResource(R.string.melody_duration_whole)
+        NoteDuration.HALF -> stringResource(R.string.melody_duration_half)
+        NoteDuration.QUARTER -> stringResource(R.string.melody_duration_quarter)
+        NoteDuration.EIGHTH -> stringResource(R.string.melody_duration_eighth)
+        NoteDuration.SIXTEENTH -> stringResource(R.string.melody_duration_sixteenth)
     }
 
     val noteDescription = if (note.pitchClass != null) {
-        "$noteName${note.octave} $durationLabel note, position ${index + 1}"
+        stringResource(R.string.cd_note_position, "$noteName${note.octave}", durationLabel, index + 1)
     } else {
-        "Rest, $durationLabel, position ${index + 1}"
+        stringResource(R.string.cd_rest_position, durationLabel, index + 1)
     }
 
     Column(

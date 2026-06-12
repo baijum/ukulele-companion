@@ -817,6 +817,22 @@
     <string name="cd_start_recording">우쿨렐레에서 음표 녹음</string>
     <string name="cd_stop_recording">녹음 중지</string>
     <string name="melody_rename_dialog_title">멜로디 이름 바꾸기</string>
+    <string name="melody_added_feedback">%s 추가됨</string>
+    <string name="melody_mode_linear">순차</string>
+    <string name="melody_mode_step_sequencer">스텝 시퀀서</string>
+    <string name="melody_duration_whole">온음표</string>
+    <string name="melody_duration_half">2분음표</string>
+    <string name="melody_duration_quarter">4분음표</string>
+    <string name="melody_duration_eighth">8분음표</string>
+    <string name="melody_duration_sixteenth">16분음표</string>
+    <string name="melody_step_sequencer_title">스텝 시퀀서 (%d 스텝)</string>
+    <string name="melody_steps_8">8 스텝</string>
+    <string name="melody_steps_16">16 스텝</string>
+    <string name="cd_linear_mode">순차 모드, 순서대로 음표 입력</string>
+    <string name="cd_step_sequencer_mode">스텝 시퀀서 모드, 격자 기반 입력</string>
+    <string name="cd_step_sequencer_grid">멜로디 스텝 시퀀서, %d 스텝</string>
+    <string name="cd_step_note">스텝 %1$d: %2$s %3$s</string>
+    <string name="cd_step_empty">스텝 %d: 비어 있음</string>
 
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">코드 진행으로 돌아가기</string>

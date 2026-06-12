@@ -817,6 +817,22 @@
     <string name="cd_start_recording">Rekam not dari ukulele</string>
     <string name="cd_stop_recording">Hentikan rekaman</string>
     <string name="melody_rename_dialog_title">Ubah Nama Melodi</string>
+    <string name="melody_added_feedback">%s ditambahkan</string>
+    <string name="melody_mode_linear">Linear</string>
+    <string name="melody_mode_step_sequencer">Step Sequencer</string>
+    <string name="melody_duration_whole">penuh</string>
+    <string name="melody_duration_half">setengah</string>
+    <string name="melody_duration_quarter">seperempat</string>
+    <string name="melody_duration_eighth">seperdelapan</string>
+    <string name="melody_duration_sixteenth">seperenam belas</string>
+    <string name="melody_step_sequencer_title">Step Sequencer (%d langkah)</string>
+    <string name="melody_steps_8">8 langkah</string>
+    <string name="melody_steps_16">16 langkah</string>
+    <string name="cd_linear_mode">Mode linear, input not berurutan</string>
+    <string name="cd_step_sequencer_mode">Mode step sequencer, input berbasis grid</string>
+    <string name="cd_step_sequencer_grid">Step sequencer melodi, %d langkah</string>
+    <string name="cd_step_note">Langkah %1$d: %2$s %3$s</string>
+    <string name="cd_step_empty">Langkah %d: kosong</string>
 
     <!-- ── Voice Leading ──────────────────────────────────────────────── -->
     <string name="cd_back_progressions">Kembali ke progresi</string>

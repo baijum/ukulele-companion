@@ -818,6 +818,22 @@
     <string name="cd_start_recording">Registra note dall\'ukulele</string>
     <string name="cd_stop_recording">Interrompi registrazione</string>
     <string name="melody_rename_dialog_title">Rinomina melodia</string>
+    <string name="melody_added_feedback">%s aggiunto</string>
+    <string name="melody_mode_linear">Lineare</string>
+    <string name="melody_mode_step_sequencer">Sequenziatore</string>
+    <string name="melody_duration_whole">semibreve</string>
+    <string name="melody_duration_half">minima</string>
+    <string name="melody_duration_quarter">semiminima</string>
+    <string name="melody_duration_eighth">croma</string>
+    <string name="melody_duration_sixteenth">semicroma</string>
+    <string name="melody_step_sequencer_title">Sequenziatore (%d passi)</string>
+    <string name="melody_steps_8">8 passi</string>
+    <string name="melody_steps_16">16 passi</string>
+    <string name="cd_linear_mode">Modalità lineare, inserimento sequenziale delle note</string>
+    <string name="cd_step_sequencer_mode">Modalità sequenziatore, inserimento a griglia</string>
+    <string name="cd_step_sequencer_grid">Sequenziatore melodia, %d passi</string>
+    <string name="cd_step_note">Passo %1$d: %2$s %3$s</string>
+    <string name="cd_step_empty">Passo %d: vuoto</string>
 
     <!-- ── Condotta delle voci ────────────────────────────────────────── -->
     <string name="cd_back_progressions">Torna alle progressioni</string>

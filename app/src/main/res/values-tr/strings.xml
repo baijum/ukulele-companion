@@ -818,6 +818,22 @@
     <string name="cd_start_recording">Ukuleleden notaları kaydet</string>
     <string name="cd_stop_recording">Kaydı durdur</string>
     <string name="melody_rename_dialog_title">Melodiyi Yeniden Adlandır</string>
+    <string name="melody_added_feedback">%s eklendi</string>
+    <string name="melody_mode_linear">Doğrusal</string>
+    <string name="melody_mode_step_sequencer">Adım Sıralayıcı</string>
+    <string name="melody_duration_whole">tam</string>
+    <string name="melody_duration_half">yarım</string>
+    <string name="melody_duration_quarter">dörtlük</string>
+    <string name="melody_duration_eighth">sekizlik</string>
+    <string name="melody_duration_sixteenth">on altılık</string>
+    <string name="melody_step_sequencer_title">Adım Sıralayıcı (%d adım)</string>
+    <string name="melody_steps_8">8 adım</string>
+    <string name="melody_steps_16">16 adım</string>
+    <string name="cd_linear_mode">Doğrusal mod, sıralı nota girişi</string>
+    <string name="cd_step_sequencer_mode">Adım sıralayıcı modu, ızgara tabanlı giriş</string>
+    <string name="cd_step_sequencer_grid">Melodi adım sıralayıcı, %d adım</string>
+    <string name="cd_step_note">Adım %1$d: %2$s %3$s</string>
+    <string name="cd_step_empty">Adım %d: boş</string>
 
     <!-- ── Ses Yönlendirme ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">İlerlemelere dön</string>

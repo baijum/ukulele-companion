@@ -23,7 +23,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.Melody
 import com.baijum.ukufretboard.viewmodel.MelodyViewModel
 
@@ -98,20 +100,22 @@ fun MelodyNotepadView(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
+            val linearModeDesc = stringResource(R.string.cd_linear_mode)
             FilterChip(
                 selected = !state.isStepSequencerMode,
                 onClick = { if (state.isStepSequencerMode) viewModel.toggleStepSequencerMode() },
-                label = { Text("Linear") },
+                label = { Text(stringResource(R.string.melody_mode_linear)) },
                 modifier = Modifier.semantics {
-                    contentDescription = "Linear mode, sequential note entry"
+                    contentDescription = linearModeDesc
                 },
             )
+            val stepSequencerModeDesc = stringResource(R.string.cd_step_sequencer_mode)
             FilterChip(
                 selected = state.isStepSequencerMode,
                 onClick = { if (!state.isStepSequencerMode) viewModel.toggleStepSequencerMode() },
-                label = { Text("Step Sequencer") },
+                label = { Text(stringResource(R.string.melody_mode_step_sequencer)) },
                 modifier = Modifier.semantics {
-                    contentDescription = "Step sequencer mode, grid-based entry"
+                    contentDescription = stepSequencerModeDesc
                 },
             )
         }

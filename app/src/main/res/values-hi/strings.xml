@@ -818,6 +818,22 @@
     <string name="cd_start_recording">यूकुलेले से नोट्स रिकॉर्ड करें</string>
     <string name="cd_stop_recording">रिकॉर्डिंग बंद करें</string>
     <string name="melody_rename_dialog_title">मेलोडी का नाम बदलें</string>
+    <string name="melody_added_feedback">%s जोड़ा गया</string>
+    <string name="melody_mode_linear">रैखिक</string>
+    <string name="melody_mode_step_sequencer">स्टेप सीक्वेंसर</string>
+    <string name="melody_duration_whole">पूर्ण</string>
+    <string name="melody_duration_half">आधी</string>
+    <string name="melody_duration_quarter">चौथाई</string>
+    <string name="melody_duration_eighth">आठवीं</string>
+    <string name="melody_duration_sixteenth">सोलहवीं</string>
+    <string name="melody_step_sequencer_title">स्टेप सीक्वेंसर (%d स्टेप)</string>
+    <string name="melody_steps_8">8 स्टेप</string>
+    <string name="melody_steps_16">16 स्टेप</string>
+    <string name="cd_linear_mode">रैखिक मोड, क्रमिक नोट प्रविष्टि</string>
+    <string name="cd_step_sequencer_mode">स्टेप सीक्वेंसर मोड, ग्रिड-आधारित प्रविष्टि</string>
+    <string name="cd_step_sequencer_grid">मेलोडी स्टेप सीक्वेंसर, %d स्टेप</string>
+    <string name="cd_step_note">स्टेप %1$d: %2$s %3$s</string>
+    <string name="cd_step_empty">स्टेप %d: खाली</string>
 
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">प्रोग्रेशन पर वापस जाएँ</string>

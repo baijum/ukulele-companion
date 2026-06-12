@@ -27,12 +27,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.viewmodel.MelodyUiState
 
@@ -44,11 +46,11 @@ internal fun StepSequencerGrid(
     onClearStep: (Int) -> Unit,
     onExpandSteps: () -> Unit,
 ) {
-    val gridLabel = "Melody step sequencer, ${state.steps.size} steps"
+    val gridLabel = stringResource(R.string.cd_step_sequencer_grid, state.steps.size)
 
     Column(modifier = Modifier.semantics { contentDescription = gridLabel }) {
         Text(
-            text = "Step Sequencer (${state.steps.size} steps)",
+            text = stringResource(R.string.melody_step_sequencer_title, state.steps.size),
             style = MaterialTheme.typography.labelMedium,
             fontWeight = FontWeight.Bold,
         )
@@ -64,9 +66,9 @@ internal fun StepSequencerGrid(
                 val isPlaying = state.isPlaying && state.playingIndex == index
                 val noteName = note?.pitchClass?.let { Notes.pitchClassToName(it) }
                 val stepDesc = if (noteName != null) {
-                    "Step ${index + 1}: $noteName${note.octave} ${note.duration.name.lowercase()}"
+                    stringResource(R.string.cd_step_note, index + 1, "$noteName${note.octave}", note.duration.name.lowercase())
                 } else {
-                    "Step ${index + 1}: empty"
+                    stringResource(R.string.cd_step_empty, index + 1)
                 }
 
                 var showPitchPicker by remember { mutableStateOf(false) }
@@ -139,9 +141,9 @@ internal fun StepSequencerGrid(
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             val expandLabel = if (state.steps.size >= MelodyUiState.STEP_COUNT_16) {
-                "8 steps"
+                stringResource(R.string.melody_steps_8)
             } else {
-                "16 steps"
+                stringResource(R.string.melody_steps_16)
             }
             OutlinedButton(onClick = onExpandSteps) {
                 Text(expandLabel)

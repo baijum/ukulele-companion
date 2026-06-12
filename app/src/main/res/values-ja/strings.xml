@@ -817,6 +817,22 @@
     <string name="cd_start_recording">ウクレレからノートを録音</string>
     <string name="cd_stop_recording">録音を停止</string>
     <string name="melody_rename_dialog_title">メロディーの名前を変更</string>
+    <string name="melody_added_feedback">%s を追加</string>
+    <string name="melody_mode_linear">リニア</string>
+    <string name="melody_mode_step_sequencer">ステップシーケンサー</string>
+    <string name="melody_duration_whole">全音符</string>
+    <string name="melody_duration_half">2分音符</string>
+    <string name="melody_duration_quarter">4分音符</string>
+    <string name="melody_duration_eighth">8分音符</string>
+    <string name="melody_duration_sixteenth">16分音符</string>
+    <string name="melody_step_sequencer_title">ステップシーケンサー（%d ステップ）</string>
+    <string name="melody_steps_8">8 ステップ</string>
+    <string name="melody_steps_16">16 ステップ</string>
+    <string name="cd_linear_mode">リニアモード、順次音符入力</string>
+    <string name="cd_step_sequencer_mode">ステップシーケンサーモード、グリッド入力</string>
+    <string name="cd_step_sequencer_grid">メロディーステップシーケンサー、%d ステップ</string>
+    <string name="cd_step_note">ステップ %1$d: %2$s %3$s</string>
+    <string name="cd_step_empty">ステップ %d: 空</string>
 
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">コード進行に戻る</string>

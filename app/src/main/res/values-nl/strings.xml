@@ -818,6 +818,22 @@
     <string name="cd_start_recording">Noten opnemen van ukulele</string>
     <string name="cd_stop_recording">Opname stoppen</string>
     <string name="melody_rename_dialog_title">Melodie hernoemen</string>
+    <string name="melody_added_feedback">%s toegevoegd</string>
+    <string name="melody_mode_linear">Lineair</string>
+    <string name="melody_mode_step_sequencer">Stappensequencer</string>
+    <string name="melody_duration_whole">heel</string>
+    <string name="melody_duration_half">half</string>
+    <string name="melody_duration_quarter">kwart</string>
+    <string name="melody_duration_eighth">achtste</string>
+    <string name="melody_duration_sixteenth">zestiende</string>
+    <string name="melody_step_sequencer_title">Stappensequencer (%d stappen)</string>
+    <string name="melody_steps_8">8 stappen</string>
+    <string name="melody_steps_16">16 stappen</string>
+    <string name="cd_linear_mode">Lineaire modus, opeenvolgende nootinvoer</string>
+    <string name="cd_step_sequencer_mode">Stappensequencermodus, rasterinvoer</string>
+    <string name="cd_step_sequencer_grid">Melodie-stappensequencer, %d stappen</string>
+    <string name="cd_step_note">Stap %1$d: %2$s %3$s</string>
+    <string name="cd_step_empty">Stap %d: leeg</string>
 
     <!-- ── Stemvoering ────────────────────────────────────────────────── -->
     <string name="cd_back_progressions">Terug naar progressies</string>
