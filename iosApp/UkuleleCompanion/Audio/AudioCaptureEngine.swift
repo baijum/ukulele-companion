@@ -150,6 +150,7 @@ final class AudioCaptureEngine: ObservableObject, @unchecked Sendable {
         guard let channelData = buffer.floatChannelData else { return }
         let samples = channelData[0]
         let count = Int(buffer.frameLength)
+        guard count > 0 else { return }
 
         bufferLock.lock()
         defer { bufferLock.unlock() }
