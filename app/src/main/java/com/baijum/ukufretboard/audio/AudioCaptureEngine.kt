@@ -135,7 +135,7 @@ object AudioCaptureEngine {
 
         captureJob = scope.launch {
             try {
-                withContext(Dispatchers.Default) {
+                withContext(Dispatchers.IO) {
                     // Read from the recorder in hop-sized chunks.
                     val shortBuf = ShortArray(HOP_SIZE)
 
