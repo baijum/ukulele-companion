@@ -150,11 +150,9 @@ private fun TunerContent(
     val haptic = LocalHapticFeedback.current
     val reduceMotion = LocalReduceMotion.current
 
-    // --- Auto-start: begin listening when entering the tab ----------------
-    if (tunerSettings.autoStart && !state.isListening) {
-        LaunchedEffect(Unit) {
-            viewModel.startTuning()
-        }
+    // --- Auto-start: one-shot on tab entry when enabled --------------------
+    LaunchedEffect(tunerSettings.autoStart) {
+        if (tunerSettings.autoStart) viewModel.startTuning()
     }
 
     // --- Haptic feedback on string tuned ----------------------------------
