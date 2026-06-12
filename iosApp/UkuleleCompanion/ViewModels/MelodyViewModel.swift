@@ -406,15 +406,15 @@ final class MelodyViewModel: ObservableObject {
     }
 
     func save(name: String) {
-        let id = UUID().uuidString
-        let melody = MelodyData(
-            id: id,
-            name: name,
-            notes: notes,
-            bpm: bpm,
-            createdAt: Date().timeIntervalSince1970 * 1000
-        )
-        savedMelodies.insert(melody, at: 0)
+        let id = loadedMelodyId ?? UUID().uuidString
+        let createdAt = savedMelodies.first(where: { $0.id == id })?.createdAt
+            ?? Date().timeIntervalSince1970 * 1000
+        let melody = MelodyData(id: id, name: name, notes: notes, bpm: bpm, createdAt: createdAt)
+        if let idx = savedMelodies.firstIndex(where: { $0.id == id }) {
+            savedMelodies[idx] = melody
+        } else {
+            savedMelodies.insert(melody, at: 0)
+        }
         loadedMelodyName = name
         loadedMelodyId = id
         hasUnsavedChanges = false
