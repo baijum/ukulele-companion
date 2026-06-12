@@ -70,10 +70,11 @@ final class SongbookViewModel: ObservableObject {
     @Published var sortOrder: SongSortOrder = .lastModified
     @Published var selectedLabels: Set<String> = []
 
-    private let userDefaultsKey = "chord_sheets"
+    private let repository: SongbookRepository
 
-    init() {
-        load()
+    init(repository: SongbookRepository = SongbookRepository()) {
+        self.repository = repository
+        songs = repository.getAll()
     }
 
     var allLabels: [String] {
@@ -120,7 +121,7 @@ final class SongbookViewModel: ObservableObject {
         } else {
             songs.insert(song, at: 0)
         }
-        persist()
+        repository.save(songs)
     }
 
     func duplicate(song: StoredSong) -> StoredSong {
@@ -139,41 +140,41 @@ final class SongbookViewModel: ObservableObject {
             updatedAt: now
         )
         songs.insert(copy, at: 0)
-        persist()
+        repository.save(songs)
         return copy
     }
 
     func delete(id: String) {
         songs.removeAll { $0.id == id }
-        persist()
+        repository.save(songs)
     }
 
     func updateLabels(id: String, labels: [String]) {
         guard let idx = songs.firstIndex(where: { $0.id == id }) else { return }
         songs[idx].labels = labels
         songs[idx].updatedAt = Date().timeIntervalSince1970 * 1000
-        persist()
+        repository.save(songs)
     }
 
     func updateStrumPattern(id: String, patternName: String) {
         guard let idx = songs.firstIndex(where: { $0.id == id }) else { return }
         songs[idx].strumPatternName = patternName
         songs[idx].updatedAt = Date().timeIntervalSince1970 * 1000
-        persist()
+        repository.save(songs)
     }
 
     func recordView(id: String) {
         guard let idx = songs.firstIndex(where: { $0.id == id }) else { return }
         songs[idx].viewCount += 1
         songs[idx].lastViewedAt = Date().timeIntervalSince1970 * 1000
-        persist()
+        repository.save(songs)
     }
 
     func recordViewTime(id: String, elapsedMs: Double) {
         guard elapsedMs > 0,
               let idx = songs.firstIndex(where: { $0.id == id }) else { return }
         songs[idx].totalViewTimeMs += elapsedMs
-        persist()
+        repository.save(songs)
     }
 
     func importPlainText(content: String, filename: String?) {
@@ -259,42 +260,10 @@ final class SongbookViewModel: ObservableObject {
     }
 
     func importData(_ incoming: [[String: Any]]) {
-        let decoder = JSONDecoder()
-        for item in incoming {
-            guard let jsonData = try? JSONSerialization.data(withJSONObject: item),
-                  let song = try? decoder.decode(StoredSong.self, from: jsonData)
-            else { continue }
-            if let idx = songs.firstIndex(where: { $0.id == song.id }) {
-                // Keep the one with the latest updatedAt
-                if song.updatedAt > songs[idx].updatedAt {
-                    songs[idx] = song
-                }
-            } else {
-                songs.append(song)
-            }
-        }
-        persist()
+        repository.importData(incoming, into: &songs)
     }
 
     func exportData() -> [[String: Any]] {
-        let encoder = JSONEncoder()
-        return songs.compactMap { song in
-            guard let data = try? encoder.encode(song),
-                  let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
-            else { return nil }
-            return dict
-        }
-    }
-
-    private func load() {
-        guard let data = UserDefaults.standard.data(forKey: userDefaultsKey),
-              let decoded = try? JSONDecoder().decode([StoredSong].self, from: data)
-        else { return }
-        songs = decoded
-    }
-
-    private func persist() {
-        guard let data = try? JSONEncoder().encode(songs) else { return }
-        UserDefaults.standard.set(data, forKey: userDefaultsKey)
+        repository.exportData(songs)
     }
 }

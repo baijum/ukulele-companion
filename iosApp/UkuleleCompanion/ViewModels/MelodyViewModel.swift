@@ -99,7 +99,7 @@ final class MelodyViewModel: ObservableObject {
     private var loadedMelodyId: String? = nil
     private static let stabilizationThreshold = 3
 
-    private let userDefaultsKey = "melodies"
+    private let repository: MelodyRepository
     private let tonePlayer = TonePlayer()
     private var playbackTask: Task<Void, Never>?
     private let audioEngine = AudioCaptureEngine()
@@ -107,8 +107,9 @@ final class MelodyViewModel: ObservableObject {
     private var stableCount = 0
     private var lastDetectedPitchClass: Int? = nil
 
-    init() {
-        loadMelodies()
+    init(repository: MelodyRepository = MelodyRepository()) {
+        self.repository = repository
+        savedMelodies = repository.getAll()
     }
 
     var noteNames: [String] {
@@ -393,7 +394,7 @@ final class MelodyViewModel: ObservableObject {
         loadedMelodyName = name
         loadedMelodyId = id
         hasUnsavedChanges = false
-        persistMelodies()
+        repository.save(savedMelodies)
     }
 
     func load(melody: MelodyData) {
@@ -409,52 +410,19 @@ final class MelodyViewModel: ObservableObject {
         if loadedMelodyId == id {
             loadedMelodyName = newName
         }
-        persistMelodies()
+        repository.save(savedMelodies)
     }
 
     func deleteMelody(id: String) {
         savedMelodies.removeAll { $0.id == id }
-        persistMelodies()
+        repository.save(savedMelodies)
     }
 
     func importData(_ incoming: [[String: Any]]) {
-        let decoder = JSONDecoder()
-        for item in incoming {
-            guard let jsonData = try? JSONSerialization.data(withJSONObject: item),
-                  let decoded = try? decoder.decode(MelodyData.self, from: jsonData)
-            else { continue }
-            let melody = decoded.sanitized()
-            if let idx = savedMelodies.firstIndex(where: { $0.id == melody.id }) {
-                // Keep the one with the latest createdAt
-                if melody.createdAt > savedMelodies[idx].createdAt {
-                    savedMelodies[idx] = melody
-                }
-            } else {
-                savedMelodies.append(melody)
-            }
-        }
-        persistMelodies()
+        repository.importData(incoming, into: &savedMelodies)
     }
 
     func exportData() -> [[String: Any]] {
-        let encoder = JSONEncoder()
-        return savedMelodies.compactMap { melody in
-            guard let data = try? encoder.encode(melody),
-                  let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
-            else { return nil }
-            return dict
-        }
-    }
-
-    private func loadMelodies() {
-        guard let data = UserDefaults.standard.data(forKey: userDefaultsKey),
-              let decoded = try? JSONDecoder().decode([MelodyData].self, from: data)
-        else { return }
-        savedMelodies = decoded
-    }
-
-    private func persistMelodies() {
-        guard let data = try? JSONEncoder().encode(savedMelodies) else { return }
-        UserDefaults.standard.set(data, forKey: userDefaultsKey)
+        repository.exportData(savedMelodies)
     }
 }

@@ -13,10 +13,11 @@ struct StoredSetlist: Codable, Identifiable {
 final class SetlistViewModel: ObservableObject {
     @Published var setlists: [StoredSetlist] = []
 
-    private let userDefaultsKey = "setlists"
+    private let repository: SetlistRepository
 
-    init() {
-        load()
+    init(repository: SetlistRepository = SetlistRepository()) {
+        self.repository = repository
+        setlists = repository.getAll()
     }
 
     func create(name: String) {
@@ -29,19 +30,19 @@ final class SetlistViewModel: ObservableObject {
             updatedAt: now
         )
         setlists.insert(setlist, at: 0)
-        persist()
+        repository.save(setlists)
     }
 
     func rename(id: String, newName: String) {
         guard let idx = setlists.firstIndex(where: { $0.id == id }) else { return }
         setlists[idx].name = newName
         setlists[idx].updatedAt = Date().timeIntervalSince1970 * 1000
-        persist()
+        repository.save(setlists)
     }
 
     func delete(id: String) {
         setlists.removeAll { $0.id == id }
-        persist()
+        repository.save(setlists)
     }
 
     func addSong(setlistId: String, songId: String) {
@@ -49,14 +50,14 @@ final class SetlistViewModel: ObservableObject {
         guard !setlists[idx].songIds.contains(songId) else { return }
         setlists[idx].songIds.append(songId)
         setlists[idx].updatedAt = Date().timeIntervalSince1970 * 1000
-        persist()
+        repository.save(setlists)
     }
 
     func removeSong(setlistId: String, songId: String) {
         guard let idx = setlists.firstIndex(where: { $0.id == setlistId }) else { return }
         setlists[idx].songIds.removeAll { $0 == songId }
         setlists[idx].updatedAt = Date().timeIntervalSince1970 * 1000
-        persist()
+        repository.save(setlists)
     }
 
     func moveSong(setlistId: String, from: Int, to: Int) {
@@ -66,45 +67,14 @@ final class SetlistViewModel: ObservableObject {
         let item = setlists[idx].songIds.remove(at: from)
         setlists[idx].songIds.insert(item, at: to)
         setlists[idx].updatedAt = Date().timeIntervalSince1970 * 1000
-        persist()
+        repository.save(setlists)
     }
 
     func exportData() -> [[String: Any]] {
-        let encoder = JSONEncoder()
-        return setlists.compactMap { setlist in
-            guard let data = try? encoder.encode(setlist),
-                  let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
-            else { return nil }
-            return dict
-        }
+        repository.exportData(setlists)
     }
 
     func importData(_ incoming: [[String: Any]]) {
-        let decoder = JSONDecoder()
-        for item in incoming {
-            guard let jsonData = try? JSONSerialization.data(withJSONObject: item),
-                  let setlist = try? decoder.decode(StoredSetlist.self, from: jsonData)
-            else { continue }
-            if let idx = setlists.firstIndex(where: { $0.id == setlist.id }) {
-                if setlist.updatedAt > setlists[idx].updatedAt {
-                    setlists[idx] = setlist
-                }
-            } else {
-                setlists.append(setlist)
-            }
-        }
-        persist()
-    }
-
-    private func load() {
-        guard let data = UserDefaults.standard.data(forKey: userDefaultsKey),
-              let decoded = try? JSONDecoder().decode([StoredSetlist].self, from: data)
-        else { return }
-        setlists = decoded
-    }
-
-    private func persist() {
-        guard let data = try? JSONEncoder().encode(setlists) else { return }
-        UserDefaults.standard.set(data, forKey: userDefaultsKey)
+        repository.importData(incoming, into: &setlists)
     }
 }

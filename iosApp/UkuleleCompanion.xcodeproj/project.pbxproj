@@ -82,6 +82,16 @@
 		A10068 /* ScaleSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10068 /* ScaleSelectorView.swift */; };
 		A10069 /* PlayAlongViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10069 /* PlayAlongViewModel.swift */; };
 		A10200 /* TunerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10200 /* TunerViewModel.swift */; };
+		A10301 /* SettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10301 /* SettingsRepository.swift */; };
+		A10302 /* FavoritesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10302 /* FavoritesRepository.swift */; };
+		A10303 /* SetlistRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10303 /* SetlistRepository.swift */; };
+		A10304 /* SongbookRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10304 /* SongbookRepository.swift */; };
+		A10305 /* MelodyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10305 /* MelodyRepository.swift */; };
+		A10306 /* ProgressionsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10306 /* ProgressionsRepository.swift */; };
+		A10307 /* LearnRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10307 /* LearnRepository.swift */; };
+		A10308 /* CustomPatternsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10308 /* CustomPatternsRepository.swift */; };
+		A10309 /* PracticeTimerRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10309 /* PracticeTimerRepository.swift */; };
+		A10310 /* ScalePracticeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10310 /* ScalePracticeRepository.swift */; };
 		A10070 /* PatternPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10070 /* PatternPlayer.swift */; };
 		A10071 /* FullScreenFretboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10071 /* FullScreenFretboardView.swift */; };
 		A10072 /* PracticeTimerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10072 /* PracticeTimerViewModelTests.swift */; };
@@ -232,6 +242,16 @@
 		B10068 /* ScaleSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleSelectorView.swift; sourceTree = "<group>"; };
 		B10069 /* PlayAlongViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAlongViewModel.swift; sourceTree = "<group>"; };
 		B10200 /* TunerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunerViewModel.swift; sourceTree = "<group>"; };
+		B10301 /* SettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepository.swift; sourceTree = "<group>"; };
+		B10302 /* FavoritesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesRepository.swift; sourceTree = "<group>"; };
+		B10303 /* SetlistRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetlistRepository.swift; sourceTree = "<group>"; };
+		B10304 /* SongbookRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongbookRepository.swift; sourceTree = "<group>"; };
+		B10305 /* MelodyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MelodyRepository.swift; sourceTree = "<group>"; };
+		B10306 /* ProgressionsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionsRepository.swift; sourceTree = "<group>"; };
+		B10307 /* LearnRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnRepository.swift; sourceTree = "<group>"; };
+		B10308 /* CustomPatternsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPatternsRepository.swift; sourceTree = "<group>"; };
+		B10309 /* PracticeTimerRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTimerRepository.swift; sourceTree = "<group>"; };
+		B10310 /* ScalePracticeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalePracticeRepository.swift; sourceTree = "<group>"; };
 		B10070 /* PatternPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternPlayer.swift; sourceTree = "<group>"; };
 		B10071 /* FullScreenFretboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenFretboardView.swift; sourceTree = "<group>"; };
 		B10072 /* PracticeTimerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTimerViewModelTests.swift; sourceTree = "<group>"; };
@@ -340,6 +360,7 @@
 				G20001 /* Audio */,
 				G30001 /* Views */,
 				G70001 /* ViewModels */,
+				G90002 /* Repositories */,
 				G80001 /* Helpers */,
 				G40001 /* Resources */,
 				B30001 /* Assets.xcassets */,
@@ -481,6 +502,23 @@
 				B10200 /* TunerViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		G90002 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				B10301 /* SettingsRepository.swift */,
+				B10302 /* FavoritesRepository.swift */,
+				B10303 /* SetlistRepository.swift */,
+				B10304 /* SongbookRepository.swift */,
+				B10305 /* MelodyRepository.swift */,
+				B10306 /* ProgressionsRepository.swift */,
+				B10307 /* LearnRepository.swift */,
+				B10308 /* CustomPatternsRepository.swift */,
+				B10309 /* PracticeTimerRepository.swift */,
+				B10310 /* ScalePracticeRepository.swift */,
+			);
+			path = Repositories;
 			sourceTree = "<group>";
 		};
 		G80001 /* Helpers */ = {
@@ -762,6 +800,16 @@
 				A10070 /* PatternPlayer.swift in Sources */,
 				A10071 /* FullScreenFretboardView.swift in Sources */,
 				A10080 /* SongwriterModeFlow.swift in Sources */,
+				A10301 /* SettingsRepository.swift in Sources */,
+				A10302 /* FavoritesRepository.swift in Sources */,
+				A10303 /* SetlistRepository.swift in Sources */,
+				A10304 /* SongbookRepository.swift in Sources */,
+				A10305 /* MelodyRepository.swift in Sources */,
+				A10306 /* ProgressionsRepository.swift in Sources */,
+				A10307 /* LearnRepository.swift in Sources */,
+				A10308 /* CustomPatternsRepository.swift in Sources */,
+				A10309 /* PracticeTimerRepository.swift in Sources */,
+				A10310 /* ScalePracticeRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

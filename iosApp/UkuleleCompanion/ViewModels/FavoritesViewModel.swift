@@ -28,12 +28,12 @@ final class FavoritesViewModel: ObservableObject {
     @Published var favorites: [FavoriteVoicingData] = []
     @Published var folders: [FavoriteFolderData] = []
 
-    private let favoritesKey = "favorite_voicings"
-    private let foldersKey = "favorite_folders"
+    private let repository: FavoritesRepository
 
-    init() {
-        loadFavorites()
-        loadFolders()
+    init(repository: FavoritesRepository = FavoritesRepository()) {
+        self.repository = repository
+        favorites = repository.getAll()
+        folders = repository.getAllFolders()
     }
 
     // MARK: - Favorites
@@ -48,17 +48,16 @@ final class FavoritesViewModel: ObservableObject {
         )
         guard !favorites.contains(where: { $0.key == fav.key }) else { return }
         favorites.insert(fav, at: 0)
-        saveFavorites()
+        repository.save(favorites)
     }
 
     func removeFavorite(key: String) {
         favorites.removeAll { $0.key == key }
-        // Clean up folder orderings
         for i in folders.indices {
             folders[i].voicingOrder.removeAll { $0 == key }
         }
-        saveFavorites()
-        saveFolders()
+        repository.save(favorites)
+        repository.saveFolders(folders)
     }
 
     func removeFavorite(rootPitchClass: Int, chordSymbol: String, frets: [Int]) {
@@ -76,7 +75,6 @@ final class FavoritesViewModel: ObservableObject {
         return favorites.first { $0.key == key }?.folderIds ?? []
     }
 
-    /// Adds a voicing to favorites with folder assignments, or updates folders if already favorited.
     func saveFavoriteToFolders(rootPitchClass: Int, chordSymbol: String, frets: [Int], folderIds: [String]) {
         let key = "\(rootPitchClass)|\(chordSymbol)|\(frets.map(String.init).joined(separator: ","))"
         if let idx = favorites.firstIndex(where: { $0.key == key }) {
@@ -112,8 +110,8 @@ final class FavoritesViewModel: ObservableObject {
                 }
             }
         }
-        saveFavorites()
-        saveFolders()
+        repository.save(favorites)
+        repository.saveFolders(folders)
     }
 
     // MARK: - Folders
@@ -126,13 +124,13 @@ final class FavoritesViewModel: ObservableObject {
             voicingOrder: []
         )
         folders.append(folder)
-        saveFolders()
+        repository.saveFolders(folders)
     }
 
     func renameFolder(id: String, name: String) {
         guard let idx = folders.firstIndex(where: { $0.id == id }) else { return }
         folders[idx].name = name
-        saveFolders()
+        repository.saveFolders(folders)
     }
 
     func deleteFolder(id: String) {
@@ -140,8 +138,8 @@ final class FavoritesViewModel: ObservableObject {
         for i in favorites.indices {
             favorites[i].folderIds.removeAll { $0 == id }
         }
-        saveFolders()
-        saveFavorites()
+        repository.saveFolders(folders)
+        repository.save(favorites)
     }
 
     func setFolders(voicingKey: String, folderIds: [String]) {
@@ -150,34 +148,31 @@ final class FavoritesViewModel: ObservableObject {
         let newIds = Set(folderIds)
         favorites[idx].folderIds = folderIds
 
-        // Add to newly assigned folders
         for folderId in newIds.subtracting(oldIds) {
             if let fi = folders.firstIndex(where: { $0.id == folderId }),
                !folders[fi].voicingOrder.contains(voicingKey) {
                 folders[fi].voicingOrder.append(voicingKey)
             }
         }
-        // Remove from unassigned folders
         for folderId in oldIds.subtracting(newIds) {
             if let fi = folders.firstIndex(where: { $0.id == folderId }) {
                 folders[fi].voicingOrder.removeAll { $0 == voicingKey }
             }
         }
 
-        saveFavorites()
-        saveFolders()
+        repository.save(favorites)
+        repository.saveFolders(folders)
     }
 
     func reorderInFolder(folderId: String, orderedKeys: [String]) {
         guard let idx = folders.firstIndex(where: { $0.id == folderId }) else { return }
         folders[idx].voicingOrder = orderedKeys
-        saveFolders()
+        repository.saveFolders(folders)
     }
 
     func favoritesInFolder(_ folderId: String) -> [FavoriteVoicingData] {
         guard let folder = folders.first(where: { $0.id == folderId }) else { return [] }
         let inFolder = favorites.filter { $0.folderIds.contains(folderId) }
-        // Order by folder's voicingOrder
         let keyOrder = folder.voicingOrder
         return inFolder.sorted { a, b in
             let ai = keyOrder.firstIndex(of: a.key) ?? Int.max
@@ -186,73 +181,14 @@ final class FavoritesViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Persistence
-
-    private func saveFavorites() {
-        guard let data = try? JSONEncoder().encode(favorites) else { return }
-        UserDefaults.standard.set(data, forKey: favoritesKey)
-    }
-
-    private func loadFavorites() {
-        guard let data = UserDefaults.standard.data(forKey: favoritesKey),
-              let decoded = try? JSONDecoder().decode([FavoriteVoicingData].self, from: data)
-        else { return }
-        favorites = decoded
-    }
-
-    private func saveFolders() {
-        guard let data = try? JSONEncoder().encode(folders) else { return }
-        UserDefaults.standard.set(data, forKey: foldersKey)
-    }
-
-    private func loadFolders() {
-        guard let data = UserDefaults.standard.data(forKey: foldersKey),
-              let decoded = try? JSONDecoder().decode([FavoriteFolderData].self, from: data)
-        else { return }
-        folders = decoded
-    }
-
     // MARK: - Export/Import for Backup
 
     func exportData() -> (favorites: [[String: Any]], folders: [[String: Any]]) {
-        let favDicts: [[String: Any]] = favorites.map { f in
-            ["rootPitchClass": f.rootPitchClass, "chordSymbol": f.chordSymbol,
-             "frets": f.frets, "addedAt": f.addedAt, "folderIds": f.folderIds]
-        }
-        let folderDicts: [[String: Any]] = folders.map { f in
-            ["id": f.id, "name": f.name, "createdAt": f.createdAt,
-             "voicingOrder": f.voicingOrder]
-        }
-        return (favDicts, folderDicts)
+        repository.exportData(favorites: favorites, folders: folders)
     }
 
     func importData(favorites: [[String: Any]], folders: [[String: Any]]) {
-        for dict in favorites {
-            guard let rpc = dict["rootPitchClass"] as? Int,
-                  (0...11).contains(rpc),
-                  let sym = dict["chordSymbol"] as? String,
-                  let frets = dict["frets"] as? [Int],
-                  let addedAt = dict["addedAt"] as? Double
-            else { continue }
-            let folderIds = dict["folderIds"] as? [String] ?? []
-            let fav = FavoriteVoicingData(rootPitchClass: rpc, chordSymbol: sym,
-                                          frets: frets, addedAt: addedAt, folderIds: folderIds)
-            if !self.favorites.contains(where: { $0.key == fav.key }) {
-                self.favorites.append(fav)
-            }
-        }
-        for dict in folders {
-            guard let id = dict["id"] as? String,
-                  let name = dict["name"] as? String,
-                  let createdAt = dict["createdAt"] as? Double
-            else { continue }
-            let order = dict["voicingOrder"] as? [String] ?? []
-            if !self.folders.contains(where: { $0.id == id }) {
-                self.folders.append(FavoriteFolderData(id: id, name: name,
-                                                       createdAt: createdAt, voicingOrder: order))
-            }
-        }
-        saveFavorites()
-        saveFolders()
+        repository.importData(favorites: favorites, folders: folders,
+                              existing: &self.favorites, existingFolders: &self.folders)
     }
 }

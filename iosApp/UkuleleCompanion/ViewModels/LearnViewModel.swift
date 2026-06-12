@@ -15,32 +15,32 @@ struct LearningStats {
 final class LearnViewModel: ObservableObject {
     @Published var stateVersion: Int = 0
 
-    private let defaults: UserDefaults
+    private let repository: LearnRepository
 
-    init() {
-        self.defaults = UserDefaults(suiteName: "learn_progress") ?? .standard
+    init(repository: LearnRepository = LearnRepository()) {
+        self.repository = repository
     }
 
     // MARK: - Theory Lessons
 
     func markLessonCompleted(_ lessonId: String) {
-        defaults.set(true, forKey: "lesson_done_\(lessonId)")
+        repository.setBool(true, forKey: "lesson_done_\(lessonId)")
         recordActivity()
         stateVersion += 1
     }
 
     func isLessonCompleted(_ lessonId: String) -> Bool {
-        defaults.bool(forKey: "lesson_done_\(lessonId)")
+        repository.bool(forKey: "lesson_done_\(lessonId)")
     }
 
     func markLessonQuizPassed(_ lessonId: String) {
-        defaults.set(true, forKey: "lesson_quiz_\(lessonId)")
+        repository.setBool(true, forKey: "lesson_quiz_\(lessonId)")
         recordActivity()
         stateVersion += 1
     }
 
     func isLessonQuizPassed(_ lessonId: String) -> Bool {
-        defaults.bool(forKey: "lesson_quiz_\(lessonId)")
+        repository.bool(forKey: "lesson_quiz_\(lessonId)")
     }
 
     func completedLessonCount() -> Int {
@@ -57,18 +57,18 @@ final class LearnViewModel: ObservableObject {
 
     func recordQuizAnswer(category: QuizGenerator.QuizCategory, correct: Bool) {
         let catKey = category.name
-        incrementInt("quiz_total_\(catKey)")
-        incrementInt("quiz_total_ALL")
+        repository.incrementInt("quiz_total_\(catKey)")
+        repository.incrementInt("quiz_total_ALL")
         if correct {
-            incrementInt("quiz_correct_\(catKey)")
-            incrementInt("quiz_correct_ALL")
-            let newStreak = incrementInt("quiz_streak_\(catKey)")
-            updateBestStreak("quiz_best_\(catKey)", currentStreak: newStreak)
-            let newOverallStreak = incrementInt("quiz_streak_ALL")
-            updateBestStreak("quiz_best_ALL", currentStreak: newOverallStreak)
+            repository.incrementInt("quiz_correct_\(catKey)")
+            repository.incrementInt("quiz_correct_ALL")
+            let newStreak = repository.incrementInt("quiz_streak_\(catKey)")
+            repository.updateBestStreak("quiz_best_\(catKey)", currentStreak: newStreak)
+            let newOverallStreak = repository.incrementInt("quiz_streak_ALL")
+            repository.updateBestStreak("quiz_best_ALL", currentStreak: newOverallStreak)
         } else {
-            defaults.set(0, forKey: "quiz_streak_\(catKey)")
-            defaults.set(0, forKey: "quiz_streak_ALL")
+            repository.setInteger(0, forKey: "quiz_streak_\(catKey)")
+            repository.setInteger(0, forKey: "quiz_streak_ALL")
         }
         recordActivity()
         stateVersion += 1
@@ -80,9 +80,9 @@ final class LearnViewModel: ObservableObject {
         let correctKey = category != nil ? "quiz_correct_\(suffix)" : "quiz_correct_ALL"
         let bestKey = category != nil ? "quiz_best_\(suffix)" : "quiz_best_ALL"
         return LearningStats(
-            total: defaults.integer(forKey: totalKey),
-            correct: defaults.integer(forKey: correctKey),
-            bestStreak: defaults.integer(forKey: bestKey)
+            total: repository.integer(forKey: totalKey),
+            correct: repository.integer(forKey: correctKey),
+            bestStreak: repository.integer(forKey: bestKey)
         )
     }
 
@@ -90,18 +90,18 @@ final class LearnViewModel: ObservableObject {
 
     func recordIntervalAnswer(level: Int, correct: Bool) {
         let lvl = min(max(level, 1), 4)
-        incrementInt("interval_total_\(lvl)")
-        incrementInt("interval_total_ALL")
+        repository.incrementInt("interval_total_\(lvl)")
+        repository.incrementInt("interval_total_ALL")
         if correct {
-            incrementInt("interval_correct_\(lvl)")
-            incrementInt("interval_correct_ALL")
-            let newStreak = incrementInt("interval_streak_\(lvl)")
-            updateBestStreak("interval_best_\(lvl)", currentStreak: newStreak)
-            let newOverallStreak = incrementInt("interval_streak_ALL")
-            updateBestStreak("interval_best_ALL", currentStreak: newOverallStreak)
+            repository.incrementInt("interval_correct_\(lvl)")
+            repository.incrementInt("interval_correct_ALL")
+            let newStreak = repository.incrementInt("interval_streak_\(lvl)")
+            repository.updateBestStreak("interval_best_\(lvl)", currentStreak: newStreak)
+            let newOverallStreak = repository.incrementInt("interval_streak_ALL")
+            repository.updateBestStreak("interval_best_ALL", currentStreak: newOverallStreak)
         } else {
-            defaults.set(0, forKey: "interval_streak_\(lvl)")
-            defaults.set(0, forKey: "interval_streak_ALL")
+            repository.setInteger(0, forKey: "interval_streak_\(lvl)")
+            repository.setInteger(0, forKey: "interval_streak_ALL")
         }
         recordActivity()
         stateVersion += 1
@@ -113,22 +113,22 @@ final class LearnViewModel: ObservableObject {
         let correctKey = level != nil ? "interval_correct_\(suffix)" : "interval_correct_ALL"
         let bestKey = level != nil ? "interval_best_\(suffix)" : "interval_best_ALL"
         return LearningStats(
-            total: defaults.integer(forKey: totalKey),
-            correct: defaults.integer(forKey: correctKey),
-            bestStreak: defaults.integer(forKey: bestKey)
+            total: repository.integer(forKey: totalKey),
+            correct: repository.integer(forKey: correctKey),
+            bestStreak: repository.integer(forKey: bestKey)
         )
     }
 
     // MARK: - Note Quiz
 
     func recordNoteQuizAnswer(correct: Bool) {
-        incrementInt("note_quiz_total")
+        repository.incrementInt("note_quiz_total")
         if correct {
-            incrementInt("note_quiz_correct")
-            let newStreak = incrementInt("note_quiz_streak")
-            updateBestStreak("note_quiz_best", currentStreak: newStreak)
+            repository.incrementInt("note_quiz_correct")
+            let newStreak = repository.incrementInt("note_quiz_streak")
+            repository.updateBestStreak("note_quiz_best", currentStreak: newStreak)
         } else {
-            defaults.set(0, forKey: "note_quiz_streak")
+            repository.setInteger(0, forKey: "note_quiz_streak")
         }
         recordActivity()
         stateVersion += 1
@@ -136,9 +136,9 @@ final class LearnViewModel: ObservableObject {
 
     func noteQuizStats() -> LearningStats {
         LearningStats(
-            total: defaults.integer(forKey: "note_quiz_total"),
-            correct: defaults.integer(forKey: "note_quiz_correct"),
-            bestStreak: defaults.integer(forKey: "note_quiz_best")
+            total: repository.integer(forKey: "note_quiz_total"),
+            correct: repository.integer(forKey: "note_quiz_correct"),
+            bestStreak: repository.integer(forKey: "note_quiz_best")
         )
     }
 
@@ -146,18 +146,18 @@ final class LearnViewModel: ObservableObject {
 
     func recordChordEarAnswer(level: Int, correct: Bool) {
         let lvl = min(max(level, 1), 4)
-        incrementInt("chord_ear_total_\(lvl)")
-        incrementInt("chord_ear_total_ALL")
+        repository.incrementInt("chord_ear_total_\(lvl)")
+        repository.incrementInt("chord_ear_total_ALL")
         if correct {
-            incrementInt("chord_ear_correct_\(lvl)")
-            incrementInt("chord_ear_correct_ALL")
-            let newStreak = incrementInt("chord_ear_streak_\(lvl)")
-            updateBestStreak("chord_ear_best_\(lvl)", currentStreak: newStreak)
-            let newOverallStreak = incrementInt("chord_ear_streak_ALL")
-            updateBestStreak("chord_ear_best_ALL", currentStreak: newOverallStreak)
+            repository.incrementInt("chord_ear_correct_\(lvl)")
+            repository.incrementInt("chord_ear_correct_ALL")
+            let newStreak = repository.incrementInt("chord_ear_streak_\(lvl)")
+            repository.updateBestStreak("chord_ear_best_\(lvl)", currentStreak: newStreak)
+            let newOverallStreak = repository.incrementInt("chord_ear_streak_ALL")
+            repository.updateBestStreak("chord_ear_best_ALL", currentStreak: newOverallStreak)
         } else {
-            defaults.set(0, forKey: "chord_ear_streak_\(lvl)")
-            defaults.set(0, forKey: "chord_ear_streak_ALL")
+            repository.setInteger(0, forKey: "chord_ear_streak_\(lvl)")
+            repository.setInteger(0, forKey: "chord_ear_streak_ALL")
         }
         recordActivity()
         stateVersion += 1
@@ -169,9 +169,9 @@ final class LearnViewModel: ObservableObject {
         let correctKey = level != nil ? "chord_ear_correct_\(suffix)" : "chord_ear_correct_ALL"
         let bestKey = level != nil ? "chord_ear_best_\(suffix)" : "chord_ear_best_ALL"
         return LearningStats(
-            total: defaults.integer(forKey: totalKey),
-            correct: defaults.integer(forKey: correctKey),
-            bestStreak: defaults.integer(forKey: bestKey)
+            total: repository.integer(forKey: totalKey),
+            correct: repository.integer(forKey: correctKey),
+            bestStreak: repository.integer(forKey: bestKey)
         )
     }
 
@@ -179,18 +179,18 @@ final class LearnViewModel: ObservableObject {
 
     func recordScalePracticeAnswer(mode: String, correct: Bool) {
         let m = mode.lowercased()
-        incrementInt("scale_practice_total_\(m)")
-        incrementInt("scale_practice_total_ALL")
+        repository.incrementInt("scale_practice_total_\(m)")
+        repository.incrementInt("scale_practice_total_ALL")
         if correct {
-            incrementInt("scale_practice_correct_\(m)")
-            incrementInt("scale_practice_correct_ALL")
-            let newStreak = incrementInt("scale_practice_streak_\(m)")
-            updateBestStreak("scale_practice_best_\(m)", currentStreak: newStreak)
-            let newOverallStreak = incrementInt("scale_practice_streak_ALL")
-            updateBestStreak("scale_practice_best_ALL", currentStreak: newOverallStreak)
+            repository.incrementInt("scale_practice_correct_\(m)")
+            repository.incrementInt("scale_practice_correct_ALL")
+            let newStreak = repository.incrementInt("scale_practice_streak_\(m)")
+            repository.updateBestStreak("scale_practice_best_\(m)", currentStreak: newStreak)
+            let newOverallStreak = repository.incrementInt("scale_practice_streak_ALL")
+            repository.updateBestStreak("scale_practice_best_ALL", currentStreak: newOverallStreak)
         } else {
-            defaults.set(0, forKey: "scale_practice_streak_\(m)")
-            defaults.set(0, forKey: "scale_practice_streak_ALL")
+            repository.setInteger(0, forKey: "scale_practice_streak_\(m)")
+            repository.setInteger(0, forKey: "scale_practice_streak_ALL")
         }
         recordActivity()
         stateVersion += 1
@@ -202,9 +202,9 @@ final class LearnViewModel: ObservableObject {
         let correctKey = mode != nil ? "scale_practice_correct_\(suffix)" : "scale_practice_correct_ALL"
         let bestKey = mode != nil ? "scale_practice_best_\(suffix)" : "scale_practice_best_ALL"
         return LearningStats(
-            total: defaults.integer(forKey: totalKey),
-            correct: defaults.integer(forKey: correctKey),
-            bestStreak: defaults.integer(forKey: bestKey)
+            total: repository.integer(forKey: totalKey),
+            correct: repository.integer(forKey: correctKey),
+            bestStreak: repository.integer(forKey: bestKey)
         )
     }
 
@@ -212,8 +212,8 @@ final class LearnViewModel: ObservableObject {
 
     func recordActivity() {
         let today = todayString()
-        let lastDate = defaults.string(forKey: "last_activity_date")
-        let currentStreak = defaults.integer(forKey: "streak_days")
+        let lastDate = repository.string(forKey: "last_activity_date")
+        let currentStreak = repository.integer(forKey: "streak_days")
 
         let newStreak: Int
         if lastDate == today {
@@ -224,34 +224,34 @@ final class LearnViewModel: ObservableObject {
             newStreak = 1
         }
 
-        let bestStreak = max(defaults.integer(forKey: "best_streak_days"), newStreak)
+        let bestStreak = max(repository.integer(forKey: "best_streak_days"), newStreak)
 
-        defaults.set(today, forKey: "last_activity_date")
-        defaults.set(newStreak, forKey: "streak_days")
-        defaults.set(bestStreak, forKey: "best_streak_days")
+        repository.setString(today, forKey: "last_activity_date")
+        repository.setInteger(newStreak, forKey: "streak_days")
+        repository.setInteger(bestStreak, forKey: "best_streak_days")
     }
 
     func currentDayStreak() -> Int {
-        guard let lastDate = defaults.string(forKey: "last_activity_date") else { return 0 }
+        guard let lastDate = repository.string(forKey: "last_activity_date") else { return 0 }
         let today = todayString()
         if lastDate == today || lastDate == yesterdayString() {
-            return defaults.integer(forKey: "streak_days")
+            return repository.integer(forKey: "streak_days")
         }
         return 0
     }
 
     func bestDayStreak() -> Int {
-        defaults.integer(forKey: "best_streak_days")
+        repository.integer(forKey: "best_streak_days")
     }
 
     // MARK: - Achievements
 
     var unlockedAchievementIds: Set<String> {
         get {
-            Set(defaults.stringArray(forKey: "unlocked_achievements") ?? [])
+            Set(repository.stringArray(forKey: "unlocked_achievements") ?? [])
         }
         set {
-            defaults.set(Array(newValue), forKey: "unlocked_achievements")
+            repository.setStringArray(Array(newValue), forKey: "unlocked_achievements")
             stateVersion += 1
         }
     }
@@ -265,139 +265,34 @@ final class LearnViewModel: ObservableObject {
     // MARK: - Reset
 
     func clearAllProgress() {
-        let allKeys = defaults.dictionaryRepresentation().keys
-        for key in allKeys {
-            defaults.removeObject(forKey: key)
-        }
+        repository.clearAll()
         stateVersion += 1
     }
 
     // MARK: - Backup Export/Import
 
     func exportProgress() -> [String: Any] {
-        var result: [String: Any] = [:]
-
-        // Theory lessons
         let lessons = TheoryLessons.shared.ALL.asArray(of: TheoryLesson.self)
-        for lesson in lessons {
-            let doneKey = "lesson_done_\(lesson.id)"
-            let quizKey = "lesson_quiz_\(lesson.id)"
-            if defaults.bool(forKey: doneKey) { result[doneKey] = true }
-            if defaults.bool(forKey: quizKey) { result[quizKey] = true }
-        }
-
-        // Quiz stats
         let catNames = [
             QuizGenerator.QuizCategory.intervals,
             .chords, .keys, .scales, .progressions
         ].map { $0.name } + ["ALL"]
-        for cat in catNames {
-            for prefix in ["quiz_total_", "quiz_correct_", "quiz_streak_", "quiz_best_"] {
-                let key = "\(prefix)\(cat)"
-                let val = defaults.integer(forKey: key)
-                if val != 0 { result[key] = val }
-            }
-        }
 
-        // Interval stats
-        let intervalSuffixes = ["1", "2", "3", "4", "ALL"]
-        for suffix in intervalSuffixes {
-            for prefix in ["interval_total_", "interval_correct_", "interval_streak_", "interval_best_"] {
-                let key = "\(prefix)\(suffix)"
-                let val = defaults.integer(forKey: key)
-                if val != 0 { result[key] = val }
-            }
-        }
-
-        // Note quiz stats
-        for key in ["note_quiz_total", "note_quiz_correct", "note_quiz_streak", "note_quiz_best"] {
-            let val = defaults.integer(forKey: key)
-            if val != 0 { result[key] = val }
-        }
-
-        // Chord ear training stats
-        let chordEarSuffixes = ["1", "2", "3", "4", "ALL"]
-        for suffix in chordEarSuffixes {
-            for prefix in ["chord_ear_total_", "chord_ear_correct_", "chord_ear_streak_", "chord_ear_best_"] {
-                let key = "\(prefix)\(suffix)"
-                let val = defaults.integer(forKey: key)
-                if val != 0 { result[key] = val }
-            }
-        }
-
-        // Scale practice stats
-        let scaleModes = ["quiz", "ear", "ALL"]
-        for mode in scaleModes {
-            for prefix in ["scale_practice_total_", "scale_practice_correct_", "scale_practice_streak_", "scale_practice_best_"] {
-                let key = "\(prefix)\(mode)"
-                let val = defaults.integer(forKey: key)
-                if val != 0 { result[key] = val }
-            }
-        }
-
-        // Daily streak
-        if let lastDate = defaults.string(forKey: "last_activity_date") {
-            result["last_activity_date"] = lastDate
-        }
-        let streakDays = defaults.integer(forKey: "streak_days")
-        if streakDays != 0 { result["streak_days"] = streakDays }
-        let bestStreakDays = defaults.integer(forKey: "best_streak_days")
-        if bestStreakDays != 0 { result["best_streak_days"] = bestStreakDays }
-
-        // Achievements
-        if let achievements = defaults.stringArray(forKey: "unlocked_achievements"), !achievements.isEmpty {
-            result["unlocked_achievements"] = achievements
-        }
-
-        return result
+        return repository.exportProgress(
+            lessonIds: lessons.map { $0.id },
+            quizCategories: catNames,
+            intervalSuffixes: ["1", "2", "3", "4", "ALL"],
+            chordEarSuffixes: ["1", "2", "3", "4", "ALL"],
+            scaleModes: ["quiz", "ear", "ALL"]
+        )
     }
 
     func importProgress(_ data: [String: Any]) {
-        for (key, value) in data {
-            if key == "unlocked_achievements" {
-                // Union merge for achievements
-                if let incoming = value as? [String] {
-                    let existing = Set(defaults.stringArray(forKey: "unlocked_achievements") ?? [])
-                    let merged = existing.union(incoming)
-                    defaults.set(Array(merged), forKey: "unlocked_achievements")
-                }
-            } else if key == "last_activity_date" {
-                // Keep the more recent date
-                if let incoming = value as? String {
-                    let existing = defaults.string(forKey: "last_activity_date")
-                    if existing == nil || incoming > existing! {
-                        defaults.set(incoming, forKey: "last_activity_date")
-                    }
-                }
-            } else if let incoming = value as? Bool {
-                // lesson_done_*, lesson_quiz_*: OR merge (once done, stays done)
-                if incoming { defaults.set(true, forKey: key) }
-            } else if let incoming = value as? Int {
-                // For stats: use max() so we never lose progress
-                let existing = defaults.integer(forKey: key)
-                if incoming > existing {
-                    defaults.set(incoming, forKey: key)
-                }
-            }
-        }
+        repository.importProgress(data)
         stateVersion += 1
     }
 
     // MARK: - Helpers
-
-    @discardableResult
-    private func incrementInt(_ key: String) -> Int {
-        let newValue = defaults.integer(forKey: key) + 1
-        defaults.set(newValue, forKey: key)
-        return newValue
-    }
-
-    private func updateBestStreak(_ bestKey: String, currentStreak: Int) {
-        let best = defaults.integer(forKey: bestKey)
-        if currentStreak > best {
-            defaults.set(currentStreak, forKey: bestKey)
-        }
-    }
 
     private func todayString() -> String {
         let formatter = DateFormatter()
