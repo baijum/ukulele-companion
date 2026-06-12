@@ -81,6 +81,7 @@ final class SettingsRepository {
             "show_reference_tab": defaults.object(forKey: "show_reference_tab") as? Bool ?? true,
             "strum_down": defaults.object(forKey: "strum_down") as? Bool ?? true,
             "app_language": defaults.string(forKey: "app_language") ?? "system",
+            "onboarding_completed": defaults.bool(forKey: "onboarding_completed"),
         ]
     }
 
@@ -107,6 +108,7 @@ final class SettingsRepository {
         if let v = dict["show_reference_tab"] as? Bool { defaults.set(v, forKey: "show_reference_tab") }
         if let v = dict["strum_down"] as? Bool { defaults.set(v, forKey: "strum_down") }
         if let v = dict["app_language"] as? String { defaults.set(v, forKey: "app_language") }
+        if let v = dict["onboarding_completed"] as? Bool { defaults.set(v, forKey: "onboarding_completed") }
     }
 }
 
