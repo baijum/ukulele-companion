@@ -87,6 +87,11 @@ object ChordProParser {
 
             if (trimmed.startsWith("#")) return@forEach
 
+            if (trimmed.startsWith("\\{")) {
+                contentLines.add(line.replaceFirst("\\", ""))
+                return@forEach
+            }
+
             val match = DIRECTIVE.find(trimmed)
             if (match != null && trimmed.startsWith("{")) {
                 val directive = match.groupValues[1].lowercase()

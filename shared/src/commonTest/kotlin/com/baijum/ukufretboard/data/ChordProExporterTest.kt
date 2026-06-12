@@ -204,6 +204,62 @@ class ChordProExporterTest {
         assertTrue(result.contains("{end_of_verse}"))
     }
 
+    // --- export: metadata escaping ---
+
+    @Test
+    fun exportSanitizesBracesInTitle() {
+        val result = ChordProExporter.export(sheet(title = "Hey} {capo: 7"))
+        assertTrue(result.contains("{title: Hey capo: 7}"), "Result: $result")
+        assertFalse(result.contains("{capo: 7}"), "Brace injection should be stripped: $result")
+    }
+
+    @Test
+    fun exportSanitizesNewlinesInArtist() {
+        val result = ChordProExporter.export(sheet(artist = "Line1\nLine2"))
+        assertTrue(result.contains("{artist: Line1 Line2}"), "Newline should become space: $result")
+    }
+
+    // --- export: content line escaping ---
+
+    @Test
+    fun exportEscapesHashPrefixedContent() {
+        val result = ChordProExporter.export(sheet(content = "#1 Hit Song"))
+        assertTrue(result.contains("{comment: #1 Hit Song}"), "Hash line should be wrapped: $result")
+    }
+
+    @Test
+    fun exportEscapesBracePrefixedContent() {
+        val result = ChordProExporter.export(sheet(content = "{custom directive}"))
+        assertTrue(result.contains("\\{custom directive}"), "Brace line should be escaped: $result")
+    }
+
+    // --- round-trip: edge cases ---
+
+    @Test
+    fun roundTripPreservesHashPrefixedLyrics() {
+        val original = sheet(title = "Test", content = "#1 Hit\nNormal line")
+        val exported = ChordProExporter.export(original)
+        val reimported = ChordProParser.parse(exported)
+        assertTrue(reimported.content.contains("#1 Hit"), "Content: ${reimported.content}")
+        assertTrue(reimported.content.contains("Normal line"))
+    }
+
+    @Test
+    fun roundTripPreservesBracePrefixedContent() {
+        val original = sheet(title = "Test", content = "{looks like directive}\nNormal")
+        val exported = ChordProExporter.export(original)
+        val reimported = ChordProParser.parse(exported)
+        assertTrue(reimported.content.contains("{looks like directive}"), "Content: ${reimported.content}")
+    }
+
+    @Test
+    fun roundTripSanitizesTitleWithBraces() {
+        val original = sheet(title = "Hey} {capo: 7")
+        val exported = ChordProExporter.export(original)
+        val reimported = ChordProParser.parse(exported)
+        assertEquals("Hey capo: 7", reimported.title)
+    }
+
     // --- suggestedFilename ---
 
     @Test
