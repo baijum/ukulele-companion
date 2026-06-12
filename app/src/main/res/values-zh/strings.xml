@@ -4,4 +4,20 @@
     <string name="cd_section_collapsed">已折叠</string>
     <string name="cd_decrease_capo">降低变调夹</string>
     <string name="cd_increase_capo">升高变调夹</string>
+    <string name="melody_added_feedback">已添加 %s</string>
+    <string name="melody_mode_linear">线性</string>
+    <string name="melody_mode_step_sequencer">步进音序器</string>
+    <string name="melody_duration_whole">全音符</string>
+    <string name="melody_duration_half">二分音符</string>
+    <string name="melody_duration_quarter">四分音符</string>
+    <string name="melody_duration_eighth">八分音符</string>
+    <string name="melody_duration_sixteenth">十六分音符</string>
+    <string name="melody_step_sequencer_title">步进音序器（%d 步）</string>
+    <string name="melody_steps_8">8 步</string>
+    <string name="melody_steps_16">16 步</string>
+    <string name="cd_linear_mode">线性模式，逐个输入音符</string>
+    <string name="cd_step_sequencer_mode">步进音序器模式，网格式输入</string>
+    <string name="cd_step_sequencer_grid">旋律步进音序器，%d 步</string>
+    <string name="cd_step_note">第 %1$d 步：%2$s %3$s</string>
+    <string name="cd_step_empty">第 %d 步：空</string>
 </resources>

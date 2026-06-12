@@ -818,6 +818,22 @@
     <string name="cd_start_recording">Noten von der Ukulele aufnehmen</string>
     <string name="cd_stop_recording">Aufnahme stoppen</string>
     <string name="melody_rename_dialog_title">Melodie umbenennen</string>
+    <string name="melody_added_feedback">%s hinzugefügt</string>
+    <string name="melody_mode_linear">Linear</string>
+    <string name="melody_mode_step_sequencer">Step-Sequenzer</string>
+    <string name="melody_duration_whole">ganz</string>
+    <string name="melody_duration_half">halb</string>
+    <string name="melody_duration_quarter">viertel</string>
+    <string name="melody_duration_eighth">achtel</string>
+    <string name="melody_duration_sixteenth">sechzehntel</string>
+    <string name="melody_step_sequencer_title">Step-Sequenzer (%d Schritte)</string>
+    <string name="melody_steps_8">8 Schritte</string>
+    <string name="melody_steps_16">16 Schritte</string>
+    <string name="cd_linear_mode">Linearer Modus, sequenzielle Noteneingabe</string>
+    <string name="cd_step_sequencer_mode">Step-Sequenzer-Modus, rasterbasierte Eingabe</string>
+    <string name="cd_step_sequencer_grid">Melodie-Step-Sequenzer, %d Schritte</string>
+    <string name="cd_step_note">Schritt %1$d: %2$s %3$s</string>
+    <string name="cd_step_empty">Schritt %d: leer</string>
 
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">Zurück zu Akkordfolgen</string>

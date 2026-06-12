@@ -822,6 +822,22 @@
     <string name="cd_start_recording">تسجيل نوتات من اليوكيليلي</string>
     <string name="cd_stop_recording">إيقاف التسجيل</string>
     <string name="melody_rename_dialog_title">إعادة تسمية اللحن</string>
+    <string name="melody_added_feedback">تمت إضافة %s</string>
+    <string name="melody_mode_linear">خطي</string>
+    <string name="melody_mode_step_sequencer">مُتتابع خطوات</string>
+    <string name="melody_duration_whole">كاملة</string>
+    <string name="melody_duration_half">نصف</string>
+    <string name="melody_duration_quarter">ربع</string>
+    <string name="melody_duration_eighth">ثُمن</string>
+    <string name="melody_duration_sixteenth">ذات السادس عشر</string>
+    <string name="melody_step_sequencer_title">مُتتابع خطوات (%d خطوة)</string>
+    <string name="melody_steps_8">8 خطوات</string>
+    <string name="melody_steps_16">16 خطوة</string>
+    <string name="cd_linear_mode">الوضع الخطي، إدخال متتابع للنوتات</string>
+    <string name="cd_step_sequencer_mode">وضع المُتتابع، إدخال شبكي</string>
+    <string name="cd_step_sequencer_grid">مُتتابع خطوات اللحن، %d خطوة</string>
+    <string name="cd_step_note">خطوة %1$d: %2$s %3$s</string>
+    <string name="cd_step_empty">خطوة %d: فارغة</string>
 
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">العودة إلى التقدمات اللحنية</string>

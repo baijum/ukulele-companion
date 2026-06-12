@@ -818,6 +818,22 @@
     <string name="cd_start_recording">Enregistrer des notes depuis le ukulélé</string>
     <string name="cd_stop_recording">Arrêter l\'enregistrement</string>
     <string name="melody_rename_dialog_title">Renommer la mélodie</string>
+    <string name="melody_added_feedback">%s ajouté</string>
+    <string name="melody_mode_linear">Linéaire</string>
+    <string name="melody_mode_step_sequencer">Séquenceur</string>
+    <string name="melody_duration_whole">ronde</string>
+    <string name="melody_duration_half">blanche</string>
+    <string name="melody_duration_quarter">noire</string>
+    <string name="melody_duration_eighth">croche</string>
+    <string name="melody_duration_sixteenth">double croche</string>
+    <string name="melody_step_sequencer_title">Séquenceur (%d pas)</string>
+    <string name="melody_steps_8">8 pas</string>
+    <string name="melody_steps_16">16 pas</string>
+    <string name="cd_linear_mode">Mode linéaire, saisie séquentielle des notes</string>
+    <string name="cd_step_sequencer_mode">Mode séquenceur, saisie en grille</string>
+    <string name="cd_step_sequencer_grid">Séquenceur de mélodie, %d pas</string>
+    <string name="cd_step_note">Pas %1$d : %2$s %3$s</string>
+    <string name="cd_step_empty">Pas %d : vide</string>
 
     <!-- ── Conduite des voix ─────────────────────────────────────────── -->
     <string name="cd_back_progressions">Retour aux progressions</string>

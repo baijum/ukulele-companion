@@ -356,7 +356,7 @@ private fun RecordInputContent(
                 ) {
                     state.lastAddedFeedback?.let { feedback ->
                         Text(
-                            text = "Added $feedback",
+                            text = stringResource(R.string.melody_added_feedback, feedback),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary,
@@ -504,12 +504,13 @@ internal fun OctaveSelector(
                 contentDescription = stringResource(R.string.cd_decrease_octave),
             )
         }
+        val octaveDescription = stringResource(R.string.cd_octave_value, currentOctave)
         Text(
             text = currentOctave.toString(),
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.semantics {
-                contentDescription = "Octave $currentOctave"
+                contentDescription = octaveDescription
                 liveRegion = LiveRegionMode.Polite
             },
         )

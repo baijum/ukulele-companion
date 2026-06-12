@@ -916,6 +916,22 @@
     <string name="cd_start_recording">Record notes from ukulele</string>
     <string name="cd_stop_recording">Stop recording</string>
     <string name="melody_rename_dialog_title">Rename Melody</string>
+    <string name="melody_added_feedback">Added %s</string>
+    <string name="melody_mode_linear">Linear</string>
+    <string name="melody_mode_step_sequencer">Step Sequencer</string>
+    <string name="melody_duration_whole">whole</string>
+    <string name="melody_duration_half">half</string>
+    <string name="melody_duration_quarter">quarter</string>
+    <string name="melody_duration_eighth">eighth</string>
+    <string name="melody_duration_sixteenth">sixteenth</string>
+    <string name="melody_step_sequencer_title">Step Sequencer (%d steps)</string>
+    <string name="melody_steps_8">8 steps</string>
+    <string name="melody_steps_16">16 steps</string>
+    <string name="cd_linear_mode">Linear mode, sequential note entry</string>
+    <string name="cd_step_sequencer_mode">Step sequencer mode, grid-based entry</string>
+    <string name="cd_step_sequencer_grid">Melody step sequencer, %d steps</string>
+    <string name="cd_step_note">Step %1$d: %2$s %3$s</string>
+    <string name="cd_step_empty">Step %d: empty</string>
 
     <string name="cd_add_known_chord">Add %s to known chords</string>
 

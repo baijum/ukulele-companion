@@ -820,6 +820,22 @@
     <string name="cd_start_recording">Записать ноты с укулеле</string>
     <string name="cd_stop_recording">Остановить запись</string>
     <string name="melody_rename_dialog_title">Переименовать мелодию</string>
+    <string name="melody_added_feedback">Добавлено: %s</string>
+    <string name="melody_mode_linear">Линейный</string>
+    <string name="melody_mode_step_sequencer">Секвенсор</string>
+    <string name="melody_duration_whole">целая</string>
+    <string name="melody_duration_half">половинная</string>
+    <string name="melody_duration_quarter">четвертная</string>
+    <string name="melody_duration_eighth">восьмая</string>
+    <string name="melody_duration_sixteenth">шестнадцатая</string>
+    <string name="melody_step_sequencer_title">Секвенсор (%d шагов)</string>
+    <string name="melody_steps_8">8 шагов</string>
+    <string name="melody_steps_16">16 шагов</string>
+    <string name="cd_linear_mode">Линейный режим, последовательный ввод нот</string>
+    <string name="cd_step_sequencer_mode">Режим секвенсора, ввод по сетке</string>
+    <string name="cd_step_sequencer_grid">Секвенсор мелодии, %d шагов</string>
+    <string name="cd_step_note">Шаг %1$d: %2$s %3$s</string>
+    <string name="cd_step_empty">Шаг %d: пусто</string>
 
     <!-- ── Voice Leading ────────────────────────────────────────────── -->
     <string name="cd_back_progressions">Назад к прогрессиям</string>
