@@ -1169,4 +1169,9 @@
     <string name="batch_select_all">Alle</string>
     <string name="batch_cancel">Abbrechen</string>
     <string name="batch_delete">Löschen</string>
+    <string name="cd_navigation_drawer">Navigationsleiste</string>
+    <string name="cd_section_expanded">Ausgeklappt</string>
+    <string name="cd_section_collapsed">Eingeklappt</string>
+    <string name="cd_decrease_capo">Capo verringern</string>
+    <string name="cd_increase_capo">Capo erhöhen</string>
 </resources>

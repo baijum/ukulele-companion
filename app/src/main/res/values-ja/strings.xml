@@ -1170,4 +1170,9 @@
     <string name="batch_select_all">すべて</string>
     <string name="batch_cancel">キャンセル</string>
     <string name="batch_delete">削除</string>
+    <string name="cd_navigation_drawer">ナビゲーションドロワー</string>
+    <string name="cd_section_expanded">展開済み</string>
+    <string name="cd_section_collapsed">折りたたみ</string>
+    <string name="cd_decrease_capo">カポを下げる</string>
+    <string name="cd_increase_capo">カポを上げる</string>
 </resources>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="cd_navigation_drawer">导航抽屉</string>
+    <string name="cd_section_expanded">已展开</string>
+    <string name="cd_section_collapsed">已折叠</string>
+    <string name="cd_decrease_capo">降低变调夹</string>
+    <string name="cd_increase_capo">升高变调夹</string>
+</resources>

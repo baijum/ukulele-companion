@@ -1169,4 +1169,9 @@
     <string name="batch_select_all">Tümü</string>
     <string name="batch_cancel">İptal</string>
     <string name="batch_delete">Sil</string>
+    <string name="cd_navigation_drawer">Gezinme çekmecesi</string>
+    <string name="cd_section_expanded">Genişletildi</string>
+    <string name="cd_section_collapsed">Daraltıldı</string>
+    <string name="cd_decrease_capo">Kapoyu azalt</string>
+    <string name="cd_increase_capo">Kapoyu artır</string>
 </resources>

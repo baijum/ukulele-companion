@@ -1170,4 +1170,9 @@
     <string name="batch_select_all">전체</string>
     <string name="batch_cancel">취소</string>
     <string name="batch_delete">삭제</string>
+    <string name="cd_navigation_drawer">탐색 서랍</string>
+    <string name="cd_section_expanded">펼침</string>
+    <string name="cd_section_collapsed">접힘</string>
+    <string name="cd_decrease_capo">카포 감소</string>
+    <string name="cd_increase_capo">카포 증가</string>
 </resources>

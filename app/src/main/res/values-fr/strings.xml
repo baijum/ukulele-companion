@@ -1165,4 +1165,9 @@
     <string name="batch_select_all">Tout</string>
     <string name="batch_cancel">Annuler</string>
     <string name="batch_delete">Supprimer</string>
+    <string name="cd_navigation_drawer">Tiroir de navigation</string>
+    <string name="cd_section_expanded">Développé</string>
+    <string name="cd_section_collapsed">Réduit</string>
+    <string name="cd_decrease_capo">Diminuer le capo</string>
+    <string name="cd_increase_capo">Augmenter le capo</string>
 </resources>
