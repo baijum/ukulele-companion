@@ -1,7 +1,7 @@
 import Foundation
 import AVFoundation
 import os
-import shared
+@preconcurrency import shared
 
 struct PitchPoint {
     let timestampMs: Int64
@@ -32,6 +32,9 @@ final class PitchMonitorViewModel: ObservableObject {
     // Frame-dropping (backpressure) — checked on audio thread, not MainActor
     private nonisolated(unsafe) let frameGate = FrameGate()
     private nonisolated(unsafe) let neuralInferenceLock = OSAllocatedUnfairLock(initialState: false)
+
+    // Thread-safe previous frequency for YIN continuity (read from DSP queue, written from MainActor)
+    private nonisolated(unsafe) let lastFrequencyLock = OSAllocatedUnfairLock<Double?>(initialState: nil)
 
     // Neural state
     private var neuralFrameCounter: Int = 0
@@ -87,11 +90,12 @@ final class PitchMonitorViewModel: ObservableObject {
                 for i in 0..<samples.count {
                     kotlinArray.set(index: Int32(i), value: samples[i])
                 }
+                let prevFreq = self.lastFrequencyLock.withLock { $0 }.map { KotlinDouble(value: $0) }
                 let yinResult = PitchDetector.shared.detect(
                     samples: kotlinArray,
                     sampleRate: 44100,
                     threshold: PitchDetector.shared.DEFAULT_THRESHOLD,
-                    previousFrequency: nil
+                    previousFrequency: prevFreq
                 )
                 let chordResult = AudioChordDetector.shared.detect(
                     samples: kotlinArray,
@@ -152,6 +156,7 @@ final class PitchMonitorViewModel: ObservableObject {
     private func startCapture() {
         recentFrequencies.removeAll()
         previousFrequency = nil
+        lastFrequencyLock.withLock { $0 = nil }
         previousRms = 0
         blankingFramesRemaining = 0
         chordFrameCounter = 0
@@ -181,7 +186,7 @@ final class PitchMonitorViewModel: ObservableObject {
     private func processBuffer(
         _ samples: [Float],
         yinResult: PitchResult?,
-        chordResult: AudioChordDetector.ChordDetectionResult
+        chordResult: AudioChordDetector.AudioChordResult
     ) {
         guard isListening else { return }
 
@@ -205,6 +210,7 @@ final class PitchMonitorViewModel: ObservableObject {
 
         if currentRms < noiseGateRms {
             previousFrequency = nil
+            lastFrequencyLock.withLock { $0 = nil }
             recentFrequencies.removeAll()
             let newPoint = PitchPoint(timestampMs: now, midiNote: nil)
             appendPoint(newPoint, now: now)
@@ -229,6 +235,7 @@ final class PitchMonitorViewModel: ObservableObject {
 
         if let hz = finalHz {
             previousFrequency = hz
+            lastFrequencyLock.withLock { $0 = hz }
             recentFrequencies.append(hz)
             if recentFrequencies.count > Self.smoothingWindow {
                 recentFrequencies.removeFirst()
@@ -240,6 +247,7 @@ final class PitchMonitorViewModel: ObservableObject {
             }
         } else {
             previousFrequency = nil
+            lastFrequencyLock.withLock { $0 = nil }
             recentFrequencies.removeAll()
         }
 
