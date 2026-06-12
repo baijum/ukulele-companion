@@ -136,7 +136,7 @@ final class BackupRestoreManager: ObservableObject {
 
         let backup: BackupData
         do {
-            backup = try catchKotlinException { BackupCodec.shared.decode(jsonString: jsonString) }
+            backup = try BackupCodec.shared.decode(jsonString: jsonString)
         } catch {
             throw BackupError.invalidJSON
         }
@@ -695,16 +695,6 @@ final class BackupRestoreManager: ObservableObject {
     private static let themeFromKMP: [String: String] = {
         Dictionary(uniqueKeysWithValues: themeToKMP.map { ($0.value, $0.key) })
     }()
-}
-
-// MARK: - Kotlin exception bridging
-
-private func catchKotlinException<T>(_ block: () -> T) throws -> T {
-    do {
-        return block()
-    } catch let error as NSError {
-        throw error
-    }
 }
 
 struct BackupDocument: FileDocument {
