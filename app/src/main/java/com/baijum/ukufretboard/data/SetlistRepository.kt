@@ -27,26 +27,21 @@ class SetlistRepository(context: Context) : JsonListRepository<Setlist>(
 
     override fun getAll(): List<Setlist> {
         val raw = prefs.getString(KEY_SETLISTS, null) ?: return emptyList()
-        return try {
-            json.decodeFromString(
-                kotlinx.serialization.builtins.ListSerializer(Setlist.serializer()),
-                raw,
-            )
-        } catch (_: Exception) {
-            migrateLegacyOrgJson(raw)
-        }
+        return tryParse(raw)
+            ?: migrateLegacyOrgJson(raw)
+            ?: tryParse(prefs.getString(backupKey, null))
+            ?: emptyList()
     }
 
-    private fun migrateLegacyOrgJson(raw: String): List<Setlist> {
+    private fun migrateLegacyOrgJson(raw: String): List<Setlist>? {
         return try {
             val array = JSONArray(raw)
             val items = (0 until array.length()).mapNotNull { i ->
                 deserializeLegacy(array.getJSONObject(i))
             }
-            if (items.isNotEmpty()) persist(items)
-            items
+            if (items.isNotEmpty()) { persist(items); items } else null
         } catch (_: Exception) {
-            emptyList()
+            null
         }
     }
 

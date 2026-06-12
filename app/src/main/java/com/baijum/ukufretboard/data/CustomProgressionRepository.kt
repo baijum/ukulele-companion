@@ -38,14 +38,9 @@ class CustomProgressionRepository(context: Context) : JsonListRepository<CustomP
     override fun getAll(): List<CustomProgression> {
         val raw = prefs.getString(KEY_PROGRESSIONS, null)
         if (raw != null) {
-            return try {
-                json.decodeFromString(
-                    kotlinx.serialization.builtins.ListSerializer(CustomProgression.serializer()),
-                    raw,
-                )
-            } catch (_: Exception) {
-                emptyList()
-            }
+            return tryParse(raw)
+                ?: tryParse(prefs.getString(backupKey, null))
+                ?: migrateLegacyPipeEntries()
         }
         return migrateLegacyPipeEntries()
     }

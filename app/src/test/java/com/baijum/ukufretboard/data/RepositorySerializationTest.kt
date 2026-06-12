@@ -479,4 +479,53 @@ class RepositorySerializationTest {
         repo.importAll(listOf(duplicate))
         assertEquals("Existing", repo.getAll().first().pattern.name)
     }
+
+    // ── Data-loss prevention ───────────────────────────────────────
+
+    @Test
+    fun setlistCorruptJsonFallsBackToBackup() {
+        val repo = SetlistRepository(context)
+        val setlist = Setlist(id = "s1", name = "Important", songIds = listOf("a"), createdAt = 100L, updatedAt = 200L)
+        repo.save(setlist)
+        assertEquals(1, repo.getAll().size)
+
+        val prefs = context.getSharedPreferences("setlists", 0)
+        prefs.edit().putString("setlist_data", "CORRUPTED").apply()
+
+        val recovered = repo.getAll()
+        assertEquals("Backup key should provide recovery", 1, recovered.size)
+        assertEquals("Important", recovered[0].name)
+    }
+
+    @Test
+    fun chordSheetCorruptJsonFallsBackToLegacyMigration() {
+        val repo = ChordSheetRepository(context)
+        val sheet = ChordSheet(id = "cs1", title = "My Song", artist = "", content = "[C]Hello", createdAt = 100L, updatedAt = 200L)
+        repo.save(sheet)
+        assertEquals(1, repo.getAll().size)
+
+        val prefs = context.getSharedPreferences("chord_sheets", 0)
+        prefs.edit().putString("sheets_json", "CORRUPTED").apply()
+
+        val recovered = repo.getAll()
+        assertEquals("Backup key should provide recovery", 1, recovered.size)
+        assertEquals("My Song", recovered[0].title)
+    }
+
+    @Test
+    fun saveAfterCorruptionPreservesBackup() {
+        val repo = SetlistRepository(context)
+        val original = Setlist(id = "s1", name = "Original", songIds = emptyList(), createdAt = 100L, updatedAt = 200L)
+        repo.save(original)
+
+        val prefs = context.getSharedPreferences("setlists", 0)
+        prefs.edit().putString("setlist_data", "CORRUPTED").apply()
+
+        val newItem = Setlist(id = "s2", name = "New", songIds = emptyList(), createdAt = 300L, updatedAt = 400L)
+        repo.save(newItem)
+
+        val all = repo.getAll()
+        assertTrue("New item should be saved", all.any { it.id == "s2" })
+        assertTrue("Original should be recovered from backup", all.any { it.id == "s1" })
+    }
 }
