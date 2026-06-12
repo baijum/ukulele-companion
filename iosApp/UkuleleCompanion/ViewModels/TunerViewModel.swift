@@ -3,7 +3,7 @@ import Combine
 import Foundation
 import os
 import SwiftUI
-import shared
+@preconcurrency import shared
 
 enum NeuralRuntimeStatus {
     case loading, active, fallback
@@ -48,6 +48,9 @@ final class TunerViewModel: ObservableObject {
     // Frame-dropping (backpressure) — checked on audio thread, not MainActor
     private nonisolated(unsafe) let processingLock = OSAllocatedUnfairLock(initialState: false)
     private nonisolated(unsafe) let neuralInferenceLock = OSAllocatedUnfairLock(initialState: false)
+
+    // Thread-safe previous frequency for YIN continuity (read from DSP queue, written from MainActor)
+    private nonisolated(unsafe) let lastFrequencyLock = OSAllocatedUnfairLock<Double?>(initialState: nil)
 
     // Neural pitch supervision
     private var neuralSupervisor: NeuralPitchSupervisor?
@@ -98,11 +101,12 @@ final class TunerViewModel: ObservableObject {
                 for i in 0..<samples.count {
                     kotlinArray.set(index: Int32(i), value: samples[i])
                 }
+                let prevFreq = self.lastFrequencyLock.withLock { $0 }.map { KotlinDouble(value: $0) }
                 let result = PitchDetector.shared.detect(
                     samples: kotlinArray,
                     sampleRate: 44100,
                     threshold: PitchDetector.shared.DEFAULT_THRESHOLD,
-                    previousFrequency: nil
+                    previousFrequency: prevFreq
                 )
                 Task { @MainActor [weak self] in
                     guard let self else { return }
@@ -159,6 +163,7 @@ final class TunerViewModel: ObservableObject {
         audioEngine.start()
         isCapturing = true
         previousFrequency = nil
+        lastFrequencyLock.withLock { $0 = nil }
     }
 
     private func applyPitchResult(_ yinResult: PitchResult?, samples: [Float]) {
@@ -182,6 +187,7 @@ final class TunerViewModel: ObservableObject {
             let finalHz = arbitration.frequencyHz
 
             previousFrequency = finalHz
+            lastFrequencyLock.withLock { $0 = finalHz }
 
             if let noteInfo = TunerNoteMapper.shared.mapFrequency(hz: finalHz, a4Reference: a4Reference) {
                 let newNoteName = noteInfo.noteName
@@ -334,6 +340,7 @@ final class TunerViewModel: ObservableObject {
         stringMatch = nil
         tuningStatus = ""
         previousFrequency = nil
+        lastFrequencyLock.withLock { $0 = nil }
         activeStringIndex = nil
         settledFrames = 0
         isInTune = false

@@ -1,7 +1,7 @@
 import Foundation
 import AVFoundation
 import os
-import shared
+@preconcurrency import shared
 
 /// Orchestrates Play Along: metronome timing, mic capture, chord detection, and scoring.
 @MainActor
@@ -187,7 +187,7 @@ final class PlayAlongViewModel: ObservableObject {
 
     private func processAudioBuffer(
         _ samples: [Float],
-        chordResult: AudioChordDetector.ChordDetectionResult
+        chordResult: AudioChordDetector.AudioChordResult
     ) {
         var sumSq: Float = 0
         for s in samples { sumSq += s * s }
