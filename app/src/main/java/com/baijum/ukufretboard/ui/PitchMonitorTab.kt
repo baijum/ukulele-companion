@@ -138,9 +138,19 @@ fun PitchMonitorTab(
     val context = LocalContext.current
     viewModel.setApplicationContext(context)
 
-    // Stop capture when navigating away.
-    DisposableEffect(Unit) {
-        onDispose { viewModel.stopListening() }
+    // Stop capture when navigating away or when the app goes to background.
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+            if (event == androidx.lifecycle.Lifecycle.Event.ON_STOP) {
+                viewModel.stopListening()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            viewModel.stopListening()
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
     }
 
     RequireMicPermission {

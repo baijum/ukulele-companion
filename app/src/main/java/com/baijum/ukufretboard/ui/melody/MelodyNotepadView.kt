@@ -50,8 +50,18 @@ fun MelodyNotepadView(
     var showMenu by remember { mutableStateOf(false) }
     var bpmSliderValue by remember(state.bpm) { mutableFloatStateOf(state.bpm.toFloat()) }
 
-    DisposableEffect(Unit) {
-        onDispose { viewModel.stopRecording() }
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+            if (event == androidx.lifecycle.Lifecycle.Event.ON_STOP) {
+                viewModel.stopRecording()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            viewModel.stopRecording()
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
     }
 
     Column(
