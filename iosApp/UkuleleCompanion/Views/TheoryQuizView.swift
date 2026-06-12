@@ -167,8 +167,7 @@ struct TheoryQuizView: View {
                         } else {
                             streak = 0
                         }
-                        let cat = useAllCategories ? selectedCategory : selectedCategory
-                        learnVM.recordQuizAnswer(category: cat, correct: correct)
+                        learnVM.recordQuizAnswer(category: question.category, correct: correct)
                     }
                 } label: {
                     HStack {
@@ -278,7 +277,7 @@ struct TheoryQuizView: View {
                         blitzScore += 1
                         blitzTimeMs = min(blitzTimeMs + 3_000, Self.blitzDurationMs)
                     }
-                    learnVM.recordQuizAnswer(category: selectedCategory, correct: correct)
+                    learnVM.recordQuizAnswer(category: question.category, correct: correct)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                         nextQuestion()
                     }
