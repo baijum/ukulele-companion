@@ -302,7 +302,7 @@ final class BackupRestoreManager: ObservableObject {
             return BackupProgression(
                 id: p["id"] as? String ?? UUID().uuidString,
                 name: p["name"] as? String ?? "",
-                description_: p["description"] as? String ?? "",
+                description: p["description"] as? String ?? "",
                 scaleType: p["scaleType"] as? String ?? "MAJOR",
                 degrees: degrees,
                 createdAt: Int64(createdAt * 1000)
