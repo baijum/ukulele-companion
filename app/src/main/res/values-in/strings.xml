@@ -1168,4 +1168,9 @@
     <string name="batch_select_all">Semua</string>
     <string name="batch_cancel">Batal</string>
     <string name="batch_delete">Hapus</string>
+    <string name="cd_navigation_drawer">Laci navigasi</string>
+    <string name="cd_section_expanded">Diperluas</string>
+    <string name="cd_section_collapsed">Diciutkan</string>
+    <string name="cd_decrease_capo">Kurangi capo</string>
+    <string name="cd_increase_capo">Tambah capo</string>
 </resources>

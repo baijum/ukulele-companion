@@ -1175,4 +1175,9 @@
     <string name="batch_select_all">الكل</string>
     <string name="batch_cancel">إلغاء</string>
     <string name="batch_delete">حذف</string>
+    <string name="cd_navigation_drawer">درج التنقل</string>
+    <string name="cd_section_expanded">موسّع</string>
+    <string name="cd_section_collapsed">مطوي</string>
+    <string name="cd_decrease_capo">تقليل الكابو</string>
+    <string name="cd_increase_capo">زيادة الكابو</string>
 </resources>

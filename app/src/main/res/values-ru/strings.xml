@@ -1173,4 +1173,9 @@
     <string name="batch_select_all">Все</string>
     <string name="batch_cancel">Отмена</string>
     <string name="batch_delete">Удалить</string>
+    <string name="cd_navigation_drawer">Панель навигации</string>
+    <string name="cd_section_expanded">Развёрнуто</string>
+    <string name="cd_section_collapsed">Свёрнуто</string>
+    <string name="cd_decrease_capo">Уменьшить капо</string>
+    <string name="cd_increase_capo">Увеличить капо</string>
 </resources>

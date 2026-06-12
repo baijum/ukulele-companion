@@ -36,8 +36,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
 
@@ -48,8 +52,11 @@ internal fun DrawerContent(
     selectedSection: Int,
     onItemSelected: (Int) -> Unit,
 ) {
+    val navigationDrawerDescription = stringResource(R.string.cd_navigation_drawer)
     Column(
-        modifier = Modifier.verticalScroll(rememberScrollState()),
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .semantics { contentDescription = navigationDrawerDescription },
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -80,10 +87,16 @@ internal fun DrawerContent(
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             }
             val expanded = expandedState.getOrPut(section.title) { true }
+            val expandedDescription = stringResource(R.string.cd_section_expanded)
+            val collapsedDescription = stringResource(R.string.cd_section_collapsed)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { expandedState[section.title] = !expanded }
+                    .semantics {
+                        role = Role.Button
+                        stateDescription = if (expanded) expandedDescription else collapsedDescription
+                    }
                     .padding(horizontal = 28.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,

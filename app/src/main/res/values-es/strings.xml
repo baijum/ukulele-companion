@@ -1181,4 +1181,9 @@
     <string name="batch_select_all">Todos</string>
     <string name="batch_cancel">Cancelar</string>
     <string name="batch_delete">Eliminar</string>
+    <string name="cd_navigation_drawer">Cajón de navegación</string>
+    <string name="cd_section_expanded">Expandido</string>
+    <string name="cd_section_collapsed">Contraído</string>
+    <string name="cd_decrease_capo">Disminuir cejilla</string>
+    <string name="cd_increase_capo">Aumentar cejilla</string>
 </resources>

@@ -1167,4 +1167,9 @@
     <string name="batch_select_all">Todos</string>
     <string name="batch_cancel">Cancelar</string>
     <string name="batch_delete">Excluir</string>
+    <string name="cd_navigation_drawer">Gaveta de navegação</string>
+    <string name="cd_section_expanded">Expandido</string>
+    <string name="cd_section_collapsed">Recolhido</string>
+    <string name="cd_decrease_capo">Diminuir capo</string>
+    <string name="cd_increase_capo">Aumentar capo</string>
 </resources>

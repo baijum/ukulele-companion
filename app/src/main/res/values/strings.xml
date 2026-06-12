@@ -88,6 +88,13 @@
     <string name="nav_glossary">Glossary</string>
     <string name="nav_help">Help</string>
 
+    <!-- ── Navigation Drawer Accessibility ───────────────────────────── -->
+    <string name="cd_navigation_drawer">Navigation drawer</string>
+    <string name="cd_section_expanded">Expanded</string>
+    <string name="cd_section_collapsed">Collapsed</string>
+    <string name="cd_decrease_capo">Decrease capo</string>
+    <string name="cd_increase_capo">Increase capo</string>
+
     <!-- ── Top Bar / Content Descriptions ───────────────────────────── -->
     <string name="cd_open_nav_menu">Open navigation menu</string>
     <string name="cd_settings">Settings</string>

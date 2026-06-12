@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
@@ -309,9 +310,11 @@ internal fun CapoSelector(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(modifier = Modifier.width(12.dp))
+        val decreaseCapoDescription = stringResource(R.string.cd_decrease_capo)
         IconButton(
             onClick = { onCapoChange((capoFret - 1).coerceAtLeast(0)) },
             enabled = capoFret > 0,
+            modifier = Modifier.semantics { contentDescription = decreaseCapoDescription },
         ) {
             Text(
                 text = "−",
@@ -329,9 +332,11 @@ internal fun CapoSelector(
             modifier = Modifier.width(32.dp),
             textAlign = androidx.compose.ui.text.style.TextAlign.Center,
         )
+        val increaseCapoDescription = stringResource(R.string.cd_increase_capo)
         IconButton(
             onClick = { onCapoChange((capoFret + 1).coerceAtMost(lastFret)) },
             enabled = capoFret < lastFret,
+            modifier = Modifier.semantics { contentDescription = increaseCapoDescription },
         ) {
             Text(
                 text = "+",

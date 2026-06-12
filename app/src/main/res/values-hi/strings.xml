@@ -1171,4 +1171,9 @@
     <string name="batch_select_all">सभी</string>
     <string name="batch_cancel">रद्द करें</string>
     <string name="batch_delete">हटाएं</string>
+    <string name="cd_navigation_drawer">नेविगेशन ड्रॉअर</string>
+    <string name="cd_section_expanded">विस्तारित</string>
+    <string name="cd_section_collapsed">संकुचित</string>
+    <string name="cd_decrease_capo">कैपो घटाएं</string>
+    <string name="cd_increase_capo">कैपो बढ़ाएं</string>
 </resources>
