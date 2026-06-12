@@ -433,6 +433,95 @@ class BackupCodecTest {
     }
 
     @Test
+    fun normalizeTimestampsForChordSheets() {
+        val jsonWithFractional = """
+        {
+            "version": 3,
+            "exportedAt": 1717430400000,
+            "chordSheets": [
+                {
+                    "id": "cs-1",
+                    "title": "Song",
+                    "content": "",
+                    "createdAt": 1718180000123.456,
+                    "updatedAt": 1718180000123.789,
+                    "lastViewedAt": 1718180000123.0,
+                    "viewCount": 0,
+                    "totalViewTimeMs": 0
+                }
+            ]
+        }
+        """.trimIndent()
+
+        val decoded = BackupCodec.decode(jsonWithFractional)
+        assertEquals(1718180000123L, decoded.chordSheets[0].createdAt)
+        assertEquals(1718180000123L, decoded.chordSheets[0].updatedAt)
+        assertEquals(1718180000123L, decoded.chordSheets[0].lastViewedAt)
+    }
+
+    @Test
+    fun normalizeTimestampsForMelodiesAndProgressions() {
+        val jsonWithSeconds = """
+        {
+            "version": 3,
+            "exportedAt": 1717430400000,
+            "melodies": [
+                {
+                    "id": "m-1",
+                    "name": "Scale",
+                    "notes": [],
+                    "bpm": 120,
+                    "createdAt": 1718180000
+                }
+            ],
+            "customProgressions": [
+                {
+                    "id": "cp-1",
+                    "name": "I-IV-V",
+                    "description": "",
+                    "scaleType": "MAJOR",
+                    "degrees": [],
+                    "createdAt": 1718180000
+                }
+            ]
+        }
+        """.trimIndent()
+
+        val decoded = BackupCodec.decode(jsonWithSeconds)
+        assertEquals(1718180000000L, decoded.melodies[0].createdAt)
+        assertEquals(1718180000000L, decoded.customProgressions[0].createdAt)
+    }
+
+    @Test
+    fun normalizeTimestampsForFavoritesAndFolders() {
+        val jsonWithFractional = """
+        {
+            "version": 3,
+            "exportedAt": 1717430400000,
+            "favorites": [
+                {
+                    "rootPitchClass": 0,
+                    "chordSymbol": "",
+                    "frets": [0, 0, 0, 3],
+                    "addedAt": 1718180000123.456
+                }
+            ],
+            "favoriteFolders": [
+                {
+                    "id": "f1",
+                    "name": "Jazz",
+                    "createdAt": 1718180000
+                }
+            ]
+        }
+        """.trimIndent()
+
+        val decoded = BackupCodec.decode(jsonWithFractional)
+        assertEquals(1718180000123L, decoded.favorites[0].addedAt)
+        assertEquals(1718180000000L, decoded.favoriteFolders[0].createdAt)
+    }
+
+    @Test
     fun encodeProducesPrettyPrintedJson() {
         val data = BackupData(exportedAt = 12345L)
         val encoded = BackupCodec.encode(data)
