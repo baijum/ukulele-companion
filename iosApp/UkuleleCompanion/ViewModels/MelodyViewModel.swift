@@ -111,7 +111,7 @@ final class MelodyViewModel: ObservableObject {
     private var lastDetectedPitchClass: Int? = nil
     private var lastDetectedOctave: Int? = nil
     private var awaitingSilence = false
-    private var previousFrequency: KotlinDouble? = nil
+    private nonisolated(unsafe) var previousFrequency: KotlinDouble? = nil
 
     init(repository: MelodyRepository = MelodyRepository()) {
         self.repository = repository
