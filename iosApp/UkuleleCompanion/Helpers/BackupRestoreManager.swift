@@ -283,7 +283,7 @@ final class BackupRestoreManager: ObservableObject {
     }
 
     private func buildProgressions(_ progs: [[String: Any]]) -> [BackupProgression] {
-        progs.compactMap { p in
+        progs.compactMap { p -> BackupProgression? in
             var degrees: [BackupChordDegree] = []
             if let intervals = p["degreeIntervals"] as? [Int],
                let qualities = p["degreeQualities"] as? [String],
