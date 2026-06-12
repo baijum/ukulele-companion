@@ -146,7 +146,7 @@ struct FavoritesView: View {
             }
         }
         .alert("New Folder", isPresented: $showCreateFolder) {
-            CreateFolderAlert { name in
+            CreateFolderAlertContent { name in
                 viewModel.createFolder(name: name)
             }
         }
@@ -155,7 +155,7 @@ struct FavoritesView: View {
             set: { if !$0 { renamingFolder = nil } }
         )) {
             if let folder = renamingFolder {
-                RenameFolderAlert(currentName: folder.name) { newName in
+                RenameFolderAlertContent(currentName: folder.name) { newName in
                     viewModel.renameFolder(id: folder.id, name: newName)
                     renamingFolder = nil
                 }
@@ -388,18 +388,29 @@ struct FavoriteFolderSheet: View {
     }
 }
 
-@MainActor @ViewBuilder
-private func CreateFolderAlert(onCreate: @escaping (String) -> Void) -> some View {
-    @State var name = ""
-    TextField("Folder name", text: $name)
-    Button("Create") { if !name.isEmpty { onCreate(name) } }
-    Button("Cancel", role: .cancel) {}
+private struct CreateFolderAlertContent: View {
+    @State private var name = ""
+    let onCreate: (String) -> Void
+
+    var body: some View {
+        TextField("Folder name", text: $name)
+        Button("Create") { if !name.isEmpty { onCreate(name) } }
+        Button("Cancel", role: .cancel) {}
+    }
 }
 
-@MainActor @ViewBuilder
-private func RenameFolderAlert(currentName: String, onRename: @escaping (String) -> Void) -> some View {
-    @State var name = currentName
-    TextField("Folder name", text: $name)
-    Button("Rename") { if !name.isEmpty { onRename(name) } }
-    Button("Cancel", role: .cancel) {}
+private struct RenameFolderAlertContent: View {
+    @State private var name: String
+    let onRename: (String) -> Void
+
+    init(currentName: String, onRename: @escaping (String) -> Void) {
+        _name = State(initialValue: currentName)
+        self.onRename = onRename
+    }
+
+    var body: some View {
+        TextField("Folder name", text: $name)
+        Button("Rename") { if !name.isEmpty { onRename(name) } }
+        Button("Cancel", role: .cancel) {}
+    }
 }
