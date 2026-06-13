@@ -42,7 +42,6 @@ class BackupDataTest {
         assertEquals(data.exportedAt, decoded.exportedAt)
         assertTrue(decoded.favorites.isEmpty())
         assertTrue(decoded.chordSheets.isEmpty())
-        assertTrue(decoded.knownChords.isEmpty())
     }
 
     @Test
@@ -82,17 +81,6 @@ class BackupDataTest {
     }
 
     @Test
-    fun backupWithKnownChordsRoundTrips() {
-        val data = BackupData(
-            exportedAt = 12345L,
-            knownChords = listOf("C", "Am", "F", "G"),
-        )
-        val jsonStr = json.encodeToString(data)
-        val decoded = json.decodeFromString<BackupData>(jsonStr)
-        assertEquals(listOf("C", "Am", "F", "G"), decoded.knownChords)
-    }
-
-    @Test
     fun defaultListsAreEmpty() {
         val data = BackupData()
         assertTrue(data.favorites.isEmpty())
@@ -102,7 +90,6 @@ class BackupDataTest {
         assertTrue(data.customStrumPatterns.isEmpty())
         assertTrue(data.customFingerpickingPatterns.isEmpty())
         assertTrue(data.melodies.isEmpty())
-        assertTrue(data.knownChords.isEmpty())
         assertTrue(data.setlists.isEmpty())
         assertTrue(data.achievements.isEmpty())
     }
@@ -401,8 +388,7 @@ class BackupDataTest {
                 "lastSessionTime": 1717430400000,
                 "dailyGoal": 15,
                 "dailyMinutes": {"2026-06-01": 25}
-            },
-            "knownChords": []
+            }
         }
         """.trimIndent()
 

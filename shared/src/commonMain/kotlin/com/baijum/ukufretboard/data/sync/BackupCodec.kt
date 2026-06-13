@@ -100,8 +100,6 @@ object BackupCodec {
             }
             normalizeIosPracticeTimer(root)?.let { put("practiceTimer", it) }
             normalizeIosSettings(root)?.let { put("settings", it) }
-
-            put("knownChords", root["knownChords"] ?: buildJsonArray {})
         }
 
         return json.encodeToString(JsonObject.serializer(), out)
