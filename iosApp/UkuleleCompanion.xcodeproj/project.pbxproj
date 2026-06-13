@@ -32,6 +32,7 @@
 		A10023 /* SongbookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10023 /* SongbookView.swift */; };
 		A10024 /* SongEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10024 /* SongEditorView.swift */; };
 		A10103 /* PerformanceModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10103 /* PerformanceModeView.swift */; };
+		A10104 /* SongViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10104 /* SongViewerView.swift */; };
 		A10025 /* MelodyNotepadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10025 /* MelodyNotepadView.swift */; };
 		A10026 /* ProgressionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10026 /* ProgressionsViewModel.swift */; };
 		A10027 /* SongbookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10027 /* SongbookViewModel.swift */; };
@@ -193,6 +194,7 @@
 		B10023 /* SongbookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongbookView.swift; sourceTree = "<group>"; };
 		B10024 /* SongEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEditorView.swift; sourceTree = "<group>"; };
 		B10103 /* PerformanceModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceModeView.swift; sourceTree = "<group>"; };
+		B10104 /* SongViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongViewerView.swift; sourceTree = "<group>"; };
 		B10025 /* MelodyNotepadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MelodyNotepadView.swift; sourceTree = "<group>"; };
 		B10026 /* ProgressionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionsViewModel.swift; sourceTree = "<group>"; };
 		B10027 /* SongbookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongbookViewModel.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				B10092 /* SetlistView.swift */,
 				B10024 /* SongEditorView.swift */,
 				B10103 /* PerformanceModeView.swift */,
+				B10104 /* SongViewerView.swift */,
 				B10025 /* MelodyNotepadView.swift */,
 				B10080 /* SongwriterModeFlow.swift */,
 				B10029 /* LearnView.swift */,
@@ -752,6 +755,7 @@
 				A10092 /* SetlistView.swift in Sources */,
 				A10024 /* SongEditorView.swift in Sources */,
 				A10103 /* PerformanceModeView.swift in Sources */,
+				A10104 /* SongViewerView.swift in Sources */,
 				A10025 /* MelodyNotepadView.swift in Sources */,
 				A10026 /* ProgressionsViewModel.swift in Sources */,
 				A10027 /* SongbookViewModel.swift in Sources */,
