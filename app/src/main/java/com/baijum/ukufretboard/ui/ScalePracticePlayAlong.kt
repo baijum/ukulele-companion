@@ -45,7 +45,7 @@ import com.baijum.ukufretboard.viewmodel.PlayDirection
 import com.baijum.ukufretboard.viewmodel.PlaybackState
 import com.baijum.ukufretboard.viewmodel.ScalePracticeUiState
 import com.baijum.ukufretboard.viewmodel.ScalePracticeViewModel
-import com.baijum.ukufretboard.viewmodel.UkuleleString
+import com.baijum.ukufretboard.domain.UkuleleString
 
 internal fun fretPositionsForNote(
     pitchClass: Int,

@@ -31,7 +31,7 @@ import com.baijum.ukufretboard.viewmodel.FretboardViewModel
 import com.baijum.ukufretboard.viewmodel.LearningProgressViewModel
 import com.baijum.ukufretboard.viewmodel.PracticeMode
 import com.baijum.ukufretboard.viewmodel.ScalePracticeViewModel
-import com.baijum.ukufretboard.viewmodel.UkuleleString
+import com.baijum.ukufretboard.domain.UkuleleString
 
 @Composable
 fun ScalePracticeView(

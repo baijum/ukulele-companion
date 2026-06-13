@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.domain.Note
 import com.baijum.ukufretboard.viewmodel.FretboardViewModel
-import com.baijum.ukufretboard.viewmodel.UkuleleString
+import com.baijum.ukufretboard.domain.UkuleleString
 
 /** Default width of each fret cell — large enough for comfortable touch targets. */
 internal val CELL_WIDTH = 48.dp

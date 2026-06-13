@@ -49,7 +49,7 @@ import com.baijum.ukufretboard.domain.AlternateChord
 import com.baijum.ukufretboard.domain.ChordDetector
 import com.baijum.ukufretboard.domain.ChordInfo
 import com.baijum.ukufretboard.viewmodel.FretboardViewModel
-import com.baijum.ukufretboard.viewmodel.UkuleleString
+import com.baijum.ukufretboard.domain.UkuleleString
 
 /**
  * Displays the chord detection result below the fretboard.

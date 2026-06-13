@@ -48,7 +48,7 @@ import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.Progression
 import com.baijum.ukufretboard.data.VoicingGenerator
 import com.baijum.ukufretboard.domain.ChordVoicing
-import com.baijum.ukufretboard.viewmodel.UkuleleString
+import com.baijum.ukufretboard.domain.UkuleleString
 
 /**
  * A playback toolbar for chord progressions with tempo control.

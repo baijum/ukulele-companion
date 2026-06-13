@@ -62,7 +62,7 @@ import com.baijum.ukufretboard.data.VoicingGenerator
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.domain.Note
 import com.baijum.ukufretboard.viewmodel.FretboardViewModel
-import com.baijum.ukufretboard.viewmodel.UkuleleString
+import com.baijum.ukufretboard.domain.UkuleleString
 
 /**
  * Full-screen practice view for a chord progression.

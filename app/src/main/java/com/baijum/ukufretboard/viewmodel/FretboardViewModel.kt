@@ -16,14 +16,13 @@ import com.baijum.ukufretboard.domain.ChordDetector
 import com.baijum.ukufretboard.domain.ChordNameParser
 import com.baijum.ukufretboard.domain.ChordResult
 import com.baijum.ukufretboard.domain.Note
+import com.baijum.ukufretboard.domain.UkuleleString
 import com.baijum.ukufretboard.domain.calculateNote
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
-typealias UkuleleString = com.baijum.ukufretboard.domain.UkuleleString
 
 /**
  * State for the scale note overlay on the fretboard.

@@ -20,7 +20,7 @@ import com.baijum.ukufretboard.data.ChordFormula
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.domain.ChordInfo
 import com.baijum.ukufretboard.domain.ChordVoicing
-import com.baijum.ukufretboard.viewmodel.UkuleleString
+import com.baijum.ukufretboard.domain.UkuleleString
 
 @Composable
 internal fun VoicingGrid(

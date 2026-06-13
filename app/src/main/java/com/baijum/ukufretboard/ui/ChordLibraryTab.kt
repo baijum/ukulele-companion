@@ -35,7 +35,7 @@ import com.baijum.ukufretboard.domain.CapoCalculator
 import com.baijum.ukufretboard.domain.ChordInfo
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.viewmodel.ChordLibraryViewModel
-import com.baijum.ukufretboard.viewmodel.UkuleleString
+import com.baijum.ukufretboard.domain.UkuleleString
 
 @Composable
 fun ChordLibraryTab(
