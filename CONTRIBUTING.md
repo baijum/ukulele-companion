@@ -82,6 +82,30 @@ This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.
 - **Pure Domain Logic**: The shared `domain/` package has no platform dependencies, making it easy to test
 - **No Network**: The app is fully offline — do not add network dependencies
 
+### Linting & Pre-Submission Checks
+
+Kotlin style is enforced by **ktlint** through a standalone runner (no Gradle plugin,
+so no impact on dependency locking):
+
+```bash
+scripts/ktlint.sh        # check shared/ + app/ Kotlin sources
+scripts/ktlint.sh -F     # auto-format in place
+```
+
+ktlint uses a **baseline ratchet** (`ktlint-baseline.xml`): pre-existing style findings
+are accepted, so only *new* violations fail. CI runs this check on any PR that touches
+Kotlin. Keep diffs focused — don't reformat unrelated code.
+
+Before opening a PR, run the one-shot pre-submission script:
+
+```bash
+scripts/preflight.sh     # ktlint ratchet + shared KMP tests + Android unit tests + lint
+```
+
+It runs the automated gates (matching CI) and then prints the manual checklist (tuning
+modes, left-handed mode, reduce motion, TalkBack/VoiceOver, themes). iOS build and
+VoiceOver are **not** covered — verify those in Xcode separately.
+
 ## How to Contribute
 
 ### Areas Where Help Is Needed
@@ -153,6 +177,27 @@ When using AI-generated code:
 4. **Adapt it to the codebase** — Ensure it follows the existing patterns (see [Code Guidelines](#code-guidelines))
 5. **Mention AI usage** — You're welcome to note in your PR if AI tools helped, but it's not required
 
+### How This Repo Supports AI Agents
+
+This repository is configured so AI coding agents stay within the project's hard
+constraints automatically:
+
+- **[AGENTS.md](AGENTS.md)** — project-level instructions and constraints (read by Cursor,
+  Copilot, Codex). Claude Code reads it via the `CLAUDE.md` symlink.
+- **`.cursor/rules/*.mdc`** — the canonical, area-scoped coding rules (KMP purity,
+  Compose/SwiftUI accessibility, ViewModels, testing). They auto-attach in Cursor; Claude
+  Code loads them through directory-scoped `CLAUDE.md` pointer files.
+- **Claude Code hooks** (`.claude/settings.json` + `scripts/hooks/`) — block edits that add
+  network/analytics/secrets or platform imports in `commonMain`, and nudge on style. When a
+  hook blocks an edit it explains why.
+- **Slash commands** (`.claude/commands/`) — `/extract-to-shared` (test-first KMP extraction),
+  `/preflight`, `/add-string` (all 16 locales).
+- **`accessibility-reviewer` subagent** — reviews UI diffs against the TalkBack/VoiceOver rules.
+- **CodeRabbit** auto-reviews every PR.
+
+If you use a different AI tool, open the relevant `.cursor/rules/*.mdc` for the area you're
+editing — that's where the detailed rules live.
+
 ## Accessibility Guidelines
 
 This app is actively used by blind and visually impaired musicians with screen readers. **Every code change must preserve accessibility.** See also [AGENTS.md](AGENTS.md) for AI-specific rules.
@@ -193,6 +238,7 @@ This app is actively used by blind and visually impaired musicians with screen r
 - Use **meaningful names** for variables, functions, and classes
 - Prefer **immutable** data (`val`, `data class`, `List` over `MutableList` in public APIs)
 - Use **Kotlin idioms** (`let`, `apply`, `also`, `when`, etc.) where they improve readability
+- Style is checked by **ktlint** — run `scripts/ktlint.sh -F` to auto-format (see [Linting & Pre-Submission Checks](#linting--pre-submission-checks))
 
 ### Jetpack Compose
 
@@ -271,6 +317,7 @@ Docs: Add contributing guidelines
 
 Before submitting, verify:
 
+- [ ] `scripts/preflight.sh` passes (ktlint ratchet, shared + Android unit tests, lint)
 - [ ] Code builds without errors (`./gradlew assembleDebug`)
 - [ ] Changes work on a device or emulator
 - [ ] No new warnings introduced
