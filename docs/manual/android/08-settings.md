@@ -49,7 +49,7 @@ Select the tuning for your ukulele. The app adjusts the fretboard, chord detecti
 |--------|---------|------------|
 | **High-G (Standard)** | G4-C4-E4-A4 | The most common soprano/concert/tenor tuning with a re-entrant high G string. |
 | **Low-G** | G3-C4-E4-A4 | Same notes but with the G string tuned an octave lower, extending the bass range. |
-| **Baritone (DGBE)** | D3-G3-B4-E4 | Baritone ukulele tuning, matching the top four strings of a guitar. |
+| **Baritone (DGBE)** | D3-G3-B3-E4 | Baritone ukulele tuning, matching the top four strings of a guitar. |
 | **D-Tuning (ADF#B)** | A4-D4-F#4-B4 | A traditional alternative tuning, one whole step above standard. |
 | **Slack Key (GCEG)** | G4-C4-E4-G4 | An open-G tuning for slack-key style playing. |
 | **Open A (AC#EA)** | A4-C#4-E4-A4 | An open-A tuning. |
