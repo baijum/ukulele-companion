@@ -117,7 +117,6 @@ class BackupCodecTest {
                 dailyGoal = 15,
                 dailyMinutes = mapOf("2026-06-01" to 25),
             ),
-            knownChords = listOf("C", "Am"),
         )
 
         val encoded = BackupCodec.encode(original)
@@ -137,7 +136,6 @@ class BackupCodecTest {
         assertEquals(original.settings, decoded.settings)
         assertEquals(original.achievements, decoded.achievements)
         assertEquals(original.practiceTimer, decoded.practiceTimer)
-        assertEquals(original.knownChords, decoded.knownChords)
     }
 
     @Test
@@ -194,8 +192,7 @@ class BackupCodecTest {
                 "lastSessionTime": 0,
                 "dailyGoal": 15,
                 "dailyMinutes": {}
-            },
-            "knownChords": ["C", "Am", "F"]
+            }
         }
         """.trimIndent()
 
@@ -208,7 +205,6 @@ class BackupCodecTest {
         assertEquals(listOf(0, 2, 1, 2), decoded.favorites[0].frets)
         assertEquals(listOf("folder-jazz"), decoded.favorites[0].folderIds)
         assertEquals("Jazz Voicings", decoded.favoriteFolders[0].name)
-        assertEquals(listOf("C", "Am", "F"), decoded.knownChords)
     }
 
     @Test
@@ -554,6 +550,5 @@ class BackupCodecTest {
         assertEquals(data.exportedAt, decoded.exportedAt)
         assertTrue(decoded.favorites.isEmpty())
         assertTrue(decoded.chordSheets.isEmpty())
-        assertTrue(decoded.knownChords.isEmpty())
     }
 }

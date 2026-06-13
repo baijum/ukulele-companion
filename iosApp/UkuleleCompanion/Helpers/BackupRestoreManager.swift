@@ -101,8 +101,7 @@ final class BackupRestoreManager: ObservableObject {
             learningProgress: buildLearningProgress(learnData),
             settings: buildSettings(settingsVM.exportSettings()),
             achievements: buildAchievements(learnData),
-            practiceTimer: buildPracticeTimer(practiceTimerVM.exportData()),
-            knownChords: []
+            practiceTimer: buildPracticeTimer(practiceTimerVM.exportData())
         )
 
         let jsonString = BackupCodec.shared.encode(data: backup)

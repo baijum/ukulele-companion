@@ -37,7 +37,6 @@ data class BackupData(
     val settings: BackupSettings = BackupSettings(),
     val achievements: Map<String, Long> = emptyMap(),
     val practiceTimer: BackupPracticeTimer = BackupPracticeTimer(),
-    val knownChords: List<String> = emptyList(),
 ) {
     companion object {
         const val CURRENT_VERSION = 3

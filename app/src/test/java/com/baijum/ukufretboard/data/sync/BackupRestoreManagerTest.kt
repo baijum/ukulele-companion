@@ -340,8 +340,7 @@ class BackupRestoreManagerTest {
             "learningProgress": $learningProgress,
             "achievements": $achievements,
             "practiceTimer": $practiceTimer,
-            "settings": $settings,
-            "knownChords": []
+            "settings": $settings
         }
     """.trimIndent()
 }

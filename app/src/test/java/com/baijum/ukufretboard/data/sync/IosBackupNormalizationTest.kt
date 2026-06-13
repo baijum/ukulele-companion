@@ -60,8 +60,7 @@ class IosBackupNormalizationTest {
             "learningProgress": {"entries":{}},
             "achievements": {},
             "practiceTimer": {"totalMinutes":0,"totalSessions":0,"longestSession":0,"lastSessionTime":0,"dailyGoal":15,"dailyMinutes":{}},
-            "settings": {"soundEnabled":true,"volume":0.7,"noteDurationMs":600,"strumDelayMs":50,"strumDown":true,"playOnTap":false,"themeMode":"SYSTEM","showExplorerTips":true,"showLearnSection":true,"showReferenceSection":true,"tuning":"HIGH_G","leftHanded":false,"lastFret":12,"showNoteNames":true},
-            "knownChords": []
+            "settings": {"soundEnabled":true,"volume":0.7,"noteDurationMs":600,"strumDelayMs":50,"strumDown":true,"playOnTap":false,"themeMode":"SYSTEM","showExplorerTips":true,"showLearnSection":true,"showReferenceSection":true,"tuning":"HIGH_G","leftHanded":false,"lastFret":12,"showNoteNames":true}
         }
         """.trimIndent()
         manager.importBackup(kmpBackup)
@@ -304,8 +303,7 @@ class IosBackupNormalizationTest {
             "learningProgress": {"entries":{}},
             "achievements": {},
             "practiceTimer": {"totalMinutes":10,"totalSessions":2,"longestSession":8,"lastSessionTime":1700000000.321,"dailyGoal":15,"dailyMinutes":{}},
-            "settings": {"soundEnabled":true,"volume":0.7,"noteDurationMs":600,"strumDelayMs":50,"strumDown":true,"playOnTap":false,"themeMode":"SYSTEM","showExplorerTips":true,"showLearnSection":true,"showReferenceSection":true,"tuning":"HIGH_G","leftHanded":false,"lastFret":12,"showNoteNames":true},
-            "knownChords": []
+            "settings": {"soundEnabled":true,"volume":0.7,"noteDurationMs":600,"strumDelayMs":50,"strumDown":true,"playOnTap":false,"themeMode":"SYSTEM","showExplorerTips":true,"showLearnSection":true,"showReferenceSection":true,"tuning":"HIGH_G","leftHanded":false,"lastFret":12,"showNoteNames":true}
         }
         """.trimIndent()
         manager.importBackup(kmpBackup)
