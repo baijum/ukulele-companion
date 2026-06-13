@@ -7,6 +7,7 @@ import com.baijum.ukufretboard.data.ChordSheet
 import com.baijum.ukufretboard.data.ChordSheetRepository
 import com.baijum.ukufretboard.data.SongSortOrder
 import com.baijum.ukufretboard.domain.ChordSheetTranspose
+import com.baijum.ukufretboard.domain.SongbookFilter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -79,30 +80,25 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
     }
 
     private fun applyFilterAndSort() {
-        val query = _searchQuery.value.trim().lowercase()
         val activeLabels = _selectedLabels.value
 
-        var filtered = _allSheets.value
+        var result = SongbookFilter.apply(
+            songs = _allSheets.value,
+            query = _searchQuery.value,
+            label = activeLabels.firstOrNull(),
+            sortOrder = _sortOrder.value,
+            title = { it.title },
+            artist = { it.artist },
+            labels = { it.labels },
+            updatedAt = { it.updatedAt },
+            createdAt = { it.createdAt },
+        )
 
-        if (query.isNotEmpty()) {
-            filtered = filtered.filter { sheet ->
-                sheet.title.lowercase().contains(query) ||
-                    sheet.artist.lowercase().contains(query)
-            }
+        if (activeLabels.size > 1) {
+            result = result.filter { sheet -> sheet.labels.containsAll(activeLabels) }
         }
 
-        if (activeLabels.isNotEmpty()) {
-            filtered = filtered.filter { sheet ->
-                sheet.labels.containsAll(activeLabels)
-            }
-        }
-
-        _sheets.value = when (_sortOrder.value) {
-            SongSortOrder.LAST_MODIFIED -> filtered.sortedByDescending { it.updatedAt }
-            SongSortOrder.DATE_ADDED -> filtered.sortedByDescending { it.createdAt }
-            SongSortOrder.TITLE -> filtered.sortedBy { it.title.lowercase() }
-            SongSortOrder.ARTIST -> filtered.sortedBy { it.artist.lowercase() }
-        }
+        _sheets.value = result
     }
 
     private var viewOpenedAt: Long = 0L
