@@ -1,23 +1,36 @@
 package com.baijum.ukufretboard.data
 
+import com.baijum.ukufretboard.domain.ChordNameParser
+
 /**
  * Parses chord names from text containing `[ChordName]` markers.
  *
- * Uses the same permissive regex as [com.baijum.ukufretboard.domain.ChordSheetTranspose]
- * to ensure consistent chord recognition across parsing and transposition.
+ * Uses [ChordNameParser.parse] to validate that bracket contents are
+ * real chords, so section labels like `[Coda]`, `[Fine]`, `[Ending]`
+ * are never mistaken for chord markers.
+ *
  * Accepts any content after the root note (A-G with optional # or b),
  * supporting all chord qualities including slash chords (e.g., `[C/G]`).
- *
- * Section labels like `[Chorus]`, `[Bridge]`, `[Intro]` are excluded via a
- * negative lookahead so they are not mistakenly treated as chord markers.
  */
 object ChordParser {
 
-    /** Known section label names that must not be matched as chords. */
-    val SECTION_NAMES = "Chorus|Verse|Bridge|Intro|Outro|Tab|Interlude"
+    /** Regex matching potential `[ChordName]` markers — root note + any suffix. */
+    private val BRACKET_PATTERN = Regex("""\[([A-G][#b]?[^]]*)]""")
 
-    /** Regex matching `[ChordName]` markers — root note + any quality suffix. */
-    val CHORD_PATTERN = Regex("""\[(?!(?:$SECTION_NAMES)\b)([A-G][#b]?[^]]*)]""")
+    /**
+     * Returns true if the bracket content parses as a valid chord.
+     * For slash chords, only the part before the slash is validated
+     * (preserving unknown bass notes like `[C/X]`).
+     */
+    private fun isValidChord(bracketContent: String): Boolean {
+        val slashIdx = bracketContent.indexOf('/')
+        val toValidate = if (slashIdx >= 0) {
+            bracketContent.substring(0, slashIdx)
+        } else {
+            bracketContent
+        }
+        return ChordNameParser.parse(toValidate) != null
+    }
 
     /**
      * Extracts all unique chord names from the given text.
@@ -26,8 +39,9 @@ object ChordParser {
      * @return A list of unique chord name strings found in order.
      */
     fun extractChords(text: String): List<String> =
-        CHORD_PATTERN.findAll(text)
+        BRACKET_PATTERN.findAll(text)
             .map { it.groupValues[1] }
+            .filter { isValidChord(it) }
             .distinct()
             .toList()
 
@@ -41,17 +55,17 @@ object ChordParser {
         val segments = mutableListOf<TextSegment>()
         var lastEnd = 0
 
-        CHORD_PATTERN.findAll(line).forEach { match ->
-            // Add text before the chord
-            if (match.range.first > lastEnd) {
-                segments.add(TextSegment.PlainText(line.substring(lastEnd, match.range.first)))
+        BRACKET_PATTERN.findAll(line).forEach { match ->
+            val content = match.groupValues[1]
+            if (isValidChord(content)) {
+                if (match.range.first > lastEnd) {
+                    segments.add(TextSegment.PlainText(line.substring(lastEnd, match.range.first)))
+                }
+                segments.add(TextSegment.Chord(content))
+                lastEnd = match.range.last + 1
             }
-            // Add the chord
-            segments.add(TextSegment.Chord(match.groupValues[1]))
-            lastEnd = match.range.last + 1
         }
 
-        // Add remaining text
         if (lastEnd < line.length) {
             segments.add(TextSegment.PlainText(line.substring(lastEnd)))
         }

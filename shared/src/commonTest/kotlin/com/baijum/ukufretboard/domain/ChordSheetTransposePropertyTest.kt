@@ -164,6 +164,48 @@ class ChordSheetTransposePropertyTest {
     }
 
     @Test
+    fun codaUntouchedByTranspose() {
+        assertEquals("[Coda]", ChordSheetTranspose.transpose("[Coda]", 2))
+    }
+
+    @Test
+    fun endingUntouchedByTranspose() {
+        assertEquals("[Ending]", ChordSheetTranspose.transpose("[Ending]", 2))
+    }
+
+    @Test
+    fun breakUntouchedByTranspose() {
+        assertEquals("[Break]", ChordSheetTranspose.transpose("[Break]", 2))
+    }
+
+    @Test
+    fun fineUntouchedByTranspose() {
+        assertEquals("[Fine]", ChordSheetTranspose.transpose("[Fine]", 1))
+    }
+
+    @Test
+    fun bassLabelUntouchedByTranspose() {
+        assertEquals("[Bass]", ChordSheetTranspose.transpose("[Bass]", 2))
+    }
+
+    @Test
+    fun drumSoloUntouchedByTranspose() {
+        assertEquals("[Drum Solo]", ChordSheetTranspose.transpose("[Drum Solo]", 2))
+    }
+
+    @Test
+    fun guitarSoloUntouchedByTranspose() {
+        assertEquals("[Guitar Solo]", ChordSheetTranspose.transpose("[Guitar Solo]", 2))
+    }
+
+    @Test
+    fun sectionLabelsMixedWithChords() {
+        val input = "[Verse]\n[C]Twinkle [G]twinkle\n\n[Coda]\n[F]How I [C]wonder"
+        val result = ChordSheetTranspose.transpose(input, 2)
+        assertEquals("[Verse]\n[D]Twinkle [A]twinkle\n\n[Coda]\n[G]How I [D]wonder", result)
+    }
+
+    @Test
     fun unknownBassPreservedOnTranspose() {
         assertEquals("[D/X]", ChordSheetTranspose.transpose("[C/X]", 2))
     }

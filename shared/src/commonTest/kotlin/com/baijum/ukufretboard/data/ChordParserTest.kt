@@ -58,6 +58,42 @@ class ChordParserTest {
     }
 
     @Test
+    fun codaNotMatchedAsChord() {
+        val chords = ChordParser.extractChords("[Coda]")
+        assertTrue(chords.isEmpty(), "Coda should not be a chord: $chords")
+    }
+
+    @Test
+    fun endingNotMatchedAsChord() {
+        val chords = ChordParser.extractChords("[Ending]")
+        assertTrue(chords.isEmpty(), "Ending should not be a chord: $chords")
+    }
+
+    @Test
+    fun breakNotMatchedAsChord() {
+        val chords = ChordParser.extractChords("[Break]")
+        assertTrue(chords.isEmpty(), "Break should not be a chord: $chords")
+    }
+
+    @Test
+    fun fineNotMatchedAsChord() {
+        val chords = ChordParser.extractChords("[Fine]")
+        assertTrue(chords.isEmpty(), "Fine should not be a chord: $chords")
+    }
+
+    @Test
+    fun bassLabelNotMatchedAsChord() {
+        val chords = ChordParser.extractChords("[Bass]")
+        assertTrue(chords.isEmpty(), "Bass should not be a chord: $chords")
+    }
+
+    @Test
+    fun guitarSoloNotMatchedAsChord() {
+        val chords = ChordParser.extractChords("[Guitar Solo]")
+        assertTrue(chords.isEmpty(), "Guitar Solo should not be a chord: $chords")
+    }
+
+    @Test
     fun chorusMixedWithChordsOnlyExtractsChords() {
         val chords = ChordParser.extractChords("[Chorus]\n[C]Hello [G]World")
         assertEquals(listOf("C", "G"), chords)
