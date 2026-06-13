@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -128,7 +129,7 @@ internal fun LanguageSection() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { showDialog = true },
+            .clickable(role = Role.Button) { showDialog = true },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -168,7 +169,7 @@ internal fun LanguageSection() {
                             else MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable {
+                                .clickable(role = Role.Button) {
                                     val localeList = if (tag.isEmpty()) {
                                         LocaleListCompat.getEmptyLocaleList()
                                     } else {
