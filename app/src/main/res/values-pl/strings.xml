@@ -937,6 +937,7 @@
     <string name="settings_show_reference_section">Pokaż sekcję Materiały</string>
     <string name="settings_chord_display_style">Wyświetlanie akordów</string>
     <string name="settings_chord_color">Kolor akordów</string>
+    <string name="settings_show_chord_diagram_rail">Pokaż diagramy akordów</string>
     <string name="cd_collapse_section">Zwiń %s</string>
     <string name="cd_expand_section">Rozwiń %s</string>
     <string name="metronome_bpm">BPM</string>

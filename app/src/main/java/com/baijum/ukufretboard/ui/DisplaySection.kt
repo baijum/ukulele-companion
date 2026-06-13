@@ -149,6 +149,14 @@ internal fun DisplaySection(
             )
         }
     }
+
+    Spacer(modifier = Modifier.height(12.dp))
+
+    SettingsSwitch(
+        label = stringResource(R.string.settings_show_chord_diagram_rail),
+        checked = settings.showChordDiagramRail,
+        onCheckedChange = { onSettingsChange(settings.copy(showChordDiagramRail = it)) },
+    )
 }
 
 private val SUPPORTED_LANGUAGES = linkedMapOf(

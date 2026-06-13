@@ -93,6 +93,7 @@ fun SongbookTab(
     leftHanded: Boolean = false,
     chordDisplayStyle: ChordDisplayStyle = ChordDisplayStyle.ABOVE,
     chordColor: ChordColorOption = ChordColorOption.THEME,
+    showChordDiagramRail: Boolean = true,
     modifier: Modifier = Modifier,
 ) {
     val sheets by viewModel.sheets.collectAsState()
@@ -143,6 +144,7 @@ fun SongbookTab(
                 onApplyTranspose = { viewModel.applyTranspose(it) },
                 chordDisplayStyle = chordDisplayStyle,
                 chordColor = chordColor,
+                showChordDiagramRail = showChordDiagramRail,
             )
         }
         else -> {

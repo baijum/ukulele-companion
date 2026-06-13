@@ -124,6 +124,9 @@ struct SettingsView: View {
                     }
                     .onChange(of: viewModel.chordColor) { _ in viewModel.save() }
 
+                    Toggle("Show chord diagrams", isOn: $viewModel.showChordDiagramRail)
+                        .onChange(of: viewModel.showChordDiagramRail) { _ in viewModel.save() }
+
                     Toggle("Show Tips", isOn: $viewModel.showTips)
                         .onChange(of: viewModel.showTips) { _ in viewModel.save() }
 

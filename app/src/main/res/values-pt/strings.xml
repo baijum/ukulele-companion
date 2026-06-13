@@ -933,6 +933,7 @@
     <string name="settings_show_reference_section">Mostrar secção Referência</string>
     <string name="settings_chord_display_style">Exibição de acordes</string>
     <string name="settings_chord_color">Cor dos acordes</string>
+    <string name="settings_show_chord_diagram_rail">Mostrar diagramas de acordes</string>
     <string name="cd_collapse_section">Recolher %s</string>
     <string name="cd_expand_section">Expandir %s</string>
     <string name="metronome_bpm">BPM</string>

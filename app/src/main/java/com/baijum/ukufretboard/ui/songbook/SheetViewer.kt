@@ -4,11 +4,13 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -121,6 +123,7 @@ internal fun SheetViewer(
     onApplyTranspose: (Int) -> Unit,
     chordDisplayStyle: ChordDisplayStyle = ChordDisplayStyle.ABOVE,
     chordColor: ChordColorOption = ChordColorOption.THEME,
+    showChordDiagramRail: Boolean = true,
 ) {
     val context = LocalContext.current
     val view = LocalView.current
@@ -425,6 +428,42 @@ internal fun SheetViewer(
         }
 
         val sectionLineIndices = remember(sections) { sections.map { it.lineIndex }.toSet() }
+
+        if (showChordDiagramRail) {
+            val uniqueChords = remember(displayContent) {
+                ChordParser.extractChords(displayContent)
+            }
+            val chordVoicings = remember(uniqueChords, tuning) {
+                uniqueChords.mapNotNull { name ->
+                    val parsed = ChordNameParser.parse(name) ?: return@mapNotNull null
+                    if (tuning.isEmpty()) return@mapNotNull null
+                    val voicing = VoicingGenerator.generate(
+                        parsed.rootPitchClass, parsed.formula, tuning,
+                    ).firstOrNull() ?: return@mapNotNull null
+                    name to voicing
+                }
+            }
+            if (chordVoicings.isNotEmpty()) {
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                ) {
+                    items(chordVoicings.size, key = { chordVoicings[it].first }) { idx ->
+                        val (name, voicing) = chordVoicings[idx]
+                        VerticalChordDiagram(
+                            voicing = voicing,
+                            onClick = { tappedChord = name },
+                            chordName = name,
+                            leftHanded = leftHanded,
+                        )
+                    }
+                }
+                HorizontalDivider()
+            }
+        }
 
         Box(modifier = Modifier.weight(1f)) {
             Column(

@@ -937,6 +937,7 @@
     <string name="settings_show_reference_section">Bereich Nachschlagewerk anzeigen</string>
     <string name="settings_chord_display_style">Akkord-Anzeige</string>
     <string name="settings_chord_color">Akkord-Farbe</string>
+    <string name="settings_show_chord_diagram_rail">Akkorddiagramme anzeigen</string>
     <string name="cd_collapse_section">%s einklappen</string>
     <string name="cd_expand_section">%s ausklappen</string>
     <string name="metronome_bpm">BPM</string>

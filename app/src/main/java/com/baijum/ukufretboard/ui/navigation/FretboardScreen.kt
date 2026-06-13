@@ -619,6 +619,7 @@ fun FretboardScreen(
                             leftHanded = appSettings.fretboard.leftHanded,
                             chordDisplayStyle = appSettings.display.chordDisplayStyle,
                             chordColor = appSettings.display.chordColor,
+                            showChordDiagramRail = appSettings.display.showChordDiagramRail,
                         )
                     }
                     NAV_SETLISTS -> ConstrainedWidthContent(isCompactWidth) {
