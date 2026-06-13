@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -73,7 +74,9 @@ internal fun PlayAlongContent(
         style = MaterialTheme.typography.labelSmall,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = Modifier.padding(bottom = 4.dp),
+        modifier = Modifier
+            .semantics { heading() }
+            .padding(bottom = 4.dp),
     )
     Row(
         modifier = Modifier
@@ -109,7 +112,9 @@ internal fun PlayAlongContent(
         style = MaterialTheme.typography.labelSmall,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = Modifier.padding(bottom = 4.dp),
+        modifier = Modifier
+            .semantics { heading() }
+            .padding(bottom = 4.dp),
     )
     Row(
         modifier = Modifier
@@ -140,7 +145,9 @@ internal fun PlayAlongContent(
         style = MaterialTheme.typography.labelSmall,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = Modifier.padding(bottom = 4.dp),
+        modifier = Modifier
+            .semantics { heading() }
+            .padding(bottom = 4.dp),
     )
     Row(
         horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -168,7 +175,9 @@ internal fun PlayAlongContent(
         style = MaterialTheme.typography.labelSmall,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = Modifier.padding(bottom = 4.dp),
+        modifier = Modifier
+            .semantics { heading() }
+            .padding(bottom = 4.dp),
     )
     Row(
         horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -206,7 +215,9 @@ internal fun PlayAlongContent(
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(bottom = 4.dp),
+            modifier = Modifier
+                .semantics { heading() }
+                .padding(bottom = 4.dp),
         )
         Row(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
