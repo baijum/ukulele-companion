@@ -12,6 +12,7 @@ struct SongViewerView: View {
     @ObservedObject var viewModel: SongbookViewModel
     @EnvironmentObject var customPatternsVM: CustomPatternsViewModel
     @EnvironmentObject var metronomeVM: MetronomeViewModel
+    @EnvironmentObject var settingsVM: SettingsViewModel
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var transposeSemitones: Int = 0
@@ -750,10 +751,40 @@ struct SongViewerView: View {
         .system(size: CGFloat(songFontSize), design: .monospaced)
     }
 
+    private var resolvedChordColor: Color {
+        switch settingsVM.chordColor {
+        case "red": return .red
+        case "blue": return .blue
+        case "green": return .green
+        case "orange": return .orange
+        case "purple": return .purple
+        default: return .accentColor
+        }
+    }
+
     @ViewBuilder
     private func parsedLineView(segments: [ChordParser.TextSegment]) -> some View {
         let hasChords = segments.contains(where: { $0 is ChordParser.TextSegmentChord })
-        if hasChords {
+        if hasChords && settingsVM.chordDisplayStyle == "inline" {
+            HStack(spacing: 0) {
+                ForEach(0..<segments.count, id: \.self) { i in
+                    let segment = segments[i]
+                    if let chord = segment as? ChordParser.TextSegmentChord {
+                        Text("[\(chord.name)]")
+                            .font(songFont)
+                            .foregroundColor(resolvedChordColor)
+                            .bold()
+                            .onTapGesture { tappedChord = chord.name }
+                            .accessibilityLabel(chord.name)
+                            .accessibilityAddTraits(.isButton)
+                            .accessibilityHint("Show chord diagram")
+                    } else if let plain = segment as? ChordParser.TextSegmentPlainText {
+                        Text(plain.text)
+                            .font(songFont)
+                    }
+                }
+            }
+        } else if hasChords {
             let result = Self.buildChordsAboveLyrics(segments: segments)
             VStack(alignment: .leading, spacing: 0) {
                 HStack(spacing: 0) {
@@ -762,7 +793,7 @@ struct SongViewerView: View {
                         if element.isChord {
                             Text(element.text)
                                 .font(songFont)
-                                .foregroundColor(.accentColor)
+                                .foregroundColor(resolvedChordColor)
                                 .bold()
                                 .onTapGesture { tappedChord = element.text }
                                 .accessibilityLabel(element.text)

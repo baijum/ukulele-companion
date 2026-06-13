@@ -27,7 +27,9 @@ final class SettingsRepository {
             showReferenceTab: defaults.object(forKey: "show_reference_tab") as? Bool ?? true,
             strumDown: defaults.object(forKey: "strum_down") as? Bool ?? true,
             appLanguage: defaults.string(forKey: "app_language") ?? "system",
-            onboardingCompleted: defaults.bool(forKey: "onboarding_completed")
+            onboardingCompleted: defaults.bool(forKey: "onboarding_completed"),
+            chordDisplayStyle: defaults.string(forKey: "chord_display_style") ?? "above",
+            chordColor: defaults.string(forKey: "chord_color") ?? "theme"
         )
     }
 
@@ -55,6 +57,8 @@ final class SettingsRepository {
         defaults.set(data.strumDown, forKey: "strum_down")
         defaults.set(data.appLanguage, forKey: "app_language")
         defaults.set(data.onboardingCompleted, forKey: "onboarding_completed")
+        defaults.set(data.chordDisplayStyle, forKey: "chord_display_style")
+        defaults.set(data.chordColor, forKey: "chord_color")
     }
 
     func exportSettings() -> [String: Any] {
@@ -82,6 +86,8 @@ final class SettingsRepository {
             "strum_down": defaults.object(forKey: "strum_down") as? Bool ?? true,
             "app_language": defaults.string(forKey: "app_language") ?? "system",
             "onboarding_completed": defaults.bool(forKey: "onboarding_completed"),
+            "chord_display_style": defaults.string(forKey: "chord_display_style") ?? "above",
+            "chord_color": defaults.string(forKey: "chord_color") ?? "theme",
         ]
     }
 
@@ -109,6 +115,8 @@ final class SettingsRepository {
         if let v = dict["strum_down"] as? Bool { defaults.set(v, forKey: "strum_down") }
         if let v = dict["app_language"] as? String { defaults.set(v, forKey: "app_language") }
         if let v = dict["onboarding_completed"] as? Bool { defaults.set(v, forKey: "onboarding_completed") }
+        if let v = dict["chord_display_style"] as? String { defaults.set(v, forKey: "chord_display_style") }
+        if let v = dict["chord_color"] as? String { defaults.set(v, forKey: "chord_color") }
     }
 }
 
@@ -136,4 +144,6 @@ struct SettingsData {
     var strumDown: Bool
     var appLanguage: String
     var onboardingCompleted: Bool
+    var chordDisplayStyle: String
+    var chordColor: String
 }

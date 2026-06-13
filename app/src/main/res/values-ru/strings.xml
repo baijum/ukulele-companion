@@ -937,6 +937,8 @@
     <string name="settings_noise_gate_filtering_desc">Контролирует, сколько фонового шума фильтруется для тюнера, монитора высоты тона и блокнота мелодий. Высокие значения фильтруют больше шума; низкие значения улавливают более тихие звуки.</string>
     <string name="settings_show_learn_section">Показать раздел Обучение</string>
     <string name="settings_show_reference_section">Показать раздел Справочник</string>
+    <string name="settings_chord_display_style">Отображение аккордов</string>
+    <string name="settings_chord_color">Цвет аккордов</string>
     <string name="cd_collapse_section">Свернуть %s</string>
     <string name="cd_expand_section">Развернуть %s</string>
     <string name="metronome_bpm">BPM</string>

@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import com.baijum.ukufretboard.data.AppSettings
+import com.baijum.ukufretboard.data.ChordColorOption
+import com.baijum.ukufretboard.data.ChordDisplayStyle
 import com.baijum.ukufretboard.data.DisplaySettings
 import com.baijum.ukufretboard.data.FretboardSettings
 
@@ -160,6 +162,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             .putBoolean(KEY_SHOW_EXPLORER_TIPS, s.display.showExplorerTips)
             .putBoolean(KEY_SHOW_LEARN_SECTION, s.display.showLearnSection)
             .putBoolean(KEY_SHOW_REFERENCE_SECTION, s.display.showReferenceSection)
+            .putString(KEY_CHORD_DISPLAY_STYLE, s.display.chordDisplayStyle.name)
+            .putString(KEY_CHORD_COLOR, s.display.chordColor.name)
             // Tuning
             .putString(KEY_TUNING, s.tuning.tuning.name)
             // Fretboard
@@ -212,6 +216,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 showExplorerTips = prefs.getBoolean(KEY_SHOW_EXPLORER_TIPS, true),
                 showLearnSection = prefs.getBoolean(KEY_SHOW_LEARN_SECTION, true),
                 showReferenceSection = prefs.getBoolean(KEY_SHOW_REFERENCE_SECTION, true),
+                chordDisplayStyle = try {
+                    ChordDisplayStyle.valueOf(prefs.getString(KEY_CHORD_DISPLAY_STYLE, ChordDisplayStyle.ABOVE.name)!!)
+                } catch (_: Exception) {
+                    ChordDisplayStyle.ABOVE
+                },
+                chordColor = try {
+                    ChordColorOption.valueOf(prefs.getString(KEY_CHORD_COLOR, ChordColorOption.THEME.name)!!)
+                } catch (_: Exception) {
+                    ChordColorOption.THEME
+                },
             ),
             tuning = TuningSettings(
                 tuning = try {
@@ -286,5 +300,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         private const val KEY_SHOW_EXPLORER_TIPS = "show_explorer_tips"
         private const val KEY_SHOW_LEARN_SECTION = "show_learn_section"
         private const val KEY_SHOW_REFERENCE_SECTION = "show_reference_section"
+        private const val KEY_CHORD_DISPLAY_STYLE = "chord_display_style"
+        private const val KEY_CHORD_COLOR = "chord_color"
     }
 }

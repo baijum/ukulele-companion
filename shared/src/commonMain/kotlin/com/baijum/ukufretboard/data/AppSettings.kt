@@ -53,6 +53,29 @@ enum class ThemeMode(val label: String) {
 }
 
 /**
+ * How chords are positioned relative to lyrics in the chord sheet viewer.
+ */
+enum class ChordDisplayStyle(val label: String) {
+    ABOVE("Above lyrics"),
+    INLINE("Inline with lyrics"),
+}
+
+/**
+ * Preset color options for chord names in the chord sheet viewer.
+ *
+ * Each option maps to a theme-aware color pair (light/dark) in the UI layer.
+ * [THEME] uses the platform accent/primary color.
+ */
+enum class ChordColorOption(val label: String) {
+    THEME("Theme"),
+    RED("Red"),
+    BLUE("Blue"),
+    GREEN("Green"),
+    ORANGE("Orange"),
+    PURPLE("Purple"),
+}
+
+/**
  * Settings for display preferences (theme).
  *
  * @property themeMode The app color theme: Light, Dark, or follow the System setting.
@@ -60,12 +83,16 @@ enum class ThemeMode(val label: String) {
  *   on the Explorer tab when no chord is selected.
  * @property showLearnSection When true, the Learn section is visible in the nav drawer.
  * @property showReferenceSection When true, the Reference section is visible in the nav drawer.
+ * @property chordDisplayStyle How chords are positioned relative to lyrics.
+ * @property chordColor The color preset used for chord names in the viewer.
  */
 data class DisplaySettings(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val showExplorerTips: Boolean = true,
     val showLearnSection: Boolean = true,
     val showReferenceSection: Boolean = true,
+    val chordDisplayStyle: ChordDisplayStyle = ChordDisplayStyle.ABOVE,
+    val chordColor: ChordColorOption = ChordColorOption.THEME,
 )
 
 /**

@@ -108,6 +108,22 @@ struct SettingsView: View {
                     }
                     .onChange(of: viewModel.themeMode) { _ in viewModel.save() }
 
+                    Picker("Chord display", selection: $viewModel.chordDisplayStyle) {
+                        Text("Above lyrics").tag("above")
+                        Text("Inline with lyrics").tag("inline")
+                    }
+                    .onChange(of: viewModel.chordDisplayStyle) { _ in viewModel.save() }
+
+                    Picker("Chord color", selection: $viewModel.chordColor) {
+                        Text("Theme").tag("theme")
+                        Text("Red").tag("red")
+                        Text("Blue").tag("blue")
+                        Text("Green").tag("green")
+                        Text("Orange").tag("orange")
+                        Text("Purple").tag("purple")
+                    }
+                    .onChange(of: viewModel.chordColor) { _ in viewModel.save() }
+
                     Toggle("Show Tips", isOn: $viewModel.showTips)
                         .onChange(of: viewModel.showTips) { _ in viewModel.save() }
 
