@@ -1,0 +1,57 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew :shared:build*)",
+      "Bash(./gradlew :shared:jvmTest*)",
+      "Bash(./gradlew :shared:koverXmlReport*)",
+      "Bash(./gradlew :shared:ktlintCheck*)",
+      "Bash(./gradlew :shared:ktlintFormat*)",
+      "Bash(./gradlew lintDebug*)",
+      "Bash(./gradlew testDebugUnitTest*)",
+      "Bash(./gradlew assembleDebug*)",
+      "Bash(./gradlew ktlintCheck*)",
+      "Bash(./gradlew ktlintFormat*)",
+      "Bash(xcodebuild *)",
+      "Bash(gh pr view*)",
+      "Bash(gh pr list*)",
+      "Bash(gh pr diff*)",
+      "Bash(gh pr checks*)",
+      "Bash(gh issue view*)",
+      "Bash(gh issue list*)",
+      "Bash(gh run view*)",
+      "Bash(gh run list*)",
+      "Bash(gh repo view*)",
+      "Bash(python3 scripts/convert_strings.py*)",
+      "Bash(./scripts/preflight.sh*)",
+      "Bash(scripts/ktlint.sh*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/hooks/guard-constraints.py\""
+          },
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/hooks/guard-kmp-purity.py\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/hooks/style-check.py\""
+          }
+        ]
+      }
+    ]
+  }
+}
