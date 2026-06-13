@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import com.baijum.ukufretboard.audio.MetronomeEngine
 import com.baijum.ukufretboard.audio.ToneGenerator
 import com.baijum.ukufretboard.data.Notes
+import com.baijum.ukufretboard.data.PlayDirection
+import com.baijum.ukufretboard.data.FretPosition
+import com.baijum.ukufretboard.data.PracticeMode
 import com.baijum.ukufretboard.data.Scale
 import com.baijum.ukufretboard.data.ScaleCategory
 import com.baijum.ukufretboard.data.ScalePracticeSettings
@@ -17,51 +20,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /**
- * Practice mode selector.
- */
-enum class PracticeMode(val label: String) {
-    PLAY_ALONG("Play Along"),
-    QUIZ("Scale Quiz"),
-    EAR_TRAINING("Ear Training"),
-}
-
-/**
- * Direction for Play Along mode.
- */
-enum class PlayDirection(val label: String) {
-    ASCENDING("Ascending"),
-    DESCENDING("Descending"),
-    BOTH("Both"),
-}
-
-/**
  * Play Along playback state.
  */
 enum class PlaybackState {
     STOPPED, PLAYING, PAUSED,
-}
-
-/**
- * Fret position filter for the Play Along fretboard diagram.
- *
- * Restricts which fret range shows scale overlay dots so the user
- * can focus on a specific area of the neck.
- *
- * The HIGH range adapts to the user's configured last fret.
- */
-enum class FretPosition(val label: String) {
-    ALL("All"),
-    OPEN("Open"),
-    MID("Mid"),
-    HIGH("High");
-
-    /** Returns the fret range for this position, or null for ALL. */
-    fun range(lastFret: Int = 12): IntRange? = when (this) {
-        ALL -> null
-        OPEN -> 0..4
-        MID -> 4..8
-        HIGH -> 7..lastFret
-    }
 }
 
 /**

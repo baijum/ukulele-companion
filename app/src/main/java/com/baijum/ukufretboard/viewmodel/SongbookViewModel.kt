@@ -5,17 +5,11 @@ import androidx.lifecycle.AndroidViewModel
 import com.baijum.ukufretboard.data.ChordProParser
 import com.baijum.ukufretboard.data.ChordSheet
 import com.baijum.ukufretboard.data.ChordSheetRepository
+import com.baijum.ukufretboard.data.SongSortOrder
 import com.baijum.ukufretboard.domain.ChordSheetTranspose
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-
-enum class SongSortOrder {
-    LAST_MODIFIED,
-    DATE_ADDED,
-    TITLE,
-    ARTIST,
-}
 
 /**
  * ViewModel for managing the songbook (list of chord sheets).

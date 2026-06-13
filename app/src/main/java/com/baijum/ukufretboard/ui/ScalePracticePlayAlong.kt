@@ -40,8 +40,8 @@ import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.ScalePracticeSettings
 import com.baijum.ukufretboard.data.Scales
 import com.baijum.ukufretboard.domain.Note
-import com.baijum.ukufretboard.viewmodel.FretPosition
-import com.baijum.ukufretboard.viewmodel.PlayDirection
+import com.baijum.ukufretboard.data.FretPosition
+import com.baijum.ukufretboard.data.PlayDirection
 import com.baijum.ukufretboard.viewmodel.PlaybackState
 import com.baijum.ukufretboard.viewmodel.ScalePracticeUiState
 import com.baijum.ukufretboard.viewmodel.ScalePracticeViewModel

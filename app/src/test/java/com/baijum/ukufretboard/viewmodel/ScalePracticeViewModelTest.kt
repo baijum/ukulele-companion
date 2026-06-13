@@ -1,5 +1,8 @@
 package com.baijum.ukufretboard.viewmodel
 
+import com.baijum.ukufretboard.data.FretPosition
+import com.baijum.ukufretboard.data.PlayDirection
+import com.baijum.ukufretboard.data.PracticeMode
 import com.baijum.ukufretboard.data.ScaleCategory
 import com.baijum.ukufretboard.data.ScalePracticeSettings
 import com.baijum.ukufretboard.data.Scales

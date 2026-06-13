@@ -29,7 +29,7 @@ import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.ScaleCategory
 import com.baijum.ukufretboard.viewmodel.FretboardViewModel
 import com.baijum.ukufretboard.viewmodel.LearningProgressViewModel
-import com.baijum.ukufretboard.viewmodel.PracticeMode
+import com.baijum.ukufretboard.data.PracticeMode
 import com.baijum.ukufretboard.viewmodel.ScalePracticeViewModel
 import com.baijum.ukufretboard.domain.UkuleleString
 
