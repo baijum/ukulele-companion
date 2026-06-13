@@ -69,7 +69,7 @@ internal fun VoicingGrid(
         ) {
             val chordName = Notes.pitchClassToName(rootPitchClass) + (formula?.symbol ?: "")
 
-            items(voicings) { voicing ->
+            items(voicings, key = { it.frets.joinToString(",") }) { voicing ->
                 val inversionLabel = formula?.let {
                     ChordInfo.determineInversion(voicing.frets, rootPitchClass, it, tuning).localizedLabel()
                 }
