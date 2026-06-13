@@ -133,6 +133,9 @@
     <string name="chord_library_voicing_singular">%d توزيع صوتي</string>
     <string name="chord_library_reentrant_limited">يحتوي هذا الوتر على %d توزيعات صوتية فقط. يحد الضبط المتكرر (High-G) من الانعكاسات لأن وتر C (C4) يكون دائماً تقريباً أخفض نغمة. يتيح ضبط Low-G تنوعاً أكبر في الانعكاسات.</string>
     <string name="chord_library_reentrant_empty">في الضبط المتكرر (High-G)، يكون وتر C دائماً تقريباً أخفض نوتة، لذا معظم التوزيعات الصوتية في الوضع الأصلي. جرّب اختيار \"الكل\" لرؤية التوزيعات المتاحة.</string>
+    <string name="chord_library_first_inv">قلب ١</string>
+    <string name="chord_library_second_inv">قلب ٢</string>
+    <string name="chord_library_third_inv">قلب ٣</string>
     <string name="chord_library_no_voicings">لم يتم العثور على توزيعات صوتية</string>
     <string name="chord_library_search_hint">بحث عن وتر (مثل Cm7, C/E)</string>
     <string name="chord_library_search_clear">مسح البحث</string>

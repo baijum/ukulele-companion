@@ -133,6 +133,9 @@
     <string name="chord_library_voicing_singular">%d 种指法</string>
     <string name="chord_library_reentrant_limited">这个和弦只有 %d 种指法。回旋调弦（High-G）限制了转位的可能，因为 C 弦 (C4) 几乎总是最低音。Low-G 调弦可以提供更多转位变化。</string>
     <string name="chord_library_reentrant_empty">在回旋调弦（High-G）下，C 弦几乎总是最低音，因此大多数指法都是原位。试试选择"全部"来查看可用指法。</string>
+    <string name="chord_library_first_inv">第一转位</string>
+    <string name="chord_library_second_inv">第二转位</string>
+    <string name="chord_library_third_inv">第三转位</string>
     <string name="chord_library_no_voicings">未找到指法</string>
     <string name="chord_library_search_hint">搜索和弦（例如 Cm7, C/E）</string>
     <string name="chord_library_search_clear">清除搜索</string>

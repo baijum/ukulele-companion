@@ -133,6 +133,9 @@
     <string name="chord_library_voicing_singular">%d prowadzenie głosów</string>
     <string name="chord_library_reentrant_limited">Ten akord ma tylko %d prowadzeń głosów. Strój re-entrant (wysokie G) ogranicza przewroty, ponieważ struna C (C4) jest prawie zawsze najniższym dźwiękiem. Strój z niskim G umożliwia większą różnorodność przewrotów.</string>
     <string name="chord_library_reentrant_empty">W stroju re-entrant (wysokie G) struna C jest prawie zawsze najniższą nutą, więc większość prowadzeń głosów jest w pozycji zasadniczej. Spróbuj wybrać \"Wszystkie\", aby zobaczyć dostępne prowadzenia głosów.</string>
+    <string name="chord_library_first_inv">1. przew.</string>
+    <string name="chord_library_second_inv">2. przew.</string>
+    <string name="chord_library_third_inv">3. przew.</string>
     <string name="chord_library_no_voicings">Nie znaleziono prowadzeń głosów</string>
     <string name="chord_library_search_hint">Szukaj akordu (np. Cm7, C/E)</string>
     <string name="chord_library_search_clear">Wyczyść wyszukiwanie</string>

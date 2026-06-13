@@ -133,6 +133,9 @@
     <string name="chord_library_voicing_singular">%d Voicing</string>
     <string name="chord_library_reentrant_limited">Dieser Akkord hat nur %d Voicings. Die rückläufige Stimmung (High-G) begrenzt die Umkehrungen, da die C-Saite (C4) fast immer der tiefste Ton ist. Low-G-Stimmung ermöglicht mehr Umkehrungsvielfalt.</string>
     <string name="chord_library_reentrant_empty">Bei rückläufiger Stimmung (High-G) ist die C-Saite fast immer der tiefste Ton, daher sind die meisten Voicings in Grundstellung. Wähle \"Alle\", um verfügbare Voicings zu sehen.</string>
+    <string name="chord_library_first_inv">1. Umk.</string>
+    <string name="chord_library_second_inv">2. Umk.</string>
+    <string name="chord_library_third_inv">3. Umk.</string>
     <string name="chord_library_no_voicings">Keine Voicings gefunden</string>
     <string name="chord_library_search_hint">Akkord suchen (z.B. Cm7, C/E)</string>
     <string name="chord_library_search_clear">Suche löschen</string>
