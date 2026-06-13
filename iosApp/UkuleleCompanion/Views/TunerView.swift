@@ -37,7 +37,7 @@ struct TunerView: View {
                 .accessibilityAddTraits(.updatesFrequently)
 
                 // Cents deviation gauge
-                NeedleMeterView(cents: viewModel.centsDeviation)
+                NeedleMeterView(cents: viewModel.displayCentsDeviation)
                     .frame(height: 100)
                     .padding(.horizontal, 24)
                     .accessibilityValue(viewModel.centsAccessibilityValue)
