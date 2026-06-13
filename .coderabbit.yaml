@@ -1,4 +1,9 @@
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+#
+# NOTE: The path_instructions below are a deliberate, condensed *second copy* of the
+# canonical coding rules in .cursor/rules/*.mdc. CodeRabbit cannot reference external
+# files, so these must be kept terse and in sync by hand when the .mdc rules change.
+# Canonical source: .cursor/rules/  (see AGENTS.md "Coding Rules Reference").
 language: "en-US"
 early_access: false
 
