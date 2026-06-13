@@ -209,7 +209,6 @@ final class TunerViewModel: ObservableObject {
                 let newNoteName = noteInfo.noteName
                 noteName = newNoteName
                 octave = Int(noteInfo.octave)
-                centsDeviation = noteInfo.centsDeviation
                 frequency = finalHz
 
                 // Announce note changes to VoiceOver
@@ -231,6 +230,7 @@ final class TunerViewModel: ObservableObject {
                 activeStringIndex = stringIdx
 
                 let cents = stringResult.centsFromTarget
+                centsDeviation = min(max(cents, -50), 50)
                 let justTuned: Bool
                 isInTune = abs(cents) <= 6
                 if abs(cents) <= 6 {
