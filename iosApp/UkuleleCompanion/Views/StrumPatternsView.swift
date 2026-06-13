@@ -128,7 +128,7 @@ struct StrumPatternsView: View {
             HStack(spacing: 4) {
                 ForEach(0..<pattern.beats.count, id: \.self) { j in
                     let beat = pattern.beats[j]
-                    Text(directionSymbolFromString(beat.direction))
+                    Text(patternDirectionSymbolFromString(beat.direction))
                         .font(.title3.bold())
                         .foregroundStyle(beat.emphasis ? Color.accentColor : .primary)
                 }
@@ -284,7 +284,7 @@ struct StrumPatternsView: View {
                 Text(pattern.name)
                     .font(.subheadline.bold())
                 Spacer()
-                difficultyBadge(pattern.difficulty)
+                patternDifficultyBadge(pattern.difficulty)
                 Text(pattern.timeSignature)
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -434,7 +434,7 @@ struct StrumPatternsView: View {
                 Text(pattern.name)
                     .font(.subheadline.bold())
                 Spacer()
-                difficultyBadge(pattern.difficulty)
+                patternDifficultyBadge(pattern.difficulty)
                 Text(pattern.timeSignature)
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -444,7 +444,7 @@ struct StrumPatternsView: View {
                 ForEach(0..<beats.count, id: \.self) { j in
                     let beat = beats[j]
                     let isActiveBeat = isThisPlaying && patternPlayer.currentIndex == j
-                    Text(directionSymbol(beat.direction))
+                    Text(patternDirectionSymbol(beat.direction))
                         .font(.title3.bold())
                         .foregroundStyle(isActiveBeat ? .white : (beat.emphasis ? Color.accentColor : .primary))
                         .padding(2)
@@ -557,219 +557,5 @@ struct StrumPatternsView: View {
         }
     }
 
-    private func difficultyBadge(_ difficulty: Difficulty) -> some View {
-        Text(difficulty.label)
-            .font(.caption2.bold())
-            .padding(.horizontal, 8)
-            .padding(.vertical, 3)
-            .background(difficultyColor(difficulty).opacity(0.2))
-            .foregroundStyle(difficultyColor(difficulty))
-            .clipShape(Capsule())
-    }
-
-    private func difficultyColor(_ difficulty: Difficulty) -> Color {
-        switch difficulty {
-        case .beginner: .green
-        case .intermediate: .orange
-        case .advanced: .red
-        default: .gray
-        }
-    }
-
-    private func directionSymbol(_ direction: StrumDirection) -> String {
-        switch direction {
-        case .down: "\u{2193}"
-        case .up: "\u{2191}"
-        case .chuck: "X"
-        case .miss: "\u{00D7}"
-        case .pause: "\u{2014}"
-        default: "?"
-        }
-    }
-
-    private func directionSymbolFromString(_ direction: String) -> String {
-        switch direction {
-        case "DOWN": "\u{2193}"
-        case "UP": "\u{2191}"
-        case "CHUCK": "X"
-        case "MISS": "\u{00D7}"
-        case "PAUSE": "\u{2014}"
-        default: "?"
-        }
-    }
 }
 
-// MARK: - Safe Array Subscript
-
-private extension Array {
-    subscript(safe index: Int) -> Element? {
-        indices.contains(index) ? self[index] : nil
-    }
-}
-
-// MARK: - Create Strum Pattern Sheet
-
-struct CreateStrumPatternSheet: View {
-    @ObservedObject var viewModel: CustomPatternsViewModel
-    var initialPattern: CustomStrumPatternData? = nil
-    @Environment(\.dismiss) private var dismiss
-
-    @State private var name = ""
-    @State private var timeSignature = "4/4"
-    @State private var beats: [StrumBeatData] = []
-
-    private let timeSignatures = ["4/4", "3/4", "6/8"]
-    private let directions = ["DOWN", "UP", "CHUCK", "MISS", "PAUSE"]
-
-    private var isEditing: Bool { initialPattern != nil }
-
-    var body: some View {
-        NavigationStack {
-            Form {
-                Section("Pattern Name") {
-                    TextField("Name", text: $name)
-                }
-                Section("Time Signature") {
-                    Picker("Time Signature", selection: $timeSignature) {
-                        ForEach(timeSignatures, id: \.self) { Text($0).tag($0) }
-                    }
-                    .pickerStyle(.segmented)
-                }
-                Section("Beats") {
-                    ForEach(0..<beats.count, id: \.self) { i in
-                        HStack {
-                            Picker("Direction", selection: $beats[i].direction) {
-                                ForEach(directions, id: \.self) { Text($0).tag($0) }
-                            }
-                            .labelsHidden()
-                            Toggle("Accent", isOn: $beats[i].emphasis)
-                        }
-                    }
-                    .onDelete { beats.remove(atOffsets: $0) }
-                    Button("Add Beat") {
-                        beats.append(StrumBeatData(direction: "DOWN", emphasis: false))
-                    }
-                }
-            }
-            .navigationTitle(isEditing ? "Edit Strum Pattern" : "New Strum Pattern")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
-                        if let existing = initialPattern {
-                            viewModel.deleteStrumPattern(id: existing.id)
-                        }
-                        let pattern = CustomStrumPatternData(
-                            id: initialPattern?.id ?? UUID().uuidString,
-                            name: name,
-                            beats: beats,
-                            createdAt: initialPattern?.createdAt ?? Date().timeIntervalSince1970,
-                            timeSignature: timeSignature
-                        )
-                        viewModel.saveStrumPattern(pattern)
-                        dismiss()
-                    }
-                    .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty || beats.isEmpty)
-                }
-            }
-            .onAppear {
-                if let p = initialPattern {
-                    name = p.name
-                    timeSignature = p.timeSignature
-                    beats = p.beats
-                }
-            }
-        }
-    }
-}
-
-// MARK: - Create Fingerpick Pattern Sheet
-
-struct CreateFingerpickPatternSheet: View {
-    @ObservedObject var viewModel: CustomPatternsViewModel
-    var initialPattern: CustomFingerpickingData? = nil
-    @Environment(\.dismiss) private var dismiss
-
-    @State private var name = ""
-    @State private var timeSignature = "4/4"
-    @State private var steps: [FingerpickStepData] = []
-
-    private let timeSignatures = ["4/4", "3/4", "6/8"]
-    private let fingers = ["T", "I", "M", "R"]
-    private let stringNames = ["G", "C", "E", "A"]
-
-    private var isEditing: Bool { initialPattern != nil }
-
-    var body: some View {
-        NavigationStack {
-            Form {
-                Section("Pattern Name") {
-                    TextField("Name", text: $name)
-                }
-                Section("Time Signature") {
-                    Picker("Time Signature", selection: $timeSignature) {
-                        ForEach(timeSignatures, id: \.self) { Text($0).tag($0) }
-                    }
-                    .pickerStyle(.segmented)
-                }
-                Section("Steps") {
-                    ForEach(0..<steps.count, id: \.self) { i in
-                        HStack {
-                            Picker("Finger", selection: $steps[i].finger) {
-                                ForEach(fingers, id: \.self) { Text($0).tag($0) }
-                            }
-                            .labelsHidden()
-                            .frame(width: 60)
-                            Picker("String", selection: $steps[i].stringIndex) {
-                                ForEach(0..<stringNames.count, id: \.self) { j in
-                                    Text(stringNames[j]).tag(j)
-                                }
-                            }
-                            .labelsHidden()
-                            .frame(width: 60)
-                            Toggle("Accent", isOn: $steps[i].emphasis)
-                        }
-                    }
-                    .onDelete { steps.remove(atOffsets: $0) }
-                    Button("Add Step") {
-                        steps.append(FingerpickStepData(finger: "T", stringIndex: 0, emphasis: false))
-                    }
-                }
-            }
-            .navigationTitle(isEditing ? "Edit Fingerpicking Pattern" : "New Fingerpicking Pattern")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
-                        if let existing = initialPattern {
-                            viewModel.deleteFingerpickingPattern(id: existing.id)
-                        }
-                        let pattern = CustomFingerpickingData(
-                            id: initialPattern?.id ?? UUID().uuidString,
-                            name: name,
-                            steps: steps,
-                            createdAt: initialPattern?.createdAt ?? Date().timeIntervalSince1970,
-                            timeSignature: timeSignature
-                        )
-                        viewModel.saveFingerpickingPattern(pattern)
-                        dismiss()
-                    }
-                    .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty || steps.isEmpty)
-                }
-            }
-            .onAppear {
-                if let p = initialPattern {
-                    name = p.name
-                    timeSignature = p.timeSignature
-                    steps = p.steps
-                }
-            }
-        }
-    }
-}
