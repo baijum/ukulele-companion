@@ -191,10 +191,10 @@ internal fun InversionFilterChips(
     val options = buildList {
         add(null to stringResource(R.string.label_all))
         add(ChordInfo.Inversion.ROOT to stringResource(R.string.label_root))
-        add(ChordInfo.Inversion.FIRST to "1st Inv")
-        add(ChordInfo.Inversion.SECOND to "2nd Inv")
+        add(ChordInfo.Inversion.FIRST to stringResource(R.string.chord_library_first_inv))
+        add(ChordInfo.Inversion.SECOND to stringResource(R.string.chord_library_second_inv))
         if (hasSeventhIntervals) {
-            add(ChordInfo.Inversion.THIRD to "3rd Inv")
+            add(ChordInfo.Inversion.THIRD to stringResource(R.string.chord_library_third_inv))
         }
     }
 

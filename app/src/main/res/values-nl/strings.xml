@@ -133,6 +133,9 @@
     <string name="chord_library_voicing_singular">%d voicing</string>
     <string name="chord_library_reentrant_limited">Dit akkoord heeft slechts %d voicings. Re-entrant stemming (hoge G) beperkt omkeringen omdat de C-snaar (C4) bijna altijd de laagste toon is. Lage G-stemming biedt meer variatie in omkeringen.</string>
     <string name="chord_library_reentrant_empty">Bij re-entrant stemming (hoge G) is de C-snaar bijna altijd de laagste noot, dus de meeste voicings staan in grondpositie. Probeer \"Alle\" te selecteren om beschikbare voicings te zien.</string>
+    <string name="chord_library_first_inv">1e Omk</string>
+    <string name="chord_library_second_inv">2e Omk</string>
+    <string name="chord_library_third_inv">3e Omk</string>
     <string name="chord_library_no_voicings">Geen voicings gevonden</string>
     <string name="chord_library_search_hint">Akkoord zoeken (bijv. Cm7, C/E)</string>
     <string name="chord_library_search_clear">Zoekopdracht wissen</string>
