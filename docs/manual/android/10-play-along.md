@@ -11,7 +11,7 @@ Play Along lets you practise a chord progression with real-time feedback from yo
 ### Setup
 
 1. **Choose a key** — tap a note chip (C, C#, D, ... B).
-2. **Choose a scale** — Major or Minor.
+2. **Choose a scale** — Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, or Locrian.
 3. **Select a progression** — tap a progression card. Each card shows the name, description, and the resolved chord names in your chosen key (e.g., "C → G → Am → F").
 
 ### Playing
@@ -39,7 +39,7 @@ Play Along requires microphone access for chord detection. The first time you us
 Each beat is scored based on whether the detected chord matches the expected chord. At the end of a session (or when you stop), the score card shows:
 
 - **Accuracy** — percentage of beats with correct chord detection.
-- **Grade** — a letter grade from S (95%+) to F (below 40%).
+- **Grade** — a letter grade based on accuracy: S (90%+), A (80%+), B (70%+), C (60%+), D (50%+), and F (below 50%).
 - **Best Streak** — the longest consecutive run of correct beats.
 
 

@@ -30,4 +30,4 @@ As you play, the Pitch Monitor collects detected notes and identifies chords. Th
 - Use the Pitch Monitor to practice playing scales and check if your finger placement is producing accurate pitches.
 - Watch the blue trace to see how steady your pitch is — wobble indicates inconsistent fretting pressure.
 - The chromagram glow helps you see which notes are ringing strongest, useful for diagnosing muted or buzzing strings.
-- Adjust the **Noise filtering** slider in Settings if background noise creates unwanted pitch traces, or lower it to detect softer playing.
+- Adjust the **Noise Gate** slider in Settings if background noise creates unwanted pitch traces, or lower it to detect softer playing.

@@ -27,7 +27,7 @@ Notes appear in the sequence display at the top as colored blocks showing the no
 
 Toggle from Linear to **Step Sequencer** mode using the mode switch at the top.
 
-1. The sequencer shows a grid of **8 steps** by default. Tap **Expand** to switch to 16 steps, or **Shrink** to return to 8.
+1. The sequencer shows a grid of **8 steps** by default. Tap the **16 steps** button to switch to a 16-step grid; it then becomes an **8 steps** button to return to 8.
 2. Tap any step in the grid to open a **pitch picker**. Select a note name and octave to assign it to that step.
 3. Long-press a step to **clear** it (reset it to silence).
 4. Tap **Play** to loop the sequence continuously at the current BPM. The active step is highlighted as it plays.

@@ -1,6 +1,6 @@
 [project]
 title = "Chord Library - Ukulele Companion"
-description = "Browse voicings for 20 chord types across all 12 root notes"
+description = "Browse voicings for 19 chord types across all 12 root notes"
 output = "../../feature-videos/android/chords.mp4"
 resolution = "1080x2424"
 

@@ -595,8 +595,44 @@ both platforms:
 
 - **Android:** `NeuralPitchSupervisor.kt` uses ONNX Runtime Android AAR.
 - **iOS:** `NeuralPitchSupervisor.swift` uses ONNX Runtime via the C API
-  (`ort_c_api.h`), with `KotlinFloatArray` interop for the shared KMP
-  `AudioResampler`.
+  (`import onnxruntime`, `OrtApi`), with `KotlinFloatArray` interop for the
+  shared KMP `AudioResampler`.
+
+### Shared Arbitrator (NeuralArbitrator)
+
+The spec's `arbitrate()` pseudocode lived inline in `TunerViewModel`. The
+shipped code extracts the arbitration state machine into a single
+platform-independent KMP class,
+`shared/.../domain/NeuralArbitrator.kt`, used unchanged by both the Android
+`TunerViewModel.kt` and the iOS `TunerViewModel.swift` (now its own file under
+`iosApp/.../ViewModels/`, not inside `TunerView.swift`). `NeuralArbitrator`
+owns frame-interval gating, result-TTL aging, failure tracking, a consistency
+window, and the final decision.
+
+The shipped arbitration cascade and constants differ from the design
+pseudocode above:
+
+- `SUPERVISOR_INTERVAL = 5` frames, `RESULT_TTL_FRAMES = 10`,
+  `FAILURE_THRESHOLD = 15`, `CONSISTENCY_FRAMES = 2`.
+- Gaps ≤ `ARBITRATION_IGNORE_SEMITONES` (1.5) keep YIN; a neural override
+  also requires the result to have been consistent (within 0.5 semitone) for
+  `CONSISTENCY_FRAMES`.
+- Octave correction requires neural confidence ≥ 0.85 **and** YIN
+  confidence ≥ 0.12.
+- Strong-disagreement override requires gap ≥ `ARBITRATION_STRONG_SEMITONES`
+  (2.5), neural confidence ≥ 0.93, **and** YIN confidence ≥ 0.16.
+- On override, `frequencyHz` comes from neural but `confidence` is always the
+  YIN confidence (the better-calibrated quality metric).
+
+### No Opt-In Toggle (Always On with Fallback)
+
+Section F above proposed an opt-in `neuralPitchSupervisor` boolean in
+`AppSettings` (default off). The shipped code does **not** add such a setting.
+The supervisor is initialized automatically whenever the tuner opens
+(`initializeNeuralSupervisor()`), surfacing a `NeuralRuntimeStatus`
+(`LOADING` → `ACTIVE` / `FALLBACK`) badge instead. If the model fails to load
+or inference fails repeatedly, it falls back to YIN-only silently — so the
+always-on default carries no functional risk and no user toggle was needed.
 
 ### Async Model Loading (PR #174)
 
@@ -619,12 +655,15 @@ budget. Both `TunerViewModel` and `PitchMonitorViewModel` now guard
 `processBuffer` with an `isProcessing` flag that drops incoming frames
 when the previous frame is still being processed.
 
-### Cached AudioResampler Buffers (PR #177)
+### AudioResampler — Anti-Aliasing and Cached Buffers (PR #177)
 
-The spec's `AudioResampler` allocated `filtered` and `output` arrays on
-every call. The shipped `AudioResampler` caches these as instance fields
-(`cachedFiltered`, `cachedOutput`) and reuses them when the input size is
-unchanged, eliminating ~104 KB/s of GC pressure.
+The spec's `AudioResampler` showed plain linear interpolation and noted a
+low-pass anti-aliasing filter "should precede this in production." The shipped
+`AudioResampler` (a shared KMP `object`, public entry point
+`downsample44kTo16k()`, not `downsample()`) applies a 5-tap moving-average
+pre-filter before the linear-interpolation resample. It also caches its work
+arrays and reuses them when the input size is unchanged, eliminating
+~104 KB/s of GC pressure.
 
 ### Cached PitchDetector Buffers (PR #175)
 

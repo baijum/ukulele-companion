@@ -10,9 +10,9 @@ To save a voicing to your favorites:
 
 1. Go to the **Chords** section.
 2. Find a voicing you like.
-3. **Long-press** the voicing diagram — a heart icon confirms it has been saved.
+3. Tap the **heart icon** on the voicing card — a filled heart confirms it has been saved. Tap again to remove it.
 
-You can also tap the **heart icon** on any voicing in the library to toggle it as a favorite.
+(Long-pressing a voicing diagram in the library opens the **share** action rather than saving it.)
 
 ## Viewing Favorites
 
@@ -25,8 +25,7 @@ Open the **Favorites** section from the navigation drawer. Your saved voicings a
 
 Favorites can be organized into folders using the **filter chips** at the top of the screen:
 
-- **All** — shows every saved voicing (default).
-- **Unfiled** — shows voicings not assigned to any folder.
+- **All** — shows every saved voicing with a count (default).
 - **Your folders** — each folder you create appears as a chip with the count of voicings inside.
 
 ### Creating a Folder
@@ -37,18 +36,19 @@ Favorites can be organized into folders using the **filter chips** at the top of
 
 The new folder appears as a chip in the filter row.
 
-### Moving Voicings to a Folder
+### Assigning Voicings to Folders
 
-1. Tap the **folder icon** (small + icon) on any voicing.
-2. A dialog appears listing all your folders plus "Unfiled".
-3. Tap a folder name to move the voicing there.
+1. Tap the **folder icon** on any voicing.
+2. A bottom sheet titled "Save to Folders" (or "Manage Folders") appears listing all your folders, each with a checkbox.
+3. Tick or untick the checkboxes to add or remove the voicing from folders. A voicing can belong to more than one folder. You can also create a new folder from this sheet, or remove the voicing from favorites entirely.
 
 ### Deleting a Folder
 
-Tap the **delete icon** on a folder chip. The folder is removed, and all voicings inside it are moved back to "Unfiled". The voicings themselves are not deleted.
+Tap the **delete icon** on a folder chip. The folder is removed and any voicings it contained are simply unassigned from it. The voicings themselves remain in your favorites.
 
 ## Tips
 
 - Use folders to group voicings by song, practice session, or chord type.
+- A voicing can live in several folders at once — tick as many as you like in the folder sheet.
 - The "All" chip always shows your complete collection regardless of folder assignments.
-- Removing a voicing from favorites (via the heart icon) deletes it entirely, while moving it to "Unfiled" keeps it saved.
+- Removing a voicing from favorites (via the heart icon) deletes it entirely, while removing it from a folder keeps it saved.

@@ -1,6 +1,6 @@
 [project]
 title = "Scale Explorer — Ukulele Companion Short"
-description = "35–50s YouTube Short / Instagram Reel: 38 scales color-mapped across the fretboard"
+description = "35–50s YouTube Short / Instagram Reel: 37 scales color-mapped across the fretboard"
 output = "../../../feature-videos/android/shorts/scale-explorer.mp4"
 resolution = "1080x1920"
 

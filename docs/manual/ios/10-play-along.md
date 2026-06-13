@@ -1,6 +1,6 @@
 # Play Along & Chord Training
 
-These features use real-time audio and animation to help you practise chord changes and playing accuracy.
+These features use real-time audio and timed prompts to help you practise chord changes and playing accuracy.
 
 ## Play Along
 
@@ -10,25 +10,25 @@ Play Along lets you practise a chord progression with real-time feedback from yo
 
 ### Setup
 
-1. **Choose a key** — tap a note chip (C, C#, D, ... B).
-2. **Choose a scale** — Major or Minor.
-3. **Select a progression** — tap a progression card. Each card shows the name, description, and the resolved chord names in your chosen key (e.g., "C → G → Am → F").
+1. **Key** — pick a root note (C, C#, D, ... B) from the Key picker.
+2. **Scale** — choose Major or Minor.
+3. **Progression** — pick a progression from the Progression picker. After you choose one, its chords (resolved into your chosen key) appear as a row of chips below.
 
 ### Playing
 
-After selecting a progression, the play-along screen appears with:
+After selecting a progression, the play-along screen shows:
 
-- **Chord timeline** — a horizontal row of all chords in the progression. The current chord is highlighted.
-- **Current chord display** — a large card showing the chord you should be playing right now.
-- **Live detection feedback** — when the microphone is active, the app shows what chord it hears and whether it matches the expected chord (green check for correct, red X for incorrect).
+- **Chord strip** — a row of all chords in the progression. The current chord is highlighted while playing.
+- **Current chord display** — a large label showing the chord you should be playing right now.
+- **Beat indicators** — dots that fill in as each beat of the current chord passes.
+- **Live detection feedback** — when the microphone is active, the app shows what chord it hears ("Heard: …") and whether it matches the expected chord (green check for correct, red X for incorrect).
 - **Score card** — accuracy percentage, letter grade (S/A/B/C/D/F), and best streak.
 
 ### Controls
 
-- **BPM slider** — adjust the tempo from 40 to 180 BPM.
-- **Tap Tempo** — tap rhythmically to set the BPM by feel.
-- **Beats per chord** — choose 2, 4, or 8 beats before the progression advances to the next chord.
-- **Play/Stop button** — starts or stops the session. When playing, the metronome keeps time and the progression advances automatically.
+- **BPM slider** — adjust the tempo from 40 to 200 BPM.
+- **Beats/Chord** — choose 2, 4, or 8 beats before the progression advances to the next chord.
+- **Play/Stop button** — starts or stops the session. When playing, the progression advances automatically in time.
 
 ### Microphone Permission
 
@@ -45,35 +45,29 @@ Each beat is scored based on whether the detected chord matches the expected cho
 
 ## Chord Transitions
 
-The Chord Transition Trainer helps you practise switching between two chords with an animated fretboard visualisation.
+The Chord Transition Trainer helps you drill switching between two chords in time, so you can build muscle memory for a change that gives you trouble.
 
 ![Chord Transitions](screenshots/chord-transitions.png)
 
 ### Setup
 
-1. **Chord A** — select the root note and chord type for the starting chord.
-2. **Chord B** — select the root note and chord type for the target chord.
+1. **Chord 1** — select the root note and chord quality for the starting chord.
+2. **Chord 2** — select the root note and chord quality for the target chord.
 
-The app displays both chord diagrams side by side so you can see the finger positions.
-
-### Animation
-
-Below the diagrams, an animated fretboard shows how your fingers move from Chord A to Chord B:
-
-- Fingers that **stay** in place are shown as stationary dots.
-- Fingers that **slide** along a string are animated smoothly.
-- Fingers that **lift** off are shown moving away.
-- Fingers that **place** onto a new position are shown arriving.
+The app shows both chord diagrams (stacked with an arrow between them) so you can see the finger positions. Tap a diagram to hear that chord.
 
 ### Controls
 
-- **BPM slider** — controls the animation speed.
-- **Tap Tempo** — set the speed by tapping.
-- **Beats** — choose 1, 2, 4, or 8 beats per transition cycle.
-- **Play button** — starts the repeating animation.
-- **Reset button** — resets the animation to the start.
+- **BPM slider** — sets the tempo of the drill (40–200 BPM).
+- **Tap** — set the tempo by tapping rhythmically.
+- **Beats per chord** — choose 1, 2, 4, or 8 beats before switching chords.
+- **Play chord on transition** — when on, the chord is strummed each time it changes.
+- **Start button** — begins the timed drill.
+- **Reset button** — clears the transition count and timer.
 
-A text description of each finger movement is shown alongside the animation (e.g., "Index: slide from fret 1 to fret 2", "Ring: lift off").
+### During the Drill
+
+While the drill runs, the app shows the **current chord** in large text with **beat indicators** that fill as each beat passes, prompting you when to switch. Below, a stats row tracks your **transition count**, **elapsed time**, and **switches per minute** so you can measure your progress.
 
 ## Tips
 

@@ -40,7 +40,7 @@
 <td width="50%" valign="top">
 
 ### 🎸 Interactive Fretboard Explorer
-Tap fret positions on a visual ukulele fretboard (standard GCEA tuning, frets 0–12) and the app instantly detects and displays the chord. Supports 20 chord types across triads, sevenths, suspended, and extended chords. Shows alternate notational symbols ("Also written as") so you can recognize chords written in different styles.
+Tap fret positions on a visual ukulele fretboard (standard GCEA tuning, frets 0–12) and the app instantly detects and displays the chord. Supports 19 chord types across triads, sevenths, suspended, and extended chords. Shows alternate notational symbols ("Also written as") so you can recognize chords written in different styles.
 
 ### 📚 Chord Library
 Browse playable voicings for any chord. Select a root note, category (Triad, Seventh, Suspended, Extended), and chord type to see algorithmically generated voicings displayed as mini fretboard diagrams.
@@ -58,7 +58,7 @@ A reference guide with 14 strumming and 10 fingerpicking patterns — from begin
 Common chord progressions for any key across seven modes (Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian). Each chord chip shows its harmonic function (Tonic, Subdominant, Dominant) with colour coding. Includes Pop, Classic Rock, 50s, Folk, Jazz ii-V-I, Reggae, and more. Create custom progressions with diatonic chord suggestions from the selected scale, duplicate presets, copy to clipboard, and use tap tempo for practice.
 
 ### 🎼 Scale Overlay
-Highlight notes from any of 38 scales (Major, Natural/Harmonic/Melodic Minor, Pentatonic, Blues, modes, Bebop, Diminished, and more) directly on the fretboard. Filter by fret position and see the diatonic chords for each scale.
+Highlight notes from any of 37 scales (Major, Natural/Harmonic/Melodic Minor, Pentatonic, Blues, modes, Bebop, Diminished, and more) directly on the fretboard. Filter by fret position and see the diatonic chords for each scale.
 
 </td>
 <td width="50%" valign="top">
@@ -159,15 +159,15 @@ Ukulele Companion is designed to be usable by everyone, including blind and visu
 
 | Component | Android | iOS |
 |-----------|---------|-----|
-| Language | Kotlin 2.3 | Swift + Kotlin (via KMP) |
+| Language | Kotlin 2.4 | Swift + Kotlin (via KMP) |
 | UI | Jetpack Compose + Material 3 | SwiftUI |
 | Architecture | ViewModel + StateFlow | ObservableObject + @Published |
 | Shared Logic | Kotlin Multiplatform (`:shared` module) | Same KMP module via framework |
-| Audio | SoundPool with OGG samples | AVFoundation with WAV samples |
+| Audio | SoundPool with WAV samples | AVFoundation with WAV samples |
 | Persistence | SharedPreferences + DataStore | UserDefaults |
 | Serialization | Kotlinx Serialization | Codable + JSONSerialization |
 | Neural Inference | ONNX Runtime Android | ONNX Runtime C API (xcframework) |
-| Build | Gradle 9.4, AGP 9.1, Kotlin DSL | Xcode, min iOS 16.0 |
+| Build | Gradle 9.5, AGP 9.2, Kotlin DSL | Xcode, min iOS 16.0 |
 | Min SDK | 26 (Android 8.0) | iOS 16.0 |
 | Target SDK | 35 | — |
 | Localization | Android resources (16 locales) | Localizable.xcstrings (16 locales) |

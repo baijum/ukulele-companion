@@ -27,36 +27,35 @@ Notes appear in the sequence display at the top as colored blocks showing the no
 
 Toggle from Linear to **Step Sequencer** mode using the mode switch at the top.
 
-1. The sequencer shows a grid of **8 steps** by default. Tap **Expand** to switch to 16 steps, or **Shrink** to return to 8.
-2. Tap any step in the grid to open a **pitch picker**. Select a note name and octave to assign it to that step.
-3. Use the context menu on a step to **clear** it (reset it to silence).
-4. Tap **Play** to loop the sequence continuously at the current BPM. The active step is highlighted as it plays.
-5. Tap **Stop** to end playback.
+1. The sequencer shows a grid of **8 steps** by default. Tap the **16 Steps** button to expand it, or **8 Steps** to shrink it back.
+2. Tap any step in the grid to open a **pitch picker** and choose a note name for that step. The octave comes from the **Octave** stepper below the grid.
+3. Use the context menu (or the pitch picker's **Clear** button) on a step to clear it back to silence.
+4. Tap **Play** to play the sequence at the current BPM; turn on the **loop** button to repeat it continuously. The active step is highlighted as it plays.
+5. Tap **Stop** to end playback, and **Clear** to empty the grid.
 
 The step sequencer is ideal for building rhythmic patterns and loop-based ideas without worrying about note durations — each step has equal timing determined by the BPM.
 
 ## Editing
 
 - Tap any note in the sequence to select it. The selected note is highlighted.
-- Tap the **delete** icon to remove the selected note.
-- The sequence scrolls horizontally if it extends beyond the screen width.
+- Tap the **×** badge on the selected note to remove it.
+- The sequence wraps onto multiple rows and scrolls vertically if it grows long.
 
 ## Playback
 
-- Set the **BPM** using the slider (40-220 BPM).
+- Set the **BPM** using the slider (40-200 BPM).
 - Tap **Play** to hear the melody played back. The current note is highlighted during playback.
 - Tap **Stop** to halt playback.
-- Tap **Clear** to remove all notes from the sequence.
 
 ## Saving and Loading
 
-Melodies are saved to the device and persist between sessions.
+Melodies are saved to the device and persist between sessions. In Linear mode you have these buttons:
 
-- Tap the **save** icon or use the menu to **Save As** with a custom name.
-- Use **Load** to open a previously saved melody from a list.
-- Use **Rename** to change the name of the current melody.
-- Use **New** to start a fresh empty melody (you will be prompted to save unsaved changes).
-- Use **Delete** to permanently remove the current melody.
+- **New** — start a fresh empty melody (you will be prompted to discard unsaved changes first).
+- **Save** — name and save the current melody.
+- **Load** — open the saved-melody list and tap one to load it.
+
+In the Load list, swipe a melody to **Rename** or **Delete** it.
 
 ## Tips
 
@@ -65,5 +64,5 @@ Melodies are saved to the device and persist between sessions.
 - Use Step Sequencer mode for rhythmic patterns and loop-based ideas — great for experimenting with riffs.
 - Start with quarter notes for simple melodies, then add eighth and sixteenth notes for faster passages.
 - Experiment with different octaves to create melodies that span the full ukulele range.
-- In Record mode, if the app picks up unwanted notes from background noise, increase the **Noise filtering** slider in Settings.
+- In Record mode, if the app picks up unwanted notes from background noise, increase the **Noise Gate** slider in Settings.
 - In the step sequencer, start with 8 steps for short loops and expand to 16 when you need a longer phrase.

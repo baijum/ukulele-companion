@@ -16,15 +16,15 @@ You can change the BPM while the metronome is playing — the new tempo takes ef
 
 ## Time Signature
 
-Select from 2/4, 3/4, 4/4, 5/4, 6/4, or 7/4 using the filter chips. The default is 4/4. Changing the time signature updates the number of beat indicators and resets the accent pattern.
+Select from 2/4, 3/4, 4/4, 5/4, 6/4, 7/4, 6/8, or 12/8 using the chips. The default is 4/4. Changing the time signature updates the number of beat indicators and resets the accent pattern.
 
 ## Accent Pattern
 
-A row of circles represents each beat in the measure. The first beat is accented by default (shown with a filled primary-color circle). Tap any beat circle to cycle through three states:
+A row of circles represents each beat in the measure. The first beat is accented by default. Tap any beat circle to cycle through three states:
 
-- **Accent** (filled circle) — plays a higher-pitched click at full volume.
-- **Normal** (outlined circle) — plays a standard click.
-- **Mute** (dotted circle) — silent beat, no click but the visual indicator still pulses.
+- **Accent** (filled, blue) — plays a higher-pitched click at full volume.
+- **Normal** (green) — plays a standard click.
+- **Mute** (empty circle) — silent beat, no click but the visual indicator still pulses.
 
 Customizing the accent pattern lets you practice different feels — for example, accenting beats 1 and 3 in 4/4 for a rock groove, or just beat 1 in 3/4 for a waltz.
 
@@ -35,9 +35,9 @@ Choose how many clicks play per beat:
 - **Quarter** — one click per beat (default).
 - **Eighth** — two clicks per beat.
 - **Triplet** — three clicks per beat.
-- **16th** — four clicks per beat.
+- **Sixteenth** — four clicks per beat.
 
-Subdivision clicks are played quieter than main beats so they don't overpower the pulse. Use subdivisions to practice faster strumming patterns or to develop a feel for rhythmic subdivisions.
+Subdivision clicks are played quieter than main beats so they don't overpower the pulse. (For compound meters such as 6/8 and 12/8, the subdivision is fixed and the chips are disabled.) Use subdivisions to practice faster strumming patterns or to develop a feel for rhythmic subdivisions.
 
 ## Playing
 
