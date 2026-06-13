@@ -856,6 +856,7 @@ struct SongViewerView: View {
                             .font(.caption)
                     }
                     .buttonStyle(.bordered)
+                    .accessibilityLabel("Play \(chord)")
                 } else {
                     Text("No voicing found")
                         .font(.caption)
