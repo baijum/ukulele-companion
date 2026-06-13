@@ -934,6 +934,8 @@
     <string name="settings_noise_gate_filtering_desc">チューナー、ピッチモニター、メロディーノートパッドのバックグラウンドノイズのフィルタリング量を制御します。高い値はより多くのノイズをフィルタリングし、低い値はより静かな音を拾います。</string>
     <string name="settings_show_learn_section">学習セクションを表示</string>
     <string name="settings_show_reference_section">リファレンスセクションを表示</string>
+    <string name="settings_chord_display_style">コード表示</string>
+    <string name="settings_chord_color">コードの色</string>
     <string name="cd_collapse_section">%sを折りたたむ</string>
     <string name="cd_expand_section">%sを展開</string>
     <string name="metronome_bpm">BPM</string>

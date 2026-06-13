@@ -31,6 +31,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import com.baijum.ukufretboard.R
+import com.baijum.ukufretboard.data.ChordColorOption
+import com.baijum.ukufretboard.data.ChordDisplayStyle
 import com.baijum.ukufretboard.data.DisplaySettings
 import com.baijum.ukufretboard.data.ThemeMode
 
@@ -92,6 +94,61 @@ internal fun DisplaySection(
         checked = settings.showReferenceSection,
         onCheckedChange = { onSettingsChange(settings.copy(showReferenceSection = it)) },
     )
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    Text(
+        text = stringResource(R.string.settings_chord_display_style),
+        style = MaterialTheme.typography.bodyLarge,
+        color = MaterialTheme.colorScheme.onSurface,
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        ChordDisplayStyle.entries.forEach { style ->
+            FilterChip(
+                selected = settings.chordDisplayStyle == style,
+                onClick = { onSettingsChange(settings.copy(chordDisplayStyle = style)) },
+                label = { Text(style.label) },
+            )
+        }
+    }
+
+    Spacer(modifier = Modifier.height(12.dp))
+
+    Text(
+        text = stringResource(R.string.settings_chord_color),
+        style = MaterialTheme.typography.bodyLarge,
+        color = MaterialTheme.colorScheme.onSurface,
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        ChordColorOption.entries.take(3).forEach { color ->
+            FilterChip(
+                selected = settings.chordColor == color,
+                onClick = { onSettingsChange(settings.copy(chordColor = color)) },
+                label = { Text(color.label) },
+            )
+        }
+    }
+    Spacer(modifier = Modifier.height(4.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        ChordColorOption.entries.drop(3).forEach { color ->
+            FilterChip(
+                selected = settings.chordColor == color,
+                onClick = { onSettingsChange(settings.copy(chordColor = color)) },
+                label = { Text(color.label) },
+            )
+        }
+    }
 }
 
 private val SUPPORTED_LANGUAGES = linkedMapOf(

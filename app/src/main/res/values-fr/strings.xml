@@ -931,6 +931,8 @@
     <string name="settings_noise_gate_filtering_desc">Contrôle le filtrage du bruit de fond pour l\'accordeur, le moniteur de hauteur et le bloc-notes de mélodie. Les valeurs hautes filtrent plus de bruit ; les valeurs basses captent les sons plus faibles.</string>
     <string name="settings_show_learn_section">Afficher la section Apprendre</string>
     <string name="settings_show_reference_section">Afficher la section Référence</string>
+    <string name="settings_chord_display_style">Affichage des accords</string>
+    <string name="settings_chord_color">Couleur des accords</string>
     <string name="cd_collapse_section">Réduire %s</string>
     <string name="cd_expand_section">Développer %s</string>
     <string name="metronome_bpm">BPM</string>

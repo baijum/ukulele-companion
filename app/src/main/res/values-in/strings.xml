@@ -932,6 +932,8 @@
     <string name="settings_noise_gate_filtering_desc">Mengontrol seberapa banyak kebisingan latar belakang disaring untuk Tuner, Monitor Nada, dan Notepad Melodi. Nilai lebih tinggi menyaring lebih banyak kebisingan; nilai lebih rendah menangkap suara yang lebih pelan.</string>
     <string name="settings_show_learn_section">Tampilkan bagian Belajar</string>
     <string name="settings_show_reference_section">Tampilkan bagian Referensi</string>
+    <string name="settings_chord_display_style">Tampilan akor</string>
+    <string name="settings_chord_color">Warna akor</string>
     <string name="cd_collapse_section">Ciutkan %s</string>
     <string name="cd_expand_section">Perluas %s</string>
     <string name="metronome_bpm">BPM</string>

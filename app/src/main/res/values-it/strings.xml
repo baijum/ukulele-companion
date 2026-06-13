@@ -933,6 +933,8 @@
     <string name="settings_noise_gate_filtering_desc">Controlla quanto rumore di fondo viene filtrato per accordatore, monitor del pitch e blocco note melodia. Valori più alti filtrano più rumore; valori più bassi captano suoni più deboli.</string>
     <string name="settings_show_learn_section">Mostra sezione Impara</string>
     <string name="settings_show_reference_section">Mostra sezione Riferimento</string>
+    <string name="settings_chord_display_style">Visualizzazione accordi</string>
+    <string name="settings_chord_color">Colore accordi</string>
     <string name="cd_collapse_section">Comprimi %s</string>
     <string name="cd_expand_section">Espandi %s</string>
     <string name="metronome_bpm">BPM</string>

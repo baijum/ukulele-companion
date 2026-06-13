@@ -935,6 +935,8 @@
     <string name="settings_noise_gate_filtering_desc">Steuert, wie viel Hintergrundgeräusche für Stimmgerät, Tonhöhenmonitor und Melodie-Notizblock gefiltert werden. Höhere Werte filtern mehr Geräusche; niedrigere Werte erfassen leisere Töne.</string>
     <string name="settings_show_learn_section">Bereich Lernen anzeigen</string>
     <string name="settings_show_reference_section">Bereich Nachschlagewerk anzeigen</string>
+    <string name="settings_chord_display_style">Akkord-Anzeige</string>
+    <string name="settings_chord_color">Akkord-Farbe</string>
     <string name="cd_collapse_section">%s einklappen</string>
     <string name="cd_expand_section">%s ausklappen</string>
     <string name="metronome_bpm">BPM</string>

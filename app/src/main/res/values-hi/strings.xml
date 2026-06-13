@@ -935,6 +935,8 @@
     <string name="settings_noise_gate_filtering_desc">ट्यूनर, पिच मॉनिटर और मेलोडी नोटपैड के लिए पृष्ठभूमि शोर को कितना फ़िल्टर किया जाए यह नियंत्रित करता है। अधिक मान अधिक शोर फ़िल्टर करते हैं; कम मान शांत ध्वनियाँ कैप्चर करते हैं।</string>
     <string name="settings_show_learn_section">सीखें अनुभाग दिखाएं</string>
     <string name="settings_show_reference_section">संदर्भ अनुभाग दिखाएं</string>
+    <string name="settings_chord_display_style">कॉर्ड प्रदर्शन</string>
+    <string name="settings_chord_color">कॉर्ड रंग</string>
     <string name="cd_collapse_section">%s संकुचित करें</string>
     <string name="cd_expand_section">%s विस्तारित करें</string>
     <string name="metronome_bpm">BPM</string>

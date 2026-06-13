@@ -933,6 +933,8 @@
     <string name="settings_noise_gate_filtering_desc">Regelt hoeveel achtergrondgeluid wordt gefilterd voor de stemmer, toonhoogtemonitor en melodie-notitieblok. Hogere waarden filteren meer ruis; lagere waarden vangen stillere geluiden op.</string>
     <string name="settings_show_learn_section">Sectie Leren tonen</string>
     <string name="settings_show_reference_section">Sectie Naslagwerk tonen</string>
+    <string name="settings_chord_display_style">Akkoordweergave</string>
+    <string name="settings_chord_color">Akkoordkleur</string>
     <string name="cd_collapse_section">%s inklappen</string>
     <string name="cd_expand_section">%s uitklappen</string>
     <string name="metronome_bpm">BPM</string>

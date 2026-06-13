@@ -66,6 +66,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
+import com.baijum.ukufretboard.data.ChordColorOption
+import com.baijum.ukufretboard.data.ChordDisplayStyle
 import com.baijum.ukufretboard.data.ChordProParser
 import com.baijum.ukufretboard.data.ChordSheet
 import com.baijum.ukufretboard.domain.UkuleleString
@@ -89,6 +91,8 @@ fun SongbookTab(
     onStartMetronome: (Int) -> Unit = {},
     tuning: List<UkuleleString> = emptyList(),
     leftHanded: Boolean = false,
+    chordDisplayStyle: ChordDisplayStyle = ChordDisplayStyle.ABOVE,
+    chordColor: ChordColorOption = ChordColorOption.THEME,
     modifier: Modifier = Modifier,
 ) {
     val sheets by viewModel.sheets.collectAsState()
@@ -137,6 +141,8 @@ fun SongbookTab(
                 onStrumPatternChange = { viewModel.updateStrumPattern(it) },
                 onLabelsChange = { viewModel.updateLabels(it) },
                 onApplyTranspose = { viewModel.applyTranspose(it) },
+                chordDisplayStyle = chordDisplayStyle,
+                chordColor = chordColor,
             )
         }
         else -> {

@@ -44,6 +44,10 @@ final class SettingsViewModel: ObservableObject {
     // Onboarding
     @Published var onboardingCompleted: Bool = false
 
+    // Chord display
+    @Published var chordDisplayStyle: String = "above"
+    @Published var chordColor: String = "theme"
+
     private let repository: SettingsRepository
 
     init(repository: SettingsRepository = SettingsRepository()) {
@@ -76,6 +80,8 @@ final class SettingsViewModel: ObservableObject {
         strumDown = data.strumDown
         appLanguage = data.appLanguage
         onboardingCompleted = data.onboardingCompleted
+        chordDisplayStyle = data.chordDisplayStyle
+        chordColor = data.chordColor
     }
 
     func save() {
@@ -102,7 +108,9 @@ final class SettingsViewModel: ObservableObject {
             showReferenceTab: showReferenceTab,
             strumDown: strumDown,
             appLanguage: appLanguage,
-            onboardingCompleted: onboardingCompleted
+            onboardingCompleted: onboardingCompleted,
+            chordDisplayStyle: chordDisplayStyle,
+            chordColor: chordColor
         ))
     }
 

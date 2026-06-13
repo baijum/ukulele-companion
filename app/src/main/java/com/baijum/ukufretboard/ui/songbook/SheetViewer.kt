@@ -60,6 +60,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
@@ -82,6 +83,8 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baijum.ukufretboard.R
+import com.baijum.ukufretboard.data.ChordColorOption
+import com.baijum.ukufretboard.data.ChordDisplayStyle
 import com.baijum.ukufretboard.data.ChordParser
 import com.baijum.ukufretboard.data.ChordProExporter
 import com.baijum.ukufretboard.data.ChordSheet
@@ -116,6 +119,8 @@ internal fun SheetViewer(
     onStrumPatternChange: (String) -> Unit,
     onLabelsChange: (List<String>) -> Unit,
     onApplyTranspose: (Int) -> Unit,
+    chordDisplayStyle: ChordDisplayStyle = ChordDisplayStyle.ABOVE,
+    chordColor: ChordColorOption = ChordColorOption.THEME,
 ) {
     val context = LocalContext.current
     val view = LocalView.current
@@ -443,7 +448,14 @@ internal fun SheetViewer(
                                 style = songTextStyle,
                             )
                         } else {
-                            val chordColor = MaterialTheme.colorScheme.primary
+                            val resolvedChordColor = when (chordColor) {
+                                ChordColorOption.THEME -> MaterialTheme.colorScheme.primary
+                                ChordColorOption.RED -> MaterialTheme.colorScheme.error.copy(alpha = 0.85f)
+                                ChordColorOption.BLUE -> Color(0xFF1565C0)
+                                ChordColorOption.GREEN -> Color(0xFF2E7D32)
+                                ChordColorOption.ORANGE -> Color(0xFFE65100)
+                                ChordColorOption.PURPLE -> Color(0xFF6A1B9A)
+                            }
                             val chordPositions = mutableListOf<Pair<Int, String>>()
                             val lyricLine = StringBuilder()
                             var hasChords = false
@@ -460,7 +472,7 @@ internal fun SheetViewer(
                                 }
                             }
 
-                            if (hasChords) {
+                            if (hasChords && chordDisplayStyle == ChordDisplayStyle.ABOVE) {
                                 val chordAnnotated = buildAnnotatedString {
                                     var cursor = 0
                                     chordPositions.forEach { (pos, name) ->
@@ -473,7 +485,7 @@ internal fun SheetViewer(
                                                 tag = name,
                                                 styles = TextLinkStyles(
                                                     style = SpanStyle(
-                                                        color = chordColor,
+                                                        color = resolvedChordColor,
                                                         fontWeight = FontWeight.Bold,
                                                     ),
                                                 ),
@@ -494,12 +506,48 @@ internal fun SheetViewer(
                                 )
                             }
 
-                            Text(
-                                text = lyricLine.toString(),
-                                style = songTextStyle.copy(
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                ),
-                            )
+                            if (hasChords && chordDisplayStyle == ChordDisplayStyle.INLINE) {
+                                val inlineAnnotated = buildAnnotatedString {
+                                    segments.forEach { segment ->
+                                        when (segment) {
+                                            is ChordParser.TextSegment.PlainText -> {
+                                                append(segment.text)
+                                            }
+                                            is ChordParser.TextSegment.Chord -> {
+                                                withLink(
+                                                    LinkAnnotation.Clickable(
+                                                        tag = segment.name,
+                                                        styles = TextLinkStyles(
+                                                            style = SpanStyle(
+                                                                color = resolvedChordColor,
+                                                                fontWeight = FontWeight.Bold,
+                                                            ),
+                                                        ),
+                                                        linkInteractionListener = {
+                                                            tappedChord = segment.name
+                                                        },
+                                                    )
+                                                ) {
+                                                    append("[${segment.name}]")
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                Text(
+                                    text = inlineAnnotated,
+                                    style = songTextStyle.copy(
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                    ),
+                                )
+                            } else {
+                                Text(
+                                    text = lyricLine.toString(),
+                                    style = songTextStyle.copy(
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                    ),
+                                )
+                            }
                         }
                     }
                 }
