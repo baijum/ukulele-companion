@@ -175,6 +175,9 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             .putInt(KEY_SCALE_PRACTICE_BPM, s.scalePractice.lastBpm)
             .putInt(KEY_SCALE_PRACTICE_MODE, s.scalePractice.lastMode)
             .putBoolean(KEY_SCALE_PRACTICE_FRETBOARD, s.scalePractice.showFretboard)
+            .putInt(KEY_SCALE_PRACTICE_DIRECTION, s.scalePractice.lastDirection)
+            .putBoolean(KEY_SCALE_PRACTICE_LOOP, s.scalePractice.loopPlayback)
+            .putInt(KEY_SCALE_PRACTICE_FRET_POSITION, s.scalePractice.lastFretPosition)
             // Tuner
             .putBoolean(KEY_TUNER_SPOKEN_FEEDBACK, s.tuner.spokenFeedback)
             .putBoolean(KEY_TUNER_PRECISION_MODE, s.tuner.precisionMode)
@@ -231,6 +234,9 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 lastBpm = prefs.getInt(KEY_SCALE_PRACTICE_BPM, ScalePracticeSettings.DEFAULT_BPM),
                 lastMode = prefs.getInt(KEY_SCALE_PRACTICE_MODE, 0),
                 showFretboard = prefs.getBoolean(KEY_SCALE_PRACTICE_FRETBOARD, false),
+                lastDirection = prefs.getInt(KEY_SCALE_PRACTICE_DIRECTION, 0),
+                loopPlayback = prefs.getBoolean(KEY_SCALE_PRACTICE_LOOP, false),
+                lastFretPosition = prefs.getInt(KEY_SCALE_PRACTICE_FRET_POSITION, 0),
             ),
             tuner = TunerSettings(
                 spokenFeedback = prefs.getBoolean(KEY_TUNER_SPOKEN_FEEDBACK, false),
@@ -266,6 +272,9 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         private const val KEY_SCALE_PRACTICE_BPM = "scale_practice_bpm"
         private const val KEY_SCALE_PRACTICE_MODE = "scale_practice_mode"
         private const val KEY_SCALE_PRACTICE_FRETBOARD = "scale_practice_fretboard"
+        private const val KEY_SCALE_PRACTICE_DIRECTION = "scale_practice_direction"
+        private const val KEY_SCALE_PRACTICE_LOOP = "scale_practice_loop"
+        private const val KEY_SCALE_PRACTICE_FRET_POSITION = "scale_practice_fret_position"
         private const val KEY_TUNER_SPOKEN_FEEDBACK = "tuner_spoken_feedback"
         private const val KEY_TUNER_PRECISION_MODE = "tuner_precision_mode"
         private const val KEY_TUNER_A4_REFERENCE = "tuner_a4_reference"

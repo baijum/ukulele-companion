@@ -148,7 +148,10 @@ internal fun PlayAlongContent(
         PlayDirection.entries.forEach { dir ->
             FilterChip(
                 selected = state.direction == dir,
-                onClick = { viewModel.setDirection(dir) },
+                onClick = {
+                    viewModel.setDirection(dir)
+                    onSettingsChanged(viewModel.currentSettings())
+                },
                 label = { Text(dir.localizedLabel()) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.tertiary,
@@ -172,7 +175,10 @@ internal fun PlayAlongContent(
     ) {
         FilterChip(
             selected = state.loopPlayback,
-            onClick = { viewModel.toggleLoop() },
+            onClick = {
+                viewModel.toggleLoop()
+                onSettingsChanged(viewModel.currentSettings())
+            },
             label = { Text(stringResource(R.string.scale_practice_loop)) },
             colors = FilterChipDefaults.filterChipColors(
                 selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -208,7 +214,10 @@ internal fun PlayAlongContent(
             FretPosition.entries.forEach { pos ->
                 FilterChip(
                     selected = state.fretPosition == pos,
-                    onClick = { viewModel.setFretPosition(pos) },
+                    onClick = {
+                        viewModel.setFretPosition(pos)
+                        onSettingsChanged(viewModel.currentSettings())
+                    },
                     label = { Text(pos.localizedLabel()) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = MaterialTheme.colorScheme.tertiary,

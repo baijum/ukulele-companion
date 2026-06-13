@@ -128,6 +128,9 @@ class ScalePracticeViewModel : ViewModel() {
         val scale = scales.firstOrNull { it.name == settings.lastScaleName } ?: scales.first()
         val mode = PracticeMode.entries.getOrElse(settings.lastMode) { PracticeMode.PLAY_ALONG }
 
+        val direction = PlayDirection.entries.getOrElse(settings.lastDirection) { PlayDirection.ASCENDING }
+        val fretPosition = FretPosition.entries.getOrElse(settings.lastFretPosition) { FretPosition.ALL }
+
         _uiState.update {
             it.copy(
                 mode = mode,
@@ -140,6 +143,9 @@ class ScalePracticeViewModel : ViewModel() {
                     ScalePracticeSettings.MAX_BPM,
                 ),
                 showFretboard = settings.showFretboard,
+                direction = direction,
+                loopPlayback = settings.loopPlayback,
+                fretPosition = fretPosition,
             )
         }
     }
@@ -156,6 +162,9 @@ class ScalePracticeViewModel : ViewModel() {
             lastBpm = s.bpm,
             lastMode = s.mode.ordinal,
             showFretboard = s.showFretboard,
+            lastDirection = s.direction.ordinal,
+            loopPlayback = s.loopPlayback,
+            lastFretPosition = s.fretPosition.ordinal,
         )
     }
 

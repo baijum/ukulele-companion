@@ -160,6 +160,9 @@ data class ScalePracticeSettings(
     val lastBpm: Int = DEFAULT_BPM,
     val lastMode: Int = 0,
     val showFretboard: Boolean = false,
+    val lastDirection: Int = 0,
+    val loopPlayback: Boolean = false,
+    val lastFretPosition: Int = 0,
 ) {
     companion object {
         const val MIN_BPM = 40
