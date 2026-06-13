@@ -137,7 +137,7 @@ internal fun InversionCompareView(
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-                    items(voicings) { voicing ->
+                    items(voicings, key = { it.frets.joinToString(",") }) { voicing ->
                         val bassIndex = ChordInfo.findBassStringIndex(voicing.frets, tuning)
                         VerticalChordDiagram(
                             voicing = voicing,

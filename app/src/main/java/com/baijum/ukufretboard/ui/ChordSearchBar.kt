@@ -96,7 +96,7 @@ internal fun ChordSearchBar(
                         LazyColumn(
                             modifier = Modifier.heightIn(max = 480.dp),
                         ) {
-                            items(results) { result ->
+                            items(results, key = { "${it.rootPitchClass}_${it.formula.symbol}" }) { result ->
                                 ChordSuggestionRow(
                                     result = result,
                                     onClick = { onResultSelected(result) },
