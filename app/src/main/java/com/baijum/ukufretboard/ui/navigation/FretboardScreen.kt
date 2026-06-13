@@ -31,9 +31,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -50,6 +50,7 @@ import com.baijum.ukufretboard.R
 import kotlinx.coroutines.launch
 import com.baijum.ukufretboard.audio.ToneGenerator
 import com.baijum.ukufretboard.data.AchievementRepository
+import com.baijum.ukufretboard.data.NavSection
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.PracticeTimerRepository
 import com.baijum.ukufretboard.data.ReviewPromptRepository
@@ -137,15 +138,20 @@ fun FretboardScreen(
     val isCompactWidth = widthSizeClass == WindowWidthSizeClass.Compact
     val isTabletWidth = widthSizeClass == WindowWidthSizeClass.Expanded &&
         heightSizeClass != WindowHeightSizeClass.Compact
-    var selectedSection by rememberSaveable { mutableIntStateOf(NAV_EXPLORER) }
-    var previousSection by rememberSaveable { mutableStateOf<Int?>(null) }
+    var selectedSection by rememberSaveable(
+        stateSaver = Saver(
+            save = { it.id },
+            restore = { NavSection.fromId(it) ?: NavSection.EXPLORER },
+        ),
+    ) { mutableStateOf(NavSection.EXPLORER) }
+    var previousSection by rememberSaveable { mutableStateOf<NavSection?>(null) }
     var showSettings by remember { mutableStateOf(false) }
     var showFullScreen by rememberSaveable { mutableStateOf(false) }
     var shareChordInfo by remember { mutableStateOf<ShareChordInfo?>(null) }
     var sheetVoicing by remember { mutableStateOf<SheetVoicingInfo?>(null) }
     val currentFolders by favoritesViewModel.folders.collectAsState()
 
-    BackHandler(enabled = previousSection != null && selectedSection == NAV_LIBRARY) {
+    BackHandler(enabled = previousSection != null && selectedSection == NavSection.LIBRARY) {
         selectedSection = previousSection!!
         previousSection = null
     }
@@ -263,8 +269,8 @@ fun FretboardScreen(
                     title = {
                         Text(
                             text = when (selectedSection) {
-                                NAV_HELP -> stringResource(R.string.nav_help)
-                                else -> allItems.firstOrNull { it.index == selectedSection }?.label
+                                NavSection.HELP -> stringResource(R.string.nav_help)
+                                else -> allItems.firstOrNull { it.section == selectedSection }?.label
                                     ?: stringResource(R.string.nav_explorer)
                             },
                             style = MaterialTheme.typography.titleLarge,
@@ -272,7 +278,7 @@ fun FretboardScreen(
                         )
                     },
                     navigationIcon = {
-                        if (previousSection != null && selectedSection == NAV_LIBRARY) {
+                        if (previousSection != null && selectedSection == NavSection.LIBRARY) {
                             IconButton(onClick = {
                                 selectedSection = previousSection!!
                                 previousSection = null
@@ -313,7 +319,7 @@ fun FretboardScreen(
                     .padding(innerPadding),
             ) {
                 when (selectedSection) {
-                    NAV_EXPLORER -> ExplorerTabContent(
+                    NavSection.EXPLORER -> ExplorerTabContent(
                         viewModel = fretboardViewModel,
                         settingsViewModel = settingsViewModel,
                         soundEnabled = appSettings.sound.enabled,
@@ -336,10 +342,10 @@ fun FretboardScreen(
                             libraryViewModel.selectCategory(formula.category)
                             libraryViewModel.selectFormula(formula)
                             previousSection = selectedSection
-                            selectedSection = NAV_LIBRARY
+                            selectedSection = NavSection.LIBRARY
                         },
                     )
-                    NAV_TUNER -> ConstrainedWidthContent(isCompactWidth) {
+                    NavSection.TUNER -> ConstrainedWidthContent(isCompactWidth) {
                         TunerTab(
                             viewModel = tunerViewModel,
                             tuning = appSettings.tuning.tuning,
@@ -348,15 +354,15 @@ fun FretboardScreen(
                             tunerSettings = appSettings.tuner,
                         )
                     }
-                    NAV_PITCH_MONITOR -> PitchMonitorTab(
+                    NavSection.PITCH_MONITOR -> PitchMonitorTab(
                         viewModel = pitchMonitorViewModel,
                     )
-                    NAV_METRONOME -> ConstrainedWidthContent(isCompactWidth) {
+                    NavSection.METRONOME -> ConstrainedWidthContent(isCompactWidth) {
                         MetronomeTab(
                             viewModel = metronomeViewModel,
                         )
                     }
-                    NAV_LIBRARY -> ChordLibraryTab(
+                    NavSection.LIBRARY -> ChordLibraryTab(
                         viewModel = libraryViewModel,
                         tuning = fretboardViewModel.tuning,
                         onVoicingSelected = { voicing ->
@@ -366,7 +372,7 @@ fun FretboardScreen(
                                 rootPitchClass = state.selectedRoot,
                                 formula = state.selectedFormula,
                             )
-                            selectedSection = NAV_EXPLORER
+                            selectedSection = NavSection.EXPLORER
                         },
                         onVoicingLongPressed = { voicing ->
                             val state = libraryViewModel.uiState.value
@@ -409,12 +415,12 @@ fun FretboardScreen(
                         },
                         leftHanded = appSettings.fretboard.leftHanded,
                     )
-                    NAV_PATTERNS -> ConstrainedWidthContent(isCompactWidth) {
+                    NavSection.PATTERNS -> ConstrainedWidthContent(isCompactWidth) {
                         StrumPatternsTab(
                             tuning = appSettings.tuning.tuning,
                         )
                     }
-                    NAV_PROGRESSIONS -> ConstrainedWidthContent(isCompactWidth) {
+                    NavSection.PROGRESSIONS -> ConstrainedWidthContent(isCompactWidth) {
                         ProgressionsTab(
                         leftHanded = appSettings.fretboard.leftHanded,
                         tuning = fretboardViewModel.tuning,
@@ -429,7 +435,7 @@ fun FretboardScreen(
                                 libraryViewModel.selectFormula(formula)
                             }
                             previousSection = selectedSection
-                            selectedSection = NAV_LIBRARY
+                            selectedSection = NavSection.LIBRARY
                         },
                         onSaveProgression = { name, description, degrees, scaleType ->
                             customProgressionViewModel.create(name, description, degrees, scaleType)
@@ -448,12 +454,12 @@ fun FretboardScreen(
                         },
                     )
                     }
-                    NAV_FAVORITES -> FavoritesTab(
+                    NavSection.FAVORITES -> FavoritesTab(
                         viewModel = favoritesViewModel,
                         tuning = fretboardViewModel.tuning,
                         onVoicingSelected = { voicing ->
                             fretboardViewModel.applyVoicing(voicing)
-                            selectedSection = NAV_EXPLORER
+                            selectedSection = NavSection.EXPLORER
                         },
                         onShareVoicing = { voicing, chordName ->
                             shareChordInfo = ShareChordInfo(
@@ -464,7 +470,7 @@ fun FretboardScreen(
                         },
                         leftHanded = appSettings.fretboard.leftHanded,
                     )
-                    NAV_SONGWRITER_MODE -> ConstrainedWidthContent(isCompactWidth) {
+                    NavSection.SONGWRITER_MODE -> ConstrainedWidthContent(isCompactWidth) {
                         SongwriterModeFlow(
                             songbookViewModel = songbookViewModel,
                             onSaveProgression = { name, description, degrees, scaleType ->
@@ -472,13 +478,13 @@ fun FretboardScreen(
                             },
                         )
                     }
-                    NAV_SONGBOOK -> ConstrainedWidthContent(isCompactWidth) {
+                    NavSection.SONGBOOK -> ConstrainedWidthContent(isCompactWidth) {
                         SongbookTab(
                             viewModel = songbookViewModel,
                             onChordTapped = { chordName ->
                                 navigateToChord(chordName, libraryViewModel) {
                                     previousSection = selectedSection
-                                    selectedSection = NAV_LIBRARY
+                                    selectedSection = NavSection.LIBRARY
                                 }
                             },
                             onPlayChord = { chordName ->
@@ -490,7 +496,7 @@ fun FretboardScreen(
                                     metronomeViewModel.togglePlayback()
                                 }
                                 previousSection = selectedSection
-                                selectedSection = NAV_METRONOME
+                                selectedSection = NavSection.METRONOME
                             },
                             tuning = fretboardViewModel.tuning,
                             leftHanded = appSettings.fretboard.leftHanded,
@@ -499,33 +505,33 @@ fun FretboardScreen(
                             showChordDiagramRail = appSettings.display.showChordDiagramRail,
                         )
                     }
-                    NAV_SETLISTS -> ConstrainedWidthContent(isCompactWidth) {
+                    NavSection.SETLISTS -> ConstrainedWidthContent(isCompactWidth) {
                         SetlistTab(
                             setlistViewModel = setlistViewModel,
                             songbookViewModel = songbookViewModel,
                         )
                     }
-                    NAV_CAPO_GUIDE -> CapoGuideView(
+                    NavSection.CAPO_GUIDE -> CapoGuideView(
                         tuning = appSettings.tuning.tuning,
                     )
-                    NAV_THEORY_QUIZ -> TheoryQuizView(
+                    NavSection.THEORY_QUIZ -> TheoryQuizView(
                         progressViewModel = learningProgressViewModel,
                     )
-                    NAV_INTERVAL_TRAINER -> IntervalTrainerView(
+                    NavSection.INTERVAL_TRAINER -> IntervalTrainerView(
                         progressViewModel = learningProgressViewModel,
                     )
-                    NAV_CHORD_SUBS -> ChordSubstitutionsView()
-                    NAV_THEORY_LESSONS -> TheoryLessonsView(
+                    NavSection.CHORD_SUBS -> ChordSubstitutionsView()
+                    NavSection.THEORY_LESSONS -> TheoryLessonsView(
                         progressViewModel = learningProgressViewModel,
                     )
-                    NAV_LEARNING_PROGRESS -> LearningProgressView(
+                    NavSection.LEARNING_PROGRESS -> LearningProgressView(
                         viewModel = learningProgressViewModel,
                         practiceStats = practiceStats,
                     )
-                    NAV_MELODY_NOTEPAD -> MelodyNotepadView(
+                    NavSection.MELODY_NOTEPAD -> MelodyNotepadView(
                         viewModel = melodyViewModel,
                     )
-                    NAV_CIRCLE_OF_FIFTHS -> CircleOfFifthsView(
+                    NavSection.CIRCLE_OF_FIFTHS -> CircleOfFifthsView(
                         onChordTapped = { rootPitchClass, quality ->
                             libraryViewModel.selectRoot(rootPitchClass)
                             val formula = com.baijum.ukufretboard.data.ChordFormulas.ALL
@@ -535,17 +541,17 @@ fun FretboardScreen(
                                 libraryViewModel.selectFormula(formula)
                             }
                             previousSection = selectedSection
-                            selectedSection = NAV_LIBRARY
+                            selectedSection = NavSection.LIBRARY
                         },
                     )
-                    NAV_NOTE_QUIZ -> NoteQuizView(
+                    NavSection.NOTE_QUIZ -> NoteQuizView(
                         tuning = appSettings.tuning.tuning,
                         progressViewModel = learningProgressViewModel,
                     )
-                    NAV_CHORD_EAR -> ChordEarTrainingView(
+                    NavSection.CHORD_EAR -> ChordEarTrainingView(
                         progressViewModel = learningProgressViewModel,
                     )
-                    NAV_SCALE_PRACTICE -> ScalePracticeView(
+                    NavSection.SCALE_PRACTICE -> ScalePracticeView(
                         viewModel = scalePracticeViewModel,
                         progressViewModel = learningProgressViewModel,
                         onSettingsChanged = { newSettings ->
@@ -554,24 +560,20 @@ fun FretboardScreen(
                         tuning = fretboardViewModel.tuning,
                         lastFret = appSettings.fretboard.lastFret,
                     )
-                    NAV_SCALE_CHORDS -> ScaleChordView()
-                    NAV_GLOSSARY -> GlossaryView()
-                    NAV_NOTE_MAP -> FretboardNoteMapView(
+                    NavSection.SCALE_CHORDS -> ScaleChordView()
+                    NavSection.GLOSSARY -> GlossaryView()
+                    NavSection.NOTE_MAP -> FretboardNoteMapView(
                         tuning = appSettings.tuning.tuning,
                         lastFret = appSettings.fretboard.lastFret,
                     )
-                    NAV_PRACTICE_ROUTINE -> PracticeRoutineView(
-                        onNavigate = { navIndex ->
-                            selectedSection = navIndex
-                        },
+                    NavSection.PRACTICE_ROUTINE -> PracticeRoutineView(
+                        onNavigate = { selectedSection = it },
                     )
 
-                    NAV_DAILY_CHALLENGE -> DailyChallengeView(
-                        onNavigate = { navIndex ->
-                            selectedSection = navIndex
-                        },
+                    NavSection.DAILY_CHALLENGE -> DailyChallengeView(
+                        onNavigate = { selectedSection = it },
                     )
-                    NAV_CHORD_TRANSITION -> ChordTransitionView(
+                    NavSection.CHORD_TRANSITION -> ChordTransitionView(
                         tuning = fretboardViewModel.tuning,
                         lastFret = appSettings.fretboard.lastFret,
                         leftHanded = appSettings.fretboard.leftHanded,
@@ -579,13 +581,13 @@ fun FretboardScreen(
                             fretboardViewModel.playVoicing(voicing)
                         },
                     )
-                    NAV_PLAY_ALONG -> PlayAlongSetup(
+                    NavSection.PLAY_ALONG -> PlayAlongSetup(
                         tuning = fretboardViewModel.tuning,
                         onPlayVoicing = { voicing ->
                             fretboardViewModel.playVoicing(voicing)
                         },
                     )
-                    NAV_ACHIEVEMENTS -> {
+                    NavSection.ACHIEVEMENTS -> {
                         val progressState by learningProgressViewModel.state.collectAsState()
                         val sheetsState by songbookViewModel.sheets.collectAsState()
                         val achievementContext = progressState.toAchievementContext(
@@ -612,16 +614,16 @@ fun FretboardScreen(
                             favoritesCount = currentFavorites.size,
                         )
                     }
-                    NAV_HELP -> HelpView()
+                    NavSection.HELP -> HelpView()
                 }
             }
         }
     }
 
-    val drawerItemOnClick: (Int) -> Unit = { index ->
+    val drawerItemOnClick: (NavSection) -> Unit = { section ->
         previousSection = null
-        selectedSection = index
-        if (index in PLAY_CREATE_NAV_INDICES) {
+        selectedSection = section
+        if (section in PLAY_CREATE_SECTIONS) {
             reviewPromptRepository.recordActiveDay()
         }
         if (!isTabletWidth) scope.launch { drawerState.close() }

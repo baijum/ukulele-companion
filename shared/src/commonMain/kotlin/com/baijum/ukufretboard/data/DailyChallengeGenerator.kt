@@ -32,14 +32,14 @@ object DailyChallengeGenerator {
      * @property title Display title.
      * @property description What the user should do.
      * @property targetCount How many repetitions/correct answers to achieve.
-     * @property navTarget The navigation target index (if applicable).
+     * @property navTarget The navigation section to open (if applicable).
      */
     data class DailyChallenge(
         val type: ChallengeType,
         val title: String,
         val description: String,
         val targetCount: Int = 1,
-        val navTarget: Int? = null,
+        val navTarget: NavSection? = null,
     )
 
     /**
@@ -86,7 +86,7 @@ object DailyChallengeGenerator {
                 type = type,
                 title = "Learn $chordName",
                 description = "Find and practice the $chordName chord. Try all voicings!",
-                navTarget = 1, // NAV_LIBRARY
+                navTarget = NavSection.LIBRARY,
             )
         }
         ChallengeType.THEORY_QUIZ -> {
@@ -96,7 +96,7 @@ object DailyChallengeGenerator {
                 title = "Theory Quiz: $count Questions",
                 description = "Answer $count theory quiz questions correctly.",
                 targetCount = count,
-                navTarget = 8, // NAV_THEORY_QUIZ
+                navTarget = NavSection.THEORY_QUIZ,
             )
         }
         ChallengeType.PRACTICE_SONG -> {
@@ -104,7 +104,7 @@ object DailyChallengeGenerator {
                 type = type,
                 title = "Practice a Song",
                 description = "Open the songbook and practice any song for 5 minutes.",
-                navTarget = 5, // NAV_SONGBOOK
+                navTarget = NavSection.SONGBOOK,
             )
         }
         ChallengeType.SCALE_PRACTICE -> {
@@ -114,7 +114,7 @@ object DailyChallengeGenerator {
                 type = type,
                 title = "Scale: $scale",
                 description = "Practice the $scale scale in at least 2 different keys.",
-                navTarget = 22, // NAV_SCALE_PRACTICE
+                navTarget = NavSection.SCALE_PRACTICE,
             )
         }
         ChallengeType.CHORD_TRANSITION -> {
@@ -127,7 +127,7 @@ object DailyChallengeGenerator {
                 title = "Switch: $root1$quality to $root2",
                 description = "Practice switching between $root1$quality and $root2 at 60 BPM. Aim for 20 switches per minute.",
                 targetCount = 20,
-                navTarget = 25, // NAV_CHORD_TRANSITION
+                navTarget = NavSection.CHORD_TRANSITION,
             )
         }
         ChallengeType.EAR_TRAINING -> {
@@ -137,7 +137,7 @@ object DailyChallengeGenerator {
                 title = "Ear Training: $count Rounds",
                 description = "Complete $count rounds of ear training with at least 60% accuracy.",
                 targetCount = count,
-                navTarget = 19, // NAV_CHORD_EAR
+                navTarget = NavSection.CHORD_EAR,
             )
         }
     }
