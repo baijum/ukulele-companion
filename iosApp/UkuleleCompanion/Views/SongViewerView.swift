@@ -313,7 +313,12 @@ struct SongViewerView: View {
 
         let sanitized = title.replacingOccurrences(of: "[^a-zA-Z0-9._-]", with: "_", options: .regularExpression)
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("\(sanitized).pdf")
-        try? data.write(to: url)
+        do {
+            try data.write(to: url)
+        } catch {
+            AccessibilityAnnouncer.shared.announce("Failed to create PDF")
+            return
+        }
 
         let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
