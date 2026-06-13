@@ -110,6 +110,10 @@ Skills in `.cursor/skills/` provide step-by-step workflows for common tasks:
 ./gradlew testDebugUnitTest                    # Run unit tests
 ./gradlew connectedAndroidTest                 # Run instrumented tests
 
+# Quality gates (run before submitting)
+scripts/preflight.sh                           # ktlint ratchet + shared tests + unit tests + lint
+scripts/ktlint.sh                              # ktlint check only (-F to auto-format)
+
 # iOS (requires Xcode)
 xcodebuild -project iosApp/UkuleleCompanion.xcodeproj \
   -scheme UkuleleCompanion \
@@ -120,6 +124,9 @@ xcodebuild -project iosApp/UkuleleCompanion.xcodeproj \
 **CI** (GitHub Actions on push/PR to `main`):
 - **Android** (`android.yml`): JDK 17, lint (debug + release), unit tests, shared module tests, debug APK, release APK + R8 mapping, APK size report, instrumented tests (API 26/33/35)
 - **iOS** (`ios.yml`): JDK 17 + Xcode 16.4, shared KMP framework (debug + release), iOS build (debug + release), unit tests
+- **ktlint** (`ktlint.yml`): baseline-aware ratchet on Kotlin changes — fails only on violations beyond `ktlint-baseline.xml`
+
+**Local guardrails (Claude Code):** `.claude/settings.json` wires PreToolUse hooks (`scripts/hooks/`) that block network/analytics/secrets and platform imports in `commonMain`, plus a PostToolUse ktlint-style nudge. Slash commands: `/extract-to-shared`, `/preflight`, `/add-string`. Subagent: `accessibility-reviewer`. These activate at session start; if a hook blocks an edit, it explains why.
 
 **Commit format:**
 ```
@@ -132,6 +139,7 @@ Types: `Add`, `Fix`, `Update`, `Refactor`, `Test`, `Docs`, `Chore`
 ## Pre-Submission Checklist
 
 ### Both platforms
+- [ ] `scripts/preflight.sh` passes (or run the individual gates below)
 - [ ] Shared module builds (`./gradlew :shared:build`)
 - [ ] Both High-G and Low-G tuning work (if chord/note logic changed)
 - [ ] Left-handed mode not broken (if fretboard UI changed)

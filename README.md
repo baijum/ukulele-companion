@@ -253,6 +253,16 @@ The Android debug APK will be at `app/build/outputs/apk/debug/app-debug.apk`.
 
 The project includes **property-based tests** using [Kotest](https://kotest.io/docs/proptest/property-based-testing.html) that generate thousands of random inputs to verify invariants in the domain logic (chord detection, transposition, FFT, pitch detection, and more). These run automatically as part of `testDebugUnitTest` and in CI on every push and PR.
 
+### Lint & Pre-Submission
+
+```bash
+scripts/ktlint.sh           # Kotlin style check (-F to auto-format)
+scripts/preflight.sh        # one-shot gate: ktlint + shared tests + unit tests + lint
+```
+
+ktlint runs as a **baseline ratchet** — only violations beyond `ktlint-baseline.xml` fail, and
+CI enforces it on Kotlin changes. Run `scripts/preflight.sh` before opening a PR.
+
 ### Release Build
 
 **Android:**
@@ -299,6 +309,7 @@ We actively encourage contributors to use **AI coding tools** to accelerate thei
 - **Leverage AI for code reviews** — before submitting a PR, ask an AI assistant to review your changes for consistency with the project's patterns.
 - **Use AI to write tests** — expand the existing test suite with new unit tests, property-based fuzz tests, or UI tests.
 - **AI-powered documentation** — use AI tools to help write clear commit messages, PR descriptions, and inline documentation.
+- **Built-in AI guardrails** — `AGENTS.md` and `.cursor/rules/` carry the coding rules, and Claude Code hooks automatically block edits that violate the offline / no-analytics / no-secrets constraints. See [How This Repo Supports AI Agents](CONTRIBUTING.md#how-this-repo-supports-ai-agents).
 
 > **Tip:** This project uses standard Kotlin + Jetpack Compose patterns on Android and SwiftUI on iOS, with shared domain logic via Kotlin Multiplatform. AI tools work exceptionally well with the codebase because it follows consistent conventions throughout.
 
@@ -309,6 +320,7 @@ We actively encourage contributors to use **AI coding tools** to accelerate thei
 - **iOS UI**: SwiftUI
 - **Android state**: ViewModel + StateFlow
 - **iOS state**: ObservableObject + @Published
+- **Linting**: Kotlin style enforced by ktlint via `scripts/ktlint.sh` (baseline ratchet)
 - Follow existing patterns in the codebase — consistency is valued
 
 ### Architecture at a Glance
