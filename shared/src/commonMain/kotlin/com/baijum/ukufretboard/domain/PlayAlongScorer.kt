@@ -76,10 +76,7 @@ class PlayAlongScorer {
      * Normalizes a chord name for comparison (strips extensions).
      */
     private fun normalizeChord(name: String): String {
-        // Remove 7ths, 9ths etc. for basic matching
-        return name.replace(Regex("[79]$"), "")
-            .replace("maj", "")
-            .trim()
+        return name.replace(Regex("(maj)?[79]$"), "").trim()
     }
 
     /**

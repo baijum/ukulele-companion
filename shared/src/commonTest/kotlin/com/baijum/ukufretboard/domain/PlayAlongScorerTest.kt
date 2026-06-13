@@ -194,4 +194,20 @@ class PlayAlongScorerTest {
         scorer.recordBeat("Cmaj7", "C", 0.9f)
         assertEquals(1, scorer.getScore().correctBeats)
     }
+
+    @Test
+    fun chordNormalizationDoesNotStripMajFromMinor() {
+        val scorer = PlayAlongScorer()
+        // "Amaj7" normalizes to "A" (strips "maj7"), "Am" stays "Am"
+        // These are different chords — should NOT match.
+        scorer.recordBeat("Amaj7", "Am", 0.9f)
+        assertEquals(0, scorer.getScore().correctBeats)
+    }
+
+    @Test
+    fun chordNormalizationMatchesNinth() {
+        val scorer = PlayAlongScorer()
+        scorer.recordBeat("C9", "C", 0.9f)
+        assertEquals(1, scorer.getScore().correctBeats)
+    }
 }
