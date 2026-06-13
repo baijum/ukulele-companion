@@ -65,7 +65,7 @@ import com.baijum.ukufretboard.domain.HarmonicFunction
 import com.baijum.ukufretboard.ui.ShareUtils
 import com.baijum.ukufretboard.domain.VoiceLeading
 import com.baijum.ukufretboard.domain.harmonicFunction
-import com.baijum.ukufretboard.viewmodel.UkuleleString
+import com.baijum.ukufretboard.domain.UkuleleString
 
 /**
  * Tab showing common chord progressions for a selected key.

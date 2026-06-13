@@ -60,7 +60,7 @@ import com.baijum.ukufretboard.data.VoicingGenerator
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.domain.Note
 import com.baijum.ukufretboard.viewmodel.FretboardViewModel
-import com.baijum.ukufretboard.viewmodel.UkuleleString
+import com.baijum.ukufretboard.domain.UkuleleString
 
 /**
  * Chord Transition Trainer — practise switching between two chords with a metronome.

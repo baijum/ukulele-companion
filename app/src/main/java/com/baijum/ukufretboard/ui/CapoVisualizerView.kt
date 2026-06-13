@@ -31,7 +31,7 @@ import com.baijum.ukufretboard.data.ChordFormula
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.VoicingGenerator
 import com.baijum.ukufretboard.domain.ChordVoicing
-import com.baijum.ukufretboard.viewmodel.UkuleleString
+import com.baijum.ukufretboard.domain.UkuleleString
 
 /**
  * Capo Chord Shape Visualizer — shows how a chord shape looks and sounds

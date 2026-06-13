@@ -8,6 +8,7 @@ import com.baijum.ukufretboard.data.FavoritesRepository
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.domain.Note
+import com.baijum.ukufretboard.domain.UkuleleString
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

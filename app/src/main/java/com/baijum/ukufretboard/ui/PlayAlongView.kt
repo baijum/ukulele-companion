@@ -75,7 +75,7 @@ import com.baijum.ukufretboard.domain.AudioChordDetector
 import com.baijum.ukufretboard.domain.ChordDetector
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.domain.PlayAlongScorer
-import com.baijum.ukufretboard.viewmodel.UkuleleString
+import com.baijum.ukufretboard.domain.UkuleleString
 import com.baijum.ukufretboard.domain.FrameGate
 
 /**

@@ -46,7 +46,7 @@ import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.domain.VoiceLeading
-import com.baijum.ukufretboard.viewmodel.UkuleleString
+import com.baijum.ukufretboard.domain.UkuleleString
 
 /**
  * Dedicated view for exploring voice leading through a chord progression.
