@@ -2,6 +2,8 @@ package com.baijum.ukufretboard.data
 
 import com.baijum.ukufretboard.platform.currentTimeMillis
 import com.baijum.ukufretboard.platform.generateUuid
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 /**
  * A saved chord voicing in the favorites list.
@@ -12,6 +14,7 @@ import com.baijum.ukufretboard.platform.generateUuid
  * @property addedAt Timestamp when the voicing was saved.
  * @property folderIds IDs of the folders this voicing belongs to. Empty = unfiled.
  */
+@Serializable
 data class FavoriteVoicing(
     val rootPitchClass: Int,
     val chordSymbol: String,
@@ -22,7 +25,8 @@ data class FavoriteVoicing(
     /**
      * A unique key for deduplication: root + symbol + frets.
      */
-    val key: String get() = "$rootPitchClass|$chordSymbol|${frets.joinToString(",")}"
+    @Transient
+    val key: String = "$rootPitchClass|$chordSymbol|${frets.joinToString(",")}"
 }
 
 /**
@@ -33,6 +37,7 @@ data class FavoriteVoicing(
  * @property createdAt Timestamp when the folder was created.
  * @property voicingOrder Ordered list of voicing keys defining display order within the folder.
  */
+@Serializable
 data class FavoriteFolder(
     val id: String = generateUuid(),
     val name: String,

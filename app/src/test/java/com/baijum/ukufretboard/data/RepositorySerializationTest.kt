@@ -104,6 +104,75 @@ class RepositorySerializationTest {
         assertEquals("Existing", all.first { it.id == "f1" }.name)
     }
 
+    @Test
+    fun favoritesLegacyPipeMigration() {
+        val prefs = context.getSharedPreferences("chord_favorites", 0)
+        prefs.edit()
+            .putString("0|m7|0,2,3,3", "0|m7|0,2,3,3|1000|f1;f2")
+            .putString("4|m|0,4,3,2", "4|m|0,4,3,2|2000|")
+            .apply()
+
+        val repo = FavoritesRepository(context)
+        val all = repo.getAll()
+        assertEquals(2, all.size)
+        val v1 = all.first { it.rootPitchClass == 0 }
+        assertEquals("m7", v1.chordSymbol)
+        assertEquals(listOf(0, 2, 3, 3), v1.frets)
+        assertEquals(1000L, v1.addedAt)
+        assertEquals(listOf("f1", "f2"), v1.folderIds)
+        val v2 = all.first { it.rootPitchClass == 4 }
+        assertTrue(v2.folderIds.isEmpty())
+
+        assertTrue(
+            "Legacy keys should be removed after migration",
+            !prefs.contains("0|m7|0,2,3,3"),
+        )
+        assertTrue(
+            "JSON key should exist after migration",
+            prefs.contains("favorites_json"),
+        )
+    }
+
+    @Test
+    fun favoritesLegacyFolderPipeMigration() {
+        val prefs = context.getSharedPreferences("favorite_folders", 0)
+        prefs.edit()
+            .putString("folder-1", "folder-1|||Jazz Chords|||2000|||0|m7|0,2,3,3;4|m|0,4,3,2")
+            .apply()
+
+        val repo = FavoritesRepository(context)
+        val folders = repo.getAllFolders()
+        assertEquals(1, folders.size)
+        assertEquals("folder-1", folders[0].id)
+        assertEquals("Jazz Chords", folders[0].name)
+        assertEquals(2000L, folders[0].createdAt)
+        assertEquals(2, folders[0].voicingOrder.size)
+
+        assertTrue(
+            "Legacy keys should be removed after migration",
+            !prefs.contains("folder-1"),
+        )
+        assertTrue(
+            "JSON key should exist after migration",
+            prefs.contains("folders_json"),
+        )
+    }
+
+    @Test
+    fun favoritesCorruptJsonFallsBackToBackup() {
+        val repo = FavoritesRepository(context)
+        val voicing = FavoriteVoicing(0, "maj", listOf(0, 0, 0, 3), 100L)
+        repo.add(voicing)
+        assertEquals(1, repo.getAll().size)
+
+        val prefs = context.getSharedPreferences("chord_favorites", 0)
+        prefs.edit().putString("favorites_json", "CORRUPTED").apply()
+
+        val recovered = repo.getAll()
+        assertEquals("Backup key should provide recovery", 1, recovered.size)
+        assertEquals(0, recovered[0].rootPitchClass)
+    }
+
     // ── ChordSheetRepository ─────────────────────────────────────────
 
     @Test
