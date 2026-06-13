@@ -44,13 +44,14 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
+import com.baijum.ukufretboard.data.NavSection
 
 @Composable
 internal fun DrawerContent(
     visibleSections: List<DrawerSection>,
     expandedState: MutableMap<String, Boolean>,
-    selectedSection: Int,
-    onItemSelected: (Int) -> Unit,
+    selectedSection: NavSection,
+    onItemSelected: (NavSection) -> Unit,
 ) {
     val navigationDrawerDescription = stringResource(R.string.cd_navigation_drawer)
     Column(
@@ -129,8 +130,8 @@ internal fun DrawerContent(
                         NavigationDrawerItem(
                             icon = { Icon(item.icon, contentDescription = item.label) },
                             label = { Text(item.label) },
-                            selected = selectedSection == item.index,
-                            onClick = { onItemSelected(item.index) },
+                            selected = selectedSection == item.section,
+                            onClick = { onItemSelected(item.section) },
                             modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                         )
                     }
@@ -142,8 +143,8 @@ internal fun DrawerContent(
         NavigationDrawerItem(
             icon = { Icon(Icons.Filled.Info, contentDescription = stringResource(R.string.nav_help)) },
             label = { Text(stringResource(R.string.nav_help)) },
-            selected = selectedSection == NAV_HELP,
-            onClick = { onItemSelected(NAV_HELP) },
+            selected = selectedSection == NavSection.HELP,
+            onClick = { onItemSelected(NavSection.HELP) },
             modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
         )
 

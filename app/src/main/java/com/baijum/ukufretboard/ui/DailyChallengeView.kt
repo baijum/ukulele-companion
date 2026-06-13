@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.DailyChallengeGenerator
+import com.baijum.ukufretboard.data.NavSection
 
 /**
  * Daily Challenges screen — shows today's 3 challenges.
@@ -42,11 +43,11 @@ import com.baijum.ukufretboard.data.DailyChallengeGenerator
  * practice a song, etc.) and provides a button to navigate to the relevant
  * section of the app.
  *
- * @param onNavigate Callback to navigate to a specific section index.
+ * @param onNavigate Callback to navigate to a specific section.
  */
 @Composable
 fun DailyChallengeView(
-    onNavigate: (Int) -> Unit = {},
+    onNavigate: (NavSection) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val challenges = remember { DailyChallengeGenerator.today() }

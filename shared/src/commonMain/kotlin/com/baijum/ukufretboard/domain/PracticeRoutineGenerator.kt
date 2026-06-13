@@ -1,6 +1,7 @@
 package com.baijum.ukufretboard.domain
 
 import com.baijum.ukufretboard.data.ChordFormulas
+import com.baijum.ukufretboard.data.NavSection
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.platform.currentTimeMillis
 import kotlin.random.Random
@@ -113,7 +114,7 @@ object PracticeRoutineGenerator {
                 title = "Chord Transition: $chord1 ↔ $chord2",
                 description = "Switch between $chord1 and $chord2 with a metronome. Start at 60 BPM and increase by 10 each minute.",
                 durationMinutes = minutes,
-                navTarget = 25, // NAV_CHORD_TRANSITION
+                navTarget = NavSection.CHORD_TRANSITION,
             )
         }
         StepType.SCALE_PRACTICE -> {
@@ -128,7 +129,7 @@ object PracticeRoutineGenerator {
                 title = "Scale: $scale",
                 description = "Play the $scale scale ascending and descending. Try in different positions on the fretboard.",
                 durationMinutes = minutes,
-                navTarget = 22, // NAV_SCALE_PRACTICE
+                navTarget = NavSection.SCALE_PRACTICE,
             )
         }
         StepType.EAR_TRAINING -> {
@@ -137,7 +138,7 @@ object PracticeRoutineGenerator {
                 title = "Ear Training",
                 description = "Identify intervals and chord types by ear. Focus on getting at least 70% correct.",
                 durationMinutes = minutes,
-                navTarget = 19, // NAV_CHORD_EAR
+                navTarget = NavSection.CHORD_EAR,
             )
         }
         StepType.THEORY_QUIZ -> {
@@ -146,7 +147,7 @@ object PracticeRoutineGenerator {
                 title = "Theory Check",
                 description = "Answer theory questions to reinforce your knowledge. Aim for a 5-question streak!",
                 durationMinutes = minutes,
-                navTarget = 8, // NAV_THEORY_QUIZ
+                navTarget = NavSection.THEORY_QUIZ,
             )
         }
         StepType.SONG_PRACTICE -> {
@@ -155,7 +156,7 @@ object PracticeRoutineGenerator {
                 title = "Song Practice",
                 description = "Pick a song from your songbook and play through it. Focus on smooth chord changes.",
                 durationMinutes = minutes,
-                navTarget = 5, // NAV_SONGBOOK
+                navTarget = NavSection.SONGBOOK,
             )
         }
 
@@ -223,5 +224,5 @@ data class PracticeStep(
     val title: String,
     val description: String,
     val durationMinutes: Int,
-    val navTarget: Int?,
+    val navTarget: NavSection?,
 )

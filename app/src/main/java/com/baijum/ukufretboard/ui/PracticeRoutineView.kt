@@ -47,6 +47,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
+import com.baijum.ukufretboard.data.NavSection
 import com.baijum.ukufretboard.domain.PracticeRoutine
 import com.baijum.ukufretboard.domain.PracticeRoutineGenerator
 import com.baijum.ukufretboard.domain.PracticeStep
@@ -57,11 +58,11 @@ import com.baijum.ukufretboard.domain.PracticeStep
  * Generates a personalised practice routine and guides the user through
  * each step with timers and navigation to relevant app sections.
  *
- * @param onNavigate Callback to navigate to a specific section index.
+ * @param onNavigate Callback to navigate to a specific section.
  */
 @Composable
 fun PracticeRoutineView(
-    onNavigate: (Int) -> Unit = {},
+    onNavigate: (NavSection) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     var routine by remember { mutableStateOf<PracticeRoutine?>(null) }
@@ -248,7 +249,7 @@ private fun ActiveRoutine(
     completedSteps: Set<Int>,
     activeStep: Int,
     onCompleteStep: (Int) -> Unit,
-    onNavigate: (Int) -> Unit,
+    onNavigate: (NavSection) -> Unit,
     onReset: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
