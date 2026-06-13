@@ -1,46 +1,18 @@
 package com.baijum.ukufretboard.ui
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -52,41 +24,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.semantics.LiveRegionMode
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.liveRegion
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
-import com.baijum.ukufretboard.data.ChordCategory
-import com.baijum.ukufretboard.data.ChordFormula
-import com.baijum.ukufretboard.data.ChordFormulas
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.domain.CapoCalculator
 import com.baijum.ukufretboard.domain.ChordInfo
-import com.baijum.ukufretboard.domain.ChordSearchResult
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.viewmodel.ChordLibraryViewModel
 import com.baijum.ukufretboard.viewmodel.UkuleleString
 
-/**
- * The chord library tab content.
- *
- * Provides a three-level selection flow:
- * 1. Root note (12 chromatic notes)
- * 2. Category (Triad, Seventh, Suspended, Extended)
- * 3. Chord type (formulas within the selected category)
- *
- * Below the selectors, a grid of mini chord diagrams shows all playable
- * voicings. Tapping a diagram calls [onVoicingSelected] to apply it
- * to the fretboard.
- *
- * @param viewModel The [ChordLibraryViewModel] managing selection state.
- * @param onVoicingSelected Callback invoked when the user taps a voicing diagram.
- * @param modifier Optional [Modifier] for layout customization.
- */
 @Composable
 fun ChordLibraryTab(
     viewModel: ChordLibraryViewModel,
@@ -105,14 +53,10 @@ fun ChordLibraryTab(
     val searchResults by viewModel.searchResults.collectAsState()
     val focusManager = LocalFocusManager.current
 
-    // Inversion filter state: null = show all
     var inversionFilter by rememberSaveable(stateSaver = nullableEnumSaver<ChordInfo.Inversion>()) { mutableStateOf<ChordInfo.Inversion?>(null) }
-    // Compare mode toggle
     var compareMode by rememberSaveable { mutableStateOf(false) }
     var filtersExpanded by rememberSaveable { mutableStateOf(true) }
-    // Capo calculator mode
     var capoResults by remember { mutableStateOf<List<CapoCalculator.SingleChordResult>?>(null) }
-    // Capo visualizer mode — stores the voicing to visualize
     var capoVisualVoicing by remember { mutableStateOf<ChordVoicing?>(null) }
 
     Column(
@@ -120,7 +64,6 @@ fun ChordLibraryTab(
             .fillMaxSize()
             .padding(top = 8.dp),
     ) {
-        // Section: Chord search
         ChordSearchBar(
             query = searchQuery,
             results = searchResults,
@@ -189,7 +132,6 @@ fun ChordLibraryTab(
             val symbol = uiState.selectedFormula?.symbol ?: ""
 
             if (capoVisualVoicing != null && uiState.selectedFormula != null) {
-                // ── Capo Visualizer mode ──
                 CapoVisualizerView(
                     voicing = capoVisualVoicing!!,
                     rootPitchClass = uiState.selectedRoot,
@@ -200,7 +142,6 @@ fun ChordLibraryTab(
                     modifier = Modifier.weight(1f),
                 )
             } else if (capoResults != null) {
-                // ── Capo Calculator mode ──
                 CapoCalculatorSingleView(
                     results = capoResults!!,
                     onBack = { capoResults = null },
@@ -208,12 +149,10 @@ fun ChordLibraryTab(
                     modifier = Modifier.weight(1f),
                 )
             } else if (compareMode) {
-                // ── Compare Inversions mode ──
                 SectionLabel(rootName + symbol + stringResource(R.string.chord_library_compare_inversions))
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                // Group voicings by inversion
                 val grouped = uiState.voicings.groupBy { voicing ->
                     ChordInfo.determineInversion(
                         voicing.frets,
@@ -232,7 +171,6 @@ fun ChordLibraryTab(
                     onPlayVoicing = onPlayVoicing,
                     onPlayAllInversions = onPlayVoicingsSequentially?.let { play ->
                         {
-                            // Play the best (first) voicing from each inversion group
                             val bestVoicings = ChordInfo.Inversion.entries
                                 .mapNotNull { inv -> grouped[inv]?.firstOrNull() }
                             play(bestVoicings)
@@ -243,9 +181,6 @@ fun ChordLibraryTab(
                     modifier = Modifier.weight(1f),
                 )
             } else {
-                // ── Normal grid mode ──
-
-                // Pre-compute inversion counts for filter chip badges
                 val inversionCounts = remember(uiState.voicings, uiState.selectedRoot, uiState.selectedFormula) {
                     uiState.voicings.groupingBy { voicing ->
                         ChordInfo.determineInversion(
@@ -257,7 +192,6 @@ fun ChordLibraryTab(
                     }.eachCount()
                 }
 
-                // Apply inversion filter to voicings
                 val filteredVoicings = if (inversionFilter != null) {
                     uiState.voicings.filter { voicing ->
                         ChordInfo.determineInversion(
@@ -273,7 +207,6 @@ fun ChordLibraryTab(
 
                 SectionLabel("$rootName$symbol — " + stringResource(R.string.chord_library_voicings, filteredVoicings.size))
 
-                // Inversion filter chips + action buttons
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -310,7 +243,6 @@ fun ChordLibraryTab(
                         }
                         OutlinedButton(
                             onClick = {
-                                // Open visualizer with the first voicing
                                 capoVisualVoicing = filteredVoicings.firstOrNull()
                             },
                         ) {
@@ -324,7 +256,6 @@ fun ChordLibraryTab(
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                // Build a contextual empty-state message when an inversion filter is active
                 val inversionEmptySubtitle = if (inversionFilter != null && filteredVoicings.isEmpty()) {
                     stringResource(R.string.chord_library_reentrant_empty)
                 } else {
@@ -351,7 +282,6 @@ fun ChordLibraryTab(
                 )
             }
         } else {
-            // No voicings / no formula selected
             VoicingGrid(
                 voicings = uiState.voicings,
                 tuning = tuning,
@@ -369,11 +299,8 @@ fun ChordLibraryTab(
     }
 }
 
-/**
- * A small bold section label.
- */
 @Composable
-private fun SectionLabel(text: String) {
+internal fun SectionLabel(text: String) {
     Text(
         text = text,
         style = MaterialTheme.typography.labelSmall,
@@ -381,598 +308,4 @@ private fun SectionLabel(text: String) {
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp),
     )
-}
-
-/**
- * Clickable row that toggles filter visibility.
- * When collapsed, shows a compact summary of the current selection (e.g. "Cm7 — Seventh").
- * When expanded, shows "Hide filters" with a collapse chevron.
- */
-@Composable
-private fun FilterToggleRow(
-    expanded: Boolean,
-    onToggle: () -> Unit,
-    selectedRoot: Int,
-    selectedCategory: ChordCategory,
-    selectedFormula: ChordFormula?,
-    modifier: Modifier = Modifier,
-) {
-    val rootName = Notes.pitchClassToName(selectedRoot)
-    val summary = if (selectedFormula != null) {
-        "$rootName${selectedFormula.symbol} — ${selectedCategory.localizedLabel()}"
-    } else {
-        "$rootName — ${selectedCategory.localizedLabel()}"
-    }
-    val showFilters = stringResource(R.string.chord_library_show_filters)
-    val hideFilters = stringResource(R.string.chord_library_hide_filters)
-
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable(onClick = onToggle)
-            .padding(horizontal = 16.dp, vertical = 6.dp)
-            .semantics {
-                contentDescription = if (expanded) hideFilters else "$summary. $showFilters"
-            },
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = if (expanded) hideFilters else summary,
-            style = if (expanded) MaterialTheme.typography.labelSmall else MaterialTheme.typography.titleSmall,
-            fontWeight = FontWeight.Medium,
-            color = if (expanded) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface,
-        )
-        Icon(
-            imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
-            contentDescription = null,
-        )
-    }
-}
-
-/**
- * Horizontal scrollable row of 12 note chips (C, C#, D, ... B).
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun RootNoteSelector(
-    selectedRoot: Int,
-    onRootSelected: (Int) -> Unit,
-) {
-    val noteNames = Notes.NOTE_NAMES_STANDARD
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .horizontalScroll(rememberScrollState())
-            .padding(horizontal = 12.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-    ) {
-        noteNames.forEachIndexed { index, name ->
-            FilterChip(
-                selected = index == selectedRoot,
-                onClick = { onRootSelected(index) },
-                label = {
-                    Text(
-                        text = name,
-                        fontWeight = if (index == selectedRoot) FontWeight.Bold else FontWeight.Normal,
-                    )
-                },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = MaterialTheme.colorScheme.primary,
-                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-                ),
-            )
-        }
-    }
-}
-
-/**
- * Row of 4 category filter chips (Triad, Seventh, Suspended, Extended).
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun CategorySelector(
-    selectedCategory: ChordCategory,
-    onCategorySelected: (ChordCategory) -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .horizontalScroll(rememberScrollState())
-            .padding(horizontal = 12.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-    ) {
-        ChordCategory.entries.forEach { category ->
-            FilterChip(
-                selected = category == selectedCategory,
-                onClick = { onCategorySelected(category) },
-                label = {
-                    Text(
-                        text = category.localizedLabel(),
-                        fontWeight = if (category == selectedCategory) FontWeight.Bold else FontWeight.Normal,
-                    )
-                },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = MaterialTheme.colorScheme.secondary,
-                    selectedLabelColor = MaterialTheme.colorScheme.onSecondary,
-                ),
-            )
-        }
-    }
-}
-
-/**
- * Horizontal row of formula chips for the selected category.
- * Shows the chord name (root + symbol) for each formula.
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun FormulaSelector(
-    category: ChordCategory,
-    selectedFormula: ChordFormula?,
-    selectedRoot: Int,
-    onFormulaSelected: (ChordFormula) -> Unit,
-) {
-    val formulas = ChordFormulas.BY_CATEGORY[category] ?: emptyList()
-    val rootName = Notes.pitchClassToName(selectedRoot)
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .horizontalScroll(rememberScrollState())
-            .padding(horizontal = 12.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-    ) {
-        formulas.forEach { formula ->
-            val isSelected = formula == selectedFormula
-            FilterChip(
-                selected = isSelected,
-                onClick = { onFormulaSelected(formula) },
-                label = {
-                    Text(
-                        text = "$rootName${formula.symbol}",
-                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                    )
-                },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                    selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                ),
-            )
-        }
-    }
-}
-
-/**
- * Emits inversion filter chips inline (no wrapping Row — caller provides the container).
- *
- * Each chip shows a voicing count badge (e.g., "1st Inv (3)") so users can see
- * at a glance how many voicings exist for each inversion before tapping.
- *
- * @param selected The currently selected inversion filter, or null for "All".
- * @param onSelected Callback when a filter chip is tapped.
- * @param hasSeventhIntervals Whether to show the "3rd Inv" chip (only for 7th chords).
- * @param inversionCounts Map of inversion type to voicing count, used for badge display.
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun InversionFilterChips(
-    selected: ChordInfo.Inversion?,
-    onSelected: (ChordInfo.Inversion?) -> Unit,
-    hasSeventhIntervals: Boolean = false,
-    inversionCounts: Map<ChordInfo.Inversion, Int> = emptyMap(),
-) {
-    val totalCount = inversionCounts.values.sum()
-
-    val options = buildList {
-        add(null to stringResource(R.string.label_all))
-        add(ChordInfo.Inversion.ROOT to stringResource(R.string.label_root))
-        add(ChordInfo.Inversion.FIRST to "1st Inv")
-        add(ChordInfo.Inversion.SECOND to "2nd Inv")
-        if (hasSeventhIntervals) {
-            add(ChordInfo.Inversion.THIRD to "3rd Inv")
-        }
-    }
-
-    options.forEach { (inversion, label) ->
-        val isSelected = inversion == selected
-        val count = if (inversion == null) totalCount else inversionCounts[inversion] ?: 0
-        val displayLabel = if (inversionCounts.isNotEmpty()) "$label ($count)" else label
-        FilterChip(
-            selected = isSelected,
-            onClick = { onSelected(inversion) },
-            label = {
-                Text(
-                    text = displayLabel,
-                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                )
-            },
-            colors = FilterChipDefaults.filterChipColors(
-                selectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                selectedLabelColor = MaterialTheme.colorScheme.onTertiaryContainer,
-            ),
-        )
-        Spacer(modifier = Modifier.width(6.dp))
-    }
-}
-
-/**
- * Inversion comparison view — groups voicings by inversion type and
- * displays them in scrollable sections for side-by-side comparison.
- *
- * Each section shows the inversion type, bass note, a horizontal row
- * of voicing cards, and a play button. A "Play All Inversions" button
- * at the top plays one representative voicing from each inversion
- * sequentially so users can hear the harmonic difference.
- */
-@Composable
-private fun InversionCompareView(
-    grouped: Map<ChordInfo.Inversion, List<ChordVoicing>>,
-    tuning: List<UkuleleString>,
-    rootPitchClass: Int,
-    formula: ChordFormula,
-    onVoicingSelected: (ChordVoicing) -> Unit,
-    onPlayVoicing: ((ChordVoicing) -> Unit)?,
-    onPlayAllInversions: (() -> Unit)?,
-    leftHanded: Boolean,
-    onExitCompare: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    // Ordered list of inversions that actually have voicings
-    val availableInversions = ChordInfo.Inversion.entries.filter { grouped.containsKey(it) }
-
-    LazyColumn(
-        modifier = modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        // Educational tip + Play All + Back
-        item {
-            Text(
-                text = stringResource(R.string.chord_library_inversion_tip),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(bottom = 8.dp),
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                if (onPlayAllInversions != null && availableInversions.size > 1) {
-                    Button(
-                        onClick = onPlayAllInversions,
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.PlayArrow,
-                            contentDescription = stringResource(R.string.cd_play_all_inversions),
-                            modifier = Modifier.size(18.dp),
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(stringResource(R.string.chord_library_play_all_inversions))
-                    }
-                }
-                OutlinedButton(onClick = onExitCompare) {
-                    Text(stringResource(R.string.action_back))
-                }
-            }
-
-            Spacer(modifier = Modifier.height(4.dp))
-        }
-
-        // One section per inversion type
-        availableInversions.forEach { inversion ->
-            val voicings = grouped[inversion] ?: return@forEach
-            val bestVoicing = voicings.first()
-            val bassPc = ChordInfo.bassPitchClass(bestVoicing.frets, tuning)
-            val bassName = Notes.pitchClassToName(bassPc)
-
-            item {
-                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                Spacer(modifier = Modifier.height(8.dp))
-
-                // Section header: inversion label + bass note + play button
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Column {
-                        Text(
-                            text = inversion.localizedLabel(),
-                            style = MaterialTheme.typography.titleSmall,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                        Text(
-                            text = stringResource(R.string.chord_library_bass_prefix) + bassName + " \u2022 " +
-                                if (voicings.size == 1) stringResource(R.string.chord_library_voicing_singular, voicings.size)
-                                else stringResource(R.string.chord_library_voicings, voicings.size),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
-                    if (onPlayVoicing != null) {
-                        IconButton(onClick = { onPlayVoicing(bestVoicing) }) {
-                            Icon(
-                                imageVector = Icons.Filled.PlayArrow,
-                                contentDescription = stringResource(R.string.cd_play_item, inversion.localizedLabel()),
-                                tint = MaterialTheme.colorScheme.primary,
-                            )
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(6.dp))
-            }
-
-            // Horizontal scrollable row of voicing cards
-            item {
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                ) {
-                    items(voicings) { voicing ->
-                        val bassIndex = ChordInfo.findBassStringIndex(voicing.frets, tuning)
-                        VerticalChordDiagram(
-                            voicing = voicing,
-                            onClick = { onVoicingSelected(voicing) },
-                            leftHanded = leftHanded,
-                            inversionLabel = null, // Already shown in section header
-                            bassStringIndex = bassIndex,
-                            modifier = Modifier.width(160.dp),
-                        )
-                    }
-                }
-            }
-        }
-
-        // Handle case: only one inversion type available
-        if (availableInversions.size == 1) {
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = stringResource(
-                        R.string.chord_library_reentrant_limited,
-                        grouped[availableInversions.first()]?.size ?: 0,
-                    ),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                )
-            }
-        }
-    }
-}
-
-/**
- * Grid of mini chord diagram cards, 2 columns wide.
- *
- * Each card shows a chord diagram with an optional heart icon for
- * toggling favorites. When [rootPitchClass] and [formula] are provided,
- * each voicing is labeled with its inversion type and the bass note is highlighted.
- *
- * @param emptyTitle Primary message shown when no voicings are available.
- * @param emptySubtitle Optional secondary message providing context (e.g., why
- *   an inversion filter returned no results).
- */
-@Composable
-private fun VoicingGrid(
-    voicings: List<ChordVoicing>,
-    tuning: List<UkuleleString>,
-    onVoicingSelected: (ChordVoicing) -> Unit,
-    onVoicingLongPressed: ((ChordVoicing) -> Unit)? = null,
-    isFavorite: ((ChordVoicing) -> Boolean)? = null,
-    onFavoriteClick: ((ChordVoicing) -> Unit)? = null,
-    leftHanded: Boolean = false,
-    rootPitchClass: Int = 0,
-    formula: ChordFormula? = null,
-    emptyTitle: String = "No voicings found",
-    emptySubtitle: String? = null,
-    modifier: Modifier = Modifier,
-) {
-    if (voicings.isEmpty()) {
-        Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                text = emptyTitle,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            if (emptySubtitle != null) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = emptySubtitle,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                )
-            }
-        }
-    } else {
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 160.dp),
-            modifier = modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            val chordName = Notes.pitchClassToName(rootPitchClass) + (formula?.symbol ?: "")
-
-            items(voicings) { voicing ->
-                // Compute inversion info for this voicing
-                val inversionLabel = formula?.let {
-                    ChordInfo.determineInversion(voicing.frets, rootPitchClass, it, tuning).localizedLabel()
-                }
-                val bassIndex = formula?.let {
-                    ChordInfo.findBassStringIndex(voicing.frets, tuning)
-                }
-
-                VerticalChordDiagram(
-                    voicing = voicing,
-                    onClick = { onVoicingSelected(voicing) },
-                    onLongClick = onVoicingLongPressed?.let { callback -> { callback(voicing) } },
-                    chordName = chordName,
-                    leftHanded = leftHanded,
-                    inversionLabel = inversionLabel,
-                    bassStringIndex = bassIndex,
-                    isFavorite = isFavorite?.invoke(voicing) == true,
-                    onFavoriteClick = onFavoriteClick?.let { callback -> { callback(voicing) } },
-                )
-            }
-        }
-    }
-}
-
-/**
- * Search bar with suggestion dropdown for finding chords by name.
- *
- * Supports canonical symbols, aliases (e.g., "CM", "C-7"), and
- * slash chords (e.g., "C/E"). Suggestions update as the user types.
- */
-@Composable
-private fun ChordSearchBar(
-    query: String,
-    results: List<ChordSearchResult>,
-    onQueryChange: (String) -> Unit,
-    onResultSelected: (ChordSearchResult) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val searchHint = stringResource(R.string.chord_library_search_hint)
-    val clearDesc = stringResource(R.string.chord_library_search_clear)
-    val noResultsText = stringResource(R.string.chord_library_search_no_results)
-
-    Column(modifier = modifier.padding(horizontal = 16.dp)) {
-        OutlinedTextField(
-            value = query,
-            onValueChange = onQueryChange,
-            modifier = Modifier
-                .fillMaxWidth()
-                .semantics { contentDescription = searchHint },
-            placeholder = { Text(searchHint) },
-            singleLine = true,
-            shape = RoundedCornerShape(12.dp),
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Filled.Search,
-                    contentDescription = null,
-                )
-            },
-            trailingIcon = {
-                if (query.isNotEmpty()) {
-                    IconButton(onClick = { onQueryChange("") }) {
-                        Icon(
-                            imageVector = Icons.Filled.Clear,
-                            contentDescription = clearDesc,
-                        )
-                    }
-                }
-            },
-        )
-
-        if (query.isNotEmpty()) {
-            Surface(
-                shape = RoundedCornerShape(8.dp),
-                tonalElevation = 2.dp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp),
-            ) {
-                if (results.isEmpty()) {
-                    Text(
-                        text = noResultsText,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .semantics { liveRegion = LiveRegionMode.Polite },
-                    )
-                } else {
-                    Column {
-                        LazyColumn(
-                            modifier = Modifier.heightIn(max = 480.dp),
-                        ) {
-                            items(results) { result ->
-                                ChordSuggestionRow(
-                                    result = result,
-                                    onClick = { onResultSelected(result) },
-                                )
-                            }
-                        }
-                        if (results.size > 8) {
-                            Text(
-                                text = "${results.size} matches",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 4.dp),
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun ChordSuggestionRow(
-    result: ChordSearchResult,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val qualityLabel = buildString {
-        append(result.quality)
-        result.inversion?.let { append(", ${it.localizedLabel()}") }
-    }
-
-    val rootName = Notes.pitchClassToName(result.rootPitchClass)
-    val aliasText = if (result.formula.aliases.isNotEmpty()) {
-        result.formula.aliases.joinToString(", ") { rootName + it }
-    } else {
-        null
-    }
-
-    val accessibilityLabel = buildString {
-        append("${result.displayName}, $qualityLabel")
-        if (aliasText != null) append(". Also: $aliasText")
-    }
-
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 10.dp)
-            .semantics {
-                contentDescription = accessibilityLabel
-            },
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = result.displayName,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Medium,
-            )
-            if (aliasText != null) {
-                Text(
-                    text = aliasText,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-        }
-        Text(
-            text = qualityLabel,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(start = 8.dp),
-        )
-    }
 }

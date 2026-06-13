@@ -13,7 +13,6 @@ import com.baijum.ukufretboard.domain.FrameGate
 import com.baijum.ukufretboard.domain.NeuralArbitrator
 import com.baijum.ukufretboard.domain.NeuralPitchResult
 import com.baijum.ukufretboard.domain.NeuralPitchSupervisor
-import com.baijum.ukufretboard.domain.NoteInfo
 import com.baijum.ukufretboard.domain.PitchDetector
 import com.baijum.ukufretboard.domain.PitchResult
 import com.baijum.ukufretboard.domain.StringMatch
@@ -27,64 +26,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 import kotlin.math.abs
-
-/**
- * Tuning accuracy status shown to the user.
- */
-enum class TuningStatus {
-    /** No sound detected. */
-    SILENT,
-    /** Detected note is more than [TunerViewModel.CLOSE_CENTS] flat. */
-    FLAT,
-    /** Detected note is more than [TunerViewModel.CLOSE_CENTS] sharp. */
-    SHARP,
-    /** Detected note is within [TunerViewModel.IN_TUNE_CENTS] of the target. */
-    IN_TUNE,
-    /** Detected note is close but not yet in tune. */
-    CLOSE,
-}
-
-enum class NeuralRuntimeStatus {
-    LOADING,
-    ACTIVE,
-    FALLBACK,
-}
-
-/**
- * UI state for the Tuner screen.
- */
-data class TunerUiState(
-    /** Whether the microphone is actively capturing audio. */
-    val isListening: Boolean = false,
-    /** Display name of the detected note (e.g. "A4"), or null if silent. */
-    val detectedNote: String? = null,
-    /** Cents deviation from the nearest note (−50 .. +50). */
-    val centsDeviation: Double = 0.0,
-    /** Display-only smoothed cents for calmer needle movement. */
-    val displayCentsDeviation: Double = 0.0,
-    /** Detection confidence (lower = more confident in YIN terms). */
-    val confidence: Double = 1.0,
-    /** Current tuning accuracy status. */
-    val tuningStatus: TuningStatus = TuningStatus.SILENT,
-    /** The nearest string in the current tuning, if any. */
-    val targetString: StringMatch? = null,
-    /** Per-string progress — true when a string has been successfully tuned. */
-    val stringProgress: List<Boolean> = listOf(false, false, false, false),
-    /** The underlying [NoteInfo] for downstream consumers (e.g. reference tone). */
-    val noteInfo: NoteInfo? = null,
-    /** Whether SwiftF0 session/model is available on this device/build. */
-    val isNeuralAvailable: Boolean = false,
-    /** Whether SwiftF0 is actively producing usable runtime estimates. */
-    val isNeuralActive: Boolean = false,
-    /** High-level status shown in the permanent tuner badge. */
-    val neuralRuntimeStatus: NeuralRuntimeStatus = NeuralRuntimeStatus.LOADING,
-    /** Index of the string that auto-advance is suggesting the user tune next, or -1 if none. */
-    val autoAdvanceTarget: Int = -1,
-    /** Note name that was sustained long enough before silence (e.g. "A4"), or null. */
-    val lastSettledNote: String? = null,
-    /** Cents deviation when the settled note was last updated; drives the frozen needle. */
-    val lastSettledCents: Double = 0.0,
-)
 
 /**
  * ViewModel for the Tuner feature.
