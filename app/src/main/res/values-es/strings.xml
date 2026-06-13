@@ -269,6 +269,7 @@
     <string name="songbook_start_metronome">Iniciar metrónomo</string>
     <plurals name="stats_views">
         <item quantity="one">%1$d vista</item>
+        <item quantity="many">%1$d vistas</item>
         <item quantity="other">%1$d vistas</item>
     </plurals>
     <string name="stats_time_under_minute">&lt; 1 min</string>

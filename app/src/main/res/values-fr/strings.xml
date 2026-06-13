@@ -269,6 +269,7 @@
     <string name="songbook_start_metronome">Démarrer le métronome</string>
     <plurals name="stats_views">
         <item quantity="one">%1$d vue</item>
+        <item quantity="many">%1$d vues</item>
         <item quantity="other">%1$d vues</item>
     </plurals>
     <string name="stats_time_under_minute">&lt; 1 min</string>
