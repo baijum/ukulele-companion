@@ -5,9 +5,11 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.baijum.ukufretboard.audio.AudioCaptureEngine
-import com.baijum.ukufretboard.domain.ArpeggioDetector
 import com.baijum.ukufretboard.domain.AudioChordDetector
 import com.baijum.ukufretboard.domain.ChordDetector
+import com.baijum.ukufretboard.domain.ChordFrameInput
+import com.baijum.ukufretboard.domain.FrameGateResult
+import com.baijum.ukufretboard.domain.PitchMonitorStateMachine
 import com.baijum.ukufretboard.domain.NeuralPitchResult
 import com.baijum.ukufretboard.domain.NeuralPitchSupervisor
 import com.baijum.ukufretboard.domain.PitchDetector
@@ -91,18 +93,8 @@ data class PitchMonitorUiState(
 class PitchMonitorViewModel : ViewModel() {
 
     companion object {
-        /** How many recent frequency readings to keep for median smoothing. */
-        private const val SMOOTHING_WINDOW = 5
-
         /** Maximum pitch history duration in milliseconds (~10 seconds). */
         private const val HISTORY_DURATION_MS = 10_000L
-
-        /**
-         * Number of consecutive chord detections required before showing
-         * the chord in the UI. Lower than before to make live feedback
-         * responsive for short ukulele strums.
-         */
-        private const val CHORD_HOLD_FRAMES = 2
 
         /**
          * Run chord detection (FFT + Chromagram) every Nth frame.
@@ -113,36 +105,6 @@ class PitchMonitorViewModel : ViewModel() {
          * at ~21 Hz, balancing responsiveness with CPU use.
          */
         private const val CHORD_DETECTION_INTERVAL = 2
-
-        /**
-         * How many detection cycles can miss before clearing a shown chord.
-         * This avoids UI dropouts between strums and brief noisy frames.
-         */
-        private const val CHORD_MISS_TOLERANCE = 3
-
-        /**
-         * Consecutive arpeggio detections required before showing the chord.
-         * Lower than [CHORD_HOLD_FRAMES] because arpeggios inherently
-         * accumulate over time and don't need as much confirmation.
-         */
-        private const val ARPEGGIO_HOLD_FRAMES = 2
-
-        /**
-         * RMS ratio threshold for onset (pluck) detection.
-         *
-         * When the current frame's RMS exceeds the previous frame's RMS by
-         * this factor, a transient attack is assumed and pitch updates are
-         * suppressed for [BLANKING_FRAMES]. Same value as [TunerViewModel].
-         */
-        private const val ONSET_RATIO_THRESHOLD = 3.0f
-
-        /**
-         * Number of frames to suppress after detecting an onset.
-         *
-         * At ~23 ms per frame (75 % overlap), 2 frames ≈ 46 ms — aligned
-         * with the typical 20–50 ms attack phase of a plucked string.
-         */
-        private const val BLANKING_FRAMES = 2
 
         /** Run neural supervisor every Nth frame (~115 ms at 23 ms/frame). */
         private const val NEURAL_SUPERVISOR_INTERVAL = 5
@@ -168,39 +130,13 @@ class PitchMonitorViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(PitchMonitorUiState())
     val uiState: StateFlow<PitchMonitorUiState> = _uiState.asStateFlow()
 
-    /**
-     * RMS energy floor for the noise gate, configurable from Settings.
-     * Accessed from the audio processing thread, so marked volatile.
-     */
-    @Volatile
-    private var noiseGateRms = 0.005f
+    // --- Shared state machine ------------------------------------------------
+
+    private val stateMachine = PitchMonitorStateMachine()
 
     fun setNoiseGateRms(rms: Float) {
-        noiseGateRms = rms
+        stateMachine.noiseGateRms = rms
     }
-
-    // --- Smoothing state -----------------------------------------------------
-
-    /** Ring buffer of recent frequency readings for median pitch smoothing. */
-    private val recentFrequencies = ArrayDeque<Double>(SMOOTHING_WINDOW)
-
-    /** Last detected chord name (for temporal smoothing). */
-    private var lastChordName: String? = null
-
-    /** Consecutive frames the same chord has been detected. */
-    private var chordHoldCount = 0
-
-    /** The chord name currently displayed (after hold threshold). */
-    private var displayedChord: String? = null
-
-    /** Notes for the currently displayed chord. */
-    private var displayedChordNotes: List<String> = emptyList()
-
-    /** Confidence of the most recent chord detection (for the UI). */
-    private var lastChordConfidence = 0f
-
-    /** Consecutive detection cycles where no chord was found. */
-    private var chordMissCount = 0
 
     /** Frame counter for throttling chord detection to every Nth frame. */
     private var chordFrameCounter = 0
@@ -208,31 +144,8 @@ class PitchMonitorViewModel : ViewModel() {
     /** Most recent chromagram from chord detection, kept across throttled frames. */
     private var lastChromaEnergy = FloatArray(12)
 
-    // --- Arpeggio detection state --------------------------------------------
-
-    private val arpeggioDetector = ArpeggioDetector(windowMs = 3_000L)
-
-    private var lastArpeggioChordName: String? = null
-    private var arpeggioHoldCount = 0
-    private var displayedArpeggioChord: String? = null
-    private var displayedArpeggioChordNotes: List<String> = emptyList()
-
-    /** Timestamp of the most recent simultaneous chord confirmation. */
-    private var lastSimultaneousChordMs = 0L
-
-    /** Timestamp of the most recent arpeggio chord confirmation. */
-    private var lastArpeggioChordMs = 0L
-
     /** Application context used to initialize optional neural supervisor. */
     private var appContext: Context? = null
-
-    // --- Onset detection state -----------------------------------------------
-
-    /** RMS energy of the previous frame, for onset (pluck) detection. */
-    private var previousRms = 0f
-
-    /** Remaining frames to suppress after an onset is detected. */
-    private var blankingFramesRemaining = 0
 
     // --- Pitch continuity state ----------------------------------------------
 
@@ -272,24 +185,9 @@ class PitchMonitorViewModel : ViewModel() {
         frameGate.awaitEnter()
         try {
             _uiState.update { it.copy(isListening = true) }
-            recentFrequencies.clear()
-            lastChordName = null
-            chordHoldCount = 0
-            displayedChord = null
-            displayedChordNotes = emptyList()
-            lastChordConfidence = 0f
-            chordMissCount = 0
+            stateMachine.reset()
             chordFrameCounter = 0
             lastChromaEnergy = FloatArray(12)
-            arpeggioDetector.clear()
-            lastArpeggioChordName = null
-            arpeggioHoldCount = 0
-            displayedArpeggioChord = null
-            displayedArpeggioChordNotes = emptyList()
-            lastSimultaneousChordMs = 0L
-            lastArpeggioChordMs = 0L
-            previousRms = 0f
-            blankingFramesRemaining = 0
             previousFrequency = null
             neuralFrameCounter = 0
             lastNeuralResult = null
@@ -313,12 +211,11 @@ class PitchMonitorViewModel : ViewModel() {
     /**
      * Stops listening and releases the microphone.
      *
-     * Internal processing state ([recentFrequencies], [lastChordName], etc.)
+     * Internal processing state (the [stateMachine], neural supervisor, etc.)
      * is deliberately **not** cleared here because [processBuffer] may still
      * be executing on a background thread ([kotlinx.coroutines.Dispatchers.Default]).
-     * Clearing a non-thread-safe [ArrayDeque] from the main thread while the
-     * background thread iterates it causes a [ConcurrentModificationException]
-     * (or [IndexOutOfBoundsException]) that crashes the Activity.
+     * Clearing non-thread-safe state from the main thread while the background
+     * thread uses it causes a crash.
      *
      * The internal state is reset in [startListening] instead, before any
      * new background work begins.
@@ -385,60 +282,41 @@ class PitchMonitorViewModel : ViewModel() {
     }
 
     private fun processBufferInner(samples: FloatArray) {
-        // Guard: the FFT requires a power-of-2 buffer.  When the recorder is
-        // stopped, a partial (non-power-of-2) buffer may slip through; drop it.
         val n = samples.size
         if (n == 0 || n and (n - 1) != 0) return
 
-        // --- Onset detection ----------------------------------------------------
-        // Detect sudden energy spikes (pluck attacks) and suppress pitch
-        // updates for a few frames so the non-periodic transient doesn't
-        // produce spike artifacts in the scrolling graph.
         val currentRms = PitchDetector.rms(samples)
-        if (previousRms > 0f && currentRms / previousRms > ONSET_RATIO_THRESHOLD) {
-            blankingFramesRemaining = BLANKING_FRAMES
-        }
-        previousRms = currentRms
-
-        if (blankingFramesRemaining > 0) {
-            blankingFramesRemaining--
-            // Still emit a null PitchPoint so the scrolling graph shows a
-            // gap rather than freezing (unlike TunerViewModel which just
-            // returns early — the pitch canvas needs continuous timestamps).
-            val now = System.currentTimeMillis()
-            val newPoint = PitchPoint(timestampMs = now, midiNote = null)
-            _uiState.update { current ->
-                val cutoff = now - HISTORY_DURATION_MS
-                val trimmed = current.pitchHistory.dropWhile { it.timestampMs < cutoff }
-                current.copy(pitchHistory = trimmed + newPoint)
-            }
-            return
-        }
-
         val now = System.currentTimeMillis()
 
-        // --- Noise gate ---------------------------------------------------------
-        // Suppress all detection when the frame is too quiet (background noise).
-        if (currentRms < noiseGateRms) {
-            previousFrequency = null
-            recentFrequencies.clear()
-            lastChromaEnergy = FloatArray(12)
-            val newPoint = PitchPoint(timestampMs = now, midiNote = null)
-            _uiState.update { current ->
-                val cutoff = now - HISTORY_DURATION_MS
-                val trimmed = current.pitchHistory.dropWhile { it.timestampMs < cutoff }
-                current.copy(
-                    pitchHistory = trimmed + newPoint,
-                    currentNote = null,
-                    chromaEnergy = FloatArray(12),
-                )
+        when (stateMachine.gateFrame(currentRms)) {
+            FrameGateResult.Blanking -> {
+                val newPoint = PitchPoint(timestampMs = now, midiNote = null)
+                _uiState.update { current ->
+                    val cutoff = now - HISTORY_DURATION_MS
+                    val trimmed = current.pitchHistory.dropWhile { it.timestampMs < cutoff }
+                    current.copy(pitchHistory = trimmed + newPoint)
+                }
+                return
             }
-            return
+            FrameGateResult.Silent -> {
+                previousFrequency = null
+                lastChromaEnergy = FloatArray(12)
+                val newPoint = PitchPoint(timestampMs = now, midiNote = null)
+                _uiState.update { current ->
+                    val cutoff = now - HISTORY_DURATION_MS
+                    val trimmed = current.pitchHistory.dropWhile { it.timestampMs < cutoff }
+                    current.copy(
+                        pitchHistory = trimmed + newPoint,
+                        currentNote = null,
+                        chromaEnergy = FloatArray(12),
+                    )
+                }
+                return
+            }
+            FrameGateResult.Process -> { /* proceed with detection */ }
         }
 
-        // =====================================================================
-        // PATH 1: Pitch detection (YIN) → scrolling visualization
-        // =====================================================================
+        // --- Pitch detection (YIN + neural arbitration) -------------------------
         val yinResult = PitchDetector.detect(
             samples,
             AudioCaptureEngine.SAMPLE_RATE,
@@ -447,53 +325,15 @@ class PitchMonitorViewModel : ViewModel() {
         val neuralResult = runNeuralSupervisor(samples)
         val pitchResult = arbitrate(yinResult, neuralResult)
 
-        val midiNote: Float?
-        val currentNote: String?
+        previousFrequency = pitchResult?.frequencyHz
 
-        if (pitchResult != null) {
-            // Track for next frame's continuity constraint.
-            previousFrequency = pitchResult.frequencyHz
-
-            // Smooth the frequency with a median filter
-            recentFrequencies.addLast(pitchResult.frequencyHz)
-            if (recentFrequencies.size > SMOOTHING_WINDOW) {
-                recentFrequencies.removeFirst()
-            }
-            val smoothedHz = medianFrequency()
-
-            // Convert to continuous MIDI note number for smooth Y positioning
-            midiNote = (69.0 + 12.0 * log2(smoothedHz / 440.0)).toFloat()
-
-            // Get note name for display
-            val noteInfo = TunerNoteMapper.mapFrequency(smoothedHz)
-            currentNote = noteInfo?.let { "${it.noteName}${it.octave}" }
-        } else {
-            previousFrequency = null
-            recentFrequencies.clear()
-            midiNote = null
-            currentNote = null
-        }
-
-        val newPoint = PitchPoint(timestampMs = now, midiNote = midiNote)
-
-        // Feed detected pitch to the arpeggio detector
-        if (midiNote != null) {
-            val pitchClass = midiNote.roundToInt() % 12
-            arpeggioDetector.addNote(now, pitchClass)
-        }
-
-        // =====================================================================
-        // PATH 2: Chord detection (FFT → Chromagram → ChordDetector)
-        // Throttled to every CHORD_DETECTION_INTERVAL frames to avoid
-        // running the heavier FFT pipeline at the full 43 fps overlap rate.
-        // =====================================================================
-        if (chordFrameCounter++ % CHORD_DETECTION_INTERVAL == 0) {
+        // --- Chord detection (throttled) ----------------------------------------
+        val chordInput: ChordFrameInput? = if (chordFrameCounter++ % CHORD_DETECTION_INTERVAL == 0) {
             val preferredRootPitchClass = preferredRootPitchClass(neuralResult, pitchResult)
             val chordResult = AudioChordDetector.detect(
                 samples = samples,
                 preferredRootPitchClass = preferredRootPitchClass,
             )
-            lastChordConfidence = chordResult.confidence
             lastChromaEnergy = chordResult.chromagram
 
             val rawChordName = when (val det = chordResult.detection) {
@@ -505,85 +345,33 @@ class PitchMonitorViewModel : ViewModel() {
                 else -> emptyList()
             }
 
-            // Temporal smoothing: require the same chord for CHORD_HOLD_FRAMES
-            if (rawChordName == lastChordName && rawChordName != null) {
-                chordHoldCount++
-                chordMissCount = 0
-            } else {
-                lastChordName = rawChordName
-                chordHoldCount = if (rawChordName != null) 1 else 0
-                chordMissCount = if (rawChordName == null) chordMissCount + 1 else 0
-            }
-
-            if (chordHoldCount >= CHORD_HOLD_FRAMES) {
-                displayedChord = rawChordName
-                displayedChordNotes = rawChordNotes
-                if (rawChordName != null) lastSimultaneousChordMs = now
-            } else if (rawChordName == null && chordMissCount > CHORD_MISS_TOLERANCE) {
-                displayedChord = null
-                displayedChordNotes = emptyList()
-                lastChordName = null
-                chordHoldCount = 0
-            }
-        }
-
-        // =====================================================================
-        // PATH 3: Arpeggio detection (accumulated pitch classes → ChordDetector)
-        // =====================================================================
-        val arpeggioResult = arpeggioDetector.detect(now)
-        val rawArpChordName = arpeggioResult?.result?.name
-        val rawArpChordNotes = arpeggioResult?.result?.notes?.map { it.name } ?: emptyList()
-
-        if (rawArpChordName == lastArpeggioChordName && rawArpChordName != null) {
-            arpeggioHoldCount++
+            ChordFrameInput(
+                name = rawChordName,
+                notes = rawChordNotes,
+                confidence = chordResult.confidence,
+            )
         } else {
-            lastArpeggioChordName = rawArpChordName
-            arpeggioHoldCount = if (rawArpChordName != null) 1 else 0
+            null
         }
 
-        if (arpeggioHoldCount >= ARPEGGIO_HOLD_FRAMES) {
-            displayedArpeggioChord = rawArpChordName
-            displayedArpeggioChordNotes = rawArpChordNotes
-            if (rawArpChordName != null) lastArpeggioChordMs = now
-        } else if (rawArpChordName == null) {
-            displayedArpeggioChord = null
-            displayedArpeggioChordNotes = emptyList()
+        // --- Delegate to shared state machine -----------------------------------
+        val frame = stateMachine.processDetections(
+            pitchHz = pitchResult?.frequencyHz,
+            chordInput = chordInput,
+            timestampMs = now,
+        )
+
+        // --- Build UI state from frame output -----------------------------------
+        val midiNote: Float? = frame.smoothedFrequency?.let {
+            (69.0 + 12.0 * log2(it / 440.0)).toFloat()
         }
 
-        // =====================================================================
-        // Merge: most-recent-wins between simultaneous and arpeggio detection
-        // =====================================================================
-        val finalChord: String?
-        val finalChordNotes: List<String>
-        val finalIsArpeggio: Boolean
-
-        if (displayedChord != null && displayedArpeggioChord != null) {
-            if (lastSimultaneousChordMs >= lastArpeggioChordMs) {
-                finalChord = displayedChord
-                finalChordNotes = displayedChordNotes
-                finalIsArpeggio = false
-            } else {
-                finalChord = displayedArpeggioChord
-                finalChordNotes = displayedArpeggioChordNotes
-                finalIsArpeggio = true
-            }
-        } else if (displayedChord != null) {
-            finalChord = displayedChord
-            finalChordNotes = displayedChordNotes
-            finalIsArpeggio = false
-        } else if (displayedArpeggioChord != null) {
-            finalChord = displayedArpeggioChord
-            finalChordNotes = displayedArpeggioChordNotes
-            finalIsArpeggio = true
-        } else {
-            finalChord = null
-            finalChordNotes = emptyList()
-            finalIsArpeggio = false
+        val currentNote: String? = frame.smoothedFrequency?.let { hz ->
+            TunerNoteMapper.mapFrequency(hz)?.let { "${it.noteName}${it.octave}" }
         }
 
-        // =====================================================================
-        // Update UI state
-        // =====================================================================
+        val newPoint = PitchPoint(timestampMs = now, midiNote = midiNote)
+
         _uiState.update { current ->
             val cutoff = now - HISTORY_DURATION_MS
             val trimmed = current.pitchHistory.dropWhile { it.timestampMs < cutoff }
@@ -597,11 +385,11 @@ class PitchMonitorViewModel : ViewModel() {
             current.copy(
                 pitchHistory = trimmed + newPoint,
                 currentNote = currentNote,
-                detectedChord = finalChord,
-                detectedChordNotes = finalChordNotes,
-                chordConfidence = if (finalChord != null) lastChordConfidence else 0f,
+                detectedChord = frame.displayedChord,
+                detectedChordNotes = frame.displayedChordNotes,
+                chordConfidence = frame.chordConfidence,
                 recentNotes = updatedNotes,
-                isArpeggioChord = finalIsArpeggio,
+                isArpeggioChord = frame.isArpeggioChord,
                 chromaEnergy = lastChromaEnergy.copyOf(),
             )
         }
@@ -610,23 +398,9 @@ class PitchMonitorViewModel : ViewModel() {
             yinResult = yinResult,
             neuralResult = neuralResult,
             finalResult = pitchResult,
-            chordConfidence = lastChordConfidence,
-            displayedChord = displayedChord,
+            chordConfidence = frame.chordConfidence,
+            displayedChord = frame.displayedChord,
         )
-    }
-
-    /**
-     * Returns the median of recent frequency readings.
-     * Median is more robust than mean against occasional harmonic-jump outliers.
-     */
-    private fun medianFrequency(): Double {
-        val sorted = recentFrequencies.sorted()
-        val mid = sorted.size / 2
-        return if (sorted.size % 2 == 0 && sorted.size >= 2) {
-            (sorted[mid - 1] + sorted[mid]) / 2.0
-        } else {
-            sorted[mid]
-        }
     }
 
     private fun initializeNeuralSupervisor() {
