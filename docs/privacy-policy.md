@@ -19,21 +19,23 @@ Uke does **not**:
 
 ## Microphone Access
 
-The app requests microphone access **only** for the optional **Tuner** feature.
-When you use the Tuner, the app listens to audio from your device's microphone
-to detect the pitch of your ukulele strings in real time.
+The app requests microphone access **only** for its optional pitch-detection
+features — the **Tuner**, **Pitch Monitor**, **Play Along**, and the recording
+mode of the **Melody Notepad**. When you use one of these features, the app
+listens to audio from your device's microphone to detect the pitch of your
+ukulele strings in real time.
 
 - Audio is processed **entirely on your device** and is never recorded, saved, or transmitted.
 - Audio data is discarded immediately after pitch detection; no audio buffers are retained.
-- The microphone is only active while the Tuner is running. It stops as soon as you leave the Tuner screen or tap "Stop."
+- The microphone is only active while one of these features is running. It stops as soon as you leave the screen or tap "Stop."
 - If you deny microphone permission, every other feature of the app continues to work normally.
 
 ## Backup (Optional)
 
-On Android, you may optionally use Google Drive for backup. The app accesses only
-its own app-specific folder on your Google Drive and does not read or modify any
-other files. Google's own privacy policy applies to Google Sign-In and Drive
-services. On iOS, you can export and import backups as local files.
+You may optionally export your data to a local file and import it back later.
+On both Android and iOS, backups are written to and read from local files you
+choose; the app does not upload your data to any cloud service or external
+server.
 
 ## Local Storage
 

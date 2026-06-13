@@ -16,7 +16,7 @@ You can change the BPM while the metronome is playing — the new tempo takes ef
 
 ## Time Signature
 
-Select from 2/4, 3/4, 4/4, 5/4, 6/4, or 7/4 using the filter chips. The default is 4/4. Changing the time signature updates the number of beat indicators and resets the accent pattern.
+Select from 2/4, 3/4, 4/4, 5/4, 6/4, 7/4, 6/8, or 12/8 using the filter chips. The default is 4/4. Changing the time signature updates the number of beat indicators and resets the accent pattern. The compound meters (6/8 and 12/8) use a triplet subdivision automatically, so the subdivision selector is locked while one is active.
 
 ## Accent Pattern
 

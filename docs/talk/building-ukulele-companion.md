@@ -15,7 +15,7 @@ headingDivider: false
 ![icon](../app-icon-512.png)
 
 <!--
-Speaker: Introduce yourself and the repo (~275 commits on main). Root commit 9abb4b3 “Ukulele Fretboard Chord Explorer.” This deck is about *process*, not a feature tour.
+Speaker: Introduce yourself and the repo (~600+ commits on main). Root commit 9abb4b3 “Ukulele Fretboard Chord Explorer.” This deck is about *process*, not a feature tour.
 -->
 
 ---

@@ -23,7 +23,7 @@ Ukulele Companion is a **free, fully offline** multiplatform app (Android + iOS)
 | **Android** | Kotlin 2.4.0, Jetpack Compose (BOM 2026.05.01), Material 3, Single Activity, MVVM, StateFlow |
 | **iOS** | Swift 6, SwiftUI, MVVM, `@StateObject`/`@Published`, iOS 16.0+, static `shared.framework` via Gradle |
 | **Audio ML** | ONNX Runtime 1.26.0 on both platforms (Android AAR, iOS xcframework via C API) |
-| **Build** | Gradle 9.4.1, AGP 9.2.1, Kotlin DSL, version catalog (`libs.versions.toml`) |
+| **Build** | Gradle 9.5.1, AGP 9.2.1, Kotlin DSL, version catalog (`libs.versions.toml`) |
 
 ## Package Structure
 
@@ -42,16 +42,16 @@ Ukulele Companion is a **free, fully offline** multiplatform app (Android + iOS)
 | `audio/` | `ToneGenerator`, `MetronomeEngine`, `AudioCaptureEngine` (44.1kHz PCM) |
 | `data/` | Repositories (SharedPreferences-backed), backup/restore manager |
 | `domain/` | `NeuralPitchSupervisor`, `ChordImageSharer`, `AchievementChecker` |
-| `ui/` | 55 Compose screens/components via `ModalNavigationDrawer` (no NavHost) |
-| `viewmodel/` | 13 ViewModels exposing `StateFlow` |
+| `ui/` | 76 Compose screens/components via `ModalNavigationDrawer` (no NavHost) |
+| `viewmodel/` | 14 ViewModels exposing `StateFlow` |
 
 ### iOS app (`iosApp/UkuleleCompanion/`)
 
 | Directory | Contents |
 |-----------|----------|
 | `Audio/` | `AudioCaptureEngine`, `TonePlayer`, `NeuralPitchSupervisor` (ONNX C API) |
-| `Views/` | 48 SwiftUI views across Play, Create, Learn, Reference tabs |
-| `ViewModels/` | 15 ViewModels using `@Published` |
+| `Views/` | 50 SwiftUI views across Play, Create, Learn, Reference tabs |
+| `ViewModels/` | 17 ViewModels using `@Published` |
 | `Helpers/` | `AccessibilityHelper`, `BackupRestoreManager` |
 
 ## Key Patterns
@@ -92,7 +92,7 @@ Skills in `.cursor/skills/` provide step-by-step workflows for common tasks:
 
 | Skill | When to use |
 |-------|-------------|
-| `add-translations` | Adding new user-facing strings to all 15 supported locales (Android `strings.xml` + iOS `Localizable.xcstrings`) |
+| `add-translations` | Adding new user-facing strings to all 16 supported locales (Android `strings.xml` + iOS `Localizable.xcstrings`) |
 | `android-release` | Build and upload an Android release based on an existing git tag |
 | `ios-release` | Build an iOS release based on an existing git tag |
 | `github-release` | Create a GitHub release with a version tag and auto-generated release notes |

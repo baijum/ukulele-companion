@@ -14,10 +14,11 @@ The Tuner is a chromatic tuner that listens to your ukulele through the micropho
 
 ## Tuner Display
 
-- **Note name** — large, color-coded text showing the detected pitch. Green means in tune, yellow means close, and red means the string needs significant adjustment.
-- **Needle meter** — a semicircular gauge showing the deviation in cents (-50 to +50). Center is perfectly in tune.
-- **Cents display** — a numeric readout (e.g., "+5 ¢") for precise tuning.
-- **Guidance text** — "Tune up", "Tune down", or "In tune" to tell you which direction to adjust.
+- **Tuning label** — shows the selected tuning and its open-string notes (and the A4 reference if you have changed it from 440 Hz).
+- **Note name** — large, color-coded text showing the detected pitch, with its octave below. Green means in tune, yellow means close, and red means the string needs significant adjustment.
+- **Needle meter** — a semicircular gauge showing the deviation in cents (-50 to +50), with a green in-tune zone in the centre.
+- **Frequency display** — a numeric readout in hertz (e.g., "440.0 Hz") for precise tuning.
+- **Guidance text** — when a string is matched, "Tune up", "Tune down", or "In tune" tells you which direction to adjust.
 
 ## String Buttons
 
@@ -47,4 +48,4 @@ The tuner adapts to whichever tuning you have selected in [Settings](08-settings
 - Play each string firmly and let it ring — the tuner needs a clear, sustained tone.
 - Tune from below the target pitch upward for better tuning stability.
 - The string buttons double as reference tones — tap them to hear what the string should sound like.
-- If the tuner picks up background noise, increase the **Noise filtering** slider in Settings. If it struggles to detect quiet playing, lower it.
+- If the tuner picks up background noise, increase the **Noise Gate** slider in Settings. If it struggles to detect quiet playing, lower it.

@@ -13,7 +13,7 @@ Control how the app plays back chords and notes.
 | **Sound enabled** | Toggle all sound playback on or off. |
 | **Volume** | Adjust the playback volume from 0% to 100%. |
 | **Note Duration** | How long each note rings out (300–1200 ms). |
-| **Strum Delay** | The delay between strings when strumming a chord (20–150 ms). A shorter delay sounds like a quick strum; a longer delay sounds like a slow arpeggio. |
+| **Strum Delay** | The delay between strings when strumming a chord (0–150 ms). A shorter delay sounds like a quick strum; a longer delay sounds like a slow arpeggio. |
 | **Strum Direction** | Choose between strumming down (low to high) or up (high to low). |
 | **Play on Tap** | When enabled, plays the note immediately when you tap a fret on the Explorer fretboard. |
 | **Noise filtering** | Controls how much background noise is filtered for the Tuner, Pitch Monitor, and Melody Notepad (0–100%, default 75%). Higher values filter more noise; lower values pick up quieter sounds. Increase in noisy environments or decrease in a quiet room for maximum sensitivity. |
@@ -43,7 +43,7 @@ Choose from four theme options:
 
 ## Tuning
 
-Select the tuning for your ukulele. The app adjusts the fretboard, chord detection, and playback accordingly.
+Select the tuning for your ukulele. The app adjusts the fretboard, chord detection, and playback accordingly. Eight presets are available:
 
 | Tuning | Strings | Description |
 |--------|---------|------------|
@@ -51,6 +51,10 @@ Select the tuning for your ukulele. The app adjusts the fretboard, chord detecti
 | **Low-G** | G3-C4-E4-A4 | Same notes but with the G string tuned an octave lower, extending the bass range. |
 | **Baritone (DGBE)** | D3-G3-B4-E4 | Baritone ukulele tuning, matching the top four strings of a guitar. |
 | **D-Tuning (ADF#B)** | A4-D4-F#4-B4 | A traditional alternative tuning, one whole step above standard. |
+| **Slack Key (GCEG)** | G4-C4-E4-G4 | An open-G tuning for slack-key style playing. |
+| **Open A (AC#EA)** | A4-C#4-E4-A4 | An open-A tuning. |
+| **Low A (GCEa)** | G4-C4-E4-A3 | Standard notes with a low A on the bottom string. |
+| **Half-Step Down** | F#4-B3-D#4-G#4 | Standard tuning lowered by a semitone. |
 
 ## Fretboard
 

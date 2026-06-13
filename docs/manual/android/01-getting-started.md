@@ -65,7 +65,6 @@ The four groups are:
 | **Progress** | Dashboard with learning stats and practice timer |
 | **Daily Challenge** | Three fresh challenges every day |
 | **Practice Routine** | Guided practice session builder |
-
 | **Chord Transitions** | Animated finger movement between chords |
 | **Play Along** | Real-time play-along with chord detection |
 | **Achievements** | Milestone gallery and progress tracking |
@@ -89,5 +88,5 @@ Tap the **gear icon** in the top-right corner of the app bar to open the Setting
 
 - The app works entirely offline — no internet connection is needed.
 - Your favorites, songs, and settings are saved locally on your device.
-- Long-press on chord voicings in the library to save them as favorites.
+- Tap the heart icon on chord voicings in the library to save them as favorites.
 - Check the **Help** screen (at the bottom of the drawer) for quick descriptions of every feature.

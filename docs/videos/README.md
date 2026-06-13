@@ -29,7 +29,7 @@ Short-form promotional videos targeting 30–50 seconds each. Use true 9:16 reso
 | Chord Detector | [shorts/chord-detector/](shorts/chord-detector/) | 2 | "Tap the fretboard. Know your chord instantly." | TOML ready |
 | Tuner Freeze | [shorts/tuner-freeze/](shorts/tuner-freeze/) | 2 | "The needle freezes so you never lose your note." | TOML ready |
 | Progressions Practice | [shorts/progressions-practice/](shorts/progressions-practice/) | 2 | "Stop fumbling chord changes." | TOML ready |
-| Scale Explorer | [shorts/scale-explorer/](shorts/scale-explorer/) | 2 | "38 scales, color-mapped across the neck." | TOML ready |
+| Scale Explorer | [shorts/scale-explorer/](shorts/scale-explorer/) | 2 | "37 scales, color-mapped across the neck." | TOML ready |
 | Free and Offline | [shorts/free-and-offline/](shorts/free-and-offline/) | 1 | Value-prop closer — free / offline / accessible | TOML ready |
 
 ### Producing a Short

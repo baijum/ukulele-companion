@@ -45,7 +45,7 @@ You can import chord sheets from files on your device or by pasting ChordPro tex
 
 1. Tap the **import button** in the toolbar and choose **Import from file**.
 2. Select a file from your device. The app supports:
-   - **ChordPro files** (`.chopro`, `.cho`, `.chordpro`) — parsed automatically with title, artist, subtitle, and chord directives.
+   - **ChordPro files** (`.cho`, `.chordpro`, `.chopro`, `.crd`, `.pro`) — parsed automatically with title, artist, subtitle, and chord directives.
    - **Plain text files** — imported as-is with the filename used as the title.
 3. The imported song is added to your collection immediately.
 

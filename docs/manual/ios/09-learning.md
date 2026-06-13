@@ -28,6 +28,7 @@ Below the practice timer, the dashboard shows stats for each training activity:
 - **Interval Trainer** — accuracy and attempts.
 - **Note Quiz** — score, accuracy, and best streak.
 - **Chord Ear Training** — accuracy and attempts.
+- **Scale Practice** — totals, accuracy, and best streak.
 
 ## Daily Challenge
 
@@ -37,9 +38,9 @@ Three fresh challenges are generated every day to keep your practice varied and 
 
 Each challenge card shows:
 
-- A **numbered badge** (1, 2, 3).
+- An **icon** indicating the challenge type, with the challenge **title** and type label.
 - The **challenge description** (e.g., "Learn C", "Theory Quiz: 10 Questions", "Practice: Happy Birthday").
-- A **Go** button that navigates directly to the relevant section of the app.
+- A **Mark Complete** button to check the challenge off once you have done it.
 
 Below the challenges, a **Tip of the Day** provides a quick piece of practice advice.
 
@@ -54,9 +55,9 @@ The Practice Routine builder creates a structured, guided session tailored to yo
 ### Setting Up
 
 1. **Duration** — drag the slider to set your available time (5–60 minutes).
-2. **Skill Level** — choose Beginner, Intermediate, or Advanced.
+2. **Level** — choose Beginner, Intermediate, or Advanced.
 3. **Focus Areas** — select which skills to include: Chords, Scales, Ear Training, Theory, Songs.
-4. Tap **Start Practice Routine**.
+4. Tap **Generate Routine**, then **Start Routine**.
 
 ### Following the Routine
 
@@ -66,7 +67,7 @@ The app generates a sequence of steps:
 - **Focused exercises** — exercises matched to your focus areas and skill level, each with a suggested duration.
 - **Cool-down** — a relaxing finish.
 
-Each step shows a description, time allocation, and a **Go** button to navigate to the relevant feature. Mark steps complete as you finish them. A progress bar tracks your overall routine completion.
+Each step shows a numbered badge, title, and time allocation. Tap a step to expand its description, then tap **Done** to mark it complete and advance to the next one. A progress indicator tracks your overall routine completion.
 
 ## Achievements
 
@@ -76,14 +77,15 @@ Earn badges by reaching milestones as you use the app.
 
 ### Achievement Categories
 
-- **Practice** — streaks and consistency (e.g., "Getting Started" for a 3-day streak, "Monthly Master" for 30 days).
-- **Learning** — lesson and quiz milestones (e.g., "First Steps" for completing your first lesson, "Scholar" for all lessons).
-- **Ear Training** — interval and chord ear training accuracy.
-- **Collection** — favorites and song milestones.
+- **Practice** — practice streaks, consistency, and scale-practice milestones.
+- **Learning** — lesson and quiz milestones.
+- **Ear Training** — interval and chord ear-training accuracy.
+- **Songs** — songbook milestones.
+- **Chords** — chord and favorites milestones.
 
 ### Viewing Achievements
 
-The gallery shows a progress bar (e.g., "1 / 21 unlocked") and lists all achievements. Filter by category using the chips at the top. Locked achievements are shown dimmed with their unlock criteria visible, so you always know what to work towards.
+The gallery shows how many achievements you have unlocked out of a total of 21, and lists all of them. Filter by category using the chips at the top. Locked achievements are shown dimmed with their unlock criteria visible, so you always know what to work towards.
 
 ## Tips
 

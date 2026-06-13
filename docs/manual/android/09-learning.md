@@ -79,7 +79,8 @@ Earn badges by reaching milestones as you use the app.
 - **Practice** — streaks and consistency (e.g., "Getting Started" for a 3-day streak, "Monthly Master" for 30 days).
 - **Learning** — lesson and quiz milestones (e.g., "First Steps" for completing your first lesson, "Scholar" for all lessons).
 - **Ear Training** — interval and chord ear training accuracy.
-- **Collection** — favorites and song milestones.
+- **Chords** — chord-learning milestones.
+- **Songs** — songbook milestones.
 
 ### Viewing Achievements
 

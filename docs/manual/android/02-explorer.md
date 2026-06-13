@@ -26,10 +26,10 @@ When no frets are selected, the area below the fretboard shows a **"Try these be
 
 Tap any fret cell on the fretboard to place or remove a finger. The fretboard displays frets 0 through 12 across four strings (G, C, E, A in standard tuning).
 
-As you tap frets, the app analyzes the selected notes and shows the detected chord name above the fretboard. The app recognizes 20 chord types across four categories:
+As you tap frets, the app analyzes the selected notes and shows the detected chord name above the fretboard. The app recognizes 19 chord types across four categories:
 
 - **Triads** — Major, Minor, Diminished, Augmented
-- **Seventh** — Dom7, Min7, Maj7, Aug7, Dim7, Minor Major 7th
+- **Seventh** — Dom7, Min7, Maj7, Aug7, Dim7, Half-diminished 7th, Minor Major 7th
 - **Suspended** — Sus2, Sus4, 7sus4
 - **Extended** — 6, Min6, 9, Min9, Add9
 
