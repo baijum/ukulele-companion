@@ -14,6 +14,7 @@ final class TunerViewModel: ObservableObject {
     @Published var noteName: String = "--"
     @Published var octave: Int?
     @Published var centsDeviation: Double = 0
+    @Published var displayCentsDeviation: Double = 0
     @Published var frequency: Double?
     @Published var stringMatch: String?
     @Published var tuningStatus: String = ""
@@ -38,6 +39,15 @@ final class TunerViewModel: ObservableObject {
     private static let settledThreshold = 8
     private var lostSignalFrames: Int = 0
     private static let lostSignalHoldFrames = 17
+
+    // Frequency smoothing (5-frame rolling median)
+    private var recentFrequencies: [Double] = []
+    private static let smoothingWindow = 5
+
+    // Display-cents EMA smoothing for the needle
+    private static let displayCentsAlpha = 0.30
+    private static let displayDeadbandCents = 0.8
+    private var displayCentsFiltered = 0.0
 
     // TTS
     private let synthesizer = AVSpeechSynthesizer()
@@ -176,11 +186,14 @@ final class TunerViewModel: ObservableObject {
             lostSignalFrames = 0
             previousFrequency = nil
             lastFrequencyLock.withLock { $0 = nil }
+            recentFrequencies.removeAll()
+            displayCentsFiltered = 0.0
             settledFrames = 0
             isInTune = false
             noteName = "--"
             octave = nil
             centsDeviation = 0
+            displayCentsDeviation = 0
             frequency = nil
             stringMatch = nil
             tuningStatus = ""
@@ -205,7 +218,13 @@ final class TunerViewModel: ObservableObject {
             previousFrequency = finalHz
             lastFrequencyLock.withLock { $0 = finalHz }
 
-            if let noteInfo = TunerNoteMapper.shared.mapFrequency(hz: finalHz, a4Reference: a4Reference) {
+            recentFrequencies.append(finalHz)
+            if recentFrequencies.count > Self.smoothingWindow {
+                recentFrequencies.removeFirst()
+            }
+            let smoothedHz = medianFrequency()
+
+            if let noteInfo = TunerNoteMapper.shared.mapFrequency(hz: smoothedHz, a4Reference: a4Reference) {
                 let newNoteName = noteInfo.noteName
                 noteName = newNoteName
                 octave = Int(noteInfo.octave)
@@ -230,7 +249,9 @@ final class TunerViewModel: ObservableObject {
                 activeStringIndex = stringIdx
 
                 let cents = stringResult.centsFromTarget
-                centsDeviation = min(max(cents, -50), 50)
+                let clampedCents = min(max(cents, -50), 50)
+                centsDeviation = clampedCents
+                displayCentsDeviation = smoothDisplayCents(clampedCents)
                 let justTuned: Bool
                 isInTune = abs(cents) <= 6
                 if abs(cents) <= 6 {
@@ -268,11 +289,14 @@ final class TunerViewModel: ObservableObject {
             lostSignalFrames = 0
             previousFrequency = nil
             lastFrequencyLock.withLock { $0 = nil }
+            recentFrequencies.removeAll()
+            displayCentsFiltered = 0.0
             settledFrames = 0
             isInTune = false
             noteName = "--"
             octave = nil
             centsDeviation = 0
+            displayCentsDeviation = 0
             frequency = nil
             stringMatch = nil
             tuningStatus = ""
@@ -367,15 +391,39 @@ final class TunerViewModel: ObservableObject {
         noteName = "--"
         octave = nil
         centsDeviation = 0
+        displayCentsDeviation = 0
         frequency = nil
         stringMatch = nil
         tuningStatus = ""
         previousFrequency = nil
         lastFrequencyLock.withLock { $0 = nil }
+        recentFrequencies.removeAll()
+        displayCentsFiltered = 0.0
         activeStringIndex = nil
         settledFrames = 0
         lostSignalFrames = 0
         isInTune = false
         neuralArbitrator.reset()
+    }
+
+    // MARK: - Smoothing
+
+    private func medianFrequency() -> Double {
+        guard !recentFrequencies.isEmpty else { return 0 }
+        let sorted = recentFrequencies.sorted()
+        let mid = sorted.count / 2
+        if sorted.count % 2 == 0 && sorted.count >= 2 {
+            return (sorted[mid - 1] + sorted[mid]) / 2.0
+        }
+        return sorted[mid]
+    }
+
+    private func smoothDisplayCents(_ rawCents: Double) -> Double {
+        let target = abs(rawCents) < Self.displayDeadbandCents ? 0.0 : rawCents
+        displayCentsFiltered += Self.displayCentsAlpha * (target - displayCentsFiltered)
+        if abs(displayCentsFiltered) < Self.displayDeadbandCents / 2.0 {
+            displayCentsFiltered = 0.0
+        }
+        return displayCentsFiltered
     }
 }
