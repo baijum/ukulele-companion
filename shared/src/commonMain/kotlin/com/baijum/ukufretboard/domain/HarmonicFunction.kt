@@ -69,71 +69,50 @@ enum class HarmonicFunction(
  * Strips quality suffixes (e.g., "maj7", "m7", "sus4", "9") so that harmonic
  * function lookup works for both triad and extended chord numerals.
  */
-private val BASE_NUMERAL_REGEX = Regex("^#?[IiVv]+\u00B0?")
+private val BASE_NUMERAL_REGEX = Regex("^#?[IiVv]+°?")
 
 private fun baseNumeral(numeral: String): String =
     BASE_NUMERAL_REGEX.find(numeral)?.value ?: numeral
 
+private val FUNCTION_MAP: Map<ScaleType, Map<String, HarmonicFunction>> = mapOf(
+    ScaleType.MAJOR to mapOf(
+        "I" to HarmonicFunction.TONIC, "iii" to HarmonicFunction.TONIC, "vi" to HarmonicFunction.TONIC,
+        "ii" to HarmonicFunction.SUBDOMINANT, "IV" to HarmonicFunction.SUBDOMINANT,
+        "V" to HarmonicFunction.DOMINANT, "vii°" to HarmonicFunction.DOMINANT,
+    ),
+    ScaleType.MINOR to mapOf(
+        "i" to HarmonicFunction.TONIC, "III" to HarmonicFunction.TONIC, "VI" to HarmonicFunction.TONIC,
+        "ii°" to HarmonicFunction.SUBDOMINANT, "iv" to HarmonicFunction.SUBDOMINANT,
+        "V" to HarmonicFunction.DOMINANT, "v" to HarmonicFunction.DOMINANT, "VII" to HarmonicFunction.DOMINANT,
+    ),
+    ScaleType.DORIAN to mapOf(
+        "i" to HarmonicFunction.TONIC, "III" to HarmonicFunction.TONIC,
+        "ii" to HarmonicFunction.SUBDOMINANT, "IV" to HarmonicFunction.SUBDOMINANT,
+        "v" to HarmonicFunction.DOMINANT, "vi°" to HarmonicFunction.DOMINANT, "VII" to HarmonicFunction.DOMINANT,
+    ),
+    ScaleType.PHRYGIAN to mapOf(
+        "i" to HarmonicFunction.TONIC, "III" to HarmonicFunction.TONIC, "VI" to HarmonicFunction.TONIC,
+        "II" to HarmonicFunction.SUBDOMINANT, "iv" to HarmonicFunction.SUBDOMINANT,
+        "v°" to HarmonicFunction.DOMINANT, "vii" to HarmonicFunction.DOMINANT,
+    ),
+    ScaleType.LYDIAN to mapOf(
+        "I" to HarmonicFunction.TONIC, "iii" to HarmonicFunction.TONIC, "vi" to HarmonicFunction.TONIC,
+        "II" to HarmonicFunction.SUBDOMINANT, "#iv°" to HarmonicFunction.SUBDOMINANT,
+        "V" to HarmonicFunction.DOMINANT, "vii" to HarmonicFunction.DOMINANT,
+    ),
+    ScaleType.MIXOLYDIAN to mapOf(
+        "I" to HarmonicFunction.TONIC, "vi" to HarmonicFunction.TONIC,
+        "ii" to HarmonicFunction.SUBDOMINANT, "IV" to HarmonicFunction.SUBDOMINANT,
+        "iii°" to HarmonicFunction.DOMINANT, "v" to HarmonicFunction.DOMINANT, "VII" to HarmonicFunction.DOMINANT,
+    ),
+    ScaleType.LOCRIAN to mapOf(
+        "i°" to HarmonicFunction.TONIC, "iii" to HarmonicFunction.TONIC,
+        "II" to HarmonicFunction.SUBDOMINANT, "iv" to HarmonicFunction.SUBDOMINANT,
+        "V" to HarmonicFunction.DOMINANT, "VI" to HarmonicFunction.DOMINANT, "vii" to HarmonicFunction.DOMINANT,
+    ),
+)
+
 fun harmonicFunction(numeral: String, scaleType: ScaleType): HarmonicFunction {
     val base = baseNumeral(numeral)
-    return when {
-        // ── Major (Ionian) ──
-        scaleType == ScaleType.MAJOR && base in listOf("I", "iii", "vi") ->
-            HarmonicFunction.TONIC
-        scaleType == ScaleType.MAJOR && base in listOf("ii", "IV") ->
-            HarmonicFunction.SUBDOMINANT
-        scaleType == ScaleType.MAJOR && base in listOf("V", "vii\u00B0") ->
-            HarmonicFunction.DOMINANT
-
-        // ── Minor (Aeolian) ──
-        scaleType == ScaleType.MINOR && base in listOf("i", "III", "VI") ->
-            HarmonicFunction.TONIC
-        scaleType == ScaleType.MINOR && base in listOf("ii\u00B0", "iv") ->
-            HarmonicFunction.SUBDOMINANT
-        scaleType == ScaleType.MINOR && base in listOf("V", "v", "VII") ->
-            HarmonicFunction.DOMINANT
-
-        // ── Dorian ──
-        scaleType == ScaleType.DORIAN && base in listOf("i", "III") ->
-            HarmonicFunction.TONIC
-        scaleType == ScaleType.DORIAN && base in listOf("ii", "IV") ->
-            HarmonicFunction.SUBDOMINANT
-        scaleType == ScaleType.DORIAN && base in listOf("v", "vi\u00B0", "VII") ->
-            HarmonicFunction.DOMINANT
-
-        // ── Phrygian ──
-        scaleType == ScaleType.PHRYGIAN && base in listOf("i", "III", "VI") ->
-            HarmonicFunction.TONIC
-        scaleType == ScaleType.PHRYGIAN && base in listOf("II", "iv") ->
-            HarmonicFunction.SUBDOMINANT
-        scaleType == ScaleType.PHRYGIAN && base in listOf("v\u00B0", "vii") ->
-            HarmonicFunction.DOMINANT
-
-        // ── Lydian ──
-        scaleType == ScaleType.LYDIAN && base in listOf("I", "iii", "vi") ->
-            HarmonicFunction.TONIC
-        scaleType == ScaleType.LYDIAN && base in listOf("II", "#iv\u00B0") ->
-            HarmonicFunction.SUBDOMINANT
-        scaleType == ScaleType.LYDIAN && base in listOf("V", "vii") ->
-            HarmonicFunction.DOMINANT
-
-        // ── Mixolydian ──
-        scaleType == ScaleType.MIXOLYDIAN && base in listOf("I", "vi") ->
-            HarmonicFunction.TONIC
-        scaleType == ScaleType.MIXOLYDIAN && base in listOf("ii", "IV") ->
-            HarmonicFunction.SUBDOMINANT
-        scaleType == ScaleType.MIXOLYDIAN && base in listOf("iii\u00B0", "v", "VII") ->
-            HarmonicFunction.DOMINANT
-
-        // ── Locrian ──
-        scaleType == ScaleType.LOCRIAN && base in listOf("i\u00B0", "iii") ->
-            HarmonicFunction.TONIC
-        scaleType == ScaleType.LOCRIAN && base in listOf("II", "iv") ->
-            HarmonicFunction.SUBDOMINANT
-        scaleType == ScaleType.LOCRIAN && base in listOf("V", "VI", "vii") ->
-            HarmonicFunction.DOMINANT
-
-        // Fallback
-        else -> HarmonicFunction.TONIC
-    }
+    return FUNCTION_MAP[scaleType]?.get(base) ?: HarmonicFunction.TONIC
 }
