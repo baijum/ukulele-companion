@@ -742,9 +742,28 @@ struct SongViewerView: View {
         let lines = song.content.components(separatedBy: "\n")
         return VStack(alignment: .leading, spacing: 2) {
             ForEach(0..<lines.count, id: \.self) { i in
-                let segments = ChordParser.shared.parseLine(line: lines[i])
-                parsedLineView(segments: segments.asArray(of: ChordParser.TextSegment.self))
-                    .id("line_\(i)")
+                let trimmed = lines[i].trimmingCharacters(in: .whitespaces)
+                if trimmed.hasPrefix("[") && trimmed.hasSuffix("]") && !trimmed.contains("\n") {
+                    let label = String(trimmed.dropFirst().dropLast())
+                    if ChordNameParser.shared.parse(input: label) == nil {
+                        Text(label)
+                            .font(songFont)
+                            .bold()
+                            .foregroundColor(.secondary)
+                            .padding(.top, 8)
+                            .padding(.bottom, 2)
+                            .accessibilityAddTraits(.isHeader)
+                            .id("line_\(i)")
+                    } else {
+                        let segments = ChordParser.shared.parseLine(line: lines[i])
+                        parsedLineView(segments: segments.asArray(of: ChordParser.TextSegment.self))
+                            .id("line_\(i)")
+                    }
+                } else {
+                    let segments = ChordParser.shared.parseLine(line: lines[i])
+                    parsedLineView(segments: segments.asArray(of: ChordParser.TextSegment.self))
+                        .id("line_\(i)")
+                }
             }
         }
     }

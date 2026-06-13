@@ -481,7 +481,19 @@ internal fun SheetViewer(
                     }
                     val segments = ChordParser.parseLine(line)
                     Column(modifier = sectionModifier) {
-                        if (segments.isEmpty()) {
+                        if (lineIndex in sectionLineIndices) {
+                            val label = line.trim().removePrefix("[").removeSuffix("]")
+                            Text(
+                                text = label,
+                                style = songTextStyle.copy(
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.tertiary,
+                                ),
+                                modifier = Modifier
+                                    .padding(top = 8.dp, bottom = 4.dp)
+                                    .semantics { heading() },
+                            )
+                        } else if (segments.isEmpty()) {
                             Text(
                                 text = " ",
                                 style = songTextStyle,
