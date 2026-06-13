@@ -62,7 +62,7 @@ internal fun AboutSection() {
         text = stringResource(R.string.settings_website),
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.clickable {
+        modifier = Modifier.clickable(role = Role.Button) {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://baijum.github.io/ukulele-companion"))
             context.startActivity(intent)
         },
@@ -72,7 +72,7 @@ internal fun AboutSection() {
         text = stringResource(R.string.settings_free_book),
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.clickable {
+        modifier = Modifier.clickable(role = Role.Button) {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://archive.org/details/ukulele-book"))
             context.startActivity(intent)
         },
@@ -82,7 +82,7 @@ internal fun AboutSection() {
         text = stringResource(R.string.settings_video_guide),
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.clickable {
+        modifier = Modifier.clickable(role = Role.Button) {
             val intent = Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse("https://www.youtube.com/playlist?list=PL4GycHdD--uonaifRHrBvNU7ym5jAVs8c"),
