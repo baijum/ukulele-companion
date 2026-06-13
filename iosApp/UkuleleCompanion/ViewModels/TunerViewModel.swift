@@ -49,6 +49,9 @@ final class TunerViewModel: ObservableObject {
     private static let displayDeadbandCents = 0.8
     private var displayCentsFiltered = 0.0
 
+    // String-switch hysteresis (cents)
+    private static let stringSwitchHysteresisCents = 4.0
+
     // Onset (pluck attack) detection — adaptive threshold + blanking
     private static let onsetMinRatio: Float = 2.5
     private static let onsetMaxRatio: Float = 5.0
@@ -265,9 +268,11 @@ final class TunerViewModel: ObservableObject {
                     )
                 }
 
-                let stringResult = TunerNoteMapper.shared.findNearestString(
+                let stringResult = TunerNoteMapper.shared.findNearestStringWithHysteresis(
                     noteInfo: noteInfo,
                     tuning: currentTuning,
+                    previousStringIndex: activeStringIndex.map { KotlinInt(int: Int32($0)) },
+                    switchHysteresisCents: Self.stringSwitchHysteresisCents,
                     a4Reference: a4Reference
                 )
                 stringMatch = stringResult.stringName
