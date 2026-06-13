@@ -2,7 +2,7 @@
 
 Mandatory instructions for AI coding agents (Cursor, Copilot, Codex, etc.) working on this codebase.
 
-Detailed coding rules are in `.cursor/rules/*.mdc` files that auto-attach when editing relevant files. This document provides project-level context and constraints.
+Detailed coding rules live in `.cursor/rules/*.mdc` — **the canonical source**. They auto-attach in Cursor; Claude Code picks them up via directory-scoped `CLAUDE.md` pointer files (e.g. `shared/src/commonMain/`, `app/src/main/.../ui/`, `iosApp/UkuleleCompanion/`); other agents should open the relevant rule from the Coding Rules Reference table below. This document provides project-level context and constraints.
 
 ## Project Overview
 
@@ -70,9 +70,9 @@ Ukulele Companion is a **free, fully offline** multiplatform app (Android + iOS)
 - **Async ONNX loading:** The neural pitch supervisor loads on a background thread (`Dispatchers.IO` on Android, `nonisolated static` + `Task` on iOS). `NeuralRuntimeStatus` has three states: `LOADING`, `ACTIVE`, `FALLBACK`.
 - **Buffer reuse:** `PitchDetector` and `AudioResampler` in the shared KMP module cache work buffers across frames to avoid per-frame GC pressure. Follow the `ensureFftBuffers` / `ensureDiffBuffers` pattern when adding new array allocations in the audio path.
 
-## Cursor Rules Reference
+## Coding Rules Reference
 
-Detailed rules auto-attach when editing matching files:
+The canonical rule bodies live in these `.cursor/rules/*.mdc` files (auto-attach in Cursor; opened on demand by other agents):
 
 | Rule | Applies to | What it covers |
 |------|-----------|----------------|

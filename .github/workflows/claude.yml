@@ -1,5 +1,10 @@
 name: Claude Code
 
+# Deliberately @claude-mention-only (see the `if:` gate below). Automatic, every-PR
+# AI review is already handled by CodeRabbit (.coderabbit.yaml) — do NOT add a
+# path-triggered auto-review here, as it would duplicate that and add cost/noise.
+# This workflow is for on-demand help when a human explicitly asks Claude.
+
 on:
   issue_comment:
     types: [created]
