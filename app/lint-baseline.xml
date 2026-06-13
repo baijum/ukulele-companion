@@ -757,28 +757,6 @@
     </issue>
 
     <issue
-        id="AutoboxingStateCreation"
-        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
-        errorLine1="        var transposeSemitones by remember { mutableStateOf(0) }"
-        errorLine2="                                             ~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/SongbookTab.kt"
-            line="386"
-            column="46"/>
-    </issue>
-
-    <issue
-        id="AutoboxingStateCreation"
-        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
-        errorLine1="    var previousTunedCount by remember { mutableStateOf(0) }"
-        errorLine2="                                         ~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/baijum/ukufretboard/ui/TunerTab.kt"
-            line="153"
-            column="42"/>
-    </issue>
-
-    <issue
         id="UnusedResources"
         message="The resource `R.color.ic_launcher_background` appears to be unused"
         errorLine1="    &lt;color name=&quot;ic_launcher_background&quot;>#00695C&lt;/color>"

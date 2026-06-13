@@ -43,6 +43,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -167,7 +168,7 @@ private fun TunerContent(
 
     // --- Haptic feedback on string tuned ----------------------------------
     // Track which strings were tuned to detect new completions.
-    var previousTunedCount by remember { mutableStateOf(0) }
+    var previousTunedCount by remember { mutableIntStateOf(0) }
     val currentTunedCount = state.stringProgress.count { it }
     LaunchedEffect(currentTunedCount) {
         if (currentTunedCount > previousTunedCount && previousTunedCount >= 0) {
