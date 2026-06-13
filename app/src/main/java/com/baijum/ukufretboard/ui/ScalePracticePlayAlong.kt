@@ -51,11 +51,14 @@ internal fun fretPositionsForNote(
     pitchClass: Int,
     tuning: List<UkuleleString>,
     maxFret: Int = 12,
-): Map<Int, Int> {
+): Map<Int, List<Int>> {
     return tuning.mapIndexedNotNull { stringIndex, string ->
-        val fret = (pitchClass - string.openPitchClass + Notes.PITCH_CLASS_COUNT) %
+        val base = (pitchClass - string.openPitchClass + Notes.PITCH_CLASS_COUNT) %
             Notes.PITCH_CLASS_COUNT
-        if (fret <= maxFret) stringIndex to fret else null
+        val frets = generateSequence(base) { it + Notes.PITCH_CLASS_COUNT }
+            .takeWhile { it <= maxFret }
+            .toList()
+        if (frets.isNotEmpty()) stringIndex to frets else null
     }.toMap()
 }
 
@@ -324,12 +327,13 @@ internal fun PlayAlongContent(
             val currentPc = state.playAlongNotes[state.currentNoteIndex]
             val allPositions = fretPositionsForNote(currentPc, tuning, maxFret = lastFret)
             val filtered = if (posRange != null) {
-                allPositions.filter { (_, fret) -> fret in posRange }
+                allPositions.mapValues { (_, frets) -> frets.filter { it in posRange } }
+                    .filterValues { it.isNotEmpty() }
             } else {
                 allPositions
             }
             val effective = filtered.ifEmpty { allPositions }
-            effective.mapValues { (_, fret) -> fret }
+            effective.mapValues { (_, frets) -> frets.first() }
         } else {
             tuning.indices.associateWith { null }
         }
