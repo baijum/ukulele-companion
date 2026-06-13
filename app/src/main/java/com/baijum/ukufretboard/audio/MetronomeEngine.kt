@@ -1,13 +1,11 @@
 package com.baijum.ukufretboard.audio
 
+import com.baijum.ukufretboard.data.BeatType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-
-/** The type of a beat in a metronome accent pattern. */
-enum class BeatType { ACCENT, NORMAL, MUTE }
 
 /**
  * A coroutine-based metronome engine that supports both chord-progression playback

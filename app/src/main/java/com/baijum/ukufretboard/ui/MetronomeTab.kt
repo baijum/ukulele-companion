@@ -54,7 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
-import com.baijum.ukufretboard.audio.BeatType
+import com.baijum.ukufretboard.data.BeatType
 import com.baijum.ukufretboard.viewmodel.MetronomeViewModel
 
 /**

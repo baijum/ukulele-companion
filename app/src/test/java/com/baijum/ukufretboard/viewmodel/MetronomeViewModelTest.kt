@@ -2,7 +2,7 @@ package com.baijum.ukufretboard.viewmodel
 
 import android.app.Application
 import androidx.test.core.app.ApplicationProvider
-import com.baijum.ukufretboard.audio.BeatType
+import com.baijum.ukufretboard.data.BeatType
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

@@ -3,7 +3,7 @@ package com.baijum.ukufretboard.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.baijum.ukufretboard.audio.BeatType
+import com.baijum.ukufretboard.data.BeatType
 import com.baijum.ukufretboard.audio.ClickSoundPlayer
 import com.baijum.ukufretboard.audio.MetronomeEngine
 import kotlinx.coroutines.flow.MutableStateFlow

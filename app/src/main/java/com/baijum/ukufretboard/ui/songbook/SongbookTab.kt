@@ -71,7 +71,7 @@ import com.baijum.ukufretboard.data.ChordDisplayStyle
 import com.baijum.ukufretboard.data.ChordProParser
 import com.baijum.ukufretboard.data.ChordSheet
 import com.baijum.ukufretboard.domain.UkuleleString
-import com.baijum.ukufretboard.viewmodel.SongSortOrder
+import com.baijum.ukufretboard.data.SongSortOrder
 import com.baijum.ukufretboard.viewmodel.SongbookViewModel
 
 /**

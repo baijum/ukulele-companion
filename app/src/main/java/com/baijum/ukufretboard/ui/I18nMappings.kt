@@ -23,9 +23,9 @@ import com.baijum.ukufretboard.domain.AchievementCategory
 import com.baijum.ukufretboard.domain.ChordInfo
 import com.baijum.ukufretboard.domain.QuizGenerator
 import com.baijum.ukufretboard.domain.PracticeRoutineGenerator
-import com.baijum.ukufretboard.viewmodel.FretPosition
-import com.baijum.ukufretboard.viewmodel.PlayDirection
-import com.baijum.ukufretboard.viewmodel.PracticeMode
+import com.baijum.ukufretboard.data.FretPosition
+import com.baijum.ukufretboard.data.PlayDirection
+import com.baijum.ukufretboard.data.PracticeMode
 
 @Composable
 fun ThemeMode.localizedLabel(): String = stringResource(
