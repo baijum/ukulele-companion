@@ -98,6 +98,7 @@ internal fun AboutSection() {
         style = MaterialTheme.typography.titleSmall,
         fontWeight = FontWeight.SemiBold,
         color = MaterialTheme.colorScheme.onSurface,
+        modifier = Modifier.semantics { heading() },
     )
     Spacer(modifier = Modifier.height(8.dp))
     CreditItem(
