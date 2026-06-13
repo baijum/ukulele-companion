@@ -410,6 +410,7 @@
     <string name="settings_show_reference_section">Show Reference section</string>
     <string name="settings_chord_display_style">Chord display</string>
     <string name="settings_chord_color">Chord color</string>
+    <string name="settings_show_chord_diagram_rail">Show chord diagrams</string>
     <string name="cd_collapse_section">Collapse %s</string>
     <string name="cd_expand_section">Expand %s</string>
     <string name="settings_language">Language</string>

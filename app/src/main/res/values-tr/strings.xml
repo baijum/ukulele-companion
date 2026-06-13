@@ -935,6 +935,7 @@
     <string name="settings_show_reference_section">Başvuru bölümünü göster</string>
     <string name="settings_chord_display_style">Akor gösterimi</string>
     <string name="settings_chord_color">Akor rengi</string>
+    <string name="settings_show_chord_diagram_rail">Akor diyagramlarını göster</string>
     <string name="cd_collapse_section">%s daralt</string>
     <string name="cd_expand_section">%s genişlet</string>
     <string name="metronome_bpm">BPM</string>

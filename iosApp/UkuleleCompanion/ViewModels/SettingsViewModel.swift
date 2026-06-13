@@ -47,6 +47,7 @@ final class SettingsViewModel: ObservableObject {
     // Chord display
     @Published var chordDisplayStyle: String = "above"
     @Published var chordColor: String = "theme"
+    @Published var showChordDiagramRail: Bool = true
 
     private let repository: SettingsRepository
 
@@ -82,6 +83,7 @@ final class SettingsViewModel: ObservableObject {
         onboardingCompleted = data.onboardingCompleted
         chordDisplayStyle = data.chordDisplayStyle
         chordColor = data.chordColor
+        showChordDiagramRail = data.showChordDiagramRail
     }
 
     func save() {
@@ -110,7 +112,8 @@ final class SettingsViewModel: ObservableObject {
             appLanguage: appLanguage,
             onboardingCompleted: onboardingCompleted,
             chordDisplayStyle: chordDisplayStyle,
-            chordColor: chordColor
+            chordColor: chordColor,
+            showChordDiagramRail: showChordDiagramRail
         ))
     }
 

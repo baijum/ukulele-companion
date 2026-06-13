@@ -70,6 +70,8 @@ struct SongViewerView: View {
 
                     tempoSection(content: displaySong.content)
 
+                    chordDiagramRail(content: displaySong.content)
+
                     parsedContentView(song: displaySong)
 
                     Color.clear.frame(height: 1).id("bottom")
@@ -743,6 +745,48 @@ struct SongViewerView: View {
                 let segments = ChordParser.shared.parseLine(line: lines[i])
                 parsedLineView(segments: segments.asArray(of: ChordParser.TextSegment.self))
                     .id("line_\(i)")
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func chordDiagramRail(content: String) -> some View {
+        if settingsVM.showChordDiagramRail {
+            let chordNames = ChordParser.shared.extractChords(text: content)
+                .asArray(of: NSString.self).map { $0 as String }
+            let voicings: [(String, ChordVoicing)] = chordNames.compactMap { name in
+                guard let parsed = ChordNameParser.shared.parse(input: name) else { return nil }
+                let tuning = UkuleleTuning.highG.asUkuleleStrings
+                let generated = VoicingGenerator.shared.generate(
+                    rootPitchClass: Int32(parsed.rootPitchClass),
+                    formula: parsed.formula,
+                    tuning: tuning,
+                    allowMutedStrings: false
+                ).asArray(of: ChordVoicing.self)
+                guard let voicing = generated.first else { return nil }
+                return (name, voicing)
+            }
+            if !voicings.isEmpty {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 12) {
+                        ForEach(0..<voicings.count, id: \.self) { i in
+                            let (name, voicing) = voicings[i]
+                            VStack(spacing: 4) {
+                                ChordDiagramView(voicing: voicing, chordName: name)
+                                Text(name)
+                                    .font(.caption2)
+                                    .bold()
+                            }
+                            .onTapGesture { tappedChord = name }
+                            .accessibilityElement(children: .combine)
+                            .accessibilityLabel("\(name) chord diagram")
+                            .accessibilityAddTraits(.isButton)
+                            .accessibilityHint("Show chord options")
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+                Divider()
             }
         }
     }

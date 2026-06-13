@@ -941,6 +941,7 @@
     <string name="settings_show_reference_section">إظهار قسم المرجع</string>
     <string name="settings_chord_display_style">عرض التوافقية</string>
     <string name="settings_chord_color">لون التوافقية</string>
+    <string name="settings_show_chord_diagram_rail">إظهار مخططات التوافقية</string>
     <string name="cd_collapse_section">طي %s</string>
     <string name="cd_expand_section">توسيع %s</string>
     <string name="metronome_bpm">BPM</string>

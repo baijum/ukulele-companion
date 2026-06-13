@@ -936,6 +936,7 @@
     <string name="settings_show_reference_section">참고 섹션 표시</string>
     <string name="settings_chord_display_style">코드 표시</string>
     <string name="settings_chord_color">코드 색상</string>
+    <string name="settings_show_chord_diagram_rail">코드 다이어그램 표시</string>
     <string name="cd_collapse_section">%s 접기</string>
     <string name="cd_expand_section">%s 펼치기</string>
     <string name="metronome_bpm">BPM</string>

@@ -934,6 +934,7 @@
     <string name="settings_show_reference_section">Tampilkan bagian Referensi</string>
     <string name="settings_chord_display_style">Tampilan akor</string>
     <string name="settings_chord_color">Warna akor</string>
+    <string name="settings_show_chord_diagram_rail">Tampilkan diagram akor</string>
     <string name="cd_collapse_section">Ciutkan %s</string>
     <string name="cd_expand_section">Perluas %s</string>
     <string name="metronome_bpm">BPM</string>

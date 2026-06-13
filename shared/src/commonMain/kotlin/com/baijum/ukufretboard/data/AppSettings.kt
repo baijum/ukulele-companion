@@ -93,6 +93,7 @@ data class DisplaySettings(
     val showReferenceSection: Boolean = true,
     val chordDisplayStyle: ChordDisplayStyle = ChordDisplayStyle.ABOVE,
     val chordColor: ChordColorOption = ChordColorOption.THEME,
+    val showChordDiagramRail: Boolean = true,
 )
 
 /**

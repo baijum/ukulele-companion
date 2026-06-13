@@ -29,7 +29,8 @@ final class SettingsRepository {
             appLanguage: defaults.string(forKey: "app_language") ?? "system",
             onboardingCompleted: defaults.bool(forKey: "onboarding_completed"),
             chordDisplayStyle: defaults.string(forKey: "chord_display_style") ?? "above",
-            chordColor: defaults.string(forKey: "chord_color") ?? "theme"
+            chordColor: defaults.string(forKey: "chord_color") ?? "theme",
+            showChordDiagramRail: defaults.object(forKey: "show_chord_diagram_rail") as? Bool ?? true
         )
     }
 
@@ -59,6 +60,7 @@ final class SettingsRepository {
         defaults.set(data.onboardingCompleted, forKey: "onboarding_completed")
         defaults.set(data.chordDisplayStyle, forKey: "chord_display_style")
         defaults.set(data.chordColor, forKey: "chord_color")
+        defaults.set(data.showChordDiagramRail, forKey: "show_chord_diagram_rail")
     }
 
     func exportSettings() -> [String: Any] {
@@ -88,6 +90,7 @@ final class SettingsRepository {
             "onboarding_completed": defaults.bool(forKey: "onboarding_completed"),
             "chord_display_style": defaults.string(forKey: "chord_display_style") ?? "above",
             "chord_color": defaults.string(forKey: "chord_color") ?? "theme",
+            "show_chord_diagram_rail": defaults.object(forKey: "show_chord_diagram_rail") as? Bool ?? true,
         ]
     }
 
@@ -117,6 +120,7 @@ final class SettingsRepository {
         if let v = dict["onboarding_completed"] as? Bool { defaults.set(v, forKey: "onboarding_completed") }
         if let v = dict["chord_display_style"] as? String { defaults.set(v, forKey: "chord_display_style") }
         if let v = dict["chord_color"] as? String { defaults.set(v, forKey: "chord_color") }
+        if let v = dict["show_chord_diagram_rail"] as? Bool { defaults.set(v, forKey: "show_chord_diagram_rail") }
     }
 }
 
@@ -146,4 +150,5 @@ struct SettingsData {
     var onboardingCompleted: Bool
     var chordDisplayStyle: String
     var chordColor: String
+    var showChordDiagramRail: Bool
 }
