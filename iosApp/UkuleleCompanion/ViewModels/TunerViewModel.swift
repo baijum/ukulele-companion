@@ -49,6 +49,14 @@ final class TunerViewModel: ObservableObject {
     private static let displayDeadbandCents = 0.8
     private var displayCentsFiltered = 0.0
 
+    // Onset (pluck attack) detection — adaptive threshold + blanking
+    private static let onsetMinRatio: Float = 2.5
+    private static let onsetMaxRatio: Float = 5.0
+    private static let onsetEmaAlpha: Float = 0.15
+    private static let blankingFrames = 2
+    private var rmsEma: Float = 0
+    private var blankingFramesRemaining = 0
+
     // TTS
     private let synthesizer = AVSpeechSynthesizer()
     private var lastTtsTime: Date = .distantPast
@@ -176,12 +184,30 @@ final class TunerViewModel: ObservableObject {
         isCapturing = true
         previousFrequency = nil
         lastFrequencyLock.withLock { $0 = nil }
+        rmsEma = 0
+        blankingFramesRemaining = 0
     }
 
     private func applyPitchResult(_ yinResult: PitchResult?, samples: [Float]) {
         guard isCapturing else { return }
 
         let rms = sqrt(samples.reduce(0) { $0 + $1 * $1 } / Float(max(samples.count, 1)))
+
+        // Adaptive onset detection: blank transient attack frames
+        if rmsEma > 0 {
+            let adaptiveRatio = min(max(Self.onsetMinRatio + (0.01 / rmsEma),
+                                        Self.onsetMinRatio), Self.onsetMaxRatio)
+            if rms / rmsEma > adaptiveRatio {
+                blankingFramesRemaining = Self.blankingFrames
+            }
+        }
+        rmsEma = rmsEma == 0 ? rms : rmsEma + Self.onsetEmaAlpha * (rms - rmsEma)
+
+        if blankingFramesRemaining > 0 {
+            blankingFramesRemaining -= 1
+            return
+        }
+
         if rms < noiseGateRms {
             lostSignalFrames = 0
             previousFrequency = nil
