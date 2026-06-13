@@ -33,6 +33,9 @@
 		A10024 /* SongEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10024 /* SongEditorView.swift */; };
 		A10103 /* PerformanceModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10103 /* PerformanceModeView.swift */; };
 		A10104 /* SongViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10104 /* SongViewerView.swift */; };
+		A10105 /* CreateStrumPatternSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10105 /* CreateStrumPatternSheet.swift */; };
+		A10106 /* CreateFingerpickPatternSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10106 /* CreateFingerpickPatternSheet.swift */; };
+		A10107 /* PatternViewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10107 /* PatternViewHelpers.swift */; };
 		A10025 /* MelodyNotepadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10025 /* MelodyNotepadView.swift */; };
 		A10026 /* ProgressionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10026 /* ProgressionsViewModel.swift */; };
 		A10027 /* SongbookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10027 /* SongbookViewModel.swift */; };
@@ -195,6 +198,9 @@
 		B10024 /* SongEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEditorView.swift; sourceTree = "<group>"; };
 		B10103 /* PerformanceModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceModeView.swift; sourceTree = "<group>"; };
 		B10104 /* SongViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongViewerView.swift; sourceTree = "<group>"; };
+		B10105 /* CreateStrumPatternSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStrumPatternSheet.swift; sourceTree = "<group>"; };
+		B10106 /* CreateFingerpickPatternSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFingerpickPatternSheet.swift; sourceTree = "<group>"; };
+		B10107 /* PatternViewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternViewHelpers.swift; sourceTree = "<group>"; };
 		B10025 /* MelodyNotepadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MelodyNotepadView.swift; sourceTree = "<group>"; };
 		B10026 /* ProgressionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionsViewModel.swift; sourceTree = "<group>"; };
 		B10027 /* SongbookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongbookViewModel.swift; sourceTree = "<group>"; };
@@ -408,6 +414,9 @@
 				B10024 /* SongEditorView.swift */,
 				B10103 /* PerformanceModeView.swift */,
 				B10104 /* SongViewerView.swift */,
+				B10105 /* CreateStrumPatternSheet.swift */,
+				B10106 /* CreateFingerpickPatternSheet.swift */,
+				B10107 /* PatternViewHelpers.swift */,
 				B10025 /* MelodyNotepadView.swift */,
 				B10080 /* SongwriterModeFlow.swift */,
 				B10029 /* LearnView.swift */,
@@ -756,6 +765,9 @@
 				A10024 /* SongEditorView.swift in Sources */,
 				A10103 /* PerformanceModeView.swift in Sources */,
 				A10104 /* SongViewerView.swift in Sources */,
+				A10105 /* CreateStrumPatternSheet.swift in Sources */,
+				A10106 /* CreateFingerpickPatternSheet.swift in Sources */,
+				A10107 /* PatternViewHelpers.swift in Sources */,
 				A10025 /* MelodyNotepadView.swift in Sources */,
 				A10026 /* ProgressionsViewModel.swift in Sources */,
 				A10027 /* SongbookViewModel.swift in Sources */,
