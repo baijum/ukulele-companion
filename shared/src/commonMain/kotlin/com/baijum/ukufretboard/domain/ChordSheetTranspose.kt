@@ -1,6 +1,5 @@
 package com.baijum.ukufretboard.domain
 
-import com.baijum.ukufretboard.data.ChordParser
 import com.baijum.ukufretboard.data.Notes
 
 /**
@@ -9,11 +8,14 @@ import com.baijum.ukufretboard.data.Notes
  * Parses inline `[ChordName]` markers from chord sheet content,
  * transposes each chord root and slash-chord bass note by the given
  * number of semitones, and preserves the chord quality suffix.
+ *
+ * Section labels like `[Coda]`, `[Fine]`, `[Ending]` are left intact
+ * because their content does not parse as a valid chord via [ChordNameParser].
  */
 object ChordSheetTranspose {
 
     /** Regex matching `[ChordName]` markers, capturing root and quality separately. */
-    private val CHORD_MARKER = Regex("""\[(?!(?:${ChordParser.SECTION_NAMES})\b)([A-G][#b]?)([^]]*)]""")
+    private val CHORD_MARKER = Regex("""\[([A-G][#b]?)([^]]*)]""")
 
     /** Bass note at the start of the post-slash segment, e.g. "/G" or "m7/G". */
     private val BASS_NOTE = Regex("""^([A-G][#b]?)""")
@@ -22,6 +24,8 @@ object ChordSheetTranspose {
      * Transposes all `[Chord]` markers in the given content by [semitones].
      *
      * Root and slash-chord bass notes are transposed; quality suffixes are preserved.
+     * Bracket tokens that do not parse as valid chords (e.g. `[Coda]`, `[Fine]`)
+     * are left unchanged.
      *
      * @param content The raw chord sheet content with `[ChordName]` markers.
      * @param semitones Number of semitones to transpose (positive = up, negative = down).
@@ -34,6 +38,17 @@ object ChordSheetTranspose {
             val rootStr = match.groupValues[1]
             var qualitySuffix = match.groupValues[2]
 
+            val slashIdx = qualitySuffix.indexOf('/')
+            val qualityBeforeSlash = if (slashIdx >= 0) {
+                qualitySuffix.substring(0, slashIdx)
+            } else {
+                qualitySuffix
+            }
+
+            if (ChordNameParser.parse(rootStr + qualityBeforeSlash) == null) {
+                return@replace match.value
+            }
+
             val rootPc = parseNoteToPitchClass(rootStr)
                 ?: return@replace match.value
 
@@ -41,7 +56,6 @@ object ChordSheetTranspose {
                 Transpose.transposePitchClass(rootPc, semitones),
             )
 
-            val slashIdx = qualitySuffix.indexOf('/')
             if (slashIdx >= 0) {
                 val afterSlash = qualitySuffix.substring(slashIdx + 1)
                 val bassMatch = BASS_NOTE.matchAt(afterSlash, 0)
