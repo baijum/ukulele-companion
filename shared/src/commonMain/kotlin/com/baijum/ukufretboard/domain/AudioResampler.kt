@@ -22,7 +22,7 @@ object AudioResampler {
      * providing ~14 dB attenuation at 8 kHz — sufficient for the neural
      * model's frequency range (46–2094 Hz fundamentals).
      */
-    private const val MA_HALF = 2  // 5-tap: indices -2..+2
+    private const val MA_HALF = 2 // 5-tap: indices -2..+2
 
     private val lock = PlatformLock()
 
@@ -32,6 +32,13 @@ object AudioResampler {
     private var cachedFiltered = FloatArray(0)
     private var cachedOutput = FloatArray(0)
 
+    /**
+     * Downsamples from 44.1 kHz to 16 kHz, returning the internal cached buffer.
+     *
+     * **Important:** The returned array is reused across calls. Callers must
+     * consume the data before the next call to this function (which is the
+     * normal pattern in the audio pipeline — process immediately, don't store).
+     */
     fun downsample44kTo16k(input: FloatArray): FloatArray {
         if (input.isEmpty()) return FloatArray(0)
 
@@ -56,7 +63,7 @@ object AudioResampler {
                 output[i] = filtered[baseIdx] * (1f - frac) + filtered[nextIdx] * frac
             }
 
-            output.copyOf()
+            output
         }
     }
 
@@ -64,7 +71,10 @@ object AudioResampler {
      * Applies a simple 5-tap moving average low-pass filter, writing results
      * into the pre-allocated [out] buffer.
      */
-    private fun applyMovingAverageInto(input: FloatArray, out: FloatArray) {
+    private fun applyMovingAverageInto(
+        input: FloatArray,
+        out: FloatArray,
+    ) {
         val n = input.size
         if (n <= MA_HALF * 2) {
             input.copyInto(out, 0, 0, n)

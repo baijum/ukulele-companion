@@ -73,4 +73,40 @@ object Chromagram {
 
         return chroma
     }
+
+    /**
+     * Computes a 12-bin chromagram into a pre-allocated [out] buffer.
+     * Avoids per-call allocation when callers own the output buffer.
+     */
+    fun computeInto(
+        magnitudes: FloatArray,
+        sampleRate: Int,
+        fftSize: Int,
+        out: FloatArray,
+        minFreq: Float = 130.0f,
+        maxFreq: Float = 1050.0f,
+    ) {
+        out.fill(0f)
+        val freqPerBin = sampleRate.toFloat() / fftSize
+
+        val minBin = (minFreq / freqPerBin).toInt().coerceAtLeast(1)
+        val maxBin = (maxFreq / freqPerBin).toInt().coerceAtMost(magnitudes.size - 1)
+
+        for (bin in minBin..maxBin) {
+            val freq = bin * freqPerBin
+            if (freq < minFreq) continue
+
+            val semitones = (12.0 * log2(freq.toDouble() / C0_HZ)).toFloat()
+            val pitchClass = Notes.normalizePitchClass(semitones.roundToInt())
+
+            out[pitchClass] += magnitudes[bin] * magnitudes[bin]
+        }
+
+        val total = out.sum()
+        if (total > 0f) {
+            for (i in out.indices) {
+                out[i] /= total
+            }
+        }
+    }
 }

@@ -20,7 +20,6 @@ import kotlin.math.sqrt
  * processing on the UI thread budget (~93 ms per frame at 44.1 kHz / 4096).
  */
 object FFTProcessor {
-
     /**
      * Cached twiddle factors (cos, sin) for each FFT stage length.
      *
@@ -34,9 +33,12 @@ object FFTProcessor {
      * Pre-computed cos/sin twiddle factors for all butterfly stages of a
      * given FFT size.
      */
-    private class TwiddleFactors(n: Int) {
+    private class TwiddleFactors(
+        n: Int,
+    ) {
         /** Twiddle real parts, indexed [stage][k]. */
         val real: Array<FloatArray>
+
         /** Twiddle imaginary parts, indexed [stage][k]. */
         val imag: Array<FloatArray>
 
@@ -63,11 +65,10 @@ object FFTProcessor {
         }
     }
 
-    private fun getTwiddle(n: Int): TwiddleFactors {
-        return cacheLock.withLock {
+    private fun getTwiddle(n: Int): TwiddleFactors =
+        cacheLock.withLock {
             twiddleCache.getOrPut(n) { TwiddleFactors(n) }
         }
-    }
 
     /**
      * Applies a Hanning window to [samples] to reduce spectral leakage.
@@ -99,7 +100,10 @@ object FFTProcessor {
      * @param imag Imaginary part (should be all-zero for a real signal;
      *   overwritten with FFT result).
      */
-    fun fft(real: FloatArray, imag: FloatArray) {
+    fun fft(
+        real: FloatArray,
+        imag: FloatArray,
+    ) {
         val n = real.size
         require(n > 0 && n and (n - 1) == 0) { "FFT size must be a power of 2" }
 
@@ -115,9 +119,13 @@ object FFTProcessor {
 
             if (i < j) {
                 // Swap real
-                val tmpR = real[i]; real[i] = real[j]; real[j] = tmpR
+                val tmpR = real[i]
+                real[i] = real[j]
+                real[j] = tmpR
                 // Swap imag
-                val tmpI = imag[i]; imag[i] = imag[j]; imag[j] = tmpI
+                val tmpI = imag[i]
+                imag[i] = imag[j]
+                imag[j] = tmpI
             }
         }
 
@@ -168,7 +176,10 @@ object FFTProcessor {
      * @param real Real part of the frequency-domain signal (overwritten).
      * @param imag Imaginary part (overwritten).
      */
-    fun ifft(real: FloatArray, imag: FloatArray) {
+    fun ifft(
+        real: FloatArray,
+        imag: FloatArray,
+    ) {
         val n = real.size
         require(n > 0 && n and (n - 1) == 0) { "IFFT size must be a power of 2" }
 
@@ -196,12 +207,45 @@ object FFTProcessor {
      * @param imag Imaginary part of the FFT result.
      * @return A [FloatArray] of length N/2 containing magnitude values.
      */
-    fun magnitudeSpectrum(real: FloatArray, imag: FloatArray): FloatArray {
+    fun magnitudeSpectrum(
+        real: FloatArray,
+        imag: FloatArray,
+    ): FloatArray {
         val halfN = real.size / 2
         val magnitudes = FloatArray(halfN)
         for (i in 0 until halfN) {
             magnitudes[i] = sqrt(real[i] * real[i] + imag[i] * imag[i])
         }
         return magnitudes
+    }
+
+    /**
+     * Applies a Hanning window to [samples], writing results into [out].
+     * Avoids per-call allocation when callers own the output buffer.
+     */
+    fun hanningWindowInto(
+        samples: FloatArray,
+        out: FloatArray,
+    ) {
+        val n = samples.size
+        for (i in 0 until n) {
+            val w = 0.5f * (1.0f - cos(2.0 * PI * i / (n - 1)).toFloat())
+            out[i] = samples[i] * w
+        }
+    }
+
+    /**
+     * Computes magnitude spectrum into a pre-allocated [out] buffer.
+     * Avoids per-call allocation when callers own the output buffer.
+     */
+    fun magnitudeSpectrumInto(
+        real: FloatArray,
+        imag: FloatArray,
+        out: FloatArray,
+    ) {
+        val halfN = real.size / 2
+        for (i in 0 until halfN) {
+            out[i] = sqrt(real[i] * real[i] + imag[i] * imag[i])
+        }
     }
 }
