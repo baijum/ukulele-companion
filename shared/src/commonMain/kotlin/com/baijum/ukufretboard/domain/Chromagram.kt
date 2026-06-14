@@ -17,7 +17,6 @@ import kotlin.math.roundToInt
  * match against chord interval formulas.
  */
 object Chromagram {
-
     /** Reference frequency for C0 in Hz, used as the base for pitch-class mapping. */
     private const val C0_HZ = 16.3516f
 

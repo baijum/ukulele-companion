@@ -86,8 +86,9 @@ sealed class FrameGateResult {
  *
  * @see NeuralArbitrator for the precedent shared audio state machine pattern
  */
-class PitchMonitorStateMachine(arpeggioWindowMs: Long = 3_000L) {
-
+class PitchMonitorStateMachine(
+    arpeggioWindowMs: Long = 3_000L,
+) {
     companion object {
         /** How many recent frequency readings to keep for median smoothing. */
         const val SMOOTHING_WINDOW = 5
@@ -223,16 +224,17 @@ class PitchMonitorStateMachine(arpeggioWindowMs: Long = 3_000L) {
         timestampMs: Long,
     ): PitchMonitorFrame {
         // --- Frequency smoothing ------------------------------------------------
-        val smoothedHz = if (pitchHz != null) {
-            smoothingBuffer.addLast(pitchHz)
-            if (smoothingBuffer.size > SMOOTHING_WINDOW) {
-                smoothingBuffer.removeFirst()
+        val smoothedHz =
+            if (pitchHz != null) {
+                smoothingBuffer.addLast(pitchHz)
+                if (smoothingBuffer.size > SMOOTHING_WINDOW) {
+                    smoothingBuffer.removeFirst()
+                }
+                medianFrequency()
+            } else {
+                smoothingBuffer.clear()
+                null
             }
-            medianFrequency()
-        } else {
-            smoothingBuffer.clear()
-            null
-        }
 
         // --- Arpeggio detection -------------------------------------------------
         if (smoothedHz != null) {
