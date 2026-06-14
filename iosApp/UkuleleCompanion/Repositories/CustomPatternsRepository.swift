@@ -1,35 +1,27 @@
 import Foundation
 
 final class CustomPatternsRepository {
-    private let strumKey = "custom_strum_patterns"
-    private let fingerpickKey = "custom_fingerpicking_patterns"
+    private let strumStorage = JSONStorageRepository<CustomStrumPatternData>(key: "custom_strum_patterns")
+    private let fingerpickStorage = JSONStorageRepository<CustomFingerpickingData>(key: "custom_fingerpicking_patterns")
 
     // MARK: - Strum Patterns
 
     func getAllStrum() -> [CustomStrumPatternData] {
-        guard let data = UserDefaults.standard.data(forKey: strumKey),
-              let decoded = try? JSONDecoder().decode([CustomStrumPatternData].self, from: data)
-        else { return [] }
-        return decoded
+        strumStorage.getAll()
     }
 
     func saveStrum(_ patterns: [CustomStrumPatternData]) {
-        guard let data = try? JSONEncoder().encode(patterns) else { return }
-        UserDefaults.standard.set(data, forKey: strumKey)
+        strumStorage.save(patterns)
     }
 
     // MARK: - Fingerpicking Patterns
 
     func getAllFingerpicking() -> [CustomFingerpickingData] {
-        guard let data = UserDefaults.standard.data(forKey: fingerpickKey),
-              let decoded = try? JSONDecoder().decode([CustomFingerpickingData].self, from: data)
-        else { return [] }
-        return decoded
+        fingerpickStorage.getAll()
     }
 
     func saveFingerpicking(_ patterns: [CustomFingerpickingData]) {
-        guard let data = try? JSONEncoder().encode(patterns) else { return }
-        UserDefaults.standard.set(data, forKey: fingerpickKey)
+        fingerpickStorage.save(patterns)
     }
 
     // MARK: - Export/Import

@@ -1,28 +1,8 @@
 import Foundation
 
-final class SongbookRepository {
-    private let userDefaultsKey = "chord_sheets"
-
-    func getAll() -> [StoredSong] {
-        guard let data = UserDefaults.standard.data(forKey: userDefaultsKey),
-              let decoded = try? JSONDecoder().decode([StoredSong].self, from: data)
-        else { return [] }
-        return decoded
-    }
-
-    func save(_ songs: [StoredSong]) {
-        guard let data = try? JSONEncoder().encode(songs) else { return }
-        UserDefaults.standard.set(data, forKey: userDefaultsKey)
-    }
-
-    func exportData(_ songs: [StoredSong]) -> [[String: Any]] {
-        let encoder = JSONEncoder()
-        return songs.compactMap { song in
-            guard let data = try? encoder.encode(song),
-                  let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
-            else { return nil }
-            return dict
-        }
+final class SongbookRepository: JSONStorageRepository<StoredSong> {
+    init() {
+        super.init(key: "chord_sheets")
     }
 
     func importData(_ incoming: [[String: Any]], into songs: inout [StoredSong]) {

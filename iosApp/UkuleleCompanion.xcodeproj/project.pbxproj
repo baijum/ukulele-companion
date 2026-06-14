@@ -97,6 +97,7 @@
 		A10308 /* CustomPatternsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10308 /* CustomPatternsRepository.swift */; };
 		A10309 /* PracticeTimerRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10309 /* PracticeTimerRepository.swift */; };
 		A10310 /* ScalePracticeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10310 /* ScalePracticeRepository.swift */; };
+		A10311 /* JSONStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10311 /* JSONStorageRepository.swift */; };
 		A10070 /* PatternPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10070 /* PatternPlayer.swift */; };
 		A10071 /* FullScreenFretboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10071 /* FullScreenFretboardView.swift */; };
 		A10072 /* PracticeTimerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10072 /* PracticeTimerViewModelTests.swift */; };
@@ -262,6 +263,7 @@
 		B10308 /* CustomPatternsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPatternsRepository.swift; sourceTree = "<group>"; };
 		B10309 /* PracticeTimerRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTimerRepository.swift; sourceTree = "<group>"; };
 		B10310 /* ScalePracticeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalePracticeRepository.swift; sourceTree = "<group>"; };
+		B10311 /* JSONStorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONStorageRepository.swift; sourceTree = "<group>"; };
 		B10070 /* PatternPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternPlayer.swift; sourceTree = "<group>"; };
 		B10071 /* FullScreenFretboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenFretboardView.swift; sourceTree = "<group>"; };
 		B10072 /* PracticeTimerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTimerViewModelTests.swift; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 				B10308 /* CustomPatternsRepository.swift */,
 				B10309 /* PracticeTimerRepository.swift */,
 				B10310 /* ScalePracticeRepository.swift */,
+				B10311 /* JSONStorageRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -830,6 +833,7 @@
 				A10308 /* CustomPatternsRepository.swift in Sources */,
 				A10309 /* PracticeTimerRepository.swift in Sources */,
 				A10310 /* ScalePracticeRepository.swift in Sources */,
+				A10311 /* JSONStorageRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
