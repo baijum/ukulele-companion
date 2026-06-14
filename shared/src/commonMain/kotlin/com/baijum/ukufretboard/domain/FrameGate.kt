@@ -6,9 +6,9 @@ import com.baijum.ukufretboard.platform.PlatformLock
  * Gate for audio frame processing. Only one frame can be in-flight at
  * a time; additional frames are dropped ([tryEnter] returns false).
  *
- * Two usage patterns:
+ * Usage patterns:
  * - **Drop-if-busy** (audio callback): `if (!gate.tryEnter()) return`
- * - **Spin-until-free** (start/stop drain): `gate.awaitEnter()`
+ * - **Non-blocking drain** (start/stop in coroutines): use [awaitEnterSuspending] extension
  *
  * Thread-safe: all access is serialized through [PlatformLock].
  */
@@ -25,24 +25,6 @@ class FrameGate {
             return true
         } finally {
             lock.unlock()
-        }
-    }
-
-    /**
-     * Spin until the gate is free, then enter. Use only in start/stop
-     * drain paths — never on the audio callback thread.
-     */
-    fun awaitEnter() {
-        while (true) {
-            lock.lock()
-            try {
-                if (!processing) {
-                    processing = true
-                    return
-                }
-            } finally {
-                lock.unlock()
-            }
         }
     }
 
