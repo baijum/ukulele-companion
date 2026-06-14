@@ -114,6 +114,11 @@ Skills in `.cursor/skills/` provide step-by-step workflows for common tasks:
 scripts/preflight.sh                           # ktlint ratchet + shared tests + unit tests + lint
 scripts/ktlint.sh                              # ktlint check only (-F to auto-format)
 
+# Git hooks (install once)
+./gradlew installGitHooks                      # copies pre-commit hook to .git/hooks/
+# Or manually: cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+# Pre-commit runs: ktlint on staged .kt files + gitleaks (if installed)
+
 # iOS (requires Xcode)
 xcodebuild -project iosApp/UkuleleCompanion.xcodeproj \
   -scheme UkuleleCompanion \

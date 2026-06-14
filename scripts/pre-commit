@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#
+# Git pre-commit hook: runs ktlint on staged .kt files and gitleaks on the diff.
+# Install: cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+# Or run: ./gradlew installGitHooks
+#
+set -euo pipefail
+
+# --- ktlint on staged Kotlin files ---
+STAGED_KT=$(git diff --cached --name-only --diff-filter=ACM | grep '\.kt$' || true)
+
+if [[ -n "$STAGED_KT" ]]; then
+    echo "pre-commit: running ktlint on staged .kt files..."
+    if ! scripts/ktlint.sh --baseline=ktlint-baseline.xml $STAGED_KT; then
+        echo ""
+        echo "❌ ktlint check failed. Run 'scripts/ktlint.sh -F' to auto-format."
+        exit 1
+    fi
+fi
+
+# --- gitleaks on staged changes ---
+if command -v gitleaks &>/dev/null; then
+    echo "pre-commit: running gitleaks on staged changes..."
+    if ! gitleaks git --pre-commit --staged --no-banner 2>/dev/null; then
+        echo ""
+        echo "❌ gitleaks detected secrets in staged changes."
+        echo "   Remove the secret and try again."
+        exit 1
+    fi
+else
+    # gitleaks not installed — skip silently (CI will catch secrets)
+    :
+fi
+
+echo "pre-commit: ✓ all checks passed"
