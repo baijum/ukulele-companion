@@ -1,31 +1,38 @@
-## Summary
+## Summary of changes
 
-<!-- Briefly describe what this PR does and why. -->
+<!-- What changed and why? -->
 
-## Type of Change
+## Accessibility impact
 
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Enhancement to existing feature
-- [ ] Refactoring (no behavior change)
-- [ ] Tests
-- [ ] Documentation
-- [ ] Build / tooling / CI
+<!-- Critical for our blind/visually impaired user base -->
+- [ ] No accessibility impact
+- [ ] TalkBack/VoiceOver tested on changed screens
+- [ ] New elements have contentDescription/accessibilityLabel
 
-## Details
+## Commands run
 
-<!-- Explain the approach you took. Link to any related issues (e.g., "Closes #42"). -->
+<!-- Which quality gates were verified? -->
+- [ ] `scripts/preflight.sh` (or individual gates below)
+- [ ] `./gradlew assembleDebug`
+- [ ] `./gradlew testDebugUnitTest`
+- [ ] `./gradlew detekt`
+- [ ] `xcodebuild ... build` (if iOS changed)
 
-## Screenshots
+## Tuning modes tested
 
-<!-- If this PR includes UI changes, add before/after screenshots or a screen recording. Remove this section if not applicable. -->
+<!-- If chord/note logic changed -->
+- [ ] N/A — no chord/note logic changes
+- [ ] High-G tuning verified
+- [ ] Low-G tuning verified
 
-## Checklist
+## Risk areas touched
 
-- [ ] Code builds without errors (`./gradlew assembleDebug`)
-- [ ] Changes tested on a device or emulator
-- [ ] No new warnings introduced
-- [ ] Code follows the project's existing patterns
-- [ ] UI changes look correct in both light and dark themes
-- [ ] Left-handed mode is not broken (if touching fretboard UI)
-- [ ] Both High-G and Low-G tuning modes work (if touching chord/note logic)
+- [ ] Audio pipeline (performance-critical)
+- [ ] Shared KMP module (affects both platforms)
+- [ ] Build configuration / dependencies
+- [ ] CI workflows
+- [ ] None of the above
+
+## Screenshots/recordings
+
+<!-- If UI changed, attach before/after screenshots or screen recordings -->
