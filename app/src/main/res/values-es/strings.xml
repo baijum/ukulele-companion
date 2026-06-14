@@ -1209,4 +1209,10 @@
     <string name="cd_section_collapsed">Contraído</string>
     <string name="cd_decrease_capo">Disminuir cejilla</string>
     <string name="cd_increase_capo">Aumentar cejilla</string>
+    <string name="cd_setlist_create">Crear lista de canciones</string>
+    <string name="cd_setlist_delete">Eliminar lista de canciones</string>
+    <string name="cd_setlist_add_song">Añadir canción a la lista</string>
+    <string name="cd_setlist_move_up">Mover arriba</string>
+    <string name="cd_setlist_move_down">Mover abajo</string>
+    <string name="cd_setlist_remove_song">Eliminar de la lista</string>
 </resources>

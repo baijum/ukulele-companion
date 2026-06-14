@@ -1200,4 +1200,10 @@
     <string name="cd_section_collapsed">Свёрнуто</string>
     <string name="cd_decrease_capo">Уменьшить капо</string>
     <string name="cd_increase_capo">Увеличить капо</string>
+    <string name="cd_setlist_create">Создать сет-лист</string>
+    <string name="cd_setlist_delete">Удалить сет-лист</string>
+    <string name="cd_setlist_add_song">Добавить песню в сет-лист</string>
+    <string name="cd_setlist_move_up">Переместить вверх</string>
+    <string name="cd_setlist_move_down">Переместить вниз</string>
+    <string name="cd_setlist_remove_song">Убрать из сет-листа</string>
 </resources>

@@ -1197,4 +1197,10 @@
     <string name="cd_section_collapsed">접힘</string>
     <string name="cd_decrease_capo">카포 감소</string>
     <string name="cd_increase_capo">카포 증가</string>
+    <string name="cd_setlist_create">세트리스트 만들기</string>
+    <string name="cd_setlist_delete">세트리스트 삭제</string>
+    <string name="cd_setlist_add_song">세트리스트에 곡 추가</string>
+    <string name="cd_setlist_move_up">위로 이동</string>
+    <string name="cd_setlist_move_down">아래로 이동</string>
+    <string name="cd_setlist_remove_song">세트리스트에서 제거</string>
 </resources>

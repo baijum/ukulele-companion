@@ -20,4 +20,10 @@
     <string name="cd_step_sequencer_grid">旋律步进音序器，%d 步</string>
     <string name="cd_step_note">第 %1$d 步：%2$s %3$s</string>
     <string name="cd_step_empty">第 %d 步：空</string>
+    <string name="cd_setlist_create">建立歌單</string>
+    <string name="cd_setlist_delete">刪除歌單</string>
+    <string name="cd_setlist_add_song">新增歌曲至歌單</string>
+    <string name="cd_setlist_move_up">上移</string>
+    <string name="cd_setlist_move_down">下移</string>
+    <string name="cd_setlist_remove_song">從歌單中移除</string>
 </resources>

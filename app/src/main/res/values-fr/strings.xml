@@ -1193,4 +1193,10 @@
     <string name="cd_section_collapsed">Réduit</string>
     <string name="cd_decrease_capo">Diminuer le capo</string>
     <string name="cd_increase_capo">Augmenter le capo</string>
+    <string name="cd_setlist_create">Créer une setlist</string>
+    <string name="cd_setlist_delete">Supprimer la setlist</string>
+    <string name="cd_setlist_add_song">Ajouter une chanson à la setlist</string>
+    <string name="cd_setlist_move_up">Déplacer vers le haut</string>
+    <string name="cd_setlist_move_down">Déplacer vers le bas</string>
+    <string name="cd_setlist_remove_song">Retirer de la setlist</string>
 </resources>

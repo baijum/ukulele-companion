@@ -1198,4 +1198,10 @@
     <string name="cd_section_collapsed">संकुचित</string>
     <string name="cd_decrease_capo">कैपो घटाएं</string>
     <string name="cd_increase_capo">कैपो बढ़ाएं</string>
+    <string name="cd_setlist_create">सेटलिस्ट बनाएं</string>
+    <string name="cd_setlist_delete">सेटलिस्ट हटाएं</string>
+    <string name="cd_setlist_add_song">सेटलिस्ट में गाना जोड़ें</string>
+    <string name="cd_setlist_move_up">ऊपर ले जाएं</string>
+    <string name="cd_setlist_move_down">नीचे ले जाएं</string>
+    <string name="cd_setlist_remove_song">सेटलिस्ट से हटाएं</string>
 </resources>

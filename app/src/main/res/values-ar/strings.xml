@@ -1202,4 +1202,10 @@
     <string name="cd_section_collapsed">مطوي</string>
     <string name="cd_decrease_capo">تقليل الكابو</string>
     <string name="cd_increase_capo">زيادة الكابو</string>
+    <string name="cd_setlist_create">إنشاء قائمة تشغيل</string>
+    <string name="cd_setlist_delete">حذف قائمة التشغيل</string>
+    <string name="cd_setlist_add_song">إضافة أغنية إلى القائمة</string>
+    <string name="cd_setlist_move_up">تحريك لأعلى</string>
+    <string name="cd_setlist_move_down">تحريك لأسفل</string>
+    <string name="cd_setlist_remove_song">إزالة من القائمة</string>
 </resources>

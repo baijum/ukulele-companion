@@ -57,7 +57,7 @@ struct SetlistView: View {
                     } label: {
                         Image(systemName: "plus")
                     }
-                    .accessibilityLabel("Create setlist")
+                    .accessibilityLabel(String(localized: "cd_setlist_create"))
                 }
             }
             .alert("New Setlist", isPresented: $showingCreateSheet) {
@@ -135,7 +135,7 @@ struct SetlistDetailView: View {
                 } label: {
                     Image(systemName: "plus")
                 }
-                .accessibilityLabel("Add song to setlist")
+                .accessibilityLabel(String(localized: "cd_setlist_add_song"))
             }
             ToolbarItem(placement: .primaryAction) {
                 EditButton()
