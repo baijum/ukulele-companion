@@ -1,28 +1,8 @@
 import Foundation
 
-final class ProgressionsRepository {
-    private let userDefaultsKey = "custom_progressions"
-
-    func getAll() -> [CustomProgression] {
-        guard let data = UserDefaults.standard.data(forKey: userDefaultsKey),
-              let decoded = try? JSONDecoder().decode([CustomProgression].self, from: data)
-        else { return [] }
-        return decoded
-    }
-
-    func save(_ progressions: [CustomProgression]) {
-        guard let data = try? JSONEncoder().encode(progressions) else { return }
-        UserDefaults.standard.set(data, forKey: userDefaultsKey)
-    }
-
-    func exportData(_ progressions: [CustomProgression]) -> [[String: Any]] {
-        let encoder = JSONEncoder()
-        return progressions.compactMap { prog in
-            guard let data = try? encoder.encode(prog),
-                  let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
-            else { return nil }
-            return dict
-        }
+final class ProgressionsRepository: JSONStorageRepository<CustomProgression> {
+    init() {
+        super.init(key: "custom_progressions")
     }
 
     func importData(_ incoming: [[String: Any]], into progressions: inout [CustomProgression]) {
