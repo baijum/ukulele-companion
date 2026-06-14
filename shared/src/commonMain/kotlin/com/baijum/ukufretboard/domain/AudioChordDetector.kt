@@ -1,5 +1,7 @@
 package com.baijum.ukufretboard.domain
 
+import com.baijum.ukufretboard.platform.PlatformLock
+import com.baijum.ukufretboard.platform.withLock
 import kotlin.math.max
 
 /**
@@ -19,7 +21,6 @@ import kotlin.math.max
  * system, which was originally designed for fret-selection input.
  */
 object AudioChordDetector {
-
     /**
      * Result of audio-based chord detection.
      *
@@ -53,6 +54,25 @@ object AudioChordDetector {
 
     private const val MIN_PITCH_CLASSES = 3
 
+    private val lock = PlatformLock()
+    private var cachedFftSize = 0
+    private var cachedReal = FloatArray(0)
+    private var cachedImag = FloatArray(0)
+    private var cachedMagnitudes = FloatArray(0)
+    private var cachedChroma = FloatArray(12)
+    private var cachedWeightedChroma = FloatArray(12)
+
+    private fun ensureBuffers(fftSize: Int) {
+        if (fftSize != cachedFftSize) {
+            cachedFftSize = fftSize
+            cachedReal = FloatArray(fftSize)
+            cachedImag = FloatArray(fftSize)
+            cachedMagnitudes = FloatArray(fftSize / 2)
+        } else {
+            cachedImag.fill(0f)
+        }
+    }
+
     /**
      * Detects a chord from raw audio samples.
      *
@@ -70,68 +90,69 @@ object AudioChordDetector {
         threshold: Float = DEFAULT_THRESHOLD,
         preferredRootPitchClass: Int? = null,
         preferredRootWeight: Float = 1.15f,
-    ): AudioChordResult {
-        // Step 1: Windowed FFT
-        val windowed = FFTProcessor.hanningWindow(samples)
-        val real = windowed.copyOf()
-        val imag = FloatArray(windowed.size)
-        FFTProcessor.fft(real, imag)
+    ): AudioChordResult =
+        lock.withLock {
+            ensureBuffers(samples.size)
 
-        // Step 2: Magnitude spectrum
-        val magnitudes = FFTProcessor.magnitudeSpectrum(real, imag)
+            // Step 1: Windowed FFT — write Hanning window directly into cachedReal
+            FFTProcessor.hanningWindowInto(samples, cachedReal)
+            FFTProcessor.fft(cachedReal, cachedImag)
 
-        // Step 3: Chromagram
-        val chroma = Chromagram.compute(
-            magnitudes = magnitudes,
-            sampleRate = sampleRate,
-            fftSize = samples.size,
-        )
+            // Step 2: Magnitude spectrum into pre-allocated buffer
+            FFTProcessor.magnitudeSpectrumInto(cachedReal, cachedImag, cachedMagnitudes)
 
-        // Optional guidance: bias the chroma toward a stable root hint from
-        // external pitch estimation (e.g., neural supervisor in Pitch Monitor).
-        val weightedChroma = chroma.copyOf()
-        if (preferredRootPitchClass != null && preferredRootPitchClass in 0..11) {
-            weightedChroma[preferredRootPitchClass] =
-                weightedChroma[preferredRootPitchClass] * max(1.0f, preferredRootWeight)
-        }
+            // Step 3: Chromagram
+            Chromagram.computeInto(
+                magnitudes = cachedMagnitudes,
+                sampleRate = sampleRate,
+                fftSize = samples.size,
+                out = cachedChroma,
+            )
 
-        // Step 4: Threshold — find active pitch classes
-        val maxEnergy = weightedChroma.max()
-        if (maxEnergy <= 0f) {
-            return AudioChordResult(
-                detection = ChordDetector.DetectionResult.NoSelection,
-                confidence = 0f,
-                activePitchClasses = emptySet(),
-                chromagram = FloatArray(12),
+            // Optional guidance: bias the chroma toward a stable root hint
+            cachedChroma.copyInto(cachedWeightedChroma)
+            if (preferredRootPitchClass != null && preferredRootPitchClass in 0..11) {
+                cachedWeightedChroma[preferredRootPitchClass] =
+                    cachedWeightedChroma[preferredRootPitchClass] * max(1.0f, preferredRootWeight)
+            }
+
+            // Step 4: Threshold — find active pitch classes
+            val maxEnergy = cachedWeightedChroma.max()
+            if (maxEnergy <= 0f) {
+                return@withLock AudioChordResult(
+                    detection = ChordDetector.DetectionResult.NoSelection,
+                    confidence = 0f,
+                    activePitchClasses = emptySet(),
+                    chromagram = cachedChroma.copyOf(),
+                )
+            }
+
+            val cutoff = threshold * maxEnergy
+            val activePitchClasses = mutableSetOf<Int>()
+            var activeEnergy = 0f
+
+            for (i in cachedWeightedChroma.indices) {
+                if (cachedWeightedChroma[i] >= cutoff) {
+                    activePitchClasses.add(i)
+                    activeEnergy += cachedWeightedChroma[i]
+                }
+            }
+
+            // Step 5: Match against chord formulas (reuses existing ChordDetector)
+            val detection =
+                if (activePitchClasses.size >= MIN_PITCH_CLASSES) {
+                    ChordDetector.detect(activePitchClasses.toList())
+                } else {
+                    ChordDetector.DetectionResult.NoSelection
+                }
+
+            val confidence = activeEnergy / cachedWeightedChroma.sum().coerceAtLeast(1e-6f)
+
+            AudioChordResult(
+                detection = detection,
+                confidence = confidence,
+                activePitchClasses = activePitchClasses,
+                chromagram = cachedChroma.copyOf(),
             )
         }
-
-        val cutoff = threshold * maxEnergy
-        val activePitchClasses = mutableSetOf<Int>()
-        var activeEnergy = 0f
-
-        for (i in weightedChroma.indices) {
-            if (weightedChroma[i] >= cutoff) {
-                activePitchClasses.add(i)
-                activeEnergy += weightedChroma[i]
-            }
-        }
-
-        // Step 5: Match against chord formulas (reuses existing ChordDetector)
-        val detection = if (activePitchClasses.size >= MIN_PITCH_CLASSES) {
-            ChordDetector.detect(activePitchClasses.toList())
-        } else {
-            ChordDetector.DetectionResult.NoSelection
-        }
-
-        // Confidence: fraction of total energy captured by the active bins
-        val confidence = activeEnergy / weightedChroma.sum().coerceAtLeast(1e-6f)
-
-        return AudioChordResult(
-            detection = detection,
-            confidence = confidence,
-            activePitchClasses = activePitchClasses,
-            chromagram = chroma,
-        )
-    }
 }
