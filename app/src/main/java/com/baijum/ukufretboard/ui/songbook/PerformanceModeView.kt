@@ -3,6 +3,8 @@ package com.baijum.ukufretboard.ui.songbook
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,9 +39,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
+import com.baijum.ukufretboard.ui.LocalReduceMotion
 import kotlinx.coroutines.delay
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 
 @Composable
 internal fun PerformanceModeView(
@@ -52,6 +53,7 @@ internal fun PerformanceModeView(
     var scrollSpeed by remember { mutableFloatStateOf(1f) }
     val programmaticScroll = remember { mutableStateOf(false) }
     var showControls by remember { mutableStateOf(true) }
+    val reduceMotion = LocalReduceMotion.current
 
     LaunchedEffect(autoScrolling, scrollSpeed) {
         if (autoScrolling) {
@@ -60,10 +62,11 @@ internal fun PerformanceModeView(
                 try {
                     scrollState.animateScrollTo(
                         scrollState.value + scrollSpeed.toInt().coerceAtLeast(1),
-                        animationSpec = androidx.compose.animation.core.tween(
-                            durationMillis = 16,
-                            easing = androidx.compose.animation.core.LinearEasing,
-                        ),
+                        animationSpec =
+                            androidx.compose.animation.core.tween(
+                                durationMillis = 16,
+                                easing = androidx.compose.animation.core.LinearEasing,
+                            ),
                     )
                 } finally {
                     programmaticScroll.value = false
@@ -77,20 +80,22 @@ internal fun PerformanceModeView(
 
     val toggleControlsLabel = stringResource(R.string.performance_mode_toggle_controls)
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface)
-            .semantics { contentDescription = toggleControlsLabel }
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-            ) { showControls = !showControls },
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surface)
+                .semantics { contentDescription = toggleControlsLabel }
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                ) { showControls = !showControls },
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-                .padding(horizontal = 24.dp, vertical = 16.dp),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+                    .padding(horizontal = 24.dp, vertical = 16.dp),
         ) {
             displayContent.lines().forEach { line ->
                 if (line.isBlank()) {
@@ -106,15 +111,34 @@ internal fun PerformanceModeView(
 
         androidx.compose.animation.AnimatedVisibility(
             visible = showControls,
-            enter = androidx.compose.animation.fadeIn(),
-            exit = androidx.compose.animation.fadeOut(),
+            enter =
+                if (reduceMotion) {
+                    androidx.compose.animation.EnterTransition.None
+                } else {
+                    androidx.compose.animation
+                        .fadeIn()
+                },
+            exit =
+                if (reduceMotion) {
+                    androidx.compose.animation.ExitTransition.None
+                } else {
+                    androidx.compose.animation
+                        .fadeOut()
+                },
             modifier = Modifier.align(Alignment.TopEnd).padding(8.dp),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                val scrollLabel = if (autoScrolling) stringResource(R.string.performance_scroll_pause) else stringResource(R.string.performance_scroll_start)
+                val scrollLabel =
+                    if (autoScrolling) {
+                        stringResource(
+                            R.string.performance_scroll_pause,
+                        )
+                    } else {
+                        stringResource(R.string.performance_scroll_start)
+                    }
                 FilledTonalButton(
                     onClick = { autoScrolling = !autoScrolling },
                 ) {
@@ -143,7 +167,10 @@ internal fun PerformanceModeView(
                     ) { Text("+") }
                 }
                 IconButton(onClick = onExit) {
-                    Icon(Icons.Filled.FullscreenExit, contentDescription = stringResource(R.string.performance_mode_exit))
+                    Icon(
+                        Icons.Filled.FullscreenExit,
+                        contentDescription = stringResource(R.string.performance_mode_exit),
+                    )
                 }
             }
         }

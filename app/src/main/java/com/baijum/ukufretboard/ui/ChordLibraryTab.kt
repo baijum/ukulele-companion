@@ -1,6 +1,10 @@
 package com.baijum.ukufretboard.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,8 +38,8 @@ import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.domain.CapoCalculator
 import com.baijum.ukufretboard.domain.ChordInfo
 import com.baijum.ukufretboard.domain.ChordVoicing
-import com.baijum.ukufretboard.viewmodel.ChordLibraryViewModel
 import com.baijum.ukufretboard.domain.UkuleleString
+import com.baijum.ukufretboard.viewmodel.ChordLibraryViewModel
 
 @Composable
 fun ChordLibraryTab(
@@ -54,17 +58,21 @@ fun ChordLibraryTab(
     val searchQuery by viewModel.searchQuery.collectAsState()
     val searchResults by viewModel.searchResults.collectAsState()
     val focusManager = LocalFocusManager.current
+    val reduceMotion = LocalReduceMotion.current
 
-    var inversionFilter by rememberSaveable(stateSaver = nullableEnumSaver<ChordInfo.Inversion>()) { mutableStateOf<ChordInfo.Inversion?>(null) }
+    var inversionFilter by rememberSaveable(stateSaver = nullableEnumSaver<ChordInfo.Inversion>()) {
+        mutableStateOf<ChordInfo.Inversion?>(null)
+    }
     var compareMode by rememberSaveable { mutableStateOf(false) }
     var filtersExpanded by rememberSaveable { mutableStateOf(true) }
     var capoResults by remember { mutableStateOf<List<CapoCalculator.SingleChordResult>?>(null) }
     var capoVisualVoicing by remember { mutableStateOf<ChordVoicing?>(null) }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(top = 8.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(top = 8.dp),
     ) {
         ChordSearchBar(
             query = searchQuery,
@@ -88,7 +96,11 @@ fun ChordLibraryTab(
             selectedFormula = uiState.selectedFormula,
         )
 
-        AnimatedVisibility(visible = filtersExpanded) {
+        AnimatedVisibility(
+            visible = filtersExpanded,
+            enter = if (reduceMotion) EnterTransition.None else expandVertically(),
+            exit = if (reduceMotion) ExitTransition.None else shrinkVertically(),
+        ) {
             Column {
                 SectionLabel(stringResource(R.string.chord_library_root_note))
                 RootNoteSelector(
@@ -155,14 +167,15 @@ fun ChordLibraryTab(
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                val grouped = uiState.voicings.groupBy { voicing ->
-                    ChordInfo.determineInversion(
-                        voicing.frets,
-                        uiState.selectedRoot,
-                        uiState.selectedFormula!!,
-                        tuning,
-                    )
-                }
+                val grouped =
+                    uiState.voicings.groupBy { voicing ->
+                        ChordInfo.determineInversion(
+                            voicing.frets,
+                            uiState.selectedRoot,
+                            uiState.selectedFormula!!,
+                            tuning,
+                        )
+                    }
 
                 InversionCompareView(
                     grouped = grouped,
@@ -171,53 +184,62 @@ fun ChordLibraryTab(
                     formula = uiState.selectedFormula!!,
                     onVoicingSelected = onVoicingSelected,
                     onPlayVoicing = onPlayVoicing,
-                    onPlayAllInversions = onPlayVoicingsSequentially?.let { play ->
-                        {
-                            val bestVoicings = ChordInfo.Inversion.entries
-                                .mapNotNull { inv -> grouped[inv]?.firstOrNull() }
-                            play(bestVoicings)
-                        }
-                    },
+                    onPlayAllInversions =
+                        onPlayVoicingsSequentially?.let { play ->
+                            {
+                                val bestVoicings =
+                                    ChordInfo.Inversion.entries
+                                        .mapNotNull { inv -> grouped[inv]?.firstOrNull() }
+                                play(bestVoicings)
+                            }
+                        },
                     leftHanded = leftHanded,
                     onExitCompare = { compareMode = false },
                     modifier = Modifier.weight(1f),
                 )
             } else {
-                val inversionCounts = remember(uiState.voicings, uiState.selectedRoot, uiState.selectedFormula) {
-                    uiState.voicings.groupingBy { voicing ->
-                        ChordInfo.determineInversion(
-                            voicing.frets,
-                            uiState.selectedRoot,
-                            uiState.selectedFormula!!,
-                            tuning,
-                        )
-                    }.eachCount()
-                }
-
-                val filteredVoicings = if (inversionFilter != null) {
-                    uiState.voicings.filter { voicing ->
-                        ChordInfo.determineInversion(
-                            voicing.frets,
-                            uiState.selectedRoot,
-                            uiState.selectedFormula!!,
-                            tuning,
-                        ) == inversionFilter
+                val inversionCounts =
+                    remember(uiState.voicings, uiState.selectedRoot, uiState.selectedFormula) {
+                        uiState.voicings
+                            .groupingBy { voicing ->
+                                ChordInfo.determineInversion(
+                                    voicing.frets,
+                                    uiState.selectedRoot,
+                                    uiState.selectedFormula!!,
+                                    tuning,
+                                )
+                            }.eachCount()
                     }
-                } else {
-                    uiState.voicings
-                }
 
-                SectionLabel("$rootName$symbol — " + stringResource(R.string.chord_library_voicings, filteredVoicings.size))
+                val filteredVoicings =
+                    if (inversionFilter != null) {
+                        uiState.voicings.filter { voicing ->
+                            ChordInfo.determineInversion(
+                                voicing.frets,
+                                uiState.selectedRoot,
+                                uiState.selectedFormula!!,
+                                tuning,
+                            ) == inversionFilter
+                        }
+                    } else {
+                        uiState.voicings
+                    }
+
+                SectionLabel(
+                    "$rootName$symbol — " + stringResource(R.string.chord_library_voicings, filteredVoicings.size),
+                )
 
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp),
                 ) {
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .horizontalScroll(rememberScrollState()),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .horizontalScroll(rememberScrollState()),
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
                     ) {
                         InversionFilterChips(
@@ -234,11 +256,12 @@ fun ChordLibraryTab(
                         OutlinedButton(
                             onClick = {
                                 val formula = uiState.selectedFormula ?: return@OutlinedButton
-                                capoResults = CapoCalculator.forSingleChord(
-                                    rootPitchClass = uiState.selectedRoot,
-                                    formula = formula,
-                                    tuning = tuning,
-                                )
+                                capoResults =
+                                    CapoCalculator.forSingleChord(
+                                        rootPitchClass = uiState.selectedRoot,
+                                        formula = formula,
+                                        tuning = tuning,
+                                    )
                             },
                         ) {
                             Text(stringResource(R.string.label_capo), style = MaterialTheme.typography.labelSmall)
@@ -248,21 +271,28 @@ fun ChordLibraryTab(
                                 capoVisualVoicing = filteredVoicings.firstOrNull()
                             },
                         ) {
-                            Text(stringResource(R.string.chord_library_viz), style = MaterialTheme.typography.labelSmall)
+                            Text(
+                                stringResource(R.string.chord_library_viz),
+                                style = MaterialTheme.typography.labelSmall,
+                            )
                         }
                         OutlinedButton(onClick = { compareMode = true }) {
-                            Text(stringResource(R.string.chord_library_compare), style = MaterialTheme.typography.labelSmall)
+                            Text(
+                                stringResource(R.string.chord_library_compare),
+                                style = MaterialTheme.typography.labelSmall,
+                            )
                         }
                     }
                 }
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                val inversionEmptySubtitle = if (inversionFilter != null && filteredVoicings.isEmpty()) {
-                    stringResource(R.string.chord_library_reentrant_empty)
-                } else {
-                    null
-                }
+                val inversionEmptySubtitle =
+                    if (inversionFilter != null && filteredVoicings.isEmpty()) {
+                        stringResource(R.string.chord_library_reentrant_empty)
+                    } else {
+                        null
+                    }
 
                 VoicingGrid(
                     voicings = filteredVoicings,
@@ -274,11 +304,12 @@ fun ChordLibraryTab(
                     leftHanded = leftHanded,
                     rootPitchClass = uiState.selectedRoot,
                     formula = uiState.selectedFormula,
-                    emptyTitle = if (inversionFilter != null) {
-                        "No ${inversionFilter!!.localizedLabel().lowercase()} voicings"
-                    } else {
-                        stringResource(R.string.chord_library_no_voicings)
-                    },
+                    emptyTitle =
+                        if (inversionFilter != null) {
+                            "No ${inversionFilter!!.localizedLabel().lowercase()} voicings"
+                        } else {
+                            stringResource(R.string.chord_library_no_voicings)
+                        },
                     emptySubtitle = inversionEmptySubtitle,
                     modifier = Modifier.weight(1f),
                 )
@@ -308,8 +339,9 @@ internal fun SectionLabel(text: String) {
         style = MaterialTheme.typography.labelSmall,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = Modifier
-            .semantics { heading() }
-            .padding(horizontal = 16.dp, vertical = 2.dp),
+        modifier =
+            Modifier
+                .semantics { heading() }
+                .padding(horizontal = 16.dp, vertical = 2.dp),
     )
 }

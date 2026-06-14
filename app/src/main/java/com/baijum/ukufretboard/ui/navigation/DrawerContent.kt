@@ -1,6 +1,8 @@
 package com.baijum.ukufretboard.ui.navigation
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
@@ -45,6 +47,7 @@ import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.NavSection
+import com.baijum.ukufretboard.ui.LocalReduceMotion
 
 @Composable
 internal fun DrawerContent(
@@ -54,20 +57,23 @@ internal fun DrawerContent(
     onItemSelected: (NavSection) -> Unit,
 ) {
     val navigationDrawerDescription = stringResource(R.string.cd_navigation_drawer)
+    val reduceMotion = LocalReduceMotion.current
     Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .semantics { contentDescription = navigationDrawerDescription },
+        modifier =
+            Modifier
+                .verticalScroll(rememberScrollState())
+                .semantics { contentDescription = navigationDrawerDescription },
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(horizontal = 28.dp, vertical = 24.dp),
         ) {
             Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFF0F4C6B)),
+                modifier =
+                    Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(Color(0xFF0F4C6B)),
                 contentAlignment = Alignment.Center,
             ) {
                 Image(
@@ -91,14 +97,14 @@ internal fun DrawerContent(
             val expandedDescription = stringResource(R.string.cd_section_expanded)
             val collapsedDescription = stringResource(R.string.cd_section_collapsed)
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { expandedState[section.title] = !expanded }
-                    .semantics {
-                        role = Role.Button
-                        stateDescription = if (expanded) expandedDescription else collapsedDescription
-                    }
-                    .padding(horizontal = 28.dp, vertical = 8.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .clickable { expandedState[section.title] = !expanded }
+                        .semantics {
+                            role = Role.Button
+                            stateDescription = if (expanded) expandedDescription else collapsedDescription
+                        }.padding(horizontal = 28.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -109,21 +115,26 @@ internal fun DrawerContent(
                     modifier = Modifier.semantics { heading() },
                 )
                 Icon(
-                    imageVector = if (expanded) Icons.Filled.ExpandLess
-                    else Icons.Filled.ExpandMore,
-                    contentDescription = if (expanded) {
-                        stringResource(R.string.cd_collapse_section, section.title)
-                    } else {
-                        stringResource(R.string.cd_expand_section, section.title)
-                    },
+                    imageVector =
+                        if (expanded) {
+                            Icons.Filled.ExpandLess
+                        } else {
+                            Icons.Filled.ExpandMore
+                        },
+                    contentDescription =
+                        if (expanded) {
+                            stringResource(R.string.cd_collapse_section, section.title)
+                        } else {
+                            stringResource(R.string.cd_expand_section, section.title)
+                        },
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.size(20.dp),
                 )
             }
             AnimatedVisibility(
                 visible = expanded,
-                enter = expandVertically(),
-                exit = shrinkVertically(),
+                enter = if (reduceMotion) EnterTransition.None else expandVertically(),
+                exit = if (reduceMotion) ExitTransition.None else shrinkVertically(),
             ) {
                 Column {
                     section.items.forEach { item ->

@@ -1,8 +1,5 @@
 package com.baijum.ukufretboard.ui
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,8 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -68,21 +65,23 @@ fun AchievementsView(
     val progressState by progressViewModel.state.collectAsState()
     var selectedCategory by remember { mutableStateOf<AchievementCategory?>(null) }
 
-    val achievements = remember(selectedCategory) {
-        if (selectedCategory == null) {
-            Achievements.ALL
-        } else {
-            Achievements.ALL.filter { it.category == selectedCategory }
+    val achievements =
+        remember(selectedCategory) {
+            if (selectedCategory == null) {
+                Achievements.ALL
+            } else {
+                Achievements.ALL.filter { it.category == selectedCategory }
+            }
         }
-    }
 
     val unlockedCount = unlockedIds.size
     val totalCount = Achievements.totalCount()
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         // Header
         Text(
@@ -103,9 +102,10 @@ fun AchievementsView(
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-            ),
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                ),
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
@@ -131,29 +131,32 @@ fun AchievementsView(
 
         // Category filter
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             FilterChip(
                 selected = selectedCategory == null,
                 onClick = { selectedCategory = null },
                 label = { Text(stringResource(R.string.label_all)) },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = MaterialTheme.colorScheme.primary,
-                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-                ),
+                colors =
+                    FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = MaterialTheme.colorScheme.primary,
+                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                    ),
             )
             AchievementCategory.entries.forEach { category ->
                 FilterChip(
                     selected = selectedCategory == category,
                     onClick = { selectedCategory = category },
                     label = { Text(category.localizedLabel()) },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primary,
-                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-                    ),
+                    colors =
+                        FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
                 )
             }
         }
@@ -188,33 +191,38 @@ private fun AchievementCard(
     isUnlocked: Boolean,
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .alpha(if (isUnlocked) 1f else 0.5f),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .alpha(if (isUnlocked) 1f else 0.5f),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = if (isUnlocked) {
-                MaterialTheme.colorScheme.secondaryContainer
-            } else {
-                MaterialTheme.colorScheme.surfaceVariant
-            },
-        ),
+        colors =
+            CardDefaults.cardColors(
+                containerColor =
+                    if (isUnlocked) {
+                        MaterialTheme.colorScheme.secondaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.surfaceVariant
+                    },
+            ),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
                 imageVector = achievementIcon(achievement.id),
                 contentDescription = achievementTitle(achievement.id),
                 modifier = Modifier.size(32.dp),
-                tint = if (isUnlocked) {
-                    MaterialTheme.colorScheme.primary
-                } else {
-                    MaterialTheme.colorScheme.onSurfaceVariant
-                },
+                tint =
+                    if (isUnlocked) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    },
             )
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
@@ -222,20 +230,22 @@ private fun AchievementCard(
                     text = achievementTitle(achievement.id),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
-                    color = if (isUnlocked) {
-                        MaterialTheme.colorScheme.onSecondaryContainer
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    },
+                    color =
+                        if (isUnlocked) {
+                            MaterialTheme.colorScheme.onSecondaryContainer
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        },
                 )
                 Text(
                     text = achievementDescription(achievement.id),
                     style = MaterialTheme.typography.bodySmall,
-                    color = if (isUnlocked) {
-                        MaterialTheme.colorScheme.onSecondaryContainer
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    },
+                    color =
+                        if (isUnlocked) {
+                            MaterialTheme.colorScheme.onSecondaryContainer
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        },
                 )
             }
             if (isUnlocked) {
@@ -271,9 +281,10 @@ fun AchievementSummaryCard(
         onClick = onClick,
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-        ),
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+            ),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(

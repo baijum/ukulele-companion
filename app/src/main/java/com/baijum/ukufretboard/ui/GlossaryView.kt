@@ -1,6 +1,10 @@
 package com.baijum.ukufretboard.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,8 +28,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -39,28 +46,28 @@ import com.baijum.ukufretboard.data.GlossaryEntry
  * Displays all glossary terms grouped alphabetically with inline search.
  */
 @Composable
-fun GlossaryView(
-    modifier: Modifier = Modifier,
-) {
+fun GlossaryView(modifier: Modifier = Modifier) {
     var searchQuery by remember { mutableStateOf("") }
     var expandedTerm by remember { mutableStateOf<String?>(null) }
 
-    val filteredEntries = remember(searchQuery) {
-        if (searchQuery.isBlank()) {
-            Glossary.ALL
-        } else {
-            Glossary.ALL.filter {
-                it.term.contains(searchQuery, ignoreCase = true) ||
-                    it.definition.contains(searchQuery, ignoreCase = true)
+    val filteredEntries =
+        remember(searchQuery) {
+            if (searchQuery.isBlank()) {
+                Glossary.ALL
+            } else {
+                Glossary.ALL.filter {
+                    it.term.contains(searchQuery, ignoreCase = true) ||
+                        it.definition.contains(searchQuery, ignoreCase = true)
+                }
             }
         }
-    }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
             text = stringResource(R.string.glossary_title),
@@ -142,11 +149,18 @@ private fun GlossaryItem(
     isExpanded: Boolean,
     onToggle: () -> Unit,
 ) {
+    val reduceMotion = LocalReduceMotion.current
+    val expandedDescription = stringResource(R.string.cd_section_expanded)
+    val collapsedDescription = stringResource(R.string.cd_section_collapsed)
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onToggle() }
-            .padding(vertical = 8.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clickable { onToggle() }
+                .semantics {
+                    role = Role.Button
+                    stateDescription = if (isExpanded) expandedDescription else collapsedDescription
+                }.padding(vertical = 8.dp),
     ) {
         Text(
             text = entry.term,
@@ -154,7 +168,11 @@ private fun GlossaryItem(
             fontWeight = FontWeight.Bold,
         )
 
-        AnimatedVisibility(visible = isExpanded) {
+        AnimatedVisibility(
+            visible = isExpanded,
+            enter = if (reduceMotion) EnterTransition.None else expandVertically(),
+            exit = if (reduceMotion) ExitTransition.None else shrinkVertically(),
+        ) {
             Column {
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(

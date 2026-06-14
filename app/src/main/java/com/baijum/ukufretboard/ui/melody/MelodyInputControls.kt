@@ -1,6 +1,8 @@
 package com.baijum.ukufretboard.ui.melody
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
@@ -20,10 +22,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilterChip
@@ -51,8 +53,9 @@ import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.NoteDuration
 import com.baijum.ukufretboard.data.Notes
-import com.baijum.ukufretboard.ui.localizedLabel
+import com.baijum.ukufretboard.ui.LocalReduceMotion
 import com.baijum.ukufretboard.ui.RequireMicPermission
+import com.baijum.ukufretboard.ui.localizedLabel
 import com.baijum.ukufretboard.viewmodel.MelodyInputMode
 import com.baijum.ukufretboard.viewmodel.MelodyUiState
 
@@ -72,26 +75,29 @@ internal fun DurationSelector(
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         NoteDuration.entries.forEach { dur ->
-            val label = when (dur) {
-                NoteDuration.WHOLE -> stringResource(R.string.melody_whole)
-                NoteDuration.HALF -> stringResource(R.string.melody_half)
-                NoteDuration.QUARTER -> stringResource(R.string.melody_quarter)
-                NoteDuration.EIGHTH -> stringResource(R.string.melody_eighth)
-                NoteDuration.SIXTEENTH -> stringResource(R.string.melody_sixteenth)
-            }
+            val label =
+                when (dur) {
+                    NoteDuration.WHOLE -> stringResource(R.string.melody_whole)
+                    NoteDuration.HALF -> stringResource(R.string.melody_half)
+                    NoteDuration.QUARTER -> stringResource(R.string.melody_quarter)
+                    NoteDuration.EIGHTH -> stringResource(R.string.melody_eighth)
+                    NoteDuration.SIXTEENTH -> stringResource(R.string.melody_sixteenth)
+                }
             val durationChipDesc = stringResource(R.string.cd_note_duration_selected, dur.localizedLabel())
             FilterChip(
                 selected = selectedDuration == dur,
                 onClick = { onSelectDuration(dur) },
                 label = { Text(label) },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = MaterialTheme.colorScheme.primary,
-                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-                ),
-                modifier = Modifier.semantics {
-                    contentDescription = durationChipDesc
-                    if (selectedDuration == dur) stateDescription = "selected"
-                },
+                colors =
+                    FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = MaterialTheme.colorScheme.primary,
+                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                    ),
+                modifier =
+                    Modifier.semantics {
+                        contentDescription = durationChipDesc
+                        if (selectedDuration == dur) stateDescription = "selected"
+                    },
             )
         }
     }
@@ -125,36 +131,43 @@ internal fun InputModeSection(
             selected = state.inputMode == MelodyInputMode.TAP,
             onClick = { onSetInputMode(MelodyInputMode.TAP) },
             label = { Text(stringResource(R.string.melody_input_tap)) },
-            colors = FilterChipDefaults.filterChipColors(
-                selectedContainerColor = MaterialTheme.colorScheme.primary,
-                selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-            ),
+            colors =
+                FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = MaterialTheme.colorScheme.primary,
+                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                ),
         )
         FilterChip(
             selected = state.inputMode == MelodyInputMode.RECORD,
             onClick = { onSetInputMode(MelodyInputMode.RECORD) },
             label = { Text(stringResource(R.string.melody_input_record)) },
-            colors = FilterChipDefaults.filterChipColors(
-                selectedContainerColor = MaterialTheme.colorScheme.primary,
-                selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-            ),
+            colors =
+                FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = MaterialTheme.colorScheme.primary,
+                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                ),
         )
     }
 
     when (state.inputMode) {
-        MelodyInputMode.TAP -> TapInputContent(
-            state = state,
-            onAddNote = onAddNote,
-            onAddRest = onAddRest,
-            onOctaveUp = onOctaveUp,
-            onOctaveDown = onOctaveDown,
-        )
-        MelodyInputMode.RECORD -> RequireMicPermission {
-            RecordInputContent(
+        MelodyInputMode.TAP -> {
+            TapInputContent(
                 state = state,
-                onStartRecording = onStartRecording,
-                onStopRecording = onStopRecording,
+                onAddNote = onAddNote,
+                onAddRest = onAddRest,
+                onOctaveUp = onOctaveUp,
+                onOctaveDown = onOctaveDown,
             )
+        }
+
+        MelodyInputMode.RECORD -> {
+            RequireMicPermission {
+                RecordInputContent(
+                    state = state,
+                    onStartRecording = onStartRecording,
+                    onStopRecording = onStopRecording,
+                )
+            }
         }
     }
 }
@@ -184,12 +197,13 @@ private fun TapInputContent(
         IconButton(
             onClick = onOctaveDown,
             enabled = state.currentOctave > 3,
-            modifier = Modifier
-                .size(32.dp)
-                .semantics {
-                    contentDescription = decreaseOctaveDesc
-                    role = Role.Button
-                },
+            modifier =
+                Modifier
+                    .size(32.dp)
+                    .semantics {
+                        contentDescription = decreaseOctaveDesc
+                        role = Role.Button
+                    },
         ) {
             Icon(
                 Icons.Filled.KeyboardArrowDown,
@@ -202,21 +216,23 @@ private fun TapInputContent(
             text = state.currentOctave.toString(),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.semantics {
-                contentDescription = octaveValueDesc
-                liveRegion = LiveRegionMode.Polite
-            },
+            modifier =
+                Modifier.semantics {
+                    contentDescription = octaveValueDesc
+                    liveRegion = LiveRegionMode.Polite
+                },
         )
         val increaseOctaveDesc = stringResource(R.string.cd_increase_octave)
         IconButton(
             onClick = onOctaveUp,
             enabled = state.currentOctave < 6,
-            modifier = Modifier
-                .size(32.dp)
-                .semantics {
-                    contentDescription = increaseOctaveDesc
-                    role = Role.Button
-                },
+            modifier =
+                Modifier
+                    .size(32.dp)
+                    .semantics {
+                        contentDescription = increaseOctaveDesc
+                        role = Role.Button
+                    },
         ) {
             Icon(
                 Icons.Filled.KeyboardArrowUp,
@@ -227,26 +243,27 @@ private fun TapInputContent(
     }
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .horizontalScroll(rememberScrollState())
-            .padding(vertical = 6.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+                .padding(vertical = 6.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         noteNames.forEachIndexed { pc, name ->
             val addNoteDesc = stringResource(R.string.cd_add_note, name, state.currentOctave)
             Box(
-                modifier = Modifier
-                    .size(44.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        shape = CircleShape,
-                    )
-                    .clickable { onAddNote(pc) }
-                    .semantics {
-                        contentDescription = addNoteDesc
-                        role = Role.Button
-                    },
+                modifier =
+                    Modifier
+                        .size(44.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.secondaryContainer,
+                            shape = CircleShape,
+                        ).clickable { onAddNote(pc) }
+                        .semantics {
+                            contentDescription = addNoteDesc
+                            role = Role.Button
+                        },
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
@@ -258,17 +275,17 @@ private fun TapInputContent(
         }
         val addRestDesc = stringResource(R.string.cd_add_rest)
         Box(
-            modifier = Modifier
-                .size(44.dp)
-                .background(
-                    color = MaterialTheme.colorScheme.outlineVariant,
-                    shape = CircleShape,
-                )
-                .clickable { onAddRest() }
-                .semantics {
-                    contentDescription = addRestDesc
-                    role = Role.Button
-                },
+            modifier =
+                Modifier
+                    .size(44.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.outlineVariant,
+                        shape = CircleShape,
+                    ).clickable { onAddRest() }
+                    .semantics {
+                        contentDescription = addRestDesc
+                        role = Role.Button
+                    },
             contentAlignment = Alignment.Center,
         ) {
             Text(
@@ -285,21 +302,27 @@ private fun RecordInputContent(
     onStartRecording: () -> Unit,
     onStopRecording: () -> Unit,
 ) {
+    val reduceMotion = LocalReduceMotion.current
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = if (state.isRecording) {
-                MaterialTheme.colorScheme.primaryContainer
-            } else {
-                MaterialTheme.colorScheme.surfaceVariant
-            },
-        ),
+        shape =
+            androidx.compose.foundation.shape
+                .RoundedCornerShape(12.dp),
+        colors =
+            CardDefaults.cardColors(
+                containerColor =
+                    if (state.isRecording) {
+                        MaterialTheme.colorScheme.primaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.surfaceVariant
+                    },
+            ),
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             if (state.isRecording) {
@@ -307,9 +330,10 @@ private fun RecordInputContent(
                     text = stringResource(R.string.melody_listening),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.semantics {
-                        liveRegion = LiveRegionMode.Polite
-                    },
+                    modifier =
+                        Modifier.semantics {
+                            liveRegion = LiveRegionMode.Polite
+                        },
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -317,16 +341,18 @@ private fun RecordInputContent(
                 val detectedNote = state.detectedNote
                 if (detectedNote != null) {
                     val noteName = Notes.pitchClassToName(detectedNote.pitchClass)
-                    val detectedNoteDesc = stringResource(R.string.cd_melody_detected_note, noteName, detectedNote.octave)
+                    val detectedNoteDesc =
+                        stringResource(R.string.cd_melody_detected_note, noteName, detectedNote.octave)
                     Text(
                         text = "$noteName${detectedNote.octave}",
                         style = MaterialTheme.typography.displaySmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.semantics {
-                            liveRegion = LiveRegionMode.Polite
-                            contentDescription = detectedNoteDesc
-                        },
+                        modifier =
+                            Modifier.semantics {
+                                liveRegion = LiveRegionMode.Polite
+                                contentDescription = detectedNoteDesc
+                            },
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -351,8 +377,8 @@ private fun RecordInputContent(
 
                 AnimatedVisibility(
                     visible = state.lastAddedFeedback != null,
-                    enter = fadeIn(),
-                    exit = fadeOut(),
+                    enter = if (reduceMotion) EnterTransition.None else fadeIn(),
+                    exit = if (reduceMotion) ExitTransition.None else fadeOut(),
                 ) {
                     state.lastAddedFeedback?.let { feedback ->
                         Text(
@@ -360,11 +386,12 @@ private fun RecordInputContent(
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier
-                                .padding(top = 8.dp)
-                                .semantics {
-                                    liveRegion = LiveRegionMode.Assertive
-                                },
+                            modifier =
+                                Modifier
+                                    .padding(top = 8.dp)
+                                    .semantics {
+                                        liveRegion = LiveRegionMode.Assertive
+                                    },
                         )
                     }
                 }
@@ -392,9 +419,10 @@ private fun RecordInputContent(
                 val startRecordingDesc = stringResource(R.string.cd_start_recording)
                 OutlinedButton(
                     onClick = onStartRecording,
-                    modifier = Modifier.semantics {
-                        contentDescription = startRecordingDesc
-                    },
+                    modifier =
+                        Modifier.semantics {
+                            contentDescription = startRecordingDesc
+                        },
                 ) {
                     Icon(
                         Icons.Filled.PlayArrow,
@@ -509,10 +537,11 @@ internal fun OctaveSelector(
             text = currentOctave.toString(),
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.semantics {
-                contentDescription = octaveDescription
-                liveRegion = LiveRegionMode.Polite
-            },
+            modifier =
+                Modifier.semantics {
+                    contentDescription = octaveDescription
+                    liveRegion = LiveRegionMode.Polite
+                },
         )
         IconButton(onClick = onOctaveUp) {
             Icon(

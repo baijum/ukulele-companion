@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.view.WindowInsetsController
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
@@ -83,17 +85,21 @@ fun FullScreenFretboard(
     // Force landscape + immersive mode
     DisposableEffect(Unit) {
         val originalOrientation = activity?.requestedOrientation
-        activity?.requestedOrientation = if (isLargeScreen) {
-            ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
-        } else {
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        }
+        activity?.requestedOrientation =
+            if (isLargeScreen) {
+                ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+            } else {
+                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            }
 
         // Enter immersive mode — hide system bars
         val window = activity?.window
         val insetsController = window?.insetsController
         insetsController?.let {
-            it.hide(android.view.WindowInsets.Type.systemBars())
+            it.hide(
+                android.view.WindowInsets.Type
+                    .systemBars(),
+            )
             it.systemBarsBehavior =
                 WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
@@ -103,11 +109,15 @@ fun FullScreenFretboard(
             activity?.requestedOrientation =
                 originalOrientation ?: ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
             // Show system bars again
-            insetsController?.show(android.view.WindowInsets.Type.systemBars())
+            insetsController?.show(
+                android.view.WindowInsets.Type
+                    .systemBars(),
+            )
         }
     }
 
     val uiState by viewModel.uiState.collectAsState()
+    val reduceMotion = LocalReduceMotion.current
 
     // Overlay visibility with auto-hide
     var showOverlay by remember { mutableStateOf(true) }
@@ -120,25 +130,40 @@ fun FullScreenFretboard(
     }
 
     // Chord name from detection result
-    val chordLabel = when (val result = uiState.detectionResult) {
-        is ChordDetector.DetectionResult.NoSelection -> ""
-        is ChordDetector.DetectionResult.SingleNote -> result.note.name
-        is ChordDetector.DetectionResult.Interval ->
-            result.notes.joinToString(" ") { it.name }
-        is ChordDetector.DetectionResult.ChordFound -> result.result.name
-        is ChordDetector.DetectionResult.NoMatch -> "?"
-    }
+    val chordLabel =
+        when (val result = uiState.detectionResult) {
+            is ChordDetector.DetectionResult.NoSelection -> {
+                ""
+            }
+
+            is ChordDetector.DetectionResult.SingleNote -> {
+                result.note.name
+            }
+
+            is ChordDetector.DetectionResult.Interval -> {
+                result.notes.joinToString(" ") { it.name }
+            }
+
+            is ChordDetector.DetectionResult.ChordFound -> {
+                result.result.name
+            }
+
+            is ChordDetector.DetectionResult.NoMatch -> {
+                "?"
+            }
+        }
 
     BoxWithConstraints(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() },
-            ) {
-                showOverlay = !showOverlay
-            },
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() },
+                ) {
+                    showOverlay = !showOverlay
+                },
     ) {
         // Dynamic cell sizing: fill available width with all fret columns
         val fretCount = uiState.lastFret + 1 // frets 0 through lastFret
@@ -148,11 +173,12 @@ fun FullScreenFretboard(
         val headerHeight = 40.dp // fret numbers + markers
         val availableHeight = maxHeight - headerHeight
         val stringCount = viewModel.tuning.size
-        val dynamicCellHeight = if (stringCount > 0) {
-            minOf(availableHeight / stringCount, dynamicCellWidth)
-        } else {
-            dynamicCellWidth
-        }
+        val dynamicCellHeight =
+            if (stringCount > 0) {
+                minOf(availableHeight / stringCount, dynamicCellWidth)
+            } else {
+                dynamicCellWidth
+            }
 
         // Fretboard fills the screen
         FretboardView(
@@ -172,26 +198,27 @@ fun FullScreenFretboard(
             cellWidth = dynamicCellWidth,
             cellHeight = dynamicCellHeight,
             scrollable = false,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 4.dp),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(top = 4.dp),
         )
 
         // Bottom overlay controls
         AnimatedVisibility(
             visible = showOverlay,
-            enter = fadeIn(),
-            exit = fadeOut(),
+            enter = if (reduceMotion) EnterTransition.None else fadeIn(),
+            exit = if (reduceMotion) ExitTransition.None else fadeOut(),
             modifier = Modifier.align(Alignment.BottomCenter),
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.88f),
-                        RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
-                    )
-                    .padding(horizontal = 12.dp, vertical = 6.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .background(
+                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.88f),
+                            RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
+                        ).padding(horizontal = 12.dp, vertical = 6.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
@@ -200,10 +227,12 @@ fun FullScreenFretboard(
                     text = chordLabel.ifEmpty { stringResource(R.string.explorer_tap_frets) },
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    color = if (chordLabel.isNotEmpty())
-                        MaterialTheme.colorScheme.primary
-                    else
-                        MaterialTheme.colorScheme.onSurfaceVariant,
+                    color =
+                        if (chordLabel.isNotEmpty()) {
+                            MaterialTheme.colorScheme.primary
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        },
                 )
 
                 Row(
