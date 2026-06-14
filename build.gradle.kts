@@ -6,3 +6,11 @@ plugins {
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.kover) apply false
 }
+
+tasks.register<Copy>("installGitHooks") {
+    description = "Installs the pre-commit hook from scripts/pre-commit"
+    group = "git hooks"
+    from("scripts/pre-commit")
+    into(".git/hooks")
+    filePermissions { unix("rwxr-xr-x") }
+}
