@@ -58,8 +58,8 @@ object ScaleChords {
             val fifthInterval = intervals[fifthIndex]
 
             // Calculate semitone distances from chord root
-            val thirdSemitones = ((thirdInterval - rootInterval) + 12) % 12
-            val fifthSemitones = ((fifthInterval - rootInterval) + 12) % 12
+            val thirdSemitones = Notes.normalizePitchClass(thirdInterval - rootInterval)
+            val fifthSemitones = Notes.normalizePitchClass(fifthInterval - rootInterval)
 
             val (quality, qualityName) = classifyTriad(thirdSemitones, fifthSemitones)
 

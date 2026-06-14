@@ -168,7 +168,7 @@ object KeySignatures {
     fun closelyRelatedKeys(pitchClass: Int): Pair<Int, Int> {
         val index = CIRCLE_ORDER.indexOf(pitchClass)
         if (index < 0) return Pair(pitchClass, pitchClass)
-        val ccw = CIRCLE_ORDER[(index - 1 + 12) % 12]
+        val ccw = CIRCLE_ORDER[Notes.normalizePitchClass(index - 1)]
         val cw = CIRCLE_ORDER[(index + 1) % 12]
         return Pair(ccw, cw)
     }

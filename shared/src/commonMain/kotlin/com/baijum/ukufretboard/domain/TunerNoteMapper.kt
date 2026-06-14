@@ -1,5 +1,6 @@
 package com.baijum.ukufretboard.domain
 
+import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.UkuleleTuning
 import kotlin.math.abs
 import kotlin.math.log2
@@ -48,7 +49,6 @@ data class StringMatch(
  * four tunings (High-G, Low-G, Baritone, D-Tuning).
  */
 object TunerNoteMapper {
-
     /** Default concert pitch A4 = 440 Hz. */
     const val DEFAULT_A4_HZ = 440.0
 
@@ -61,7 +61,10 @@ object TunerNoteMapper {
      * @param a4Reference Reference frequency for A4 (default 440.0 Hz).
      * @return A [NoteInfo] describing the nearest note, or `null` if [hz] ≤ 0.
      */
-    fun mapFrequency(hz: Double, a4Reference: Double = DEFAULT_A4_HZ): NoteInfo? {
+    fun mapFrequency(
+        hz: Double,
+        a4Reference: Double = DEFAULT_A4_HZ,
+    ): NoteInfo? {
         if (hz <= 0.0) return null
 
         // MIDI note number (fractional) relative to A4 = 69.
@@ -72,10 +75,12 @@ object TunerNoteMapper {
         val cents = (midiExact - midiRounded) * 100.0
 
         // Pitch class and octave from the rounded MIDI note.
-        val pitchClass = ((midiRounded % 12) + 12) % 12  // ensure positive
+        val pitchClass = Notes.normalizePitchClass(midiRounded)
         val octave = (midiRounded / 12) - 1
 
-        val noteName = com.baijum.ukufretboard.data.Notes.pitchClassToName(pitchClass)
+        val noteName =
+            com.baijum.ukufretboard.data.Notes
+                .pitchClassToName(pitchClass)
 
         return NoteInfo(
             noteName = noteName,
@@ -118,11 +123,12 @@ object TunerNoteMapper {
         var bestCents = Double.MAX_VALUE
 
         for (i in tuning.pitchClasses.indices) {
-            val targetHz = targetFrequency(
-                tuning.pitchClasses[i],
-                tuning.octaves[i],
-                a4Reference,
-            )
+            val targetHz =
+                targetFrequency(
+                    tuning.pitchClasses[i],
+                    tuning.octaves[i],
+                    a4Reference,
+                )
             val centsDiff = 1200.0 * log2(noteInfo.frequencyHz / targetHz)
 
             if (abs(centsDiff) < abs(bestCents)) {
@@ -155,14 +161,16 @@ object TunerNoteMapper {
         switchHysteresisCents: Double,
         a4Reference: Double = DEFAULT_A4_HZ,
     ): StringMatch {
-        val centsDiffs = tuning.pitchClasses.indices.map { i ->
-            val targetHz = targetFrequency(
-                tuning.pitchClasses[i],
-                tuning.octaves[i],
-                a4Reference,
-            )
-            1200.0 * log2(noteInfo.frequencyHz / targetHz)
-        }
+        val centsDiffs =
+            tuning.pitchClasses.indices.map { i ->
+                val targetHz =
+                    targetFrequency(
+                        tuning.pitchClasses[i],
+                        tuning.octaves[i],
+                        a4Reference,
+                    )
+                1200.0 * log2(noteInfo.frequencyHz / targetHz)
+            }
 
         var bestIndex = 0
         var bestAbs = Double.MAX_VALUE
@@ -174,15 +182,19 @@ object TunerNoteMapper {
             }
         }
 
-        val chosenIndex = if (previousStringIndex != null &&
-            previousStringIndex in centsDiffs.indices
-        ) {
-            val previousAbs = abs(centsDiffs[previousStringIndex])
-            if (previousAbs <= bestAbs + switchHysteresisCents) previousStringIndex
-            else bestIndex
-        } else {
-            bestIndex
-        }
+        val chosenIndex =
+            if (previousStringIndex != null &&
+                previousStringIndex in centsDiffs.indices
+            ) {
+                val previousAbs = abs(centsDiffs[previousStringIndex])
+                if (previousAbs <= bestAbs + switchHysteresisCents) {
+                    previousStringIndex
+                } else {
+                    bestIndex
+                }
+            } else {
+                bestIndex
+            }
 
         return StringMatch(
             stringIndex = chosenIndex,

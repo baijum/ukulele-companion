@@ -8,26 +8,47 @@ package com.baijum.ukufretboard.data
  * tones of the Western chromatic scale.
  */
 object Notes {
-
     /**
      * Note names indexed by pitch class, using sharps for accidentals.
      *
      * Index 0 = C, 1 = C#, 2 = D, ... 11 = B.
      */
-    val NOTE_NAMES_SHARP: List<String> = listOf(
-        "C", "C#", "D", "D#", "E", "F",
-        "F#", "G", "G#", "A", "A#", "B"
-    )
+    val NOTE_NAMES_SHARP: List<String> =
+        listOf(
+            "C",
+            "C#",
+            "D",
+            "D#",
+            "E",
+            "F",
+            "F#",
+            "G",
+            "G#",
+            "A",
+            "A#",
+            "B",
+        )
 
     /**
      * Note names indexed by pitch class, using flats for accidentals.
      *
      * Index 0 = C, 1 = Db, 2 = D, ... 11 = B.
      */
-    val NOTE_NAMES_FLAT: List<String> = listOf(
-        "C", "Db", "D", "Eb", "E", "F",
-        "Gb", "G", "Ab", "A", "Bb", "B"
-    )
+    val NOTE_NAMES_FLAT: List<String> =
+        listOf(
+            "C",
+            "Db",
+            "D",
+            "Eb",
+            "E",
+            "F",
+            "Gb",
+            "G",
+            "Ab",
+            "A",
+            "Bb",
+            "B",
+        )
 
     /**
      * Standard note names using the most common enharmonic spelling for
@@ -36,10 +57,21 @@ object Notes {
      * Sharps for C# and F#; flats for Eb, Ab, and Bb.
      * Used as the default when no musical key context is available.
      */
-    val NOTE_NAMES_STANDARD: List<String> = listOf(
-        "C", "C#", "D", "Eb", "E", "F",
-        "F#", "G", "Ab", "A", "Bb", "B"
-    )
+    val NOTE_NAMES_STANDARD: List<String> =
+        listOf(
+            "C",
+            "C#",
+            "D",
+            "Eb",
+            "E",
+            "F",
+            "F#",
+            "G",
+            "Ab",
+            "A",
+            "Bb",
+            "B",
+        )
 
     /**
      * Alias for [NOTE_NAMES_SHARP] to maintain backward compatibility.
@@ -50,14 +82,21 @@ object Notes {
     const val PITCH_CLASS_COUNT = 12
 
     /**
+     * Normalizes any integer to a pitch class in [0, [PITCH_CLASS_COUNT]).
+     *
+     * Unlike plain `% PITCH_CLASS_COUNT`, this is safe for negative inputs
+     * (e.g. transposition by negative semitones, subtraction of pitch classes).
+     */
+    fun normalizePitchClass(value: Int): Int = ((value % PITCH_CLASS_COUNT) + PITCH_CLASS_COUNT) % PITCH_CLASS_COUNT
+
+    /**
      * Converts a pitch class integer to its human-readable note name
      * using the standard enharmonic spellings ([NOTE_NAMES_STANDARD]).
      *
      * @param pitchClass An integer from 0 to 11 representing a pitch class.
      * @return The note name (e.g., "C", "F#", "Bb"), or "?" if out of range.
      */
-    fun pitchClassToName(pitchClass: Int): String =
-        NOTE_NAMES_STANDARD.getOrElse(pitchClass) { "?" }
+    fun pitchClassToName(pitchClass: Int): String = NOTE_NAMES_STANDARD.getOrElse(pitchClass) { "?" }
 
     /**
      * Key roots (pitch classes) whose major scales use flats.
@@ -95,11 +134,12 @@ object Notes {
     ): String {
         if (keyRoot == null) return pitchClassToName(pitchClass)
 
-        val keyUsesFlats = if (isMinor) {
-            keyRoot in FLAT_MINOR_KEY_ROOTS
-        } else {
-            keyRoot in FLAT_KEY_ROOTS
-        }
+        val keyUsesFlats =
+            if (isMinor) {
+                keyRoot in FLAT_MINOR_KEY_ROOTS
+            } else {
+                keyRoot in FLAT_KEY_ROOTS
+            }
         return if (keyUsesFlats) NOTE_NAMES_FLAT[pitchClass] else NOTE_NAMES_SHARP[pitchClass]
     }
 }
