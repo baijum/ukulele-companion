@@ -20,6 +20,7 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -28,7 +29,6 @@ import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class BackupRestoreManagerTest {
-
     private lateinit var app: Application
     private lateinit var settingsVM: SettingsViewModel
     private lateinit var manager: BackupRestoreManager
@@ -48,7 +48,10 @@ class BackupRestoreManagerTest {
         val root = Json.parseToJsonElement(json).jsonObject
         assertEquals("3", root["version"]?.jsonPrimitive?.content)
         assertNotNull(root["exportedAt"])
-        assertTrue(root["favorites"]!!.toString().contains("[]") || root["favorites"]!!.toString() == "[\n]" || root["favorites"]!!.toString().trim().let { it == "[]" || it == "[\n\n]" || it.startsWith("[") })
+        assertTrue(
+            root["favorites"]!!.toString().contains("[]") || root["favorites"]!!.toString() == "[\n]" ||
+                root["favorites"]!!.toString().trim().let { it == "[]" || it == "[\n\n]" || it.startsWith("[") },
+        )
     }
 
     @Test
@@ -69,10 +72,15 @@ class BackupRestoreManagerTest {
 
     @Test
     fun importExportRoundTripPreservesFavorites() {
-        val backup = buildMinimalBackup(
-            favorites = """[{"rootPitchClass":0,"chordSymbol":"m7","frets":[0,2,3,3],"addedAt":5000,"folderIds":["f1"]}]""",
-            favoriteFolders = """[{"id":"f1","name":"Jazz","createdAt":6000,"voicingOrder":["0|m7|0,2,3,3"]}]""",
-        )
+        val backup =
+            buildMinimalBackup(
+                favorites =
+                    """[{"rootPitchClass":0,"chordSymbol":"m7",""" +
+                        """"frets":[0,2,3,3],"addedAt":5000,"folderIds":["f1"]}]""",
+                favoriteFolders =
+                    """[{"id":"f1","name":"Jazz","createdAt":6000,""" +
+                        """"voicingOrder":["0|m7|0,2,3,3"]}]""",
+            )
         manager.importBackup(backup)
         val favRepo = FavoritesRepository(app)
         val all = favRepo.getAll()
@@ -87,9 +95,16 @@ class BackupRestoreManagerTest {
 
     @Test
     fun importExportRoundTripPreservesChordSheets() {
-        val backup = buildMinimalBackup(
-            chordSheets = """[{"id":"s1","title":"Rainbow","artist":"IZ","content":"[C]Over","key":"C","capo":2,"strumPatternName":"","labels":["Hawaiian"],"createdAt":100,"updatedAt":200,"viewCount":5,"lastViewedAt":150,"totalViewTimeMs":9000}]""",
-        )
+        val backup =
+            buildMinimalBackup(
+                chordSheets =
+                    """[{"id":"s1","title":"Rainbow","artist":"IZ",""" +
+                        """"content":"[C]Over","key":"C","capo":2,""" +
+                        """"strumPatternName":"",""" +
+                        """"labels":["Hawaiian"],"createdAt":100,""" +
+                        """"updatedAt":200,"viewCount":5,""" +
+                        """"lastViewedAt":150,"totalViewTimeMs":9000}]""",
+            )
         manager.importBackup(backup)
         val repo = ChordSheetRepository(app)
         val sheet = repo.get("s1")
@@ -103,9 +118,14 @@ class BackupRestoreManagerTest {
 
     @Test
     fun importExportRoundTripPreservesMelodies() {
-        val backup = buildMinimalBackup(
-            melodies = """[{"id":"m1","name":"Scale","notes":[{"pitchClass":0,"octave":4,"duration":"QUARTER","stringIndex":2,"fret":3}],"bpm":100,"createdAt":7000}]""",
-        )
+        val backup =
+            buildMinimalBackup(
+                melodies =
+                    """[{"id":"m1","name":"Scale","notes":""" +
+                        """[{"pitchClass":0,"octave":4,""" +
+                        """"duration":"QUARTER","stringIndex":2,""" +
+                        """"fret":3}],"bpm":100,"createdAt":7000}]""",
+            )
         manager.importBackup(backup)
         val repo = MelodyRepository(app)
         val melody = repo.get("m1")
@@ -118,9 +138,10 @@ class BackupRestoreManagerTest {
 
     @Test
     fun importExportRoundTripPreservesSetlists() {
-        val backup = buildMinimalBackup(
-            setlists = """[{"id":"sl1","name":"Friday","songIds":["s1","s2"],"createdAt":100,"updatedAt":200}]""",
-        )
+        val backup =
+            buildMinimalBackup(
+                setlists = """[{"id":"sl1","name":"Friday","songIds":["s1","s2"],"createdAt":100,"updatedAt":200}]""",
+            )
         manager.importBackup(backup)
         val repo = SetlistRepository(app)
         val all = repo.getAll()
@@ -141,9 +162,13 @@ class BackupRestoreManagerTest {
 
     @Test
     fun importExportRoundTripPreservesPracticeTimer() {
-        val backup = buildMinimalBackup(
-            practiceTimer = """{"totalMinutes":60,"totalSessions":10,"longestSession":15,"lastSessionTime":9999,"dailyGoal":20,"dailyMinutes":{"2025-01-01":10}}""",
-        )
+        val backup =
+            buildMinimalBackup(
+                practiceTimer =
+                    """{"totalMinutes":60,"totalSessions":10,""" +
+                        """"longestSession":15,"lastSessionTime":9999,""" +
+                        """"dailyGoal":20,"dailyMinutes":{"2025-01-01":10}}""",
+            )
         manager.importBackup(backup)
         val repo = PracticeTimerRepository(app)
         assertEquals(60, repo.totalMinutes())
@@ -154,9 +179,10 @@ class BackupRestoreManagerTest {
 
     @Test
     fun importExportRoundTripPreservesLearningProgress() {
-        val backup = buildMinimalBackup(
-            learningProgress = """{"entries":{"lesson_done_basics":"true","quiz_total_ALL":"5"}}""",
-        )
+        val backup =
+            buildMinimalBackup(
+                learningProgress = """{"entries":{"lesson_done_basics":"true","quiz_total_ALL":"5"}}""",
+            )
         manager.importBackup(backup)
         val repo = LearningProgressRepository(app)
         assertTrue(repo.isLessonCompleted("basics"))
@@ -168,12 +194,13 @@ class BackupRestoreManagerTest {
     fun importMergesWithExistingFavorites() {
         val favRepo = FavoritesRepository(app)
         favRepo.add(FavoriteVoicing(0, "maj", listOf(0, 0, 0, 3), 1000L))
-        val backup = buildMinimalBackup(
-            favorites = """[
+        val backup =
+            buildMinimalBackup(
+                favorites = """[
                 {"rootPitchClass":0,"chordSymbol":"maj","frets":[0,0,0,3],"addedAt":2000,"folderIds":[]},
                 {"rootPitchClass":4,"chordSymbol":"m","frets":[0,4,3,2],"addedAt":3000,"folderIds":[]}
             ]""",
-        )
+            )
         manager.importBackup(backup)
         val all = favRepo.getAll()
         assertEquals(2, all.size)
@@ -183,9 +210,10 @@ class BackupRestoreManagerTest {
     fun importChordSheetUpdatedAtWins() {
         val repo = ChordSheetRepository(app)
         repo.save(ChordSheet(id = "s1", title = "Old", content = "", createdAt = 100L, updatedAt = 200L))
-        val backup = buildMinimalBackup(
-            chordSheets = """[{"id":"s1","title":"New","content":"","createdAt":100,"updatedAt":300}]""",
-        )
+        val backup =
+            buildMinimalBackup(
+                chordSheets = """[{"id":"s1","title":"New","content":"","createdAt":100,"updatedAt":300}]""",
+            )
         manager.importBackup(backup)
         assertEquals("New", repo.get("s1")!!.title)
     }
@@ -194,9 +222,13 @@ class BackupRestoreManagerTest {
 
     @Test
     fun importMigratesOldFolderIdToFolderIds() {
-        val backup = buildMinimalBackup(
-            favorites = """[{"rootPitchClass":0,"chordSymbol":"","frets":[0,0,0,0],"addedAt":1000,"folderId":"old-folder","folderIds":[]}]""",
-        )
+        val backup =
+            buildMinimalBackup(
+                favorites =
+                    """[{"rootPitchClass":0,"chordSymbol":"",""" +
+                        """"frets":[0,0,0,0],"addedAt":1000,""" +
+                        """"folderId":"old-folder","folderIds":[]}]""",
+            )
         manager.importBackup(backup)
         val favRepo = FavoritesRepository(app)
         val loaded = favRepo.getAll().first()
@@ -207,23 +239,24 @@ class BackupRestoreManagerTest {
 
     @Test
     fun importNormalizesIosTimestamps() {
-        val iosBackup = """
-        {
-            "version": 3,
-            "timestamp": 1700000000.0,
-            "favorites": [{"rootPitchClass":0,"chordSymbol":"","frets":[0,0,0,0],"addedAt":1700000000.0,"folderIds":[]}],
-            "folders": [],
-            "chord_sheets": [],
-            "custom_progressions": [],
-            "custom_strum_patterns": [],
-            "custom_fingerpicking_patterns": [],
-            "setlists": [],
-            "melodies": [],
-            "learn_progress": {},
-            "practice_timer": {},
-            "settings": {}
-        }
-        """.trimIndent()
+        val iosBackup =
+            """
+            {
+                "version": 3,
+                "timestamp": 1700000000.0,
+                "favorites": [{"rootPitchClass":0,"chordSymbol":"","frets":[0,0,0,0],"addedAt":1700000000.0,"folderIds":[]}],
+                "folders": [],
+                "chord_sheets": [],
+                "custom_progressions": [],
+                "custom_strum_patterns": [],
+                "custom_fingerpicking_patterns": [],
+                "setlists": [],
+                "melodies": [],
+                "learn_progress": {},
+                "practice_timer": {},
+                "settings": {}
+            }
+            """.trimIndent()
         manager.importBackup(iosBackup)
         val favRepo = FavoritesRepository(app)
         val fav = favRepo.getAll().first()
@@ -232,25 +265,26 @@ class BackupRestoreManagerTest {
 
     @Test
     fun importNormalizesIosFingerNames() {
-        val iosBackup = """
-        {
-            "version": 3,
-            "timestamp": 1700000000.0,
-            "favorites": [],
-            "folders": [],
-            "chord_sheets": [],
-            "custom_progressions": [],
-            "custom_strum_patterns": [],
-            "custom_fingerpicking_patterns": [
-                {"id":"fp1","name":"Test","steps":[{"finger":"T","stringIndex":0,"emphasis":true},{"finger":"I","stringIndex":2,"emphasis":false}],"createdAt":1000,"timeSignature":"4/4"}
-            ],
-            "setlists": [],
-            "melodies": [],
-            "learn_progress": {},
-            "practice_timer": {},
-            "settings": {}
-        }
-        """.trimIndent()
+        val iosBackup =
+            """
+            {
+                "version": 3,
+                "timestamp": 1700000000.0,
+                "favorites": [],
+                "folders": [],
+                "chord_sheets": [],
+                "custom_progressions": [],
+                "custom_strum_patterns": [],
+                "custom_fingerpicking_patterns": [
+                    {"id":"fp1","name":"Test","steps":[{"finger":"T","stringIndex":0,"emphasis":true},{"finger":"I","stringIndex":2,"emphasis":false}],"createdAt":1000,"timeSignature":"4/4"}
+                ],
+                "setlists": [],
+                "melodies": [],
+                "learn_progress": {},
+                "practice_timer": {},
+                "settings": {}
+            }
+            """.trimIndent()
         manager.importBackup(iosBackup)
         val repo = CustomFingerpickingPatternRepository(app)
         val all = repo.getAll()
@@ -260,23 +294,24 @@ class BackupRestoreManagerTest {
 
     @Test
     fun importNormalizesIosMelodyDurations() {
-        val iosBackup = """
-        {
-            "version": 3,
-            "timestamp": 1700000000.0,
-            "favorites": [],
-            "folders": [],
-            "chord_sheets": [],
-            "custom_progressions": [],
-            "custom_strum_patterns": [],
-            "custom_fingerpicking_patterns": [],
-            "setlists": [],
-            "melodies": [{"id":"m1","name":"Test","notes":[{"pitchClass":0,"octave":4,"duration":"♩"}],"bpm":120,"createdAt":1000}],
-            "learn_progress": {},
-            "practice_timer": {},
-            "settings": {}
-        }
-        """.trimIndent()
+        val iosBackup =
+            """
+            {
+                "version": 3,
+                "timestamp": 1700000000.0,
+                "favorites": [],
+                "folders": [],
+                "chord_sheets": [],
+                "custom_progressions": [],
+                "custom_strum_patterns": [],
+                "custom_fingerpicking_patterns": [],
+                "setlists": [],
+                "melodies": [{"id":"m1","name":"Test","notes":[{"pitchClass":0,"octave":4,"duration":"♩"}],"bpm":120,"createdAt":1000}],
+                "learn_progress": {},
+                "practice_timer": {},
+                "settings": {}
+            }
+            """.trimIndent()
         manager.importBackup(iosBackup)
         val repo = MelodyRepository(app)
         val melody = repo.get("m1")
@@ -284,11 +319,91 @@ class BackupRestoreManagerTest {
         assertEquals("QUARTER", melody!!.notes[0].duration.name)
     }
 
-    // ── Error handling ───────────────────────────────────────────────
+    // ── Error handling & atomicity ───────────────────────────────────
 
     @Test(expected = Exception::class)
     fun importInvalidJsonThrows() {
         manager.importBackup("not valid json {{{")
+    }
+
+    @Test
+    fun importInvalidJsonDoesNotModifyExistingData() {
+        val favRepo = FavoritesRepository(app)
+        favRepo.add(FavoriteVoicing(0, "maj", listOf(0, 0, 0, 3), 1000L))
+        val sheetRepo = ChordSheetRepository(app)
+        sheetRepo.save(
+            ChordSheet(id = "s1", title = "My Song", content = "[C]Hello", createdAt = 100L, updatedAt = 200L),
+        )
+
+        try {
+            manager.importBackup("not valid json {{{")
+        } catch (_: Exception) {
+            // expected
+        }
+
+        assertEquals(1, favRepo.getAll().size)
+        assertEquals("maj", favRepo.getAll()[0].chordSymbol)
+        assertEquals("My Song", sheetRepo.get("s1")!!.title)
+    }
+
+    @Test
+    fun importBadMelodiesDoesNotAffectOtherCategories() {
+        val favRepo = FavoritesRepository(app)
+        favRepo.add(FavoriteVoicing(0, "maj", listOf(0, 0, 0, 3), 1000L))
+
+        val badMelody =
+            """[{"id":"m1","name":"Bad","notes":""" +
+                """[{"pitchClass":0,"octave":4,""" +
+                """"duration":"NONEXISTENT_DURATION"}],""" +
+                """"bpm":100,"createdAt":5000}]"""
+        val backup =
+            buildMinimalBackup(
+                favorites =
+                    """[{"rootPitchClass":4,"chordSymbol":"m",""" +
+                        """"frets":[0,4,3,2],"addedAt":3000,""" +
+                        """"folderIds":[]}]""",
+                chordSheets =
+                    """[{"id":"s1","title":"Song",""" +
+                        """"content":"[C]lyrics",""" +
+                        """"createdAt":100,"updatedAt":200}]""",
+                melodies = badMelody,
+            )
+        manager.importBackup(backup)
+
+        assertEquals(2, favRepo.getAll().size)
+        val sheetRepo = ChordSheetRepository(app)
+        assertNotNull(sheetRepo.get("s1"))
+        val melodyRepo = MelodyRepository(app)
+        assertEquals(0, melodyRepo.getAll().size)
+    }
+
+    @Test
+    fun importWithAllBadProgressionsStillImportsOtherCategories() {
+        val backup =
+            buildMinimalBackup(
+                favorites =
+                    """[{"rootPitchClass":7,"chordSymbol":"7",""" +
+                        """"frets":[0,2,1,2],"addedAt":1000,""" +
+                        """"folderIds":[]}]""",
+                customProgressions =
+                    """[{"id":"p1","name":"Bad",""" +
+                        """"description":"",""" +
+                        """"scaleType":"INVALID_SCALE",""" +
+                        """"degrees":[],"createdAt":1000}]""",
+                setlists =
+                    """[{"id":"sl1","name":"Gig",""" +
+                        """"songIds":["s1"],""" +
+                        """"createdAt":100,"updatedAt":200}]""",
+            )
+        manager.importBackup(backup)
+
+        val favRepo = FavoritesRepository(app)
+        assertEquals(1, favRepo.getAll().size)
+        assertEquals("7", favRepo.getAll()[0].chordSymbol)
+        val progressionRepo = CustomProgressionRepository(app)
+        assertEquals(0, progressionRepo.getAll().size)
+        val setlistRepo = SetlistRepository(app)
+        assertEquals(1, setlistRepo.getAll().size)
     }
 
     // ── Settings ─────────────────────────────────────────────────────
@@ -296,9 +411,19 @@ class BackupRestoreManagerTest {
     @Test
     fun importPreservesSettingsNotInBackup() {
         settingsVM.updateTuner { it.copy(spokenFeedback = true) }
-        val backup = buildMinimalBackup(
-            settings = """{"soundEnabled":false,"volume":0.5,"noteDurationMs":600,"strumDelayMs":50,"strumDown":true,"playOnTap":false,"themeMode":"DARK","showExplorerTips":true,"showLearnSection":true,"showReferenceSection":true,"tuning":"LOW_G","leftHanded":true,"lastFret":15,"showNoteNames":false}""",
-        )
+        val backup =
+            buildMinimalBackup(
+                settings =
+                    """{"soundEnabled":false,"volume":0.5,""" +
+                        """"noteDurationMs":600,"strumDelayMs":50,""" +
+                        """"strumDown":true,"playOnTap":false,""" +
+                        """"themeMode":"DARK",""" +
+                        """"showExplorerTips":true,""" +
+                        """"showLearnSection":true,""" +
+                        """"showReferenceSection":true,""" +
+                        """"tuning":"LOW_G","leftHanded":true,""" +
+                        """"lastFret":15,"showNoteNames":false}""",
+            )
         manager.importBackup(backup)
         val s = settingsVM.exportSettings()
         assertEquals(false, s.sound.enabled)
@@ -312,6 +437,7 @@ class BackupRestoreManagerTest {
 
     // ── Helper ───────────────────────────────────────────────────────
 
+    @Suppress("LongParameterList")
     private fun buildMinimalBackup(
         favorites: String = "[]",
         favoriteFolders: String = "[]",
@@ -323,9 +449,22 @@ class BackupRestoreManagerTest {
         melodies: String = "[]",
         learningProgress: String = """{"entries":{}}""",
         achievements: String = "{}",
-        practiceTimer: String = """{"totalMinutes":0,"totalSessions":0,"longestSession":0,"lastSessionTime":0,"dailyGoal":15,"dailyMinutes":{}}""",
-        settings: String = """{"soundEnabled":true,"volume":0.7,"noteDurationMs":600,"strumDelayMs":50,"strumDown":true,"playOnTap":false,"themeMode":"SYSTEM","showExplorerTips":true,"showLearnSection":true,"showReferenceSection":true,"tuning":"HIGH_G","leftHanded":false,"lastFret":12,"showNoteNames":true}""",
-    ): String = """
+        practiceTimer: String =
+            """{"totalMinutes":0,"totalSessions":0,""" +
+                """"longestSession":0,"lastSessionTime":0,""" +
+                """"dailyGoal":15,"dailyMinutes":{}}""",
+        settings: String =
+            """{"soundEnabled":true,"volume":0.7,""" +
+                """"noteDurationMs":600,"strumDelayMs":50,""" +
+                """"strumDown":true,"playOnTap":false,""" +
+                """"themeMode":"SYSTEM",""" +
+                """"showExplorerTips":true,""" +
+                """"showLearnSection":true,""" +
+                """"showReferenceSection":true,""" +
+                """"tuning":"HIGH_G","leftHanded":false,""" +
+                """"lastFret":12,"showNoteNames":true}""",
+    ): String =
+        """
         {
             "version": 3,
             "exportedAt": ${System.currentTimeMillis()},
@@ -342,5 +481,5 @@ class BackupRestoreManagerTest {
             "practiceTimer": $practiceTimer,
             "settings": $settings
         }
-    """.trimIndent()
+        """.trimIndent()
 }
