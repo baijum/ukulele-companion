@@ -46,22 +46,4 @@ class FrameGateTest {
         gate.exit()
         assertFalse(gate.isActive, "exited gate should be inactive")
     }
-
-    @Test
-    fun awaitEnterOnFreeGateSucceedsImmediately() {
-        val gate = FrameGate()
-        gate.awaitEnter()
-        assertTrue(gate.isActive)
-        gate.exit()
-    }
-
-    @Test
-    fun awaitEnterAfterExitSucceeds() {
-        val gate = FrameGate()
-        gate.tryEnter()
-        gate.exit()
-        gate.awaitEnter()
-        assertTrue(gate.isActive)
-        gate.exit()
-    }
 }

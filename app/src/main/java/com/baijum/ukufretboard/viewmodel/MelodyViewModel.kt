@@ -11,10 +11,11 @@ import com.baijum.ukufretboard.data.MelodyRepository
 import com.baijum.ukufretboard.data.NoteDuration
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.SoundSettings
+import com.baijum.ukufretboard.domain.FrameGate
 import com.baijum.ukufretboard.domain.NoteInfo
 import com.baijum.ukufretboard.domain.PitchDetector
 import com.baijum.ukufretboard.domain.TunerNoteMapper
-import com.baijum.ukufretboard.domain.FrameGate
+import com.baijum.ukufretboard.domain.awaitEnterSuspending
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -78,10 +79,10 @@ data class MelodyUiState(
  * and microphone-based note recording using the existing pitch detection pipeline.
  */
 class MelodyViewModel : ViewModel() {
-
     companion object {
         private const val MIN_OCTAVE = 3
         private const val MAX_OCTAVE = 6
+
         /**
          * Frames of consistent detection required before accepting a note (~250ms).
          * At ~43 frames/sec (23ms per frame), 11 frames ≈ 253ms.
@@ -133,13 +134,17 @@ class MelodyViewModel : ViewModel() {
 
     // --- Note composition ---
 
-    fun addNote(pitchClass: Int, octave: Int? = null) {
+    fun addNote(
+        pitchClass: Int,
+        octave: Int? = null,
+    ) {
         val state = _uiState.value
-        val note = MelodyNote(
-            pitchClass = pitchClass,
-            octave = octave ?: state.currentOctave,
-            duration = state.selectedDuration,
-        )
+        val note =
+            MelodyNote(
+                pitchClass = pitchClass,
+                octave = octave ?: state.currentOctave,
+                duration = state.selectedDuration,
+            )
         _uiState.update {
             it.copy(
                 notes = it.notes + note,
@@ -233,14 +238,18 @@ class MelodyViewModel : ViewModel() {
         _uiState.update { it.copy(isStepSequencerMode = !it.isStepSequencerMode) }
     }
 
-    fun setStep(index: Int, pitchClass: Int) {
+    fun setStep(
+        index: Int,
+        pitchClass: Int,
+    ) {
         val state = _uiState.value
         if (index !in state.steps.indices) return
-        val note = MelodyNote(
-            pitchClass = pitchClass,
-            octave = state.currentOctave,
-            duration = state.selectedDuration,
-        )
+        val note =
+            MelodyNote(
+                pitchClass = pitchClass,
+                octave = state.currentOctave,
+                duration = state.selectedDuration,
+            )
         _uiState.update {
             it.copy(
                 steps = it.steps.toMutableList().apply { set(index, note) },
@@ -264,11 +273,12 @@ class MelodyViewModel : ViewModel() {
     fun expandSteps() {
         _uiState.update { state ->
             val currentSize = state.steps.size
-            val newSize = if (currentSize >= MelodyUiState.STEP_COUNT_16) {
-                MelodyUiState.STEP_COUNT_8
-            } else {
-                MelodyUiState.STEP_COUNT_16
-            }
+            val newSize =
+                if (currentSize >= MelodyUiState.STEP_COUNT_16) {
+                    MelodyUiState.STEP_COUNT_8
+                } else {
+                    MelodyUiState.STEP_COUNT_16
+                }
             if (newSize > currentSize) {
                 state.copy(steps = state.steps + List(newSize - currentSize) { null })
             } else {
@@ -330,7 +340,10 @@ class MelodyViewModel : ViewModel() {
         _uiState.update { it.copy(isPlaying = false, playingIndex = -1) }
     }
 
-    private fun playNote(pitchClass: Int, octave: Int) {
+    private fun playNote(
+        pitchClass: Int,
+        octave: Int,
+    ) {
         if (!soundSettings.enabled) return
         viewModelScope.launch {
             ToneGenerator.playNote(
@@ -347,17 +360,22 @@ class MelodyViewModel : ViewModel() {
     fun saveMelody(name: String) {
         val repo = repository ?: return
         val state = _uiState.value
-        val melody = Melody(
-            id = state.loadedMelodyId ?: java.util.UUID.randomUUID().toString(),
-            name = name,
-            notes = state.notes,
-            bpm = state.bpm,
-            createdAt = if (state.loadedMelodyId != null) {
-                repo.get(state.loadedMelodyId)?.createdAt ?: System.currentTimeMillis()
-            } else {
-                System.currentTimeMillis()
-            },
-        )
+        val melody =
+            Melody(
+                id =
+                    state.loadedMelodyId ?: java.util.UUID
+                        .randomUUID()
+                        .toString(),
+                name = name,
+                notes = state.notes,
+                bpm = state.bpm,
+                createdAt =
+                    if (state.loadedMelodyId != null) {
+                        repo.get(state.loadedMelodyId)?.createdAt ?: System.currentTimeMillis()
+                    } else {
+                        System.currentTimeMillis()
+                    },
+            )
         repo.save(melody)
         _uiState.update {
             it.copy(
@@ -399,7 +417,10 @@ class MelodyViewModel : ViewModel() {
         refreshSavedMelodies()
     }
 
-    fun renameMelody(id: String, newName: String) {
+    fun renameMelody(
+        id: String,
+        newName: String,
+    ) {
         val repo = repository ?: return
         val melody = repo.get(id) ?: return
         val updated = melody.copy(name = newName)
@@ -439,26 +460,32 @@ class MelodyViewModel : ViewModel() {
         val ctx = appContext ?: return
         if (_uiState.value.isPlaying) stopPlayback()
 
-        frameGate.awaitEnter()
-        try {
-            resetRecordingState()
-            _uiState.update {
-                it.copy(
-                    isRecording = true,
-                    detectedNote = null,
-                    stabilizationProgress = 0f,
-                )
-            }
-        } finally {
-            frameGate.exit()
+        _uiState.update {
+            it.copy(
+                isRecording = true,
+                detectedNote = null,
+                stabilizationProgress = 0f,
+            )
         }
 
-        AudioCaptureEngine.start(
-            viewModelScope,
-            ctx,
-            onInterrupted = { stopRecording() },
-        ) { buffer ->
-            processRecordingBuffer(buffer)
+        viewModelScope.launch {
+            if (!frameGate.awaitEnterSuspending()) {
+                _uiState.update { it.copy(isRecording = false) }
+                return@launch
+            }
+            try {
+                resetRecordingState()
+            } finally {
+                frameGate.exit()
+            }
+
+            AudioCaptureEngine.start(
+                viewModelScope,
+                ctx,
+                onInterrupted = { stopRecording() },
+            ) { buffer ->
+                processRecordingBuffer(buffer)
+            }
         }
     }
 
@@ -541,11 +568,12 @@ class MelodyViewModel : ViewModel() {
             return
         }
 
-        val result = PitchDetector.detect(
-            samples,
-            AudioCaptureEngine.SAMPLE_RATE,
-            previousFrequency = previousFrequency,
-        )
+        val result =
+            PitchDetector.detect(
+                samples,
+                AudioCaptureEngine.SAMPLE_RATE,
+                previousFrequency = previousFrequency,
+            )
 
         if (result == null) {
             previousFrequency = null
@@ -565,19 +593,21 @@ class MelodyViewModel : ViewModel() {
         if (recentFrequencies.size > SMOOTHING_WINDOW) {
             recentFrequencies.removeFirst()
         }
-        val smoothedHz = recentFrequencies.sorted().let { sorted ->
-            val mid = sorted.size / 2
-            if (sorted.size % 2 == 0 && sorted.size >= 2) {
-                (sorted[mid - 1] + sorted[mid]) / 2.0
-            } else {
-                sorted[mid]
+        val smoothedHz =
+            recentFrequencies.sorted().let { sorted ->
+                val mid = sorted.size / 2
+                if (sorted.size % 2 == 0 && sorted.size >= 2) {
+                    (sorted[mid - 1] + sorted[mid]) / 2.0
+                } else {
+                    sorted[mid]
+                }
             }
-        }
 
-        val noteInfo = TunerNoteMapper.mapFrequency(
-            smoothedHz,
-            TunerNoteMapper.DEFAULT_A4_HZ,
-        ) ?: return
+        val noteInfo =
+            TunerNoteMapper.mapFrequency(
+                smoothedHz,
+                TunerNoteMapper.DEFAULT_A4_HZ,
+            ) ?: return
 
         val previousStable = stableNoteInfo
         if (previousStable != null &&
@@ -608,11 +638,12 @@ class MelodyViewModel : ViewModel() {
 
     private fun acceptRecordedNote(noteInfo: NoteInfo) {
         val state = _uiState.value
-        val note = MelodyNote(
-            pitchClass = noteInfo.pitchClass,
-            octave = noteInfo.octave,
-            duration = state.selectedDuration,
-        )
+        val note =
+            MelodyNote(
+                pitchClass = noteInfo.pitchClass,
+                octave = noteInfo.octave,
+                duration = state.selectedDuration,
+            )
         val noteName = Notes.pitchClassToName(noteInfo.pitchClass)
         val durationLabel = state.selectedDuration.label.lowercase()
         val feedback = "$noteName${noteInfo.octave} $durationLabel"

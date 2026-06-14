@@ -8,15 +8,15 @@ import com.baijum.ukufretboard.audio.AudioCaptureEngine
 import com.baijum.ukufretboard.domain.AudioChordDetector
 import com.baijum.ukufretboard.domain.ChordDetector
 import com.baijum.ukufretboard.domain.ChordFrameInput
+import com.baijum.ukufretboard.domain.FrameGate
 import com.baijum.ukufretboard.domain.FrameGateResult
-import com.baijum.ukufretboard.domain.PitchMonitorStateMachine
 import com.baijum.ukufretboard.domain.NeuralPitchResult
 import com.baijum.ukufretboard.domain.NeuralPitchSupervisor
 import com.baijum.ukufretboard.domain.PitchDetector
+import com.baijum.ukufretboard.domain.PitchMonitorStateMachine
 import com.baijum.ukufretboard.domain.PitchResult
 import com.baijum.ukufretboard.domain.TunerNoteMapper
-import com.baijum.ukufretboard.domain.FrameGate
-import kotlin.math.abs
+import com.baijum.ukufretboard.domain.awaitEnterSuspending
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.abs
 import kotlin.math.log2
 import kotlin.math.roundToInt
 
@@ -47,28 +48,20 @@ data class PitchPoint(
 data class PitchMonitorUiState(
     /** Whether the microphone is actively capturing audio. */
     val isListening: Boolean = false,
-
     /** Rolling history of pitch data points for the scrolling canvas. */
     val pitchHistory: List<PitchPoint> = emptyList(),
-
     /** Display name of the current note (e.g. "A4"), or null if silent. */
     val currentNote: String? = null,
-
     /** Name of the detected chord (e.g. "C", "Am7"), or null if none. */
     val detectedChord: String? = null,
-
     /** Notes of the detected chord (e.g. ["C", "E", "G"]). */
     val detectedChordNotes: List<String> = emptyList(),
-
     /** Confidence of the chord detection (0.0 .. 1.0). */
     val chordConfidence: Float = 0f,
-
     /** Rolling history of recently detected note names, deduped on consecutive repeats. */
     val recentNotes: List<String> = emptyList(),
-
     /** True when the displayed chord was detected via arpeggio (sequential notes). */
     val isArpeggioChord: Boolean = false,
-
     /** 12-bin chromagram energy (C=0 .. B=11), normalized 0..1. Used for canvas glow. */
     val chromaEnergy: FloatArray = FloatArray(12),
 )
@@ -91,7 +84,6 @@ data class PitchMonitorUiState(
  * `DisposableEffect` in the UI layer.
  */
 class PitchMonitorViewModel : ViewModel() {
-
     companion object {
         /** Maximum pitch history duration in milliseconds (~10 seconds). */
         private const val HISTORY_DURATION_MS = 10_000L
@@ -182,29 +174,35 @@ class PitchMonitorViewModel : ViewModel() {
 
         initializeNeuralSupervisor()
 
-        frameGate.awaitEnter()
-        try {
-            _uiState.update { it.copy(isListening = true) }
-            stateMachine.reset()
-            chordFrameCounter = 0
-            lastChromaEnergy = FloatArray(12)
-            previousFrequency = null
-            neuralFrameCounter = 0
-            lastNeuralResult = null
-            neuralResultAgeFrames = Int.MAX_VALUE
-            lastNeuralFrequencyForConsistency = null
-            neuralConsistencyFrames = 0
-            telemetryFrameCounter = 0
-        } finally {
-            frameGate.exit()
-        }
+        _uiState.update { it.copy(isListening = true) }
 
-        AudioCaptureEngine.start(
-            viewModelScope,
-            ctx,
-            onInterrupted = { stopListening() },
-        ) { buffer ->
-            processBuffer(buffer)
+        viewModelScope.launch {
+            if (!frameGate.awaitEnterSuspending()) {
+                _uiState.update { it.copy(isListening = false) }
+                return@launch
+            }
+            try {
+                stateMachine.reset()
+                chordFrameCounter = 0
+                lastChromaEnergy = FloatArray(12)
+                previousFrequency = null
+                neuralFrameCounter = 0
+                lastNeuralResult = null
+                neuralResultAgeFrames = Int.MAX_VALUE
+                lastNeuralFrequencyForConsistency = null
+                neuralConsistencyFrames = 0
+                telemetryFrameCounter = 0
+            } finally {
+                frameGate.exit()
+            }
+
+            AudioCaptureEngine.start(
+                viewModelScope,
+                ctx,
+                onInterrupted = { stopListening() },
+            ) { buffer ->
+                processBuffer(buffer)
+            }
         }
     }
 
@@ -246,18 +244,22 @@ class PitchMonitorViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        val supervisor = synchronized(supervisorLock) {
-            isCleared = true
-            val s = neuralSupervisor
-            neuralSupervisor = null
-            s
-        }
+        val supervisor =
+            synchronized(supervisorLock) {
+                isCleared = true
+                val s = neuralSupervisor
+                neuralSupervisor = null
+                s
+            }
         AudioCaptureEngine.stop()
-        frameGate.awaitEnter()
-        try {
+        if (frameGate.tryEnter()) {
+            try {
+                supervisor?.close()
+            } finally {
+                frameGate.exit()
+            }
+        } else {
             supervisor?.close()
-        } finally {
-            frameGate.exit()
         }
     }
 
@@ -298,6 +300,7 @@ class PitchMonitorViewModel : ViewModel() {
                 }
                 return
             }
+
             FrameGateResult.Silent -> {
                 previousFrequency = null
                 lastChromaEnergy = FloatArray(12)
@@ -313,62 +316,71 @@ class PitchMonitorViewModel : ViewModel() {
                 }
                 return
             }
+
             FrameGateResult.Process -> { /* proceed with detection */ }
         }
 
         // --- Pitch detection (YIN + neural arbitration) -------------------------
-        val yinResult = PitchDetector.detect(
-            samples,
-            AudioCaptureEngine.SAMPLE_RATE,
-            previousFrequency = previousFrequency,
-        )
+        val yinResult =
+            PitchDetector.detect(
+                samples,
+                AudioCaptureEngine.SAMPLE_RATE,
+                previousFrequency = previousFrequency,
+            )
         val neuralResult = runNeuralSupervisor(samples)
         val pitchResult = arbitrate(yinResult, neuralResult)
 
         previousFrequency = pitchResult?.frequencyHz
 
         // --- Chord detection (throttled) ----------------------------------------
-        val chordInput: ChordFrameInput? = if (chordFrameCounter++ % CHORD_DETECTION_INTERVAL == 0) {
-            val preferredRootPitchClass = preferredRootPitchClass(neuralResult, pitchResult)
-            val chordResult = AudioChordDetector.detect(
-                samples = samples,
-                preferredRootPitchClass = preferredRootPitchClass,
-            )
-            lastChromaEnergy = chordResult.chromagram
+        val chordInput: ChordFrameInput? =
+            if (chordFrameCounter++ % CHORD_DETECTION_INTERVAL == 0) {
+                val preferredRootPitchClass = preferredRootPitchClass(neuralResult, pitchResult)
+                val chordResult =
+                    AudioChordDetector.detect(
+                        samples = samples,
+                        preferredRootPitchClass = preferredRootPitchClass,
+                    )
+                lastChromaEnergy = chordResult.chromagram
 
-            val rawChordName = when (val det = chordResult.detection) {
-                is ChordDetector.DetectionResult.ChordFound -> det.result.name
-                else -> null
-            }
-            val rawChordNotes = when (val det = chordResult.detection) {
-                is ChordDetector.DetectionResult.ChordFound -> det.result.notes.map { it.name }
-                else -> emptyList()
-            }
+                val rawChordName =
+                    when (val det = chordResult.detection) {
+                        is ChordDetector.DetectionResult.ChordFound -> det.result.name
+                        else -> null
+                    }
+                val rawChordNotes =
+                    when (val det = chordResult.detection) {
+                        is ChordDetector.DetectionResult.ChordFound -> det.result.notes.map { it.name }
+                        else -> emptyList()
+                    }
 
-            ChordFrameInput(
-                name = rawChordName,
-                notes = rawChordNotes,
-                confidence = chordResult.confidence,
-            )
-        } else {
-            null
-        }
+                ChordFrameInput(
+                    name = rawChordName,
+                    notes = rawChordNotes,
+                    confidence = chordResult.confidence,
+                )
+            } else {
+                null
+            }
 
         // --- Delegate to shared state machine -----------------------------------
-        val frame = stateMachine.processDetections(
-            pitchHz = pitchResult?.frequencyHz,
-            chordInput = chordInput,
-            timestampMs = now,
-        )
+        val frame =
+            stateMachine.processDetections(
+                pitchHz = pitchResult?.frequencyHz,
+                chordInput = chordInput,
+                timestampMs = now,
+            )
 
         // --- Build UI state from frame output -----------------------------------
-        val midiNote: Float? = frame.smoothedFrequency?.let {
-            (69.0 + 12.0 * log2(it / 440.0)).toFloat()
-        }
+        val midiNote: Float? =
+            frame.smoothedFrequency?.let {
+                (69.0 + 12.0 * log2(it / 440.0)).toFloat()
+            }
 
-        val currentNote: String? = frame.smoothedFrequency?.let { hz ->
-            TunerNoteMapper.mapFrequency(hz)?.let { "${it.noteName}${it.octave}" }
-        }
+        val currentNote: String? =
+            frame.smoothedFrequency?.let { hz ->
+                TunerNoteMapper.mapFrequency(hz)?.let { "${it.noteName}${it.octave}" }
+            }
 
         val newPoint = PitchPoint(timestampMs = now, midiNote = midiNote)
 
@@ -376,11 +388,12 @@ class PitchMonitorViewModel : ViewModel() {
             val cutoff = now - HISTORY_DURATION_MS
             val trimmed = current.pitchHistory.dropWhile { it.timestampMs < cutoff }
 
-            val updatedNotes = if (currentNote != null && currentNote != current.recentNotes.lastOrNull()) {
-                (current.recentNotes + currentNote).takeLast(20)
-            } else {
-                current.recentNotes
-            }
+            val updatedNotes =
+                if (currentNote != null && currentNote != current.recentNotes.lastOrNull()) {
+                    (current.recentNotes + currentNote).takeLast(20)
+                } else {
+                    current.recentNotes
+                }
 
             current.copy(
                 pitchHistory = trimmed + newPoint,
@@ -412,14 +425,15 @@ class PitchMonitorViewModel : ViewModel() {
             var supervisor: NeuralPitchSupervisor? = null
             var registered = false
             try {
-                supervisor = withContext(Dispatchers.IO) {
-                    try {
-                        NeuralPitchSupervisor(ctx)
-                    } catch (e: Exception) {
-                        Log.w(TAG, "Neural supervisor unavailable: ${e.message}")
-                        null
+                supervisor =
+                    withContext(Dispatchers.IO) {
+                        try {
+                            NeuralPitchSupervisor(ctx)
+                        } catch (e: Exception) {
+                            Log.w(TAG, "Neural supervisor unavailable: ${e.message}")
+                            null
+                        }
                     }
-                }
                 synchronized(supervisorLock) {
                     if (!isCleared) {
                         neuralSupervisor = supervisor
@@ -488,13 +502,14 @@ class PitchMonitorViewModel : ViewModel() {
             return
         }
         val previous = lastNeuralFrequencyForConsistency
-        neuralConsistencyFrames = if (previous != null &&
-            semitoneDistance(previous, neuralFrequencyHz) <= 0.5
-        ) {
-            neuralConsistencyFrames + 1
-        } else {
-            1
-        }
+        neuralConsistencyFrames =
+            if (previous != null &&
+                semitoneDistance(previous, neuralFrequencyHz) <= 0.5
+            ) {
+                neuralConsistencyFrames + 1
+            } else {
+                1
+            }
         lastNeuralFrequencyForConsistency = neuralFrequencyHz
     }
 
@@ -502,23 +517,30 @@ class PitchMonitorViewModel : ViewModel() {
         neuralResult: NeuralPitchResult?,
         finalResult: PitchResult?,
     ): Int? {
-        val sourceHz = when {
-            neuralResult != null && neuralResult.confidence >= 0.70 -> neuralResult.frequencyHz
-            finalResult != null -> finalResult.frequencyHz
-            else -> return null
-        }
+        val sourceHz =
+            when {
+                neuralResult != null && neuralResult.confidence >= 0.70 -> neuralResult.frequencyHz
+                finalResult != null -> finalResult.frequencyHz
+                else -> return null
+            }
         if (sourceHz <= 0.0) return null
         val midi = 69.0 + 12.0 * log2(sourceHz / 440.0)
         val pitchClass = ((midi.roundToInt() % 12) + 12) % 12
         return pitchClass
     }
 
-    private fun semitoneDistance(aHz: Double, bHz: Double): Double {
+    private fun semitoneDistance(
+        aHz: Double,
+        bHz: Double,
+    ): Double {
         if (aHz <= 0.0 || bHz <= 0.0) return Double.MAX_VALUE
         return abs(12.0 * log2(aHz / bHz))
     }
 
-    private fun isOctaveRelation(aHz: Double, bHz: Double): Boolean {
+    private fun isOctaveRelation(
+        aHz: Double,
+        bHz: Double,
+    ): Boolean {
         if (aHz <= 0.0 || bHz <= 0.0) return false
         val semitones = semitoneDistance(aHz, bHz)
         return abs(semitones - 12.0) <= 1.0 || abs(semitones - 24.0) <= 1.0
@@ -541,8 +563,10 @@ class PitchMonitorViewModel : ViewModel() {
         val neuralConf = neuralResult?.confidence?.let { "%.2f".format(it) } ?: "null"
         val finalHz = finalResult?.frequencyHz?.let { "%.2f".format(it) } ?: "null"
         val finalConf = finalResult?.confidence?.let { "%.2f".format(it) } ?: "null"
-        val neuralMs = synchronized(supervisorLock) { neuralSupervisor }
-            ?.lastInferenceMs()?.let { "%.2f".format(it) } ?: "null"
+        val neuralMs =
+            synchronized(supervisorLock) { neuralSupervisor }
+                ?.lastInferenceMs()
+                ?.let { "%.2f".format(it) } ?: "null"
 
         Log.d(
             TAG,
