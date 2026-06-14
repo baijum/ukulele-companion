@@ -1196,4 +1196,10 @@
     <string name="cd_section_collapsed">Ingeklapt</string>
     <string name="cd_decrease_capo">Capo verlagen</string>
     <string name="cd_increase_capo">Capo verhogen</string>
+    <string name="cd_setlist_create">Setlist aanmaken</string>
+    <string name="cd_setlist_delete">Setlist verwijderen</string>
+    <string name="cd_setlist_add_song">Nummer toevoegen aan setlist</string>
+    <string name="cd_setlist_move_up">Omhoog verplaatsen</string>
+    <string name="cd_setlist_move_down">Omlaag verplaatsen</string>
+    <string name="cd_setlist_remove_song">Verwijderen uit setlist</string>
 </resources>

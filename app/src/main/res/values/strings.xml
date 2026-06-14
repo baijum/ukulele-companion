@@ -293,6 +293,12 @@
     <string name="cd_filter_label">Filter by label %s</string>
     <string name="cd_add_label">Add label</string>
     <string name="nav_setlists">Setlists</string>
+    <string name="cd_setlist_create">Create setlist</string>
+    <string name="cd_setlist_delete">Delete setlist</string>
+    <string name="cd_setlist_add_song">Add song to setlist</string>
+    <string name="cd_setlist_move_up">Move up</string>
+    <string name="cd_setlist_move_down">Move down</string>
+    <string name="cd_setlist_remove_song">Remove from setlist</string>
     <string name="songbook_duplicate">Duplicate</string>
     <string name="songbook_font_decrease">Decrease font size</string>
     <string name="songbook_font_increase">Increase font size</string>

@@ -1196,4 +1196,10 @@
     <string name="cd_section_collapsed">Daraltıldı</string>
     <string name="cd_decrease_capo">Kapoyu azalt</string>
     <string name="cd_increase_capo">Kapoyu artır</string>
+    <string name="cd_setlist_create">Set listesi oluştur</string>
+    <string name="cd_setlist_delete">Set listesini sil</string>
+    <string name="cd_setlist_add_song">Set listesine şarkı ekle</string>
+    <string name="cd_setlist_move_up">Yukarı taşı</string>
+    <string name="cd_setlist_move_down">Aşağı taşı</string>
+    <string name="cd_setlist_remove_song">Set listesinden kaldır</string>
 </resources>

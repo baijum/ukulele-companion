@@ -1198,4 +1198,10 @@
     <string name="cd_section_collapsed">Zwinięte</string>
     <string name="cd_decrease_capo">Zmniejsz capo</string>
     <string name="cd_increase_capo">Zwiększ capo</string>
+    <string name="cd_setlist_create">Utwórz listę utworów</string>
+    <string name="cd_setlist_delete">Usuń listę utworów</string>
+    <string name="cd_setlist_add_song">Dodaj utwór do listy</string>
+    <string name="cd_setlist_move_up">Przenieś w górę</string>
+    <string name="cd_setlist_move_down">Przenieś w dół</string>
+    <string name="cd_setlist_remove_song">Usuń z listy</string>
 </resources>

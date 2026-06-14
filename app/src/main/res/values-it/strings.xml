@@ -1197,4 +1197,10 @@
     <string name="cd_section_collapsed">Compresso</string>
     <string name="cd_decrease_capo">Diminuisci capo</string>
     <string name="cd_increase_capo">Aumenta capo</string>
+    <string name="cd_setlist_create">Crea scaletta</string>
+    <string name="cd_setlist_delete">Elimina scaletta</string>
+    <string name="cd_setlist_add_song">Aggiungi brano alla scaletta</string>
+    <string name="cd_setlist_move_up">Sposta su</string>
+    <string name="cd_setlist_move_down">Sposta giù</string>
+    <string name="cd_setlist_remove_song">Rimuovi dalla scaletta</string>
 </resources>

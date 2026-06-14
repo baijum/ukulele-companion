@@ -1195,4 +1195,10 @@
     <string name="cd_section_collapsed">Recolhido</string>
     <string name="cd_decrease_capo">Diminuir capo</string>
     <string name="cd_increase_capo">Aumentar capo</string>
+    <string name="cd_setlist_create">Criar lista de músicas</string>
+    <string name="cd_setlist_delete">Excluir lista de músicas</string>
+    <string name="cd_setlist_add_song">Adicionar música à lista</string>
+    <string name="cd_setlist_move_up">Mover para cima</string>
+    <string name="cd_setlist_move_down">Mover para baixo</string>
+    <string name="cd_setlist_remove_song">Remover da lista</string>
 </resources>

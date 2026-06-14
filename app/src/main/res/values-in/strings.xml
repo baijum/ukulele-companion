@@ -1195,4 +1195,10 @@
     <string name="cd_section_collapsed">Diciutkan</string>
     <string name="cd_decrease_capo">Kurangi capo</string>
     <string name="cd_increase_capo">Tambah capo</string>
+    <string name="cd_setlist_create">Buat daftar lagu</string>
+    <string name="cd_setlist_delete">Hapus daftar lagu</string>
+    <string name="cd_setlist_add_song">Tambah lagu ke daftar</string>
+    <string name="cd_setlist_move_up">Pindah ke atas</string>
+    <string name="cd_setlist_move_down">Pindah ke bawah</string>
+    <string name="cd_setlist_remove_song">Hapus dari daftar</string>
 </resources>

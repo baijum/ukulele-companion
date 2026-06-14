@@ -1192,4 +1192,10 @@
     <string name="batch_select_all">全选</string>
     <string name="batch_cancel">取消</string>
     <string name="batch_delete">删除</string>
+    <string name="cd_setlist_create">创建歌单</string>
+    <string name="cd_setlist_delete">删除歌单</string>
+    <string name="cd_setlist_add_song">添加歌曲到歌单</string>
+    <string name="cd_setlist_move_up">上移</string>
+    <string name="cd_setlist_move_down">下移</string>
+    <string name="cd_setlist_remove_song">从歌单中移除</string>
 </resources>
