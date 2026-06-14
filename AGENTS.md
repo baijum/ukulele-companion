@@ -122,7 +122,7 @@ xcodebuild -project iosApp/UkuleleCompanion.xcodeproj \
 ```
 
 **CI** (GitHub Actions on push/PR to `main`):
-- **Android** (`android.yml`): JDK 17, lint (debug + release), unit tests, shared module tests, debug APK, release APK + R8 mapping, APK size report, instrumented tests (API 26/33/35)
+- **Android** (`android.yml`): JDK 17, lint (debug + release), unit tests, shared module tests, debug APK, release APK + R8 mapping, APK size report, instrumented tests (API 33/35)
 - **iOS** (`ios.yml`): JDK 17 + Xcode 16.4, shared KMP framework (debug + release), iOS build (debug + release), unit tests
 - **ktlint** (`ktlint.yml`): baseline-aware ratchet on Kotlin changes — fails only on violations beyond `ktlint-baseline.xml`
 
