@@ -92,10 +92,11 @@ Skills in `.cursor/skills/` provide step-by-step workflows for common tasks:
 
 | Skill | When to use |
 |-------|-------------|
+| `release` | **Primary release workflow** — bump both Android + iOS versions in one commit, tag, build both platforms, upload Android to Play Store, open iOS archive for App Store |
 | `add-translations` | Adding new user-facing strings to all 16 supported locales (Android `strings.xml` + iOS `Localizable.xcstrings`) |
-| `android-release` | Build and upload an Android release based on an existing git tag |
-| `ios-release` | Build an iOS release based on an existing git tag |
-| `github-release` | Create a GitHub release with a version tag and auto-generated release notes |
+| `android-release` | Android-only hotfix release (for normal releases, use `release` instead) |
+| `ios-release` | iOS-only hotfix release (for normal releases, use `release` instead) |
+| `github-release` | Create a tag without building (for normal releases, use `release` instead) |
 | `android-bug-reproduce` | Reproduce and debug Android bugs on an emulator using ADB |
 | `platform-parity-audit` | Audit iOS port parity against the Android app |
 | `record-clips` | Record scene video clips for a TOML video project |
