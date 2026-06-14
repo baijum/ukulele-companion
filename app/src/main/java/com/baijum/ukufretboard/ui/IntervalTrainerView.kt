@@ -29,6 +29,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -66,13 +67,13 @@ fun IntervalTrainerView(
     val allTimeStats = progressViewModel?.intervalStats()
     var isAudioMode by rememberSaveable { mutableStateOf(false) }
     var direction by rememberSaveable(stateSaver = enumSaver<IntervalTrainer.IntervalDirection>()) { mutableStateOf(IntervalTrainer.IntervalDirection.ASCENDING) }
-    var level by rememberSaveable { mutableStateOf(1) }
+    var level by rememberSaveable { mutableIntStateOf(1) }
     var question by rememberSaveable(stateSaver = IntervalQuestionSaver) { mutableStateOf<IntervalTrainer.IntervalQuestion?>(null) }
     var selectedAnswer by rememberSaveable { mutableStateOf<Int?>(null) }
-    var totalCorrect by rememberSaveable { mutableStateOf(0) }
-    var totalAnswered by rememberSaveable { mutableStateOf(0) }
-    var streak by rememberSaveable { mutableStateOf(0) }
-    var bestStreak by rememberSaveable { mutableStateOf(0) }
+    var totalCorrect by rememberSaveable { mutableIntStateOf(0) }
+    var totalAnswered by rememberSaveable { mutableIntStateOf(0) }
+    var streak by rememberSaveable { mutableIntStateOf(0) }
+    var bestStreak by rememberSaveable { mutableIntStateOf(0) }
     val scope = rememberCoroutineScope()
 
     Column(

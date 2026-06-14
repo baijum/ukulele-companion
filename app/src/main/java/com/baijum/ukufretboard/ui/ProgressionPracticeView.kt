@@ -37,6 +37,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -99,10 +101,10 @@ fun ProgressionPracticeView(
 
     // Playback state
     var isPlaying by rememberSaveable { mutableStateOf(false) }
-    var bpm by rememberSaveable { mutableStateOf(100f) }
-    var beatsPerChord by rememberSaveable { mutableStateOf(4) }
+    var bpm by rememberSaveable { mutableFloatStateOf(100f) }
+    var beatsPerChord by rememberSaveable { mutableIntStateOf(4) }
     var loop by rememberSaveable { mutableStateOf(true) }
-    var currentChordIndex by rememberSaveable { mutableStateOf(0) }
+    var currentChordIndex by rememberSaveable { mutableIntStateOf(0) }
 
     // All voicings per chord degree (list of lists)
     val allVoicings: List<List<ChordVoicing>> = remember(progression, keyRoot, tuning) {

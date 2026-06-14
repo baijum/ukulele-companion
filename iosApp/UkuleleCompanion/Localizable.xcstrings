@@ -108221,6 +108221,12 @@
                   "value": "%1$lld vue"
                 }
               },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%1$lld vues"
+                }
+              },
               "other": {
                 "stringUnit": {
                   "state": "translated",
@@ -108257,6 +108263,12 @@
                   "value": "%1$lld vista"
                 }
               },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%1$lld vistas"
+                }
+              },
               "other": {
                 "stringUnit": {
                   "state": "translated",
@@ -108275,6 +108287,12 @@
                   "value": "%1$lld visualizzazione"
                 }
               },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%1$lld visualizzazioni"
+                }
+              },
               "other": {
                 "stringUnit": {
                   "state": "translated",
@@ -108291,6 +108309,12 @@
                 "stringUnit": {
                   "state": "translated",
                   "value": "%1$lld visualização"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%1$lld visualizações"
                 }
               },
               "other": {

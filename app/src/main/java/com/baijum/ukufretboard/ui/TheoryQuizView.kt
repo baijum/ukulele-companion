@@ -24,6 +24,8 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -59,16 +61,16 @@ fun TheoryQuizView(
     var selectedCategory by rememberSaveable(stateSaver = nullableEnumSaver<QuizGenerator.QuizCategory>()) { mutableStateOf<QuizGenerator.QuizCategory?>(null) }
     var currentQuestion by rememberSaveable(stateSaver = QuizQuestionSaver) { mutableStateOf<QuizGenerator.QuizQuestion?>(null) }
     var selectedAnswer by rememberSaveable { mutableStateOf<Int?>(null) }
-    var totalCorrect by rememberSaveable { mutableStateOf(0) }
-    var totalAnswered by rememberSaveable { mutableStateOf(0) }
-    var streak by rememberSaveable { mutableStateOf(0) }
-    var bestStreak by rememberSaveable { mutableStateOf(0) }
+    var totalCorrect by rememberSaveable { mutableIntStateOf(0) }
+    var totalAnswered by rememberSaveable { mutableIntStateOf(0) }
+    var streak by rememberSaveable { mutableIntStateOf(0) }
+    var bestStreak by rememberSaveable { mutableIntStateOf(0) }
 
     // Blitz mode state
     var isBlitzMode by rememberSaveable { mutableStateOf(false) }
     var blitzActive by rememberSaveable { mutableStateOf(false) }
-    var blitzTimeMs by rememberSaveable { mutableStateOf(BLITZ_DURATION_MS) }
-    var blitzScore by rememberSaveable { mutableStateOf(0) }
+    var blitzTimeMs by rememberSaveable { mutableLongStateOf(BLITZ_DURATION_MS) }
+    var blitzScore by rememberSaveable { mutableIntStateOf(0) }
     var blitzFinished by rememberSaveable { mutableStateOf(false) }
 
     // Blitz countdown timer

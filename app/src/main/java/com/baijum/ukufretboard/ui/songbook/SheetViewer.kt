@@ -55,6 +55,8 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -135,10 +137,10 @@ internal fun SheetViewer(
     var performanceMode by rememberSaveable { mutableStateOf(false) }
 
     // Transpose controls
-    var transposeSemitones by rememberSaveable { mutableStateOf(0) }
+    var transposeSemitones by rememberSaveable { mutableIntStateOf(0) }
 
     val fontSizePrefs = context.getSharedPreferences("songbook_prefs", android.content.Context.MODE_PRIVATE)
-    var songFontSize by rememberSaveable { mutableStateOf(fontSizePrefs.getFloat("song_font_size", 14f)) }
+    var songFontSize by rememberSaveable { mutableFloatStateOf(fontSizePrefs.getFloat("song_font_size", 14f)) }
 
     val displayContent = if (transposeSemitones != 0) {
         ChordSheetTranspose.transpose(sheet.content, transposeSemitones)
@@ -330,7 +332,7 @@ internal fun SheetViewer(
 
         // Auto-scroll state
         var autoScrolling by rememberSaveable { mutableStateOf(false) }
-        var scrollSpeed by rememberSaveable { mutableStateOf(1f) }
+        var scrollSpeed by rememberSaveable { mutableFloatStateOf(1f) }
         val scrollState = rememberScrollState()
         val programmaticScroll = remember { mutableStateOf(false) }
 
