@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import shared
 
 enum BeatType: String {
     case accent, normal, mute
@@ -23,47 +24,35 @@ final class MetronomeViewModel: ObservableObject {
     private var tapTimestamps: [Date] = []
 
     func setBpm(_ value: Double) {
-        bpm = min(300, max(30, value))
+        bpm = Double(MetronomeStateLogic.shared.clampBpm(value: Int32(value)))
         if isPlaying { restartTimer() }
     }
 
     func setTimeSignature(_ label: String) {
         timeSignatureLabel = label
-        switch label {
-        case "6/8":
-            isCompound = true
-            beatsPerMeasure = 2
-            subdivision = 3
-            accentPattern = Self.defaultAccentPattern(beats: 2)
-        case "12/8":
-            isCompound = true
-            beatsPerMeasure = 4
-            subdivision = 3
-            accentPattern = Self.defaultAccentPattern(beats: 4)
-        default:
-            isCompound = false
-            let beats = Int(label.split(separator: "/").first.flatMap { Int($0) } ?? 4)
-            let clampedBeats = min(7, max(2, beats))
-            beatsPerMeasure = clampedBeats
-            subdivision = 1
-            accentPattern = Self.defaultAccentPattern(beats: clampedBeats)
-        }
+        let result = MetronomeStateLogic.shared.parseTimeSignature(label: label)
+        isCompound = result.isCompound
+        beatsPerMeasure = Int(result.beatsPerMeasure)
+        subdivision = Int(result.subdivision)
+        accentPattern = Self.convertAccentPattern(
+            MetronomeStateLogic.shared.defaultAccentPattern(beatsPerMeasure: result.beatsPerMeasure)
+        )
         stop()
     }
 
     func setSubdivision(_ value: Int) {
         guard !isCompound else { return }
-        subdivision = min(4, max(1, value))
+        subdivision = Int(MetronomeStateLogic.shared.clampSubdivision(value: Int32(value)))
         if isPlaying { restartTimer() }
     }
 
     func toggleBeatType(_ index: Int) {
         guard index >= 0, index < accentPattern.count else { return }
-        switch accentPattern[index] {
-        case .accent: accentPattern[index] = .normal
-        case .normal: accentPattern[index] = .mute
-        case .mute: accentPattern[index] = .accent
-        }
+        accentPattern[index] = Self.convertBeatType(
+            MetronomeStateLogic.shared.cycleBeatType(
+                current: Self.toKmpBeatType(accentPattern[index])
+            )
+        )
     }
 
     func togglePlayback() {
@@ -147,7 +136,24 @@ final class MetronomeViewModel: ObservableObject {
         startTimer()
     }
 
-    private static func defaultAccentPattern(beats: Int) -> [BeatType] {
-        (0..<beats).map { $0 == 0 ? .accent : .normal }
+    private static func convertAccentPattern(_ kmpList: [shared.BeatType]) -> [BeatType] {
+        kmpList.map { convertBeatType($0) }
+    }
+
+    private static func convertBeatType(_ kmp: shared.BeatType) -> BeatType {
+        switch kmp {
+        case .accent: return .accent
+        case .normal: return .normal
+        case .mute: return .mute
+        default: return .normal
+        }
+    }
+
+    private static func toKmpBeatType(_ local: BeatType) -> shared.BeatType {
+        switch local {
+        case .accent: return .accent
+        case .normal: return .normal
+        case .mute: return .mute
+        }
     }
 }

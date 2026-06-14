@@ -3,9 +3,10 @@ package com.baijum.ukufretboard.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.baijum.ukufretboard.data.BeatType
 import com.baijum.ukufretboard.audio.ClickSoundPlayer
 import com.baijum.ukufretboard.audio.MetronomeEngine
+import com.baijum.ukufretboard.data.BeatType
+import com.baijum.ukufretboard.domain.MetronomeStateLogic
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,8 +17,9 @@ import kotlinx.coroutines.flow.asStateFlow
  * Manages BPM, time signature, subdivision, accent pattern, and playback state.
  * Plays audible click sounds on each beat via [ClickSoundPlayer].
  */
-class MetronomeViewModel(application: Application) : AndroidViewModel(application) {
-
+class MetronomeViewModel(
+    application: Application,
+) : AndroidViewModel(application) {
     private val engine = MetronomeEngine()
     private val clickPlayer = ClickSoundPlayer(application)
 
@@ -30,7 +32,7 @@ class MetronomeViewModel(application: Application) : AndroidViewModel(applicatio
     private val _subdivision = MutableStateFlow(1)
     val subdivision: StateFlow<Int> = _subdivision.asStateFlow()
 
-    private val _accentPattern = MutableStateFlow(defaultAccentPattern(4))
+    private val _accentPattern = MutableStateFlow(MetronomeStateLogic.defaultAccentPattern(4))
     val accentPattern: StateFlow<List<BeatType>> = _accentPattern.asStateFlow()
 
     private val _isPlaying = MutableStateFlow(false)
@@ -52,39 +54,23 @@ class MetronomeViewModel(application: Application) : AndroidViewModel(applicatio
     val timeSignatureLabel: StateFlow<String> = _timeSignatureLabel.asStateFlow()
 
     fun setBpm(value: Int) {
-        _bpm.value = value.coerceIn(30, 300)
+        _bpm.value = MetronomeStateLogic.clampBpm(value)
         if (_isPlaying.value) restartEngine()
     }
 
     fun setTimeSignature(label: String) {
         _timeSignatureLabel.value = label
-        when (label) {
-            "6/8" -> {
-                _isCompound.value = true
-                _beatsPerMeasure.value = 2
-                _subdivision.value = 3
-                _accentPattern.value = defaultAccentPattern(2)
-            }
-            "12/8" -> {
-                _isCompound.value = true
-                _beatsPerMeasure.value = 4
-                _subdivision.value = 3
-                _accentPattern.value = defaultAccentPattern(4)
-            }
-            else -> {
-                _isCompound.value = false
-                val beats = label.substringBefore("/").toIntOrNull()?.coerceIn(2, 7) ?: 4
-                _beatsPerMeasure.value = beats
-                _subdivision.value = 1
-                _accentPattern.value = defaultAccentPattern(beats)
-            }
-        }
+        val result = MetronomeStateLogic.parseTimeSignature(label)
+        _isCompound.value = result.isCompound
+        _beatsPerMeasure.value = result.beatsPerMeasure
+        _subdivision.value = result.subdivision
+        _accentPattern.value = MetronomeStateLogic.defaultAccentPattern(result.beatsPerMeasure)
         stop()
     }
 
     fun setBeatsPerMeasure(value: Int) {
         _beatsPerMeasure.value = value.coerceIn(2, 7)
-        _accentPattern.value = defaultAccentPattern(value)
+        _accentPattern.value = MetronomeStateLogic.defaultAccentPattern(value)
         _isCompound.value = false
         _timeSignatureLabel.value = "$value/4"
         stop()
@@ -92,18 +78,14 @@ class MetronomeViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun setSubdivision(value: Int) {
         if (_isCompound.value) return
-        _subdivision.value = value.coerceIn(1, 4)
+        _subdivision.value = MetronomeStateLogic.clampSubdivision(value)
         stop()
     }
 
     fun toggleBeatType(beatIndex: Int) {
         val pattern = _accentPattern.value.toMutableList()
         if (beatIndex in pattern.indices) {
-            pattern[beatIndex] = when (pattern[beatIndex]) {
-                BeatType.ACCENT -> BeatType.NORMAL
-                BeatType.NORMAL -> BeatType.MUTE
-                BeatType.MUTE -> BeatType.ACCENT
-            }
+            pattern[beatIndex] = MetronomeStateLogic.cycleBeatType(pattern[beatIndex])
             _accentPattern.value = pattern
         }
     }
@@ -138,9 +120,18 @@ class MetronomeViewModel(application: Application) : AndroidViewModel(applicatio
                 _currentSubBeat.value = subBeat
                 when {
                     type == BeatType.MUTE -> {}
-                    subBeat > 0 -> clickPlayer.playSubdivision()
-                    type == BeatType.ACCENT -> clickPlayer.playAccent()
-                    else -> clickPlayer.playNormal()
+
+                    subBeat > 0 -> {
+                        clickPlayer.playSubdivision()
+                    }
+
+                    type == BeatType.ACCENT -> {
+                        clickPlayer.playAccent()
+                    }
+
+                    else -> {
+                        clickPlayer.playNormal()
+                    }
                 }
             },
             onMeasure = { count ->
@@ -158,10 +149,5 @@ class MetronomeViewModel(application: Application) : AndroidViewModel(applicatio
         engine.stop()
         clickPlayer.release()
         super.onCleared()
-    }
-
-    companion object {
-        private fun defaultAccentPattern(beatsPerMeasure: Int): List<BeatType> =
-            List(beatsPerMeasure) { if (it == 0) BeatType.ACCENT else BeatType.NORMAL }
     }
 }
