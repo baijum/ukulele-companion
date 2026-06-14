@@ -9,7 +9,6 @@ import com.baijum.ukufretboard.data.Notes
  * Tracks per-beat accuracy and generates an overall session score.
  */
 class PlayAlongScorer {
-
     private val beatResults = mutableListOf<BeatResult>()
     private var totalBeats = 0
     private var correctBeats = 0
@@ -52,14 +51,15 @@ class PlayAlongScorer {
     /**
      * Returns the current session score.
      */
-    fun getScore(): PlayAlongScore = PlayAlongScore(
-        totalBeats = totalBeats,
-        correctBeats = correctBeats,
-        accuracy = if (totalBeats > 0) correctBeats.toFloat() / totalBeats else 0f,
-        currentStreak = currentStreak,
-        bestStreak = bestStreak,
-        beatResults = beatResults.toList(),
-    )
+    fun getScore(): PlayAlongScore =
+        PlayAlongScore(
+            totalBeats = totalBeats,
+            correctBeats = correctBeats,
+            accuracy = if (totalBeats > 0) correctBeats.toFloat() / totalBeats else 0f,
+            currentStreak = currentStreak,
+            bestStreak = bestStreak,
+            beatResults = beatResults.toList(),
+        )
 
     /**
      * Resets the scorer for a new session.
@@ -75,9 +75,7 @@ class PlayAlongScorer {
     /**
      * Normalizes a chord name for comparison (strips extensions).
      */
-    private fun normalizeChord(name: String): String {
-        return name.replace(Regex("(maj)?[79]$"), "").trim()
-    }
+    private fun normalizeChord(name: String): String = normalizeChordName(name)
 
     /**
      * Result for a single beat.
@@ -103,13 +101,25 @@ class PlayAlongScorer {
         val accuracyPercent: Int get() = (accuracy * 100).toInt()
 
         val grade: String
-            get() = when {
-                accuracyPercent >= 90 -> "S"
-                accuracyPercent >= 80 -> "A"
-                accuracyPercent >= 70 -> "B"
-                accuracyPercent >= 60 -> "C"
-                accuracyPercent >= 50 -> "D"
-                else -> "F"
-            }
+            get() =
+                when {
+                    accuracyPercent >= 90 -> "S"
+                    accuracyPercent >= 80 -> "A"
+                    accuracyPercent >= 70 -> "B"
+                    accuracyPercent >= 60 -> "C"
+                    accuracyPercent >= 50 -> "D"
+                    else -> "F"
+                }
+    }
+
+    companion object {
+        /**
+         * Normalizes a chord name for loose comparison by stripping common
+         * extensions (7th, 9th, "maj" prefix to those) so that e.g. "Cmaj7"
+         * matches "C" for beginner-friendly scoring.
+         *
+         * Used both for final scoring and live UI feedback to ensure consistency.
+         */
+        fun normalizeChordName(name: String): String = name.replace(Regex("(maj)?[79]$"), "").trim()
     }
 }
