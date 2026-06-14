@@ -256,23 +256,25 @@ object ChordInfo {
     ): Inversion {
         val bassPc = bassPitchClass(frets, tuning)
         val interval = (bassPc - rootPitchClass + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
+        return inversionForInterval(interval, formula)
+    }
 
+    /**
+     * Maps a bass interval (semitones above root) to the corresponding [Inversion].
+     *
+     * @param interval Semitone interval from root to bass (0–11).
+     * @param formula The chord formula (used to validate 3rd inversion for 7th chords).
+     */
+    fun inversionForInterval(
+        interval: Int,
+        formula: ChordFormula,
+    ): Inversion {
         if (interval == 0) return Inversion.ROOT
-
-        // Check if bass interval is a 3rd (minor 3rd = 3, major 3rd = 4)
         if (interval == 3 || interval == 4) return Inversion.FIRST
-
-        // Check if bass interval is a 5th (diminished 5th = 6, perfect 5th = 7, augmented 5th = 8)
         if (interval == 6 || interval == 7 || interval == 8) return Inversion.SECOND
-
-        // Check if bass interval is a 7th (minor 7th = 10, major 7th = 11)
-        // Only valid for 7th chords (formula has intervals beyond the triad)
         if ((interval == 10 || interval == 11) && formula.intervals.any { it >= 10 }) {
             return Inversion.THIRD
         }
-
-        // Fallback: if interval is in the formula but not a standard inversion,
-        // treat as root position (e.g., sus2 with 2nd in bass)
         return Inversion.ROOT
     }
 

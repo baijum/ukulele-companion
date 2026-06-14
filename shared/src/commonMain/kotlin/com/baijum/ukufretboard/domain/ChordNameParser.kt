@@ -87,7 +87,7 @@ object ChordNameParser {
             val bassPc = resolveNoteName(bassPart) ?: return null
             val interval = (bassPc - rootPc + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
             if (interval !in formula.intervals || interval == 0) return null
-            val inversion = inversionForInterval(interval, formula)
+            val inversion = ChordInfo.inversionForInterval(interval, formula)
             val bassName = Notes.pitchClassToName(bassPc)
             return ChordSearchResult(
                 displayName = "$canonicalRoot${formula.symbol}/$bassName",
@@ -242,7 +242,7 @@ object ChordNameParser {
                 bassNameFlat.startsWith(bassQuery, ignoreCase = true)
 
             if (matchesBass) {
-                val inversion = inversionForInterval(interval, formula)
+                val inversion = ChordInfo.inversionForInterval(interval, formula)
                 results.add(
                     ChordSearchResult(
                         displayName = "$canonicalRoot${formula.symbol}/$bassName",
@@ -257,20 +257,5 @@ object ChordNameParser {
         }
 
         return results
-    }
-
-    /**
-     * Maps a bass interval to the corresponding [ChordInfo.Inversion],
-     * using the same logic as [ChordInfo.determineInversion].
-     */
-    private fun inversionForInterval(
-        interval: Int,
-        formula: ChordFormula,
-    ): ChordInfo.Inversion = when {
-        interval == 3 || interval == 4 -> ChordInfo.Inversion.FIRST
-        interval == 6 || interval == 7 || interval == 8 -> ChordInfo.Inversion.SECOND
-        (interval == 10 || interval == 11) && formula.intervals.any { it >= 10 } ->
-            ChordInfo.Inversion.THIRD
-        else -> ChordInfo.Inversion.ROOT
     }
 }
