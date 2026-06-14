@@ -1,0 +1,23 @@
+# CODEOWNERS — Require human review for sensitive areas
+# See https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Build configuration and dependencies
+*.gradle.kts @baijum
+gradle/libs.versions.toml @baijum
+
+# CI pipeline
+.github/workflows/ @baijum
+
+# Agent configuration (rules, hooks, skills)
+.cursor/rules/ @baijum
+.cursor/hooks* @baijum
+.claude/ @baijum
+AGENTS.md @baijum
+CLAUDE.md @baijum
+
+# Performance-critical audio pipeline
+app/src/main/java/**/audio/ @baijum
+iosApp/**/Audio/ @baijum
+
+# Security-sensitive files
+keystore.properties @baijum
