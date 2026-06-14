@@ -1,0 +1,15 @@
+# Gitleaks configuration — allowlist for known false positives
+# See https://github.com/gitleaks/gitleaks#configuration
+
+title = "Ukulele Companion Gitleaks Config"
+
+[allowlist]
+  description = "Known false positives"
+  paths = [
+    # Gradle dependency lock files contain checksums, not secrets
+    '''gradle\.lockfile''',
+    '''buildscript-gradle\.lockfile''',
+    # Test fixtures and mock data
+    '''src/test/''',
+    '''src/androidTest/''',
+  ]
