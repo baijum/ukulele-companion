@@ -1,10 +1,8 @@
-# Android Compose UI
+# UI Layer (Compose)
 
-**Canonical rules** (read the relevant one before editing here):
-- [`.cursor/rules/compose-accessibility.mdc`](../../../../../../../../.cursor/rules/compose-accessibility.mdc) — TalkBack: icon `contentDescription`, `semantics { heading() }`, `clearAndSetSemantics` for Canvas, `liveRegion`, focus, modals
-- [`.cursor/rules/compose-ui.mdc`](../../../../../../../../.cursor/rules/compose-ui.mdc) — Material 3, recomposition, Compose-only UI, theming
-- [`.cursor/rules/compose-coroutines.mdc`](../../../../../../../../.cursor/rules/compose-coroutines.mdc) — programmatic vs user scroll, cancellation-safe flag resets
+See canonical rules: `.cursor/rules/compose-accessibility.mdc`, `.cursor/rules/compose-ui.mdc`, `.cursor/rules/compose-coroutines.mdc`
 
-Essence: **accessibility is treated as seriously as functionality** — a core user base is
-blind/visually impaired. Every UI change must keep TalkBack working, respect
-`LocalReduceMotion` for animations, and preserve existing semantics.
+Critical constraints:
+- Every interactive element must have a contentDescription or be semantically labeled for TalkBack
+- All animations must respect `LocalReduceMotion` — use `snap()` when motion is reduced
+- No NavHost — navigation is via `ModalNavigationDrawer` with state hoisting
