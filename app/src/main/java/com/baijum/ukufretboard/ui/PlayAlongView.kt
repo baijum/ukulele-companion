@@ -61,8 +61,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.baijum.ukufretboard.R
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import com.baijum.ukufretboard.audio.AudioCaptureEngine
 import com.baijum.ukufretboard.audio.MetronomeEngine
 import com.baijum.ukufretboard.data.ChordFormulas
@@ -74,9 +72,11 @@ import com.baijum.ukufretboard.data.VoicingGenerator
 import com.baijum.ukufretboard.domain.AudioChordDetector
 import com.baijum.ukufretboard.domain.ChordDetector
 import com.baijum.ukufretboard.domain.ChordVoicing
+import com.baijum.ukufretboard.domain.FrameGate
 import com.baijum.ukufretboard.domain.PlayAlongScorer
 import com.baijum.ukufretboard.domain.UkuleleString
-import com.baijum.ukufretboard.domain.FrameGate
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * Real-Time Play-Along with feedback view.
@@ -112,11 +112,12 @@ fun PlayAlongView(
         )
     }
 
-    val permissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission(),
-    ) { granted ->
-        hasMicPermission = granted
-    }
+    val permissionLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission(),
+        ) { granted ->
+            hasMicPermission = granted
+        }
 
     // State
     var isPlaying by remember { mutableStateOf(false) }
@@ -131,12 +132,13 @@ fun PlayAlongView(
     val frameGate = remember { FrameGate() }
 
     // Build chord names for the progression
-    val chordNames = remember(progression, keyRoot) {
-        progression.degrees.map { degree ->
-            val chordRoot = (keyRoot + degree.interval) % Notes.PITCH_CLASS_COUNT
-            Notes.enharmonicForKey(chordRoot, keyRoot) + degree.quality
+    val chordNames =
+        remember(progression, keyRoot) {
+            progression.degrees.map { degree ->
+                val chordRoot = (keyRoot + degree.interval) % Notes.PITCH_CLASS_COUNT
+                Notes.enharmonicForKey(chordRoot, keyRoot) + degree.quality
+            }
         }
-    }
 
     // Clean up on dispose
     DisposableEffect(Unit) {
@@ -177,10 +179,11 @@ fun PlayAlongView(
     }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
             text = stringResource(R.string.play_along_title),
@@ -200,10 +203,11 @@ fun PlayAlongView(
                 text = stringResource(R.string.play_along_empty_progression),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.error,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp)
-                    .semantics { liveRegion = LiveRegionMode.Assertive },
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp)
+                        .semantics { liveRegion = LiveRegionMode.Assertive },
                 textAlign = TextAlign.Center,
             )
             return
@@ -214,9 +218,10 @@ fun PlayAlongView(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                ),
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                    ),
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
@@ -243,36 +248,39 @@ fun PlayAlongView(
 
         // Chord timeline with current highlight
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState())
-                .padding(vertical = 4.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
+                    .padding(vertical = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             chordNames.forEachIndexed { index, name ->
                 val isCurrent = index == currentChordIndex
                 Box(
-                    modifier = Modifier
-                        .background(
-                            color = if (isCurrent) {
-                                MaterialTheme.colorScheme.primary
-                            } else {
-                                MaterialTheme.colorScheme.surfaceVariant
-                            },
-                            shape = RoundedCornerShape(10.dp),
-                        )
-                        .padding(horizontal = 14.dp, vertical = 10.dp),
+                    modifier =
+                        Modifier
+                            .background(
+                                color =
+                                    if (isCurrent) {
+                                        MaterialTheme.colorScheme.primary
+                                    } else {
+                                        MaterialTheme.colorScheme.surfaceVariant
+                                    },
+                                shape = RoundedCornerShape(10.dp),
+                            ).padding(horizontal = 14.dp, vertical = 10.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = name,
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = if (isCurrent) FontWeight.Bold else FontWeight.Normal,
-                        color = if (isCurrent) {
-                            MaterialTheme.colorScheme.onPrimary
-                        } else {
-                            MaterialTheme.colorScheme.onSurfaceVariant
-                        },
+                        color =
+                            if (isCurrent) {
+                                MaterialTheme.colorScheme.onPrimary
+                            } else {
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            },
                     )
                 }
             }
@@ -284,14 +292,16 @@ fun PlayAlongView(
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-            ),
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                ),
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(24.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
@@ -305,21 +315,23 @@ fun PlayAlongView(
                     style = MaterialTheme.typography.displaySmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
-                    modifier = Modifier.semantics {
-                        liveRegion = LiveRegionMode.Assertive
-                        contentDescription = currentChordName
-                    },
+                    modifier =
+                        Modifier.semantics {
+                            liveRegion = LiveRegionMode.Assertive
+                            contentDescription = currentChordName
+                        },
                 )
 
                 if (isPlaying && detectedChord != null) {
                     Spacer(modifier = Modifier.height(8.dp))
                     val expectedChord = chordNames.getOrElse(currentChordIndex) { "" }
-                    val isCorrect = detectedChord?.let {
-                        normalizeChordForComparison(it).equals(
-                            normalizeChordForComparison(expectedChord),
-                            ignoreCase = true,
-                        )
-                    } == true
+                    val isCorrect =
+                        detectedChord?.let {
+                            PlayAlongScorer.normalizeChordName(it).equals(
+                                PlayAlongScorer.normalizeChordName(expectedChord),
+                                ignoreCase = true,
+                            )
+                        } == true
 
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -327,26 +339,36 @@ fun PlayAlongView(
                     ) {
                         Icon(
                             imageVector = if (isCorrect) Icons.Filled.CheckCircle else Icons.Filled.Close,
-                            contentDescription = if (isCorrect) stringResource(R.string.cd_correct) else stringResource(R.string.cd_incorrect),
-                            tint = if (isCorrect) {
-                                MaterialTheme.colorScheme.primary
-                            } else {
-                                MaterialTheme.colorScheme.error
-                            },
+                            contentDescription =
+                                if (isCorrect) {
+                                    stringResource(
+                                        R.string.cd_correct,
+                                    )
+                                } else {
+                                    stringResource(R.string.cd_incorrect)
+                                },
+                            tint =
+                                if (isCorrect) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    MaterialTheme.colorScheme.error
+                                },
                             modifier = Modifier.size(20.dp),
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = "${stringResource(R.string.play_along_heard)} ${detectedChord ?: "..."}",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = if (isCorrect) {
-                                MaterialTheme.colorScheme.primary
-                            } else {
-                                MaterialTheme.colorScheme.error
-                            },
-                            modifier = Modifier.semantics {
-                                liveRegion = LiveRegionMode.Polite
-                            },
+                            color =
+                                if (isCorrect) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    MaterialTheme.colorScheme.error
+                                },
+                            modifier =
+                                Modifier.semantics {
+                                    liveRegion = LiveRegionMode.Polite
+                                },
                         )
                     }
                 }
@@ -360,14 +382,16 @@ fun PlayAlongView(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                ),
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    ),
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -405,9 +429,10 @@ fun PlayAlongView(
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-            ),
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                ),
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
                 // BPM + Tap Tempo
@@ -443,10 +468,11 @@ fun PlayAlongView(
                             selected = beatsPerChord == beats,
                             onClick = { beatsPerChord = beats },
                             label = { Text("$beats") },
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = MaterialTheme.colorScheme.primary,
-                                selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-                            ),
+                            colors =
+                                FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.primary,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                                ),
                             modifier = Modifier.height(30.dp),
                         )
                     }
@@ -495,13 +521,17 @@ fun PlayAlongView(
                                         if (chordIdx != lastChordPlayed) {
                                             lastChordPlayed = chordIdx
                                             // Play voicing for reference
-                                            val chordRoot = (keyRoot + progression.degrees[chordIdx].interval) %
-                                                Notes.PITCH_CLASS_COUNT
-                                            val formula = ChordFormulas.ALL
-                                                .firstOrNull { it.symbol == progression.degrees[chordIdx].quality }
+                                            val chordRoot =
+                                                (keyRoot + progression.degrees[chordIdx].interval) %
+                                                    Notes.PITCH_CLASS_COUNT
+                                            val formula =
+                                                ChordFormulas.ALL
+                                                    .firstOrNull { it.symbol == progression.degrees[chordIdx].quality }
                                             if (formula != null && onPlayVoicing != null) {
-                                                val voicing = VoicingGenerator.generate(chordRoot, formula, tuning)
-                                                    .firstOrNull()
+                                                val voicing =
+                                                    VoicingGenerator
+                                                        .generate(chordRoot, formula, tuning)
+                                                        .firstOrNull()
                                                 if (voicing != null) onPlayVoicing(voicing)
                                             }
                                         }
@@ -516,25 +546,28 @@ fun PlayAlongView(
                                 )
                             }
                         },
-                        modifier = Modifier
-                            .size(56.dp)
-                            .background(
-                                color = if (isPlaying) {
-                                    MaterialTheme.colorScheme.error
-                                } else {
-                                    MaterialTheme.colorScheme.primary
-                                },
-                                shape = CircleShape,
-                            ),
+                        modifier =
+                            Modifier
+                                .size(56.dp)
+                                .background(
+                                    color =
+                                        if (isPlaying) {
+                                            MaterialTheme.colorScheme.error
+                                        } else {
+                                            MaterialTheme.colorScheme.primary
+                                        },
+                                    shape = CircleShape,
+                                ),
                     ) {
                         Icon(
                             imageVector = if (isPlaying) Icons.Filled.Close else Icons.Filled.PlayArrow,
                             contentDescription = if (isPlaying) "Stop" else "Play Along",
-                            tint = if (isPlaying) {
-                                MaterialTheme.colorScheme.onError
-                            } else {
-                                MaterialTheme.colorScheme.onPrimary
-                            },
+                            tint =
+                                if (isPlaying) {
+                                    MaterialTheme.colorScheme.onError
+                                } else {
+                                    MaterialTheme.colorScheme.onPrimary
+                                },
                             modifier = Modifier.size(28.dp),
                         )
                     }
@@ -570,10 +603,11 @@ fun PlayAlongSetup(
         )
     } else {
         Column(
-            modifier = modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 8.dp),
+            modifier =
+                modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
         ) {
             Text(
                 text = stringResource(R.string.play_along_title),
@@ -596,9 +630,10 @@ fun PlayAlongSetup(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState()),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 val noteNames = listOf("C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B")
@@ -607,10 +642,11 @@ fun PlayAlongSetup(
                         selected = selectedKey == index,
                         onClick = { selectedKey = index },
                         label = { Text(name) },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primary,
-                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-                        ),
+                        colors =
+                            FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = MaterialTheme.colorScheme.primary,
+                                selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                            ),
                     )
                 }
             }
@@ -625,9 +661,10 @@ fun PlayAlongSetup(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState()),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 ScaleType.entries.forEach { scale ->
@@ -635,10 +672,11 @@ fun PlayAlongSetup(
                         selected = selectedScale == scale,
                         onClick = { selectedScale = scale },
                         label = { Text(scale.label) },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primary,
-                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-                        ),
+                        colors =
+                            FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = MaterialTheme.colorScheme.primary,
+                                selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                            ),
                     )
                 }
             }
@@ -655,13 +693,15 @@ fun PlayAlongSetup(
             progressions.forEach { progression ->
                 Card(
                     onClick = { selectedProgression = progression },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 3.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 3.dp),
                     shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    ),
+                    colors =
+                        CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        ),
                 ) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Text(
@@ -675,10 +715,11 @@ fun PlayAlongSetup(
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                         // Show resolved chord names
-                        val chords = progression.degrees.map { deg ->
-                            val root = (selectedKey + deg.interval) % Notes.PITCH_CLASS_COUNT
-                            Notes.enharmonicForKey(root, selectedKey) + deg.quality
-                        }
+                        val chords =
+                            progression.degrees.map { deg ->
+                                val root = (selectedKey + deg.interval) % Notes.PITCH_CLASS_COUNT
+                                Notes.enharmonicForKey(root, selectedKey) + deg.quality
+                            }
                         Text(
                             text = chords.joinToString(" → "),
                             style = MaterialTheme.typography.labelSmall,
@@ -691,8 +732,3 @@ fun PlayAlongSetup(
         }
     }
 }
-
-private fun normalizeChordForComparison(name: String): String =
-    name.replace(Regex("[79]$"), "")
-        .replace("maj", "")
-        .trim()
