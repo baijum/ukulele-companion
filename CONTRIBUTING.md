@@ -74,6 +74,8 @@ This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.
 
 ### Key Architectural Patterns
 
+**Full codebase inventory:** For an exhaustive table of all feature areas (Play/Create/Practice/Reference + every NavSection), shared domain logic, platform implementations, UI components, cross-cutting concerns, tests, and build tooling, see [CODEBASE_AREAS_SUBAREAS.md](../CODEBASE_AREAS_SUBAREAS.md).
+
 - **Kotlin Multiplatform (KMP)**: Shared domain logic and data types in the `shared/` module, consumed by both Android and iOS
 - **Single Activity (Android)**: Everything runs through `MainActivity` with Compose navigation
 - **ViewModel + StateFlow (Android)**: UI state managed via ViewModels exposing `StateFlow`

@@ -30,6 +30,10 @@ hide:
       </a>
       <a href="manual/" class="md-button md-button--primary">Start with the Manual</a>
       <a href="https://github.com/baijum/ukulele-companion" class="md-button">View on GitHub</a>
+
+  <p class="hero-subtitle" style="font-size: 0.9em; margin-top: 1em;">
+    <strong>Developers:</strong> See the full <a href="../CODEBASE_AREAS_SUBAREAS.md">codebase areas &amp; sub-areas map</a> (features, packages, UI layers, domain logic, accessibility, tests, etc.).
+  </p>
     </div>
     <div class="hero-stats">
       <div><strong>30+</strong><span>learning screens</span></div>

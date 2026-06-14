@@ -231,6 +231,8 @@ xcodebuild -project iosApp/UkuleleCompanion.xcodeproj \
 
 The Android debug APK will be at `app/build/outputs/apk/debug/app-debug.apk`.
 
+**Codebase map:** For a complete table of all areas and sub-areas (features via NavSection, shared KMP domain/data, Android/iOS layers, cross-cutting concerns like accessibility/neural/backup, tests, and tooling), see [CODEBASE_AREAS_SUBAREAS.md](CODEBASE_AREAS_SUBAREAS.md).
+
 ### Run on Emulator or Device
 
 - **Android**: Open the project in Android Studio, select a device/emulator, and click **Run** (or press `Shift+F10`).
