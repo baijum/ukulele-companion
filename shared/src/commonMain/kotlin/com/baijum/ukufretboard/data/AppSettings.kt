@@ -1,5 +1,7 @@
 package com.baijum.ukufretboard.data
 
+import kotlinx.serialization.Serializable
+
 /**
  * Settings for sound playback (strum, note duration, etc.).
  *
@@ -11,6 +13,7 @@ package com.baijum.ukufretboard.data
  *   When false, the strum order is reversed (A→E→C→G).
  * @property playOnTap When true, a single note is played each time a fret is tapped.
  */
+@Serializable
 data class SoundSettings(
     val enabled: Boolean = true,
     val volume: Float = DEFAULT_VOLUME,
@@ -45,7 +48,10 @@ data class SoundSettings(
 /**
  * Theme mode for the app.
  */
-enum class ThemeMode(val label: String) {
+@Serializable
+enum class ThemeMode(
+    val label: String,
+) {
     LIGHT("Light"),
     DARK("Dark"),
     SYSTEM("System"),
@@ -55,7 +61,10 @@ enum class ThemeMode(val label: String) {
 /**
  * How chords are positioned relative to lyrics in the chord sheet viewer.
  */
-enum class ChordDisplayStyle(val label: String) {
+@Serializable
+enum class ChordDisplayStyle(
+    val label: String,
+) {
     ABOVE("Above lyrics"),
     INLINE("Inline with lyrics"),
 }
@@ -66,7 +75,10 @@ enum class ChordDisplayStyle(val label: String) {
  * Each option maps to a theme-aware color pair (light/dark) in the UI layer.
  * [THEME] uses the platform accent/primary color.
  */
-enum class ChordColorOption(val label: String) {
+@Serializable
+enum class ChordColorOption(
+    val label: String,
+) {
     THEME("Theme"),
     RED("Red"),
     BLUE("Blue"),
@@ -86,6 +98,7 @@ enum class ChordColorOption(val label: String) {
  * @property chordDisplayStyle How chords are positioned relative to lyrics.
  * @property chordColor The color preset used for chord names in the viewer.
  */
+@Serializable
 data class DisplaySettings(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val showExplorerTips: Boolean = true,
@@ -104,20 +117,22 @@ data class DisplaySettings(
  * @property pitchClasses Pitch class (0–11) of each open string.
  * @property octaves Octave number of each open string.
  */
+@Serializable
 enum class UkuleleTuning(
     val label: String,
     val stringNames: List<String>,
     val pitchClasses: List<Int>,
     val octaves: List<Int>,
 ) {
-    HIGH_G("High-G (Standard)", listOf("G","C","E","A"), listOf(7,0,4,9), listOf(4,4,4,4)),
-    LOW_G("Low-G", listOf("g","C","E","A"), listOf(7,0,4,9), listOf(3,4,4,4)),
-    BARITONE("Baritone (DGBE)", listOf("D","G","B","E"), listOf(2,7,11,4), listOf(3,3,4,4)),
-    D_TUNING("D-Tuning (ADF#B)", listOf("A","D","F#","B"), listOf(9,2,6,11), listOf(4,4,4,4)),
-    SLACK_KEY("Slack Key (GCEG)", listOf("G","C","E","G"), listOf(7,0,4,7), listOf(4,4,4,4)),
-    OPEN_A("Open A (AC#EA)", listOf("A","C#","E","A"), listOf(9,1,4,9), listOf(4,4,4,4)),
-    LOW_A("Low A (GCEa)", listOf("G","C","E","a"), listOf(7,0,4,9), listOf(4,4,4,3)),
-    HALF_STEP_DOWN("Half-Step Down", listOf("F#","B","D#","G#"), listOf(6,11,3,8), listOf(4,3,4,4));
+    HIGH_G("High-G (Standard)", listOf("G", "C", "E", "A"), listOf(7, 0, 4, 9), listOf(4, 4, 4, 4)),
+    LOW_G("Low-G", listOf("g", "C", "E", "A"), listOf(7, 0, 4, 9), listOf(3, 4, 4, 4)),
+    BARITONE("Baritone (DGBE)", listOf("D", "G", "B", "E"), listOf(2, 7, 11, 4), listOf(3, 3, 4, 4)),
+    D_TUNING("D-Tuning (ADF#B)", listOf("A", "D", "F#", "B"), listOf(9, 2, 6, 11), listOf(4, 4, 4, 4)),
+    SLACK_KEY("Slack Key (GCEG)", listOf("G", "C", "E", "G"), listOf(7, 0, 4, 7), listOf(4, 4, 4, 4)),
+    OPEN_A("Open A (AC#EA)", listOf("A", "C#", "E", "A"), listOf(9, 1, 4, 9), listOf(4, 4, 4, 4)),
+    LOW_A("Low A (GCEa)", listOf("G", "C", "E", "a"), listOf(7, 0, 4, 9), listOf(4, 4, 4, 3)),
+    HALF_STEP_DOWN("Half-Step Down", listOf("F#", "B", "D#", "G#"), listOf(6, 11, 3, 8), listOf(4, 3, 4, 4)),
+    ;
 
     /**
      * Whether this tuning is re-entrant (string pitches are not monotonically ascending).
@@ -142,6 +157,7 @@ enum class UkuleleTuning(
  *
  * @property tuning The selected tuning variant.
  */
+@Serializable
 data class TuningSettings(
     val tuning: UkuleleTuning = UkuleleTuning.HIGH_G,
 )
@@ -157,6 +173,7 @@ data class TuningSettings(
  *   where one string is muted (not played). Disabled by default since standard
  *   ukulele playing uses all 4 strings for most chords.
  */
+@Serializable
 data class FretboardSettings(
     val leftHanded: Boolean = false,
     val lastFret: Int = DEFAULT_LAST_FRET,
@@ -170,7 +187,6 @@ data class FretboardSettings(
     }
 }
 
-
 /**
  * Persisted preferences for the Scale Practice screen.
  *
@@ -181,6 +197,7 @@ data class FretboardSettings(
  * @property lastMode Last selected practice mode index (0 = Play Along, 1 = Quiz, 2 = Ear Training).
  * @property showFretboard Whether to show the compact fretboard in Play Along mode.
  */
+@Serializable
 data class ScalePracticeSettings(
     val lastRoot: Int = 0,
     val lastScaleName: String = "Major",
@@ -214,6 +231,7 @@ data class ScalePracticeSettings(
  * @property autoStart When true, the tuner begins listening automatically when
  *   the tuner tab is opened, removing the need to tap "Start Tuning".
  */
+@Serializable
 data class TunerSettings(
     val spokenFeedback: Boolean = false,
     val precisionMode: Boolean = false,
@@ -228,6 +246,7 @@ data class TunerSettings(
 
         /** Standard (beginner-friendly) in-tune threshold in cents. */
         const val STANDARD_IN_TUNE_CENTS = 6.0
+
         /** Precision in-tune threshold in cents. */
         const val PRECISION_IN_TUNE_CENTS = 2.0
     }
@@ -239,6 +258,7 @@ data class TunerSettings(
  * Note: the noise gate filtering has been moved to [SoundSettings] so it
  * applies globally to all recording features (Tuner, Pitch Monitor, Melody Notepad).
  */
+@Serializable
 data class PitchMonitorSettings(
     val placeholder: Boolean = false,
 )
@@ -249,12 +269,12 @@ data class PitchMonitorSettings(
  * Each section is a nested data class with its own defaults.
  * New sections are added here as the app grows.
  */
+@Serializable
 data class AppSettings(
     val sound: SoundSettings = SoundSettings(),
     val display: DisplaySettings = DisplaySettings(),
     val tuning: TuningSettings = TuningSettings(),
     val fretboard: FretboardSettings = FretboardSettings(),
-
     val scalePractice: ScalePracticeSettings = ScalePracticeSettings(),
     val tuner: TunerSettings = TunerSettings(),
     val pitchMonitor: PitchMonitorSettings = PitchMonitorSettings(),
