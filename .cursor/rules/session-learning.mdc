@@ -1,0 +1,45 @@
+---
+description: End-of-session rule reflection — run at the end of coding sessions to capture learnings
+globs: "**/*"
+alwaysApply: false
+---
+
+# Session Learning Workflow
+
+At the end of a coding session, review corrections and patterns that emerged.
+This rule is triggered manually by the developer when they want to codify session learnings.
+
+## When to Run
+
+- After completing a significant feature or fix
+- When the same feedback was given multiple times in a session
+- When a new pattern was established that should be standardized
+
+## Process
+
+1. **Review session corrections:**
+   - What formatting/style issues were caught by ktlint or detekt?
+   - What accessibility patterns needed to be applied?
+   - What API patterns were repeated?
+
+2. **Identify rule candidates:**
+   - Pattern used in 3+ locations → consider a new rule
+   - Bug that would be prevented by a rule → add to existing rule
+   - New library/API usage → document conventions
+
+3. **Draft rule updates:**
+   - Check if an existing `.cursor/rules/*.mdc` file covers the pattern
+   - If yes: update the existing rule with new examples
+   - If no: create a new rule following `cursor_rules.mdc` format
+
+4. **Track in git:**
+   - Commit rule changes separately from feature code
+   - Use commit type `Docs:` for rule-only changes
+
+## Rule Quality Checklist
+
+- [ ] Rule is actionable (tells the agent what to do, not just what exists)
+- [ ] Includes a concrete code example from the actual codebase
+- [ ] References the canonical file location
+- [ ] Doesn't duplicate existing rules
+- [ ] Has correct `globs` targeting
