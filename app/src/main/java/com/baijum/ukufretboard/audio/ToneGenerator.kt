@@ -28,7 +28,6 @@ import kotlin.math.pow
  * (individual notes within a chord are polyphonic).
  */
 object ToneGenerator {
-
     /**
      * The octave of the recorded samples.
      * Standard ukulele range starts at C4, so the samples represent octave 4.
@@ -62,20 +61,21 @@ object ToneGenerator {
      * Each entry maps a pitch class (0–11) to an OGG file in res/raw/
      * containing a single recorded ukulele note.
      */
-    private val SAMPLE_RESOURCES = mapOf(
-        0 to R.raw.uke_c,
-        1 to R.raw.uke_csharp,
-        2 to R.raw.uke_d,
-        3 to R.raw.uke_dsharp,
-        4 to R.raw.uke_e,
-        5 to R.raw.uke_f,
-        6 to R.raw.uke_fsharp,
-        7 to R.raw.uke_g,
-        8 to R.raw.uke_gsharp,
-        9 to R.raw.uke_a,
-        10 to R.raw.uke_asharp,
-        11 to R.raw.uke_b,
-    )
+    private val SAMPLE_RESOURCES =
+        mapOf(
+            0 to R.raw.uke_c,
+            1 to R.raw.uke_csharp,
+            2 to R.raw.uke_d,
+            3 to R.raw.uke_dsharp,
+            4 to R.raw.uke_e,
+            5 to R.raw.uke_f,
+            6 to R.raw.uke_fsharp,
+            7 to R.raw.uke_g,
+            8 to R.raw.uke_gsharp,
+            9 to R.raw.uke_a,
+            10 to R.raw.uke_asharp,
+            11 to R.raw.uke_b,
+        )
 
     /**
      * Initializes the SoundPool and loads all 12 chromatic samples.
@@ -88,15 +88,19 @@ object ToneGenerator {
     fun init(context: Context) {
         if (initialized) return
 
-        val attrs = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_MEDIA)
-            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-            .build()
+        val attrs =
+            AudioAttributes
+                .Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build()
 
-        soundPool = SoundPool.Builder()
-            .setMaxStreams(MAX_STREAMS)
-            .setAudioAttributes(attrs)
-            .build()
+        soundPool =
+            SoundPool
+                .Builder()
+                .setMaxStreams(MAX_STREAMS)
+                .setAudioAttributes(attrs)
+                .build()
 
         SAMPLE_RESOURCES.forEach { (pitchClass, resId) ->
             sampleIds[pitchClass] = soundPool!!.load(context, resId, 1)
@@ -128,7 +132,10 @@ object ToneGenerator {
      * @param octave The octave number (e.g., 4 for the octave containing A440).
      * @return The frequency in Hz.
      */
-    fun frequencyOf(pitchClass: Int, octave: Int): Double {
+    fun frequencyOf(
+        pitchClass: Int,
+        octave: Int,
+    ): Double {
         val midiNote = (octave + 1) * 12 + pitchClass
         return 440.0 * 2.0.pow((midiNote - 69).toDouble() / 12.0)
     }
@@ -188,17 +195,7 @@ object ToneGenerator {
 
         playbackMutex.withLock {
             withContext(Dispatchers.Default) {
-                notes.forEachIndexed { index, (pitchClass, octave) ->
-                    val sampleId = sampleIds[Math.floorMod(pitchClass, 12)]
-                    if (sampleId != 0) {
-                        val rate = playbackRate(octave)
-                        sp.play(sampleId, vol, vol, 1, 0, rate)
-                    }
-                    if (index < notes.size - 1) {
-                        delay(strumDelayMs.toLong())
-                    }
-                }
-                // Allow the final note to ring before releasing the mutex
+                strumNotes(sp, notes, strumDelayMs, vol)
                 delay(noteDurationMs.toLong())
             }
         }
@@ -214,7 +211,11 @@ object ToneGenerator {
      * @param octave The octave (typically 3–5 for ukulele).
      * @param volume Playback volume 0..1.
      */
-    fun fireNote(pitchClass: Int, octave: Int, volume: Float = 1f) {
+    fun fireNote(
+        pitchClass: Int,
+        octave: Int,
+        volume: Float = 1f,
+    ) {
         val sp = soundPool ?: return
         val sampleId = sampleIds[Math.floorMod(pitchClass, 12)]
         if (sampleId == 0) return
@@ -243,15 +244,24 @@ object ToneGenerator {
         val vol = volume.coerceIn(0f, 1f)
 
         withContext(Dispatchers.Default) {
-            notes.forEachIndexed { index, (pitchClass, octave) ->
-                val sampleId = sampleIds[Math.floorMod(pitchClass, 12)]
-                if (sampleId != 0) {
-                    val rate = playbackRate(octave)
-                    sp.play(sampleId, vol, vol, 1, 0, rate)
-                }
-                if (index < notes.size - 1) {
-                    delay(strumDelayMs.toLong())
-                }
+            strumNotes(sp, notes, strumDelayMs, vol)
+        }
+    }
+
+    private suspend fun strumNotes(
+        sp: SoundPool,
+        notes: List<Pair<Int, Int>>,
+        strumDelayMs: Int,
+        volume: Float,
+    ) {
+        notes.forEachIndexed { index, (pitchClass, octave) ->
+            val sampleId = sampleIds[Math.floorMod(pitchClass, 12)]
+            if (sampleId != 0) {
+                val rate = playbackRate(octave)
+                sp.play(sampleId, volume, volume, 1, 0, rate)
+            }
+            if (index < notes.size - 1) {
+                delay(strumDelayMs.toLong())
             }
         }
     }
