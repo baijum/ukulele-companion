@@ -5,6 +5,8 @@ description: Build and upload an Android release based on an existing git tag. R
 
 # Android Release
 
+> **For normal dual-platform releases, use [`/release`](../.cursor/skills/release/SKILL.md) instead.** This skill is for Android-only hotfixes or when you need to rebuild Android independently.
+
 Build and upload an Android release based on an existing version tag created by the [github-release](.cursor/skills/github-release/SKILL.md) skill.
 
 ## Prerequisites

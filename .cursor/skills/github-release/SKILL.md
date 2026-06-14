@@ -5,6 +5,8 @@ description: Create a GitHub release with a version tag and auto-generated relea
 
 # GitHub Release
 
+> **For normal releases, use [`/release`](../.cursor/skills/release/SKILL.md) instead** — it creates the tag, bumps both platform versions, builds, and uploads in one workflow. This skill is for creating a tag without building.
+
 Create a version tag on `main` and a GitHub release with release notes summarizing changes since the previous tag.
 
 ## Prerequisites

@@ -5,6 +5,8 @@ description: Build an iOS release based on an existing git tag. Bumps version to
 
 # iOS Release
 
+> **For normal dual-platform releases, use [`/release`](../.cursor/skills/release/SKILL.md) instead.** This skill is for iOS-only hotfixes or when you need to rebuild iOS independently.
+
 Build an iOS release archive based on an existing version tag created by the [github-release](.cursor/skills/github-release/SKILL.md) skill.
 
 ## Prerequisites
