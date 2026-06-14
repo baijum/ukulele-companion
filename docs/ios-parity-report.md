@@ -16,6 +16,8 @@ Systematic comparison of the iOS port against the Android reference implementati
 
 All 54 prioritized gaps from the initial audit (P0 through P5) have been resolved. Both platforms are at full feature parity across all screens, sub-features, and settings.
 
+**Code-level reference:** The complete mapping of feature areas, navigation sections (NavSection), shared packages, platform-specific UI/ViewModels, and cross-cutting code (including the exact areas compared here) lives in [../CODEBASE_AREAS_SUBAREAS.md](../CODEBASE_AREAS_SUBAREAS.md).
+
 ### Post-parity updates (June 2026)
 
 **Accessibility parity (#140):** Haptic in-tune feedback, reduce motion support, per-string chord diagram exploration, needle meter zone descriptions, color-only state differentiation fixes, and accessibility hints have been implemented on both platforms simultaneously.

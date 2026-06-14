@@ -103,6 +103,8 @@ Each manual covers 15 sections:
 
 </div>
 
+**For contributors:** For a detailed, exhaustive breakdown of all code areas and sub-areas (every navigation section, shared domain logic, platform UI/ViewModels, audio/neural, accessibility, backup, tests, etc.), see the [codebase areas map](../CODEBASE_AREAS_SUBAREAS.md).
+
 ## Companion Book
 
 **The Complete Ukulele Learning Book** is a free PDF covering everything from first strums to jazz voicings and fingerstyle technique. It pairs well with this app as a structured learning path.

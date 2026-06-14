@@ -2,6 +2,8 @@
 
 Mandatory instructions for AI coding agents (Cursor, Copilot, Codex, etc.) working on this codebase.
 
+**See also:** [CODEBASE_AREAS_SUBAREAS.md](CODEBASE_AREAS_SUBAREAS.md) — exhaustive table of feature areas (Play/Create/Practice/Reference + all NavSections), packages, UI/Views, domain logic, and cross-cutting code.
+
 Detailed coding rules live in `.cursor/rules/*.mdc` — **the canonical source**. They auto-attach in Cursor; Claude Code picks them up via directory-scoped `CLAUDE.md` pointer files (e.g. `shared/src/commonMain/`, `app/src/main/.../ui/`, `iosApp/UkuleleCompanion/`); other agents should open the relevant rule from the Coding Rules Reference table below. This document provides project-level context and constraints.
 
 ## Project Overview
@@ -53,6 +55,8 @@ Ukulele Companion is a **free, fully offline** multiplatform app (Android + iOS)
 | `Views/` | 50 SwiftUI views across Play, Create, Learn, Reference tabs |
 | `ViewModels/` | 17 ViewModels using `@Published` |
 | `Helpers/` | `AccessibilityHelper`, `BackupRestoreManager` |
+
+**Full codebase inventory:** For an exhaustive table of all feature areas (Play/Create/Practice/Reference + every NavSection), shared domain logic, platform implementations, UI components, cross-cutting concerns (accessibility, neural, backup), tests, and build tooling, see [CODEBASE_AREAS_SUBAREAS.md](CODEBASE_AREAS_SUBAREAS.md).
 
 ## Key Patterns
 
