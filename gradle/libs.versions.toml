@@ -22,6 +22,7 @@ material = "1.14.0"
 kotest = "6.1.11"
 jazzer = "0.30.0"
 kover = "0.9.8"
+detekt = "1.23.8"
 
 [libraries]
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -61,3 +62,4 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 android-kmp-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 play-publisher = { id = "com.github.triplet.play", version.ref = "playPublisher" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
