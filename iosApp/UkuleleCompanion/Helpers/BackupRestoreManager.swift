@@ -505,7 +505,7 @@ private enum MelodyCoder {
                 name: m["name"] as? String ?? "",
                 notes: notes,
                 bpm: Int32(m["bpm"] as? Int ?? 120),
-                createdAt: BackupTimestamp.toMillis(m["createdAt"] as? Double ?? 0)
+                createdAt: BackupTimestamp.fromAny(m["createdAt"])
             )
         }
     }
@@ -529,7 +529,7 @@ private enum MelodyCoder {
             return [
                 "id": m.id, "name": m.name, "notes": notes,
                 "bpm": Int(m.bpm),
-                "createdAt": BackupTimestamp.toSeconds(m.createdAt),
+                "createdAt": Double(m.createdAt),
             ] as [String: Any]
         }
     }
