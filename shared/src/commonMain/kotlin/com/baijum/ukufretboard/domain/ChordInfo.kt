@@ -265,7 +265,10 @@ object ChordInfo {
      * @param interval Semitone interval from root to bass (0–11).
      * @param formula The chord formula (used to validate 3rd inversion for 7th chords).
      */
-    fun inversionForInterval(interval: Int, formula: ChordFormula): Inversion {
+    fun inversionForInterval(
+        interval: Int,
+        formula: ChordFormula,
+    ): Inversion {
         if (interval == 0) return Inversion.ROOT
         if (interval == 3 || interval == 4) return Inversion.FIRST
         if (interval == 6 || interval == 7 || interval == 8) return Inversion.SECOND

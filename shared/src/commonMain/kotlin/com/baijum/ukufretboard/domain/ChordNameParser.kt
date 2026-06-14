@@ -258,5 +258,4 @@ object ChordNameParser {
 
         return results
     }
-
 }
