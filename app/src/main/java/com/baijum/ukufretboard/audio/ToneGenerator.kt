@@ -188,17 +188,7 @@ object ToneGenerator {
 
         playbackMutex.withLock {
             withContext(Dispatchers.Default) {
-                notes.forEachIndexed { index, (pitchClass, octave) ->
-                    val sampleId = sampleIds[Math.floorMod(pitchClass, 12)]
-                    if (sampleId != 0) {
-                        val rate = playbackRate(octave)
-                        sp.play(sampleId, vol, vol, 1, 0, rate)
-                    }
-                    if (index < notes.size - 1) {
-                        delay(strumDelayMs.toLong())
-                    }
-                }
-                // Allow the final note to ring before releasing the mutex
+                strumNotes(sp, notes, strumDelayMs, vol)
                 delay(noteDurationMs.toLong())
             }
         }
@@ -243,15 +233,24 @@ object ToneGenerator {
         val vol = volume.coerceIn(0f, 1f)
 
         withContext(Dispatchers.Default) {
-            notes.forEachIndexed { index, (pitchClass, octave) ->
-                val sampleId = sampleIds[Math.floorMod(pitchClass, 12)]
-                if (sampleId != 0) {
-                    val rate = playbackRate(octave)
-                    sp.play(sampleId, vol, vol, 1, 0, rate)
-                }
-                if (index < notes.size - 1) {
-                    delay(strumDelayMs.toLong())
-                }
+            strumNotes(sp, notes, strumDelayMs, vol)
+        }
+    }
+
+    private suspend fun strumNotes(
+        sp: SoundPool,
+        notes: List<Pair<Int, Int>>,
+        strumDelayMs: Int,
+        volume: Float,
+    ) {
+        notes.forEachIndexed { index, (pitchClass, octave) ->
+            val sampleId = sampleIds[Math.floorMod(pitchClass, 12)]
+            if (sampleId != 0) {
+                val rate = playbackRate(octave)
+                sp.play(sampleId, volume, volume, 1, 0, rate)
+            }
+            if (index < notes.size - 1) {
+                delay(strumDelayMs.toLong())
             }
         }
     }
