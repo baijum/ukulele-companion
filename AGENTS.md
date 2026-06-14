@@ -107,6 +107,7 @@ Skills in `.cursor/skills/` provide step-by-step workflows for common tasks:
 # Android
 ./gradlew assembleDebug                        # Build debug APK
 ./gradlew lintDebug                            # Run Android Lint
+./gradlew detekt                               # Run Detekt static analysis (baseline ratchet)
 ./gradlew testDebugUnitTest                    # Run unit tests
 ./gradlew connectedAndroidTest                 # Run instrumented tests
 
