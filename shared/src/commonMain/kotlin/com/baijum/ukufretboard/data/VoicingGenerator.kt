@@ -20,7 +20,6 @@ import com.baijum.ukufretboard.domain.UkuleleString
  *    [MAX_VOICINGS] results.
  */
 object VoicingGenerator {
-
     /** Maximum allowed span between the lowest and highest fretted (non-open) positions. */
     private const val MAX_FRET_SPAN = 4
 
@@ -58,47 +57,56 @@ object VoicingGenerator {
         val stringCount = tuning.size
 
         // Build the set of target pitch classes and the required subset
-        val allTargetPCs = formula.intervals.map { interval ->
-            (rootPitchClass + interval) % Notes.PITCH_CLASS_COUNT
-        }.toSet()
+        val allTargetPCs =
+            formula.intervals
+                .map { interval ->
+                    (rootPitchClass + interval) % Notes.PITCH_CLASS_COUNT
+                }.toSet()
 
-        val requiredPCs = formula.intervals
-            .subtract(formula.omittable)
-            .map { interval -> (rootPitchClass + interval) % Notes.PITCH_CLASS_COUNT }
-            .toSet()
+        val requiredPCs =
+            formula.intervals
+                .subtract(formula.omittable)
+                .map { interval -> (rootPitchClass + interval) % Notes.PITCH_CLASS_COUNT }
+                .toSet()
 
         // Determine which pitch class sets to try.
         // For chords with ≤ stringCount notes, use the full set.
         // For chords with > stringCount notes, generate subsets by dropping omittable intervals.
-        val pitchClassSets = if (allTargetPCs.size <= stringCount) {
-            listOf(allTargetPCs)
-        } else {
-            buildSubsets(rootPitchClass, formula, stringCount)
-        }
+        val pitchClassSets =
+            if (allTargetPCs.size <= stringCount) {
+                listOf(allTargetPCs)
+            } else {
+                buildSubsets(rootPitchClass, formula, stringCount)
+            }
 
         val results = mutableSetOf<List<Int>>() // deduplicate by fret pattern
 
         for (targetPCs in pitchClassSets) {
             // For each string, find valid frets that produce a target pitch class
-            val fretsPerString = tuning.map { string ->
-                (0..LAST_FRET).filter { fret ->
-                    (string.openPitchClass + fret) % Notes.PITCH_CLASS_COUNT in targetPCs
+            val fretsPerString =
+                tuning.map { string ->
+                    (0..LAST_FRET).filter { fret ->
+                        (string.openPitchClass + fret) % Notes.PITCH_CLASS_COUNT in targetPCs
+                    }
                 }
-            }
 
             // When muted strings are not allowed, skip if any string has no valid frets
             if (!allowMutedStrings && fretsPerString.any { it.isEmpty() }) continue
 
             // When muted strings are allowed, add MUTED as an option for each string
             // (including strings that have valid frets, to support intentional 3-string voicings)
-            val fretsWithMuteOption = if (allowMutedStrings) {
-                fretsPerString.map { frets ->
-                    if (frets.isEmpty()) listOf(ChordVoicing.MUTED)
-                    else frets + ChordVoicing.MUTED
+            val fretsWithMuteOption =
+                if (allowMutedStrings) {
+                    fretsPerString.map { frets ->
+                        if (frets.isEmpty()) {
+                            listOf(ChordVoicing.MUTED)
+                        } else {
+                            frets + ChordVoicing.MUTED
+                        }
+                    }
+                } else {
+                    fretsPerString
                 }
-            } else {
-                fretsPerString
-            }
 
             // Cartesian product of valid frets across all strings
             cartesianProduct(fretsWithMuteOption) { combination ->
@@ -111,10 +119,11 @@ object VoicingGenerator {
                 if (mutedCount > MAX_MUTED_STRINGS) return@cartesianProduct
 
                 // Check that all required pitch classes are covered by non-muted strings
-                val producedPCs = combination.mapIndexedTo(mutableSetOf()) { i, fret ->
-                    if (fret == ChordVoicing.MUTED) return@mapIndexedTo -1 // sentinel, won't match
-                    (tuning[i].openPitchClass + fret) % Notes.PITCH_CLASS_COUNT
-                }
+                val producedPCs =
+                    combination.mapIndexedTo(mutableSetOf()) { i, fret ->
+                        if (fret == ChordVoicing.MUTED) return@mapIndexedTo -1 // sentinel, won't match
+                        (tuning[i].openPitchClass + fret) % Notes.PITCH_CLASS_COUNT
+                    }
                 producedPCs.remove(-1)
                 if (!producedPCs.containsAll(requiredPCs)) return@cartesianProduct
 
@@ -136,24 +145,22 @@ object VoicingGenerator {
         if (allowMutedStrings) {
             val fullFrets = results.filter { frets -> frets.none { it == ChordVoicing.MUTED } }
             val mutedFrets = results.filter { frets -> frets.any { it == ChordVoicing.MUTED } }
-
-            val sortedFull = fullFrets
-                .map { frets -> toVoicing(frets, tuning) }
-                .sortedWith(voicingComparator())
-                .take(MAX_VOICINGS)
-            val sortedMuted = mutedFrets
-                .map { frets -> toVoicing(frets, tuning) }
-                .sortedWith(voicingComparator())
-                .take(MAX_MUTED_VOICINGS)
-
-            return sortedFull + sortedMuted
+            return rankVoicings(fullFrets, tuning, MAX_VOICINGS) +
+                rankVoicings(mutedFrets, tuning, MAX_MUTED_VOICINGS)
         }
 
-        return results
+        return rankVoicings(results.toList(), tuning, MAX_VOICINGS)
+    }
+
+    private fun rankVoicings(
+        fretLists: List<List<Int>>,
+        tuning: List<UkuleleString>,
+        limit: Int,
+    ): List<ChordVoicing> =
+        fretLists
             .map { frets -> toVoicing(frets, tuning) }
             .sortedWith(voicingComparator())
-            .take(MAX_VOICINGS)
-    }
+            .take(limit)
 
     /**
      * Builds pitch class subsets for chords with more notes than strings.
@@ -172,7 +179,10 @@ object VoicingGenerator {
         val needToDrop = formula.intervals.size - stringCount
 
         // Generate all combinations of omittable intervals to drop
-        fun dropCombinations(remaining: List<Int>, toDrop: Int): List<Set<Int>> {
+        fun dropCombinations(
+            remaining: List<Int>,
+            toDrop: Int,
+        ): List<Set<Int>> {
             if (toDrop == 0) return listOf(emptySet())
             if (remaining.size < toDrop) return emptyList()
             val combos = mutableListOf<Set<Int>>()
@@ -231,13 +241,15 @@ object VoicingGenerator {
         frets: List<Int>,
         tuning: List<UkuleleString>,
     ): ChordVoicing {
-        val notes = frets.mapIndexed { i, fret ->
-            if (fret == ChordVoicing.MUTED) null
-            else {
-                val pc = (tuning[i].openPitchClass + fret) % Notes.PITCH_CLASS_COUNT
-                Note(pitchClass = pc, name = Notes.pitchClassToName(pc))
+        val notes =
+            frets.mapIndexed { i, fret ->
+                if (fret == ChordVoicing.MUTED) {
+                    null
+                } else {
+                    val pc = (tuning[i].openPitchClass + fret) % Notes.PITCH_CLASS_COUNT
+                    Note(pitchClass = pc, name = Notes.pitchClassToName(pc))
+                }
             }
-        }
         val frettedPositions = frets.filter { it > 0 }
         return ChordVoicing(
             frets = frets,
