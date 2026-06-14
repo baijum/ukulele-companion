@@ -7,6 +7,8 @@
 .cursor/*
 !.cursor/skills/
 !.cursor/rules/
+!.cursor/hooks.json
+!.cursor/hooks/
 .claude/settings.local.json
 .DS_Store
 /build
