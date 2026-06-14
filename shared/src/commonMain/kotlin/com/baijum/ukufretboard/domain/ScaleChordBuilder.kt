@@ -56,8 +56,8 @@ object ScaleChordBuilder {
             val thirdPc = scaleNotes[(index + 2) % scaleNotes.size]
             val fifthPc = scaleNotes[(index + 4) % scaleNotes.size]
 
-            val thirdInterval = (thirdPc - notePc + 12) % 12
-            val fifthInterval = (fifthPc - notePc + 12) % 12
+            val thirdInterval = Notes.normalizePitchClass(thirdPc - notePc)
+            val fifthInterval = Notes.normalizePitchClass(fifthPc - notePc)
 
             val (quality, symbol) = determineTriadQuality(thirdInterval, fifthInterval)
             val numeral = when (quality) {

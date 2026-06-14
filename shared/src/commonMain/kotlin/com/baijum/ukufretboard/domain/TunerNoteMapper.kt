@@ -1,5 +1,6 @@
 package com.baijum.ukufretboard.domain
 
+import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.UkuleleTuning
 import kotlin.math.abs
 import kotlin.math.log2
@@ -72,7 +73,7 @@ object TunerNoteMapper {
         val cents = (midiExact - midiRounded) * 100.0
 
         // Pitch class and octave from the rounded MIDI note.
-        val pitchClass = ((midiRounded % 12) + 12) % 12  // ensure positive
+        val pitchClass = Notes.normalizePitchClass(midiRounded)
         val octave = (midiRounded / 12) - 1
 
         val noteName = com.baijum.ukufretboard.data.Notes.pitchClassToName(pitchClass)

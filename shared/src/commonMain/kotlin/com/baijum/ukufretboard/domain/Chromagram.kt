@@ -1,5 +1,6 @@
 package com.baijum.ukufretboard.domain
 
+import com.baijum.ukufretboard.data.Notes
 import kotlin.math.log2
 import kotlin.math.roundToInt
 
@@ -57,7 +58,7 @@ object Chromagram {
             // Map frequency → pitch class using equal temperament.
             // pitchClass = round(12 * log2(freq / C0)) mod 12
             val semitones = (12.0 * log2(freq.toDouble() / C0_HZ)).toFloat()
-            val pitchClass = ((semitones.roundToInt() % 12) + 12) % 12
+            val pitchClass = Notes.normalizePitchClass(semitones.roundToInt())
 
             // Accumulate squared magnitude for better energy representation.
             chroma[pitchClass] += magnitudes[bin] * magnitudes[bin]

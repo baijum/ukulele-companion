@@ -50,6 +50,15 @@ object Notes {
     const val PITCH_CLASS_COUNT = 12
 
     /**
+     * Normalizes any integer to a pitch class in [0, [PITCH_CLASS_COUNT]).
+     *
+     * Unlike plain `% PITCH_CLASS_COUNT`, this is safe for negative inputs
+     * (e.g. transposition by negative semitones, subtraction of pitch classes).
+     */
+    fun normalizePitchClass(value: Int): Int =
+        ((value % PITCH_CLASS_COUNT) + PITCH_CLASS_COUNT) % PITCH_CLASS_COUNT
+
+    /**
      * Converts a pitch class integer to its human-readable note name
      * using the standard enharmonic spellings ([NOTE_NAMES_STANDARD]).
      *

@@ -1,5 +1,6 @@
 package com.baijum.ukufretboard.domain
 
+import com.baijum.ukufretboard.data.Notes
 import kotlin.math.log2
 import kotlin.math.roundToInt
 
@@ -236,7 +237,7 @@ class PitchMonitorStateMachine(arpeggioWindowMs: Long = 3_000L) {
         // --- Arpeggio detection -------------------------------------------------
         if (smoothedHz != null) {
             val midiNote = 69.0 + 12.0 * log2(smoothedHz / 440.0)
-            val pitchClass = ((midiNote.roundToInt() % 12) + 12) % 12
+            val pitchClass = Notes.normalizePitchClass(midiNote.roundToInt())
             arpeggioDetector.addNote(timestampMs, pitchClass)
         }
         val arpeggioResult = arpeggioDetector.detect(timestampMs)
