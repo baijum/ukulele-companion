@@ -1,6 +1,10 @@
 package com.baijum.ukufretboard.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,15 +20,15 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.Scale
 import com.baijum.ukufretboard.data.ScalePosition
@@ -54,12 +58,18 @@ fun ScaleSelector(
     onPositionChanged: (ScalePosition?) -> Unit = {},
     onChordTapped: (ScaleChords.DiatonicChord) -> Unit = {},
 ) {
+    val reduceMotion = LocalReduceMotion.current
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
     ) {
-        AnimatedVisibility(visible = state.enabled) {
+        AnimatedVisibility(
+            visible = state.enabled,
+            enter = if (reduceMotion) EnterTransition.None else expandVertically(),
+            exit = if (reduceMotion) ExitTransition.None else shrinkVertically(),
+        ) {
             Column {
                 // Root note selector
                 Text(
@@ -72,20 +82,34 @@ fun ScaleSelector(
 
                 val noteNames = Notes.NOTE_NAMES_STANDARD
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState()),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .horizontalScroll(rememberScrollState()),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
                     noteNames.forEachIndexed { index, name ->
                         FilterChip(
                             selected = index == state.root,
                             onClick = { onRootChanged(index) },
-                            label = { Text(name, fontWeight = if (index == state.root) FontWeight.Bold else FontWeight.Normal) },
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = MaterialTheme.colorScheme.primary,
-                                selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-                            ),
+                            label = {
+                                Text(
+                                    name,
+                                    fontWeight =
+                                        if (index ==
+                                            state.root
+                                        ) {
+                                            FontWeight.Bold
+                                        } else {
+                                            FontWeight.Normal
+                                        },
+                                )
+                            },
+                            colors =
+                                FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.primary,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                                ),
                         )
                     }
                 }
@@ -94,9 +118,10 @@ fun ScaleSelector(
 
                 // Scale type selector
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState()),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .horizontalScroll(rememberScrollState()),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
                     Scales.ALL.forEach { scale ->
@@ -104,10 +129,11 @@ fun ScaleSelector(
                             selected = state.scale == scale,
                             onClick = { onScaleChanged(scale) },
                             label = { Text(scale.name) },
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = MaterialTheme.colorScheme.secondary,
-                                selectedLabelColor = MaterialTheme.colorScheme.onSecondary,
-                            ),
+                            colors =
+                                FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.secondary,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onSecondary,
+                                ),
                         )
                     }
                 }
@@ -117,9 +143,10 @@ fun ScaleSelector(
                 if (currentScale != null) {
                     Spacer(modifier = Modifier.height(6.dp))
 
-                    val positions = remember(state.root, currentScale, tuningPitchClasses) {
-                        ScalePositions.generate(state.root, currentScale.intervals, tuningPitchClasses)
-                    }
+                    val positions =
+                        remember(state.root, currentScale, tuningPitchClasses) {
+                            ScalePositions.generate(state.root, currentScale.intervals, tuningPitchClasses)
+                        }
                     var selectedPosition by remember(state.root, currentScale) { mutableStateOf<ScalePosition?>(null) }
 
                     Text(
@@ -131,9 +158,10 @@ fun ScaleSelector(
                     )
 
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .horizontalScroll(rememberScrollState()),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .horizontalScroll(rememberScrollState()),
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
                         FilterChip(
@@ -143,10 +171,11 @@ fun ScaleSelector(
                                 onPositionChanged(null)
                             },
                             label = { Text(stringResource(R.string.label_all)) },
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                                selectedLabelColor = MaterialTheme.colorScheme.onTertiary,
-                            ),
+                            colors =
+                                FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.tertiary,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onTertiary,
+                                ),
                         )
                         positions.forEach { pos ->
                             FilterChip(
@@ -158,10 +187,11 @@ fun ScaleSelector(
                                 label = {
                                     Text("${pos.name} (${pos.fretRange.first}–${pos.fretRange.last})")
                                 },
-                                colors = FilterChipDefaults.filterChipColors(
-                                    selectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                                    selectedLabelColor = MaterialTheme.colorScheme.onTertiary,
-                                ),
+                                colors =
+                                    FilterChipDefaults.filterChipColors(
+                                        selectedContainerColor = MaterialTheme.colorScheme.tertiary,
+                                        selectedLabelColor = MaterialTheme.colorScheme.onTertiary,
+                                    ),
                             )
                         }
                     }
@@ -181,9 +211,10 @@ fun ScaleSelector(
 
                     val diatonicChords = ScaleChords.diatonicTriads(state.root, currentScale)
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .horizontalScroll(rememberScrollState()),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .horizontalScroll(rememberScrollState()),
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
                         diatonicChords.forEach { chord ->

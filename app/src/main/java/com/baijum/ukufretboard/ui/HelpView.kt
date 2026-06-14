@@ -1,6 +1,10 @@
 package com.baijum.ukufretboard.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,8 +27,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
@@ -47,154 +54,159 @@ private data class HelpSection(
 
 /** Builds help content organised by the same section groupings as the navigation drawer. */
 @Composable
-private fun helpSections(): List<HelpSection> = listOf(
-    HelpSection(
-        title = stringResource(R.string.help_section_play),
-        entries = listOf(
-            HelpEntry(
-                title = stringResource(R.string.help_explorer),
-                description = stringResource(R.string.help_desc_explorer),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_tuner),
-                description = stringResource(R.string.help_desc_tuner),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_pitch_monitor),
-                description = stringResource(R.string.help_desc_pitch_monitor),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_chords),
-                description = stringResource(R.string.help_desc_chords),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_favorites),
-                description = stringResource(R.string.help_desc_favorites),
-            ),
+private fun helpSections(): List<HelpSection> =
+    listOf(
+        HelpSection(
+            title = stringResource(R.string.help_section_play),
+            entries =
+                listOf(
+                    HelpEntry(
+                        title = stringResource(R.string.help_explorer),
+                        description = stringResource(R.string.help_desc_explorer),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_tuner),
+                        description = stringResource(R.string.help_desc_tuner),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_pitch_monitor),
+                        description = stringResource(R.string.help_desc_pitch_monitor),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_chords),
+                        description = stringResource(R.string.help_desc_chords),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_favorites),
+                        description = stringResource(R.string.help_desc_favorites),
+                    ),
+                ),
         ),
-    ),
-    HelpSection(
-        title = stringResource(R.string.help_section_create),
-        entries = listOf(
-            HelpEntry(
-                title = stringResource(R.string.help_songs),
-                description = stringResource(R.string.help_desc_songs),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_melody_notepad),
-                description = stringResource(R.string.help_desc_melody_notepad),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_patterns),
-                description = stringResource(R.string.help_desc_patterns),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_progressions),
-                description = stringResource(R.string.help_desc_progressions),
-            ),
+        HelpSection(
+            title = stringResource(R.string.help_section_create),
+            entries =
+                listOf(
+                    HelpEntry(
+                        title = stringResource(R.string.help_songs),
+                        description = stringResource(R.string.help_desc_songs),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_melody_notepad),
+                        description = stringResource(R.string.help_desc_melody_notepad),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_patterns),
+                        description = stringResource(R.string.help_desc_patterns),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_progressions),
+                        description = stringResource(R.string.help_desc_progressions),
+                    ),
+                ),
         ),
-    ),
-    HelpSection(
-        title = stringResource(R.string.help_section_learn),
-        entries = listOf(
-            HelpEntry(
-                title = stringResource(R.string.help_learn_theory),
-                description = stringResource(R.string.help_desc_learn_theory),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_theory_quiz),
-                description = stringResource(R.string.help_desc_theory_quiz),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_interval_trainer),
-                description = stringResource(R.string.help_desc_interval_trainer),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_note_quiz),
-                description = stringResource(R.string.help_desc_note_quiz),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_chord_ear),
-                description = stringResource(R.string.help_desc_chord_ear),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_scale_practice),
-                description = stringResource(R.string.help_desc_scale_practice),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_progress),
-                description = stringResource(R.string.help_desc_progress),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_daily_challenge),
-                description = stringResource(R.string.help_desc_daily_challenge),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_practice_routine),
-                description = stringResource(R.string.help_desc_practice_routine),
-            ),
-
-            HelpEntry(
-                title = stringResource(R.string.help_chord_transitions),
-                description = stringResource(R.string.help_desc_chord_transitions),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_play_along),
-                description = stringResource(R.string.help_desc_play_along),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_achievements),
-                description = stringResource(R.string.help_desc_achievements),
-            ),
+        HelpSection(
+            title = stringResource(R.string.help_section_learn),
+            entries =
+                listOf(
+                    HelpEntry(
+                        title = stringResource(R.string.help_learn_theory),
+                        description = stringResource(R.string.help_desc_learn_theory),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_theory_quiz),
+                        description = stringResource(R.string.help_desc_theory_quiz),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_interval_trainer),
+                        description = stringResource(R.string.help_desc_interval_trainer),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_note_quiz),
+                        description = stringResource(R.string.help_desc_note_quiz),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_chord_ear),
+                        description = stringResource(R.string.help_desc_chord_ear),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_scale_practice),
+                        description = stringResource(R.string.help_desc_scale_practice),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_progress),
+                        description = stringResource(R.string.help_desc_progress),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_daily_challenge),
+                        description = stringResource(R.string.help_desc_daily_challenge),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_practice_routine),
+                        description = stringResource(R.string.help_desc_practice_routine),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_chord_transitions),
+                        description = stringResource(R.string.help_desc_chord_transitions),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_play_along),
+                        description = stringResource(R.string.help_desc_play_along),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_achievements),
+                        description = stringResource(R.string.help_desc_achievements),
+                    ),
+                ),
         ),
-    ),
-    HelpSection(
-        title = stringResource(R.string.help_section_reference),
-        entries = listOf(
-            HelpEntry(
-                title = stringResource(R.string.help_capo_guide),
-                description = stringResource(R.string.help_desc_capo_guide),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_circle_of_fifths),
-                description = stringResource(R.string.help_desc_circle_of_fifths),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_chord_subs),
-                description = stringResource(R.string.help_desc_chord_subs),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_chords_in_scale),
-                description = stringResource(R.string.help_desc_chords_in_scale),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_fretboard_notes),
-                description = stringResource(R.string.help_desc_fretboard_notes),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_glossary),
-                description = stringResource(R.string.help_desc_glossary),
-            ),
+        HelpSection(
+            title = stringResource(R.string.help_section_reference),
+            entries =
+                listOf(
+                    HelpEntry(
+                        title = stringResource(R.string.help_capo_guide),
+                        description = stringResource(R.string.help_desc_capo_guide),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_circle_of_fifths),
+                        description = stringResource(R.string.help_desc_circle_of_fifths),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_chord_subs),
+                        description = stringResource(R.string.help_desc_chord_subs),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_chords_in_scale),
+                        description = stringResource(R.string.help_desc_chords_in_scale),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_fretboard_notes),
+                        description = stringResource(R.string.help_desc_fretboard_notes),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_glossary),
+                        description = stringResource(R.string.help_desc_glossary),
+                    ),
+                ),
         ),
-    ),
-    HelpSection(
-        title = stringResource(R.string.help_section_other),
-        entries = listOf(
-            HelpEntry(
-                title = stringResource(R.string.help_settings),
-                description = stringResource(R.string.help_desc_settings),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_sharing),
-                description = stringResource(R.string.help_desc_sharing),
-            ),
-            HelpEntry(
-                title = stringResource(R.string.help_full_screen),
-                description = stringResource(R.string.help_desc_full_screen),
-            ),
+        HelpSection(
+            title = stringResource(R.string.help_section_other),
+            entries =
+                listOf(
+                    HelpEntry(
+                        title = stringResource(R.string.help_settings),
+                        description = stringResource(R.string.help_desc_settings),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_sharing),
+                        description = stringResource(R.string.help_desc_sharing),
+                    ),
+                    HelpEntry(
+                        title = stringResource(R.string.help_full_screen),
+                        description = stringResource(R.string.help_desc_full_screen),
+                    ),
+                ),
         ),
-    ),
-)
+    )
 
 /**
  * Help page listing every feature in the app with expandable descriptions.
@@ -204,17 +216,16 @@ private fun helpSections(): List<HelpSection> = listOf(
  * and miscellaneous features.
  */
 @Composable
-fun HelpView(
-    modifier: Modifier = Modifier,
-) {
+fun HelpView(modifier: Modifier = Modifier) {
     var expandedEntry by remember { mutableStateOf<String?>(null) }
     val sections = helpSections()
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
             text = stringResource(R.string.help_title),
@@ -242,9 +253,10 @@ fun HelpView(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                ),
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    ),
             ) {
                 Column(modifier = Modifier.padding(12.dp)) {
                     section.entries.forEachIndexed { index, entry ->
@@ -281,11 +293,18 @@ private fun HelpItem(
     isExpanded: Boolean,
     onToggle: () -> Unit,
 ) {
+    val reduceMotion = LocalReduceMotion.current
+    val expandedDescription = stringResource(R.string.cd_section_expanded)
+    val collapsedDescription = stringResource(R.string.cd_section_collapsed)
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onToggle() }
-            .padding(vertical = 8.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clickable { onToggle() }
+                .semantics {
+                    role = Role.Button
+                    stateDescription = if (isExpanded) expandedDescription else collapsedDescription
+                }.padding(vertical = 8.dp),
     ) {
         Text(
             text = entry.title,
@@ -293,7 +312,11 @@ private fun HelpItem(
             fontWeight = FontWeight.Bold,
         )
 
-        AnimatedVisibility(visible = isExpanded) {
+        AnimatedVisibility(
+            visible = isExpanded,
+            enter = if (reduceMotion) EnterTransition.None else expandVertically(),
+            exit = if (reduceMotion) ExitTransition.None else shrinkVertically(),
+        ) {
             Column {
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
@@ -306,8 +329,9 @@ private fun HelpItem(
 
         if (!isExpanded) {
             Text(
-                text = entry.description.take(60) +
-                    if (entry.description.length > 60) "..." else "",
+                text =
+                    entry.description.take(60) +
+                        if (entry.description.length > 60) "..." else "",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
