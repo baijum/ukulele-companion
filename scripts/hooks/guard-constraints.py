@@ -39,17 +39,14 @@ ANALYTICS = [
 ]
 SECRETS = [
     (r"-----BEGIN [A-Z ]*PRIVATE KEY-----", "private key material"),
-    (r"^\s*storePassword\s*=", "keystore password"),
-    (r"^\s*keyPassword\s*=", "signing key password"),
+    (r"^\s*storePassword\s*=\s*(?!keystoreProperties\.getProperty\()\S", "keystore password"),
+    (r"^\s*keyPassword\s*=\s*(?!keystoreProperties\.getProperty\()\S", "signing key password"),
 ]
 # Files that must never be written through an agent edit at all.
 FORBIDDEN_PATHS = (
     "keystore.properties",
     "play-service-account.json",
 )
-# Files that legitimately reference password variables (reading from
-# keystore.properties, not hardcoding values). Skip SECRETS scan for these.
-SECRETS_ALLOWLIST = ("build.gradle.kts",)
 
 
 def added_text(tool_input: dict) -> str:
@@ -96,10 +93,10 @@ def main() -> int:
     if not text.strip():
         return 0
 
-    groups = [("network", NETWORK), ("analytics/tracking", ANALYTICS)]
-    if not any(file_path.endswith(a) for a in SECRETS_ALLOWLIST):
-        groups.append(("secret", SECRETS))
-    hits = scan(text, groups)
+    hits = scan(
+        text,
+        [("network", NETWORK), ("analytics/tracking", ANALYTICS), ("secret", SECRETS)],
+    )
     if hits:
         sys.stderr.write(
             "BLOCKED by project hard constraints (AGENTS.md): this change appears to "
