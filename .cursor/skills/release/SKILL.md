@@ -101,7 +101,26 @@ Read the current `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION` in `iosApp/Uk
 
 Both values appear in **four** build-settings blocks (Debug and Release for the app target, Debug and Release for the test target). Update all four occurrences of each.
 
-#### 4c. Generate changelog
+#### 4c. Generate store "What's New" blurb
+
+Write a short "What's New" blurb for the app store listings. At this point the changelog has not been generated yet, so review the commits since the previous tag (`git log <previous-tag>..HEAD --oneline`) to understand what changed. The blurb must:
+
+- Be **500 characters or fewer** (Play Store limit)
+- Read as a concise product update (1–4 bullet points)
+- Use plain-language, user-benefit style (no code identifiers or jargon)
+
+Write the blurb to the Gradle Play Publisher's conventional location so it's automatically included in the Play Store upload:
+
+```bash
+mkdir -p app/src/main/play/release-notes/en-US
+cat > app/src/main/play/release-notes/en-US/default.txt << 'EOF'
+<What's New blurb here>
+EOF
+```
+
+Also show the blurb to the user in a copyable block for App Store Connect's "What's New in This Version" field (same text works for both stores).
+
+#### 4d. Generate changelog
 
 Run the changelog script to generate a categorized release notes section from commits since the previous tag:
 
@@ -111,12 +130,12 @@ scripts/changelog.sh <previous-tag> HEAD v<version>
 
 Review the output. If it looks correct, prepend it to `CHANGELOG.md` (after the file header). The header is the first 4 lines (title + description); insert the new section below the header with a blank line separator.
 
-#### 4d. Commit
+#### 4e. Commit
 
-Stage all three files and commit:
+Stage all files and commit:
 
 ```bash
-git add app/build.gradle.kts iosApp/UkuleleCompanion.xcodeproj/project.pbxproj CHANGELOG.md
+git add app/build.gradle.kts iosApp/UkuleleCompanion.xcodeproj/project.pbxproj CHANGELOG.md app/src/main/play/release-notes/en-US/default.txt
 git commit -m "Release: bump version to <version> (Android versionCode <N>, iOS build <M>)"
 ```
 
@@ -135,7 +154,7 @@ This ensures the tag points to the commit that has the correct version numbers a
 
 ### Step 6: Create GitHub release with customer-facing release notes
 
-The full developer changelog is already in `CHANGELOG.md` (step 4c). The GitHub release notes should be a **customer-facing summary** — what users will see and care about.
+The full developer changelog is already in `CHANGELOG.md` (step 4d). The GitHub release notes should be a **customer-facing summary** — what users will see and care about.
 
 Write the release notes by reviewing the full changelog and applying these rules:
 
@@ -210,26 +229,7 @@ EOF
 
 **Do not attach any binary files** — binaries are distributed through the Play Store and App Store.
 
-### Step 7: Generate store "What's New" blurb
-
-Write a short "What's New" blurb for the app store listings based on the customer-facing release notes from step 6. This blurb must:
-
-- Be **500 characters or fewer** (Play Store limit)
-- Read as a concise product update (1–4 bullet points)
-- Use the same plain-language, user-benefit style as the release notes
-
-Write the blurb to the Gradle Play Publisher's conventional location so it's automatically included in the Play Store upload:
-
-```bash
-mkdir -p app/src/main/play/release-notes/en-US
-cat > app/src/main/play/release-notes/en-US/default.txt << 'EOF'
-<What's New blurb here>
-EOF
-```
-
-Also show the blurb to the user in a copyable block for App Store Connect's "What's New in This Version" field (same text works for both stores).
-
-### Step 8: Build Android
+### Step 7: Build Android
 
 ```bash
 ./gradlew assembleRelease bundleRelease
@@ -242,25 +242,25 @@ ls -lh app/build/outputs/apk/release/app-release*.apk \
        app/build/outputs/bundle/release/app-release.aab
 ```
 
-### Step 9: Smoke test on emulator
+### Step 8: Smoke test on emulator
 
 Verify the release APK launches and key screens are reachable. This step is **advisory** — if no emulator is running, warn the user and skip to the next step.
 
-#### 9a. Check for a running emulator
+#### 8a. Check for a running emulator
 
 ```bash
 adb devices | grep -w device
 ```
 
-If no device is listed, print a warning and skip to Step 10.
+If no device is listed, print a warning that the smoke test is being skipped and proceed to Step 9. Do **not** attempt to start an emulator — the user must start one manually before the release if they want a smoke test.
 
-#### 9b. Install the release APK
+#### 8b. Install the release APK
 
 ```bash
 adb install -r app/build/outputs/apk/release/app-release.apk
 ```
 
-#### 9c. Launch and verify
+#### 8c. Launch and verify
 
 ```bash
 adb shell am start -n com.baijum.ukufretboard/.MainActivity
@@ -275,7 +275,7 @@ adb logcat -d | grep -i 'FATAL\|AndroidRuntime' | tail -5
 
 If any FATAL exception is found, **stop the release** and report the crash to the user.
 
-#### 9d. Take screenshots
+#### 8d. Take screenshots
 
 ```bash
 adb exec-out screencap -p > build/release-smoke-explorer.png
@@ -283,7 +283,7 @@ adb exec-out screencap -p > build/release-smoke-explorer.png
 
 Read and show `build/release-smoke-explorer.png` to the user for visual confirmation that the main screen rendered correctly.
 
-#### 9e. Navigate to Tuner
+#### 8e. Navigate to Tuner
 
 Open the navigation drawer and tap "Tuner":
 
@@ -300,11 +300,11 @@ adb exec-out screencap -p > build/release-smoke-tuner.png
 
 Show the screenshot to the user.
 
-#### 9f. Result
+#### 8f. Result
 
 If both screenshots look correct and no crashes were found, proceed. Otherwise stop and investigate.
 
-### Step 10: Upload Android to Play Store
+### Step 9: Upload Android to Play Store
 
 Check for the service account key:
 
@@ -312,7 +312,7 @@ Check for the service account key:
 ls app/play-service-account.json
 ```
 
-If the file **exists**, upload the AAB to internal testing (the "What's New" text from step 7 is picked up automatically):
+If the file **exists**, upload the AAB to internal testing (the "What's New" text from step 4c is picked up automatically):
 
 ```bash
 ./gradlew publishReleaseBundle
@@ -322,21 +322,21 @@ Use `block_until_ms: 120000` (upload can take 30–60s).
 
 If the file is **missing**, warn the user and skip this step. The AAB can be uploaded manually via the [Google Play Console](https://play.google.com/console/).
 
-### Step 11: Build iOS
+### Step 10: Build iOS
 
-#### 11a. Build the shared KMP framework for device
+#### 10a. Build the shared KMP framework for device
 
 ```bash
 ./gradlew :shared:linkReleaseFrameworkIosArm64
 ```
 
-#### 11b. Download ONNX Runtime (if needed)
+#### 10b. Download ONNX Runtime (if needed)
 
 ```bash
 bash iosApp/setup_onnxruntime.sh
 ```
 
-#### 11c. Build the iOS archive
+#### 10c. Build the iOS archive
 
 ```bash
 xcodebuild archive \
@@ -353,7 +353,7 @@ Use `block_until_ms: 300000` (archive builds can take several minutes).
 - Do NOT pass `CODE_SIGNING_ALLOWED=NO` — the archive must be signed for App Store upload.
 - The first build may trigger a macOS Keychain dialog. The user must click "Always Allow" and enter their Mac login password.
 
-#### 11d. Verify static frameworks are not embedded
+#### 10d. Verify static frameworks are not embedded
 
 ```bash
 ls build/UkuleleCompanion.xcarchive/Products/Applications/UkuleleCompanion.app/Frameworks/
@@ -361,7 +361,7 @@ ls build/UkuleleCompanion.xcarchive/Products/Applications/UkuleleCompanion.app/F
 
 This directory should be **empty**. If it contains `shared.framework` or `onnxruntime.framework`, remove them from "Embed Frameworks" in `project.pbxproj`.
 
-### Step 12: Open iOS archive
+### Step 11: Open iOS archive
 
 ```bash
 open build/UkuleleCompanion.xcarchive
@@ -369,14 +369,13 @@ open build/UkuleleCompanion.xcarchive
 
 This opens Xcode Organizer where the user can click **"Distribute App"** > **"App Store Connect"** > **"Upload"**.
 
-### Step 13: Report to user
+### Step 12: Report to user
 
 Provide:
 - The new tag name (e.g., `v9.12.0`)
 - The GitHub release URL
 - Android: `versionName` / `versionCode`, AAB path and size, Play Store upload status
 - iOS: `MARKETING_VERSION` / `CURRENT_PROJECT_VERSION`, archive path
-- The "What's New" blurb (for copy-pasting into App Store Connect)
 - Smoke test result (pass/skip/fail)
-- Reminder: iOS upload is manual via Xcode Organizer (Step 12)
+- Reminder: iOS upload is manual via Xcode Organizer (Step 11)
 - Next steps: test in internal/TestFlight, then promote via `/play-store-promote` and App Store Connect

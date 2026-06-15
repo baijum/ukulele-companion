@@ -39,8 +39,8 @@ ANALYTICS = [
 ]
 SECRETS = [
     (r"-----BEGIN [A-Z ]*PRIVATE KEY-----", "private key material"),
-    (r"^\s*storePassword\s*=", "keystore password"),
-    (r"^\s*keyPassword\s*=", "signing key password"),
+    (r"^\s*storePassword\s*=\s*(?!keystoreProperties\.getProperty\()\S", "keystore password"),
+    (r"^\s*keyPassword\s*=\s*(?!keystoreProperties\.getProperty\()\S", "signing key password"),
 ]
 # Files that must never be written through an agent edit at all.
 FORBIDDEN_PATHS = (
