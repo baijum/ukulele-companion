@@ -3,3 +3,264 @@
 All notable changes to Ukulele Companion are documented in this file.
 This changelog is auto-generated from commit messages during each release
 using `scripts/changelog.sh`.
+
+## v9.12.0
+
+### Added
+- unified /release skill with changelog, store blurb, and smoke test
+- secret scanning (gitleaks) to CI pipelines
+- session learning workflow for AI agent rule improvement
+- PR template with accessibility and verification sections
+- CODEOWNERS for sensitive areas
+- Cursor hooks for post-edit ktlint feedback
+- Detekt static code analysis with baseline ratchet
+- Git pre-commit hooks (ktlint + gitleaks)
+- AI-agent maintainability harness (config, hooks, ktlint ratchet, workflows)
+- highlight section markers in Songbook chord sheet viewer
+- persistent chord diagram rail in Songbook viewer
+- configurable chord display style and color settings
+- hint audit + NeedleMeter zone exploration
+- per-string chord diagram exploration for TalkBack/VoiceOver
+- reduce motion support for iOS animations
+- reduce motion support for Android animations
+- haptic feedback when entering in-tune zone (Android + iOS)
+- Release build verification to CI workflows (#138)
+- YouTube Shorts / Instagram Reels video scripts and assembled videos
+- Open Source Licenses screen for Android and iOS
+- Play Store graphics generation script
+- plurals support in convert_strings.py and update add-translations skill
+
+### Fixed
+- iOS MelodyCoder passes createdAt through without double-scaling
+- eliminate per-frame allocations in audio hot path
+- unify chord normalization in Play Along scorer and live UI
+- localize hardcoded setlist accessibility strings
+- respect LocalReduceMotion in all AnimatedVisibility call sites
+- eliminate FrameGate.awaitEnter busy-spin that blocks main thread
+- make backup import atomic with snapshot-based rollback
+- resolve Compose state autoboxing and missing es/fr/it/pt plurals
+- stop normalizeChord from blindly stripping "maj" substring
+- add string-switch hysteresis to iOS tuner
+- add onset blanking to iOS tuner to suppress pluck transients
+- add median frequency smoothing and display-cents EMA to iOS tuner
+- use target-string cents for tuner needle on iOS
+- validate bracket content as real chords before transposing
+- add chord name to Play button accessibility label in song viewer
+- handle PDF write failures in iOS song export
+- prevent API 26 emulator hang from blocking CI for 30 minutes
+- fretPositionsForNote now returns all octave positions, not just lowest
+- add stable keys to LazyColumn/LazyRow items to reduce recompositions
+- localize hardcoded inversion chip labels "1st Inv", "2nd Inv", "3rd Inv"
+- add Role.Button to clickable rows for TalkBack announcements
+- add heading semantics to section labels for TalkBack navigation
+- wire up iOS PerformanceModeView auto-scroll with timer logic
+- persist ScalePractice direction, loop, and fret-position settings
+- address review comments from docs accuracy audit PR
+- iOS Play Along clears chord state on silence and uses real confidence
+- iOS melody save upserts by ID instead of always inserting
+- iOS tuner clears YIN continuity hint and display on silence
+- iOS melody recording never detects a note
+- Favorites Create/Rename folder alerts use proper View structs
+- Circle of Fifths tap zones centered on key labels
+- Theory Quiz records answer under the question's actual category
+- VoiceLeadingView plays full chord voicing instead of single note
+- restore previousFrequency continuity hint for YIN pitch detection on iOS
+- move audio analysis off the main thread on iOS (fixes #321)
+- prevent PlayAlongViewModel from stacking duplicate timers (fixes #322)
+- guard against zero-length audio buffer in iOS AudioCaptureEngine (fixes #320)
+- remove invalid .defaultToSpeaker option from .playback category (fixes #319)
+- stop microphone capture when app goes to background (fixes #317)
+- make tuner auto-start a one-shot per tab entry (fixes #318)
+- move blocking AudioRecord.read() to Dispatchers.IO (fixes #325)
+- prevent data loss in JsonListRepository on parse failure (fixes #316)
+- annotate BackupCodec.decode with @Throws and fix Swift caller (fixes #314)
+- normalize timestamps for all collections in BackupCodec (fixes #315)
+- escape metadata and content lines in ChordPro export (fixes #323)
+- use ordinalityOfUnit for currentDayOfYear() on iOS (fixes #324)
+- correct FFT cross-correlation conjugation sign in PitchDetector (fixes #313)
+- extract hardcoded melody UI strings into stringResource (fixes #305)
+- add TalkBack accessibility semantics to DrawerContent (fixes #303)
+- map unselected frets to MUTED (-1) in explorer inversion flow (fixes #304)
+- eliminate TunerViewModel stale-UI race after stopCapture (fixes #306)
+- include onboarding_completed in iOS settings backup (fixes #302)
+- guard JsonListRepository against data loss on parse failure (fixes #301)
+- add explicit return statements in multi-statement map closures
+- correct argument label for KMP-bridged description parameter
+- add explicit closure return type for compactMap
+- address review feedback on KMP bridging helpers
+- use Sequence extensions instead of NSArray for KMP bridging
+- save fuzz corpus cache even when a crash causes job failure (#261)
+- use ChordNameParser for chord-root parsing in Circle of Fifths and Chord Substitutions (#252)
+- stop progression playback when ProgressionsView disappears (#251)
+- use shared ChordNameParser for chord-name parsing in iOS
+- honor interval direction and octave in iOS playback (#246)
+- use canonical pitch-class-to-sample mapping in scale practice and interval trainer (#245)
+- transpose slash-chord bass notes in ChordSheetTranspose (#244)
+- preserve negative resampler carry across buffer boundaries on iOS (#239)
+- merge learning progress on backup restore instead of overwriting (#238)
+- close ONNX session on ViewModel cancellation during async init (#237)
+- validate pitchClass and stringIndex at backup import boundary (#236)
+- prevent crash when AudioCaptureEngine is deallocated mid-capture (#230)
+- prevent AudioResampler data race and add neural inference backpressure (#229)
+- keep ONNX input buffer alive for entire inference lifetime (#228)
+- drain in-flight audio processing before closing ONNX session (#227)
+- normalize iOS backup timestamps for cross-platform restore
+- gate state clearing behind isProcessing to prevent race condition
+- add frame-dropping backpressure to PlayAlongViewModel audio callback
+- add frame-dropping backpressure to MelodyViewModel audio callback
+- reset isInTune on signal loss to restore haptic feedback
+- add frame-dropping backpressure to PlayAlongView audio callback
+- guard against empty degrees array in PlayAlongViewModel.start()
+- use normalized comparison for Play Along chord matching
+- snapshot steps array in playSteps() to prevent index out of bounds
+- replace appContext!! with safe early-return in ViewModels
+- batch SharedPreferences writes in LearningProgressRepository
+- guard TonePlayer asyncAfter against invalidated audio nodes
+- handle audio session interruptions on iOS and Android
+- guard AudioResampler cached buffers with PlatformLock
+- guard neuralSupervisor with lock to prevent race conditions
+- release ToneGenerator SoundPool on activity destroy
+- close OrtSession.SessionOptions after session creation
+- move ONNX inference off @MainActor to prevent UI jank
+- correct descending interval octave calculation in IntervalTrainer
+- check and release OrtStatusPtr from SessionGetOutputCount/Name
+- skip chord matching when fewer than 3 pitch classes are active
+- move iOS frame-dropping guard to audio thread using OSAllocatedUnfairLock
+- prevent ONNX session close race in TunerViewModel and PitchMonitorViewModel
+- add missing reduceMotion environment in SongViewerView
+- color-only state differentiation in tuner badges and meter
+- Address review comments on ViewModel tests
+- Address review comments on iOS normalization tests
+- Add thread synchronization to FFTProcessor and PitchDetector
+- Add kotlinx.serialization ProGuard/R8 keep rules
+- Add SDK-conditional FRAMEWORK_SEARCH_PATHS to Release configs
+- Kotlin serialization plugin version to match compiler
+- Use MainActor.assumeIsolated and nonisolated(unsafe) for CI compat
+- Swift 6 concurrency error in SongbookView auto-scroll timer
+- iOS AudioCaptureEngine ring buffer data race and session leak
+- Swift 6 concurrency errors in PatternPlayer.swift
+- Make accessibility hints conditional on VoiceOver state
+- iOS Songbook chords not reachable via VoiceOver
+- Android real-time practice features inaccessible to TalkBack users
+- Voicing preview playback ignores capo offset (#118)
+- Negative modulo in Note/ChordInfo causes IndexOutOfBoundsException (#109)
+- Cross-platform backup format alignment and iOS error surfacing (#108)
+- Backup/restore omits setlists, resets settings, and loses achievements (#108)
+- Melody recording missing mic permission and leaks mic on navigation
+- ConcurrentModificationException in TunerViewModel and MelodyViewModel
+- update CONTRIBUTING.md and bug report for KMP/iOS and tests
+- correct outdated versions, counts, and layout in README
+- add OpenSourceLicensesView to Xcode project and improve accessibility
+- revert audio sample title to match original Freesound pack name
+- add plural quantity validation and string/plural key collision guard
+
+### Changed
+- collapse iOS BackupRestoreManager symmetric build/extract pairs
+- extract MetronomeViewModel state logic into shared KMP module
+- replace SettingsViewModel manual SharedPreferences with JSON serialization
+- extract route composables from FretboardScreen when block
+- deduplicate VoicingGenerator sort-and-take pipeline
+- extract shared strum loop from ToneGenerator.playChord/fireChord
+- consolidate iOS repository boilerplate into a generic base class
+- extract normalizePitchClass() utility to Notes.kt
+- deduplicate inversion calculation between ChordInfo and ChordNameParser
+- replace HarmonicFunction when-expression with data-driven lookup map
+- extract PitchMonitorViewModel state machine into shared KMP module
+- extract songbook filter/sort logic into shared module
+- migrate FavoritesRepository from pipe-delimited to JSON serialization
+- replace navigation magic integers with NavSection enum
+- move duplicated platform enums to shared KMP module
+- extract generic quiz-stats helper in LearningProgressRepository
+- remove vestigial UkuleleString typealias from FretboardViewModel
+- remove dead knownChords field from BackupData
+- split SheetViewer, FretboardScreen, StrumPatternsView
+- extract SongViewerView from SongbookView.swift
+- split large UI files into focused modules
+- address review feedback — accessibility hints and whitespace trim
+- create shared BackupCodec for cross-platform backup format (fixes #287)
+- extract iOS repository layer from ViewModels (fixes #289)
+- extract repository base class and shared merge policy (fixes #288)
+- move achievement definitions to shared module (fixes #291)
+- extract neural arbitration state machine to shared (fixes #285)
+- extract frame-dropping backpressure gate (fixes #286)
+- split oversized view files (fixes #290)
+- centralize KMP-Swift bridging conversions (fixes #292)
+- provide user feedback for empty Play Along progression
+- Material Components from 1.13.0 to 1.14.0 (#147)
+- remove file counts from README to reduce maintenance
+- ATTRIBUTION.md with typo fix and additional attributions
+- SECURITY.md to cover iOS platform and ONNX Runtime
+- android-release skill to handle missing keystore and service account
+
+### Maintenance
+- add comprehensive codebase areas and sub-areas map
+- create subdirectory CLAUDE.md pointer files
+- drop API 26 from instrumented test matrix
+- document ktlint, preflight, and AI-agent guardrails
+- docs: audit documentation for accuracy and remove obsolete content
+- iOS: bump version to 9.11.1 (build 12)
+- iOS: bump version to 9.11.0 (build 12)
+- Android: bump version to 9.11.0 (versionCode 107)
+- add AI Harness Scorecard workflow (#279)
+- add CodeQL code scanning for Kotlin/Java and Actions
+- extract iOS simulator prep into a composite action (#262)
+- auto-file issue on nightly CI failure (#260)
+- cache Kotlin/Native toolchain, ONNX xcframework, and pin xcresultparser
+- cache AVD snapshots for instrumented test matrix (#258)
+- enable Gradle build cache, parallel execution, and configuration cache (#257)
+- add path filtering to Android and iOS CI (#256)
+- add timeout-minutes to CI jobs and fold apk-size into build (#255)
+- add least-privilege permissions and pin actions to commit SHAs (#254)
+- bump robolectric, core-ktx, junit5, test-core and regenerate lockfiles
+- Chore(deps): Bump gradle-wrapper from 9.4.1 to 9.5.1
+- Chore(deps): Bump codecov/codecov-action from 6 to 7
+- remove obsolete plans and fix stale references
+- update documentation after issues #136-#141
+- Perf: cache AudioResampler work buffers
+- Perf: cache static NeedleMeter elements with drawWithCache
+- Perf: pre-allocate PitchDetector diff/cmnd/prefixSq buffers
+- Perf: load ONNX model asynchronously on both platforms
+- Perf: add frame-dropping when processing falls behind
+- Perf: pre-allocate iOS audio analysis buffer
+- add iOS accessibility unit tests
+- add PlayAlongViewModel + NeuralPitchSupervisor pure logic tests (12 tests)
+- add PitchMonitorViewModel arbitration tests (16 tests)
+- add MelodyViewModel unit tests (11 tests)
+- add FretboardViewModel unit tests (13 tests)
+- add ChordTransitionsViewModel unit tests (10 tests)
+- add ScalePracticeViewModel unit tests (12 tests)
+- add MetronomeViewModel unit tests (12 tests)
+- Add ChordLibraryViewModel and ScalePracticeViewModel tests
+- Add SongbookViewModel and MetronomeViewModel tests
+- Add FretboardViewModel unit tests
+- Add NeuralPitchSupervisor tensor parsing tests
+- Add AchievementChecker and TunerViewModel arbitration tests
+- Add iOS backup format normalization tests
+- Add BackupRestoreManager export/import/merge tests
+- Add repository serialization round-trip tests
+- Dependency hygiene improvements (#139)
+- build(deps): bump kotlin from 2.3.20 to 2.4.0
+- build(deps): bump androidx.compose:compose-bom
+- build(deps): bump agp from 9.1.0 to 9.2.1
+- build(deps): bump org.jetbrains.kotlinx:kotlinx-coroutines-core
+- build(deps): bump sh.calvin.reorderable:reorderable from 3.0.0 to 3.1.0
+- build(deps): bump org.jetbrains.kotlinx:kotlinx-serialization-json from 1.10.0 to 1.11.0
+- build(deps): bump actions/dependency-review-action from 4 to 5
+- build(deps): bump actions/upload-pages-artifact from 4 to 5
+- build(deps): bump io.kotest:kotest-property from 6.1.9 to 6.1.11
+- build(deps): bump gradle-wrapper from 9.4.0 to 9.4.1
+- build(deps): bump org.jetbrains.kotlin.plugin.serialization
+- build(deps): bump kotlin from 2.3.10 to 2.3.20
+- build(deps): bump codecov/codecov-action from 5 to 6
+- sync cursor rules and AGENTS.md with current codebase
+- Remove: outdated songbook gap analysis
+- build(deps): bump org.jetbrains.kotlinx.kover from 0.9.7 to 0.9.8
+- build(deps): bump io.kotest:kotest-property from 6.1.7 to 6.1.9
+- build(deps): bump jazzer from 0.22.1 to 0.30.0
+- build(deps): bump actions/deploy-pages from 4 to 5
+- build(deps): bump junit5 from 5.11.4 to 6.0.3
+- build(deps): bump gradle/actions from 5 to 6
+- update user manual and README for v9.11.0 songbook features
+- iOS: bump version to 9.11.0 (build 11)
+- Android: bump version to 9.11.0 (versionCode 106)
+
