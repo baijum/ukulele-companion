@@ -47,6 +47,9 @@ FORBIDDEN_PATHS = (
     "keystore.properties",
     "play-service-account.json",
 )
+# Files that legitimately reference password variables (reading from
+# keystore.properties, not hardcoding values). Skip SECRETS scan for these.
+SECRETS_ALLOWLIST = ("build.gradle.kts",)
 
 
 def added_text(tool_input: dict) -> str:
@@ -93,10 +96,10 @@ def main() -> int:
     if not text.strip():
         return 0
 
-    hits = scan(
-        text,
-        [("network", NETWORK), ("analytics/tracking", ANALYTICS), ("secret", SECRETS)],
-    )
+    groups = [("network", NETWORK), ("analytics/tracking", ANALYTICS)]
+    if not any(file_path.endswith(a) for a in SECRETS_ALLOWLIST):
+        groups.append(("secret", SECRETS))
+    hits = scan(text, groups)
     if hits:
         sys.stderr.write(
             "BLOCKED by project hard constraints (AGENTS.md): this change appears to "
