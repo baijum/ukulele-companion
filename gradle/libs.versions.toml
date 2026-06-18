@@ -6,7 +6,7 @@ minSdk = "26"
 targetSdk = "35"
 composeBom = "2026.05.01"
 activityCompose = "1.13.0"
-lifecycleViewmodelCompose = "2.10.0"
+lifecycleViewmodelCompose = "2.11.0"
 appcompat = "1.7.1"
 coreKtx = "1.18.0"
 
