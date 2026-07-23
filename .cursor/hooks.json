@@ -1,10 +1,22 @@
 {
   "version": 1,
   "hooks": {
-    "afterFileEdit": [
+    "preToolUse": [
       {
-        "command": ".cursor/hooks/ktlint-check.sh",
-        "matcher": "Write"
+        "command": ".cursor/hooks/guard-constraints.sh",
+        "matcher": "Write|StrReplace|EditNotebook",
+        "failClosed": true
+      },
+      {
+        "command": ".cursor/hooks/guard-kmp-purity.sh",
+        "matcher": "Write|StrReplace|EditNotebook",
+        "failClosed": true
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": ".cursor/hooks/post-edit-sensors.sh",
+        "matcher": "Write|StrReplace|EditNotebook"
       }
     ]
   }
