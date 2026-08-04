@@ -29,6 +29,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
   <a href="https://github.com/baijum/ukulele-companion/actions/workflows/android.yml"><img src="https://github.com/baijum/ukulele-companion/actions/workflows/android.yml/badge.svg" alt="CI"></a>
   <a href="https://codecov.io/gh/baijum/ukulele-companion"><img src="https://codecov.io/gh/baijum/ukulele-companion/graph/badge.svg" alt="Codecov"></a>
+  <a href="https://www.buymeacoffee.com/baiju"><img src="https://img.shields.io/badge/Buy%20Me%20A%20Coffee-support-FFDD00?logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee"></a>
 </p>
 
 ---
@@ -370,6 +371,18 @@ Ukulele Companion is free on both platforms:
   <a href="https://apps.apple.com/app/id6760328302">
     <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
          alt="Download on the App Store" height="44" align="middle">
+  </a>
+</p>
+
+---
+
+## ☕ Support This Project
+
+Ukulele Companion is free, offline, and ad-free -- and will stay that way. If it's helped you learn or play, consider buying me a coffee to support ongoing development:
+
+<p align="center">
+  <a href="https://www.buymeacoffee.com/baiju">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50">
   </a>
 </p>
 
