@@ -12,11 +12,18 @@ import json, sys, os
 data = json.load(sys.stdin)
 ti = data.get('toolInput', data.get('tool_input', {})) or {}
 
-# Normalize to Claude Code hook format
+# Normalize to Claude Code hook format.
+# For targeted edits (old_string/new_string present, e.g. StrReplace), scan only
+# the diff being added -- Cursor's toolInput may also include a 'content'/'contents'
+# key holding the *entire* resulting file, which would cause unrelated pre-existing
+# text elsewhere in the file to trigger false positives. Only fall back to
+# 'content'/'contents' for whole-file writes (no old_string).
 payload = {'tool_input': {
     'file_path': ti.get('file_path', ti.get('path', '')),
 }}
-for key in ('content', 'contents', 'new_string'):
+is_targeted_edit = bool(ti.get('old_string')) or bool(ti.get('edits'))
+keys = ('new_string',) if is_targeted_edit else ('content', 'contents', 'new_string')
+for key in keys:
     if ti.get(key):
         payload['tool_input'][key] = ti[key]
 if ti.get('edits'):

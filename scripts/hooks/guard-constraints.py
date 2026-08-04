@@ -39,13 +39,23 @@ ANALYTICS = [
 ]
 SECRETS = [
     (r"-----BEGIN [A-Z ]*PRIVATE KEY-----", "private key material"),
-    (r"^\s*storePassword\s*=\s*(?!keystoreProperties\.getProperty\()\S", "keystore password"),
-    (r"^\s*keyPassword\s*=\s*(?!keystoreProperties\.getProperty\()\S", "signing key password"),
+    (r"^\s*storePassword\s*=\s*(?!keystoreProperties\.getProperty\(|your_)\S", "keystore password"),
+    (r"^\s*keyPassword\s*=\s*(?!keystoreProperties\.getProperty\(|your_)\S", "signing key password"),
 ]
 # Files that must never be written through an agent edit at all.
 FORBIDDEN_PATHS = (
     "keystore.properties",
     "play-service-account.json",
+)
+# Meta files that legitimately reference the forbidden terms above as part of
+# defining this guard itself (e.g. this file's own NETWORK/ANALYTICS/SECRETS
+# lists, or the shell wrapper that forwards text to it). Editors send the
+# *entire* resulting file content for scanning (not just the diff), so without
+# this exemption these files could never be edited at all.
+SELF_PATHS = (
+    "scripts/hooks/guard-constraints.py",
+    ".cursor/hooks/guard-constraints.sh",
+    ".claude/hooks/guard-constraints.py",
 )
 
 
@@ -88,6 +98,8 @@ def main() -> int:
     if file_path.endswith(".jks"):
         sys.stderr.write("BLOCKED: refusing to write a keystore (*.jks) through an edit.\n")
         return 2
+    if any(file_path.endswith(p) for p in SELF_PATHS):
+        return 0  # this guard's own definition files legitimately list forbidden terms
 
     text = added_text(tool_input)
     if not text.strip():
