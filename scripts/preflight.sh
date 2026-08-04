@@ -5,11 +5,12 @@
 # stopping at the first, then prints the manual checklist that can't be automated.
 #
 # Usage:
-#   scripts/preflight.sh                # run all gates
+#   scripts/preflight.sh                    # run all gates (Android + shared)
 #   PREFLIGHT_SKIP_LINT=1 scripts/preflight.sh   # skip the slower Android lint
+#   PREFLIGHT_IOS=1 scripts/preflight.sh         # also run the iOS build gate
 #
-# Note: iOS build/tests and instrumented (device) tests are intentionally NOT
-# run here — they need Xcode / an emulator. See the manual checklist below.
+# Note: instrumented (device) tests are intentionally NOT run here — they need
+# a running emulator. See the manual checklist below.
 set -uo pipefail
 cd "$(dirname "$0")/.."
 
@@ -38,6 +39,21 @@ else
   RESULTS+=("SKIP  Android lint (PREFLIGHT_SKIP_LINT=1)")
 fi
 
+if [[ "${PREFLIGHT_IOS:-0}" == "1" ]]; then
+  if command -v xcodebuild &>/dev/null; then
+    run "iOS build" xcodebuild \
+      -project iosApp/UkuleleCompanion.xcodeproj \
+      -scheme UkuleleCompanion \
+      -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+      -quiet \
+      build
+  else
+    RESULTS+=("SKIP  iOS build (xcodebuild not found)")
+  fi
+else
+  RESULTS+=("SKIP  iOS build (set PREFLIGHT_IOS=1 to include)")
+fi
+
 bold "════════ Automated gate summary ════════"
 printf '  %s\n' "${RESULTS[@]}"
 echo
@@ -55,8 +71,8 @@ cat <<'EOF'
     [ ] TalkBack navigation works for changed screens
     [ ] Correct in light, dark, and high-contrast themes
 
-  iOS (not covered above — run Xcode build + VoiceOver checks separately)
-    [ ] xcodebuild ... build succeeds
+  iOS (run with PREFLIGHT_IOS=1 to automate the build gate)
+    [ ] xcodebuild build succeeds (automated if PREFLIGHT_IOS=1)
     [ ] VoiceOver navigation works for changed screens
 EOF
 

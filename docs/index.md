@@ -195,3 +195,13 @@ hide:
     Made with care by Baiju Muthukadan
   </p>
 </section>
+
+<section class="cta-panel cta-support">
+  <h2>☕ Support This Project</h2>
+  <p>Ukulele Companion is free, offline, and ad-free -- and will stay that way. If it's helped you learn or play, consider buying me a coffee to support ongoing development.</p>
+  <div class="hero-cta">
+    <a href="https://www.buymeacoffee.com/baiju">
+      <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50">
+    </a>
+  </div>
+</section>

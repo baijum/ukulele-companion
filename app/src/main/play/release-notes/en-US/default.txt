@@ -1,0 +1,1 @@
+• Now targets Android 16 for compatibility with the latest devices and platform features

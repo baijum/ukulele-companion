@@ -4,6 +4,10 @@ Mandatory instructions for AI coding agents (Cursor, Copilot, Codex, etc.) worki
 
 **See also:** [CODEBASE_AREAS_SUBAREAS.md](CODEBASE_AREAS_SUBAREAS.md) — exhaustive table of feature areas (Play/Create/Practice/Reference + all NavSections), packages, UI/Views, domain logic, and cross-cutting code.
 
+**Session context:** [MEMORY.md](MEMORY.md) — persistent agent memory (read at session start, append when you learn something non-obvious). [docs/known-failures.md](docs/known-failures.md) — recurring agent mistakes to avoid.
+
+**Harness docs:** [docs/architecture-map.md](docs/architecture-map.md) — screen/ViewModel/navigation mapping for both platforms. [docs/testing-guide.md](docs/testing-guide.md) — which test pattern for which component. [docs/check-registry.md](docs/check-registry.md) — every automated check, its command, and runtime.
+
 Detailed coding rules live in `.cursor/rules/*.mdc` — **the canonical source**. They auto-attach in Cursor; Claude Code picks them up via directory-scoped `CLAUDE.md` pointer files (e.g. `shared/src/commonMain/`, `app/src/main/.../ui/`, `iosApp/UkuleleCompanion/`); other agents should open the relevant rule from the Coding Rules Reference table below. This document provides project-level context and constraints.
 
 ## Project Overview
@@ -105,6 +109,7 @@ Skills in `.cursor/skills/` provide step-by-step workflows for common tasks:
 | `platform-parity-audit` | Audit iOS port parity against the Android app |
 | `record-clips` | Record scene video clips for a TOML video project |
 | `assemble-video` | Assemble a narrated video from a TOML project file |
+| `large-feature-harness` | Planner-Generator-Evaluator workflow for features spanning 3+ screens or 10+ files |
 
 ## Build and CI
 
@@ -137,7 +142,9 @@ xcodebuild -project iosApp/UkuleleCompanion.xcodeproj \
 - **iOS** (`ios.yml`): JDK 17 + Xcode 16.4, shared KMP framework (debug + release), iOS build (debug + release), unit tests
 - **ktlint** (`ktlint.yml`): baseline-aware ratchet on Kotlin changes — fails only on violations beyond `ktlint-baseline.xml`
 
-**Local guardrails (Claude Code):** `.claude/settings.json` wires PreToolUse hooks (`scripts/hooks/`) that block network/analytics/secrets and platform imports in `commonMain`, plus a PostToolUse ktlint-style nudge. Slash commands: `/extract-to-shared`, `/preflight`, `/add-string`. Subagent: `accessibility-reviewer`. These activate at session start; if a hook blocks an edit, it explains why.
+**Local guardrails (Claude Code):** `.claude/settings.json` wires PreToolUse hooks (`scripts/hooks/`) that block network/analytics/secrets and platform imports in `commonMain`, plus PostToolUse sensors for style, ktlint, accessibility, and Swift checks. Slash commands: `/extract-to-shared`, `/preflight`, `/add-string`. Subagent: `accessibility-reviewer`. These activate at session start; if a hook blocks an edit, it explains why.
+
+**Local guardrails (Cursor):** `.cursor/hooks.json` mirrors the Claude Code guards — PreToolUse blocks network/analytics/secrets and KMP purity violations; PostToolUse runs all feedback sensors (style, ktlint, accessibility, Swift). The hooks delegate to the same Python scripts in `scripts/hooks/`.
 
 **Commit format:**
 ```

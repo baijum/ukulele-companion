@@ -621,6 +621,29 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
+.cta-support {
+  margin-left: calc(50% - 50vw);
+  width: 100vw;
+  margin-top: 0;
+  margin-bottom: 0;
+  background: linear-gradient(135deg, #FFC107 0%, #FFD54F 100%);
+  color: #3d2b00;
+}
+
+.cta-support h2 {
+  color: #3d2b00;
+  margin: 0 0 0.75rem;
+  font-size: 1.85rem;
+  font-weight: 800;
+}
+
+.cta-support p {
+  color: rgba(61, 43, 0, 0.85);
+  margin: 0 auto 1.5rem;
+  max-width: 55ch;
+  font-size: 1.1rem;
+}
+
 .cta-panel .hero-cta {
   justify-content: center;
   margin-bottom: 0;
@@ -768,7 +791,8 @@
 
   .cta-playstore,
   .cta-appstore,
-  .cta-manual {
+  .cta-manual,
+  .cta-support {
     padding: 2.5rem 1.5rem;
   }
 
@@ -914,6 +938,11 @@
 /* CTA appstore: brighter gradient */
 [data-md-color-scheme="slate"] .cta-appstore {
   background: linear-gradient(135deg, #00796B 0%, #26A69A 100%);
+}
+
+/* CTA support: keep the warm coffee tone but slightly deeper for contrast */
+[data-md-color-scheme="slate"] .cta-support {
+  background: linear-gradient(135deg, #FFB300 0%, #FFCA28 100%);
 }
 
 /* CTA manual: distinct from appstore, visible against page */
