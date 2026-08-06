@@ -21,7 +21,7 @@ junit5 = "6.1.2"
 material = "1.14.0"
 kotest = "6.2.3"
 jazzer = "0.30.0"
-kover = "0.9.8"
+kover = "0.9.9"
 detekt = "1.23.8"
 
 [libraries]
