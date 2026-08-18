@@ -1,3 +1,4 @@
+import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -52,6 +53,18 @@ android {
                 storePassword = keystoreProperties.getProperty("storePassword", "")
                 keyAlias = keystoreProperties.getProperty("keyAlias", "")
                 keyPassword = keystoreProperties.getProperty("keyPassword", "")
+            }
+        }
+    }
+
+    testOptions {
+        unitTests.all {
+            it.configure<JacocoTaskExtension> {
+                // Robolectric loads classes through its own classloader, which
+                // JaCoCo reports as having no location. Without this, every
+                // Robolectric-tested class reports 0% coverage.
+                isIncludeNoLocationClasses = true
+                excludes = listOf("jdk.internal.*")
             }
         }
     }
