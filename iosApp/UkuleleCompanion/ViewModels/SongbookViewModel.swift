@@ -184,7 +184,7 @@ final class SongbookViewModel: ObservableObject {
     ///
     /// - Parameter filename: The resolved file name, or `nil` when unavailable.
     /// - Returns: A display title, falling back to `"Imported Song"`.
-    static func titleFromFilename(_ filename: String?) -> String {
+    nonisolated static func titleFromFilename(_ filename: String?) -> String {
         guard let filename else { return defaultImportTitle }
         let base = filename
             .components(separatedBy: "/").last?
@@ -196,7 +196,7 @@ final class SongbookViewModel: ObservableObject {
         return withoutExtension.isEmpty ? defaultImportTitle : withoutExtension
     }
 
-    private static let defaultImportTitle = "Imported Song"
+    private nonisolated static let defaultImportTitle = "Imported Song"
 
     func importPlainText(content: String, filename: String?) {
         let now = Date().timeIntervalSince1970 * 1000
