@@ -7,7 +7,7 @@ targetSdk = "36"
 composeBom = "2026.06.01"
 activityCompose = "1.13.0"
 lifecycleViewmodelCompose = "2.10.0"
-appcompat = "1.7.1"
+appcompat = "1.8.0"
 coreKtx = "1.18.0"
 
 kotlinxCoroutines = "1.11.0"
