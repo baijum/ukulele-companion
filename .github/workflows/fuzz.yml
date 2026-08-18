@@ -39,7 +39,7 @@ jobs:
         uses: gradle/actions/setup-gradle@cf4beec8b4cca436a7b646657f74edc125658df8 # v6.1.1
 
       - name: Restore fuzz corpus cache
-        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: app/src/test/resources/corpus
           key: fuzz-corpus-${{ github.sha }}
