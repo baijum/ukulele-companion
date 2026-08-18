@@ -177,18 +177,32 @@ final class SongbookViewModel: ObservableObject {
         repository.save(songs)
     }
 
-    func importPlainText(content: String, filename: String?) {
-        let title = filename?
-            .replacingOccurrences(of: ".", with: " ")
-            .components(separatedBy: " ")
-            .dropLast()
-            .joined(separator: " ")
+    /// Derives a song title from an imported file name.
+    ///
+    /// Strips any path and document-ID prefix before dropping the extension, so
+    /// a URI or document ID can never surface as the title (issue #500).
+    ///
+    /// - Parameter filename: The resolved file name, or `nil` when unavailable.
+    /// - Returns: A display title, falling back to `"Imported Song"`.
+    static func titleFromFilename(_ filename: String?) -> String {
+        guard let filename else { return defaultImportTitle }
+        let base = filename
+            .components(separatedBy: "/").last?
+            .components(separatedBy: ":").last?
             .replacingOccurrences(of: "_", with: " ")
-            ?? "Imported Song"
+            .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let withoutExtension = (base as NSString).deletingPathExtension
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return withoutExtension.isEmpty ? defaultImportTitle : withoutExtension
+    }
+
+    private static let defaultImportTitle = "Imported Song"
+
+    func importPlainText(content: String, filename: String?) {
         let now = Date().timeIntervalSince1970 * 1000
         let song = StoredSong(
             id: UUID().uuidString,
-            title: title.isEmpty ? "Imported Song" : title,
+            title: Self.titleFromFilename(filename),
             artist: "",
             content: content.trimmingCharacters(in: .whitespacesAndNewlines),
             key: "",
@@ -201,8 +215,17 @@ final class SongbookViewModel: ObservableObject {
         save(song: song)
     }
 
-    func importChordPro(text: String) {
-        let sheet = ChordProParser.shared.parse(input: text, defaultTitle: "Imported Song")
+    /// Imports a song from ChordPro text.
+    ///
+    /// - Parameters:
+    ///   - text: The raw ChordPro content.
+    ///   - filename: Optional file name used as a fallback title when the
+    ///     content carries no `{title}` directive.
+    func importChordPro(text: String, filename: String? = nil) {
+        let sheet = ChordProParser.shared.parse(
+            input: text,
+            defaultTitle: Self.titleFromFilename(filename)
+        )
         let song = StoredSong(
             id: sheet.id,
             title: sheet.title,

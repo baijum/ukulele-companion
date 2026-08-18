@@ -15,8 +15,6 @@ struct SongbookView: View {
     @State private var isSelectionMode = false
     @State private var showDeleteSelectedConfirmation = false
 
-    private let chordProExtensions = ["cho", "chordpro", "chopro", "crd", "pro"]
-
     var body: some View {
         VStack(spacing: 0) {
             if isSelectionMode {
@@ -105,9 +103,11 @@ struct SongbookView: View {
                 do {
                     let content = try String(contentsOf: url, encoding: .utf8)
                     let filename = url.lastPathComponent
-                    let ext = url.pathExtension.lowercased()
-                    if chordProExtensions.contains(ext) {
-                        viewModel.importChordPro(text: content)
+                    // Detect by content first — ChordPro files are widely shipped
+                    // with a .txt extension. See issue #500.
+                    if ChordProParser.shared.looksLikeChordPro(content: content)
+                        || ChordProParser.shared.isChordProFile(filename: filename) {
+                        viewModel.importChordPro(text: content, filename: filename)
                     } else {
                         viewModel.importPlainText(content: content, filename: filename)
                     }

@@ -430,6 +430,103 @@ class ChordProParserTest {
         assertEquals("", sheet.content)
     }
 
+    // --- regression: issue #500 ---
+
+    @Test
+    fun importsTitleAndArtistFromReportedFile() {
+        // Verbatim head of the file attached to issue #500, which previously
+        // imported as plain text with the content URI as its title.
+        val content =
+            """
+            {title:Heart of Gold}
+            {subtitle:Neil Young}
+            {artist:Neil Young}
+            {composer:Neil Young}
+            {year:1972}
+            {album:Harvest}
+            {key:G}
+            {musicpath:/storage/emulated/0/Music/Neil Young - Heart Of Gold.mp3}
+
+            {comment: Verse 1 }
+            [Em] I wanna l[C]ive, [D] I wanna g[G]ive.
+
+            {start_of_chorus}
+            [Em] That keep me searchin' for a h[G]eart of gold
+            {end_of_chorus}
+            """.trimIndent()
+
+        assertTrue(ChordProParser.looksLikeChordPro(content))
+
+        val sheet = ChordProParser.parse(content, "content://com.microsoft.skydrive")
+        assertEquals("Heart of Gold", sheet.title)
+        assertEquals("Neil Young", sheet.artist)
+        assertEquals("Neil Young", sheet.subtitle)
+        assertEquals("G", sheet.key)
+        // Metadata directives must not survive into the song body.
+        assertFalse(sheet.content.contains("{title:"))
+        assertFalse(sheet.content.contains("{artist:"))
+        assertFalse(sheet.content.contains("{musicpath:"))
+        assertFalse(sheet.content.contains("{start_of_chorus}"))
+        assertTrue(sheet.content.contains("[Chorus]"))
+        assertTrue(sheet.content.contains("Verse 1"))
+        assertTrue(sheet.content.contains("[Em] I wanna l[C]ive"))
+    }
+
+    // --- looksLikeChordPro ---
+
+    @Test
+    fun contentWithTitleDirectiveLooksLikeChordPro() {
+        assertTrue(ChordProParser.looksLikeChordPro("{title:Heart of Gold}\n[Em]I wanna live"))
+    }
+
+    @Test
+    fun contentWithSectionDirectiveLooksLikeChordPro() {
+        assertTrue(ChordProParser.looksLikeChordPro("[Em]Hello\n{start_of_chorus}\n[C]World"))
+    }
+
+    @Test
+    fun contentWithOnlyBibliographicDirectivesLooksLikeChordPro() {
+        assertTrue(ChordProParser.looksLikeChordPro("{album:Harvest}\n{year:1972}"))
+    }
+
+    @Test
+    fun directiveDetectionIsCaseInsensitive() {
+        assertTrue(ChordProParser.looksLikeChordPro("{Title: My Song}"))
+    }
+
+    @Test
+    fun indentedDirectiveLooksLikeChordPro() {
+        assertTrue(ChordProParser.looksLikeChordPro("   {artist: Neil Young}   "))
+    }
+
+    @Test
+    fun plainLyricsDoNotLookLikeChordPro() {
+        assertFalse(ChordProParser.looksLikeChordPro("[Chorus]\n[Am]Hello [C]world"))
+    }
+
+    @Test
+    fun unknownDirectiveNameDoesNotLookLikeChordPro() {
+        assertFalse(ChordProParser.looksLikeChordPro("{not_a_directive: value}"))
+    }
+
+    @Test
+    fun bracesInsideLyricsDoNotLookLikeChordPro() {
+        assertFalse(ChordProParser.looksLikeChordPro("She said {title: whatever} and left"))
+    }
+
+    @Test
+    fun emptyContentDoesNotLookLikeChordPro() {
+        assertFalse(ChordProParser.looksLikeChordPro(""))
+    }
+
+    @Test
+    fun chordProFileWithTxtExtensionIsDetectedByContent() {
+        // The extension check rejects it; content detection is what saves the import.
+        val content = "{title:Heart of Gold}\n{artist:Neil Young}\n[Em]I wanna live"
+        assertFalse(ChordProParser.isChordProFile("Heart-of-Gold.pro.txt"))
+        assertTrue(ChordProParser.looksLikeChordPro(content))
+    }
+
     // --- isChordProFile ---
 
     @Test

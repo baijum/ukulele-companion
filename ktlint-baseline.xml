@@ -2830,66 +2830,66 @@
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/ui/songbook/SongbookTab.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="126" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="150" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="212" column="26" source="standard:multiline-expression-wrapping" />
-        <error line="232" column="28" source="standard:multiline-expression-wrapping" />
-        <error line="295" column="32" source="standard:multiline-expression-wrapping" />
-        <error line="322" column="40" source="standard:multiline-expression-wrapping" />
-        <error line="333" column="32" source="standard:multiline-expression-wrapping" />
-        <error line="356" column="36" source="standard:multiline-expression-wrapping" />
-        <error line="403" column="24" source="standard:multiline-expression-wrapping" />
-        <error line="465" column="60" source="standard:multiline-expression-wrapping" />
-        <error line="465" column="60" source="standard:function-signature" />
-        <error line="484" column="27" source="standard:multiline-expression-wrapping" />
-        <error line="490" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="495" column="18" source="standard:multiline-expression-wrapping" />
-        <error line="496" column="30" source="standard:multiline-expression-wrapping" />
-        <error line="514" column="1" source="standard:indent" />
-        <error line="515" column="1" source="standard:indent" />
-        <error line="516" column="1" source="standard:indent" />
-        <error line="517" column="1" source="standard:indent" />
-        <error line="518" column="1" source="standard:indent" />
-        <error line="519" column="1" source="standard:indent" />
-        <error line="520" column="1" source="standard:indent" />
-        <error line="521" column="1" source="standard:indent" />
-        <error line="522" column="1" source="standard:indent" />
-        <error line="523" column="1" source="standard:indent" />
-        <error line="524" column="1" source="standard:indent" />
-        <error line="525" column="1" source="standard:indent" />
-        <error line="526" column="1" source="standard:indent" />
-        <error line="527" column="1" source="standard:indent" />
-        <error line="528" column="1" source="standard:indent" />
-        <error line="529" column="1" source="standard:indent" />
-        <error line="530" column="1" source="standard:indent" />
-        <error line="531" column="1" source="standard:indent" />
-        <error line="532" column="1" source="standard:indent" />
-        <error line="533" column="1" source="standard:indent" />
-        <error line="534" column="1" source="standard:indent" />
-        <error line="535" column="1" source="standard:indent" />
-        <error line="536" column="1" source="standard:indent" />
-        <error line="537" column="1" source="standard:indent" />
-        <error line="538" column="1" source="standard:indent" />
-        <error line="539" column="1" source="standard:indent" />
-        <error line="540" column="1" source="standard:indent" />
-        <error line="541" column="1" source="standard:indent" />
-        <error line="542" column="1" source="standard:indent" />
-        <error line="543" column="1" source="standard:indent" />
-        <error line="544" column="1" source="standard:indent" />
-        <error line="545" column="1" source="standard:indent" />
-        <error line="545" column="40" source="standard:multiline-expression-wrapping" />
-        <error line="546" column="1" source="standard:indent" />
-        <error line="547" column="1" source="standard:indent" />
-        <error line="548" column="1" source="standard:indent" />
-        <error line="548" column="38" source="standard:multiline-expression-wrapping" />
-        <error line="549" column="1" source="standard:indent" />
-        <error line="550" column="1" source="standard:indent" />
-        <error line="551" column="1" source="standard:indent" />
-        <error line="552" column="1" source="standard:indent" />
-        <error line="553" column="1" source="standard:indent" />
-        <error line="554" column="1" source="standard:indent" />
-        <error line="555" column="1" source="standard:indent" />
-        <error line="556" column="1" source="standard:indent" />
+        <error line="130" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="154" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="270" column="26" source="standard:multiline-expression-wrapping" />
+        <error line="289" column="28" source="standard:multiline-expression-wrapping" />
+        <error line="352" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="379" column="40" source="standard:multiline-expression-wrapping" />
+        <error line="390" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="413" column="36" source="standard:multiline-expression-wrapping" />
+        <error line="460" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="522" column="60" source="standard:multiline-expression-wrapping" />
+        <error line="522" column="60" source="standard:function-signature" />
+        <error line="541" column="27" source="standard:multiline-expression-wrapping" />
+        <error line="547" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="552" column="18" source="standard:multiline-expression-wrapping" />
+        <error line="553" column="30" source="standard:multiline-expression-wrapping" />
+        <error line="571" column="1" source="standard:indent" />
+        <error line="572" column="1" source="standard:indent" />
+        <error line="573" column="1" source="standard:indent" />
+        <error line="574" column="1" source="standard:indent" />
+        <error line="575" column="1" source="standard:indent" />
+        <error line="576" column="1" source="standard:indent" />
+        <error line="577" column="1" source="standard:indent" />
+        <error line="578" column="1" source="standard:indent" />
+        <error line="579" column="1" source="standard:indent" />
+        <error line="580" column="1" source="standard:indent" />
+        <error line="581" column="1" source="standard:indent" />
+        <error line="582" column="1" source="standard:indent" />
+        <error line="583" column="1" source="standard:indent" />
+        <error line="584" column="1" source="standard:indent" />
+        <error line="585" column="1" source="standard:indent" />
+        <error line="586" column="1" source="standard:indent" />
+        <error line="587" column="1" source="standard:indent" />
+        <error line="588" column="1" source="standard:indent" />
+        <error line="589" column="1" source="standard:indent" />
+        <error line="590" column="1" source="standard:indent" />
+        <error line="591" column="1" source="standard:indent" />
+        <error line="592" column="1" source="standard:indent" />
+        <error line="593" column="1" source="standard:indent" />
+        <error line="594" column="1" source="standard:indent" />
+        <error line="595" column="1" source="standard:indent" />
+        <error line="596" column="1" source="standard:indent" />
+        <error line="597" column="1" source="standard:indent" />
+        <error line="598" column="1" source="standard:indent" />
+        <error line="599" column="1" source="standard:indent" />
+        <error line="600" column="1" source="standard:indent" />
+        <error line="601" column="1" source="standard:indent" />
+        <error line="602" column="1" source="standard:indent" />
+        <error line="602" column="40" source="standard:multiline-expression-wrapping" />
+        <error line="603" column="1" source="standard:indent" />
+        <error line="604" column="1" source="standard:indent" />
+        <error line="605" column="1" source="standard:indent" />
+        <error line="605" column="38" source="standard:multiline-expression-wrapping" />
+        <error line="606" column="1" source="standard:indent" />
+        <error line="607" column="1" source="standard:indent" />
+        <error line="608" column="1" source="standard:indent" />
+        <error line="609" column="1" source="standard:indent" />
+        <error line="610" column="1" source="standard:indent" />
+        <error line="611" column="1" source="standard:indent" />
+        <error line="612" column="1" source="standard:indent" />
+        <error line="613" column="1" source="standard:indent" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/ui/songbook/StrumPatternPickerSheet.kt">
         <error line="51" column="27" source="standard:multiline-expression-wrapping" />
@@ -3260,11 +3260,9 @@
         <error line="293" column="24" source="standard:function-signature" />
         <error line="293" column="41" source="standard:function-signature" />
         <error line="293" column="65" source="standard:function-signature" />
-        <error line="294" column="28" source="standard:multiline-expression-wrapping" />
-        <error line="313" column="25" source="standard:function-signature" />
-        <error line="313" column="42" source="standard:function-signature" />
-        <error line="313" column="66" source="standard:function-signature" />
-        <error line="314" column="21" source="standard:multiline-expression-wrapping" />
+        <error line="309" column="25" source="standard:function-signature" />
+        <error line="309" column="42" source="standard:function-signature" />
+        <error line="309" column="66" source="standard:function-signature" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/viewmodel/TtsAnnouncementThrottler.kt">
         <error line="22" column="1" source="standard:no-empty-first-line-in-class-body" />
@@ -3784,40 +3782,40 @@
         <error line="90" column="31" source="standard:chain-method-continuation" />
     </file>
     <file name="shared/src/commonMain/kotlin/com/baijum/ukufretboard/data/ChordProParser.kt">
-        <error line="40" column="1" source="standard:no-empty-first-line-in-class-body" />
-        <error line="45" column="34" source="standard:multiline-expression-wrapping" />
-        <error line="46" column="40" source="standard:argument-list-wrapping" />
-        <error line="47" column="38" source="standard:argument-list-wrapping" />
-        <error line="48" column="40" source="standard:argument-list-wrapping" />
-        <error line="52" column="34" source="standard:argument-list-wrapping" />
-        <error line="56" column="32" source="standard:multiline-expression-wrapping" />
-        <error line="57" column="26" source="standard:argument-list-wrapping" />
-        <error line="58" column="25" source="standard:argument-list-wrapping" />
-        <error line="59" column="26" source="standard:argument-list-wrapping" />
-        <error line="63" column="23" source="standard:argument-list-wrapping" />
-        <error line="76" column="15" source="standard:function-signature" />
-        <error line="76" column="30" source="standard:function-signature" />
-        <error line="76" column="68" source="standard:function-signature" />
-        <error line="101" column="65" source="standard:when-entry-bracing" />
-        <error line="102" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="102" column="46" source="standard:when-entry-bracing" />
-        <error line="103" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="103" column="69" source="standard:when-entry-bracing" />
-        <error line="104" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="107" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="112" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="112" column="50" source="standard:when-entry-bracing" />
-        <error line="113" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="113" column="46" source="standard:when-entry-bracing" />
-        <error line="114" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="114" column="43" source="standard:when-entry-bracing" />
-        <error line="115" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="115" column="44" source="standard:when-entry-bracing" />
-        <error line="116" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="119" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="122" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="123" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="130" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="45" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="50" column="34" source="standard:multiline-expression-wrapping" />
+        <error line="51" column="40" source="standard:argument-list-wrapping" />
+        <error line="52" column="38" source="standard:argument-list-wrapping" />
+        <error line="53" column="40" source="standard:argument-list-wrapping" />
+        <error line="57" column="34" source="standard:argument-list-wrapping" />
+        <error line="61" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="62" column="26" source="standard:argument-list-wrapping" />
+        <error line="63" column="25" source="standard:argument-list-wrapping" />
+        <error line="64" column="26" source="standard:argument-list-wrapping" />
+        <error line="68" column="23" source="standard:argument-list-wrapping" />
+        <error line="100" column="15" source="standard:function-signature" />
+        <error line="100" column="30" source="standard:function-signature" />
+        <error line="100" column="68" source="standard:function-signature" />
+        <error line="125" column="65" source="standard:when-entry-bracing" />
+        <error line="126" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="126" column="46" source="standard:when-entry-bracing" />
+        <error line="127" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="127" column="69" source="standard:when-entry-bracing" />
+        <error line="128" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="131" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="136" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="136" column="50" source="standard:when-entry-bracing" />
+        <error line="137" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="137" column="46" source="standard:when-entry-bracing" />
+        <error line="138" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="138" column="43" source="standard:when-entry-bracing" />
+        <error line="139" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="139" column="44" source="standard:when-entry-bracing" />
+        <error line="140" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="143" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="146" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="147" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="154" column="24" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="shared/src/commonMain/kotlin/com/baijum/ukufretboard/data/ChordSubstitutions.kt">
         <error line="42" column="1" source="standard:no-empty-first-line-in-class-body" />

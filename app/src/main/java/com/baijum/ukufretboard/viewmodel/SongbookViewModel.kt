@@ -291,11 +291,7 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
      * @param filename Optional filename used as a fallback title.
      */
     fun importChordPro(content: String, filename: String? = null) {
-        val defaultTitle = filename
-            ?.substringBeforeLast(".")
-            ?.replace("_", " ")
-            ?: "Imported Song"
-        val sheet = ChordProParser.parse(content, defaultTitle)
+        val sheet = ChordProParser.parse(content, titleFromFilename(filename))
         repository.save(sheet)
         _currentSheet.value = sheet
         _isEditing.value = false
@@ -311,14 +307,34 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
      * @param filename Optional filename used as the title.
      */
     fun importPlainText(content: String, filename: String? = null) {
-        val title = filename
-            ?.substringBeforeLast(".")
-            ?.replace("_", " ")
-            ?: "Imported Song"
-        val sheet = ChordSheet(title = title, content = content.trim())
+        val sheet = ChordSheet(title = titleFromFilename(filename), content = content.trim())
         repository.save(sheet)
         _currentSheet.value = sheet
         _isEditing.value = false
         refresh()
+    }
+
+    /**
+     * Derives a song title from an imported file name.
+     *
+     * Strips any path and Storage Access Framework document-ID prefix (e.g.
+     * `primary:Download/`) before dropping the extension, so a URI or document ID
+     * can never surface as the title (issue #500).
+     *
+     * @param filename The resolved file name, or `null` when unavailable.
+     * @return A display title, falling back to [DEFAULT_IMPORT_TITLE].
+     */
+    private fun titleFromFilename(filename: String?): String =
+        filename
+            ?.substringAfterLast('/')
+            ?.substringAfterLast(':')
+            ?.substringBeforeLast('.')
+            ?.replace('_', ' ')
+            ?.trim()
+            ?.takeIf { it.isNotEmpty() }
+            ?: DEFAULT_IMPORT_TITLE
+
+    private companion object {
+        const val DEFAULT_IMPORT_TITLE = "Imported Song"
     }
 }

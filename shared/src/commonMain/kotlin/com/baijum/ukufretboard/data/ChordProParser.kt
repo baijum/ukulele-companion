@@ -35,6 +35,11 @@ package com.baijum.ukufretboard.data
  *
  * Lines starting with `#` are treated as file-level comments and skipped.
  * Unsupported directives are silently skipped.
+ *
+ * Callers should prefer [looksLikeChordPro] over [isChordProFile] when deciding
+ * whether to route imported text through this parser: ChordPro files are often
+ * distributed with a `.txt` extension, and Storage Access Framework content URIs
+ * frequently carry no usable extension at all.
  */
 object ChordProParser {
 
@@ -62,6 +67,25 @@ object ChordProParser {
         "end_of_interlude",
         "end_of_tab", "eot",
     )
+
+    /** Space-separated metadata and layout directive names, split into [RECOGNISED_DIRECTIVES]. */
+    private const val METADATA_DIRECTIVES =
+        "title t subtitle st artist composer lyricist album year copyright sorttitle " +
+            "key capo tempo time duration comment c ci comment_italic comment_box cb " +
+            "chorus define chord meta new_song ns musicpath transpose zoom columns col " +
+            "column_break colb new_page np textfont textsize chordfont chordsize titles"
+
+    /**
+     * Directive names that mark text as ChordPro even when this parser does not
+     * act on them (e.g. `album`, `composer`). Used only by [looksLikeChordPro];
+     * keeping it broader than the handled set makes format detection reliable
+     * for files whose only directives are bibliographic metadata.
+     */
+    private val RECOGNISED_DIRECTIVES: Set<String> =
+        SECTION_STARTS.keys + SECTION_ENDS + METADATA_DIRECTIVES.split(' ').toSet()
+
+    /** Matches a line consisting solely of a directive: `{name}` or `{name: value}`. */
+    private val WHOLE_LINE_DIRECTIVE = Regex("""^\{(\w+)(?::.*)?\}$""")
 
     /**
      * Parses a ChordPro-formatted string into a [ChordSheet].
@@ -157,4 +181,25 @@ object ChordProParser {
             lower.endsWith(".crd") ||
             lower.endsWith(".pro")
     }
+
+    /**
+     * Checks whether text content is ChordPro by looking for directives.
+     *
+     * A file counts as ChordPro when at least one line consists solely of a
+     * recognised directive, e.g. `{title: Heart of Gold}` or `{start_of_chorus}`.
+     * Requiring a known directive name keeps lyrics that merely contain braces
+     * from being misdetected.
+     *
+     * This is more reliable than [isChordProFile]: extensions are absent from
+     * Storage Access Framework content URIs and are frequently `.txt` in the
+     * wild.
+     *
+     * @param content The raw text content to inspect.
+     * @return `true` if the content contains at least one ChordPro directive.
+     */
+    fun looksLikeChordPro(content: String): Boolean =
+        content.lineSequence().any { line ->
+            val name = WHOLE_LINE_DIRECTIVE.find(line.trim())?.groupValues?.get(1)
+            name != null && name.lowercase() in RECOGNISED_DIRECTIVES
+        }
 }
