@@ -18,3 +18,9 @@ updates:
     labels:
       - "ci-cd"
       - "dependencies"
+    groups:
+      # init and analyze must stay on the same version -- CodeQL fails with a
+      # configuration error when they disagree.
+      codeql-action:
+        patterns:
+          - "github/codeql-action*"
