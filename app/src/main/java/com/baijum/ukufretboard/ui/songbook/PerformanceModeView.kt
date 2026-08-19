@@ -1,8 +1,7 @@
 package com.baijum.ukufretboard.ui.songbook
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,27 +32,43 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
+import com.baijum.ukufretboard.data.ChordColorOption
+import com.baijum.ukufretboard.data.ChordDisplayStyle
+import com.baijum.ukufretboard.domain.ChordSheetFormatter
 import com.baijum.ukufretboard.ui.LocalReduceMotion
-import kotlinx.coroutines.delay
+import com.baijum.ukufretboard.ui.rememberTouchExplorationEnabled
 
 @Composable
 internal fun PerformanceModeView(
     displayContent: String,
     textStyle: TextStyle,
     onExit: () -> Unit,
+    chordDisplayStyle: ChordDisplayStyle = ChordDisplayStyle.ABOVE,
+    chordColor: ChordColorOption = ChordColorOption.THEME,
+    onChordTap: (String) -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
     var autoScrolling by remember { mutableStateOf(false) }
     var scrollSpeed by remember { mutableFloatStateOf(1f) }
     val programmaticScroll = remember { mutableStateOf(false) }
-    var showControls by remember { mutableStateOf(true) }
+    val touchExploration = rememberTouchExplorationEnabled()
+    var controlsHidden by remember { mutableStateOf(false) }
+    // A screen-reader user cannot perform the tap-anywhere gesture that brings the
+    // controls back, so for them the controls simply stay put.
+    val showControls = touchExploration || !controlsHidden
     val reduceMotion = LocalReduceMotion.current
+
+    val sectionLineIndices =
+        remember(displayContent) {
+            ChordSheetFormatter.extractSections(displayContent).map { it.lineIndex }.toSet()
+        }
 
     LaunchedEffect(autoScrolling, scrollSpeed) {
         if (autoScrolling) {
@@ -78,17 +93,19 @@ internal fun PerformanceModeView(
         }
     }
 
-    val toggleControlsLabel = stringResource(R.string.performance_mode_toggle_controls)
     Box(
         modifier =
             Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
-                .semantics { contentDescription = toggleControlsLabel }
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                ) { showControls = !showControls },
+                // A `clickable` here would merge the whole song into one accessibility
+                // node and label it "toggle controls", leaving the lyrics unreadable to
+                // TalkBack. `pointerInput` adds no semantics, so every line stays
+                // individually traversable. Chord links sit deeper in the tree and
+                // consume their taps first, so tapping a chord does not also toggle.
+                .pointerInput(Unit) {
+                    detectTapGestures { controlsHidden = !controlsHidden }
+                },
     ) {
         Column(
             modifier =
@@ -97,13 +114,17 @@ internal fun PerformanceModeView(
                     .verticalScroll(scrollState)
                     .padding(horizontal = 24.dp, vertical = 16.dp),
         ) {
-            displayContent.lines().forEach { line ->
+            displayContent.lines().forEachIndexed { lineIndex, line ->
                 if (line.isBlank()) {
                     Spacer(modifier = Modifier.height(textStyle.fontSize.value.dp))
                 } else {
-                    Text(
-                        text = line,
-                        style = textStyle,
+                    ChordSheetLine(
+                        line = line,
+                        isSectionHeading = lineIndex in sectionLineIndices,
+                        textStyle = textStyle,
+                        chordDisplayStyle = chordDisplayStyle,
+                        chordColor = chordColor,
+                        onChordTap = onChordTap,
                     )
                 }
             }
@@ -155,7 +176,7 @@ internal fun PerformanceModeView(
                     FilledTonalButton(
                         onClick = { scrollSpeed = (scrollSpeed - 0.5f).coerceAtLeast(0.5f) },
                         modifier = Modifier.semantics { contentDescription = decreaseSpeedDesc },
-                    ) { Text("\u2212") }
+                    ) { Text("−") }
                     Text(
                         stringResource(R.string.performance_scroll_speed, scrollSpeed.toString()),
                         style = MaterialTheme.typography.labelMedium,

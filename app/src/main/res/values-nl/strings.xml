@@ -1184,7 +1184,6 @@
     <string name="songbook_font_decrease">Lettergrootte verkleinen</string>
     <string name="songbook_font_increase">Lettergrootte vergroten</string>
     <string name="share_as_pdf">Exporteren als PDF</string>
-    <string name="performance_mode_toggle_controls">Tik om bediening te tonen of verbergen</string>
     <string name="performance_scroll_pause">Pauzeren</string>
     <string name="performance_scroll_start">Scrollen</string>
     <string name="performance_scroll_speed">%1$sx</string>

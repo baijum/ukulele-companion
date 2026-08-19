@@ -1186,7 +1186,6 @@
     <string name="songbook_font_decrease">फ़ॉन्ट आकार घटाएं</string>
     <string name="songbook_font_increase">फ़ॉन्ट आकार बढ़ाएं</string>
     <string name="share_as_pdf">PDF के रूप में निर्यात करें</string>
-    <string name="performance_mode_toggle_controls">नियंत्रण दिखाने या छिपाने के लिए टैप करें</string>
     <string name="performance_scroll_pause">रोकें</string>
     <string name="performance_scroll_start">स्क्रॉल</string>
     <string name="performance_scroll_speed">%1$sx</string>

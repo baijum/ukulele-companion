@@ -1185,7 +1185,6 @@
     <string name="songbook_font_decrease">文字サイズを小さく</string>
     <string name="songbook_font_increase">文字サイズを大きく</string>
     <string name="share_as_pdf">PDFとしてエクスポート</string>
-    <string name="performance_mode_toggle_controls">タップして操作パネルの表示/非表示を切り替え</string>
     <string name="performance_scroll_pause">一時停止</string>
     <string name="performance_scroll_start">スクロール</string>
     <string name="performance_scroll_speed">%1$sx</string>

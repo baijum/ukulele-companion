@@ -1186,7 +1186,6 @@
     <string name="songbook_font_decrease">Zmniejsz rozmiar czcionki</string>
     <string name="songbook_font_increase">Zwiększ rozmiar czcionki</string>
     <string name="share_as_pdf">Eksportuj jako PDF</string>
-    <string name="performance_mode_toggle_controls">Dotknij, aby pokazać lub ukryć kontrolki</string>
     <string name="performance_scroll_pause">Pauza</string>
     <string name="performance_scroll_start">Przewiń</string>
     <string name="performance_scroll_speed">%1$sx</string>

@@ -11,6 +11,12 @@ struct PerformanceModeView: View {
     @Environment(\.dismiss) private var dismiss
     let content: String
     let font: Font
+    /// Mirrors the Settings value verbatim; "inline" keeps the `[C]` brackets.
+    var chordDisplayStyle: String = "above"
+    var chordColor: Color = .accentColor
+    /// Passed in rather than constructed here: `TonePlayer.init` builds and starts an
+    /// AVAudioEngine, and a `let` in a View struct would rebuild it on every render.
+    let tonePlayer: TonePlayer
 
     @State private var isAutoScrolling = false
     @State private var scrollSpeed: Double = 1.0
@@ -20,20 +26,20 @@ struct PerformanceModeView: View {
     @State private var trackedScrollOffset: CGFloat = 0
     @State private var contentHeight: CGFloat = 1
     @State private var viewportHeight: CGFloat = 1
+    @State private var tappedChord: String?
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
-                        ForEach(Array(content.components(separatedBy: "\n").enumerated()), id: \.offset) { _, line in
-                            if line.trimmingCharacters(in: .whitespaces).isEmpty {
-                                Spacer().frame(height: 20)
-                            } else {
-                                Text(line)
-                                    .font(font)
-                            }
-                        }
+                        ChordSheetContentView(
+                            content: content,
+                            font: font,
+                            chordDisplayStyle: chordDisplayStyle,
+                            chordColor: chordColor,
+                            onChordTap: { tappedChord = $0 }
+                        )
                         Color.clear.frame(height: 1).id("bottom")
                     }
                     .padding(24)
@@ -129,6 +135,14 @@ struct PerformanceModeView: View {
                 showControls = true
             } else {
                 showControls.toggle()
+            }
+        }
+        .popover(isPresented: Binding(
+            get: { tappedChord != nil },
+            set: { if !$0 { tappedChord = nil } }
+        )) {
+            if let chord = tappedChord {
+                ChordDetailPopover(chord: chord, tonePlayer: tonePlayer)
             }
         }
         .accessibilityHint(UIAccessibility.isVoiceOverRunning ? "Controls remain visible for VoiceOver" : "Tap anywhere to show or hide controls")

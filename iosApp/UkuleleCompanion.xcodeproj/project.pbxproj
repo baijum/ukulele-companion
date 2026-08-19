@@ -33,6 +33,7 @@
 		A10024 /* SongEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10024 /* SongEditorView.swift */; };
 		A10103 /* PerformanceModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10103 /* PerformanceModeView.swift */; };
 		A10104 /* SongViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10104 /* SongViewerView.swift */; };
+		A10199 /* ChordSheetContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10199 /* ChordSheetContentView.swift */; };
 		A10105 /* CreateStrumPatternSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10105 /* CreateStrumPatternSheet.swift */; };
 		A10106 /* CreateFingerpickPatternSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10106 /* CreateFingerpickPatternSheet.swift */; };
 		A10107 /* PatternViewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10107 /* PatternViewHelpers.swift */; };
@@ -199,6 +200,7 @@
 		B10024 /* SongEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEditorView.swift; sourceTree = "<group>"; };
 		B10103 /* PerformanceModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceModeView.swift; sourceTree = "<group>"; };
 		B10104 /* SongViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongViewerView.swift; sourceTree = "<group>"; };
+		B10199 /* ChordSheetContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordSheetContentView.swift; sourceTree = "<group>"; };
 		B10105 /* CreateStrumPatternSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStrumPatternSheet.swift; sourceTree = "<group>"; };
 		B10106 /* CreateFingerpickPatternSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFingerpickPatternSheet.swift; sourceTree = "<group>"; };
 		B10107 /* PatternViewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternViewHelpers.swift; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 				B10024 /* SongEditorView.swift */,
 				B10103 /* PerformanceModeView.swift */,
 				B10104 /* SongViewerView.swift */,
+				B10199 /* ChordSheetContentView.swift */,
 				B10105 /* CreateStrumPatternSheet.swift */,
 				B10106 /* CreateFingerpickPatternSheet.swift */,
 				B10107 /* PatternViewHelpers.swift */,
@@ -768,6 +771,7 @@
 				A10024 /* SongEditorView.swift in Sources */,
 				A10103 /* PerformanceModeView.swift in Sources */,
 				A10104 /* SongViewerView.swift in Sources */,
+				A10199 /* ChordSheetContentView.swift in Sources */,
 				A10105 /* CreateStrumPatternSheet.swift in Sources */,
 				A10106 /* CreateFingerpickPatternSheet.swift in Sources */,
 				A10107 /* PatternViewHelpers.swift in Sources */,

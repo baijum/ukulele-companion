@@ -1185,7 +1185,6 @@
     <string name="songbook_font_decrease">减小字号</string>
     <string name="songbook_font_increase">增大字号</string>
     <string name="share_as_pdf">导出为 PDF</string>
-    <string name="performance_mode_toggle_controls">点击显示或隐藏控件</string>
     <string name="performance_scroll_pause">暂停</string>
     <string name="performance_scroll_start">滚动</string>
     <string name="performance_scroll_speed">%1$sx</string>
