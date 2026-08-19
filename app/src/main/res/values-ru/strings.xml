@@ -1188,7 +1188,6 @@
     <string name="songbook_font_decrease">Уменьшить размер шрифта</string>
     <string name="songbook_font_increase">Увеличить размер шрифта</string>
     <string name="share_as_pdf">Экспорт в PDF</string>
-    <string name="performance_mode_toggle_controls">Нажмите для отображения или скрытия элементов управления</string>
     <string name="performance_scroll_pause">Пауза</string>
     <string name="performance_scroll_start">Прокрутка</string>
     <string name="performance_scroll_speed">%1$sx</string>

@@ -1183,7 +1183,6 @@
     <string name="songbook_font_decrease">Perkecil ukuran font</string>
     <string name="songbook_font_increase">Perbesar ukuran font</string>
     <string name="share_as_pdf">Ekspor sebagai PDF</string>
-    <string name="performance_mode_toggle_controls">Ketuk untuk menampilkan atau menyembunyikan kontrol</string>
     <string name="performance_scroll_pause">Jeda</string>
     <string name="performance_scroll_start">Gulir</string>
     <string name="performance_scroll_speed">%1$sx</string>

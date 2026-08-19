@@ -201,7 +201,7 @@ struct SongViewerView: View {
             set: { if !$0 { tappedChord = nil } }
         )) {
             if let chord = tappedChord {
-                chordPopover(chord: chord)
+                ChordDetailPopover(chord: chord, tonePlayer: tonePlayer)
             }
         }
         .onAppear {
@@ -219,7 +219,9 @@ struct SongViewerView: View {
         .fullScreenCover(isPresented: $showPerformanceMode) {
             PerformanceModeView(
                 content: displaySong.content,
-                font: songFont
+                font: songFont,
+                chordDisplayStyle: settingsVM.chordDisplayStyle,
+                chordColor: resolvedChordColor
             )
         }
     }
@@ -763,33 +765,13 @@ struct SongViewerView: View {
     // MARK: - Content Parsing
 
     private func parsedContentView(song: StoredSong) -> some View {
-        let lines = song.content.components(separatedBy: "\n")
-        return VStack(alignment: .leading, spacing: 2) {
-            ForEach(0..<lines.count, id: \.self) { i in
-                let trimmed = lines[i].trimmingCharacters(in: .whitespaces)
-                if trimmed.hasPrefix("[") && trimmed.hasSuffix("]") && !trimmed.contains("\n") {
-                    let label = String(trimmed.dropFirst().dropLast())
-                    if ChordNameParser.shared.parse(input: label) == nil {
-                        Text(label)
-                            .font(songFont)
-                            .bold()
-                            .foregroundColor(.secondary)
-                            .padding(.top, 8)
-                            .padding(.bottom, 2)
-                            .accessibilityAddTraits(.isHeader)
-                            .id("line_\(i)")
-                    } else {
-                        let segments = ChordParser.shared.parseLine(line: lines[i])
-                        parsedLineView(segments: segments.asArray(of: ChordParser.TextSegment.self))
-                            .id("line_\(i)")
-                    }
-                } else {
-                    let segments = ChordParser.shared.parseLine(line: lines[i])
-                    parsedLineView(segments: segments.asArray(of: ChordParser.TextSegment.self))
-                        .id("line_\(i)")
-                }
-            }
-        }
+        ChordSheetContentView(
+            content: song.content,
+            font: songFont,
+            chordDisplayStyle: settingsVM.chordDisplayStyle,
+            chordColor: resolvedChordColor,
+            onChordTap: { tappedChord = $0 }
+        )
     }
 
     @ViewBuilder
@@ -846,151 +828,6 @@ struct SongViewerView: View {
         case "orange": return .orange
         case "purple": return .purple
         default: return .accentColor
-        }
-    }
-
-    @ViewBuilder
-    private func parsedLineView(segments: [ChordParser.TextSegment]) -> some View {
-        let hasChords = segments.contains(where: { $0 is ChordParser.TextSegmentChord })
-        if hasChords && settingsVM.chordDisplayStyle == "inline" {
-            HStack(spacing: 0) {
-                ForEach(0..<segments.count, id: \.self) { i in
-                    let segment = segments[i]
-                    if let chord = segment as? ChordParser.TextSegmentChord {
-                        Text("[\(chord.name)]")
-                            .font(songFont)
-                            .foregroundColor(resolvedChordColor)
-                            .bold()
-                            .onTapGesture { tappedChord = chord.name }
-                            .accessibilityLabel(chord.name)
-                            .accessibilityAddTraits(.isButton)
-                            .accessibilityHint("Show chord diagram")
-                    } else if let plain = segment as? ChordParser.TextSegmentPlainText {
-                        Text(plain.text)
-                            .font(songFont)
-                    }
-                }
-            }
-        } else if hasChords {
-            let result = Self.buildChordsAboveLyrics(segments: segments)
-            VStack(alignment: .leading, spacing: 0) {
-                HStack(spacing: 0) {
-                    ForEach(0..<result.chordElements.count, id: \.self) { i in
-                        let element = result.chordElements[i]
-                        if element.isChord {
-                            Text(element.text)
-                                .font(songFont)
-                                .foregroundColor(resolvedChordColor)
-                                .bold()
-                                .onTapGesture { tappedChord = element.text }
-                                .accessibilityLabel(element.text)
-                                .accessibilityAddTraits(.isButton)
-                                .accessibilityHint("Show chord diagram")
-                        } else {
-                            Text(element.text)
-                                .font(songFont)
-                                .accessibilityHidden(true)
-                        }
-                    }
-                }
-
-                if !result.lyrics.trimmingCharacters(in: .whitespaces).isEmpty {
-                    Text(result.lyrics)
-                        .font(songFont)
-                }
-            }
-        } else {
-            let text = segments.compactMap { ($0 as? ChordParser.TextSegmentPlainText)?.text }.joined()
-            Text(text.isEmpty ? " " : text)
-                .font(songFont)
-        }
-    }
-
-    private static func buildChordsAboveLyrics(segments: [ChordParser.TextSegment])
-        -> (chordElements: [(text: String, isChord: Bool)], lyrics: String, chordNames: [String])
-    {
-        var lyrics = ""
-        var chordEntries: [(position: Int, name: String)] = []
-
-        for segment in segments {
-            if let chord = segment as? ChordParser.TextSegmentChord {
-                chordEntries.append((position: lyrics.count, name: chord.name))
-            } else if let plain = segment as? ChordParser.TextSegmentPlainText {
-                lyrics += plain.text
-            }
-        }
-
-        var chordElements: [(text: String, isChord: Bool)] = []
-        var pos = 0
-        for entry in chordEntries {
-            let gap = entry.position - pos
-            if gap > 0 {
-                chordElements.append((String(repeating: " ", count: gap), false))
-                pos = entry.position
-            } else if pos > 0 {
-                chordElements.append((" ", false))
-                pos += 1
-            }
-            chordElements.append((entry.name, true))
-            pos += entry.name.count
-        }
-
-        return (chordElements, lyrics, chordEntries.map { $0.name })
-    }
-
-    // MARK: - Chord Popover
-
-    @ViewBuilder
-    private func chordPopover(chord: String) -> some View {
-        if let parsed = ChordNameParser.shared.parse(input: chord) {
-            let rootPc = parsed.rootPitchClass
-            let formula = parsed.formula
-
-            let tuning = UkuleleTuning.highG.asUkuleleStrings
-
-            let voicings = VoicingGenerator.shared.generate(
-                rootPitchClass: Int32(rootPc),
-                formula: formula,
-                tuning: tuning,
-                allowMutedStrings: false
-            ).asArray(of: ChordVoicing.self)
-
-            VStack(spacing: 8) {
-                Text(chord)
-                    .font(.headline)
-                if let voicing = voicings.first {
-                    ChordDiagramView(voicing: voicing, chordName: chord)
-                    Button {
-                        let fretList = voicing.fretInts
-                        let pitchClasses = (0..<fretList.count).compactMap { i -> Int32? in
-                            let fret = fretList[i]
-                            guard fret >= 0 else { return nil }
-                            let openPc = UkuleleTuning.highG.pitchClassInts[i]
-                            return (openPc + Int32(fret)) % 12
-                        }
-                        tonePlayer.playChord(pitchClasses: pitchClasses, strumDelayMs: 40)
-                    } label: {
-                        Label("Play", systemImage: "play.fill")
-                            .font(.caption)
-                    }
-                    .buttonStyle(.bordered)
-                    .accessibilityLabel("Play \(chord)")
-                } else {
-                    Text("No voicing found")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
-            .padding()
-        } else {
-            VStack(spacing: 8) {
-                Text(chord)
-                    .font(.headline)
-                Text("Chord not recognized")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            .padding()
         }
     }
 }

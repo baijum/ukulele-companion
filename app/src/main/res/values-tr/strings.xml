@@ -1184,7 +1184,6 @@
     <string name="songbook_font_decrease">Yazı boyutunu küçült</string>
     <string name="songbook_font_increase">Yazı boyutunu büyüt</string>
     <string name="share_as_pdf">PDF olarak dışa aktar</string>
-    <string name="performance_mode_toggle_controls">Kontrolleri göstermek veya gizlemek için dokunun</string>
     <string name="performance_scroll_pause">Duraklat</string>
     <string name="performance_scroll_start">Kaydır</string>
     <string name="performance_scroll_speed">%1$sx</string>

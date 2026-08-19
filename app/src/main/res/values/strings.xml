@@ -317,7 +317,6 @@
     <string name="stats_time_hours_minutes">%1$dh %2$dm</string>
     <string name="performance_mode">Performance mode</string>
     <string name="performance_mode_exit">Exit performance mode</string>
-    <string name="performance_mode_toggle_controls">Tap to show or hide controls</string>
     <string name="performance_scroll_pause">Pause</string>
     <string name="performance_scroll_start">Scroll</string>
     <string name="performance_scroll_speed">%1$sx</string>

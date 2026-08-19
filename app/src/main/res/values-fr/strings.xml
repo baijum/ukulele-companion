@@ -1181,7 +1181,6 @@
     <string name="songbook_font_decrease">Réduire la taille de police</string>
     <string name="songbook_font_increase">Augmenter la taille de police</string>
     <string name="share_as_pdf">Exporter en PDF</string>
-    <string name="performance_mode_toggle_controls">Appuyez pour afficher ou masquer les contrôles</string>
     <string name="performance_scroll_pause">Pause</string>
     <string name="performance_scroll_start">Défiler</string>
     <string name="performance_scroll_speed">%1$sx</string>

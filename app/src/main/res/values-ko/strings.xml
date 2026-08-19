@@ -1185,7 +1185,6 @@
     <string name="songbook_font_decrease">글꼴 크기 줄이기</string>
     <string name="songbook_font_increase">글꼴 크기 늘리기</string>
     <string name="share_as_pdf">PDF로 내보내기</string>
-    <string name="performance_mode_toggle_controls">탭하여 컨트롤 표시/숨기기</string>
     <string name="performance_scroll_pause">일시정지</string>
     <string name="performance_scroll_start">스크롤</string>
     <string name="performance_scroll_speed">%1$sx</string>

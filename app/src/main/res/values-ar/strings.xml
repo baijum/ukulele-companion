@@ -1190,7 +1190,6 @@
     <string name="songbook_font_decrease">تصغير حجم الخط</string>
     <string name="songbook_font_increase">تكبير حجم الخط</string>
     <string name="share_as_pdf">تصدير كملف PDF</string>
-    <string name="performance_mode_toggle_controls">انقر لإظهار أو إخفاء عناصر التحكم</string>
     <string name="performance_scroll_pause">إيقاف مؤقت</string>
     <string name="performance_scroll_start">تمرير</string>
     <string name="performance_scroll_speed">%1$sx</string>

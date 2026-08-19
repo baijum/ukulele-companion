@@ -64,7 +64,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
@@ -78,14 +77,9 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
-import androidx.compose.ui.text.LinkAnnotation
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextLinkStyles
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baijum.ukufretboard.R
@@ -160,7 +154,25 @@ internal fun SheetViewer(
             displayContent = displayContent,
             textStyle = songTextStyle,
             onExit = { performanceMode = false },
+            chordDisplayStyle = chordDisplayStyle,
+            chordColor = chordColor,
+            onChordTap = { tappedChord = it },
         )
+        // Emitted alongside fullscreen too: the sheet is a separate window, and the
+        // chord tap targets only exist there now that fullscreen renders parsed chords.
+        tappedChord?.let { chordName ->
+            ChordDetailSheet(
+                chordName = chordName,
+                tuning = tuning,
+                leftHanded = leftHanded,
+                onPlayChord = onPlayChord,
+                onViewInLibrary = {
+                    tappedChord = null
+                    onChordTapped(it)
+                },
+                onDismiss = { tappedChord = null },
+            )
+        }
         return
     }
 
@@ -506,135 +518,23 @@ internal fun SheetViewer(
                     .verticalScroll(scrollState),
             ) {
                 displayContent.lines().forEachIndexed { lineIndex, line ->
-                    val sectionModifier = if (lineIndex in sectionLineIndices) {
-                        Modifier.onGloballyPositioned { coords ->
-                            sectionOffsets[lineIndex] = coords.positionInParent().y.toInt()
-                        }
-                    } else {
-                        Modifier
-                    }
-                    val segments = ChordParser.parseLine(line)
-                    Column(modifier = sectionModifier) {
+                    val sectionModifier =
                         if (lineIndex in sectionLineIndices) {
-                            val label = line.trim().removePrefix("[").removeSuffix("]")
-                            Text(
-                                text = label,
-                                style = songTextStyle.copy(
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.tertiary,
-                                ),
-                                modifier = Modifier
-                                    .padding(top = 8.dp, bottom = 4.dp)
-                                    .semantics { heading() },
-                            )
-                        } else if (segments.isEmpty()) {
-                            Text(
-                                text = " ",
-                                style = songTextStyle,
-                            )
+                            Modifier.onGloballyPositioned { coords ->
+                                sectionOffsets[lineIndex] = coords.positionInParent().y.toInt()
+                            }
                         } else {
-                            val resolvedChordColor = when (chordColor) {
-                                ChordColorOption.THEME -> MaterialTheme.colorScheme.primary
-                                ChordColorOption.RED -> MaterialTheme.colorScheme.error.copy(alpha = 0.85f)
-                                ChordColorOption.BLUE -> Color(0xFF1565C0)
-                                ChordColorOption.GREEN -> Color(0xFF2E7D32)
-                                ChordColorOption.ORANGE -> Color(0xFFE65100)
-                                ChordColorOption.PURPLE -> Color(0xFF6A1B9A)
-                            }
-                            val chordPositions = mutableListOf<Pair<Int, String>>()
-                            val lyricLine = StringBuilder()
-                            var hasChords = false
-
-                            segments.forEach { segment ->
-                                when (segment) {
-                                    is ChordParser.TextSegment.PlainText -> {
-                                        lyricLine.append(segment.text)
-                                    }
-                                    is ChordParser.TextSegment.Chord -> {
-                                        hasChords = true
-                                        chordPositions.add(lyricLine.length to segment.name)
-                                    }
-                                }
-                            }
-
-                            if (hasChords && chordDisplayStyle == ChordDisplayStyle.ABOVE) {
-                                val chordAnnotated = buildAnnotatedString {
-                                    var cursor = 0
-                                    chordPositions.forEach { (pos, name) ->
-                                        if (pos > cursor) {
-                                            append(" ".repeat(pos - cursor))
-                                            cursor = pos
-                                        }
-                                        withLink(
-                                            LinkAnnotation.Clickable(
-                                                tag = name,
-                                                styles = TextLinkStyles(
-                                                    style = SpanStyle(
-                                                        color = resolvedChordColor,
-                                                        fontWeight = FontWeight.Bold,
-                                                    ),
-                                                ),
-                                                linkInteractionListener = {
-                                                    tappedChord = name
-                                                },
-                                            )
-                                        ) {
-                                            append(name)
-                                        }
-                                        cursor += name.length
-                                    }
-                                }
-
-                                Text(
-                                    text = chordAnnotated,
-                                    style = songTextStyle,
-                                )
-                            }
-
-                            if (hasChords && chordDisplayStyle == ChordDisplayStyle.INLINE) {
-                                val inlineAnnotated = buildAnnotatedString {
-                                    segments.forEach { segment ->
-                                        when (segment) {
-                                            is ChordParser.TextSegment.PlainText -> {
-                                                append(segment.text)
-                                            }
-                                            is ChordParser.TextSegment.Chord -> {
-                                                withLink(
-                                                    LinkAnnotation.Clickable(
-                                                        tag = segment.name,
-                                                        styles = TextLinkStyles(
-                                                            style = SpanStyle(
-                                                                color = resolvedChordColor,
-                                                                fontWeight = FontWeight.Bold,
-                                                            ),
-                                                        ),
-                                                        linkInteractionListener = {
-                                                            tappedChord = segment.name
-                                                        },
-                                                    )
-                                                ) {
-                                                    append("[${segment.name}]")
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                Text(
-                                    text = inlineAnnotated,
-                                    style = songTextStyle.copy(
-                                        color = MaterialTheme.colorScheme.onSurface,
-                                    ),
-                                )
-                            } else {
-                                Text(
-                                    text = lyricLine.toString(),
-                                    style = songTextStyle.copy(
-                                        color = MaterialTheme.colorScheme.onSurface,
-                                    ),
-                                )
-                            }
+                            Modifier
                         }
-                    }
+                    ChordSheetLine(
+                        line = line,
+                        isSectionHeading = lineIndex in sectionLineIndices,
+                        textStyle = songTextStyle,
+                        chordDisplayStyle = chordDisplayStyle,
+                        chordColor = chordColor,
+                        onChordTap = { tappedChord = it },
+                        modifier = sectionModifier,
+                    )
                 }
             }
 
@@ -812,77 +712,18 @@ internal fun SheetViewer(
             }
         }
 
-        if (tappedChord != null) {
-            val chordName = tappedChord!!
-            val chordSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
-            val voicing = remember(chordName, tuning) {
-                val parsed = ChordNameParser.parse(chordName) ?: return@remember null
-                if (tuning.isEmpty()) return@remember null
-                VoicingGenerator.generate(parsed.rootPitchClass, parsed.formula, tuning)
-                    .firstOrNull()
-            }
-
-            val playChordDesc = stringResource(R.string.songbook_play_chord, chordName)
-            val viewInLibraryDesc = stringResource(R.string.songbook_view_in_library, chordName)
-
-            ModalBottomSheet(
-                onDismissRequest = { tappedChord = null },
-                sheetState = chordSheetState,
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .padding(bottom = 32.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Text(
-                        text = chordName,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .padding(bottom = 16.dp)
-                            .semantics { heading() },
-                    )
-
-                    if (voicing != null) {
-                        VerticalChordDiagram(
-                            voicing = voicing,
-                            onClick = {},
-                            chordName = chordName,
-                            leftHanded = leftHanded,
-                            modifier = Modifier.padding(bottom = 16.dp),
-                        )
-                    }
-
-                    HorizontalDivider()
-                    ListItem(
-                        headlineContent = { Text(stringResource(R.string.songbook_play_chord, chordName)) },
-                        leadingContent = {
-                            Icon(Icons.Filled.PlayArrow, contentDescription = null)
-                        },
-                        modifier = Modifier
-                            .clickable(role = Role.Button) {
-                                onPlayChord(chordName)
-                            }
-                            .semantics { contentDescription = playChordDesc },
-                    )
-                    HorizontalDivider()
-                    ListItem(
-                        headlineContent = { Text(stringResource(R.string.songbook_view_in_library, chordName)) },
-                        leadingContent = {
-                            Icon(Icons.Filled.MusicNote, contentDescription = null)
-                        },
-                        modifier = Modifier
-                            .clickable(role = Role.Button) {
-                                tappedChord = null
-                                onChordTapped(chordName)
-                            }
-                            .semantics { contentDescription = viewInLibraryDesc },
-                    )
-                }
-            }
+        tappedChord?.let { chordName ->
+            ChordDetailSheet(
+                chordName = chordName,
+                tuning = tuning,
+                leftHanded = leftHanded,
+                onPlayChord = onPlayChord,
+                onViewInLibrary = {
+                    tappedChord = null
+                    onChordTapped(it)
+                },
+                onDismiss = { tappedChord = null },
+            )
         }
     }
 }
