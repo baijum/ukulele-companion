@@ -2784,7 +2784,6 @@
         <error line="674" column="36" source="standard:multiline-expression-wrapping" />
         <error line="690" column="36" source="standard:multiline-expression-wrapping" />
         <error line="704" column="36" source="standard:multiline-expression-wrapping" />
-        <error line="731" column="1" source="standard:no-consecutive-blank-lines" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/ui/songbook/SheetViewerComponents.kt">
         <error line="43" column="20" source="standard:multiline-expression-wrapping" />

@@ -88,7 +88,9 @@ internal fun ChordDetailSheet(
             if (voicing != null) {
                 VerticalChordDiagram(
                     voicing = voicing,
-                    onClick = {},
+                    // The card is `combinedClickable`, so a no-op here leaves TalkBack
+                    // announcing "double tap to activate" on a target that does nothing.
+                    onClick = { onPlayChord(chordName) },
                     chordName = chordName,
                     leftHanded = leftHanded,
                     modifier = Modifier.padding(bottom = 16.dp),
@@ -120,5 +122,32 @@ internal fun ChordDetailSheet(
                         }.semantics { contentDescription = viewInLibraryDesc },
             )
         }
+    }
+}
+
+/**
+ * Emits [ChordDetailSheet] when a chord has been tapped.
+ *
+ * [SheetViewer] returns early for performance mode, so the sheet has to be emitted
+ * in both branches; hoisting it here keeps the two from drifting apart.
+ */
+@Composable
+internal fun ChordDetailSheetHost(
+    tappedChord: String?,
+    tuning: List<UkuleleString>,
+    leftHanded: Boolean,
+    onPlayChord: (String) -> Unit,
+    onViewInLibrary: (String) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    tappedChord?.let { chordName ->
+        ChordDetailSheet(
+            chordName = chordName,
+            tuning = tuning,
+            leftHanded = leftHanded,
+            onPlayChord = onPlayChord,
+            onViewInLibrary = onViewInLibrary,
+            onDismiss = onDismiss,
+        )
     }
 }

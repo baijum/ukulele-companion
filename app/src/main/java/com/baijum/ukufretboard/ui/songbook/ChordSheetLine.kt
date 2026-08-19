@@ -80,22 +80,24 @@ internal fun ChordSheetLine(
 
         when {
             hasChords && chordDisplayStyle == ChordDisplayStyle.INLINE -> {
-                Text(
-                    text = inlineChordLine(segments, resolvedChordColor, onChordTap),
-                    style = lyricStyle,
-                )
+                val inline =
+                    remember(segments, resolvedChordColor, onChordTap) {
+                        inlineChordLine(segments, resolvedChordColor, onChordTap)
+                    }
+                Text(text = inline, style = lyricStyle)
             }
 
             hasChords -> {
-                Text(
-                    text = chordRow(segments, resolvedChordColor, onChordTap),
-                    style = textStyle,
-                )
-                Text(text = lyricsOf(segments), style = lyricStyle)
+                val chords =
+                    remember(segments, resolvedChordColor, onChordTap) {
+                        chordRow(segments, resolvedChordColor, onChordTap)
+                    }
+                Text(text = chords, style = textStyle)
+                Text(text = remember(segments) { lyricsOf(segments) }, style = lyricStyle)
             }
 
             else -> {
-                Text(text = lyricsOf(segments), style = lyricStyle)
+                Text(text = remember(segments) { lyricsOf(segments) }, style = lyricStyle)
             }
         }
     }

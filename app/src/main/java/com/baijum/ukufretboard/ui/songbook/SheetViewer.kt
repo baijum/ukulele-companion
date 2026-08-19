@@ -4,7 +4,6 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,9 +18,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Label
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
@@ -33,8 +35,6 @@ import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Stop
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.Label
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -138,16 +138,18 @@ internal fun SheetViewer(
     val fontSizePrefs = context.getSharedPreferences("songbook_prefs", android.content.Context.MODE_PRIVATE)
     var songFontSize by rememberSaveable { mutableFloatStateOf(fontSizePrefs.getFloat("song_font_size", 14f)) }
 
-    val displayContent = if (transposeSemitones != 0) {
-        ChordSheetTranspose.transpose(sheet.content, transposeSemitones)
-    } else {
-        sheet.content
-    }
+    val displayContent =
+        if (transposeSemitones != 0) {
+            ChordSheetTranspose.transpose(sheet.content, transposeSemitones)
+        } else {
+            sheet.content
+        }
 
-    val songTextStyle = MaterialTheme.typography.bodyMedium.copy(
-        fontFamily = FontFamily.Monospace,
-        fontSize = songFontSize.sp,
-    )
+    val songTextStyle =
+        MaterialTheme.typography.bodyMedium.copy(
+            fontFamily = FontFamily.Monospace,
+            fontSize = songFontSize.sp,
+        )
 
     if (performanceMode) {
         PerformanceModeView(
@@ -160,26 +162,25 @@ internal fun SheetViewer(
         )
         // Emitted alongside fullscreen too: the sheet is a separate window, and the
         // chord tap targets only exist there now that fullscreen renders parsed chords.
-        tappedChord?.let { chordName ->
-            ChordDetailSheet(
-                chordName = chordName,
-                tuning = tuning,
-                leftHanded = leftHanded,
-                onPlayChord = onPlayChord,
-                onViewInLibrary = {
-                    tappedChord = null
-                    onChordTapped(it)
-                },
-                onDismiss = { tappedChord = null },
-            )
-        }
+        ChordDetailSheetHost(
+            tappedChord = tappedChord,
+            tuning = tuning,
+            leftHanded = leftHanded,
+            onPlayChord = onPlayChord,
+            onViewInLibrary = {
+                tappedChord = null
+                onChordTapped(it)
+            },
+            onDismiss = { tappedChord = null },
+        )
         return
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         // Toolbar
         Row(
@@ -301,9 +302,10 @@ internal fun SheetViewer(
         val transposeDownDesc = stringResource(R.string.cd_transpose_down)
         val transposeUpDesc = stringResource(R.string.cd_transpose_up)
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 4.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 4.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -349,9 +351,10 @@ internal fun SheetViewer(
                     color = MaterialTheme.colorScheme.tertiary,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 4.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 4.dp),
                 )
             }
 
@@ -381,18 +384,20 @@ internal fun SheetViewer(
         val programmaticScroll = remember { mutableStateOf(false) }
 
         // Section navigation
-        val sections = remember(displayContent) {
-            ChordSheetFormatter.extractSections(displayContent)
-        }
+        val sections =
+            remember(displayContent) {
+                ChordSheetFormatter.extractSections(displayContent)
+            }
         val sectionOffsets = remember { mutableMapOf<Int, Int>() }
         val sectionScrollScope = rememberCoroutineScope()
 
         if (sections.isNotEmpty()) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 sections.forEach { section ->
@@ -416,14 +421,16 @@ internal fun SheetViewer(
         }
 
         // Tempo / metronome integration
-        val songTempo = remember(displayContent) {
-            ChordSheetFormatter.extractTempo(displayContent)
-        }
+        val songTempo =
+            remember(displayContent) {
+                ChordSheetFormatter.extractTempo(displayContent)
+            }
         if (songTempo != null) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
@@ -453,10 +460,11 @@ internal fun SheetViewer(
                     try {
                         scrollState.animateScrollTo(
                             scrollState.value + scrollSpeed.toInt().coerceAtLeast(1),
-                            animationSpec = androidx.compose.animation.core.tween(
-                                durationMillis = 16,
-                                easing = androidx.compose.animation.core.LinearEasing,
-                            ),
+                            animationSpec =
+                                androidx.compose.animation.core.tween(
+                                    durationMillis = 16,
+                                    easing = androidx.compose.animation.core.LinearEasing,
+                                ),
                         )
                     } finally {
                         programmaticScroll.value = false
@@ -476,24 +484,31 @@ internal fun SheetViewer(
         val sectionLineIndices = remember(sections) { sections.map { it.lineIndex }.toSet() }
 
         if (showChordDiagramRail) {
-            val uniqueChords = remember(displayContent) {
-                ChordParser.extractChords(displayContent)
-            }
-            val chordVoicings = remember(uniqueChords, tuning) {
-                uniqueChords.mapNotNull { name ->
-                    val parsed = ChordNameParser.parse(name) ?: return@mapNotNull null
-                    if (tuning.isEmpty()) return@mapNotNull null
-                    val voicing = VoicingGenerator.generate(
-                        parsed.rootPitchClass, parsed.formula, tuning,
-                    ).firstOrNull() ?: return@mapNotNull null
-                    name to voicing
+            val uniqueChords =
+                remember(displayContent) {
+                    ChordParser.extractChords(displayContent)
                 }
-            }
+            val chordVoicings =
+                remember(uniqueChords, tuning) {
+                    uniqueChords.mapNotNull { name ->
+                        val parsed = ChordNameParser.parse(name) ?: return@mapNotNull null
+                        if (tuning.isEmpty()) return@mapNotNull null
+                        val voicing =
+                            VoicingGenerator
+                                .generate(
+                                    parsed.rootPitchClass,
+                                    parsed.formula,
+                                    tuning,
+                                ).firstOrNull() ?: return@mapNotNull null
+                        name to voicing
+                    }
+                }
             if (chordVoicings.isNotEmpty()) {
                 LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     contentPadding = PaddingValues(horizontal = 16.dp),
                 ) {
@@ -513,9 +528,10 @@ internal fun SheetViewer(
 
         Box(modifier = Modifier.weight(1f)) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(scrollState),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .verticalScroll(scrollState),
             ) {
                 displayContent.lines().forEachIndexed { lineIndex, line ->
                     val sectionModifier =
@@ -542,9 +558,10 @@ internal fun SheetViewer(
             val fontDecreaseDesc = stringResource(R.string.songbook_font_decrease)
             val fontIncreaseDesc = stringResource(R.string.songbook_font_increase)
             Row(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(8.dp),
+                modifier =
+                    Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 SmallFloatingActionButton(
@@ -569,9 +586,10 @@ internal fun SheetViewer(
 
             // Auto-scroll controls overlay
             Column(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(12.dp),
+                modifier =
+                    Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(12.dp),
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
@@ -583,10 +601,11 @@ internal fun SheetViewer(
                                 selected = scrollSpeed == speed,
                                 onClick = { scrollSpeed = speed },
                                 label = { Text(label) },
-                                modifier = Modifier.semantics {
-                                    contentDescription = speedDesc
-                                    if (scrollSpeed == speed) stateDescription = "selected"
-                                },
+                                modifier =
+                                    Modifier.semantics {
+                                        contentDescription = speedDesc
+                                        if (scrollSpeed == speed) stateDescription = "selected"
+                                    },
                             )
                         }
                     }
@@ -611,7 +630,14 @@ internal fun SheetViewer(
                     ) {
                         Icon(
                             imageVector = if (autoScrolling) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-                            contentDescription = if (autoScrolling) stringResource(R.string.cd_pause_scroll) else stringResource(R.string.cd_auto_scroll),
+                            contentDescription =
+                                if (autoScrolling) {
+                                    stringResource(
+                                        R.string.cd_pause_scroll,
+                                    )
+                                } else {
+                                    stringResource(R.string.cd_auto_scroll)
+                                },
                         )
                     }
                 }
@@ -621,49 +647,54 @@ internal fun SheetViewer(
         val copiedMsg = stringResource(R.string.share_copied)
         if (showShareSheet) {
             val shareSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-            val effectiveSheet = if (transposeSemitones != 0) {
-                sheet.copy(content = displayContent)
-            } else {
-                sheet
-            }
+            val effectiveSheet =
+                if (transposeSemitones != 0) {
+                    sheet.copy(content = displayContent)
+                } else {
+                    sheet
+                }
             ModalBottomSheet(
                 onDismissRequest = { showShareSheet = false },
                 sheetState = shareSheetState,
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .padding(bottom = 32.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .padding(bottom = 32.dp),
                 ) {
                     Text(
                         text = stringResource(R.string.share_sheet_title),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .padding(bottom = 16.dp, start = 8.dp)
-                            .semantics { heading() },
+                        modifier =
+                            Modifier
+                                .padding(bottom = 16.dp, start = 8.dp)
+                                .semantics { heading() },
                     )
                     ListItem(
                         headlineContent = { Text(stringResource(R.string.share_as_chordpro)) },
                         leadingContent = {
                             Icon(Icons.Filled.MusicNote, contentDescription = null)
                         },
-                        modifier = Modifier.clickable(role = Role.Button) {
-                            showShareSheet = false
-                            val chordProText = ChordProExporter.export(effectiveSheet)
-                            val intent = Intent(Intent.ACTION_SEND).apply {
-                                type = "text/plain"
-                                putExtra(Intent.EXTRA_TEXT, chordProText)
-                                putExtra(
-                                    Intent.EXTRA_SUBJECT,
-                                    ChordProExporter.suggestedFilename(sheet),
+                        modifier =
+                            Modifier.clickable(role = Role.Button) {
+                                showShareSheet = false
+                                val chordProText = ChordProExporter.export(effectiveSheet)
+                                val intent =
+                                    Intent(Intent.ACTION_SEND).apply {
+                                        type = "text/plain"
+                                        putExtra(Intent.EXTRA_TEXT, chordProText)
+                                        putExtra(
+                                            Intent.EXTRA_SUBJECT,
+                                            ChordProExporter.suggestedFilename(sheet),
+                                        )
+                                    }
+                                context.startActivity(
+                                    Intent.createChooser(intent, exportChooserLabel),
                                 )
-                            }
-                            context.startActivity(
-                                Intent.createChooser(intent, exportChooserLabel),
-                            )
-                        },
+                            },
                     )
                     HorizontalDivider()
                     ListItem(
@@ -671,15 +702,16 @@ internal fun SheetViewer(
                         leadingContent = {
                             Icon(Icons.Filled.Description, contentDescription = null)
                         },
-                        modifier = Modifier.clickable(role = Role.Button) {
-                            showShareSheet = false
-                            val formatted = ChordSheetFormatter.formatChordsAboveLyrics(effectiveSheet)
-                            ShareUtils.shareText(
-                                context = context,
-                                title = sheet.title.ifEmpty { chordSheetLabel },
-                                text = formatted,
-                            )
-                        },
+                        modifier =
+                            Modifier.clickable(role = Role.Button) {
+                                showShareSheet = false
+                                val formatted = ChordSheetFormatter.formatChordsAboveLyrics(effectiveSheet)
+                                ShareUtils.shareText(
+                                    context = context,
+                                    title = sheet.title.ifEmpty { chordSheetLabel },
+                                    text = formatted,
+                                )
+                            },
                     )
                     HorizontalDivider()
                     ListItem(
@@ -687,13 +719,14 @@ internal fun SheetViewer(
                         leadingContent = {
                             Icon(Icons.Filled.ContentCopy, contentDescription = null)
                         },
-                        modifier = Modifier.clickable(role = Role.Button) {
-                            showShareSheet = false
-                            val formatted = ChordSheetFormatter.formatChordsAboveLyrics(effectiveSheet)
-                            ShareUtils.copyToClipboard(context, chordSheetLabel, formatted)
-                            Toast.makeText(context, copiedMsg, Toast.LENGTH_SHORT).show()
-                            view.announceForAccessibility(copiedMsg)
-                        },
+                        modifier =
+                            Modifier.clickable(role = Role.Button) {
+                                showShareSheet = false
+                                val formatted = ChordSheetFormatter.formatChordsAboveLyrics(effectiveSheet)
+                                ShareUtils.copyToClipboard(context, chordSheetLabel, formatted)
+                                Toast.makeText(context, copiedMsg, Toast.LENGTH_SHORT).show()
+                                view.announceForAccessibility(copiedMsg)
+                            },
                     )
                     HorizontalDivider()
                     ListItem(
@@ -701,30 +734,28 @@ internal fun SheetViewer(
                         leadingContent = {
                             Icon(Icons.Filled.Description, contentDescription = null)
                         },
-                        modifier = Modifier.clickable(role = Role.Button) {
-                            showShareSheet = false
-                            val formatted = ChordSheetFormatter.formatChordsAboveLyrics(effectiveSheet)
-                            val title = effectiveSheet.title.ifEmpty { chordSheetLabel }
-                            ShareUtils.sharePdf(context, title, formatted)
-                        },
+                        modifier =
+                            Modifier.clickable(role = Role.Button) {
+                                showShareSheet = false
+                                val formatted = ChordSheetFormatter.formatChordsAboveLyrics(effectiveSheet)
+                                val title = effectiveSheet.title.ifEmpty { chordSheetLabel }
+                                ShareUtils.sharePdf(context, title, formatted)
+                            },
                     )
                 }
             }
         }
 
-        tappedChord?.let { chordName ->
-            ChordDetailSheet(
-                chordName = chordName,
-                tuning = tuning,
-                leftHanded = leftHanded,
-                onPlayChord = onPlayChord,
-                onViewInLibrary = {
-                    tappedChord = null
-                    onChordTapped(it)
-                },
-                onDismiss = { tappedChord = null },
-            )
-        }
+        ChordDetailSheetHost(
+            tappedChord = tappedChord,
+            tuning = tuning,
+            leftHanded = leftHanded,
+            onPlayChord = onPlayChord,
+            onViewInLibrary = {
+                tappedChord = null
+                onChordTapped(it)
+            },
+            onDismiss = { tappedChord = null },
+        )
     }
 }
-

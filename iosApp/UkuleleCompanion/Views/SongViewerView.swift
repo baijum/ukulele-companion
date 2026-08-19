@@ -221,7 +221,8 @@ struct SongViewerView: View {
                 content: displaySong.content,
                 font: songFont,
                 chordDisplayStyle: settingsVM.chordDisplayStyle,
-                chordColor: resolvedChordColor
+                chordColor: resolvedChordColor,
+                tonePlayer: tonePlayer
             )
         }
     }

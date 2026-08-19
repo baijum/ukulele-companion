@@ -14,6 +14,9 @@ struct PerformanceModeView: View {
     /// Mirrors the Settings value verbatim; "inline" keeps the `[C]` brackets.
     var chordDisplayStyle: String = "above"
     var chordColor: Color = .accentColor
+    /// Passed in rather than constructed here: `TonePlayer.init` builds and starts an
+    /// AVAudioEngine, and a `let` in a View struct would rebuild it on every render.
+    let tonePlayer: TonePlayer
 
     @State private var isAutoScrolling = false
     @State private var scrollSpeed: Double = 1.0
@@ -24,8 +27,6 @@ struct PerformanceModeView: View {
     @State private var contentHeight: CGFloat = 1
     @State private var viewportHeight: CGFloat = 1
     @State private var tappedChord: String?
-
-    private let tonePlayer = TonePlayer()
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
