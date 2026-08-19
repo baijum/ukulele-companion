@@ -327,3 +327,36 @@ jobs:
 
       - name: Dependency Review
         uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+
+  android-gate:
+    name: Android CI Complete
+    # A single, stably-named check for the ruleset to require.
+    #
+    # The instrumented job is a matrix, so GitHub reports it as "Instrumented
+    # Tests (33)" and "Instrumented Tests (35)" when it runs -- but as a bare,
+    # unexpanded "Instrumented Tests" when the path filter skips it. Requiring
+    # the expanded names therefore left every PR that touches no Android path
+    # (iOS-only, docs-only) waiting forever on two checks that were never going
+    # to be reported. This job has no `if:`, so its name is reported either way.
+    needs: [changes, lint, shared-tests, unit-tests, build, instrumented-tests]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check every Android job succeeded or was skipped
+        env:
+          # success | skipped | failure | cancelled, one per job in `needs`.
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "upstream results: $RESULTS"
+          # A gate that can pass on an empty list is worse than no gate.
+          if [ -z "$RESULTS" ]; then
+            echo "::error::no upstream results -- refusing to pass vacuously"
+            exit 1
+          fi
+          for result in $RESULTS; do
+            case "$result" in
+              success | skipped) ;;
+              *) echo "::error::an upstream Android job reported '$result'" ; exit 1 ;;
+            esac
+          done
