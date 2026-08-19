@@ -3,7 +3,7 @@ import shared
 
 struct ProgressionsView: View {
     @StateObject private var viewModel = ProgressionsViewModel()
-    private let tonePlayer = TonePlayer()
+    @StateObject private var tonePlayer = TonePlayer()
     @State private var playbackState = ProgressionPlaybackState()
     @State private var deletingCustomId: String?
     @State private var deletingCustomName: String?

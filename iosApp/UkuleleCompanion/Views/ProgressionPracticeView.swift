@@ -14,7 +14,7 @@ struct ProgressionPracticeView: View {
     @State private var isPlaying = false
     @State private var timer: AnyCancellable?
 
-    private let tonePlayer = TonePlayer()
+    @StateObject private var tonePlayer = TonePlayer()
     private let leftHanded: Bool
     private let tuning: [shared.UkuleleString]
     private let cachedVoicings: [[ChordVoicing]]

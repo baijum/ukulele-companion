@@ -4,7 +4,7 @@ import AVFoundation
 ///
 /// Supports polyphonic playback via a pool of `AVAudioPlayerNode` instances,
 /// allowing strummed chords where multiple notes overlap with configurable delay.
-final class TonePlayer {
+final class TonePlayer: ObservableObject {
     private var audioEngine: AVAudioEngine?
     private var playerNodes: [AVAudioPlayerNode] = []
     private var varispeedNodes: [AVAudioUnitVarispeed] = []

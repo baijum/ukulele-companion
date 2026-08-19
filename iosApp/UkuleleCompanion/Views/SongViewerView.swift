@@ -37,7 +37,7 @@ struct SongViewerView: View {
     @State private var viewOpenedAt: Date?
     @State private var showPerformanceMode = false
 
-    private let tonePlayer = TonePlayer()
+    @StateObject private var tonePlayer = TonePlayer()
 
     let song: StoredSong
 
