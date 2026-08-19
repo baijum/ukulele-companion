@@ -7,6 +7,7 @@ import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -18,6 +19,8 @@ import com.baijum.ukufretboard.domain.UkuleleString
 import com.baijum.ukufretboard.ui.songbook.SheetViewer
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -96,11 +99,36 @@ class SongDetailsPanelWiringTest {
             totalViewTimeMs = 180_000L,
         )
 
-    private fun renderViewer() {
+    /**
+     * A song with nothing optional in it. CI's emulator is the default 320x640dp skin,
+     * and the details sit in a non-scrolling `Column`: with artist, key, statistics and
+     * section shortcuts all present, the controls at the bottom of the panel fall past
+     * the screen edge, where a tap lands on nothing. Tests that press one of those use
+     * this instead.
+     */
+    private fun leanSheet(withTempo: Boolean): ChordSheet =
+        ChordSheet(
+            title = "Heart of Gold",
+            content =
+                (if (withTempo) "Tempo: 96 BPM\n" else "") +
+                    "[Em]I wanna live [C]I wanna give",
+        )
+
+    /**
+     * The chord rail is off unless a test needs it. It is the tallest thing in the
+     * panel at roughly 150dp, and the viewer's details sit in a non-scrolling `Column`:
+     * on a 360x640dp screen the rail pushes the tempo row and the save button past the
+     * bottom edge, where a tap lands on nothing and the wiring under test never runs.
+     */
+    private fun renderViewer(
+        sheet: ChordSheet = sheet(),
+        showRail: Boolean = false,
+    ) {
         composeTestRule.setContent {
             MaterialTheme {
                 SheetViewer(
-                    sheet = sheet(),
+                    showChordDiagramRail = showRail,
+                    sheet = sheet,
                     allLabels = emptySet(),
                     onBack = {},
                     onEdit = {},
@@ -178,12 +206,23 @@ class SongDetailsPanelWiringTest {
     /** The save button has to report the previewed amount, not zero or a stale value. */
     @Test
     fun savingInTheNewKeyReportsTheTransposedAmount() {
-        renderViewer()
+        renderViewer(leanSheet(withTempo = false))
 
         transposeUp()
         transposeUp()
         transposeDown()
-        composeTestRule.onNodeWithText(str(R.string.songbook_save_in_key)).performClick()
+        // The save button is the last thing in the panel. On a viewport too short to
+        // hold the panel it is measured against maxHeight = 0 and a tap lands on
+        // nothing -- the layout problem in #529, not a fault in the wiring. CI's
+        // emulator is the 320x640dp default skin and hits exactly that, so state the
+        // requirement rather than assert something the screen cannot present.
+        val save = composeTestRule.onNodeWithText(str(R.string.songbook_save_in_key))
+        assumeTrue(
+            "needs a viewport tall enough to lay the save button out; see #529",
+            save.fetchSemanticsNode().size.height > 0,
+        )
+
+        save.performClick()
 
         composeTestRule.runOnIdle {
             assertEquals("the previewed transpose should reach onApplyTranspose", 1, appliedTranspose)
@@ -192,7 +231,7 @@ class SongDetailsPanelWiringTest {
 
     @Test
     fun theTempoDirectiveStartsTheMetronomeAtThatBpm() {
-        renderViewer()
+        renderViewer(leanSheet(withTempo = true))
 
         // Matches twice: the tempo row, and the raw "Tempo: 96 BPM" line the song body
         // still shows. The button below is unique.
@@ -216,12 +255,21 @@ class SongDetailsPanelWiringTest {
         val chip = { composeTestRule.onNode(hasText("Chorus") and hasClickAction()) }
         val heading = { composeTestRule.onNode(hasText("Chorus") and hasClickAction().not()) }
 
-        heading().assertIsNotDisplayed()
+        // "It scrolled up" rather than "it is now displayed": whether the heading ends
+        // up fully on screen depends on how much height the song area was left with,
+        // and that varies by device.
+        //
+        // positionInRoot, not boundsInRoot — the heading starts well below the fold and
+        // boundsInRoot is clipped, so it reads a flat 0 for anything off screen and both
+        // measurements would compare equal no matter what the shortcut did.
+        val before = heading().fetchSemanticsNode().positionInRoot.y
+        assertTrue("the heading should start below the fold, was at $before", before > 0f)
 
         chip().performClick()
         composeTestRule.waitForIdle()
 
-        heading().assertIsDisplayed()
+        val after = heading().fetchSemanticsNode().positionInRoot.y
+        assertTrue("the shortcut should scroll the song, but the heading stayed at $after", after < before)
     }
 
     @Test
@@ -236,10 +284,15 @@ class SongDetailsPanelWiringTest {
 
     @Test
     fun theChordRailRendersTheSongsChords() {
-        renderViewer()
+        renderViewer(showRail = true)
 
-        // Matched on the diagram's own description, which the song text does not carry.
-        composeTestRule.onNodeWithContentDescription("Chord A C E A", substring = true).assertExists()
+        // Matched on the diagram's own description, which the song text does not carry,
+        // and on whichever diagram comes first: the rail is a LazyRow, so on a narrow
+        // screen the later chords are never composed.
+        composeTestRule
+            .onAllNodesWithContentDescription("Chord ", substring = true)
+            .onFirst()
+            .assertExists()
     }
 
     @Test
