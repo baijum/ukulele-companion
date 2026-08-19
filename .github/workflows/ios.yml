@@ -139,10 +139,21 @@ jobs:
         if: always()
         run: xcresultparser --output-format cobertura TestResults.xcresult > coverage.xml
 
+      # Fails loudly if the report moves. Without this the Codecov CLI just
+      # warns and scans the workspace, so a stale path uploads by accident (#524).
+      - name: Check the coverage report is where Codecov is told to look
+        run: ls -l coverage.xml
+
       - name: Upload coverage to Codecov
         if: always()
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
           files: coverage.xml
+          # `files` only *adds* to what the CLI finds by itself. Without these two,
+          # the Xcode plugin runs llvm-cov and the workspace scan sweeps up a
+          # .coverage.txt per binary -- XCTest, onnxruntime and a second reading of
+          # our own sources all landed under ios-tests, 13 files for one named (#532).
+          disable_search: true
+          plugins: noop
           flags: ios-tests
           token: ${{ secrets.CODECOV_TOKEN }}
