@@ -186,4 +186,49 @@ class SongbookViewModelTest {
         assertEquals(2, vm.sheets.value.size)
         assertTrue(vm.sheets.value.any { it.title == "Original (Copy)" })
     }
+
+    // ── Import (issue #500) ──────────────────────────────────────────
+
+    @Test
+    fun importChordProUsesTitleAndArtistFromDirectives() {
+        vm.importChordPro(
+            "{title:Heart of Gold}\n{artist:Neil Young}\n[Em]I wanna live",
+            "Heart-of-Gold.pro",
+        )
+        val sheet = vm.currentSheet.value!!
+        assertEquals("Heart of Gold", sheet.title)
+        assertEquals("Neil Young", sheet.artist)
+    }
+
+    @Test
+    fun importChordProFallsBackToFilenameWhenNoTitleDirective() {
+        vm.importChordPro("{artist:Neil Young}\n[Em]I wanna live", "Heart_of_Gold.pro")
+        assertEquals("Heart of Gold", vm.currentSheet.value!!.title)
+    }
+
+    @Test
+    fun importStripsSafDocumentIdPrefixFromTitle() {
+        vm.importPlainText("[Am]Hello", "primary:Download/My Song.txt")
+        assertEquals("My Song", vm.currentSheet.value!!.title)
+    }
+
+    @Test
+    fun importNeverUsesAContentUriAsTitle() {
+        vm.importPlainText("[Am]Hello", "content://com.microsoft.skydrive.content.metadata/items/42")
+        val title = vm.currentSheet.value!!.title
+        assertFalse(title.contains("content://"))
+        assertEquals("42", title)
+    }
+
+    @Test
+    fun importWithoutFilenameUsesDefaultTitle() {
+        vm.importPlainText("[Am]Hello", null)
+        assertEquals("Imported Song", vm.currentSheet.value!!.title)
+    }
+
+    @Test
+    fun importWithBlankFilenameUsesDefaultTitle() {
+        vm.importPlainText("[Am]Hello", "  ")
+        assertEquals("Imported Song", vm.currentSheet.value!!.title)
+    }
 }

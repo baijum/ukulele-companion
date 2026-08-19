@@ -1,5 +1,6 @@
 import XCTest
 @testable import UkuleleCompanion
+import shared
 
 final class SongbookViewModelTests: XCTestCase {
 
@@ -202,5 +203,77 @@ final class SongbookViewModelTests: XCTestCase {
 
         vm.recordViewTime(id: "rvt-1", elapsedMs: 3000)
         XCTAssertEqual(vm.songs.first?.totalViewTimeMs, 8000)
+    }
+
+    // MARK: - Import metadata (issue #500)
+
+    func testTitleFromFilenameStripsExtension() {
+        XCTAssertEqual(SongbookViewModel.titleFromFilename("Heart-of-Gold.pro"), "Heart-of-Gold")
+    }
+
+    func testTitleFromFilenameKeepsExtensionlessNameIntact() {
+        // The previous implementation dropped the last space-separated word here.
+        XCTAssertEqual(SongbookViewModel.titleFromFilename("Heart of Gold"), "Heart of Gold")
+    }
+
+    func testTitleFromFilenameConvertsUnderscoresToSpaces() {
+        XCTAssertEqual(SongbookViewModel.titleFromFilename("Heart_of_Gold.pro"), "Heart of Gold")
+    }
+
+    func testTitleFromFilenameStripsPathAndDocumentIdPrefix() {
+        XCTAssertEqual(SongbookViewModel.titleFromFilename("primary:Download/My Song.txt"), "My Song")
+    }
+
+    func testTitleFromFilenameNeverReturnsAUri() {
+        let title = SongbookViewModel.titleFromFilename("content://com.microsoft.skydrive.content.metadata/items/42")
+        XCTAssertFalse(title.contains("content://"))
+        XCTAssertEqual(title, "42")
+    }
+
+    func testTitleFromFilenameFallsBackWhenNil() {
+        XCTAssertEqual(SongbookViewModel.titleFromFilename(nil), "Imported Song")
+    }
+
+    func testTitleFromFilenameFallsBackWhenBlank() {
+        XCTAssertEqual(SongbookViewModel.titleFromFilename("   "), "Imported Song")
+    }
+
+    @MainActor
+    func testImportChordProUsesDirectiveMetadata() {
+        let vm = SongbookViewModel()
+        vm.importChordPro(
+            text: "{title:Heart of Gold}\n{artist:Neil Young}\n{key:G}\n[Em]I wanna live",
+            filename: "Heart-of-Gold.pro"
+        )
+        XCTAssertEqual(vm.songs.count, 1)
+        let song = vm.songs[0]
+        XCTAssertEqual(song.title, "Heart of Gold")
+        XCTAssertEqual(song.artist, "Neil Young")
+        XCTAssertEqual(song.key, "G")
+        XCTAssertFalse(song.content.contains("{title:"))
+    }
+
+    @MainActor
+    func testImportChordProFallsBackToFilenameWithoutTitleDirective() {
+        let vm = SongbookViewModel()
+        vm.importChordPro(text: "{artist:Neil Young}\n[Em]I wanna live", filename: "Heart_of_Gold.pro")
+        XCTAssertEqual(vm.songs.first?.title, "Heart of Gold")
+    }
+
+    @MainActor
+    func testImportPlainTextNeverUsesAUriAsTitle() {
+        let vm = SongbookViewModel()
+        vm.importPlainText(content: "[Am]Hello", filename: "content://provider/items/42")
+        XCTAssertEqual(vm.songs.first?.title, "42")
+    }
+
+    func testLooksLikeChordProDetectsDirectivesRegardlessOfExtension() {
+        let content = "{title:Heart of Gold}\n[Em]I wanna live"
+        XCTAssertTrue(ChordProParser.shared.looksLikeChordPro(content: content))
+        XCTAssertFalse(ChordProParser.shared.isChordProFile(filename: "Heart-of-Gold.pro.txt"))
+    }
+
+    func testLooksLikeChordProIgnoresPlainLyrics() {
+        XCTAssertFalse(ChordProParser.shared.looksLikeChordPro(content: "[Chorus]\n[Am]Hello [C]world"))
     }
 }

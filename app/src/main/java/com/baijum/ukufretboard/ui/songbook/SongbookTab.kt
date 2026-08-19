@@ -1,5 +1,7 @@
 package com.baijum.ukufretboard.ui.songbook
 
+import android.content.Context
+import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -161,7 +163,12 @@ fun SongbookTab(
                 onSheetTapped = { viewModel.openSheet(it) },
                 onNewSheet = { viewModel.startEditing() },
                 onImport = { content, filename ->
-                    if (filename != null && ChordProParser.isChordProFile(filename)) {
+                    // Detect by content first: SAF content URIs often expose no
+                    // usable extension, and ChordPro files are widely shipped as
+                    // .txt. See issue #500.
+                    if (ChordProParser.looksLikeChordPro(content) ||
+                        (filename != null && ChordProParser.isChordProFile(filename))
+                    ) {
                         viewModel.importChordPro(content, filename)
                     } else {
                         viewModel.importPlainText(content, filename)
@@ -217,8 +224,7 @@ private fun SheetList(
                 val inputStream = context.contentResolver.openInputStream(it)
                 val content = inputStream?.bufferedReader()?.readText() ?: return@let
                 inputStream.close()
-                val filename = it.lastPathSegment
-                onImport(content, filename)
+                onImport(content, resolveDisplayName(context, it))
             } catch (_: Exception) {
                 Toast.makeText(context, importFailedMsg, Toast.LENGTH_SHORT).show()
             }
