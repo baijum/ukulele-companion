@@ -83,9 +83,14 @@ internal fun CollapsibleDetails(
 /**
  * The handle that collapses and expands [CollapsibleDetails].
  *
- * It sits at the boundary between the panel and the lyrics rather than in the toolbar:
- * that row already carries six icon buttons, and a seventh overflows it on a 360dp
- * screen before the title gets any width at all.
+ * Placed directly above the panel, matching the disclosure rows in `DrawerContent`.
+ * It cannot go below the panel: [SheetViewer] lays these out in a plain `Column`, so
+ * on a short screen a details block taller than the viewport leaves every later child
+ * measured against `maxHeight = 0` — the handle would collapse to nothing exactly on
+ * the screens where a reader most needs to reach it.
+ *
+ * It is not in the toolbar either: that row already carries six icon buttons, and a
+ * seventh overflows it on a 360dp screen before the title gets any width at all.
  */
 @Composable
 internal fun SongDetailsToggle(

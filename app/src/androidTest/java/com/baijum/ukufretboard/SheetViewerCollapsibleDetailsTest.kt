@@ -2,6 +2,10 @@ package com.baijum.ukufretboard
 
 import android.content.Context
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertHeightIsAtLeast
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -25,7 +29,12 @@ import org.junit.Test
  * The reporter's complaint is vertical: subtitle, artist, key, strum pattern, labels
  * and the chord diagram rail push the lyrics off the bottom of the screen while
  * playing. So the load-bearing assertion here is not "the toggle exists" but
- * [collapsingLiftsTheLyricsUpTheScreen] — the lyrics must actually move.
+ * [collapsingPutsTheLyricsBelowTheToggle] — the lyrics must actually end up on screen.
+ *
+ * Every assertion has to hold on a short screen as well as a tall one. The viewer is
+ * a plain `Column`, so a details block taller than the viewport leaves the children
+ * after it measured against `maxHeight = 0`: anything phrased as "this moved up by N
+ * pixels" reads 0 on a small device and proves nothing.
  *
  * Run with: ./gradlew connectedAndroidTest
  *   -Pandroid.testInstrumentationRunnerArguments.class=com.baijum.ukufretboard.SheetViewerCollapsibleDetailsTest
@@ -41,6 +50,9 @@ class SheetViewerCollapsibleDetailsTest {
             UkuleleString(name = "E", openPitchClass = 4),
             UkuleleString(name = "A", openPitchClass = 9),
         )
+
+    /** Flipped to false and back to force a fresh [SheetViewer] onto the screen. */
+    private var mounted by mutableStateOf(true)
 
     private fun context(): Context = InstrumentationRegistry.getInstrumentation().targetContext
 
@@ -59,7 +71,10 @@ class SheetViewerCollapsibleDetailsTest {
     }
 
     @Before
-    fun resetPrefs() = clearPersistedState()
+    fun resetState() {
+        clearPersistedState()
+        mounted = true
+    }
 
     @After
     fun restorePrefs() = clearPersistedState()
@@ -69,7 +84,7 @@ class SheetViewerCollapsibleDetailsTest {
             title = "Heart of Gold",
             subtitle = "From Harvest",
             artist = "Neil Young",
-            content = "{start_of_verse: Verse 1}\n[Em]I wanna live [C]I wanna give",
+            content = "[Verse 1]\n[Em]I wanna live [C]I wanna give",
             key = "G",
             capo = 2,
             labels = listOf("folk"),
@@ -78,24 +93,36 @@ class SheetViewerCollapsibleDetailsTest {
     private fun renderViewer(sheet: ChordSheet = sheet()) {
         composeTestRule.setContent {
             MaterialTheme {
-                SheetViewer(
-                    sheet = sheet,
-                    allLabels = emptySet(),
-                    onBack = {},
-                    onEdit = {},
-                    onDelete = {},
-                    onDuplicate = {},
-                    onChordTapped = {},
-                    onPlayChord = {},
-                    onStartMetronome = {},
-                    tuning = highG,
-                    leftHanded = false,
-                    onStrumPatternChange = {},
-                    onLabelsChange = {},
-                    onApplyTranspose = {},
-                )
+                if (mounted) {
+                    SheetViewer(
+                        sheet = sheet,
+                        allLabels = emptySet(),
+                        onBack = {},
+                        onEdit = {},
+                        onDelete = {},
+                        onDuplicate = {},
+                        onChordTapped = {},
+                        onPlayChord = {},
+                        onStartMetronome = {},
+                        tuning = highG,
+                        leftHanded = false,
+                        onStrumPatternChange = {},
+                        onLabelsChange = {},
+                        onApplyTranspose = {},
+                    )
+                } else {
+                    Text(UNMOUNTED)
+                }
             }
         }
+    }
+
+    /** Tears the viewer off the screen and builds a new one, as reopening a song does. */
+    private fun remountViewer() {
+        composeTestRule.runOnIdle { mounted = false }
+        composeTestRule.onNodeWithText(UNMOUNTED).assertExists()
+        composeTestRule.runOnIdle { mounted = true }
+        composeTestRule.waitForIdle()
     }
 
     private fun toggle(id: Int) = composeTestRule.onNodeWithContentDescription(str(id))
@@ -104,19 +131,15 @@ class SheetViewerCollapsibleDetailsTest {
 
     private fun expand() = toggle(R.string.songbook_expand_details).performClick()
 
-    private fun lyricTop(): Float =
-        composeTestRule
-            .onNodeWithText("I wanna live", substring = true)
-            .fetchSemanticsNode()
-            .boundsInRoot
-            .top
+    private fun lyricNode() = composeTestRule.onNodeWithText("I wanna live", substring = true)
 
     @Test
     fun theDetailsShowByDefault() {
         renderViewer()
 
         composeTestRule.onNodeWithText("Neil Young").assertIsDisplayed()
-        composeTestRule.onNodeWithText(str(R.string.songbook_transpose)).assertIsDisplayed()
+        // Only assertExists: on a short screen the transpose row is below the fold.
+        composeTestRule.onNodeWithText(str(R.string.songbook_transpose)).assertExists()
     }
 
     @Test
@@ -135,26 +158,32 @@ class SheetViewerCollapsibleDetailsTest {
         renderViewer()
         collapse()
 
-        composeTestRule.onNodeWithText("I wanna live", substring = true).assertIsDisplayed()
+        lyricNode().assertIsDisplayed()
         composeTestRule.onNodeWithText("Heart of Gold").assertIsDisplayed()
     }
 
     /**
      * The whole point of #501: hiding the details has to hand the reclaimed height to
-     * the song. Asserting only that the metadata disappeared would still pass if the
-     * panel collapsed into an equally tall blank gap.
+     * the song. Both halves are needed — the displayed check fails on a short screen
+     * where the details had starved the lyrics of any height at all, and the gap check
+     * fails on a tall one, where the lyrics are visible either way but sit far down the
+     * screen until the details go away.
      */
     @Test
-    fun collapsingLiftsTheLyricsUpTheScreen() {
+    fun collapsingPutsTheLyricsBelowTheToggle() {
         renderViewer()
-        val expandedTop = lyricTop()
-
         collapse()
-        val collapsedTop = lyricTop()
+
+        lyricNode().assertIsDisplayed()
+
+        val toggleBottom = toggle(R.string.songbook_expand_details).fetchSemanticsNode().boundsInRoot.bottom
+        val lyricTop = lyricNode().fetchSemanticsNode().boundsInRoot.top
+        // One section heading ("Verse 1") and one chord row sit between the two.
+        val allowance = with(composeTestRule.density) { 80.dp.toPx() }
 
         assertTrue(
-            "lyrics should move up when the details collapse, but went from $expandedTop to $collapsedTop",
-            collapsedTop < expandedTop - 100f,
+            "the song should start just below the toggle, but sat ${lyricTop - toggleBottom}px lower",
+            lyricTop - toggleBottom in 0f..allowance,
         )
     }
 
@@ -165,7 +194,7 @@ class SheetViewerCollapsibleDetailsTest {
         expand()
 
         composeTestRule.onNodeWithText("Neil Young").assertIsDisplayed()
-        composeTestRule.onNodeWithText(str(R.string.songbook_transpose)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(str(R.string.songbook_transpose)).assertExists()
     }
 
     @Test
@@ -181,7 +210,12 @@ class SheetViewerCollapsibleDetailsTest {
         toggle(R.string.songbook_collapse_details).assertDoesNotExist()
     }
 
-    /** A screen-reader user drives this by touch too — 48dp is the Android minimum. */
+    /**
+     * A screen-reader user drives this by touch too — 48dp is the Android minimum.
+     *
+     * This also pins the toggle above the details rather than below them: a handle
+     * placed after a details block taller than the viewport measures 0dp high.
+     */
     @Test
     fun theToggleIsABigEnoughTouchTarget() {
         renderViewer()
@@ -191,7 +225,7 @@ class SheetViewerCollapsibleDetailsTest {
 
     /** "Ideally the collapsed state could remain active" — it outlives the screen. */
     @Test
-    fun theCollapsedStateIsRemembered() {
+    fun theCollapsedStateIsWrittenToPreferences() {
         renderViewer()
         collapse()
 
@@ -202,5 +236,21 @@ class SheetViewerCollapsibleDetailsTest {
                     .getBoolean("song_details_collapsed", false)
             assertTrue("collapsing should persist so the next song opens compact too", stored)
         }
+    }
+
+    /** And a viewer built from scratch reads it back, which is what "the next song" means. */
+    @Test
+    fun aFreshViewerOpensCollapsed() {
+        renderViewer()
+        collapse()
+
+        remountViewer()
+
+        composeTestRule.onNodeWithText("Neil Young").assertDoesNotExist()
+        toggle(R.string.songbook_expand_details).assertExists()
+    }
+
+    private companion object {
+        const val UNMOUNTED = "viewer torn down"
     }
 }

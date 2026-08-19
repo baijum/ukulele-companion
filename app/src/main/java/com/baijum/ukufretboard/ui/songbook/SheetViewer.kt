@@ -270,6 +270,14 @@ internal fun SheetViewer(
             }
         }
 
+        SongDetailsToggle(
+            collapsed = detailsCollapsed,
+            onToggle = {
+                detailsCollapsed = !detailsCollapsed
+                songbookPrefs.edit().putBoolean(PREF_DETAILS_COLLAPSED, detailsCollapsed).apply()
+            },
+        )
+
         val savedInKeyMsg = stringResource(R.string.songbook_saved_in_key)
         CollapsibleDetails(visible = !detailsCollapsed) {
             SongMetaLines(
@@ -342,14 +350,6 @@ internal fun SheetViewer(
                 )
             }
         }
-
-        SongDetailsToggle(
-            collapsed = detailsCollapsed,
-            onToggle = {
-                detailsCollapsed = !detailsCollapsed
-                songbookPrefs.edit().putBoolean(PREF_DETAILS_COLLAPSED, detailsCollapsed).apply()
-            },
-        )
 
         Box(modifier = Modifier.weight(1f)) {
             Column(

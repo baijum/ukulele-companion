@@ -74,6 +74,8 @@ struct SongViewerView: View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(alignment: .leading, spacing: 12) {
+                    detailsToggle
+
                     if !detailsCollapsed {
                         songInfoSection
 
@@ -85,8 +87,6 @@ struct SongViewerView: View {
 
                         chordDiagramRail(content: displaySong.content)
                     }
-
-                    detailsToggle
 
                     parsedContentView(song: displaySong)
 
@@ -776,8 +776,9 @@ struct SongViewerView: View {
     /// playing, the subtitle, key, strum pattern, labels and chord rail have all been
     /// read already and only cost the vertical space the lyrics need.
     ///
-    /// It sits at the boundary between the details and the lyrics rather than in the
-    /// toolbar, which already carries seven controls.
+    /// It sits directly above the details rather than in the toolbar, which already
+    /// carries seven controls. Above rather than below to match Android, where a
+    /// handle placed after the details is squeezed to zero height on a short screen.
     private var detailsToggle: some View {
         Button {
             withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.2)) {
