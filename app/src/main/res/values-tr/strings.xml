@@ -282,6 +282,8 @@
     <string name="performance_mode_exit">Performans modundan çık</string>
     <string name="songbook_duplicate_cd">Şarkıyı kopyala</string>
     <string name="songbook_save_in_key">Bu tonda kaydet</string>
+    <string name="songbook_collapse_details">Şarkı ayrıntılarını daralt</string>
+    <string name="songbook_expand_details">Şarkı ayrıntılarını genişlet</string>
     <string name="songbook_saved_in_key">Şarkı aktarılmış tonda kaydedildi</string>
     <string name="cd_label">Etiket: %s</string>
     <string name="cd_remove_label">%s etiketini kaldır</string>

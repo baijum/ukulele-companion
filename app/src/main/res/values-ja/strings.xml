@@ -281,6 +281,8 @@
     <string name="performance_mode_exit">パフォーマンスモードを終了</string>
     <string name="songbook_duplicate_cd">曲を複製</string>
     <string name="songbook_save_in_key">このキーで保存</string>
+    <string name="songbook_collapse_details">曲の詳細を折りたたむ</string>
+    <string name="songbook_expand_details">曲の詳細を展開</string>
     <string name="songbook_saved_in_key">移調したキーで保存しました</string>
     <string name="cd_label">ラベル: %s</string>
     <string name="cd_remove_label">ラベル %s を削除</string>

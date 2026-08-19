@@ -329,6 +329,8 @@
     <string name="share_as_pdf">Export as PDF</string>
     <string name="songbook_duplicate_cd">Duplicate song</string>
     <string name="songbook_save_in_key">Save in this key</string>
+    <string name="songbook_collapse_details">Collapse song details</string>
+    <string name="songbook_expand_details">Expand song details</string>
     <string name="songbook_saved_in_key">Song saved in transposed key</string>
     <string name="share_sheet_title">Share chord sheet as</string>
     <string name="share_as_chordpro">ChordPro (.cho)</string>

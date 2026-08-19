@@ -282,6 +282,8 @@
     <string name="performance_mode_exit">Optreden-modus verlaten</string>
     <string name="songbook_duplicate_cd">Dupliceer nummer</string>
     <string name="songbook_save_in_key">Opslaan in deze toonsoort</string>
+    <string name="songbook_collapse_details">Songdetails inklappen</string>
+    <string name="songbook_expand_details">Songdetails uitklappen</string>
     <string name="songbook_saved_in_key">Nummer opgeslagen in getransponeerde toonsoort</string>
     <string name="cd_label">Label: %s</string>
     <string name="cd_remove_label">Label %s verwijderen</string>
