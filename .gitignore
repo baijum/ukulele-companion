@@ -39,3 +39,8 @@ iosApp/Frameworks/
 *.xcuserdata
 xcuserdata/
 /screenshots/
+
+# iOS coverage artifacts, written to the repo root by the Codecov CLI
+/coverage.xml
+/*.coverage.txt
+/TestResults.xcresult/
