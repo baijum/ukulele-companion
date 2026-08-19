@@ -40,6 +40,7 @@ import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.domain.ChordInfo
 import com.baijum.ukufretboard.domain.ChordVoicing
 import com.baijum.ukufretboard.ui.localizedLabel
+import com.baijum.ukufretboard.ui.CapoStepper
 import com.baijum.ukufretboard.ui.ChordResultView
 import com.baijum.ukufretboard.ui.FretboardView
 import com.baijum.ukufretboard.ui.ScaleSelector
@@ -310,42 +311,10 @@ internal fun CapoSelector(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(modifier = Modifier.width(12.dp))
-        val decreaseCapoDescription = stringResource(R.string.cd_decrease_capo)
-        IconButton(
-            onClick = { onCapoChange((capoFret - 1).coerceAtLeast(0)) },
-            enabled = capoFret > 0,
-            modifier = Modifier.semantics { contentDescription = decreaseCapoDescription },
-        ) {
-            Text(
-                text = "−",
-                style = MaterialTheme.typography.titleLarge,
-                color = if (capoFret > 0)
-                    MaterialTheme.colorScheme.primary
-                else
-                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
-            )
-        }
-        Text(
-            text = if (capoFret == 0) stringResource(R.string.explorer_capo_off) else "$capoFret",
-            style = MaterialTheme.typography.titleMedium,
-            color = if (capoFret > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.width(32.dp),
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+        CapoStepper(
+            capo = capoFret,
+            onCapoChange = onCapoChange,
+            maxFret = lastFret,
         )
-        val increaseCapoDescription = stringResource(R.string.cd_increase_capo)
-        IconButton(
-            onClick = { onCapoChange((capoFret + 1).coerceAtMost(lastFret)) },
-            enabled = capoFret < lastFret,
-            modifier = Modifier.semantics { contentDescription = increaseCapoDescription },
-        ) {
-            Text(
-                text = "+",
-                style = MaterialTheme.typography.titleLarge,
-                color = if (capoFret < lastFret)
-                    MaterialTheme.colorScheme.primary
-                else
-                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
-            )
-        }
     }
 }

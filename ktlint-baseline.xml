@@ -2278,59 +2278,53 @@
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/ui/navigation/ExplorerTab.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="70" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="88" column="31" source="standard:multiline-expression-wrapping" />
-        <error line="91" column="36" source="standard:multiline-expression-wrapping" />
-        <error line="116" column="24" source="standard:multiline-expression-wrapping" />
-        <error line="131" column="24" source="standard:multiline-expression-wrapping" />
-        <error line="134" column="37" source="standard:multiline-expression-wrapping" />
-        <error line="143" column="22" source="standard:argument-list-wrapping" />
-        <error line="143" column="71" source="standard:argument-list-wrapping" />
-        <error line="143" column="99" source="standard:argument-list-wrapping" />
-        <error line="143" column="121" source="standard:argument-list-wrapping" />
-        <error line="143" column="121" source="standard:max-line-length" />
-        <error line="143" column="145" source="standard:argument-list-wrapping" />
-        <error line="143" column="146" source="standard:argument-list-wrapping" />
-        <error line="155" column="25" source="standard:multiline-expression-wrapping" />
-        <error line="159" column="44" source="standard:multiline-expression-wrapping" />
-        <error line="163" column="121" source="standard:max-line-length" />
-        <error line="167" column="29" source="standard:multiline-expression-wrapping" />
-        <error line="169" column="15" source="standard:if-else-wrapping" />
-        <error line="169" column="20" source="standard:if-else-bracing" />
-        <error line="169" column="20" source="standard:if-else-wrapping" />
-        <error line="169" column="20" source="standard:multiline-if-else" />
-        <error line="170" column="52" source="standard:binary-expression-wrapping" />
-        <error line="170" column="121" source="standard:max-line-length" />
-        <error line="171" column="31" source="standard:multiline-expression-wrapping" />
-        <error line="177" column="32" source="standard:multiline-expression-wrapping" />
-        <error line="188" column="52" source="standard:multiline-expression-wrapping" />
-        <error line="192" column="121" source="standard:max-line-length" />
-        <error line="196" column="15" source="standard:if-else-wrapping" />
-        <error line="196" column="20" source="standard:if-else-bracing" />
-        <error line="196" column="20" source="standard:if-else-wrapping" />
-        <error line="196" column="20" source="standard:multiline-if-else" />
-        <error line="197" column="11" source="standard:if-else-wrapping" />
-        <error line="197" column="16" source="standard:if-else-bracing" />
-        <error line="197" column="16" source="standard:if-else-wrapping" />
-        <error line="197" column="16" source="standard:multiline-if-else" />
-        <error line="209" column="38" source="standard:multiline-expression-wrapping" />
-        <error line="211" column="15" source="standard:if-else-wrapping" />
-        <error line="211" column="20" source="standard:if-else-bracing" />
-        <error line="211" column="20" source="standard:if-else-wrapping" />
-        <error line="211" column="20" source="standard:multiline-if-else" />
-        <error line="213" column="31" source="standard:multiline-expression-wrapping" />
-        <error line="216" column="36" source="standard:multiline-expression-wrapping" />
-        <error line="233" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="271" column="20" source="standard:function-signature" />
-        <error line="271" column="39" source="standard:function-signature" />
-        <error line="271" column="51" source="standard:function-signature" />
-        <error line="273" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="322" column="25" source="standard:multiline-expression-wrapping" />
-        <error line="323" column="21" source="standard:multiline-if-else" />
-        <error line="325" column="21" source="standard:multiline-if-else" />
-        <error line="344" column="25" source="standard:multiline-expression-wrapping" />
-        <error line="345" column="21" source="standard:multiline-if-else" />
-        <error line="347" column="21" source="standard:multiline-if-else" />
+        <error line="71" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="89" column="31" source="standard:multiline-expression-wrapping" />
+        <error line="92" column="36" source="standard:multiline-expression-wrapping" />
+        <error line="117" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="132" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="135" column="37" source="standard:multiline-expression-wrapping" />
+        <error line="144" column="22" source="standard:argument-list-wrapping" />
+        <error line="144" column="71" source="standard:argument-list-wrapping" />
+        <error line="144" column="99" source="standard:argument-list-wrapping" />
+        <error line="144" column="121" source="standard:argument-list-wrapping" />
+        <error line="144" column="121" source="standard:max-line-length" />
+        <error line="144" column="145" source="standard:argument-list-wrapping" />
+        <error line="144" column="146" source="standard:argument-list-wrapping" />
+        <error line="156" column="25" source="standard:multiline-expression-wrapping" />
+        <error line="160" column="44" source="standard:multiline-expression-wrapping" />
+        <error line="164" column="121" source="standard:max-line-length" />
+        <error line="168" column="29" source="standard:multiline-expression-wrapping" />
+        <error line="170" column="15" source="standard:if-else-wrapping" />
+        <error line="170" column="20" source="standard:if-else-bracing" />
+        <error line="170" column="20" source="standard:if-else-wrapping" />
+        <error line="170" column="20" source="standard:multiline-if-else" />
+        <error line="171" column="52" source="standard:binary-expression-wrapping" />
+        <error line="171" column="121" source="standard:max-line-length" />
+        <error line="172" column="31" source="standard:multiline-expression-wrapping" />
+        <error line="178" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="189" column="52" source="standard:multiline-expression-wrapping" />
+        <error line="193" column="121" source="standard:max-line-length" />
+        <error line="197" column="15" source="standard:if-else-wrapping" />
+        <error line="197" column="20" source="standard:if-else-bracing" />
+        <error line="197" column="20" source="standard:if-else-wrapping" />
+        <error line="197" column="20" source="standard:multiline-if-else" />
+        <error line="198" column="11" source="standard:if-else-wrapping" />
+        <error line="198" column="16" source="standard:if-else-bracing" />
+        <error line="198" column="16" source="standard:if-else-wrapping" />
+        <error line="198" column="16" source="standard:multiline-if-else" />
+        <error line="210" column="38" source="standard:multiline-expression-wrapping" />
+        <error line="212" column="15" source="standard:if-else-wrapping" />
+        <error line="212" column="20" source="standard:if-else-bracing" />
+        <error line="212" column="20" source="standard:if-else-wrapping" />
+        <error line="212" column="20" source="standard:multiline-if-else" />
+        <error line="214" column="31" source="standard:multiline-expression-wrapping" />
+        <error line="217" column="36" source="standard:multiline-expression-wrapping" />
+        <error line="234" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="272" column="20" source="standard:function-signature" />
+        <error line="272" column="39" source="standard:function-signature" />
+        <error line="272" column="51" source="standard:function-signature" />
+        <error line="274" column="20" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/ui/navigation/FretboardScreen.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -2732,21 +2726,20 @@
         <error line="146" column="122" source="standard:argument-list-wrapping" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/ui/songbook/SheetEditor.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="92" column="22" source="standard:multiline-expression-wrapping" />
-        <error line="119" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="195" column="24" source="standard:multiline-expression-wrapping" />
-        <error line="208" column="32" source="standard:multiline-expression-wrapping" />
-        <error line="240" column="28" source="standard:multiline-expression-wrapping" />
-        <error line="264" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="272" column="50" source="standard:multiline-expression-wrapping" />
-        <error line="283" column="42" source="standard:trailing-comma-on-call-site" />
-        <error line="293" column="41" source="standard:multiline-expression-wrapping" />
-        <error line="301" column="37" source="standard:multiline-expression-wrapping" />
-        <error line="314" column="28" source="standard:multiline-expression-wrapping" />
-        <error line="466" column="23" source="standard:multiline-expression-wrapping" />
-        <error line="478" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="511" column="34" source="standard:multiline-expression-wrapping" />
+        <error line="88" column="22" source="standard:multiline-expression-wrapping" />
+        <error line="115" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="191" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="204" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="236" column="28" source="standard:multiline-expression-wrapping" />
+        <error line="260" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="268" column="50" source="standard:multiline-expression-wrapping" />
+        <error line="279" column="42" source="standard:trailing-comma-on-call-site" />
+        <error line="289" column="41" source="standard:multiline-expression-wrapping" />
+        <error line="297" column="37" source="standard:multiline-expression-wrapping" />
+        <error line="310" column="28" source="standard:multiline-expression-wrapping" />
+        <error line="394" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="406" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="439" column="34" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/ui/songbook/SheetViewer.kt">
         <error line="3" column="1" source="standard:import-ordering" />
