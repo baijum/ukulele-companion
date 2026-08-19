@@ -129,4 +129,12 @@ class SheetViewerKeyDisplayTest {
 
         composeTestRule.onNodeWithText(str(R.string.songbook_key_prefix) + "Ab").assertExists()
     }
+
+    @Test
+    fun noKeyLineWhenTheSongHasNeitherAStoredKeyNorChords() {
+        renderViewer(sheetDeclaringG().copy(key = "", content = "Just lyrics, no chords"))
+
+        val prefix = str(R.string.songbook_key_prefix)
+        composeTestRule.onNodeWithText(prefix, substring = true).assertDoesNotExist()
+    }
 }
