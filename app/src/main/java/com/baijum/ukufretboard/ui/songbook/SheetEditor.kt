@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -42,21 +41,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.liveRegion
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.ChordParser
 import com.baijum.ukufretboard.data.ChordSheet
+import com.baijum.ukufretboard.ui.CapoStepper
 
 /** Highest capo position offered by the editor stepper; matches the iOS 0...12 range. */
 private const val MAX_CAPO_FRET = 12
@@ -374,80 +370,12 @@ private fun KeyAndCapoRow(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
-        CapoStepper(capo = capo, onCapoChange = onCapoChange)
+        CapoStepper(
+            capo = capo,
+            onCapoChange = onCapoChange,
+            maxFret = MAX_CAPO_FRET,
+        )
     }
-}
-
-/** Minus/value/plus stepper for the capo position, 0..[MAX_CAPO_FRET]. */
-@Composable
-private fun CapoStepper(
-    capo: Int,
-    onCapoChange: (Int) -> Unit,
-) {
-    val decreaseCapoDescription = stringResource(R.string.cd_decrease_capo)
-    IconButton(
-        onClick = { onCapoChange((capo - 1).coerceAtLeast(0)) },
-        enabled = capo > 0,
-        modifier = Modifier.semantics { contentDescription = decreaseCapoDescription },
-    ) {
-        StepperGlyph(glyph = "−", enabled = capo > 0)
-    }
-
-    // TalkBack reads the value as "Capo 3" rather than a bare "3", which carries
-    // no meaning once focus has moved off the stepper's buttons.
-    val capoValueDescription =
-        if (capo == 0) {
-            stringResource(R.string.capo_calc_no_capo)
-        } else {
-            stringResource(R.string.songbook_capo_value, capo)
-        }
-    Text(
-        text = if (capo == 0) stringResource(R.string.explorer_capo_off) else "$capo",
-        style = MaterialTheme.typography.titleMedium,
-        color =
-            if (capo > 0) {
-                MaterialTheme.colorScheme.primary
-            } else {
-                MaterialTheme.colorScheme.onSurfaceVariant
-            },
-        textAlign = TextAlign.Center,
-        modifier =
-            Modifier
-                .widthIn(min = 40.dp)
-                .semantics {
-                    contentDescription = capoValueDescription
-                    // Focus stays on the +/- button after a press, so without this the
-                    // new value is never spoken and the stepper is silent to TalkBack.
-                    liveRegion = LiveRegionMode.Polite
-                },
-    )
-
-    val increaseCapoDescription = stringResource(R.string.cd_increase_capo)
-    IconButton(
-        onClick = { onCapoChange((capo + 1).coerceAtMost(MAX_CAPO_FRET)) },
-        enabled = capo < MAX_CAPO_FRET,
-        modifier = Modifier.semantics { contentDescription = increaseCapoDescription },
-    ) {
-        StepperGlyph(glyph = "+", enabled = capo < MAX_CAPO_FRET)
-    }
-}
-
-/** The +/- label of a stepper button, dimmed when the button is disabled. */
-@Composable
-private fun StepperGlyph(
-    glyph: String,
-    enabled: Boolean,
-) {
-    Text(
-        text = glyph,
-        style = MaterialTheme.typography.titleLarge,
-        color =
-            if (enabled) {
-                MaterialTheme.colorScheme.primary
-            } else {
-                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
-            },
-    )
 }
 
 /**
