@@ -105,6 +105,11 @@ jobs:
           name: shared-coverage-report
           path: shared/build/reports/kover/report.xml
 
+      # Fails loudly if the report moves. Without this the Codecov CLI just
+      # warns and scans the workspace, so a stale path uploads by accident (#524).
+      - name: Check the coverage report is where Codecov is told to look
+        run: ls -l shared/build/reports/kover/report.xml
+
       - name: Upload shared coverage to Codecov
         if: always()
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
@@ -141,6 +146,11 @@ jobs:
         with:
           name: test-report
           path: app/build/reports/tests/testDebugUnitTest/
+
+      # Fails loudly if the report moves. Without this the Codecov CLI just
+      # warns and scans the workspace, so a stale path uploads by accident (#524).
+      - name: Check the coverage report is where Codecov is told to look
+        run: ls -l app/build/reports/coverage/test/debug/report.xml
 
       - name: Upload coverage to Codecov
         if: always()
@@ -293,11 +303,16 @@ jobs:
           name: instrumented-test-report-api${{ matrix.api-level }}
           path: app/build/reports/androidTests/connected/
 
+      # Fails loudly if the report moves. Without this the Codecov CLI just
+      # warns and scans the workspace, so a stale path uploads by accident (#524).
+      - name: Check the coverage report is where Codecov is told to look
+        run: ls -l app/build/reports/coverage/androidTest/debug/connected/report.xml
+
       - name: Upload instrumented test coverage to Codecov
         if: always()
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
-          files: app/build/reports/coverage/androidTest/debug/report.xml
+          files: app/build/reports/coverage/androidTest/debug/connected/report.xml
           flags: android-instrumented-tests
           token: ${{ secrets.CODECOV_TOKEN }}
 
