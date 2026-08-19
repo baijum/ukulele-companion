@@ -249,6 +249,12 @@ final class SongbookViewModel: ObservableObject {
         )
         var updated = song
         updated.content = transposed
+        // The stored key labels the content, so it has to move with it. Leaving it
+        // behind would make the header advertise a key the chords no longer are.
+        updated.key = ChordSheetTranspose.shared.transposeKey(
+            key: song.key,
+            semitones: Int32(semitones)
+        )
         updated.updatedAt = Date().timeIntervalSince1970 * 1000
         return updated
     }

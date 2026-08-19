@@ -139,11 +139,21 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
         _isEditing.value = true
     }
 
+    /**
+     * Saves the sheet being edited.
+     *
+     * [key] and [capo] are nullable so that "not supplied" is distinguishable from
+     * "cleared by the user". A caller that omits them leaves the stored values alone;
+     * passing `""` / `0` clears them deliberately. The previous signature defaulted
+     * [key] to `""` and applied it unconditionally, so every save from a caller that
+     * did not know about the field silently destroyed an imported `{key: ...}`.
+     */
     fun saveSheet(
         title: String,
         artist: String,
         content: String,
-        key: String = "",
+        key: String? = null,
+        capo: Int? = null,
         strumPatternName: String = "",
         labels: List<String> = emptyList(),
     ) {
@@ -153,7 +163,8 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
                 title = title,
                 artist = artist,
                 content = content,
-                key = key,
+                key = key ?: existing.key,
+                capo = capo ?: existing.capo,
                 strumPatternName = strumPatternName,
                 labels = labels,
                 updatedAt = System.currentTimeMillis(),
@@ -163,7 +174,8 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
                 title = title,
                 artist = artist,
                 content = content,
-                key = key,
+                key = key ?: existing?.key ?: "",
+                capo = capo ?: existing?.capo ?: 0,
                 strumPatternName = strumPatternName,
                 labels = labels,
             )
@@ -191,6 +203,9 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
         val transposedContent = ChordSheetTranspose.transpose(sheet.content, semitones)
         val updated = sheet.copy(
             content = transposedContent,
+            // The stored key labels the content, so it has to move with it. Leaving it
+            // behind would make the header advertise a key the chords no longer are.
+            key = ChordSheetTranspose.transposeKey(sheet.key, semitones),
             updatedAt = System.currentTimeMillis(),
         )
         repository.save(updated)

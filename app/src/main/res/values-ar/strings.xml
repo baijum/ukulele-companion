@@ -219,6 +219,9 @@
     <string name="songbook_export_chordpro">تصدير كـ ChordPro</string>
     <string name="songbook_export_chooser">تصدير ChordPro</string>
     <string name="songbook_key_prefix">المفتاح: </string>
+    <string name="songbook_field_key">المفتاح</string>
+    <string name="songbook_field_key_hint">مثل G، Am، Bb صغير</string>
+    <string name="songbook_capo_value">كابو %1$d</string>
     <string name="songbook_transpose">تحويل النغمة:</string>
     <string name="songbook_capo_hint">أو استخدم كابو %d مع الأوتار الأصلية</string>
     <string name="songbook_field_title">العنوان</string>

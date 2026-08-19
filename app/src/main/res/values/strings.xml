@@ -237,6 +237,9 @@
     <string name="songbook_export_chordpro">Export as ChordPro</string>
     <string name="songbook_export_chooser">Export ChordPro</string>
     <string name="songbook_key_prefix">Key: </string>
+    <string name="songbook_field_key">Key</string>
+    <string name="songbook_field_key_hint">e.g. G, Am, Bb minor</string>
+    <string name="songbook_capo_value">Capo %1$d</string>
     <string name="songbook_transpose">Transpose:</string>
     <string name="songbook_capo_hint">Or use Capo %d with original chords</string>
     <string name="songbook_field_title">Title</string>

@@ -219,6 +219,9 @@
     <string name="songbook_export_chordpro">ChordPro के रूप में निर्यात करें</string>
     <string name="songbook_export_chooser">ChordPro निर्यात करें</string>
     <string name="songbook_key_prefix">कुंजी: </string>
+    <string name="songbook_field_key">कुंजी</string>
+    <string name="songbook_field_key_hint">उदा. G, Am, Bb माइनर</string>
+    <string name="songbook_capo_value">कैपो %1$d</string>
     <string name="songbook_transpose">ट्रांसपोज़:</string>
     <string name="songbook_capo_hint">या मूल कॉर्ड्स के साथ कैपो %d का उपयोग करें</string>
     <string name="songbook_field_title">शीर्षक</string>

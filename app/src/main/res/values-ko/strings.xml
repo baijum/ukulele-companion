@@ -219,6 +219,9 @@
     <string name="songbook_export_chordpro">ChordPro로 내보내기</string>
     <string name="songbook_export_chooser">ChordPro 내보내기</string>
     <string name="songbook_key_prefix">키: </string>
+    <string name="songbook_field_key">키</string>
+    <string name="songbook_field_key_hint">예: G, Am, Bb 단조</string>
+    <string name="songbook_capo_value">카포 %1$d</string>
     <string name="songbook_transpose">이조:</string>
     <string name="songbook_capo_hint">또는 카포 %d로 원래 코드 사용</string>
     <string name="songbook_field_title">제목</string>

@@ -71,9 +71,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.LinkAnnotation
@@ -211,6 +213,15 @@ internal fun SheetViewer(
             )
         }
 
+        if (sheet.subtitle.isNotEmpty()) {
+            Text(
+                text = sheet.subtitle,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(start = 48.dp, bottom = 4.dp),
+            )
+        }
+
         if (sheet.artist.isNotEmpty()) {
             Text(
                 text = sheet.artist,
@@ -220,17 +231,38 @@ internal fun SheetViewer(
             )
         }
 
-        // Detect song key from chords
-        val songChords = remember(sheet.content) { ChordParser.extractChords(sheet.content) }
+        // Key display. A key stored on the sheet (from a ChordPro {key: ...} directive
+        // or typed in the editor) is authoritative and wins over the detector's guess;
+        // the detector only fills in when the song does not declare one. Both are keyed
+        // off displayContent so a transpose preview updates them together.
+        val songChords = remember(displayContent) { ChordParser.extractChords(displayContent) }
         val detectedKey = remember(songChords) { KeyDetector.detectKey(songChords) }
+        val storedKey =
+            remember(sheet.key, transposeSemitones) {
+                ChordSheetTranspose.transposeKey(sheet.key, transposeSemitones)
+            }
+        val keyLabel = storedKey.ifBlank { detectedKey?.displayName.orEmpty() }
 
-        // Key display
-        if (detectedKey != null) {
+        if (keyLabel.isNotEmpty()) {
             Text(
-                text = stringResource(R.string.songbook_key_prefix) + detectedKey.displayName,
+                text = stringResource(R.string.songbook_key_prefix) + keyLabel,
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
+                modifier =
+                    Modifier
+                        .padding(start = 48.dp, bottom = 4.dp)
+                        // The key now tracks a transpose preview, so it changes under the
+                        // user's fingers; without this the new key is never spoken.
+                        .semantics { liveRegion = LiveRegionMode.Polite },
+            )
+        }
+
+        if (sheet.capo > 0) {
+            Text(
+                text = stringResource(R.string.songbook_capo_value, sheet.capo),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(start = 48.dp, bottom = 4.dp),
             )
         }

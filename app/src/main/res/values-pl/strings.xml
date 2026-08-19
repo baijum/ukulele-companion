@@ -219,6 +219,9 @@
     <string name="songbook_export_chordpro">Eksportuj jako ChordPro</string>
     <string name="songbook_export_chooser">Eksportuj ChordPro</string>
     <string name="songbook_key_prefix">Tonacja: </string>
+    <string name="songbook_field_key">Tonacja</string>
+    <string name="songbook_field_key_hint">np. G, Am, Bb-moll</string>
+    <string name="songbook_capo_value">Kapodaster %1$d</string>
     <string name="songbook_transpose">Transpozycja:</string>
     <string name="songbook_capo_hint">Lub użyj kapodastru na %d z oryginalnymi akordami</string>
     <string name="songbook_field_title">Tytuł</string>

@@ -219,6 +219,9 @@
     <string name="songbook_export_chordpro">导出为 ChordPro</string>
     <string name="songbook_export_chooser">导出 ChordPro</string>
     <string name="songbook_key_prefix">调: </string>
+    <string name="songbook_field_key">调</string>
+    <string name="songbook_field_key_hint">例如 G、Am、Bb 小调</string>
+    <string name="songbook_capo_value">变调夹 %1$d</string>
     <string name="songbook_transpose">移调:</string>
     <string name="songbook_capo_hint">或使用变调夹 %d 配合原始和弦</string>
     <string name="songbook_field_title">标题</string>

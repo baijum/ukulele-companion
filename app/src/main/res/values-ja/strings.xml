@@ -219,6 +219,9 @@
     <string name="songbook_export_chordpro">ChordProとしてエクスポート</string>
     <string name="songbook_export_chooser">ChordProをエクスポート</string>
     <string name="songbook_key_prefix">キー: </string>
+    <string name="songbook_field_key">キー</string>
+    <string name="songbook_field_key_hint">例: G、Am、Bb マイナー</string>
+    <string name="songbook_capo_value">カポ %1$d</string>
     <string name="songbook_transpose">移調:</string>
     <string name="songbook_capo_hint">またはカポ%dで元のコードを使用</string>
     <string name="songbook_field_title">タイトル</string>

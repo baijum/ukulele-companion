@@ -20,6 +20,9 @@ object ChordSheetTranspose {
     /** Bass note at the start of the post-slash segment, e.g. "/G" or "m7/G". */
     private val BASS_NOTE = Regex("""^([A-G][#b]?)""")
 
+    /** A key label: a leading note name plus an arbitrary mode/quality tail. */
+    private val KEY_LABEL = Regex("""^([A-G][#b]?)(.*)$""")
+
     /**
      * Transposes all `[Chord]` markers in the given content by [semitones].
      *
@@ -76,6 +79,35 @@ object ChordSheetTranspose {
     private fun parseNoteToPitchClass(note: String): Int? =
         Notes.NOTE_NAMES_SHARP.indexOf(note).takeIf { it >= 0 }
             ?: Notes.NOTE_NAMES_FLAT.indexOf(note).takeIf { it >= 0 }
+
+    /**
+     * Transposes the note name at the start of a key label, preserving the rest.
+     *
+     * Key labels come from the ChordPro `{key: ...}` directive and are free-form:
+     * "G", "Am", "Bb minor", "F# Dorian" are all valid. Only the leading note name
+     * is shifted; everything after it is copied through untouched, so an unrecognised
+     * mode or an unexpected spelling survives a transpose instead of being normalised.
+     *
+     * Input that does not begin with a note name (empty, lowercase, "?") is returned
+     * unchanged — a key we cannot parse is better left alone than guessed at.
+     *
+     * @param key The key label to transpose.
+     * @param semitones Number of semitones to shift (positive = up, negative = down).
+     * @return The transposed key label, or [key] unchanged if it has no leading note name.
+     */
+    fun transposeKey(
+        key: String,
+        semitones: Int,
+    ): String {
+        if (semitones == 0) return key
+        val match = KEY_LABEL.matchEntire(key.trim()) ?: return key
+        val rootPc = parseNoteToPitchClass(match.groupValues[1]) ?: return key
+        val newRoot =
+            Notes.pitchClassToName(
+                Transpose.transposePitchClass(rootPc, semitones),
+            )
+        return newRoot + match.groupValues[2]
+    }
 
     /**
      * Returns the semitone description for display.

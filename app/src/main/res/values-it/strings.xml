@@ -219,6 +219,9 @@
     <string name="songbook_export_chordpro">Esporta come ChordPro</string>
     <string name="songbook_export_chooser">Esporta ChordPro</string>
     <string name="songbook_key_prefix">Tonalità: </string>
+    <string name="songbook_field_key">Tonalità</string>
+    <string name="songbook_field_key_hint">es. G, Am, Bb minore</string>
+    <string name="songbook_capo_value">Capotasto %1$d</string>
     <string name="songbook_transpose">Trasponi:</string>
     <string name="songbook_capo_hint">Oppure usa il capotasto al %d con gli accordi originali</string>
     <string name="songbook_field_title">Titolo</string>

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -33,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -40,17 +42,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.ChordParser
 import com.baijum.ukufretboard.data.ChordSheet
+
+/** Highest capo position offered by the editor stepper; matches the iOS 0...12 range. */
+private const val MAX_CAPO_FRET = 12
 
 /**
  * Editor for creating/editing a chord sheet with preview and chord insertion.
@@ -59,12 +68,22 @@ import com.baijum.ukufretboard.data.ChordSheet
 internal fun SheetEditor(
     sheet: ChordSheet?,
     allLabels: Set<String>,
-    onSave: (title: String, artist: String, content: String, strumPatternName: String, labels: List<String>) -> Unit,
+    onSave: (
+        title: String,
+        artist: String,
+        content: String,
+        key: String,
+        capo: Int,
+        strumPatternName: String,
+        labels: List<String>,
+    ) -> Unit,
     onCancel: () -> Unit,
 ) {
     var title by remember(sheet?.id) { mutableStateOf(sheet?.title ?: "") }
     var artist by remember(sheet?.id) { mutableStateOf(sheet?.artist ?: "") }
     var content by remember(sheet?.id) { mutableStateOf(sheet?.content ?: "") }
+    var key by remember(sheet?.id) { mutableStateOf(sheet?.key ?: "") }
+    var capo by remember(sheet?.id) { mutableIntStateOf(sheet?.capo ?: 0) }
     var strumPatternName by remember(sheet?.id) { mutableStateOf(sheet?.strumPatternName ?: "") }
     var labels by remember(sheet?.id) { mutableStateOf(sheet?.labels ?: emptyList()) }
     var showPreview by rememberSaveable { mutableStateOf(false) }
@@ -73,6 +92,8 @@ internal fun SheetEditor(
     val hasChanges = title != (sheet?.title ?: "") ||
         artist != (sheet?.artist ?: "") ||
         content != (sheet?.content ?: "") ||
+        key != (sheet?.key ?: "") ||
+        capo != (sheet?.capo ?: 0) ||
         strumPatternName != (sheet?.strumPatternName ?: "") ||
         labels != (sheet?.labels ?: emptyList<String>())
 
@@ -115,6 +136,15 @@ internal fun SheetEditor(
             label = { Text(stringResource(R.string.songbook_field_artist)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        KeyAndCapoRow(
+            key = key,
+            capo = capo,
+            onKeyChange = { key = it },
+            onCapoChange = { capo = it },
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -299,13 +329,125 @@ internal fun SheetEditor(
             }
             Spacer(modifier = Modifier.width(8.dp))
             OutlinedButton(
-                onClick = { onSave(title, artist, content, strumPatternName, labels) },
+                onClick = { onSave(title, artist, content, key, capo, strumPatternName, labels) },
                 enabled = title.isNotBlank(),
             ) {
                 Text(stringResource(R.string.dialog_save))
             }
         }
     }
+}
+
+/**
+ * Key text field plus capo stepper, mirroring the fields the iOS editor already has.
+ *
+ * The key is free text rather than a picker: the ChordPro `{key: ...}` directive is
+ * free-form, so an imported "Bb Mixolydian" has to survive a round-trip through the
+ * editor unchanged. A fixed picker would silently drop anything not on its list —
+ * the same class of bug this screen is being fixed for.
+ */
+@Composable
+private fun KeyAndCapoRow(
+    key: String,
+    capo: Int,
+    onKeyChange: (String) -> Unit,
+    onCapoChange: (Int) -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        OutlinedTextField(
+            value = key,
+            onValueChange = onKeyChange,
+            label = { Text(stringResource(R.string.songbook_field_key)) },
+            placeholder = { Text(stringResource(R.string.songbook_field_key_hint)) },
+            modifier = Modifier.weight(1f),
+            singleLine = true,
+        )
+
+        Spacer(modifier = Modifier.width(12.dp))
+
+        Text(
+            text = stringResource(R.string.label_capo),
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+
+        CapoStepper(capo = capo, onCapoChange = onCapoChange)
+    }
+}
+
+/** Minus/value/plus stepper for the capo position, 0..[MAX_CAPO_FRET]. */
+@Composable
+private fun CapoStepper(
+    capo: Int,
+    onCapoChange: (Int) -> Unit,
+) {
+    val decreaseCapoDescription = stringResource(R.string.cd_decrease_capo)
+    IconButton(
+        onClick = { onCapoChange((capo - 1).coerceAtLeast(0)) },
+        enabled = capo > 0,
+        modifier = Modifier.semantics { contentDescription = decreaseCapoDescription },
+    ) {
+        StepperGlyph(glyph = "−", enabled = capo > 0)
+    }
+
+    // TalkBack reads the value as "Capo 3" rather than a bare "3", which carries
+    // no meaning once focus has moved off the stepper's buttons.
+    val capoValueDescription =
+        if (capo == 0) {
+            stringResource(R.string.capo_calc_no_capo)
+        } else {
+            stringResource(R.string.songbook_capo_value, capo)
+        }
+    Text(
+        text = if (capo == 0) stringResource(R.string.explorer_capo_off) else "$capo",
+        style = MaterialTheme.typography.titleMedium,
+        color =
+            if (capo > 0) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            },
+        textAlign = TextAlign.Center,
+        modifier =
+            Modifier
+                .widthIn(min = 40.dp)
+                .semantics {
+                    contentDescription = capoValueDescription
+                    // Focus stays on the +/- button after a press, so without this the
+                    // new value is never spoken and the stepper is silent to TalkBack.
+                    liveRegion = LiveRegionMode.Polite
+                },
+    )
+
+    val increaseCapoDescription = stringResource(R.string.cd_increase_capo)
+    IconButton(
+        onClick = { onCapoChange((capo + 1).coerceAtMost(MAX_CAPO_FRET)) },
+        enabled = capo < MAX_CAPO_FRET,
+        modifier = Modifier.semantics { contentDescription = increaseCapoDescription },
+    ) {
+        StepperGlyph(glyph = "+", enabled = capo < MAX_CAPO_FRET)
+    }
+}
+
+/** The +/- label of a stepper button, dimmed when the button is disabled. */
+@Composable
+private fun StepperGlyph(
+    glyph: String,
+    enabled: Boolean,
+) {
+    Text(
+        text = glyph,
+        style = MaterialTheme.typography.titleLarge,
+        color =
+            if (enabled) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+            },
+    )
 }
 
 /**
