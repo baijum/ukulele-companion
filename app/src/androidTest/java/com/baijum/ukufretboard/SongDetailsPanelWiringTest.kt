@@ -20,7 +20,6 @@ import com.baijum.ukufretboard.ui.songbook.SheetViewer
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -108,7 +107,12 @@ class SongDetailsPanelWiringTest {
      */
     private fun leanSheet(withTempo: Boolean): ChordSheet =
         ChordSheet(
-            title = "Heart of Gold",
+            // Deliberately short. At CI's 320dp width the toolbar's six icon buttons
+            // leave the title no room and it wraps one character per line: "Heart of
+            // Gold" measures 312dp tall, over half the 640dp viewport, which pushes the
+            // bottom of the panel off screen where a tap lands on nothing. That is #529,
+            // and a four-letter title steps around it without weakening anything here.
+            title = "Gold",
             content =
                 (if (withTempo) "Tempo: 96 BPM\n" else "") +
                     "[Em]I wanna live [C]I wanna give",
@@ -211,18 +215,7 @@ class SongDetailsPanelWiringTest {
         transposeUp()
         transposeUp()
         transposeDown()
-        // The save button is the last thing in the panel. On a viewport too short to
-        // hold the panel it is measured against maxHeight = 0 and a tap lands on
-        // nothing -- the layout problem in #529, not a fault in the wiring. CI's
-        // emulator is the 320x640dp default skin and hits exactly that, so state the
-        // requirement rather than assert something the screen cannot present.
-        val save = composeTestRule.onNodeWithText(str(R.string.songbook_save_in_key))
-        assumeTrue(
-            "needs a viewport tall enough to lay the save button out; see #529",
-            save.fetchSemanticsNode().size.height > 0,
-        )
-
-        save.performClick()
+        composeTestRule.onNodeWithText(str(R.string.songbook_save_in_key)).performClick()
 
         composeTestRule.runOnIdle {
             assertEquals("the previewed transpose should reach onApplyTranspose", 1, appliedTranspose)
