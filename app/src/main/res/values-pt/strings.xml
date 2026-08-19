@@ -283,6 +283,8 @@
     <string name="performance_mode_exit">Sair do modo de apresentação</string>
     <string name="songbook_duplicate_cd">Duplicar música</string>
     <string name="songbook_save_in_key">Salvar nesta tonalidade</string>
+    <string name="songbook_collapse_details">Recolher detalhes da música</string>
+    <string name="songbook_expand_details">Expandir detalhes da música</string>
     <string name="songbook_saved_in_key">Música salva na tonalidade transposta</string>
     <string name="cd_label">Etiqueta: %s</string>
     <string name="cd_remove_label">Remover etiqueta %s</string>

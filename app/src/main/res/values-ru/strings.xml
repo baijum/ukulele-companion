@@ -284,6 +284,8 @@
     <string name="performance_mode_exit">Выйти из режима выступления</string>
     <string name="songbook_duplicate_cd">Дублировать песню</string>
     <string name="songbook_save_in_key">Сохранить в этой тональности</string>
+    <string name="songbook_collapse_details">Свернуть сведения о песне</string>
+    <string name="songbook_expand_details">Развернуть сведения о песне</string>
     <string name="songbook_saved_in_key">Песня сохранена в транспонированной тональности</string>
     <string name="cd_label">Метка: %s</string>
     <string name="cd_remove_label">Удалить метку %s</string>

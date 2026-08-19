@@ -281,6 +281,8 @@
     <string name="performance_mode_exit">공연 모드 종료</string>
     <string name="songbook_duplicate_cd">노래 복제</string>
     <string name="songbook_save_in_key">이 키로 저장</string>
+    <string name="songbook_collapse_details">곡 정보 접기</string>
+    <string name="songbook_expand_details">곡 정보 펼치기</string>
     <string name="songbook_saved_in_key">조옮김한 키로 저장됨</string>
     <string name="cd_label">라벨: %s</string>
     <string name="cd_remove_label">라벨 %s 제거</string>

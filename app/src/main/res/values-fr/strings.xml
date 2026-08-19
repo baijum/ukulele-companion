@@ -283,6 +283,8 @@
     <string name="performance_mode_exit">Quitter le mode performance</string>
     <string name="songbook_duplicate_cd">Dupliquer le morceau</string>
     <string name="songbook_save_in_key">Enregistrer dans cette tonalité</string>
+    <string name="songbook_collapse_details">Réduire les détails du morceau</string>
+    <string name="songbook_expand_details">Développer les détails du morceau</string>
     <string name="songbook_saved_in_key">Chanson enregistrée dans la tonalité transposée</string>
     <string name="cd_label">Étiquette : %s</string>
     <string name="cd_remove_label">Supprimer l\'étiquette %s</string>

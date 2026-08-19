@@ -281,6 +281,8 @@
     <string name="performance_mode_exit">退出演奏模式</string>
     <string name="songbook_duplicate_cd">复制歌曲</string>
     <string name="songbook_save_in_key">以此调保存</string>
+    <string name="songbook_collapse_details">折叠歌曲详情</string>
+    <string name="songbook_expand_details">展开歌曲详情</string>
     <string name="songbook_saved_in_key">歌曲已以转调保存</string>
     <string name="cd_label">标签：%s</string>
     <string name="cd_remove_label">移除标签 %s</string>

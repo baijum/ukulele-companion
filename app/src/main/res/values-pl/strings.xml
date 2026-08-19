@@ -284,6 +284,8 @@
     <string name="performance_mode_exit">Wyjdź z trybu występu</string>
     <string name="songbook_duplicate_cd">Duplikuj utwór</string>
     <string name="songbook_save_in_key">Zapisz w tej tonacji</string>
+    <string name="songbook_collapse_details">Zwiń szczegóły utworu</string>
+    <string name="songbook_expand_details">Rozwiń szczegóły utworu</string>
     <string name="songbook_saved_in_key">Utwór zapisany w transponowanej tonacji</string>
     <string name="cd_label">Etykieta: %s</string>
     <string name="cd_remove_label">Usuń etykietę %s</string>

@@ -282,6 +282,8 @@
     <string name="performance_mode_exit">प्रदर्शन मोड से बाहर निकलें</string>
     <string name="songbook_duplicate_cd">गाने की प्रतिलिपि बनाएँ</string>
     <string name="songbook_save_in_key">इस स्वर में सहेजें</string>
+    <string name="songbook_collapse_details">गीत विवरण संकुचित करें</string>
+    <string name="songbook_expand_details">गीत विवरण विस्तारित करें</string>
     <string name="songbook_saved_in_key">गीत स्थानांतरित स्वर में सहेजा गया</string>
     <string name="cd_label">लेबल: %s</string>
     <string name="cd_remove_label">लेबल %s हटाएं</string>

@@ -286,6 +286,8 @@
     <string name="performance_mode_exit">الخروج من وضع الأداء</string>
     <string name="songbook_duplicate_cd">نسخ الأغنية</string>
     <string name="songbook_save_in_key">حفظ في هذا المقام</string>
+    <string name="songbook_collapse_details">طي تفاصيل الأغنية</string>
+    <string name="songbook_expand_details">توسيع تفاصيل الأغنية</string>
     <string name="songbook_saved_in_key">تم حفظ الأغنية في المقام المنقول</string>
     <string name="cd_label">تسمية: %s</string>
     <string name="cd_remove_label">إزالة تسمية %s</string>

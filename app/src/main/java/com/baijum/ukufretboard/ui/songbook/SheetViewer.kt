@@ -3,13 +3,11 @@ package com.baijum.ukufretboard.ui.songbook
 import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,8 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -35,10 +31,8 @@ import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Stop
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
@@ -47,10 +41,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -70,11 +62,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
-import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontFamily
@@ -85,19 +75,16 @@ import androidx.compose.ui.unit.sp
 import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.ChordColorOption
 import com.baijum.ukufretboard.data.ChordDisplayStyle
-import com.baijum.ukufretboard.data.ChordParser
 import com.baijum.ukufretboard.data.ChordProExporter
 import com.baijum.ukufretboard.data.ChordSheet
-import com.baijum.ukufretboard.data.VoicingGenerator
-import com.baijum.ukufretboard.domain.ChordNameParser
 import com.baijum.ukufretboard.domain.ChordSheetFormatter
 import com.baijum.ukufretboard.domain.ChordSheetTranspose
-import com.baijum.ukufretboard.domain.KeyDetector
 import com.baijum.ukufretboard.domain.UkuleleString
 import com.baijum.ukufretboard.ui.ShareUtils
-import com.baijum.ukufretboard.ui.VerticalChordDiagram
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
+private const val PREF_DETAILS_COLLAPSED = "song_details_collapsed"
 
 /**
  * Viewer for a chord sheet with tappable chord names.
@@ -135,8 +122,15 @@ internal fun SheetViewer(
     // Transpose controls
     var transposeSemitones by rememberSaveable { mutableIntStateOf(0) }
 
-    val fontSizePrefs = context.getSharedPreferences("songbook_prefs", android.content.Context.MODE_PRIVATE)
-    var songFontSize by rememberSaveable { mutableFloatStateOf(fontSizePrefs.getFloat("song_font_size", 14f)) }
+    val songbookPrefs = context.getSharedPreferences("songbook_prefs", android.content.Context.MODE_PRIVATE)
+    var songFontSize by rememberSaveable { mutableFloatStateOf(songbookPrefs.getFloat("song_font_size", 14f)) }
+
+    // Persisted rather than session-only: a player who prefers the compact reading
+    // layout wants it on the next song too, not just while scrolling through this one.
+    var detailsCollapsed by
+        rememberSaveable {
+            mutableStateOf(songbookPrefs.getBoolean(PREF_DETAILS_COLLAPSED, false))
+        }
 
     val displayContent =
         if (transposeSemitones != 0) {
@@ -226,231 +220,26 @@ internal fun SheetViewer(
             )
         }
 
-        if (sheet.subtitle.isNotEmpty()) {
-            Text(
-                text = sheet.subtitle,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(start = 48.dp, bottom = 4.dp),
-            )
-        }
-
-        if (sheet.artist.isNotEmpty()) {
-            Text(
-                text = sheet.artist,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(start = 48.dp, bottom = 8.dp),
-            )
-        }
-
-        // Key display. A key stored on the sheet (from a ChordPro {key: ...} directive
-        // or typed in the editor) is authoritative and wins over the detector's guess;
-        // the detector only fills in when the song does not declare one. Both are keyed
-        // off displayContent so a transpose preview updates them together.
-        val songChords = remember(displayContent) { ChordParser.extractChords(displayContent) }
-        val detectedKey = remember(songChords) { KeyDetector.detectKey(songChords) }
-        val storedKey =
-            remember(sheet.key, transposeSemitones) {
-                ChordSheetTranspose.transposeKey(sheet.key, transposeSemitones)
-            }
-        val keyLabel = storedKey.ifBlank { detectedKey?.displayName.orEmpty() }
-
-        if (keyLabel.isNotEmpty()) {
-            Text(
-                text = stringResource(R.string.songbook_key_prefix) + keyLabel,
-                style = MaterialTheme.typography.labelMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary,
-                modifier =
-                    Modifier
-                        .padding(start = 48.dp, bottom = 4.dp)
-                        // The key now tracks a transpose preview, so it changes under the
-                        // user's fingers; without this the new key is never spoken.
-                        .semantics { liveRegion = LiveRegionMode.Polite },
-            )
-        }
-
-        if (sheet.capo > 0) {
-            Text(
-                text = stringResource(R.string.songbook_capo_value, sheet.capo),
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(start = 48.dp, bottom = 4.dp),
-            )
-        }
-
-        // Strum pattern display
-        StrumPatternRow(
-            patternName = sheet.strumPatternName,
-            onPatternChange = onStrumPatternChange,
-        )
-
-        // Labels display
-        LabelDisplayRow(
-            labels = sheet.labels,
-            allLabels = allLabels,
-            onLabelsChange = onLabelsChange,
-        )
-
-        // Song statistics
-        if (sheet.viewCount > 0) {
-            SongStatsRow(sheet = sheet)
-        }
-
-        // Transpose controls
-        val transposeDownDesc = stringResource(R.string.cd_transpose_down)
-        val transposeUpDesc = stringResource(R.string.cd_transpose_up)
-        Row(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = stringResource(R.string.songbook_transpose),
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            OutlinedButton(
-                onClick = { transposeSemitones-- },
-                modifier = Modifier.semantics { contentDescription = transposeDownDesc },
-            ) {
-                Text("\u2212")
-            }
-            Text(
-                text = ChordSheetTranspose.semitoneLabel(transposeSemitones),
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 12.dp),
-            )
-            OutlinedButton(
-                onClick = { transposeSemitones++ },
-                modifier = Modifier.semantics { contentDescription = transposeUpDesc },
-            ) {
-                Text("+")
-            }
-            if (transposeSemitones != 0) {
-                Spacer(modifier = Modifier.width(8.dp))
-                TextButton(onClick = { transposeSemitones = 0 }) {
-                    Text(stringResource(R.string.dialog_reset))
-                }
-            }
-        }
-
-        // Capo equivalent and "Save in this key" (shown when transposed)
-        if (transposeSemitones != 0) {
-            val capoFret = ((transposeSemitones % 12) + 12) % 12
-            if (capoFret > 0) {
-                Text(
-                    text = stringResource(R.string.songbook_capo_hint, capoFret),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.tertiary,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 4.dp),
-                )
-            }
-
-            val savedMsg = stringResource(R.string.songbook_saved_in_key)
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                FilledTonalButton(
-                    onClick = {
-                        onApplyTranspose(transposeSemitones)
-                        transposeSemitones = 0
-                        Toast.makeText(context, savedMsg, Toast.LENGTH_SHORT).show()
-                    },
-                ) {
-                    Text(stringResource(R.string.songbook_save_in_key))
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        // Auto-scroll state
+        // Scroll, section and tempo state. Held here rather than inside the
+        // details panel: the lyrics area and the auto-scroll controls need it
+        // whether the panel is showing or collapsed.
         var autoScrolling by rememberSaveable { mutableStateOf(false) }
         var scrollSpeed by rememberSaveable { mutableFloatStateOf(1f) }
         val scrollState = rememberScrollState()
         val programmaticScroll = remember { mutableStateOf(false) }
 
-        // Section navigation
         val sections =
             remember(displayContent) {
                 ChordSheetFormatter.extractSections(displayContent)
             }
         val sectionOffsets = remember { mutableMapOf<Int, Int>() }
         val sectionScrollScope = rememberCoroutineScope()
+        val sectionLineIndices = remember(sections) { sections.map { it.lineIndex }.toSet() }
 
-        if (sections.isNotEmpty()) {
-            Row(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState())
-                        .padding(horizontal = 16.dp, vertical = 4.dp),
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-            ) {
-                sections.forEach { section ->
-                    AssistChip(
-                        onClick = {
-                            sectionOffsets[section.lineIndex]?.let { offset ->
-                                sectionScrollScope.launch {
-                                    programmaticScroll.value = true
-                                    try {
-                                        scrollState.animateScrollTo(offset)
-                                    } finally {
-                                        programmaticScroll.value = false
-                                    }
-                                }
-                            }
-                        },
-                        label = { Text(section.label, style = MaterialTheme.typography.labelSmall) },
-                    )
-                }
-            }
-        }
-
-        // Tempo / metronome integration
         val songTempo =
             remember(displayContent) {
                 ChordSheetFormatter.extractTempo(displayContent)
             }
-        if (songTempo != null) {
-            Row(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.MusicNote,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp),
-                )
-                Text(
-                    text = stringResource(R.string.songbook_tempo_label, songTempo),
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.weight(1f),
-                )
-                FilledTonalButton(
-                    onClick = { onStartMetronome(songTempo) },
-                ) {
-                    Text(stringResource(R.string.songbook_start_metronome))
-                }
-            }
-        }
 
         // Auto-scroll effect
         LaunchedEffect(autoScrolling, scrollSpeed) {
@@ -481,48 +270,84 @@ internal fun SheetViewer(
             }
         }
 
-        val sectionLineIndices = remember(sections) { sections.map { it.lineIndex }.toSet() }
+        SongDetailsToggle(
+            collapsed = detailsCollapsed,
+            onToggle = {
+                detailsCollapsed = !detailsCollapsed
+                songbookPrefs.edit().putBoolean(PREF_DETAILS_COLLAPSED, detailsCollapsed).apply()
+            },
+        )
 
-        if (showChordDiagramRail) {
-            val uniqueChords =
-                remember(displayContent) {
-                    ChordParser.extractChords(displayContent)
-                }
-            val chordVoicings =
-                remember(uniqueChords, tuning) {
-                    uniqueChords.mapNotNull { name ->
-                        val parsed = ChordNameParser.parse(name) ?: return@mapNotNull null
-                        if (tuning.isEmpty()) return@mapNotNull null
-                        val voicing =
-                            VoicingGenerator
-                                .generate(
-                                    parsed.rootPitchClass,
-                                    parsed.formula,
-                                    tuning,
-                                ).firstOrNull() ?: return@mapNotNull null
-                        name to voicing
-                    }
-                }
-            if (chordVoicings.isNotEmpty()) {
-                LazyRow(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    contentPadding = PaddingValues(horizontal = 16.dp),
-                ) {
-                    items(chordVoicings.size, key = { chordVoicings[it].first }) { idx ->
-                        val (name, voicing) = chordVoicings[idx]
-                        VerticalChordDiagram(
-                            voicing = voicing,
-                            onClick = { tappedChord = name },
-                            chordName = name,
-                            leftHanded = leftHanded,
-                        )
-                    }
-                }
-                HorizontalDivider()
+        val savedInKeyMsg = stringResource(R.string.songbook_saved_in_key)
+        CollapsibleDetails(visible = !detailsCollapsed) {
+            SongMetaLines(
+                sheet = sheet,
+                displayContent = displayContent,
+                transposeSemitones = transposeSemitones,
+            )
+
+            StrumPatternRow(
+                patternName = sheet.strumPatternName,
+                onPatternChange = onStrumPatternChange,
+            )
+
+            LabelDisplayRow(
+                labels = sheet.labels,
+                allLabels = allLabels,
+                onLabelsChange = onLabelsChange,
+            )
+
+            if (sheet.viewCount > 0) {
+                SongStatsRow(sheet = sheet)
+            }
+
+            TransposeRow(
+                transposeSemitones = transposeSemitones,
+                onTransposeChange = { transposeSemitones = it },
+            )
+
+            if (transposeSemitones != 0) {
+                TransposeApplyRow(
+                    transposeSemitones = transposeSemitones,
+                    onSaveInKey = {
+                        onApplyTranspose(transposeSemitones)
+                        transposeSemitones = 0
+                        Toast.makeText(context, savedInKeyMsg, Toast.LENGTH_SHORT).show()
+                    },
+                )
+            }
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            if (sections.isNotEmpty()) {
+                SectionShortcutsRow(
+                    sections = sections,
+                    onSectionSelected = { lineIndex ->
+                        sectionOffsets[lineIndex]?.let { offset ->
+                            sectionScrollScope.launch {
+                                programmaticScroll.value = true
+                                try {
+                                    scrollState.animateScrollTo(offset)
+                                } finally {
+                                    programmaticScroll.value = false
+                                }
+                            }
+                        }
+                    },
+                )
+            }
+
+            if (songTempo != null) {
+                TempoRow(songTempo = songTempo, onStartMetronome = onStartMetronome)
+            }
+
+            if (showChordDiagramRail) {
+                ChordDiagramRail(
+                    displayContent = displayContent,
+                    tuning = tuning,
+                    leftHanded = leftHanded,
+                    onChordTap = { tappedChord = it },
+                )
             }
         }
 
@@ -567,7 +392,7 @@ internal fun SheetViewer(
                 SmallFloatingActionButton(
                     onClick = {
                         songFontSize = (songFontSize - 2f).coerceAtLeast(10f)
-                        fontSizePrefs.edit().putFloat("song_font_size", songFontSize).apply()
+                        songbookPrefs.edit().putFloat("song_font_size", songFontSize).apply()
                     },
                     modifier = Modifier.semantics { contentDescription = fontDecreaseDesc },
                 ) {
@@ -576,7 +401,7 @@ internal fun SheetViewer(
                 SmallFloatingActionButton(
                     onClick = {
                         songFontSize = (songFontSize + 2f).coerceAtMost(32f)
-                        fontSizePrefs.edit().putFloat("song_font_size", songFontSize).apply()
+                        songbookPrefs.edit().putFloat("song_font_size", songFontSize).apply()
                     },
                     modifier = Modifier.semantics { contentDescription = fontIncreaseDesc },
                 ) {

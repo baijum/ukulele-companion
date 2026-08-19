@@ -31,6 +31,9 @@ struct SongViewerView: View {
     @State private var showingAddLabel = false
     @State private var newLabelText = ""
     @AppStorage("songFontSize") private var songFontSize: Double = 16.0
+    // Persisted rather than per-screen: a player who prefers the compact reading
+    // layout wants it on the next song too.
+    @AppStorage("songDetailsCollapsed") private var detailsCollapsed = false
     @State private var viewOpenedAt: Date?
     @State private var showPerformanceMode = false
 
@@ -71,15 +74,19 @@ struct SongViewerView: View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(alignment: .leading, spacing: 12) {
-                    songInfoSection
+                    detailsToggle
 
-                    transposeSection
+                    if !detailsCollapsed {
+                        songInfoSection
 
-                    sectionNavigation(proxy: proxy, content: displaySong.content)
+                        transposeSection
 
-                    tempoSection(content: displaySong.content)
+                        sectionNavigation(proxy: proxy, content: displaySong.content)
 
-                    chordDiagramRail(content: displaySong.content)
+                        tempoSection(content: displaySong.content)
+
+                        chordDiagramRail(content: displaySong.content)
+                    }
 
                     parsedContentView(song: displaySong)
 
@@ -761,6 +768,34 @@ struct SongViewerView: View {
             }
             .padding(.vertical, 4)
         }
+    }
+
+    // MARK: - Details Toggle
+
+    /// Collapses the song details above the lyrics (issue #501). While actually
+    /// playing, the subtitle, key, strum pattern, labels and chord rail have all been
+    /// read already and only cost the vertical space the lyrics need.
+    ///
+    /// It sits directly above the details rather than in the toolbar, which already
+    /// carries seven controls. Above rather than below to match Android, where a
+    /// handle placed after the details is squeezed to zero height on a short screen.
+    private var detailsToggle: some View {
+        Button {
+            withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.2)) {
+                detailsCollapsed.toggle()
+            }
+        } label: {
+            Image(systemName: detailsCollapsed ? "chevron.down" : "chevron.up")
+                .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity, minHeight: 44)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(
+            detailsCollapsed
+                ? String(localized: "songbook_expand_details")
+                : String(localized: "songbook_collapse_details")
+        )
     }
 
     // MARK: - Content Parsing

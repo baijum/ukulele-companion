@@ -281,6 +281,8 @@
     <string name="performance_mode_exit">Keluar dari mode pertunjukan</string>
     <string name="songbook_duplicate_cd">Duplikat lagu</string>
     <string name="songbook_save_in_key">Simpan dalam kunci ini</string>
+    <string name="songbook_collapse_details">Ciutkan detail lagu</string>
+    <string name="songbook_expand_details">Perluas detail lagu</string>
     <string name="songbook_saved_in_key">Lagu disimpan dalam kunci yang ditransposisi</string>
     <string name="cd_label">Label: %s</string>
     <string name="cd_remove_label">Hapus label %s</string>
