@@ -219,6 +219,9 @@
     <string name="songbook_export_chordpro">Exporteren als ChordPro</string>
     <string name="songbook_export_chooser">ChordPro exporteren</string>
     <string name="songbook_key_prefix">Toonsoort: </string>
+    <string name="songbook_field_key">Toonsoort</string>
+    <string name="songbook_field_key_hint">bijv. G, Am, Bb mineur</string>
+    <string name="songbook_capo_value">Capo %1$d</string>
     <string name="songbook_transpose">Transponeren:</string>
     <string name="songbook_capo_hint">Of gebruik capo %d met de originele akkoorden</string>
     <string name="songbook_field_title">Titel</string>

@@ -231,4 +231,96 @@ class SongbookViewModelTest {
         vm.importPlainText("[Am]Hello", "  ")
         assertEquals("Imported Song", vm.currentSheet.value!!.title)
     }
+
+    // ── Key and capo persistence (issue #518) ────────────────────────
+
+    @Test
+    fun saveSheetPreservesStoredKeyWhenCallerOmitsIt() {
+        // The regression from #518: saveSheet defaulted key to "" and applied it
+        // unconditionally, so any save from a caller unaware of the field wiped an
+        // imported {key: ...} directive.
+        vm.startEditing()
+        vm.saveSheet(title = "Heart of Gold", artist = "Neil Young", content = "[G]Body", key = "G")
+        vm.closeSheet()
+
+        val stored = vm.sheets.value.single()
+        vm.startEditing(stored)
+        vm.saveSheet(title = stored.title, artist = stored.artist, content = stored.content)
+        vm.closeSheet()
+
+        val reloaded = vm.sheets.value.single()
+        assertEquals("G", reloaded.key)
+    }
+
+    @Test
+    fun saveSheetPreservesStoredCapoWhenCallerOmitsIt() {
+        vm.startEditing()
+        vm.saveSheet(title = "Capo Song", artist = "", content = "[C]Body", capo = 3)
+        vm.closeSheet()
+
+        val stored = vm.sheets.value.single()
+        vm.startEditing(stored)
+        vm.saveSheet(title = stored.title, artist = stored.artist, content = stored.content)
+        vm.closeSheet()
+
+        val reloaded = vm.sheets.value.single()
+        assertEquals(3, reloaded.capo)
+    }
+
+    @Test
+    fun saveSheetClearsKeyWhenExplicitlyEmptied() {
+        // "Not supplied" preserves; an explicit "" is a deliberate clear and must apply,
+        // otherwise the new editor field could never be emptied.
+        vm.startEditing()
+        vm.saveSheet(title = "Song", artist = "", content = "[G]Body", key = "G", capo = 2)
+        vm.closeSheet()
+
+        val stored = vm.sheets.value.single()
+        vm.startEditing(stored)
+        vm.saveSheet(title = stored.title, artist = "", content = stored.content, key = "", capo = 0)
+        vm.closeSheet()
+
+        val after = vm.sheets.value.single()
+        assertEquals("", after.key)
+        assertEquals(0, after.capo)
+    }
+
+    @Test
+    fun saveSheetStoresKeyAndCapoFromTheEditor() {
+        vm.startEditing()
+        vm.saveSheet(title = "New Song", artist = "", content = "[D]Body", key = "D", capo = 5)
+        vm.closeSheet()
+
+        val stored = vm.sheets.value.single()
+        assertEquals("D", stored.key)
+        assertEquals(5, stored.capo)
+    }
+
+    @Test
+    fun applyTransposeMovesTheStoredKeyWithTheContent() {
+        vm.startEditing()
+        vm.saveSheet(title = "Transpose Me", artist = "", content = "[G]Hello [C]world", key = "G")
+        vm.closeSheet()
+
+        vm.openSheet(vm.sheets.value.single())
+        vm.applyTranspose(2)
+
+        val after = vm.sheets.value.single()
+        assertEquals("A", after.key)
+        val transposedContent = after.content
+        assertTrue("content should be transposed", transposedContent.contains("[A]"))
+    }
+
+    @Test
+    fun applyTransposeLeavesAnAbsentKeyAbsent() {
+        vm.startEditing()
+        vm.saveSheet(title = "No Key", artist = "", content = "[G]Hello")
+        vm.closeSheet()
+
+        vm.openSheet(vm.sheets.value.single())
+        vm.applyTranspose(2)
+
+        val reloaded = vm.sheets.value.single()
+        assertEquals("", reloaded.key)
+    }
 }

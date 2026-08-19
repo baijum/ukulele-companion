@@ -113,11 +113,13 @@ fun SongbookTab(
             SheetEditor(
                 sheet = currentSheet,
                 allLabels = allLabels,
-                onSave = { title, artist, content, strumPatternName, labels ->
+                onSave = { title, artist, content, key, capo, strumPatternName, labels ->
                     viewModel.saveSheet(
                         title = title,
                         artist = artist,
                         content = content,
+                        key = key,
+                        capo = capo,
                         strumPatternName = strumPatternName,
                         labels = labels,
                     )

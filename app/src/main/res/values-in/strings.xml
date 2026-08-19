@@ -219,6 +219,9 @@
     <string name="songbook_export_chordpro">Ekspor sebagai ChordPro</string>
     <string name="songbook_export_chooser">Ekspor ChordPro</string>
     <string name="songbook_key_prefix">Kunci: </string>
+    <string name="songbook_field_key">Kunci</string>
+    <string name="songbook_field_key_hint">mis. G, Am, Bb minor</string>
+    <string name="songbook_capo_value">Capo %1$d</string>
     <string name="songbook_transpose">Transpos:</string>
     <string name="songbook_capo_hint">Atau gunakan capo %d dengan akor asli</string>
     <string name="songbook_field_title">Judul</string>

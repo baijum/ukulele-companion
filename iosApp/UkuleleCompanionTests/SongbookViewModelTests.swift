@@ -276,4 +276,37 @@ final class SongbookViewModelTests: XCTestCase {
     func testLooksLikeChordProIgnoresPlainLyrics() {
         XCTAssertFalse(ChordProParser.shared.looksLikeChordPro(content: "[Chorus]\n[Am]Hello [C]world"))
     }
+
+    // MARK: - Key follows content through a transpose (issue #518)
+
+    @MainActor
+    func testTransposeMovesTheStoredKeyWithTheContent() {
+        let vm = SongbookViewModel()
+        let song = makeSong(title: "Transpose Me", content: "[G]Hello [C]world", key: "G")
+        let moved = vm.transpose(song: song, semitones: 2)
+        XCTAssertEqual(moved.key, "A")
+        XCTAssertTrue(moved.content.contains("[A]"))
+    }
+
+    @MainActor
+    func testTransposeLeavesAnAbsentKeyAbsent() {
+        let vm = SongbookViewModel()
+        let song = makeSong(title: "No Key", content: "[G]Hello", key: "")
+        XCTAssertEqual(vm.transpose(song: song, semitones: 2).key, "")
+    }
+
+    @MainActor
+    func testTransposePreservesAnUnparseableKey() {
+        let vm = SongbookViewModel()
+        let song = makeSong(title: "Odd Key", content: "[G]Hello", key: "?")
+        XCTAssertEqual(vm.transpose(song: song, semitones: 2).key, "?")
+    }
+
+    @MainActor
+    func testTransposeKeepsTheModeTail() {
+        let vm = SongbookViewModel()
+        let song = makeSong(title: "Modal", content: "[Am]Hello", key: "A minor")
+        XCTAssertEqual(vm.transpose(song: song, semitones: 3).key, "C minor")
+    }
+
 }

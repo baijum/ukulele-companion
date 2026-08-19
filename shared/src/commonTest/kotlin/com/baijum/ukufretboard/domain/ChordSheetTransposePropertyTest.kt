@@ -225,4 +225,88 @@ class ChordSheetTransposePropertyTest {
             }
         }
     }
+
+    // ── transposeKey (issue #518) ─────────────────────────────────────
+
+    @Test
+    fun transposeKeyShiftsBareNoteNames() {
+        assertEquals("A", ChordSheetTranspose.transposeKey("G", 2))
+        assertEquals("F", ChordSheetTranspose.transposeKey("G", -2))
+        assertEquals("C", ChordSheetTranspose.transposeKey("B", 1))
+    }
+
+    @Test
+    fun transposeKeyPreservesTheModeTail() {
+        assertEquals("Bm", ChordSheetTranspose.transposeKey("Am", 2))
+        assertEquals("D minor", ChordSheetTranspose.transposeKey("C minor", 2))
+        // Notes.pitchClassToName spells pitch class 8 as Ab, matching how the same
+        // shift spells the chord markers in the content.
+        assertEquals("Ab Dorian", ChordSheetTranspose.transposeKey("F# Dorian", 2))
+        assertEquals("C major", ChordSheetTranspose.transposeKey("Bb major", 2))
+    }
+
+    @Test
+    fun transposeKeyLeavesUnparseableInputAlone() {
+        // A key we cannot read is better preserved verbatim than guessed at — these
+        // come from a free-form ChordPro {key: ...} directive.
+        assertEquals("", ChordSheetTranspose.transposeKey("", 2))
+        assertEquals("?", ChordSheetTranspose.transposeKey("?", 2))
+        assertEquals("g", ChordSheetTranspose.transposeKey("g", 2))
+        assertEquals("Hm", ChordSheetTranspose.transposeKey("Hm", 2))
+    }
+
+    @Test
+    fun transposeKeyByZeroOrOctaveIsIdentity() {
+        runBlocking {
+            checkAll(Arb.element(listOf("G", "Am", "Bb minor", "F# Dorian", "", "?"))) { key ->
+                assertEquals(key, ChordSheetTranspose.transposeKey(key, 0))
+                assertEquals(key, ChordSheetTranspose.transposeKey(key, 12))
+                assertEquals(key, ChordSheetTranspose.transposeKey(key, -12))
+            }
+        }
+    }
+
+    @Test
+    fun transposeKeyRoundTripsToTheSamePitchClass() {
+        // Round-tripping normalises the spelling (Bb -> A#), so compare pitch class,
+        // not the raw string. The mode tail must survive verbatim either way.
+        runBlocking {
+            checkAll(
+                Arb.element(listOf("C", "G", "Am", "Bb minor", "F# Dorian")),
+                Arb.int(-11..11),
+            ) { key, semitones ->
+                val there = ChordSheetTranspose.transposeKey(key, semitones)
+                val back = ChordSheetTranspose.transposeKey(there, -semitones)
+                assertEquals(pitchClassOf(key), pitchClassOf(back))
+                assertEquals(modeTailOf(key), modeTailOf(back))
+            }
+        }
+    }
+
+    @Test
+    fun transposeKeyMovesWithTheContentItLabels() {
+        // The invariant the fix exists for: after transposing a sheet, the stored key
+        // must still describe the chords.
+        runBlocking {
+            checkAll(Arb.int(-11..11)) { semitones ->
+                val content = "[G]Hello [C]world [D]again"
+                val transposed = ChordSheetTranspose.transpose(content, semitones)
+                val key = ChordSheetTranspose.transposeKey("G", semitones)
+                assertTrue(
+                    transposed.contains("[$key]"),
+                    "key $key absent from transposed content $transposed",
+                )
+            }
+        }
+    }
+
+    private fun rootOf(key: String) = key.takeWhile { it in "ABCDEFG#b" }
+
+    private fun modeTailOf(key: String) = key.removePrefix(rootOf(key))
+
+    private fun pitchClassOf(key: String): Int {
+        val root = rootOf(key)
+        val sharp = Notes.NOTE_NAMES_SHARP.indexOf(root)
+        return if (sharp >= 0) sharp else Notes.NOTE_NAMES_FLAT.indexOf(root)
+    }
 }

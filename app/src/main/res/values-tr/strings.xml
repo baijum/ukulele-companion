@@ -219,6 +219,9 @@
     <string name="songbook_export_chordpro">ChordPro olarak dışa aktar</string>
     <string name="songbook_export_chooser">ChordPro Dışa Aktar</string>
     <string name="songbook_key_prefix">Ton: </string>
+    <string name="songbook_field_key">Ton</string>
+    <string name="songbook_field_key_hint">örn. G, Am, Bb minör</string>
+    <string name="songbook_capo_value">Kapo %1$d</string>
     <string name="songbook_transpose">Transpoze:</string>
     <string name="songbook_capo_hint">Veya orijinal akorlarla kapo %d kullanın</string>
     <string name="songbook_field_title">Başlık</string>

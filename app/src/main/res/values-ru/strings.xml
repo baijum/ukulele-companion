@@ -219,6 +219,9 @@
     <string name="songbook_export_chordpro">Экспорт в ChordPro</string>
     <string name="songbook_export_chooser">Экспорт ChordPro</string>
     <string name="songbook_key_prefix">Тональность: </string>
+    <string name="songbook_field_key">Тональность</string>
+    <string name="songbook_field_key_hint">напр. G, Am, Bb минор</string>
+    <string name="songbook_capo_value">Каподастр %1$d</string>
     <string name="songbook_transpose">Транспонирование:</string>
     <string name="songbook_capo_hint">Или используйте каподастр %d с оригинальными аккордами</string>
     <string name="songbook_field_title">Название</string>

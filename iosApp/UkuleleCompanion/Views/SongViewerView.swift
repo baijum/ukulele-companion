@@ -54,6 +54,15 @@ struct SongViewerView: View {
         return result.displayName
     }
 
+    /// A key stored on the song (from a ChordPro `{key: ...}` directive or the editor)
+    /// is authoritative and wins over the detector's guess; the detector only fills in
+    /// when the song does not declare one. `displaySong` already carries the transposed
+    /// key, so a transpose preview moves both together.
+    private var displayKey: String? {
+        let stored = displaySong.key.trimmingCharacters(in: .whitespaces)
+        return stored.isEmpty ? detectedKey : stored
+    }
+
     private var displayTitle: String {
         currentSong.title.isEmpty ? "Untitled" : currentSong.title
     }
@@ -342,6 +351,12 @@ struct SongViewerView: View {
 
     private var songInfoSection: some View {
         VStack(alignment: .leading, spacing: 6) {
+            if !currentSong.subtitle.isEmpty {
+                Text(currentSong.subtitle)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+
             if !currentSong.artist.isEmpty {
                 Text(currentSong.artist)
                     .font(.subheadline)
@@ -350,13 +365,22 @@ struct SongViewerView: View {
 
             HStack(spacing: 8) {
                 if currentSong.capo > 0 {
-                    Label("Capo \(currentSong.capo)", systemImage: "guitars")
+                    Label(
+                        String(
+                            format: NSLocalizedString("songbook_capo_value", comment: ""),
+                            currentSong.capo
+                        ),
+                        systemImage: "guitars"
+                    )
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
 
-                if let key = detectedKey {
-                    Label("Key: \(key)", systemImage: "music.note")
+                if let key = displayKey {
+                    Label(
+                        NSLocalizedString("songbook_key_prefix", comment: "") + key,
+                        systemImage: "music.note"
+                    )
                         .font(.caption)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3)

@@ -219,6 +219,9 @@
     <string name="songbook_export_chordpro">Exportar como ChordPro</string>
     <string name="songbook_export_chooser">Exportar ChordPro</string>
     <string name="songbook_key_prefix">Tonalidad: </string>
+    <string name="songbook_field_key">Tonalidad</string>
+    <string name="songbook_field_key_hint">p. ej. G, Am, Bb menor</string>
+    <string name="songbook_capo_value">Cejilla %1$d</string>
     <string name="songbook_transpose">Transportar:</string>
     <string name="songbook_capo_hint">O usa la cejilla en el traste %d con los acordes originales</string>
     <string name="songbook_field_title">Título</string>
