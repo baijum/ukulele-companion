@@ -1,13 +1,13 @@
 package com.baijum.ukufretboard.viewmodel
 
 import android.app.Application
-import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import com.baijum.ukufretboard.data.AppSettings
 import com.baijum.ukufretboard.data.DisplaySettings
 import com.baijum.ukufretboard.data.FretboardSettings
 import com.baijum.ukufretboard.data.PitchMonitorSettings
 import com.baijum.ukufretboard.data.ScalePracticeSettings
+import com.baijum.ukufretboard.data.SettingsRepository
 import com.baijum.ukufretboard.data.SoundSettings
 import com.baijum.ukufretboard.data.TunerSettings
 import com.baijum.ukufretboard.data.TuningSettings
@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.serialization.json.Json
 
 /**
  * ViewModel that manages all application settings.
@@ -24,22 +23,15 @@ import kotlinx.serialization.json.Json
  * methods. Designed to be shared across all screens so that settings changes
  * are immediately reflected everywhere.
  *
- * Settings are persisted as a single JSON string in SharedPreferences.
- * A one-time migration converts legacy individual-key storage on first access.
+ * Persistence — including the backup/quarantine protection and the one-time
+ * migration from legacy individual-key storage — lives in [SettingsRepository].
  */
 class SettingsViewModel(
     application: Application,
 ) : AndroidViewModel(application) {
-    private val prefs: SharedPreferences =
-        application.getSharedPreferences(PREFS_NAME, android.content.Context.MODE_PRIVATE)
+    private val repository = SettingsRepository(application)
 
-    private val json =
-        Json {
-            ignoreUnknownKeys = true
-            encodeDefaults = true
-        }
-
-    private val _settings = MutableStateFlow(loadSettings())
+    private val _settings = MutableStateFlow(repository.load())
 
     /** Observable stream of the current application settings. */
     val settings: StateFlow<AppSettings> = _settings.asStateFlow()
@@ -148,43 +140,5 @@ class SettingsViewModel(
      */
     fun exportSettings(): AppSettings = _settings.value
 
-    // ── Persistence ─────────────────────────────────────────────────────
-
-    private fun saveSettings(s: AppSettings) {
-        prefs
-            .edit()
-            .putString(KEY_SETTINGS, json.encodeToString(AppSettings.serializer(), s))
-            .apply()
-    }
-
-    private fun loadSettings(): AppSettings {
-        val raw = prefs.getString(KEY_SETTINGS, null)
-        if (raw != null) {
-            return try {
-                json.decodeFromString(AppSettings.serializer(), raw)
-            } catch (_: Exception) {
-                AppSettings()
-            }
-        }
-
-        if (!prefs.contains(KEY_LEGACY_SOUND_ENABLED)) return AppSettings()
-        return migrateLegacySettings()
-    }
-
-    /**
-     * One-time migration: reads old individual-key settings, constructs
-     * AppSettings, saves as JSON, and removes the legacy keys.
-     */
-    private fun migrateLegacySettings(): AppSettings {
-        val settings = LegacySettingsReader.read(prefs)
-        saveSettings(settings)
-        LegacySettingsReader.removeLegacyKeys(prefs)
-        return settings
-    }
-
-    companion object {
-        private const val PREFS_NAME = "app_settings"
-        private const val KEY_SETTINGS = "settings_json"
-        private const val KEY_LEGACY_SOUND_ENABLED = "sound_enabled"
-    }
+    private fun saveSettings(s: AppSettings) = repository.save(s)
 }
