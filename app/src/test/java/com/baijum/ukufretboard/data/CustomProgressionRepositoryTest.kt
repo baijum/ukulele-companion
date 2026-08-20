@@ -62,9 +62,8 @@ class CustomProgressionRepositoryTest {
         name: String,
         description: String = "legacy description",
         scaleType: String = "MAJOR",
-        degreeSpec: String = "0:_:I;5:_:IV;7:_:V",
         createdAt: Long = 1_000L,
-    ) = listOf(id, name, description, scaleType, degreeSpec, createdAt.toString()).joinToString("|||")
+    ) = listOf(id, name, description, scaleType, DEGREE_SPEC, createdAt.toString()).joinToString("|||")
 
     private fun writeRaw(
         key: String,
@@ -268,7 +267,7 @@ class CustomProgressionRepositoryTest {
 
     @Test
     fun legacyEntriesWithMalformedDegreesAreSkipped() {
-        writeRaw("old_bad", legacyEntry("a", "Bad", degreeSpec = "not:a:number"))
+        writeRaw("old_bad", "a|||Bad|||Desc|||MAJOR|||not:a:number|||1000")
         writeRaw("old_good", legacyEntry("b", "Survivor"))
 
         assertEquals(listOf("b"), repo.getAll().map { it.id })
@@ -292,6 +291,7 @@ class CustomProgressionRepositoryTest {
     }
 
     private companion object {
+        const val DEGREE_SPEC = "0:_:I;5:_:IV;7:_:V"
         const val PREFS_NAME = "custom_progressions"
         const val KEY_PROGRESSIONS = "progressions_json"
         const val BACKUP_KEY = "progressions_json_backup"
