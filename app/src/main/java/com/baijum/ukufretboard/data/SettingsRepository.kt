@@ -56,22 +56,15 @@ class SettingsRepository(
     /**
      * Writes the settings, rotating the outgoing payload into the backup slot.
      *
-     * The backup only advances to a payload that is known to parse: promoting a
-     * corrupt primary would destroy the last good copy, which is the one thing
-     * the backup exists to hold. When neither copy is readable the backup is
-     * re-seeded with the payload being written, so the next corruption has
-     * something to recover from.
+     * See [writeWithBackupRotation] for the rule the backup follows.
      */
     fun save(settings: AppSettings) {
-        val raw = json.encodeToString(AppSettings.serializer(), settings)
-        val lastGood = prefs.getString(KEY_SETTINGS, null)?.takeIf { tryParse(it) != null }
-        val editor = prefs.edit().putString(KEY_SETTINGS, raw)
-        if (lastGood != null) {
-            editor.putString(KEY_SETTINGS_BACKUP, lastGood)
-        } else if (tryParse(prefs.getString(KEY_SETTINGS_BACKUP, null)) == null) {
-            editor.putString(KEY_SETTINGS_BACKUP, raw)
-        }
-        editor.apply()
+        prefs.writeWithBackupRotation(
+            key = KEY_SETTINGS,
+            backupKey = KEY_SETTINGS_BACKUP,
+            raw = json.encodeToString(AppSettings.serializer(), settings),
+            isReadable = { tryParse(it) != null },
+        )
     }
 
     private fun tryParse(raw: String?): AppSettings? {
