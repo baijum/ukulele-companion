@@ -1,19 +1,9 @@
-package com.baijum.ukufretboard.viewmodel
+package com.baijum.ukufretboard.data
 
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.test.core.app.ApplicationProvider
-import com.baijum.ukufretboard.data.AppSettings
-import com.baijum.ukufretboard.data.ChordColorOption
-import com.baijum.ukufretboard.data.ChordDisplayStyle
-import com.baijum.ukufretboard.data.FretboardSettings
-import com.baijum.ukufretboard.data.PitchMonitorSettings
-import com.baijum.ukufretboard.data.ScalePracticeSettings
-import com.baijum.ukufretboard.data.SoundSettings
-import com.baijum.ukufretboard.data.ThemeMode
-import com.baijum.ukufretboard.data.TunerSettings
-import com.baijum.ukufretboard.data.UkuleleTuning
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
