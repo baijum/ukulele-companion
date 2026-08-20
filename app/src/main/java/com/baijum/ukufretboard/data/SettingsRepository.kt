@@ -58,7 +58,9 @@ class SettingsRepository(
      *
      * The backup only advances to a payload that is known to parse: promoting a
      * corrupt primary would destroy the last good copy, which is the one thing
-     * the backup exists to hold.
+     * the backup exists to hold. When neither copy is readable the backup is
+     * re-seeded with the payload being written, so the next corruption has
+     * something to recover from.
      */
     fun save(settings: AppSettings) {
         val raw = json.encodeToString(AppSettings.serializer(), settings)
@@ -66,7 +68,7 @@ class SettingsRepository(
         val editor = prefs.edit().putString(KEY_SETTINGS, raw)
         if (lastGood != null) {
             editor.putString(KEY_SETTINGS_BACKUP, lastGood)
-        } else if (!prefs.contains(KEY_SETTINGS_BACKUP)) {
+        } else if (tryParse(prefs.getString(KEY_SETTINGS_BACKUP, null)) == null) {
             editor.putString(KEY_SETTINGS_BACKUP, raw)
         }
         editor.apply()
