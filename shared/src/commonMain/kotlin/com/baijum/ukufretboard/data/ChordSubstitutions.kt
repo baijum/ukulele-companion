@@ -50,7 +50,7 @@ object ChordSubstitutions {
             substitutions = listOf(
                 Substitution("I", "iii", "E and G", "C \u2192 Em (both contain E and G)"),
                 Substitution("I", "vi", "C and E", "C \u2192 Am (both contain C and E)"),
-                Substitution("IV", "ii", "D and F", "F \u2192 Dm (both contain D and F)"),
+                Substitution("IV", "ii", "F and A", "F \u2192 Dm (both contain F and A)"),
                 Substitution("V", "vii\u00B0", "B and D", "G \u2192 Bdim (both contain B and D)"),
             ),
         ),
@@ -62,8 +62,8 @@ object ChordSubstitutions {
                 "it always works because the chords are so closely related.",
             substitutions = listOf(
                 Substitution("I (C)", "vi (Am)", "C and E", "Replace C with Am for a darker feel"),
-                Substitution("IV (F)", "ii (Dm)", "D and F", "Replace F with Dm for a softer sound"),
-                Substitution("V (G)", "iii (Em)", "E and G", "Replace G with Em (less common, more subtle)"),
+                Substitution("IV (F)", "ii (Dm)", "F and A", "Replace F with Dm for a softer sound"),
+                Substitution("V (G)", "iii (Em)", "G and B", "Replace G with Em (less common, more subtle)"),
             ),
         ),
         SubstitutionCategory(

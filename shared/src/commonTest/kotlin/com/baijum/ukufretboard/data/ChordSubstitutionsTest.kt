@@ -240,7 +240,6 @@ class ChordSubstitutionsTest {
     // ── Shared-note claims ───────────────────────────────────────────
 
     @Test
-    @Ignore // Enabled by "Fix: Correct the shared notes in three chord substitutions".
     fun everyNamedSharedNoteIsPresentInBothChords() {
         for (category in ChordSubstitutions.CATEGORIES) {
             for (row in category.substitutions) {
@@ -259,7 +258,6 @@ class ChordSubstitutionsTest {
     }
 
     @Test
-    @Ignore // Enabled by "Fix: Correct the shared notes in three chord substitutions".
     fun diatonicAndRelativeSharedNotesAreExactlyTheTriadIntersection() {
         for (index in 0..1) {
             for (row in rowsOf(index)) {
