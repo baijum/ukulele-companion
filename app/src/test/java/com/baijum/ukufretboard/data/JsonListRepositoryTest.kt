@@ -23,9 +23,10 @@ import org.robolectric.RobolectricTestRunner
  *
  * Worth knowing while reading these: all five production subclasses override
  * `getAll()`, so the base implementation below — including the entire quarantine
- * branch — is currently unreachable in the shipping app. These tests cover the
- * contract the next repository to extend this class will inherit, and pin the
- * three weaknesses noted inline so that changing them is a deliberate act.
+ * branch — is currently unreachable in the shipping app. `persist()` is shared by
+ * all of them, though, so the rotation tests below cover live behaviour. These
+ * tests also pin the remaining weakness noted inline so that changing it is a
+ * deliberate act.
  */
 @RunWith(RobolectricTestRunner::class)
 class JsonListRepositoryTest {
@@ -243,18 +244,39 @@ class JsonListRepositoryTest {
     }
 
     @Test
-    fun persistPromotesTheCorruptPrimaryIntoTheBackupSlot() {
-        // Pinned weakness: persist() copies whatever is in the primary key into
-        // the backup without checking that it parses. Once getAll() has already
-        // found the primary corrupt, the next save() therefore overwrites the
-        // last good copy with the corrupt one.
+    fun persistLeavesTheBackupAloneWhenThePrimaryIsUnparseable() {
+        // The backup only advances to a payload that parses. Promoting a corrupt
+        // primary would destroy the last good copy — the one thing it exists to hold.
+        repo.save(entity("a", name = "good"))
+        val lastGood = prefs.getString(BACKUP_KEY, null)
+        writeRaw(DATA_KEY, "corrupt")
+        repo.save(entity("b"))
+
+        assertEquals("the corrupt primary must not be promoted", lastGood, prefs.getString(BACKUP_KEY, null))
+    }
+
+    @Test
+    fun aSaveOverACorruptPrimaryLeavesTheStoreRecoverableAfterTheNextCorruption() {
         repo.save(entity("a", name = "good"))
         writeRaw(DATA_KEY, "corrupt")
         repo.save(entity("b"))
 
+        // Second corruption: the surviving backup is what keeps the data alive.
+        writeRaw(DATA_KEY, "corrupt again")
+
+        assertEquals("the backup should still serve the last good copy", listOf("a"), repo.getAll().map { it.id })
+        assertNull("a recoverable read must not quarantine", prefs.getString(QUARANTINE_KEY, null))
+    }
+
+    @Test
+    fun persistReseedsTheBackupWhenNeitherStoredCopyIsParseable() {
+        writeRaw(DATA_KEY, "corrupt")
+        writeRaw(BACKUP_KEY, "also corrupt")
+        repo.save(entity("a"))
+
         assertEquals(
-            "today the corrupt primary is promoted into the backup",
-            "corrupt",
+            "with nothing worth keeping, the backup is re-seeded with the new payload",
+            prefs.getString(DATA_KEY, null),
             prefs.getString(BACKUP_KEY, null),
         )
     }
