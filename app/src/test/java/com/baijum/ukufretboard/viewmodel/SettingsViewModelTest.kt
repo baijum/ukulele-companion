@@ -12,6 +12,7 @@ import com.baijum.ukufretboard.data.TuningSettings
 import com.baijum.ukufretboard.data.UkuleleTuning
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -42,6 +43,8 @@ class SettingsViewModelTest {
     private fun newViewModel() = SettingsViewModel(app)
 
     private fun storedJson(): String? = prefs.getString(KEY_SETTINGS, null)
+
+    private fun backupJson(): String? = prefs.getString(KEY_BACKUP, null)
 
     private fun writeRaw(
         key: String,
@@ -196,29 +199,103 @@ class SettingsViewModelTest {
         assertEquals(AppSettings().display, settings.display)
     }
 
+    // ── Corruption recovery (#555) ───────────────────────────────────
+
     @Test
-    fun corruptSettingsJsonSilentlyResetsToDefaults() {
-        // Pinned weakness: unlike every JsonListRepository, settings have no
-        // backup or quarantine key, so a single bad write loses every preference
-        // with no way to recover it.
-        writeRaw(KEY_SETTINGS, "}} not json {{")
+    fun theFirstSaveSeedsTheBackupWithTheSamePayload() {
+        newViewModel().updateDisplay { it.copy(themeMode = ThemeMode.DARK) }
+
         assertEquals(
-            "today a corrupt payload resets to defaults",
-            AppSettings(),
-            newViewModel().settings.value,
+            "with no earlier payload to rotate, the backup mirrors the primary",
+            storedJson(),
+            backupJson(),
         )
     }
 
     @Test
-    fun aCorruptPayloadIsOverwrittenByTheNextUpdate() {
-        writeRaw(KEY_SETTINGS, "}} not json {{")
+    fun aLaterSaveRotatesThePreviousPayloadIntoTheBackup() {
         val vm = newViewModel()
+        vm.updateDisplay { it.copy(themeMode = ThemeMode.DARK) }
+        val afterFirstSave = storedJson()
+        vm.updateFretboard { it.copy(lastFret = 20) }
+
+        assertEquals("the backup holds the payload the save replaced", afterFirstSave, backupJson())
+        assertNotEquals(storedJson(), backupJson())
+    }
+
+    @Test
+    fun aCorruptPrimaryRecoversTheLastGoodCopyFromTheBackup() {
+        val vm = newViewModel()
+        vm.updateDisplay { it.copy(themeMode = ThemeMode.DARK) }
+        vm.updateTuning { it.copy(tuning = UkuleleTuning.BARITONE) }
+        writeRaw(KEY_SETTINGS, "}} not json {{")
+
+        val recovered = newViewModel().settings.value
+        assertEquals("the user's theme must survive a bad write", ThemeMode.DARK, recovered.display.themeMode)
+        // The backup lags one save, exactly as JsonListRepository's does, so the
+        // most recent change is the only thing lost.
+        assertEquals(UkuleleTuning.HIGH_G, recovered.tuning.tuning)
+        assertNull("recovering must not quarantine anything", prefs.getString(KEY_QUARANTINE, null))
+    }
+
+    @Test
+    fun accessibilitySettingsSurviveACorruptPrimary() {
+        // The reason this matters more than the equivalent list-repository case:
+        // a blind or visually impaired user silently losing spoken feedback and
+        // precision mode has no way to tell why the app changed under them.
+        val vm = newViewModel()
+        vm.updateTuner { it.copy(spokenFeedback = true, precisionMode = true) }
         vm.updateSound { it.copy(enabled = false) }
+        writeRaw(KEY_SETTINGS, """{"tuner":{"spokenFeedback":tr""")
+
+        val recovered = newViewModel().settings.value
+        assertTrue(recovered.tuner.spokenFeedback)
+        assertTrue(recovered.tuner.precisionMode)
+    }
+
+    @Test
+    fun aCorruptPrimaryIsNotPromotedIntoTheBackupByTheNextSave() {
+        val vm = newViewModel()
+        vm.updateDisplay { it.copy(themeMode = ThemeMode.DARK) }
+        val lastGood = storedJson()
+        writeRaw(KEY_SETTINGS, "}} not json {{")
+
+        newViewModel().updateFretboard { it.copy(lastFret = 20) }
+
+        assertEquals("the backup must not advance to an unparseable payload", lastGood, backupJson())
+    }
+
+    @Test
+    fun aCorruptPrimaryWithNoBackupFallsBackToDefaults() {
+        writeRaw(KEY_SETTINGS, "}} not json {{")
+        assertEquals(AppSettings(), newViewModel().settings.value)
+    }
+
+    @Test
+    fun aCorruptPrimaryAndBackupQuarantineTheRawPayload() {
+        writeRaw(KEY_SETTINGS, "}} not json {{")
+        writeRaw(KEY_BACKUP, "also not json")
+
+        assertEquals(AppSettings(), newViewModel().settings.value)
+        assertEquals(
+            "the unreadable bytes are kept rather than dropped",
+            "}} not json {{",
+            prefs.getString(KEY_QUARANTINE, null),
+        )
+    }
+
+    @Test
+    fun aQuarantinedPayloadOutlivesTheSaveThatOverwritesThePrimary() {
+        writeRaw(KEY_SETTINGS, "}} not json {{")
+        writeRaw(KEY_BACKUP, "also not json")
+
+        newViewModel().updateSound { it.copy(enabled = false) }
 
         assertFalse(
             newViewModel()
                 .settings.value.sound.enabled,
         )
+        assertEquals("}} not json {{", prefs.getString(KEY_QUARANTINE, null))
     }
 
     // ── Legacy migration ─────────────────────────────────────────────
@@ -310,5 +387,7 @@ class SettingsViewModelTest {
     private companion object {
         const val PREFS_NAME = "app_settings"
         const val KEY_SETTINGS = "settings_json"
+        const val KEY_BACKUP = "settings_json_backup"
+        const val KEY_QUARANTINE = "settings_json_quarantine"
     }
 }
