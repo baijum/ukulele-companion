@@ -1,4 +1,3 @@
-import StoreKit
 import SwiftUI
 import shared
 
@@ -71,13 +70,21 @@ private nonisolated(unsafe) let allAchievements: [AchievementDisplayInfo] = [
     AchievementDisplayInfo(id: "fav_25", title: String(localized: "achievement_fav_25_title"), description: String(localized: "achievement_fav_25_desc"), icon: "heart.fill", category: .chords),
 ]
 
+/// Displays achievement progress. Earning them is not this screen's job — the
+/// app-wide `AchievementWatcher` driven from `ContentView` records unlocks, so
+/// they happen whether or not the user ever opens this screen.
 struct AchievementsView: View {
     @EnvironmentObject var learnVM: LearnViewModel
-    @Environment(\.requestReview) private var requestReview
+    @EnvironmentObject var favoritesVM: FavoritesViewModel
+    @EnvironmentObject var songbookVM: SongbookViewModel
 
     var body: some View {
         let _ = learnVM.stateVersion
-        let context = buildContext()
+        let context = AchievementWatcher.context(
+            learnVM: learnVM,
+            songsCount: songbookVM.songs.count,
+            favoritesCount: favoritesVM.favorites.count
+        )
         let unlocked = learnVM.unlockedAchievementIds
         let earnedIds = Achievements.shared.earned(context: context) as? Set<String> ?? Set()
 
@@ -109,9 +116,6 @@ struct AchievementsView: View {
             .padding(.vertical)
         }
         .navigationTitle(String(localized: "achievements_title"))
-        .task(id: learnVM.stateVersion) {
-            checkNewAchievements(context: context, unlocked: unlocked)
-        }
     }
 
     private func achievementRow(_ achievement: AchievementDisplayInfo, unlocked: Bool) -> some View {
@@ -146,75 +150,5 @@ struct AchievementsView: View {
         .opacity(unlocked ? 1.0 : 0.7)
         .padding(.horizontal)
         .accessibilityCombined(label: achievement.title, value: "\(achievement.description). \(unlocked ? "Unlocked" : "Locked")")
-    }
-
-    private func buildContext() -> AchievementContext {
-        let totalLessons = TheoryLessons.shared.ALL.asArray(of: TheoryLesson.self).count
-        let quizStats = learnVM.quizStats()
-        let intervalStats = learnVM.intervalStats()
-        let chordEarStats = learnVM.chordEarStats()
-        let scaleStats = learnVM.scalePracticeStats()
-
-        // Count songs from chord_sheets UserDefaults
-        let songsData = UserDefaults.standard.data(forKey: "chord_sheets")
-        var songsCount = 0
-        if let data = songsData,
-           let arr = try? JSONDecoder().decode([AnyCodable].self, from: data) {
-            songsCount = arr.count
-        }
-
-        // Count favorites
-        let favData = UserDefaults.standard.data(forKey: "favorite_voicings")
-        var favCount = 0
-        if let data = favData,
-           let arr = try? JSONDecoder().decode([AnyCodable].self, from: data) {
-            favCount = arr.count
-        }
-
-        return AchievementContext(
-            currentStreak: Int32(learnVM.currentDayStreak()),
-            bestStreak: Int32(learnVM.bestDayStreak()),
-            completedLessons: Int32(learnVM.completedLessonCount()),
-            totalLessons: Int32(totalLessons),
-            quizCorrect: Int32(quizStats.correct),
-            quizTotal: Int32(quizStats.total),
-            quizBestStreak: Int32(quizStats.bestStreak),
-            intervalTotal: Int32(intervalStats.total),
-            intervalCorrect: Int32(intervalStats.correct),
-            chordEarTotal: Int32(chordEarStats.total),
-            chordEarCorrect: Int32(chordEarStats.correct),
-            scalePracticeTotal: Int32(scaleStats.total),
-            songsCount: Int32(songsCount),
-            favoritesCount: Int32(favCount)
-        )
-    }
-
-    private func checkNewAchievements(context: AchievementContext, unlocked: Set<String>) {
-        let earnedIds = Achievements.shared.earned(context: context) as? Set<String> ?? Set()
-        var unlockedAny = false
-        for achievement in allAchievements {
-            if !unlocked.contains(achievement.id) && earnedIds.contains(achievement.id) {
-                learnVM.unlockAchievement(achievement.id)
-                unlockedAny = true
-            }
-        }
-        // Apple forbids preceding the system review sheet with a custom
-        // opinion prompt or triggering it from a button tap, so this is
-        // requested directly once the eligibility gates pass. StoreKit decides
-        // whether the sheet is actually shown.
-        if unlockedAny, ReviewPromptManager.shared.isEligible() {
-            ReviewPromptManager.shared.recordPromptShown()
-            requestReview()
-        }
-    }
-}
-
-private struct AnyCodable: Codable {
-    init(from decoder: Decoder) throws {
-        _ = try decoder.singleValueContainer()
-    }
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(true)
     }
 }
