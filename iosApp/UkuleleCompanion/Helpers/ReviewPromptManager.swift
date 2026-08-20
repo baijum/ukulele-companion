@@ -4,9 +4,13 @@ import UIKit
 
 /// Manages in-app review prompt state and eligibility.
 ///
-/// Tracks distinct calendar days where the user visited a Play or Create screen
-/// ("active days"), along with review/dismissal history, to determine when to
-/// show the two-step review prompt after an achievement unlock.
+/// Tracks distinct calendar days the app was opened ("active days") along with
+/// attempt history, to decide when to request the system review sheet after an
+/// achievement unlock.
+///
+/// There is deliberately no "user said no" state: Apple forbids preceding the
+/// sheet with a custom opinion prompt, so the app never learns whether the user
+/// reviewed or declined. Attempts are capped instead.
 @MainActor
 final class ReviewPromptManager {
 
@@ -18,8 +22,6 @@ final class ReviewPromptManager {
         self.defaults = UserDefaults(suiteName: "review_prompt") ?? .standard
     }
 
-    deinit {}
-
     // MARK: - First launch
 
     func initFirstLaunch() {
@@ -30,9 +32,12 @@ final class ReviewPromptManager {
 
     // MARK: - Active day tracking
 
-    /// Records today as an active Play/Create usage day. Idempotent per calendar day.
+    /// Records today as an active usage day. Idempotent per calendar day, and
+    /// stops writing once the gate is satisfied so the stored set cannot grow
+    /// without bound.
     func recordActiveDay() {
         var days = activeDays()
+        guard days.count < Constants.minActiveDays else { return }
         let today = Self.todayKey()
         if !days.contains(today) {
             days.insert(today)
@@ -46,24 +51,24 @@ final class ReviewPromptManager {
 
     // MARK: - Review state
 
+    /// Read-only: StoreKit never reports that a review was submitted, so nothing
+    /// sets this any more. It is still honoured so installs that latched it under
+    /// the old prompt are never asked again.
     func hasReviewed() -> Bool {
         defaults.bool(forKey: Keys.hasReviewed)
     }
 
-    func dismissCount() -> Int {
-        defaults.integer(forKey: Keys.dismissCount)
+    func promptCount() -> Int {
+        defaults.integer(forKey: Keys.promptCount)
     }
 
-    func recordReviewed() {
-        defaults.set(true, forKey: Keys.hasReviewed)
-    }
-
-    func recordDismissal() {
-        defaults.set(dismissCount() + 1, forKey: Keys.dismissCount)
-        defaults.set(Date().timeIntervalSince1970, forKey: Keys.lastPrompted)
-    }
-
+    /// Records an attempt to request the system review sheet.
+    ///
+    /// StoreKit reports neither whether the sheet appeared nor what the user
+    /// did, so an attempt is all that can be recorded. Capping attempts and
+    /// applying the cooldown is what keeps this from nagging.
     func recordPromptShown() {
+        defaults.set(promptCount() + 1, forKey: Keys.promptCount)
         defaults.set(Date().timeIntervalSince1970, forKey: Keys.lastPrompted)
     }
 
@@ -73,11 +78,11 @@ final class ReviewPromptManager {
     /// - 5+ distinct active days
     /// - 7+ days since first launch
     /// - Not already reviewed
-    /// - Fewer than 3 dismissals
-    /// - 90+ days since last prompt (or never prompted)
+    /// - Fewer than 3 prior attempts
+    /// - 90+ days since last attempt (or never attempted)
     func isEligible() -> Bool {
         guard !hasReviewed() else { return false }
-        guard dismissCount() < Constants.maxDismissals else { return false }
+        guard promptCount() < Constants.maxPrompts else { return false }
         guard activeDaysCount() >= Constants.minActiveDays else { return false }
 
         let firstLaunch = defaults.double(forKey: Keys.firstLaunch)
@@ -127,14 +132,16 @@ final class ReviewPromptManager {
         static let firstLaunch = "first_launch"
         static let activeDays = "active_days"
         static let hasReviewed = "has_reviewed"
-        static let dismissCount = "dismiss_count"
+        // Key kept as "dismiss_count" so installs that already recorded
+        // dismissals under the old prompt keep their attempt budget.
+        static let promptCount = "dismiss_count"
         static let lastPrompted = "last_prompted"
     }
 
     private enum Constants {
         static let minActiveDays = 5
         static let minDaysSinceInstall = 7
-        static let maxDismissals = 3
+        static let maxPrompts = 3
         static let cooldownDays = 90
     }
 }

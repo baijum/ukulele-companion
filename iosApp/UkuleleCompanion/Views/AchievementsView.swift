@@ -72,8 +72,6 @@ private nonisolated(unsafe) let allAchievements: [AchievementDisplayInfo] = [
 
 struct AchievementsView: View {
     @EnvironmentObject var learnVM: LearnViewModel
-    @State private var showReviewPrompt = false
-    @State private var reviewAchievementTitle = ""
 
     var body: some View {
         let _ = learnVM.stateVersion
@@ -111,17 +109,6 @@ struct AchievementsView: View {
         .navigationTitle(String(localized: "achievements_title"))
         .task(id: learnVM.stateVersion) {
             checkNewAchievements(context: context, unlocked: unlocked)
-        }
-        .alert(String(localized: "review_prompt_title"), isPresented: $showReviewPrompt) {
-            Button(String(localized: "review_prompt_yes")) {
-                ReviewPromptManager.shared.recordReviewed()
-                ReviewPromptManager.shared.requestReview()
-            }
-            Button(String(localized: "review_prompt_no"), role: .cancel) {
-                ReviewPromptManager.shared.recordDismissal()
-            }
-        } message: {
-            Text(String(format: String(localized: "review_prompt_message"), reviewAchievementTitle))
         }
     }
 
@@ -202,17 +189,20 @@ struct AchievementsView: View {
 
     private func checkNewAchievements(context: AchievementContext, unlocked: Set<String>) {
         let earnedIds = Achievements.shared.earned(context: context) as? Set<String> ?? Set()
-        var firstNewTitle: String?
+        var unlockedAny = false
         for achievement in allAchievements {
             if !unlocked.contains(achievement.id) && earnedIds.contains(achievement.id) {
                 learnVM.unlockAchievement(achievement.id)
-                if firstNewTitle == nil { firstNewTitle = achievement.title }
+                unlockedAny = true
             }
         }
-        if let title = firstNewTitle, ReviewPromptManager.shared.isEligible() {
+        // Apple forbids preceding the system review sheet with a custom
+        // opinion prompt or triggering it from a button tap, so this is
+        // requested directly once the eligibility gates pass. StoreKit decides
+        // whether the sheet is actually shown.
+        if unlockedAny, ReviewPromptManager.shared.isEligible() {
             ReviewPromptManager.shared.recordPromptShown()
-            reviewAchievementTitle = title
-            showReviewPrompt = true
+            ReviewPromptManager.shared.requestReview()
         }
     }
 }

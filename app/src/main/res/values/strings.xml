@@ -1258,10 +1258,5 @@
     <string name="theory_title_rhythm_world">World Rhythms</string>
 
     <!-- Review prompt -->
-    <string name="review_prompt_title">Enjoying Ukulele Companion?</string>
-    <string name="review_prompt_message">You just earned %1$s!</string>
-    <string name="review_prompt_yes">Yes, I love it!</string>
-    <string name="review_prompt_no">Not really</string>
-    <string name="review_feedback_thanks">Thanks for the feedback! We\'re always working to improve.</string>
 
 </resources>

@@ -1177,11 +1177,6 @@
     <string name="nav_songwriter_mode">ابدأ أغنية</string>
     <string name="songwriter_song_saved">تم حفظ الأغنية!</string>
     <!-- Review prompt -->
-    <string name="review_prompt_title">هل تستمتع بتطبيق Ukulele Companion؟</string>
-    <string name="review_prompt_message">لقد حصلت للتو على %1$s!</string>
-    <string name="review_prompt_yes">نعم، أحبه كثيراً!</string>
-    <string name="review_prompt_no">ليس حقاً</string>
-    <string name="review_feedback_thanks">شكرًا على ملاحظاتك! نعمل دائمًا على التحسين.</string>
     <string name="songbook_import_from_file">استيراد من ملف</string>
     <string name="songbook_paste_chordpro">لصق نص ChordPro</string>
     <string name="songbook_paste_chordpro_hint">الصق محتوى ChordPro</string>

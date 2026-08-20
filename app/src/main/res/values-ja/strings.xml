@@ -1172,11 +1172,6 @@
     <string name="nav_songwriter_mode">曲を作る</string>
     <string name="songwriter_song_saved">曲を保存しました！</string>
     <!-- Review prompt -->
-    <string name="review_prompt_title">Ukulele Companion を楽しんでいますか？</string>
-    <string name="review_prompt_message">%1$s を獲得しました！</string>
-    <string name="review_prompt_yes">はい、とても気に入っています！</string>
-    <string name="review_prompt_no">あまり</string>
-    <string name="review_feedback_thanks">フィードバックありがとうございます。改善のため日々取り組んでいます。</string>
     <string name="songbook_import_from_file">ファイルからインポート</string>
     <string name="songbook_paste_chordpro">ChordProテキストを貼り付け</string>
     <string name="songbook_paste_chordpro_hint">ChordProの内容を貼り付け</string>
