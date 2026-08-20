@@ -383,10 +383,22 @@ class FavoritesViewModelTest {
     }
 
     @Test
+    fun toChordVoicingResolvesNotesForLowG() {
+        vm.addFavorite(0, "maj", listOf(0, 0, 0, 3))
+        val chord = vm.toChordVoicing(vm.favorites.value.single(), tuningOf(UkuleleTuning.LOW_G))
+
+        // Low-G drops the G string an octave but keeps every pitch class, and
+        // toChordVoicing maps frets to pitch classes only. Asserted explicitly
+        // rather than assumed, so that making the conversion octave-aware has to
+        // come back through this test.
+        assertEquals(listOf(7, 0, 4, 0), chord.notes.map { it?.pitchClass })
+        assertEquals(listOf("G", "C", "E", "C"), chord.notes.map { it?.name })
+    }
+
+    @Test
     fun toChordVoicingResolvesNotesForBaritone() {
-        // The testing guide asks for both-tuning coverage on chord logic. High-G
-        // and Low-G share pitch classes, so baritone is the tuning that actually
-        // exercises a different mapping.
+        // Baritone is the tuning whose pitch classes actually differ from High-G,
+        // so it is the one that exercises a genuinely different mapping.
         vm.addFavorite(2, "maj", listOf(0, 0, 0, 0))
         val chord = vm.toChordVoicing(vm.favorites.value.single(), tuningOf(UkuleleTuning.BARITONE))
 
