@@ -1,6 +1,4 @@
 import Foundation
-import StoreKit
-import UIKit
 
 /// Manages in-app review prompt state and eligibility.
 ///
@@ -11,6 +9,10 @@ import UIKit
 /// There is deliberately no "user said no" state: Apple forbids preceding the
 /// sheet with a custom opinion prompt, so the app never learns whether the user
 /// reviewed or declined. Attempts are capped instead.
+///
+/// This type owns eligibility and state only. Requesting the sheet itself is the
+/// view's job, via SwiftUI's `\.requestReview` environment action, which targets
+/// the scene the view actually lives in.
 @MainActor
 final class ReviewPromptManager {
 
@@ -97,18 +99,6 @@ final class ReviewPromptManager {
         }
 
         return true
-    }
-
-    // MARK: - Native review API
-
-    /// Requests the App Store review dialog via SKStoreReviewController.
-    func requestReview() {
-        if let windowScene = UIApplication.shared
-            .connectedScenes
-            .compactMap({ $0 as? UIWindowScene })
-            .first {
-            SKStoreReviewController.requestReview(in: windowScene)
-        }
     }
 
     // MARK: - Private

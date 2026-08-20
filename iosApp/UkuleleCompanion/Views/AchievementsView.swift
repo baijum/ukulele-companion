@@ -1,3 +1,4 @@
+import StoreKit
 import SwiftUI
 import shared
 
@@ -72,6 +73,7 @@ private nonisolated(unsafe) let allAchievements: [AchievementDisplayInfo] = [
 
 struct AchievementsView: View {
     @EnvironmentObject var learnVM: LearnViewModel
+    @Environment(\.requestReview) private var requestReview
 
     var body: some View {
         let _ = learnVM.stateVersion
@@ -202,7 +204,7 @@ struct AchievementsView: View {
         // whether the sheet is actually shown.
         if unlockedAny, ReviewPromptManager.shared.isEligible() {
             ReviewPromptManager.shared.recordPromptShown()
-            ReviewPromptManager.shared.requestReview()
+            requestReview()
         }
     }
 }
