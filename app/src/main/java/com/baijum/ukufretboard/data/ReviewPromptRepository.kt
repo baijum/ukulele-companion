@@ -2,11 +2,11 @@ package com.baijum.ukufretboard.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.baijum.ukufretboard.domain.ReviewPromptEligibility
 import java.time.LocalDate
-import java.util.concurrent.TimeUnit
 
 /**
- * Repository for managing in-app review prompt state using SharedPreferences.
+ * SharedPreferences-backed storage for in-app review prompt state.
  *
  * Tracks:
  * - Distinct calendar days the app was opened ("active days")
@@ -15,9 +15,8 @@ import java.util.concurrent.TimeUnit
  * - How many times the flow has been attempted
  * - When the flow was last attempted
  *
- * There is deliberately no "user said no" state: the Play In-App Review API
- * forbids asking the user an opinion question before the flow, so the app never
- * learns whether the user reviewed or declined. Attempts are capped instead.
+ * The rules themselves live in [ReviewPromptEligibility] so Android and iOS
+ * cannot drift apart; this class only persists and reads back the state.
  */
 class ReviewPromptRepository(
     context: Context,
@@ -38,10 +37,9 @@ class ReviewPromptRepository(
      */
     fun recordActiveDay() {
         val days = activeDays()
-        if (days.size >= MIN_ACTIVE_DAYS) return
-        val today = todayKey()
+        if (!ReviewPromptEligibility.shouldRecordActiveDay(days.size)) return
         val updated = days.toMutableSet()
-        if (updated.add(today)) {
+        if (updated.add(todayKey())) {
             prefs.edit().putStringSet(KEY_ACTIVE_DAYS, updated).apply()
         }
     }
@@ -78,38 +76,21 @@ class ReviewPromptRepository(
             .apply()
     }
 
-    /**
-     * Returns `true` when all eligibility gates pass:
-     * - 5+ distinct active days
-     * - 7+ days since first launch
-     * - Flow has not already completed
-     * - Fewer than 3 prior attempts
-     * - 90+ days since last attempt (or never attempted)
-     */
-    fun isEligible(): Boolean {
-        if (hasReviewed()) return false
-        if (promptCount() >= MAX_PROMPTS) return false
-        if (activeDaysCount() < MIN_ACTIVE_DAYS) return false
+    /** Whether every gate in [ReviewPromptEligibility] passes for the stored state. */
+    fun isEligible(): Boolean =
+        ReviewPromptEligibility.isEligible(
+            state = snapshot(),
+            nowMillis = System.currentTimeMillis(),
+        )
 
-        val firstLaunch = prefs.getLong(KEY_FIRST_LAUNCH, 0L)
-        if (firstLaunch == 0L) return false
-        val daysSinceInstall =
-            TimeUnit.MILLISECONDS.toDays(
-                System.currentTimeMillis() - firstLaunch,
-            )
-        if (daysSinceInstall < MIN_DAYS_SINCE_INSTALL) return false
-
-        val lastPrompted = prefs.getLong(KEY_LAST_PROMPTED, 0L)
-        if (lastPrompted > 0L) {
-            val daysSincePrompt =
-                TimeUnit.MILLISECONDS.toDays(
-                    System.currentTimeMillis() - lastPrompted,
-                )
-            if (daysSincePrompt < COOLDOWN_DAYS) return false
-        }
-
-        return true
-    }
+    private fun snapshot(): ReviewPromptEligibility.State =
+        ReviewPromptEligibility.State(
+            activeDayCount = activeDaysCount(),
+            firstLaunchMillis = prefs.getLong(KEY_FIRST_LAUNCH, 0L),
+            hasReviewed = hasReviewed(),
+            promptCount = promptCount(),
+            lastPromptedMillis = prefs.getLong(KEY_LAST_PROMPTED, 0L),
+        )
 
     private fun activeDays(): Set<String> = prefs.getStringSet(KEY_ACTIVE_DAYS, emptySet()) ?: emptySet()
 
@@ -125,10 +106,5 @@ class ReviewPromptRepository(
         // dismissals under the old prompt keep their attempt budget.
         private const val KEY_PROMPT_COUNT = "dismiss_count"
         private const val KEY_LAST_PROMPTED = "last_prompted"
-
-        private const val MIN_ACTIVE_DAYS = 5
-        private const val MIN_DAYS_SINCE_INSTALL = 7
-        private const val MAX_PROMPTS = 3
-        private const val COOLDOWN_DAYS = 90L
     }
 }

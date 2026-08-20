@@ -64,7 +64,7 @@ These correspond to the user-facing tabs/headers and `NavSection` values. Groupe
 | **Global / Other**| Onboarding               | First-run setup flow. | `ui/OnboardingScreen.kt`, `Views/OnboardingView.swift` |
 | **Global / Other**| Backup & Restore         | Export/import all user data (JSON via shared codec). | `ui/BackupRestoreSection.kt`, `viewmodel/BackupRestoreViewModel.kt`, `data/sync/BackupRestoreManager.kt`, `Helpers/BackupRestoreManager.swift`, `shared/data/sync/BackupCodec.kt`, `BackupData.kt` |
 | **Global / Other**| Share / Image / PDF      | Chord diagram sharing, song export. | `ui/ShareUtils.kt`, `ui/ShareableChordDiagram.kt`, `domain/ChordImageSharer.kt`, `Views/ShareableChordDiagramView.swift`, `Views/ShareChordSheet.swift` |
-| **Global / Other**| Review Prompts           | In-app review timing logic. | `data/ReviewPromptRepository.kt`, `Helpers/ReviewPromptManager.swift` |
+| **Global / Other**| Review Prompts           | In-app review timing logic. | `shared/domain/ReviewPromptEligibility.kt`, `data/ReviewPromptRepository.kt`, `ui/ReviewPromptLauncher.kt`, `Helpers/ReviewPromptManager.swift` |
 
 ---
 
@@ -81,7 +81,7 @@ These correspond to the user-facing tabs/headers and `NavSection` values. Groupe
 | **Domain – Music Theory** | Core Theory               | Transposition, chord parsing/detection, note math, voice leading.          | `domain/Transpose.kt`, `ChordSheetTranspose.kt`, `ChordDetector.kt`, `ChordNameParser.kt`, `Chord.kt`, `Note.kt`, `TunerNoteMapper.kt`, `VoiceLeading.kt`, `HarmonicFunction.kt`, `KeyDetector.kt` |
 | **Domain – Generators & Trainers** | Practice Content        | Scale/chord builders, ear trainers, quizzes, daily challenges, routines.   | `domain/ScaleChords.kt`, `ScaleChordBuilder.kt`, `ScalePracticeGenerator.kt`, `ChordEarTrainer.kt`, `IntervalTrainer.kt`, `NoteQuizGenerator.kt`, `QuizGenerator.kt`, `DailyChallengeGenerator.kt`, `PracticeRoutineGenerator.kt` |
 | **Domain – Scorers & State** | Real-time Feedback     | Play-along scoring, pitch monitor state machine, metronome logic, capo calc. | `domain/PlayAlongScorer.kt`, `PitchMonitorStateMachine.kt`, `MetronomeStateLogic.kt`, `CapoCalculator.kt`, `ArpeggioDetector.kt`, `FingerTransitionCalculator.kt` |
-| **Domain – Utilities** | Misc Helpers             | Achievements, merge policies, songbook filtering, chord info/formatting.   | `domain/Achievements.kt`, `MergePolicy.kt`, `SongbookFilter.kt`, `ChordInfo.kt`, `ChordSheetFormatter.kt` |
+| **Domain – Utilities** | Misc Helpers             | Achievements, merge policies, songbook filtering, chord info/formatting, review prompt timing. | `domain/Achievements.kt`, `MergePolicy.kt`, `SongbookFilter.kt`, `ChordInfo.kt`, `ChordSheetFormatter.kt`, `ReviewPromptEligibility.kt` |
 | **Platform Abstractions** | Expect/Actual         | UUID, time, locking (used by audio buffers).                               | `platform/PlatformUtils.kt`, `PlatformLock.kt` (with androidMain/iosMain/jvmMain impls) |
 
 ---
