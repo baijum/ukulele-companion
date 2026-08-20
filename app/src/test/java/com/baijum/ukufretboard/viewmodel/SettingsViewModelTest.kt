@@ -298,6 +298,28 @@ class SettingsViewModelTest {
         assertEquals("}} not json {{", prefs.getString(KEY_QUARANTINE, null))
     }
 
+    @Test
+    fun theBackupSelfHealsOnTheSaveAfterBothCopiesWereCorrupt() {
+        writeRaw(KEY_SETTINGS, "}} not json {{")
+        writeRaw(KEY_BACKUP, "also not json")
+
+        newViewModel().updateSound { it.copy(enabled = false) }
+        val firstValidPayload = storedJson()
+        assertNotEquals(
+            "the save after a double corruption cannot promote the unparseable primary",
+            firstValidPayload,
+            backupJson(),
+        )
+
+        newViewModel().updateFretboard { it.copy(lastFret = 20) }
+
+        assertEquals(
+            "the next save rotates the recovered primary in, so the backup stops holding garbage",
+            firstValidPayload,
+            backupJson(),
+        )
+    }
+
     // ── Legacy migration ─────────────────────────────────────────────
 
     @Test

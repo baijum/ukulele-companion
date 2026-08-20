@@ -14,7 +14,7 @@ import com.baijum.ukufretboard.data.TuningSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 
 /**
  * ViewModel that manages all application settings.
@@ -49,81 +49,91 @@ class SettingsViewModel(
      *   and returns the updated [SoundSettings].
      */
     fun updateSound(transform: (SoundSettings) -> SoundSettings) {
-        _settings.update { current ->
-            current.copy(sound = transform(current.sound)).also { saveSettings(it) }
-        }
+        saveSettings(
+            _settings.updateAndGet { current ->
+                current.copy(sound = transform(current.sound))
+            },
+        )
     }
 
     /**
      * Updates the display settings by applying a transformation function.
      */
     fun updateDisplay(transform: (DisplaySettings) -> DisplaySettings) {
-        _settings.update { current ->
-            current.copy(display = transform(current.display)).also { saveSettings(it) }
-        }
+        saveSettings(
+            _settings.updateAndGet { current ->
+                current.copy(display = transform(current.display))
+            },
+        )
     }
 
     /**
      * Updates the tuning settings by applying a transformation function.
      */
     fun updateTuning(transform: (TuningSettings) -> TuningSettings) {
-        _settings.update { current ->
-            current.copy(tuning = transform(current.tuning)).also { saveSettings(it) }
-        }
+        saveSettings(
+            _settings.updateAndGet { current ->
+                current.copy(tuning = transform(current.tuning))
+            },
+        )
     }
 
     /**
      * Updates the fretboard settings by applying a transformation function.
      */
     fun updateFretboard(transform: (FretboardSettings) -> FretboardSettings) {
-        _settings.update { current ->
-            current.copy(fretboard = transform(current.fretboard)).also { saveSettings(it) }
-        }
+        saveSettings(
+            _settings.updateAndGet { current ->
+                current.copy(fretboard = transform(current.fretboard))
+            },
+        )
     }
 
     /**
      * Updates the scale practice settings by applying a transformation function.
      */
     fun updateScalePractice(transform: (ScalePracticeSettings) -> ScalePracticeSettings) {
-        _settings.update { current ->
-            current.copy(scalePractice = transform(current.scalePractice)).also { saveSettings(it) }
-        }
+        saveSettings(
+            _settings.updateAndGet { current ->
+                current.copy(scalePractice = transform(current.scalePractice))
+            },
+        )
     }
 
     /**
      * Updates the tuner settings by applying a transformation function.
      */
     fun updateTuner(transform: (TunerSettings) -> TunerSettings) {
-        _settings.update { current ->
-            current.copy(tuner = transform(current.tuner)).also { saveSettings(it) }
-        }
+        saveSettings(
+            _settings.updateAndGet { current ->
+                current.copy(tuner = transform(current.tuner))
+            },
+        )
     }
 
     /**
      * Updates the pitch monitor settings by applying a transformation function.
      */
     fun updatePitchMonitor(transform: (PitchMonitorSettings) -> PitchMonitorSettings) {
-        _settings.update { current ->
-            current.copy(pitchMonitor = transform(current.pitchMonitor)).also { saveSettings(it) }
-        }
+        saveSettings(
+            _settings.updateAndGet { current ->
+                current.copy(pitchMonitor = transform(current.pitchMonitor))
+            },
+        )
     }
 
     /**
      * Marks onboarding as completed so the wizard is not shown again.
      */
     fun completeOnboarding() {
-        _settings.update { current ->
-            current.copy(onboardingCompleted = true).also { saveSettings(it) }
-        }
+        saveSettings(_settings.updateAndGet { it.copy(onboardingCompleted = true) })
     }
 
     /**
      * Dismisses the Explorer tips card so it is not shown again.
      */
     fun dismissExplorerTips() {
-        _settings.update { current ->
-            current.copy(explorerTipsDismissed = true).also { saveSettings(it) }
-        }
+        saveSettings(_settings.updateAndGet { it.copy(explorerTipsDismissed = true) })
     }
 
     /**
@@ -140,5 +150,15 @@ class SettingsViewModel(
      */
     fun exportSettings(): AppSettings = _settings.value
 
+    /**
+     * Persists [s] via the repository.
+     *
+     * Always called on the value [MutableStateFlow.updateAndGet] actually
+     * published, never from inside the update lambda: that lambda is a
+     * compare-and-set body and re-runs on contention, so a save placed there
+     * would write candidate states that lost the race. Because
+     * [SettingsRepository.save] rotates the outgoing payload into the backup,
+     * one such stray write costs both the primary and the last good copy.
+     */
     private fun saveSettings(s: AppSettings) = repository.save(s)
 }
