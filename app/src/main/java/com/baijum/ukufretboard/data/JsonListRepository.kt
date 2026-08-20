@@ -70,12 +70,24 @@ abstract class JsonListRepository<T>(
         persist(merged)
     }
 
+    /**
+     * Writes the list, rotating the outgoing payload into the backup slot.
+     *
+     * The backup only advances to a payload that is known to parse: promoting a
+     * corrupt primary would destroy the last good copy, which is the one thing
+     * the backup exists to hold. When neither copy is readable the backup is
+     * re-seeded with the payload being written, so the next corruption has
+     * something to recover from.
+     */
     protected fun persist(items: List<T>) {
         val raw = json.encodeToString(ListSerializer(serializer), items)
-        val previousGood = prefs.getString(key, null)
-        prefs.edit()
-            .putString(backupKey, previousGood ?: raw)
-            .putString(key, raw)
-            .apply()
+        val lastGood = prefs.getString(key, null)?.takeIf { tryParse(it) != null }
+        val editor = prefs.edit().putString(key, raw)
+        if (lastGood != null) {
+            editor.putString(backupKey, lastGood)
+        } else if (tryParse(prefs.getString(backupKey, null)) == null) {
+            editor.putString(backupKey, raw)
+        }
+        editor.apply()
     }
 }
