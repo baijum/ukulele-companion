@@ -985,9 +985,11 @@ private fun SongbookRoute(
  * never opened it never unlocked anything — and so never became a candidate for
  * the review prompt either. Emits no UI; the Achievements screen only displays
  * what this has already recorded.
+ *
+ * Internal rather than private so `AchievementWatcherTest` can render it alone.
  */
 @Composable
-private fun AchievementWatcher(
+internal fun AchievementWatcher(
     learningProgressViewModel: LearningProgressViewModel,
     songbookViewModel: SongbookViewModel,
     favoritesCount: Int,
