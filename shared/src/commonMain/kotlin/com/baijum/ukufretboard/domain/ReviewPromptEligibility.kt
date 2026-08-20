@@ -63,14 +63,16 @@ object ReviewPromptEligibility {
      * - [COOLDOWN_DAYS]+ days since the last request, or never requested
      *
      * A clock that has moved backwards produces a negative elapsed span, which
-     * fails the gate rather than passing it — the conservative direction.
+     * fails the gate rather than passing it — the conservative direction. A
+     * negative prompt count is nonsense rather than a fresh budget, so it is
+     * treated as exhausted for the same reason.
      */
     fun isEligible(
         state: State,
         nowMillis: Long,
     ): Boolean {
         if (state.hasReviewed) return false
-        if (state.promptCount >= MAX_PROMPTS) return false
+        if (state.promptCount !in 0 until MAX_PROMPTS) return false
         if (state.activeDayCount < MIN_ACTIVE_DAYS) return false
 
         if (state.firstLaunchMillis <= 0L) return false

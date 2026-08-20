@@ -44,7 +44,7 @@ final class ReviewPromptManager {
     /// without bound.
     func recordActiveDay() {
         var days = activeDays()
-        guard ReviewPromptEligibility.shared.shouldRecordActiveDay(activeDayCount: Int32(days.count)) else { return }
+        guard ReviewPromptEligibility.shared.shouldRecordActiveDay(activeDayCount: Int32(clamping: days.count)) else { return }
         let today = Self.todayKey()
         if !days.contains(today) {
             days.insert(today)
@@ -92,12 +92,16 @@ final class ReviewPromptManager {
 
     // MARK: - Private
 
+    /// Counts are clamped rather than converted: `UserDefaults` hands back a
+    /// 64-bit `Int`, and a value outside `Int32` — from a corrupt store or a
+    /// restored backup — would trap on the way into the shared rules. Clamping
+    /// a huge count to `Int32.max` also lands on the safe side of the caps.
     private func snapshot() -> ReviewPromptEligibility.State {
         ReviewPromptEligibility.State(
-            activeDayCount: Int32(activeDaysCount()),
+            activeDayCount: Int32(clamping: activeDaysCount()),
             firstLaunchMillis: Self.millis(from: defaults.double(forKey: Keys.firstLaunch)),
             hasReviewed: hasReviewed(),
-            promptCount: Int32(promptCount()),
+            promptCount: Int32(clamping: promptCount()),
             lastPromptedMillis: Self.millis(from: defaults.double(forKey: Keys.lastPrompted))
         )
     }

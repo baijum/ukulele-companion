@@ -166,6 +166,24 @@ final class ReviewPromptManagerTests: XCTestCase {
         XCTAssertFalse(makeManager().isEligible())
     }
 
+    // MARK: - Out-of-range stored counts
+
+    @MainActor
+    func testStoredPromptCountBeyondInt32DoesNotTrapAndBlocksThePrompt() {
+        // UserDefaults hands back a 64-bit Int, so a corrupt value would trap
+        // on the way into the shared rules unless it is clamped.
+        seedEligible()
+        defaults.set(Int(Int32.max) + 1, forKey: "dismiss_count")
+        XCTAssertFalse(makeManager().isEligible())
+    }
+
+    @MainActor
+    func testNegativeStoredPromptCountDoesNotBypassTheCap() {
+        seedEligible()
+        defaults.set(Int(Int32.min) - 1, forKey: "dismiss_count")
+        XCTAssertFalse(makeManager().isEligible())
+    }
+
     // MARK: - Epoch seconds to milliseconds
 
     @MainActor

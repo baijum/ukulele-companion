@@ -59,6 +59,15 @@ class ReviewPromptEligibilityTest {
         assertFalse(ReviewPromptEligibility.isEligible(state, now))
     }
 
+    @Test
+    fun notEligibleWhenPromptCountIsNegative() {
+        // A negative count can only come from a corrupt store. Reading it as a
+        // fresh budget would hand that install unlimited prompts, so it counts
+        // as exhausted instead.
+        val state = eligibleState(promptCount = -1)
+        assertFalse(ReviewPromptEligibility.isEligible(state, now))
+    }
+
     // --- active days ---
 
     @Test
