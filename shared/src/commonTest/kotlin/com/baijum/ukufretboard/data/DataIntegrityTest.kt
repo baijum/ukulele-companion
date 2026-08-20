@@ -255,4 +255,58 @@ class DataIntegrityTest {
                 "Glossary out of order: '${terms[i - 1]}' before '${terms[i]}'")
         }
     }
+
+    // ── ExplorerTips ──
+
+    @Test
+    fun explorerTipsAreNonEmpty() {
+        // ChordResultView picks a tip with `currentTimeMillis() % ALL.size`.
+        // An empty catalog is a divide-by-zero crash on the Explorer tab.
+        assertTrue(ExplorerTips.ALL.isNotEmpty(), "ExplorerTips must never be empty")
+    }
+
+    @Test
+    fun allExplorerTipsAreNonBlank() {
+        for (tip in ExplorerTips.ALL) {
+            assertTrue(tip.isNotBlank(), "ExplorerTips contains a blank tip")
+        }
+    }
+
+    @Test
+    fun allExplorerTipsAreTrimmed() {
+        for (tip in ExplorerTips.ALL) {
+            assertEquals(tip.trim(), tip, "Tip has stray whitespace: '$tip'")
+        }
+    }
+
+    @Test
+    fun explorerTipsHaveNoDuplicates() {
+        val tips = ExplorerTips.ALL
+        assertEquals(tips.size, tips.toSet().size, "ExplorerTips contains duplicates")
+    }
+
+    @Test
+    fun explorerTipsFitTheDidYouKnowCard() {
+        // The card is a fixed-height surface on the Explorer tab; an essay
+        // overflows it and a fragment looks like a rendering bug.
+        for (tip in ExplorerTips.ALL) {
+            assertTrue(tip.length in 40..200, "Tip length ${tip.length} is out of range: '$tip'")
+        }
+    }
+
+    @Test
+    fun explorerTipsEndWithSentencePunctuation() {
+        for (tip in ExplorerTips.ALL) {
+            assertTrue(tip.last() in ".!?", "Tip is not a complete sentence: '$tip'")
+        }
+    }
+
+    @Test
+    fun tipIndexArithmeticStaysInBoundsForAnyTimestamp() {
+        val timestamps = listOf(0L, 1L, 999L, 1_700_000_000_000L, Long.MAX_VALUE)
+        for (millis in timestamps) {
+            val index = (millis % ExplorerTips.ALL.size).toInt()
+            assertTrue(index in ExplorerTips.ALL.indices, "Index $index out of bounds for $millis")
+        }
+    }
 }

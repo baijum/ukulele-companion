@@ -126,7 +126,7 @@ enum class UkuleleTuning(
 ) {
     HIGH_G("High-G (Standard)", listOf("G", "C", "E", "A"), listOf(7, 0, 4, 9), listOf(4, 4, 4, 4)),
     LOW_G("Low-G", listOf("g", "C", "E", "A"), listOf(7, 0, 4, 9), listOf(3, 4, 4, 4)),
-    BARITONE("Baritone (DGBE)", listOf("D", "G", "B", "E"), listOf(2, 7, 11, 4), listOf(3, 3, 4, 4)),
+    BARITONE("Baritone (DGBE)", listOf("D", "G", "B", "E"), listOf(2, 7, 11, 4), listOf(3, 3, 3, 4)),
     D_TUNING("D-Tuning (ADF#B)", listOf("A", "D", "F#", "B"), listOf(9, 2, 6, 11), listOf(4, 4, 4, 4)),
     SLACK_KEY("Slack Key (GCEG)", listOf("G", "C", "E", "G"), listOf(7, 0, 4, 7), listOf(4, 4, 4, 4)),
     OPEN_A("Open A (AC#EA)", listOf("A", "C#", "E", "A"), listOf(9, 1, 4, 9), listOf(4, 4, 4, 4)),
