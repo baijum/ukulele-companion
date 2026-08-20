@@ -2,7 +2,6 @@ package com.baijum.ukufretboard.data
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import kotlinx.serialization.json.Json
 
 /**
@@ -35,23 +34,32 @@ class SettingsRepository(
      * support request rather than disappearing silently.
      */
     fun load(): AppSettings {
-        val raw = prefs.getString(KEY_SETTINGS, null)
-        if (raw != null) {
-            tryParse(raw)?.let { return it }
+        val read =
+            prefs.readWithBackupFallback(
+                key = KEY_SETTINGS,
+                backupKey = KEY_SETTINGS_BACKUP,
+                quarantineKey = KEY_SETTINGS_QUARANTINE,
+                tag = TAG,
+                tryParse = ::tryParse,
+            )
+        return when (read) {
+            is BackupRead.Loaded -> read.value
 
-            tryParse(prefs.getString(KEY_SETTINGS_BACKUP, null))?.let { recovered ->
-                Log.w(TAG, "$KEY_SETTINGS unparseable; recovered from $KEY_SETTINGS_BACKUP")
-                return recovered
-            }
+            // Both copies are gone; the raw bytes are quarantined and defaults
+            // are all that is left to offer.
+            BackupRead.Unrecoverable -> AppSettings()
 
-            Log.e(TAG, "$KEY_SETTINGS and its backup are both unparseable; quarantining")
-            prefs.edit().putString(KEY_SETTINGS_QUARANTINE, raw).apply()
-            return AppSettings()
+            // Never written in this layout, so a legacy one may still be there.
+            BackupRead.Absent -> legacyOrDefaults()
         }
-
-        if (!prefs.contains(KEY_LEGACY_SOUND_ENABLED)) return AppSettings()
-        return migrateLegacySettings()
     }
+
+    /**
+     * Settings from the pre-JSON individual-key layout, if any were ever
+     * written; otherwise a fresh set of defaults.
+     */
+    private fun legacyOrDefaults(): AppSettings =
+        if (prefs.contains(KEY_LEGACY_SOUND_ENABLED)) migrateLegacySettings() else AppSettings()
 
     /**
      * Writes the settings, rotating the outgoing payload into the backup slot.
