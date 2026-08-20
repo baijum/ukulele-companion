@@ -59,6 +59,7 @@ import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.PracticeTimerRepository
 import com.baijum.ukufretboard.data.ReviewPromptRepository
 import com.baijum.ukufretboard.data.SoundSettings
+import com.baijum.ukufretboard.domain.AchievementDef
 import com.baijum.ukufretboard.domain.Achievements
 import com.baijum.ukufretboard.domain.ChordInfo
 import com.baijum.ukufretboard.domain.ChordVoicing
@@ -206,6 +207,20 @@ fun FretboardScreen(
     val currentFavorites by favoritesViewModel.favorites.collectAsState()
 
     val customProgressions by customProgressionViewModel.progressions.collectAsState()
+
+    AchievementWatcher(
+        learningProgressViewModel = learningProgressViewModel,
+        songbookViewModel = songbookViewModel,
+        favoritesCount = currentFavorites.size,
+        unlockedAchievementIds = unlockedAchievementIds,
+        onNewlyEarned = { earned ->
+            earned.forEach { achievementRepository.unlock(it.id) }
+            unlockedAchievementIds = achievementRepository.getUnlocked().keys
+            if (reviewPromptRepository.isEligible()) {
+                launchReviewFlow(context, reviewPromptRepository)
+            }
+        },
+    )
 
     LaunchedEffect(appSettings.sound) {
         fretboardViewModel.setSoundSettings(appSettings.sound)
@@ -612,10 +627,6 @@ fun FretboardScreen(
                             songbookViewModel = songbookViewModel,
                             favoritesCount = currentFavorites.size,
                             unlockedAchievementIds = unlockedAchievementIds,
-                            achievementRepository = achievementRepository,
-                            reviewPromptRepository = reviewPromptRepository,
-                            onUnlockedIdsChanged = { unlockedAchievementIds = it },
-                            onReviewPrompt = { launchReviewFlow(context, reviewPromptRepository) },
                         )
                     }
 
@@ -966,16 +977,24 @@ private fun SongbookRoute(
     }
 }
 
+/**
+ * Watches progress for newly earned achievements, wherever the user happens to be.
+ *
+ * This deliberately sits at the composition root rather than on the Achievements
+ * screen. The check used to run only while that screen was open, so a user who
+ * never opened it never unlocked anything — and so never became a candidate for
+ * the review prompt either. Emits no UI; the Achievements screen only displays
+ * what this has already recorded.
+ *
+ * Internal rather than private so `AchievementWatcherTest` can render it alone.
+ */
 @Composable
-private fun AchievementsRoute(
+internal fun AchievementWatcher(
     learningProgressViewModel: LearningProgressViewModel,
     songbookViewModel: SongbookViewModel,
     favoritesCount: Int,
     unlockedAchievementIds: Set<String>,
-    achievementRepository: AchievementRepository,
-    reviewPromptRepository: ReviewPromptRepository,
-    onUnlockedIdsChanged: (Set<String>) -> Unit,
-    onReviewPrompt: () -> Unit,
+    onNewlyEarned: (List<AchievementDef>) -> Unit,
 ) {
     val progressState by learningProgressViewModel.state.collectAsState()
     val sheetsState by songbookViewModel.sheets.collectAsState()
@@ -991,13 +1010,19 @@ private fun AchievementsRoute(
         )
     if (newlyEarned.isNotEmpty()) {
         LaunchedEffect(newlyEarned) {
-            newlyEarned.forEach { achievementRepository.unlock(it.id) }
-            onUnlockedIdsChanged(achievementRepository.getUnlocked().keys)
-            if (reviewPromptRepository.isEligible()) {
-                onReviewPrompt()
-            }
+            onNewlyEarned(newlyEarned)
         }
     }
+}
+
+@Composable
+private fun AchievementsRoute(
+    learningProgressViewModel: LearningProgressViewModel,
+    songbookViewModel: SongbookViewModel,
+    favoritesCount: Int,
+    unlockedAchievementIds: Set<String>,
+) {
+    val sheetsState by songbookViewModel.sheets.collectAsState()
     AchievementsView(
         progressViewModel = learningProgressViewModel,
         unlockedIds = unlockedAchievementIds,

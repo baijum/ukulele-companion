@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A10001 /* UkuleleCompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10001 /* UkuleleCompanionApp.swift */; };
+		A10081 /* AchievementWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10081 /* AchievementWatcher.swift */; };
 		A10002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10002 /* ContentView.swift */; };
 		A10003 /* AudioCaptureEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10003 /* AudioCaptureEngine.swift */; };
 		A10004 /* TonePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10004 /* TonePlayer.swift */; };
@@ -119,6 +120,7 @@
 		A10101 /* PlayAlongAndNeuralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10101 /* PlayAlongAndNeuralTests.swift */; };
 		A10102 /* AccessibilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10102 /* AccessibilityTests.swift */; };
 		A10000 /* ReviewPromptManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000 /* ReviewPromptManagerTests.swift */; };
+		A10082 /* AchievementWatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10082 /* AchievementWatcherTests.swift */; };
 		A20001 /* click_high.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20001 /* click_high.wav */; };
 		A20002 /* click_low.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20002 /* click_low.wav */; };
 		A20003 /* uke_a.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20003 /* uke_a.wav */; };
@@ -236,6 +238,7 @@
 		B10053 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
 		B10054 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		B10055 /* AccessibilityHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityHelper.swift; sourceTree = "<group>"; };
+		B10081 /* AchievementWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementWatcher.swift; sourceTree = "<group>"; };
 		B10056 /* VoiceLeadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceLeadingView.swift; sourceTree = "<group>"; };
 		B10057 /* ProgressionPracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionPracticeView.swift; sourceTree = "<group>"; };
 		B10058 /* CapoCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapoCalculatorView.swift; sourceTree = "<group>"; };
@@ -287,6 +290,7 @@
 		B10101 /* PlayAlongAndNeuralTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAlongAndNeuralTests.swift; sourceTree = "<group>"; };
 		B10102 /* AccessibilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityTests.swift; sourceTree = "<group>"; };
 		B10000 /* ReviewPromptManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPromptManagerTests.swift; sourceTree = "<group>"; };
+		B10082 /* AchievementWatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementWatcherTests.swift; sourceTree = "<group>"; };
 		B20001 /* click_high.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_high.wav; sourceTree = "<group>"; };
 		B20002 /* click_low.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_low.wav; sourceTree = "<group>"; };
 		B20003 /* uke_a.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = uke_a.wav; sourceTree = "<group>"; };
@@ -548,6 +552,7 @@
 			isa = PBXGroup;
 			children = (
 				B10055 /* AccessibilityHelper.swift */,
+				B10081 /* AchievementWatcher.swift */,
 				B10066 /* BackupRestoreManager.swift */,
 				B10079 /* KMPBridging.swift */,
 				B10090 /* ReviewPromptManager.swift */,
@@ -576,6 +581,7 @@
 				B10101 /* PlayAlongAndNeuralTests.swift */,
 				B10102 /* AccessibilityTests.swift */,
 				B10000 /* ReviewPromptManagerTests.swift */,
+				B10082 /* AchievementWatcherTests.swift */,
 			);
 			path = UkuleleCompanionTests;
 			sourceTree = "<group>";
@@ -811,6 +817,7 @@
 				A10053 /* FavoritesViewModel.swift in Sources */,
 				A10054 /* SettingsViewModel.swift in Sources */,
 				A10055 /* AccessibilityHelper.swift in Sources */,
+				A10081 /* AchievementWatcher.swift in Sources */,
 				A10079 /* KMPBridging.swift in Sources */,
 				A10056 /* VoiceLeadingView.swift in Sources */,
 				A10057 /* ProgressionPracticeView.swift in Sources */,
@@ -866,6 +873,7 @@
 				A10101 /* PlayAlongAndNeuralTests.swift in Sources */,
 				A10102 /* AccessibilityTests.swift in Sources */,
 				A10000 /* ReviewPromptManagerTests.swift in Sources */,
+				A10082 /* AchievementWatcherTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,3 +1,4 @@
+import StoreKit
 import SwiftUI
 
 enum SidebarDestination: String, Hashable {
@@ -22,6 +23,7 @@ enum SidebarDestination: String, Hashable {
 
 struct ContentView: View {
     @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.requestReview) private var requestReview
     @State private var selectedTab = 0
     @State private var showSettings = false
     @State private var showOnboarding: Bool
@@ -63,6 +65,36 @@ struct ContentView: View {
                 }
             }
             .preferredColorScheme(colorScheme)
+            .task(id: achievementTrigger) { checkAchievements() }
+        }
+    }
+
+    // MARK: - Achievements and review prompt
+
+    /// Re-runs the achievement check whenever anything it depends on moves.
+    /// `unlockAchievement` bumps `stateVersion`, so a run that unlocks
+    /// something fires one more pass, which finds nothing new and settles.
+    private var achievementTrigger: [Int] {
+        [learnVM.stateVersion, songbookVM.songs.count, favoritesVM.favorites.count]
+    }
+
+    /// Runs app-wide rather than on the Achievements screen, so a user who
+    /// never opens that screen still earns achievements — and still becomes a
+    /// candidate for the review prompt.
+    @MainActor
+    private func checkAchievements() {
+        let unlockedAny = AchievementWatcher.unlockNewlyEarned(
+            learnVM: learnVM,
+            songsCount: songbookVM.songs.count,
+            favoritesCount: favoritesVM.favorites.count
+        )
+        // Apple forbids preceding the system review sheet with a custom opinion
+        // prompt or triggering it from a button tap, so this is requested
+        // directly once the eligibility gates pass. StoreKit decides whether
+        // the sheet is actually shown.
+        if unlockedAny, ReviewPromptManager.shared.isEligible() {
+            ReviewPromptManager.shared.recordPromptShown()
+            requestReview()
         }
     }
 
