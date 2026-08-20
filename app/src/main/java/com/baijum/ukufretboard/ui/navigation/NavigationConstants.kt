@@ -22,12 +22,6 @@ import com.baijum.ukufretboard.data.NavSection
 import com.baijum.ukufretboard.domain.ChordNameParser
 import com.baijum.ukufretboard.viewmodel.ChordLibraryViewModel
 
-internal val PLAY_CREATE_SECTIONS = setOf(
-    NavSection.EXPLORER, NavSection.TUNER, NavSection.PITCH_MONITOR, NavSection.METRONOME,
-    NavSection.LIBRARY, NavSection.FAVORITES, NavSection.SONGWRITER_MODE, NavSection.SONGBOOK,
-    NavSection.MELODY_NOTEPAD, NavSection.PATTERNS, NavSection.PROGRESSIONS,
-)
-
 internal data class DrawerItem(
     val section: NavSection,
     val label: String,
