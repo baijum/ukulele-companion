@@ -1184,11 +1184,6 @@
     <string name="nav_songwriter_mode">Comenzar una canción</string>
     <string name="songwriter_song_saved">¡Canción guardada!</string>
     <!-- Review prompt -->
-    <string name="review_prompt_title">¿Te gusta Ukulele Companion?</string>
-    <string name="review_prompt_message">¡Acabas de ganar %1$s!</string>
-    <string name="review_prompt_yes">¡Sí, me encanta!</string>
-    <string name="review_prompt_no">No mucho</string>
-    <string name="review_feedback_thanks">¡Gracias por tus comentarios! Siempre trabajamos para mejorar.</string>
     <string name="songbook_import_from_file">Importar desde archivo</string>
     <string name="songbook_paste_chordpro">Pegar texto ChordPro</string>
     <string name="songbook_paste_chordpro_hint">Pegar contenido ChordPro</string>

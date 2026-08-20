@@ -84,7 +84,6 @@ import com.baijum.ukufretboard.ui.PitchMonitorTab
 import com.baijum.ukufretboard.ui.PlayAlongSetup
 import com.baijum.ukufretboard.ui.PracticeRoutineView
 import com.baijum.ukufretboard.ui.ProgressionsTab
-import com.baijum.ukufretboard.ui.ReviewPromptDialog
 import com.baijum.ukufretboard.ui.ScaleChordView
 import com.baijum.ukufretboard.ui.ScalePracticeView
 import com.baijum.ukufretboard.ui.SetlistTab
@@ -95,6 +94,7 @@ import com.baijum.ukufretboard.ui.SongwriterModeFlow
 import com.baijum.ukufretboard.ui.TheoryLessonsView
 import com.baijum.ukufretboard.ui.TheoryQuizView
 import com.baijum.ukufretboard.ui.TunerTab
+import com.baijum.ukufretboard.ui.launchReviewFlow
 import com.baijum.ukufretboard.ui.melody.MelodyNotepadView
 import com.baijum.ukufretboard.ui.patterns.StrumPatternsTab
 import com.baijum.ukufretboard.ui.songbook.SongbookTab
@@ -182,7 +182,6 @@ fun FretboardScreen(
         reviewPromptRepository.initFirstLaunch()
         reviewPromptRepository.recordActiveDay()
     }
-    var reviewPromptAchievement by remember { mutableStateOf<String?>(null) }
 
     val practiceTimerRepository = remember { PracticeTimerRepository(context) }
     val sessionStartMs = remember { System.currentTimeMillis() }
@@ -616,7 +615,7 @@ fun FretboardScreen(
                             achievementRepository = achievementRepository,
                             reviewPromptRepository = reviewPromptRepository,
                             onUnlockedIdsChanged = { unlockedAchievementIds = it },
-                            onReviewPrompt = { reviewPromptAchievement = it },
+                            onReviewPrompt = { launchReviewFlow(context, reviewPromptRepository) },
                         )
                     }
 
@@ -694,14 +693,6 @@ fun FretboardScreen(
             },
             backupRestoreViewModel = backupRestoreViewModel,
             onDismiss = { showSettings = false },
-        )
-    }
-
-    reviewPromptAchievement?.let { achievementId ->
-        ReviewPromptDialog(
-            achievementId = achievementId,
-            repository = reviewPromptRepository,
-            onDismiss = { reviewPromptAchievement = null },
         )
     }
 
@@ -984,7 +975,7 @@ private fun AchievementsRoute(
     achievementRepository: AchievementRepository,
     reviewPromptRepository: ReviewPromptRepository,
     onUnlockedIdsChanged: (Set<String>) -> Unit,
-    onReviewPrompt: (String) -> Unit,
+    onReviewPrompt: () -> Unit,
 ) {
     val progressState by learningProgressViewModel.state.collectAsState()
     val sheetsState by songbookViewModel.sheets.collectAsState()
@@ -1003,7 +994,7 @@ private fun AchievementsRoute(
             newlyEarned.forEach { achievementRepository.unlock(it.id) }
             onUnlockedIdsChanged(achievementRepository.getUnlocked().keys)
             if (reviewPromptRepository.isEligible()) {
-                onReviewPrompt(newlyEarned.first().id)
+                onReviewPrompt()
             }
         }
     }

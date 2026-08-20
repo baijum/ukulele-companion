@@ -1,6 +1,5 @@
 package com.baijum.ukufretboard.ui
 
-import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.view.WindowInsetsController
 import androidx.compose.animation.AnimatedVisibility
@@ -80,7 +79,7 @@ fun FullScreenFretboard(
     onExit: () -> Unit,
 ) {
     val context = LocalContext.current
-    val activity = context as? Activity
+    val activity = context.findActivity()
 
     // Force landscape + immersive mode
     DisposableEffect(Unit) {

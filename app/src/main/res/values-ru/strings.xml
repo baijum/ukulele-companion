@@ -1175,11 +1175,6 @@
     <string name="nav_songwriter_mode">Начать песню</string>
     <string name="songwriter_song_saved">Песня сохранена!</string>
     <!-- Review prompt -->
-    <string name="review_prompt_title">Нравится Ukulele Companion?</string>
-    <string name="review_prompt_message">Вы только что получили %1$s!</string>
-    <string name="review_prompt_yes">Да, обожаю!</string>
-    <string name="review_prompt_no">Не очень</string>
-    <string name="review_feedback_thanks">Спасибо за отзыв! Мы постоянно работаем над улучшениями.</string>
     <string name="songbook_import_from_file">Импорт из файла</string>
     <string name="songbook_paste_chordpro">Вставить текст ChordPro</string>
     <string name="songbook_paste_chordpro_hint">Вставьте содержимое ChordPro</string>
