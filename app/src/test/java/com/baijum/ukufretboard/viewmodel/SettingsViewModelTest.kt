@@ -299,24 +299,34 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun theBackupSelfHealsOnTheSaveAfterBothCopiesWereCorrupt() {
+    fun theBackupIsReseededOnTheSaveThatFollowsADoubleCorruption() {
         writeRaw(KEY_SETTINGS, "}} not json {{")
         writeRaw(KEY_BACKUP, "also not json")
 
         newViewModel().updateSound { it.copy(enabled = false) }
-        val firstValidPayload = storedJson()
-        assertNotEquals(
-            "the save after a double corruption cannot promote the unparseable primary",
-            firstValidPayload,
+
+        // Neither stored copy was worth keeping, so the backup does not wait a
+        // second save to stop holding garbage.
+        assertEquals(
+            "with nothing worth keeping, the backup is re-seeded with the new payload",
+            storedJson(),
             backupJson(),
         )
+    }
 
-        newViewModel().updateFretboard { it.copy(lastFret = 20) }
+    @Test
+    fun aReseededBackupSurvivesTheNextCorruption() {
+        writeRaw(KEY_SETTINGS, "}} not json {{")
+        writeRaw(KEY_BACKUP, "also not json")
+        newViewModel().updateSound { it.copy(enabled = false) }
 
-        assertEquals(
-            "the next save rotates the recovered primary in, so the backup stops holding garbage",
-            firstValidPayload,
-            backupJson(),
+        // The point of re-seeding: the store is recoverable again straight away.
+        writeRaw(KEY_SETTINGS, "corrupt again")
+
+        assertFalse(
+            "the re-seeded backup is what keeps the setting alive",
+            newViewModel()
+                .settings.value.sound.enabled,
         )
     }
 
