@@ -23,6 +23,12 @@ final class ReviewPromptManager {
         self.defaults = UserDefaults(suiteName: "review_prompt") ?? .standard
     }
 
+    /// Injects the store so tests can run against a scratch suite. Production
+    /// always goes through `shared` and the `review_prompt` suite above.
+    init(defaults: UserDefaults) {
+        self.defaults = defaults
+    }
+
     // MARK: - First launch
 
     func initFirstLaunch() {
