@@ -1,18 +1,6 @@
-package com.baijum.ukufretboard.viewmodel
+package com.baijum.ukufretboard.data
 
 import android.content.SharedPreferences
-import com.baijum.ukufretboard.data.AppSettings
-import com.baijum.ukufretboard.data.ChordColorOption
-import com.baijum.ukufretboard.data.ChordDisplayStyle
-import com.baijum.ukufretboard.data.DisplaySettings
-import com.baijum.ukufretboard.data.FretboardSettings
-import com.baijum.ukufretboard.data.PitchMonitorSettings
-import com.baijum.ukufretboard.data.ScalePracticeSettings
-import com.baijum.ukufretboard.data.SoundSettings
-import com.baijum.ukufretboard.data.ThemeMode
-import com.baijum.ukufretboard.data.TunerSettings
-import com.baijum.ukufretboard.data.TuningSettings
-import com.baijum.ukufretboard.data.UkuleleTuning
 
 /**
  * Reads legacy individual-key SharedPreferences and constructs an [AppSettings].

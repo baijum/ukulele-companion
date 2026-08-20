@@ -3,7 +3,6 @@ package com.baijum.ukufretboard.data
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import com.baijum.ukufretboard.viewmodel.LegacySettingsReader
 import kotlinx.serialization.json.Json
 
 /**
