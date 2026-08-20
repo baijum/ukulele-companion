@@ -2,7 +2,7 @@ package com.baijum.ukufretboard
 
 import android.app.Application
 import android.content.Context
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.test.platform.app.InstrumentationRegistry
 import com.baijum.ukufretboard.domain.AchievementDef
 import com.baijum.ukufretboard.ui.navigation.AchievementWatcher
