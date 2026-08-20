@@ -39,9 +39,12 @@ final class ReviewPromptManager {
 
     // MARK: - Active day tracking
 
-    /// Records today as an active usage day. Idempotent per calendar day, and
-    /// stops writing once the gate is satisfied so the stored set cannot grow
-    /// without bound.
+    /// Records today as an active usage day.
+    ///
+    /// Called once per launch from the root view, unconditionally: "active"
+    /// means the app was opened, not that any particular tab was used.
+    /// Idempotent per calendar day, and stops writing once the gate is
+    /// satisfied so the stored set cannot grow without bound.
     func recordActiveDay() {
         var days = activeDays()
         guard ReviewPromptEligibility.shared.shouldRecordActiveDay(activeDayCount: Int32(clamping: days.count)) else { return }

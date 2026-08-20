@@ -181,6 +181,9 @@ fun FretboardScreen(
     val reviewPromptRepository = remember { ReviewPromptRepository(context) }
     LaunchedEffect(Unit) {
         reviewPromptRepository.initFirstLaunch()
+        // Unconditional: an active day means "the app was opened today", not
+        // "a particular section was visited". Do not re-add a per-section call
+        // here — it would be dead code, since this already banked the day.
         reviewPromptRepository.recordActiveDay()
     }
 
@@ -641,9 +644,6 @@ fun FretboardScreen(
     val drawerItemOnClick: (NavSection) -> Unit = { section ->
         previousSection = null
         selectedSection = section
-        if (section in PLAY_CREATE_SECTIONS) {
-            reviewPromptRepository.recordActiveDay()
-        }
         if (!isTabletWidth) scope.launch { drawerState.close() }
     }
 

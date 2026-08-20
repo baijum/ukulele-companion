@@ -32,6 +32,9 @@ class ReviewPromptRepository(
 
     /**
      * Records today as an active usage day.
+     *
+     * Called once per launch from the root screen, unconditionally: "active"
+     * means the app was opened, not that any particular section was used.
      * Idempotent per calendar day, and stops writing once the gate is satisfied
      * so the stored set cannot grow without bound.
      */
