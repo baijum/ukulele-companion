@@ -26,12 +26,15 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Fullscreen
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
@@ -70,6 +73,7 @@ import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baijum.ukufretboard.R
@@ -116,6 +120,7 @@ internal fun SheetViewer(
     val exportChooserLabel = stringResource(R.string.songbook_export_chooser)
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showShareSheet by remember { mutableStateOf(false) }
+    var showOverflowMenu by remember { mutableStateOf(false) }
     var tappedChord by remember { mutableStateOf<String?>(null) }
     var performanceMode by rememberSaveable { mutableStateOf(false) }
 
@@ -191,10 +196,9 @@ internal fun SheetViewer(
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f).semantics { heading() },
                 textAlign = TextAlign.Center,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
-            IconButton(onClick = onDuplicate) {
-                Icon(Icons.Filled.ContentCopy, contentDescription = stringResource(R.string.songbook_duplicate_cd))
-            }
             IconButton(onClick = { showShareSheet = true }) {
                 Icon(Icons.Filled.Share, contentDescription = stringResource(R.string.action_share))
             }
@@ -204,8 +208,42 @@ internal fun SheetViewer(
             IconButton(onClick = { performanceMode = true }) {
                 Icon(Icons.Filled.Fullscreen, contentDescription = stringResource(R.string.performance_mode))
             }
-            IconButton(onClick = { showDeleteDialog = true }) {
-                Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.dialog_delete))
+            Box {
+                IconButton(onClick = { showOverflowMenu = true }) {
+                    Icon(Icons.Filled.MoreVert, contentDescription = stringResource(R.string.cd_more_options))
+                }
+                DropdownMenu(
+                    expanded = showOverflowMenu,
+                    onDismissRequest = { showOverflowMenu = false },
+                ) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.songbook_duplicate_cd)) },
+                        onClick = {
+                            showOverflowMenu = false
+                            onDuplicate()
+                        },
+                        leadingIcon = { Icon(Icons.Filled.ContentCopy, contentDescription = null) },
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                stringResource(R.string.dialog_delete),
+                                color = MaterialTheme.colorScheme.error,
+                            )
+                        },
+                        onClick = {
+                            showOverflowMenu = false
+                            showDeleteDialog = true
+                        },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Filled.Delete,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.error,
+                            )
+                        },
+                    )
+                }
             }
         }
 
