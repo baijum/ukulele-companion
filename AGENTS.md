@@ -15,11 +15,27 @@ Detailed coding rules live in `.cursor/rules/*.mdc` — **the canonical source**
 Ukulele Companion is a **free, fully offline** multiplatform app (Android + iOS) for learning and playing ukulele. A core user base includes **blind and visually impaired musicians** who rely on TalkBack (Android) and VoiceOver (iOS). Every code change must preserve accessibility. Breaking accessibility is treated as seriously as breaking functionality.
 
 **Hard constraints -- never violate these:**
-- No network dependencies -- the app must remain fully offline
+- No network dependencies -- every app feature must work with the radio off
 - No analytics, tracking, or telemetry
 - No ads or monetization code without prior discussion
 - No third-party SDKs without prior discussion
 - Never commit `keystore.properties`, API keys, or secrets
+
+**Approved exceptions** (already discussed and shipped — do not treat these as
+precedent for new ones, and do not "fix" them by deleting them):
+
+| Exception | Where | Why it is allowed |
+|-----------|-------|-------------------|
+| `com.google.android.play:review` / `:review-ktx` | `app/build.gradle.kts`, `ui/ReviewPromptLauncher.kt` | The Play In-App Review flow is the only Play-policy-compliant way to ask for a rating (see #65, #537). It brokers the request through the Play Store app already on the device; the app sends no data of its own and receives nothing back. iOS uses Apple's StoreKit `requestReview` for the same purpose. Both are covered by a carve-out in [docs/privacy-policy.md](docs/privacy-policy.md). |
+| Outbound links under Settings (website, free book, video guide, licences) | `ui/AboutSection.kt`, `Views/SettingsView.swift`, `Views/OpenSourceLicensesView.swift` | Hands a URL to the system browser; the app makes no request itself. |
+
+Anything a *user's own tap* hands to the OS (a link, a share sheet, a store
+review request) is not a network dependency. Anything the app fetches, uploads,
+or phones home with is — and stays banned.
+
+Because of these, prefer "works fully offline" over "sends nothing anywhere" in
+user-facing copy: the store review flow and outbound links are real, and this
+project's users read privacy claims literally.
 
 ## Tech Stack
 

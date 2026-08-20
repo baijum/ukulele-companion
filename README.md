@@ -344,7 +344,10 @@ We actively encourage contributors to use **AI coding tools** to accelerate thei
 ## 📖 Documentation
 
 - **Website**: https://baijum.github.io/ukulele-companion/
-- **Privacy policy**: https://baijum.github.io/ukulele-companion/privacy-policy/
+- **Privacy policy**: https://baijum.github.io/ukulele-companion/privacy-policy/ — no accounts,
+  no analytics, and no data leaves your device. Every feature works offline; the only things that
+  reach outside the app are links you tap and the app store's own review prompt (Google Play
+  In-App Review / StoreKit).
 
 Detailed feature documentation and a user manual are available in the [`docs/`](docs/) directory:
 

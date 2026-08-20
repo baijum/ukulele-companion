@@ -82,7 +82,7 @@ This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.
 - **ObservableObject + @Published (iOS)**: SwiftUI state managed via ObservableObject ViewModels
 - **Repository Pattern**: Data access is abstracted through repository classes
 - **Pure Domain Logic**: The shared `domain/` package has no platform dependencies, making it easy to test
-- **No Network**: The app is fully offline — do not add network dependencies
+- **No Network**: The app is fully offline — do not add network dependencies. The Play In-App Review dependency is a documented exception; see [Approved exceptions](AGENTS.md#project-overview) in `AGENTS.md`
 
 ### Linting & Pre-Submission Checks
 
@@ -259,7 +259,7 @@ This app is actively used by blind and visually impaired musicians with screen r
 
 ### Things to Avoid
 
-- **Do not add network dependencies** — the app must remain fully offline
+- **Do not add network dependencies** — every app feature must work with the radio off. The Play In-App Review SDK is the one approved exception (it brokers a rating request through the Play Store app); see **Approved exceptions** in `AGENTS.md` before adding anything similar
 - **Do not add analytics or tracking** — this is a core principle of the project
 - **Do not add ads or monetization without prior discussion** — changes to the business model require maintainer approval
 - **Do not add third-party SDKs** without prior discussion — keep the dependency footprint minimal
