@@ -214,7 +214,6 @@ class AppSettingsTest {
     }
 
     @Test
-    @Ignore // Enabled by "Fix: Correct the baritone B string octave".
     fun everyTuningStringMatchesItsScientificPitch() {
         // Expected MIDI numbers, spelled out from each tuning's documented note names.
         val expected =
@@ -234,7 +233,6 @@ class AppSettingsTest {
     }
 
     @Test
-    @Ignore // Enabled by "Fix: Correct the baritone B string octave".
     fun baritoneIsALinearTuningNotAReentrantOne() {
         // Baritone DGBE ascends D3 G3 B3 E4 like a guitar's top four strings.
         assertFalse(UkuleleTuning.BARITONE.isReentrant, "baritone tuning ascends linearly")
