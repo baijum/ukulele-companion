@@ -1,18 +1,17 @@
 import Foundation
+import shared
 
-/// Manages in-app review prompt state and eligibility.
+/// Stores in-app review prompt state.
 ///
 /// Tracks distinct calendar days the app was opened ("active days") along with
 /// attempt history, to decide when to request the system review sheet after an
 /// achievement unlock.
 ///
-/// There is deliberately no "user said no" state: Apple forbids preceding the
-/// sheet with a custom opinion prompt, so the app never learns whether the user
-/// reviewed or declined. Attempts are capped instead.
+/// The rules themselves live in the shared `ReviewPromptEligibility` so Android
+/// and iOS cannot drift apart; this type only persists and reads back the state.
 ///
-/// This type owns eligibility and state only. Requesting the sheet itself is the
-/// view's job, via SwiftUI's `\.requestReview` environment action, which targets
-/// the scene the view actually lives in.
+/// Requesting the sheet is the view's job, via SwiftUI's `\.requestReview`
+/// environment action, which targets the scene the view actually lives in.
 @MainActor
 final class ReviewPromptManager {
 
@@ -22,6 +21,12 @@ final class ReviewPromptManager {
 
     private init() {
         self.defaults = UserDefaults(suiteName: "review_prompt") ?? .standard
+    }
+
+    /// Injects the store so tests can run against a scratch suite. Production
+    /// always goes through `shared` and the `review_prompt` suite above.
+    init(defaults: UserDefaults) {
+        self.defaults = defaults
     }
 
     // MARK: - First launch
@@ -39,7 +44,7 @@ final class ReviewPromptManager {
     /// without bound.
     func recordActiveDay() {
         var days = activeDays()
-        guard days.count < Constants.minActiveDays else { return }
+        guard ReviewPromptEligibility.shared.shouldRecordActiveDay(activeDayCount: Int32(clamping: days.count)) else { return }
         let today = Self.todayKey()
         if !days.contains(today) {
             days.insert(today)
@@ -76,32 +81,41 @@ final class ReviewPromptManager {
 
     // MARK: - Eligibility
 
-    /// Returns `true` when all eligibility gates pass:
-    /// - 5+ distinct active days
-    /// - 7+ days since first launch
-    /// - Not already reviewed
-    /// - Fewer than 3 prior attempts
-    /// - 90+ days since last attempt (or never attempted)
+    /// Whether every gate in the shared `ReviewPromptEligibility` passes for the
+    /// stored state.
     func isEligible() -> Bool {
-        guard !hasReviewed() else { return false }
-        guard promptCount() < Constants.maxPrompts else { return false }
-        guard activeDaysCount() >= Constants.minActiveDays else { return false }
-
-        let firstLaunch = defaults.double(forKey: Keys.firstLaunch)
-        guard firstLaunch > 0 else { return false }
-        let daysSinceInstall = (Date().timeIntervalSince1970 - firstLaunch) / 86400
-        guard daysSinceInstall >= Double(Constants.minDaysSinceInstall) else { return false }
-
-        let lastPrompted = defaults.double(forKey: Keys.lastPrompted)
-        if lastPrompted > 0 {
-            let daysSincePrompt = (Date().timeIntervalSince1970 - lastPrompted) / 86400
-            guard daysSincePrompt >= Double(Constants.cooldownDays) else { return false }
-        }
-
-        return true
+        ReviewPromptEligibility.shared.isEligible(
+            state: snapshot(),
+            nowMillis: Self.millis(from: Date().timeIntervalSince1970)
+        )
     }
 
     // MARK: - Private
+
+    /// Counts are clamped rather than converted: `UserDefaults` hands back a
+    /// 64-bit `Int`, and a value outside `Int32` — from a corrupt store or a
+    /// restored backup — would trap on the way into the shared rules. Clamping
+    /// a huge count to `Int32.max` also lands on the safe side of the caps.
+    private func snapshot() -> ReviewPromptEligibility.State {
+        ReviewPromptEligibility.State(
+            activeDayCount: Int32(clamping: activeDaysCount()),
+            firstLaunchMillis: Self.millis(from: defaults.double(forKey: Keys.firstLaunch)),
+            hasReviewed: hasReviewed(),
+            promptCount: Int32(clamping: promptCount()),
+            lastPromptedMillis: Self.millis(from: defaults.double(forKey: Keys.lastPrompted))
+        )
+    }
+
+    /// These timestamps are persisted as epoch *seconds* and have been since the
+    /// first release, so they are converted here rather than migrated — the
+    /// shared rules work in milliseconds like the rest of the KMP module.
+    private static func millis(from seconds: TimeInterval) -> Int64 {
+        let millis = (seconds * 1000).rounded()
+        // A value outside Int64 could only come from corrupt defaults, and
+        // converting it would trap. Fall back to "never recorded" instead.
+        guard millis.isFinite, millis > Double(Int64.min), millis < Double(Int64.max) else { return 0 }
+        return Int64(millis)
+    }
 
     private func activeDays() -> Set<String> {
         Set(defaults.stringArray(forKey: Keys.activeDays) ?? [])
@@ -126,12 +140,5 @@ final class ReviewPromptManager {
         // dismissals under the old prompt keep their attempt budget.
         static let promptCount = "dismiss_count"
         static let lastPrompted = "last_prompted"
-    }
-
-    private enum Constants {
-        static let minActiveDays = 5
-        static let minDaysSinceInstall = 7
-        static let maxPrompts = 3
-        static let cooldownDays = 90
     }
 }
