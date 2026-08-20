@@ -37,7 +37,7 @@ hide:
     </div>
     <div class="hero-stats">
       <div><strong>30+</strong><span>learning screens</span></div>
-      <div><strong>100%</strong><span>offline capable</span></div>
+      <div><strong>100%</strong><span>of features work offline</span></div>
       <div><strong>0</strong><span>ads or tracking</span></div>
     </div>
   </div>
@@ -189,7 +189,9 @@ hide:
     <a href="manual/android/01-getting-started/" class="md-button">Go to getting started</a>
   </div>
   <p class="cta-footer">
-    <a href="privacy-policy/">Privacy Policy</a>
+    <a href="privacy-policy/">Privacy Policy</a> — no accounts, no analytics, no
+    data leaving your device. The only things that reach outside the app are
+    links you tap and your app store's own "rate this app" prompt.
   </p>
   <p class="cta-credit">
     Made with care by Baiju Muthukadan

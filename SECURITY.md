@@ -2,7 +2,13 @@
 
 ## About This App
 
-Ukulele Companion is a **fully offline** Android and iOS app with no backend servers, no user accounts, no analytics, and no network-dependent features. All data is stored locally on the device (SharedPreferences on Android, UserDefaults on iOS).
+Ukulele Companion is a **fully offline** Android and iOS app with no backend servers, no user accounts, and no analytics. Every music feature works with the radio off, and all data is stored locally on the device (SharedPreferences on Android, UserDefaults on iOS).
+
+The app itself opens no sockets. Two paths do hand work to the operating system:
+the store review prompt (Google Play In-App Review on Android, StoreKit
+`requestReview` on iOS) and the outbound links under Settings, which are
+handed to the system browser. Neither carries app data. See the
+[privacy policy](docs/privacy-policy.md) for the user-facing wording.
 
 ### Android Permissions
 
@@ -10,7 +16,7 @@ Ukulele Companion is a **fully offline** Android and iOS app with no backend ser
 |------------|---------|----------|
 | `RECORD_AUDIO` | Chromatic tuner and audio chord detection | Optional |
 | `POST_NOTIFICATIONS` | Chord of the Day daily notification | Optional |
-| `INTERNET` | Declared in the app manifest (no dependency requires it); not actively used for data transmission | — |
+| `INTERNET` | Declared in the app manifest; the app opens no connections of its own. The Play In-App Review flow runs inside the Play Store app, not this process | — |
 
 ### iOS Permissions
 
