@@ -8,7 +8,7 @@ struct VoiceLeadingView: View {
     @State private var currentStep = 0
     @State private var path: VoiceLeading.Path?
 
-    private let tonePlayer = TonePlayer()
+    @StateObject private var tonePlayer = TonePlayer()
     private let leftHanded: Bool
     private let tuning: [shared.UkuleleString]
 

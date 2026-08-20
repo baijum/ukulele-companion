@@ -9,7 +9,7 @@ struct FretboardNoteMapView: View {
 
     private let fretCount = 12
     private var cellSize: CGFloat { sizeClass == .regular ? 52 : 36 }
-    private let tonePlayer = TonePlayer()
+    @StateObject private var tonePlayer = TonePlayer()
 
     private var effectiveTuning: UkuleleTuning {
         if isLowG { return .lowG }

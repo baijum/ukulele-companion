@@ -14,7 +14,7 @@ struct IntervalTrainerView: View {
     @State private var bestStreak = 0
     @State private var isAudioMode = true
 
-    private let tonePlayer = TonePlayer()
+    @StateObject private var tonePlayer = TonePlayer()
 
     var body: some View {
         ScrollView {

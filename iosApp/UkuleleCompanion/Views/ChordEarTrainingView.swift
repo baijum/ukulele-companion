@@ -10,7 +10,7 @@ struct ChordEarTrainingView: View {
     @State private var score = 0
     @State private var total = 0
 
-    private let tonePlayer = TonePlayer()
+    @StateObject private var tonePlayer = TonePlayer()
     private static let sampleNames = [
         "uke_a", "uke_asharp", "uke_b", "uke_c", "uke_csharp",
         "uke_d", "uke_dsharp", "uke_e", "uke_f", "uke_fsharp",

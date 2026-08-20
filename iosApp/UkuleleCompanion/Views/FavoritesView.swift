@@ -10,7 +10,7 @@ struct FavoritesView: View {
     @State private var managingVoicing: FavoriteVoicingData?
     @State private var isReordering = false
     @State private var shareInfo: ShareChordInfo?
-    private let tonePlayer = TonePlayer()
+    @StateObject private var tonePlayer = TonePlayer()
 
     var body: some View {
         Group {
