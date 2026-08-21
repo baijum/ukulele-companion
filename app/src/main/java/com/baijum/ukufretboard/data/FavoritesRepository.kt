@@ -186,22 +186,32 @@ class FavoritesRepository(context: Context) {
 
     // ── JSON persistence ────────────────────────────────────────────
 
+    /**
+     * Writes the voicings, rotating the outgoing payload into the backup slot.
+     *
+     * See [writeWithBackupRotation] for the rule the backup follows.
+     */
     private fun persistVoicings(items: List<FavoriteVoicing>) {
-        val raw = json.encodeToString(ListSerializer(FavoriteVoicing.serializer()), items)
-        val previousGood = prefs.getString(KEY_FAVORITES, null)
-        prefs.edit()
-            .putString(BACKUP_KEY_FAVORITES, previousGood ?: raw)
-            .putString(KEY_FAVORITES, raw)
-            .apply()
+        prefs.writeWithBackupRotation(
+            key = KEY_FAVORITES,
+            backupKey = BACKUP_KEY_FAVORITES,
+            raw = json.encodeToString(ListSerializer(FavoriteVoicing.serializer()), items),
+            isReadable = { tryParseVoicings(it) != null },
+        )
     }
 
+    /**
+     * Writes the folders, rotating the outgoing payload into the backup slot.
+     *
+     * See [writeWithBackupRotation] for the rule the backup follows.
+     */
     private fun persistFolders(items: List<FavoriteFolder>) {
-        val raw = json.encodeToString(ListSerializer(FavoriteFolder.serializer()), items)
-        val previousGood = folderPrefs.getString(KEY_FOLDERS, null)
-        folderPrefs.edit()
-            .putString(BACKUP_KEY_FOLDERS, previousGood ?: raw)
-            .putString(KEY_FOLDERS, raw)
-            .apply()
+        folderPrefs.writeWithBackupRotation(
+            key = KEY_FOLDERS,
+            backupKey = BACKUP_KEY_FOLDERS,
+            raw = json.encodeToString(ListSerializer(FavoriteFolder.serializer()), items),
+            isReadable = { tryParseFolders(it) != null },
+        )
     }
 
     /**
