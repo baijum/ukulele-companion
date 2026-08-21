@@ -35,15 +35,7 @@ class CustomProgressionRepository(context: Context) : JsonListRepository<CustomP
     override fun entityId(item: CustomProgression) = item.id
     override fun entityTimestamp(item: CustomProgression) = item.createdAt
 
-    override fun getAll(): List<CustomProgression> {
-        val raw = prefs.getString(KEY_PROGRESSIONS, null)
-        if (raw != null) {
-            return tryParse(raw)
-                ?: tryParse(prefs.getString(backupKey, null))
-                ?: migrateLegacyPipeEntries()
-        }
-        return migrateLegacyPipeEntries()
-    }
+    override fun getAll(): List<CustomProgression> = readOrElse(::migrateLegacyPipeEntries)
 
     private fun migrateLegacyPipeEntries(): List<CustomProgression> {
         val entries = prefs.all.entries

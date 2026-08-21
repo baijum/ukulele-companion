@@ -33,15 +33,7 @@ class CustomStrumPatternRepository(context: Context) : JsonListRepository<Custom
     override fun entityId(item: CustomStrumPattern) = item.id
     override fun entityTimestamp(item: CustomStrumPattern) = item.createdAt
 
-    override fun getAll(): List<CustomStrumPattern> {
-        val raw = prefs.getString(KEY_PATTERNS, null)
-        if (raw != null) {
-            return tryParse(raw)
-                ?: tryParse(prefs.getString(backupKey, null))
-                ?: migrateLegacyPipeEntries()
-        }
-        return migrateLegacyPipeEntries()
-    }
+    override fun getAll(): List<CustomStrumPattern> = readOrElse(::migrateLegacyPipeEntries)
 
     private fun migrateLegacyPipeEntries(): List<CustomStrumPattern> {
         val entries = prefs.all.entries

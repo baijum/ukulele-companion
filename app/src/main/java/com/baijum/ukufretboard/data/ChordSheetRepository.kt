@@ -23,15 +23,7 @@ class ChordSheetRepository(context: Context) : JsonListRepository<ChordSheet>(
         persist(merged)
     }
 
-    override fun getAll(): List<ChordSheet> {
-        val raw = prefs.getString(KEY_SHEETS, null)
-        if (raw != null) {
-            return tryParse(raw)
-                ?: tryParse(prefs.getString(backupKey, null))
-                ?: migrateLegacyPipeEntries()
-        }
-        return migrateLegacyPipeEntries()
-    }
+    override fun getAll(): List<ChordSheet> = readOrElse(::migrateLegacyPipeEntries)
 
     /**
      * Returns the set of all distinct labels used across every saved chord sheet.

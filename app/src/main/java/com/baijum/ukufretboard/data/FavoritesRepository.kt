@@ -28,15 +28,14 @@ class FavoritesRepository(context: Context) {
     /**
      * Returns all saved favorites, sorted by time added (newest first).
      */
-    fun getAll(): List<FavoriteVoicing> {
-        val raw = prefs.getString(KEY_FAVORITES, null)
-        if (raw != null) {
-            return tryParseVoicings(raw)
-                ?: tryParseVoicings(prefs.getString(BACKUP_KEY_FAVORITES, null))
-                ?: migrateLegacyVoicings()
-        }
-        return migrateLegacyVoicings()
-    }
+    fun getAll(): List<FavoriteVoicing> =
+        prefs.readListOrMigrate(
+            key = KEY_FAVORITES,
+            backupKey = BACKUP_KEY_FAVORITES,
+            quarantineKey = QUARANTINE_KEY_FAVORITES,
+            tryParse = ::tryParseVoicings,
+            migrate = ::migrateLegacyVoicings,
+        )
 
     /**
      * Adds a voicing to favorites. No-op if already saved.
@@ -113,15 +112,14 @@ class FavoritesRepository(context: Context) {
 
     // ── Folder management ───────────────────────────────────────────
 
-    fun getAllFolders(): List<FavoriteFolder> {
-        val raw = folderPrefs.getString(KEY_FOLDERS, null)
-        if (raw != null) {
-            return tryParseFolders(raw)
-                ?: tryParseFolders(folderPrefs.getString(BACKUP_KEY_FOLDERS, null))
-                ?: migrateLegacyFolders()
-        }
-        return migrateLegacyFolders()
-    }
+    fun getAllFolders(): List<FavoriteFolder> =
+        folderPrefs.readListOrMigrate(
+            key = KEY_FOLDERS,
+            backupKey = BACKUP_KEY_FOLDERS,
+            quarantineKey = QUARANTINE_KEY_FOLDERS,
+            tryParse = ::tryParseFolders,
+            migrate = ::migrateLegacyFolders,
+        )
 
     fun saveFolder(folder: FavoriteFolder) {
         val items = getAllFolders().toMutableList()
@@ -206,6 +204,36 @@ class FavoritesRepository(context: Context) {
             .apply()
     }
 
+    /**
+     * Applies the shared backup-and-quarantine rule to one of this repository's
+     * two stores, falling back to [migrate] when neither stored copy is
+     * readable.
+     *
+     * This class predates [JsonListRepository] and keeps its own storage, so it
+     * cannot inherit `readOrElse`; routing through the same helper is what
+     * stops the two from drifting apart again.
+     */
+    private fun <T> SharedPreferences.readListOrMigrate(
+        key: String,
+        backupKey: String,
+        quarantineKey: String,
+        tryParse: (String?) -> List<T>?,
+        migrate: () -> List<T>,
+    ): List<T> {
+        val read =
+            readWithBackupFallback(
+                key = key,
+                backupKey = backupKey,
+                quarantineKey = quarantineKey,
+                tag = TAG,
+                tryParse = tryParse,
+            )
+        return when (read) {
+            is BackupRead.Loaded -> read.value
+            BackupRead.Absent, BackupRead.Unrecoverable -> migrate()
+        }
+    }
+
     private fun tryParseVoicings(raw: String?): List<FavoriteVoicing>? {
         if (raw == null) return null
         return try {
@@ -228,14 +256,14 @@ class FavoritesRepository(context: Context) {
 
     private fun migrateLegacyVoicings(): List<FavoriteVoicing> {
         val entries = prefs.all.entries
-            .filter { it.key != KEY_FAVORITES && it.key != BACKUP_KEY_FAVORITES }
+            .filter { it.key !in VOICING_KEYS }
             .mapNotNull { (_, value) -> deserializeLegacyVoicing(value as? String) }
             .sortedByDescending { it.addedAt }
         if (entries.isNotEmpty()) {
             persistVoicings(entries)
             val editor = prefs.edit()
             prefs.all.keys
-                .filter { it != KEY_FAVORITES && it != BACKUP_KEY_FAVORITES }
+                .filter { it !in VOICING_KEYS }
                 .forEach { editor.remove(it) }
             editor.apply()
         }
@@ -244,14 +272,14 @@ class FavoritesRepository(context: Context) {
 
     private fun migrateLegacyFolders(): List<FavoriteFolder> {
         val entries = folderPrefs.all.entries
-            .filter { it.key != KEY_FOLDERS && it.key != BACKUP_KEY_FOLDERS }
+            .filter { it.key !in FOLDER_KEYS }
             .mapNotNull { (_, value) -> deserializeLegacyFolder(value as? String) }
             .sortedBy { it.name }
         if (entries.isNotEmpty()) {
             persistFolders(entries)
             val editor = folderPrefs.edit()
             folderPrefs.all.keys
-                .filter { it != KEY_FOLDERS && it != BACKUP_KEY_FOLDERS }
+                .filter { it !in FOLDER_KEYS }
                 .forEach { editor.remove(it) }
             editor.apply()
         }
@@ -311,11 +339,24 @@ class FavoritesRepository(context: Context) {
     }
 
     companion object {
+        private const val TAG = "FavoritesRepository"
         private const val PREFS_NAME = "chord_favorites"
         private const val KEY_FAVORITES = "favorites_json"
         private const val BACKUP_KEY_FAVORITES = "favorites_json_backup"
+        private const val QUARANTINE_KEY_FAVORITES = "favorites_json_quarantine"
         private const val FOLDER_PREFS_NAME = "favorite_folders"
         private const val KEY_FOLDERS = "folders_json"
         private const val BACKUP_KEY_FOLDERS = "folders_json_backup"
+        private const val QUARANTINE_KEY_FOLDERS = "folders_json_quarantine"
+
+        /**
+         * The keys each store owns. The legacy migrations sweep out everything
+         * else, so anything this class writes for itself has to be listed here
+         * or the sweep takes it -- see `JsonListRepository.ownKeys`.
+         */
+        private val VOICING_KEYS =
+            setOf(KEY_FAVORITES, BACKUP_KEY_FAVORITES, QUARANTINE_KEY_FAVORITES)
+        private val FOLDER_KEYS =
+            setOf(KEY_FOLDERS, BACKUP_KEY_FOLDERS, QUARANTINE_KEY_FOLDERS)
     }
 }

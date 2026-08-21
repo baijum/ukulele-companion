@@ -44,10 +44,28 @@ abstract class JsonListRepository<T>(
      * cannot be parsed. See [readWithBackupFallback] for the rule.
      *
      * An empty list is the answer both to a store that was never written and to
-     * one whose copies are both unreadable: unlike settings there is no legacy
-     * layout to migrate, so the two cases lead to the same place.
+     * one whose copies are both unreadable: with no legacy layout to migrate,
+     * the two cases lead to the same place.
      */
-    open fun getAll(): List<T> {
+    open fun getAll(): List<T> = readOrElse { emptyList() }
+
+    /**
+     * Reads the stored list, calling [fallback] when neither stored copy yields
+     * one.
+     *
+     * Every subclass overrides [getAll] to reach a legacy on-disk format when
+     * the JSON store has nothing to give. Handing that migration to this
+     * function keeps them on the recovery path instead of replacing it: before
+     * it existed each override went straight to its migration, so the
+     * quarantine below was written but never reached (#564).
+     *
+     * [fallback] answers both "never written" and "written, now unreadable",
+     * because a store with a legacy layout to try has the same thing to try in
+     * either case. Only the second leaves quarantined bytes behind, and
+     * [readWithBackupFallback] has already written them by the time [fallback]
+     * runs -- which is why the migrations must leave [ownKeys] alone.
+     */
+    protected fun readOrElse(fallback: () -> List<T>): List<T> {
         val read =
             prefs.readWithBackupFallback(
                 key = key,
@@ -58,7 +76,7 @@ abstract class JsonListRepository<T>(
             )
         return when (read) {
             is BackupRead.Loaded -> read.value
-            BackupRead.Absent, BackupRead.Unrecoverable -> emptyList()
+            BackupRead.Absent, BackupRead.Unrecoverable -> fallback()
         }
     }
 

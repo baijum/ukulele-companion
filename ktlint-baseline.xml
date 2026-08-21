@@ -104,52 +104,52 @@
         <error line="12" column="28" source="standard:class-signature" />
         <error line="12" column="44" source="standard:class-signature" />
         <error line="19" column="5" source="standard:blank-line-before-declaration" />
-        <error line="39" column="38" source="standard:function-signature" />
-        <error line="45" column="23" source="standard:multiline-expression-wrapping" />
-        <error line="52" column="27" source="standard:chain-method-continuation" />
-        <error line="52" column="53" source="standard:chain-method-continuation" />
+        <error line="31" column="38" source="standard:function-signature" />
+        <error line="37" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="44" column="27" source="standard:chain-method-continuation" />
+        <error line="44" column="53" source="standard:chain-method-continuation" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/data/CustomFingerpickingPatternRepository.kt">
         <error line="27" column="44" source="standard:class-signature" />
         <error line="27" column="60" source="standard:class-signature" />
         <error line="34" column="5" source="standard:blank-line-before-declaration" />
-        <error line="47" column="23" source="standard:multiline-expression-wrapping" />
-        <error line="54" column="27" source="standard:chain-method-continuation" />
-        <error line="54" column="53" source="standard:chain-method-continuation" />
-        <error line="67" column="25" source="standard:multiline-expression-wrapping" />
-        <error line="76" column="33" source="standard:multiline-expression-wrapping" />
-        <error line="78" column="51" source="standard:string-template" />
-        <error line="79" column="15" source="standard:if-else-wrapping" />
-        <error line="79" column="20" source="standard:if-else-bracing" />
-        <error line="79" column="20" source="standard:if-else-wrapping" />
-        <error line="79" column="20" source="standard:multiline-if-else" />
-        <error line="80" column="28" source="standard:multiline-expression-wrapping" />
-        <error line="86" column="27" source="standard:multiline-expression-wrapping" />
+        <error line="39" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="46" column="27" source="standard:chain-method-continuation" />
+        <error line="46" column="53" source="standard:chain-method-continuation" />
+        <error line="59" column="25" source="standard:multiline-expression-wrapping" />
+        <error line="68" column="33" source="standard:multiline-expression-wrapping" />
+        <error line="70" column="51" source="standard:string-template" />
+        <error line="71" column="15" source="standard:if-else-wrapping" />
+        <error line="71" column="20" source="standard:if-else-bracing" />
+        <error line="71" column="20" source="standard:if-else-wrapping" />
+        <error line="71" column="20" source="standard:multiline-if-else" />
+        <error line="72" column="28" source="standard:multiline-expression-wrapping" />
+        <error line="78" column="27" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/data/CustomProgressionRepository.kt">
         <error line="29" column="35" source="standard:class-signature" />
         <error line="29" column="51" source="standard:class-signature" />
         <error line="36" column="5" source="standard:blank-line-before-declaration" />
-        <error line="49" column="23" source="standard:multiline-expression-wrapping" />
-        <error line="56" column="27" source="standard:chain-method-continuation" />
-        <error line="56" column="53" source="standard:chain-method-continuation" />
-        <error line="71" column="27" source="standard:multiline-expression-wrapping" />
-        <error line="82" column="31" source="standard:multiline-expression-wrapping" />
+        <error line="41" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="48" column="27" source="standard:chain-method-continuation" />
+        <error line="48" column="53" source="standard:chain-method-continuation" />
+        <error line="63" column="27" source="standard:multiline-expression-wrapping" />
+        <error line="74" column="31" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/data/CustomStrumPatternRepository.kt">
         <error line="27" column="36" source="standard:class-signature" />
         <error line="27" column="52" source="standard:class-signature" />
         <error line="34" column="5" source="standard:blank-line-before-declaration" />
-        <error line="47" column="23" source="standard:multiline-expression-wrapping" />
-        <error line="54" column="27" source="standard:chain-method-continuation" />
-        <error line="54" column="53" source="standard:chain-method-continuation" />
-        <error line="67" column="25" source="standard:multiline-expression-wrapping" />
-        <error line="76" column="28" source="standard:multiline-expression-wrapping" />
-        <error line="77" column="33" source="standard:if-else-wrapping" />
-        <error line="77" column="33" source="standard:multiline-if-else" />
-        <error line="78" column="22" source="standard:if-else-wrapping" />
-        <error line="78" column="22" source="standard:multiline-if-else" />
-        <error line="82" column="27" source="standard:multiline-expression-wrapping" />
+        <error line="39" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="46" column="27" source="standard:chain-method-continuation" />
+        <error line="46" column="53" source="standard:chain-method-continuation" />
+        <error line="59" column="25" source="standard:multiline-expression-wrapping" />
+        <error line="68" column="28" source="standard:multiline-expression-wrapping" />
+        <error line="69" column="33" source="standard:if-else-wrapping" />
+        <error line="69" column="33" source="standard:multiline-if-else" />
+        <error line="70" column="22" source="standard:if-else-wrapping" />
+        <error line="70" column="22" source="standard:multiline-if-else" />
+        <error line="74" column="27" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/data/FavoritesRepository.kt">
         <error line="16" column="27" source="standard:class-signature" />
@@ -158,40 +158,40 @@
         <error line="24" column="31" source="standard:statement-wrapping" />
         <error line="24" column="56" source="standard:statement-wrapping" />
         <error line="24" column="79" source="standard:statement-wrapping" />
-        <error line="68" column="54" source="standard:function-signature" />
-        <error line="74" column="18" source="standard:function-signature" />
-        <error line="74" column="39" source="standard:function-signature" />
-        <error line="74" column="60" source="standard:function-signature" />
-        <error line="74" column="76" source="standard:function-signature" />
-        <error line="82" column="20" source="standard:function-signature" />
-        <error line="82" column="46" source="standard:function-signature" />
-        <error line="82" column="69" source="standard:function-signature" />
-        <error line="103" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="133" column="22" source="standard:function-signature" />
-        <error line="133" column="40" source="standard:function-signature" />
-        <error line="133" column="55" source="standard:function-signature" />
-        <error line="144" column="23" source="standard:multiline-expression-wrapping" />
-        <error line="153" column="33" source="standard:function-signature" />
-        <error line="153" column="51" source="standard:function-signature" />
-        <error line="153" column="76" source="standard:function-signature" />
-        <error line="168" column="22" source="standard:multiline-expression-wrapping" />
-        <error line="181" column="22" source="standard:multiline-expression-wrapping" />
-        <error line="194" column="14" source="standard:chain-method-continuation" />
-        <error line="203" column="20" source="standard:chain-method-continuation" />
-        <error line="230" column="23" source="standard:multiline-expression-wrapping" />
-        <error line="246" column="23" source="standard:multiline-expression-wrapping" />
-        <error line="267" column="29" source="standard:multiline-expression-wrapping" />
-        <error line="293" column="25" source="standard:multiline-expression-wrapping" />
-        <error line="309" column="36" source="standard:function-signature" />
-        <error line="309" column="60" source="standard:function-signature" />
-        <error line="309" column="92" source="standard:function-signature" />
+        <error line="67" column="54" source="standard:function-signature" />
+        <error line="73" column="18" source="standard:function-signature" />
+        <error line="73" column="39" source="standard:function-signature" />
+        <error line="73" column="60" source="standard:function-signature" />
+        <error line="73" column="76" source="standard:function-signature" />
+        <error line="81" column="20" source="standard:function-signature" />
+        <error line="81" column="46" source="standard:function-signature" />
+        <error line="81" column="69" source="standard:function-signature" />
+        <error line="102" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="131" column="22" source="standard:function-signature" />
+        <error line="131" column="40" source="standard:function-signature" />
+        <error line="131" column="55" source="standard:function-signature" />
+        <error line="142" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="151" column="33" source="standard:function-signature" />
+        <error line="151" column="51" source="standard:function-signature" />
+        <error line="151" column="76" source="standard:function-signature" />
+        <error line="166" column="22" source="standard:multiline-expression-wrapping" />
+        <error line="179" column="22" source="standard:multiline-expression-wrapping" />
+        <error line="192" column="14" source="standard:chain-method-continuation" />
+        <error line="201" column="20" source="standard:chain-method-continuation" />
+        <error line="258" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="274" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="295" column="29" source="standard:multiline-expression-wrapping" />
+        <error line="321" column="25" source="standard:multiline-expression-wrapping" />
+        <error line="337" column="36" source="standard:function-signature" />
+        <error line="337" column="60" source="standard:function-signature" />
+        <error line="337" column="92" source="standard:function-signature" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/data/JsonListRepository.kt">
         <error line="23" column="33" source="standard:statement-wrapping" />
         <error line="23" column="58" source="standard:statement-wrapping" />
         <error line="23" column="81" source="standard:statement-wrapping" />
         <error line="26" column="5" source="standard:blank-line-before-declaration" />
-        <error line="86" column="22" source="standard:multiline-expression-wrapping" />
+        <error line="104" column="22" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/data/LearningProgressRepository.kt">
         <error line="20" column="34" source="standard:class-signature" />
@@ -266,13 +266,13 @@
         <error line="14" column="25" source="standard:class-signature" />
         <error line="14" column="41" source="standard:class-signature" />
         <error line="21" column="5" source="standard:blank-line-before-declaration" />
-        <error line="36" column="67" source="standard:function-expression-body" />
-        <error line="39" column="25" source="standard:multiline-expression-wrapping" />
-        <error line="42" column="37" source="standard:if-else-wrapping" />
-        <error line="42" column="39" source="standard:statement-wrapping" />
-        <error line="42" column="54" source="standard:statement-wrapping" />
-        <error line="42" column="61" source="standard:statement-wrapping" />
-        <error line="42" column="68" source="standard:if-else-bracing" />
+        <error line="45" column="67" source="standard:function-expression-body" />
+        <error line="48" column="25" source="standard:multiline-expression-wrapping" />
+        <error line="51" column="37" source="standard:if-else-wrapping" />
+        <error line="51" column="39" source="standard:statement-wrapping" />
+        <error line="51" column="54" source="standard:statement-wrapping" />
+        <error line="51" column="61" source="standard:statement-wrapping" />
+        <error line="51" column="68" source="standard:if-else-bracing" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/data/sync/BackupRestoreManager.kt">
         <error line="45" column="5" source="standard:blank-line-before-declaration" />

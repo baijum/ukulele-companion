@@ -33,15 +33,7 @@ class CustomFingerpickingPatternRepository(context: Context) : JsonListRepositor
     override fun entityId(item: CustomFingerpickingPattern) = item.id
     override fun entityTimestamp(item: CustomFingerpickingPattern) = item.createdAt
 
-    override fun getAll(): List<CustomFingerpickingPattern> {
-        val raw = prefs.getString(KEY_PATTERNS, null)
-        if (raw != null) {
-            return tryParse(raw)
-                ?: tryParse(prefs.getString(backupKey, null))
-                ?: migrateLegacyPipeEntries()
-        }
-        return migrateLegacyPipeEntries()
-    }
+    override fun getAll(): List<CustomFingerpickingPattern> = readOrElse(::migrateLegacyPipeEntries)
 
     private fun migrateLegacyPipeEntries(): List<CustomFingerpickingPattern> {
         val entries = prefs.all.entries
