@@ -11,21 +11,23 @@ import com.baijum.ukufretboard.domain.mergeNewerWins
  * melodies on the same backup-and-quarantine scheme as every other list store.
  * On first access, migrates from the legacy pipe-delimited per-entry format.
  */
-class MelodyRepository(context: Context) : JsonListRepository<Melody>(
-    context,
-    PREFS_NAME,
-    KEY_MELODIES,
-    Melody.serializer(),
-) {
+class MelodyRepository(
+    context: Context,
+) : JsonListRepository<Melody>(
+        context,
+        PREFS_NAME,
+        KEY_MELODIES,
+        Melody.serializer(),
+    ) {
     override fun entityId(item: Melody) = item.id
+
     override fun entityTimestamp(item: Melody) = item.createdAt
 
     /**
      * Newest first, the order this store has always answered in and the order
      * the saved-melody list is shown in.
      */
-    override fun getAll(): List<Melody> =
-        readOrElse(::migrateLegacyPipeEntries).sortedByDescending { it.createdAt }
+    override fun getAll(): List<Melody> = readOrElse(::migrateLegacyPipeEntries).sortedByDescending { it.createdAt }
 
     fun get(id: String): Melody? = getAll().firstOrNull { it.id == id }
 
@@ -82,20 +84,21 @@ class MelodyRepository(context: Context) : JsonListRepository<Melody>(
         val parts = value.split(LEGACY_SEPARATOR)
         if (parts.size < 5) return null
         return try {
-            val notes = if (parts[2].isBlank()) {
-                emptyList()
-            } else {
-                parts[2].split(LEGACY_NOTE_LIST_SEPARATOR).map { noteStr ->
-                    val fields = noteStr.split(LEGACY_NOTE_FIELD_SEPARATOR)
-                    MelodyNote(
-                        pitchClass = fields[0].takeIf { it != LEGACY_NULL_MARKER }?.toInt(),
-                        octave = fields[1].toInt(),
-                        duration = NoteDuration.valueOf(fields[2]),
-                        stringIndex = fields.getOrNull(3)?.takeIf { it != LEGACY_NULL_MARKER }?.toInt(),
-                        fret = fields.getOrNull(4)?.takeIf { it != LEGACY_NULL_MARKER }?.toInt(),
-                    )
+            val notes =
+                if (parts[2].isBlank()) {
+                    emptyList()
+                } else {
+                    parts[2].split(LEGACY_NOTE_LIST_SEPARATOR).map { noteStr ->
+                        val fields = noteStr.split(LEGACY_NOTE_FIELD_SEPARATOR)
+                        MelodyNote(
+                            pitchClass = fields[0].takeIf { it != LEGACY_NULL_MARKER }?.toInt(),
+                            octave = fields[1].toInt(),
+                            duration = NoteDuration.valueOf(fields[2]),
+                            stringIndex = fields.getOrNull(3)?.takeIf { it != LEGACY_NULL_MARKER }?.toInt(),
+                            fret = fields.getOrNull(4)?.takeIf { it != LEGACY_NULL_MARKER }?.toInt(),
+                        )
+                    }
                 }
-            }
             Melody(
                 id = parts[0],
                 name = parts[1].replace("\\|", "|"),

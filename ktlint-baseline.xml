@@ -237,13 +237,6 @@
         <error line="261" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="273" column="40" source="standard:function-signature" />
     </file>
-    <file name="app/src/main/java/com/baijum/ukufretboard/data/MelodyRepository.kt">
-        <error line="14" column="24" source="standard:class-signature" />
-        <error line="14" column="40" source="standard:class-signature" />
-        <error line="21" column="5" source="standard:blank-line-before-declaration" />
-        <error line="27" column="42" source="standard:function-signature" />
-        <error line="85" column="25" source="standard:multiline-expression-wrapping" />
-    </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/data/PracticeTimerRepository.kt">
         <error line="19" column="31" source="standard:class-signature" />
         <error line="19" column="47" source="standard:class-signature" />
