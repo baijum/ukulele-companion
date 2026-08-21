@@ -1,18 +1,39 @@
 import Foundation
 
+/// Storage for the practice totals.
+///
+/// One object rather than a list, but with the same thing to lose: a payload
+/// that fails to decode used to reset the totals to zero, and the next session
+/// wrote that zero back over the only copy. It goes through the same
+/// backup-and-quarantine helper as the list stores (#569).
 final class PracticeTimerRepository {
     private let storageKey = "practice_timer"
+    private let defaults: UserDefaults
 
-    func load() -> PracticeTimerData {
-        guard let stored = UserDefaults.standard.data(forKey: storageKey),
-              let decoded = try? JSONDecoder().decode(PracticeTimerData.self, from: stored)
-        else { return PracticeTimerData() }
-        return decoded
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
     }
 
+    /// Reads the totals, falling back to the backup copy when the primary
+    /// payload cannot be decoded. Fresh totals are the answer both to a store
+    /// that was never written and to one whose copies are both unreadable; only
+    /// the second leaves quarantined bytes behind.
+    func load() -> PracticeTimerData {
+        let parse: (Data) -> PracticeTimerData? = {
+            try? JSONDecoder().decode(PracticeTimerData.self, from: $0)
+        }
+        switch defaults.readWithBackupFallback(key: storageKey, tryParse: parse) {
+        case let .loaded(stored): return stored
+        case .absent, .unrecoverable: return PracticeTimerData()
+        }
+    }
+
+    /// Writes the totals, rotating the outgoing payload into the backup slot.
     func save(_ data: PracticeTimerData) {
         guard let encoded = try? JSONEncoder().encode(data) else { return }
-        UserDefaults.standard.set(encoded, forKey: storageKey)
+        defaults.writeWithBackupRotation(key: storageKey, raw: encoded) {
+            (try? JSONDecoder().decode(PracticeTimerData.self, from: $0)) != nil
+        }
     }
 
     func exportData(_ data: PracticeTimerData) -> [String: Any] {
