@@ -94,6 +94,14 @@ class UnreadablePayloadQuarantineTest {
     }
 
     @Test
+    fun melodyUnreadableCopiesAreQuarantined() {
+        val prefs = corruptBothCopies("melodies", "melodies_json")
+
+        assertTrue(MelodyRepository(context).getAll().isEmpty())
+        assertEquals(CORRUPT, prefs.getString("melodies_json_quarantine", null))
+    }
+
+    @Test
     fun quarantinedBytesOutliveTheSaveThatFollowsTheLoss() {
         val prefs = corruptBothCopies("chord_sheets", "sheets_json")
         val repo = ChordSheetRepository(context)
