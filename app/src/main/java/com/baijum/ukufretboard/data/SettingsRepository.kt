@@ -59,7 +59,7 @@ class SettingsRepository(
      * written; otherwise a fresh set of defaults.
      */
     private fun legacyOrDefaults(): AppSettings =
-        if (prefs.contains(KEY_LEGACY_SOUND_ENABLED)) migrateLegacySettings() else AppSettings()
+        if (LegacySettingsReader.hasLegacySettings(prefs)) migrateLegacySettings() else AppSettings()
 
     /**
      * Writes the settings, rotating the outgoing payload into the backup slot.
@@ -101,6 +101,5 @@ class SettingsRepository(
         const val KEY_SETTINGS = "settings_json"
         const val KEY_SETTINGS_BACKUP = "settings_json_backup"
         const val KEY_SETTINGS_QUARANTINE = "settings_json_quarantine"
-        const val KEY_LEGACY_SOUND_ENABLED = "sound_enabled"
     }
 }
