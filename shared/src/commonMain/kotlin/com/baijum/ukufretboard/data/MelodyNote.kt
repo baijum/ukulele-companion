@@ -2,6 +2,7 @@ package com.baijum.ukufretboard.data
 
 import com.baijum.ukufretboard.platform.currentTimeMillis
 import com.baijum.ukufretboard.platform.generateUuid
+import kotlinx.serialization.Serializable
 
 /**
  * Duration of a note relative to the beat.
@@ -23,6 +24,7 @@ enum class NoteDuration(val label: String, val beats: Float) {
  * @property stringIndex Which ukulele string this note is on (0–3). Null if unassigned.
  * @property fret Which fret this note is at. Null if unassigned.
  */
+@Serializable
 data class MelodyNote(
     val pitchClass: Int?,
     val octave: Int = 4,
@@ -40,6 +42,7 @@ data class MelodyNote(
  * @property bpm Tempo in beats per minute.
  * @property createdAt Timestamp.
  */
+@Serializable
 data class Melody(
     val id: String = generateUuid(),
     val name: String,
