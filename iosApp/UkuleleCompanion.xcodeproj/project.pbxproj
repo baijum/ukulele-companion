@@ -100,6 +100,7 @@
 		A10309 /* PracticeTimerRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10309 /* PracticeTimerRepository.swift */; };
 		A10310 /* ScalePracticeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10310 /* ScalePracticeRepository.swift */; };
 		A10311 /* JSONStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10311 /* JSONStorageRepository.swift */; };
+		A10083 /* BackupRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10083 /* BackupRotation.swift */; };
 		A10070 /* PatternPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10070 /* PatternPlayer.swift */; };
 		A10071 /* FullScreenFretboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10071 /* FullScreenFretboardView.swift */; };
 		A10072 /* PracticeTimerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10072 /* PracticeTimerViewModelTests.swift */; };
@@ -119,6 +120,7 @@
 		A10100 /* PitchMonitorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10100 /* PitchMonitorViewModelTests.swift */; };
 		A10101 /* PlayAlongAndNeuralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10101 /* PlayAlongAndNeuralTests.swift */; };
 		A10102 /* AccessibilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10102 /* AccessibilityTests.swift */; };
+		A10084 /* RepositoryBackupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10084 /* RepositoryBackupTests.swift */; };
 		A10000 /* ReviewPromptManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000 /* ReviewPromptManagerTests.swift */; };
 		A10082 /* AchievementWatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10082 /* AchievementWatcherTests.swift */; };
 		A20001 /* click_high.wav in Resources */ = {isa = PBXBuildFile; fileRef = B20001 /* click_high.wav */; };
@@ -270,6 +272,7 @@
 		B10309 /* PracticeTimerRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTimerRepository.swift; sourceTree = "<group>"; };
 		B10310 /* ScalePracticeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalePracticeRepository.swift; sourceTree = "<group>"; };
 		B10311 /* JSONStorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONStorageRepository.swift; sourceTree = "<group>"; };
+		B10083 /* BackupRotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupRotation.swift; sourceTree = "<group>"; };
 		B10070 /* PatternPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternPlayer.swift; sourceTree = "<group>"; };
 		B10071 /* FullScreenFretboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenFretboardView.swift; sourceTree = "<group>"; };
 		B10072 /* PracticeTimerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTimerViewModelTests.swift; sourceTree = "<group>"; };
@@ -289,6 +292,7 @@
 		B10100 /* PitchMonitorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchMonitorViewModelTests.swift; sourceTree = "<group>"; };
 		B10101 /* PlayAlongAndNeuralTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAlongAndNeuralTests.swift; sourceTree = "<group>"; };
 		B10102 /* AccessibilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityTests.swift; sourceTree = "<group>"; };
+		B10084 /* RepositoryBackupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryBackupTests.swift; sourceTree = "<group>"; };
 		B10000 /* ReviewPromptManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPromptManagerTests.swift; sourceTree = "<group>"; };
 		B10082 /* AchievementWatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementWatcherTests.swift; sourceTree = "<group>"; };
 		B20001 /* click_high.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click_high.wav; sourceTree = "<group>"; };
@@ -544,6 +548,7 @@
 				B10309 /* PracticeTimerRepository.swift */,
 				B10310 /* ScalePracticeRepository.swift */,
 				B10311 /* JSONStorageRepository.swift */,
+				B10083 /* BackupRotation.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -580,6 +585,7 @@
 				B10100 /* PitchMonitorViewModelTests.swift */,
 				B10101 /* PlayAlongAndNeuralTests.swift */,
 				B10102 /* AccessibilityTests.swift */,
+				B10084 /* RepositoryBackupTests.swift */,
 				B10000 /* ReviewPromptManagerTests.swift */,
 				B10082 /* AchievementWatcherTests.swift */,
 			);
@@ -848,6 +854,7 @@
 				A10309 /* PracticeTimerRepository.swift in Sources */,
 				A10310 /* ScalePracticeRepository.swift in Sources */,
 				A10311 /* JSONStorageRepository.swift in Sources */,
+				A10083 /* BackupRotation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -872,6 +879,7 @@
 				A10100 /* PitchMonitorViewModelTests.swift in Sources */,
 				A10101 /* PlayAlongAndNeuralTests.swift in Sources */,
 				A10102 /* AccessibilityTests.swift in Sources */,
+				A10084 /* RepositoryBackupTests.swift in Sources */,
 				A10000 /* ReviewPromptManagerTests.swift in Sources */,
 				A10082 /* AchievementWatcherTests.swift in Sources */,
 			);
