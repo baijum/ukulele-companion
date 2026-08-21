@@ -7,6 +7,19 @@ import android.content.SharedPreferences
  * Used once during migration to JSON-based storage.
  */
 internal object LegacySettingsReader {
+    /**
+     * True when [prefs] still holds any key from the pre-JSON layout.
+     *
+     * Every one of [LEGACY_KEYS] is equally good evidence that this install
+     * predates `settings_json`, so the whole set is probed rather than a single
+     * representative. Gating on one key means an install that never wrote that
+     * particular key is read as "nothing to migrate" and silently falls back to
+     * defaults -- most of these keys are only written when the user changes the
+     * setting away from its default, so that is the common case, not a corner
+     * one.
+     */
+    fun hasLegacySettings(prefs: SharedPreferences): Boolean = LEGACY_KEYS.any(prefs::contains)
+
     fun read(prefs: SharedPreferences): AppSettings =
         AppSettings(
             sound =

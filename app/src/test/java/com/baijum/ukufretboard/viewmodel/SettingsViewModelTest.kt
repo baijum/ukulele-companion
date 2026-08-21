@@ -382,10 +382,10 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun legacyMigrationIsSkippedWhenSoundEnabledIsAbsentEvenThoughOtherLegacyKeysExist() {
-        // Pinned weakness: migration is gated on one unrelated key. A legacy user
-        // who customised only their theme, tuning or fretboard — and never toggled
-        // sound — silently loses all of it on upgrade.
+    fun legacyMigrationRunsWhenOnlyKeysOtherThanSoundEnabledArePresent() {
+        // Most legacy keys are written only when the user moves a setting off its
+        // default, so gating on any single one drops the customisations of
+        // everyone who never touched that particular setting.
         prefs
             .edit()
             .putString("theme_mode", "DARK")
@@ -394,14 +394,11 @@ class SettingsViewModelTest {
             .commit()
 
         val settings = newViewModel().settings.value
-        assertEquals(
-            "today a theme-only legacy install is not migrated",
-            ThemeMode.SYSTEM,
-            settings.display.themeMode,
-        )
-        assertEquals(UkuleleTuning.HIGH_G, settings.tuning.tuning)
-        assertFalse(settings.fretboard.leftHanded)
-        assertTrue("and the orphaned keys are left behind", prefs.contains("theme_mode"))
+
+        assertEquals(ThemeMode.DARK, settings.display.themeMode)
+        assertEquals(UkuleleTuning.BARITONE, settings.tuning.tuning)
+        assertTrue(settings.fretboard.leftHanded)
+        assertFalse("the migrated keys are cleaned up", prefs.contains("theme_mode"))
     }
 
     @Test
