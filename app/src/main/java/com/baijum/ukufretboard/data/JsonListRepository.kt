@@ -29,6 +29,17 @@ abstract class JsonListRepository<T>(
     private val quarantineKey get() = "${key}_quarantine"
 
     /**
+     * Every key this store writes into its own preferences file.
+     *
+     * The legacy migrations sweep the file clean once they have consumed it, on
+     * the assumption that anything which is not the primary key is a leftover
+     * per-entry record. Anything the store writes for itself has to be named
+     * here or the sweep takes it too -- including the backup that [persist]
+     * wrote moments earlier (#554).
+     */
+    protected val ownKeys: Set<String> get() = setOf(key, backupKey, quarantineKey)
+
+    /**
      * Reads the list, falling back to the backup copy when the primary payload
      * cannot be parsed. See [readWithBackupFallback] for the rule.
      *

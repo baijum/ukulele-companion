@@ -107,7 +107,7 @@
         <error line="39" column="38" source="standard:function-signature" />
         <error line="45" column="23" source="standard:multiline-expression-wrapping" />
         <error line="52" column="27" source="standard:chain-method-continuation" />
-        <error line="52" column="55" source="standard:chain-method-continuation" />
+        <error line="52" column="53" source="standard:chain-method-continuation" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/data/CustomFingerpickingPatternRepository.kt">
         <error line="27" column="44" source="standard:class-signature" />
@@ -115,7 +115,7 @@
         <error line="34" column="5" source="standard:blank-line-before-declaration" />
         <error line="47" column="23" source="standard:multiline-expression-wrapping" />
         <error line="54" column="27" source="standard:chain-method-continuation" />
-        <error line="54" column="57" source="standard:chain-method-continuation" />
+        <error line="54" column="53" source="standard:chain-method-continuation" />
         <error line="67" column="25" source="standard:multiline-expression-wrapping" />
         <error line="76" column="33" source="standard:multiline-expression-wrapping" />
         <error line="78" column="51" source="standard:string-template" />
@@ -132,7 +132,7 @@
         <error line="36" column="5" source="standard:blank-line-before-declaration" />
         <error line="49" column="23" source="standard:multiline-expression-wrapping" />
         <error line="56" column="27" source="standard:chain-method-continuation" />
-        <error line="56" column="61" source="standard:chain-method-continuation" />
+        <error line="56" column="53" source="standard:chain-method-continuation" />
         <error line="71" column="27" source="standard:multiline-expression-wrapping" />
         <error line="82" column="31" source="standard:multiline-expression-wrapping" />
     </file>
@@ -142,7 +142,7 @@
         <error line="34" column="5" source="standard:blank-line-before-declaration" />
         <error line="47" column="23" source="standard:multiline-expression-wrapping" />
         <error line="54" column="27" source="standard:chain-method-continuation" />
-        <error line="54" column="57" source="standard:chain-method-continuation" />
+        <error line="54" column="53" source="standard:chain-method-continuation" />
         <error line="67" column="25" source="standard:multiline-expression-wrapping" />
         <error line="76" column="28" source="standard:multiline-expression-wrapping" />
         <error line="77" column="33" source="standard:if-else-wrapping" />
@@ -191,7 +191,7 @@
         <error line="23" column="58" source="standard:statement-wrapping" />
         <error line="23" column="81" source="standard:statement-wrapping" />
         <error line="26" column="5" source="standard:blank-line-before-declaration" />
-        <error line="75" column="22" source="standard:multiline-expression-wrapping" />
+        <error line="86" column="22" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/data/LearningProgressRepository.kt">
         <error line="20" column="34" source="standard:class-signature" />

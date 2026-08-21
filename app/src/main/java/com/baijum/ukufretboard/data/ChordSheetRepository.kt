@@ -43,13 +43,13 @@ class ChordSheetRepository(context: Context) : JsonListRepository<ChordSheet>(
 
     private fun migrateLegacyPipeEntries(): List<ChordSheet> {
         val entries = prefs.all.entries
-            .filter { it.key != KEY_SHEETS }
+            .filter { it.key !in ownKeys }
             .mapNotNull { (_, value) -> deserializeLegacy(value as? String) }
             .sortedByDescending { it.updatedAt }
         if (entries.isNotEmpty()) {
             persist(entries)
             val editor = prefs.edit()
-            prefs.all.keys.filter { it != KEY_SHEETS }.forEach { editor.remove(it) }
+            prefs.all.keys.filter { it !in ownKeys }.forEach { editor.remove(it) }
             editor.apply()
         }
         return entries

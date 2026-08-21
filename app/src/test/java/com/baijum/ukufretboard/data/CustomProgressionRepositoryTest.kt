@@ -228,17 +228,22 @@ class CustomProgressionRepositoryTest {
     }
 
     @Test
-    fun legacyMigrationAlsoDeletesTheBackupKeyItJustWrote() {
-        // Pinned weakness: the cleanup filters on `key != KEY_PROGRESSIONS` only,
-        // so it removes the backup that persist() wrote two lines earlier. The
-        // migrated data therefore has no recovery copy until the next save.
-        // FavoritesRepository excludes its backup key here; this one does not.
+    fun migratedDataSurvivesACorruptionBeforeTheNextSave() {
+        // The cleanup sweeps out every key the store does not own, and the
+        // backup persist() writes during the migration is one of the store's
+        // own. Deleting it would leave the migrated data with no recovery copy
+        // until the user's next save (#554).
         writeRaw("old_a", legacyEntry("a", "Migrated"))
         repo.getAll()
+        writeRaw(KEY_PROGRESSIONS, "}} not json {{")
 
-        assertNull(
-            "today the freshly written backup is deleted by the cleanup",
-            prefs.getString(BACKUP_KEY, null),
+        assertEquals(
+            "the migration's own backup should still be there to recover from",
+            "Migrated",
+            repo
+                .getAll()
+                .single()
+                .progression.name,
         )
     }
 

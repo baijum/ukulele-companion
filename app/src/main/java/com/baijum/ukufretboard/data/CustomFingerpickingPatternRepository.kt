@@ -45,13 +45,13 @@ class CustomFingerpickingPatternRepository(context: Context) : JsonListRepositor
 
     private fun migrateLegacyPipeEntries(): List<CustomFingerpickingPattern> {
         val entries = prefs.all.entries
-            .filter { it.key != KEY_PATTERNS }
+            .filter { it.key !in ownKeys }
             .mapNotNull { (_, value) -> deserializeLegacy(value as? String) }
             .sortedByDescending { it.createdAt }
         if (entries.isNotEmpty()) {
             persist(entries)
             val editor = prefs.edit()
-            prefs.all.keys.filter { it != KEY_PATTERNS }.forEach { editor.remove(it) }
+            prefs.all.keys.filter { it !in ownKeys }.forEach { editor.remove(it) }
             editor.apply()
         }
         return entries

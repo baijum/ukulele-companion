@@ -47,13 +47,13 @@ class CustomProgressionRepository(context: Context) : JsonListRepository<CustomP
 
     private fun migrateLegacyPipeEntries(): List<CustomProgression> {
         val entries = prefs.all.entries
-            .filter { it.key != KEY_PROGRESSIONS }
+            .filter { it.key !in ownKeys }
             .mapNotNull { (_, value) -> deserializeLegacy(value as? String) }
             .sortedByDescending { it.createdAt }
         if (entries.isNotEmpty()) {
             persist(entries)
             val editor = prefs.edit()
-            prefs.all.keys.filter { it != KEY_PROGRESSIONS }.forEach { editor.remove(it) }
+            prefs.all.keys.filter { it !in ownKeys }.forEach { editor.remove(it) }
             editor.apply()
         }
         return entries
