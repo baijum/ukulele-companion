@@ -33,25 +33,17 @@ class CustomStrumPatternRepository(context: Context) : JsonListRepository<Custom
     override fun entityId(item: CustomStrumPattern) = item.id
     override fun entityTimestamp(item: CustomStrumPattern) = item.createdAt
 
-    override fun getAll(): List<CustomStrumPattern> {
-        val raw = prefs.getString(KEY_PATTERNS, null)
-        if (raw != null) {
-            return tryParse(raw)
-                ?: tryParse(prefs.getString(backupKey, null))
-                ?: migrateLegacyPipeEntries()
-        }
-        return migrateLegacyPipeEntries()
-    }
+    override fun getAll(): List<CustomStrumPattern> = readOrElse(::migrateLegacyPipeEntries)
 
     private fun migrateLegacyPipeEntries(): List<CustomStrumPattern> {
         val entries = prefs.all.entries
-            .filter { it.key != KEY_PATTERNS }
+            .filter { it.key !in ownKeys }
             .mapNotNull { (_, value) -> deserializeLegacy(value as? String) }
             .sortedByDescending { it.createdAt }
         if (entries.isNotEmpty()) {
             persist(entries)
             val editor = prefs.edit()
-            prefs.all.keys.filter { it != KEY_PATTERNS }.forEach { editor.remove(it) }
+            prefs.all.keys.filter { it !in ownKeys }.forEach { editor.remove(it) }
             editor.apply()
         }
         return entries

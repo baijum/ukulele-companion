@@ -16,9 +16,9 @@ import org.robolectric.RobolectricTestRunner
  * Tests for [CustomProgressionRepository].
  *
  * This is the one repository left out of `RepositorySerializationTest`, and the
- * only one whose `getAll()` override falls through to a legacy pipe-format
- * migration rather than to the base class's quarantine path. Both branches are
- * covered here.
+ * fullest example of the shape every list store shares: a JSON primary, a
+ * backup, a quarantine slot, and a legacy pipe-format migration behind all
+ * three. Every one of those branches is covered here.
  */
 @RunWith(RobolectricTestRunner::class)
 class CustomProgressionRepositoryTest {
@@ -172,17 +172,56 @@ class CustomProgressionRepositoryTest {
     }
 
     @Test
-    fun corruptPrimaryAndBackupWithNoLegacyEntriesReturnsEmptyWithoutQuarantining() {
-        // The getAll() override falls through to the legacy migration instead of
-        // the base class's quarantine branch, so an unrecoverable store here is
-        // silently dropped rather than preserved. Pinned, not fixed: adding
-        // quarantine means reconciling the two recovery strategies.
+    fun corruptPrimaryAndBackupQuarantineTheUnreadableBytes() {
         writeRaw(KEY_PROGRESSIONS, "}} not json {{")
         writeRaw(BACKUP_KEY, "also broken")
 
-        assertTrue(repo.getAll().isEmpty())
-        assertNull(
-            "this repository never reaches the quarantine branch",
+        assertTrue("nothing is readable, so the store reads as empty", repo.getAll().isEmpty())
+        assertEquals(
+            "the primary's bytes should be preserved for a support request",
+            "}} not json {{",
+            prefs.getString(QUARANTINE_KEY, null),
+        )
+    }
+
+    @Test
+    fun quarantinedBytesAreNotOverwrittenByTheNextSave() {
+        // The point of the quarantine is that it outlives the write that would
+        // otherwise have destroyed the evidence: getAll() reads empty, the user
+        // adds something, and persist() overwrites both the primary and the
+        // unreadable backup.
+        writeRaw(KEY_PROGRESSIONS, "}} not json {{")
+        writeRaw(BACKUP_KEY, "also broken")
+        repo.getAll()
+
+        repo.save(progression("a", name = "Added after the loss"))
+
+        assertEquals(listOf("a"), repo.getAll().map { it.id })
+        assertEquals(
+            "}} not json {{",
+            prefs.getString(QUARANTINE_KEY, null),
+        )
+    }
+
+    @Test
+    fun anUnrecoverableStoreStillFallsThroughToTheLegacyMigration() {
+        // Quarantining is not a dead end: the legacy pipe entries are still the
+        // next place to look, and the migration's own cleanup must leave the
+        // bytes it just quarantined alone.
+        writeRaw(KEY_PROGRESSIONS, "}} not json {{")
+        writeRaw(BACKUP_KEY, "also broken")
+        writeRaw("old_a", legacyEntry("a", "Recovered from the legacy format"))
+
+        assertEquals(
+            "Recovered from the legacy format",
+            repo
+                .getAll()
+                .single()
+                .progression.name,
+        )
+        assertEquals(
+            "the migration cleanup should not sweep away the quarantine",
+            "}} not json {{",
             prefs.getString(QUARANTINE_KEY, null),
         )
     }
@@ -228,17 +267,22 @@ class CustomProgressionRepositoryTest {
     }
 
     @Test
-    fun legacyMigrationAlsoDeletesTheBackupKeyItJustWrote() {
-        // Pinned weakness: the cleanup filters on `key != KEY_PROGRESSIONS` only,
-        // so it removes the backup that persist() wrote two lines earlier. The
-        // migrated data therefore has no recovery copy until the next save.
-        // FavoritesRepository excludes its backup key here; this one does not.
+    fun migratedDataSurvivesACorruptionBeforeTheNextSave() {
+        // The cleanup sweeps out every key the store does not own, and the
+        // backup persist() writes during the migration is one of the store's
+        // own. Deleting it would leave the migrated data with no recovery copy
+        // until the user's next save (#554).
         writeRaw("old_a", legacyEntry("a", "Migrated"))
         repo.getAll()
+        writeRaw(KEY_PROGRESSIONS, "}} not json {{")
 
-        assertNull(
-            "today the freshly written backup is deleted by the cleanup",
-            prefs.getString(BACKUP_KEY, null),
+        assertEquals(
+            "the migration's own backup should still be there to recover from",
+            "Migrated",
+            repo
+                .getAll()
+                .single()
+                .progression.name,
         )
     }
 

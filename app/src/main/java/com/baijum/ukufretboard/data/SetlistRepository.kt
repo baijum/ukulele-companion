@@ -25,12 +25,21 @@ class SetlistRepository(context: Context) : JsonListRepository<Setlist>(
         persist(merged)
     }
 
+    /**
+     * Unlike the other stores this one consults its legacy format *before* the
+     * backup: a primary that kotlinx cannot read may still be readable
+     * org.json, in which case migrating it in place beats recovering whatever
+     * older copy the backup happens to hold.
+     *
+     * Only once that has failed does the shared rule take over. It re-reads the
+     * primary and re-parses it, which is wasted work -- but only on a store
+     * that is already broken, and it is what makes the quarantine happen.
+     */
     override fun getAll(): List<Setlist> {
         val raw = prefs.getString(KEY_SETLISTS, null) ?: return emptyList()
-        return tryParse(raw)
-            ?: migrateLegacyOrgJson(raw)
-            ?: tryParse(prefs.getString(backupKey, null))
-            ?: emptyList()
+        tryParse(raw)?.let { return it }
+        migrateLegacyOrgJson(raw)?.let { return it }
+        return readOrElse { emptyList() }
     }
 
     private fun migrateLegacyOrgJson(raw: String): List<Setlist>? {
