@@ -176,15 +176,13 @@
         <error line="151" column="76" source="standard:function-signature" />
         <error line="166" column="22" source="standard:multiline-expression-wrapping" />
         <error line="179" column="22" source="standard:multiline-expression-wrapping" />
-        <error line="192" column="14" source="standard:chain-method-continuation" />
-        <error line="201" column="20" source="standard:chain-method-continuation" />
-        <error line="258" column="23" source="standard:multiline-expression-wrapping" />
-        <error line="274" column="23" source="standard:multiline-expression-wrapping" />
-        <error line="295" column="29" source="standard:multiline-expression-wrapping" />
-        <error line="321" column="25" source="standard:multiline-expression-wrapping" />
-        <error line="337" column="36" source="standard:function-signature" />
-        <error line="337" column="60" source="standard:function-signature" />
-        <error line="337" column="92" source="standard:function-signature" />
+        <error line="268" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="284" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="305" column="29" source="standard:multiline-expression-wrapping" />
+        <error line="331" column="25" source="standard:multiline-expression-wrapping" />
+        <error line="347" column="36" source="standard:function-signature" />
+        <error line="347" column="60" source="standard:function-signature" />
+        <error line="347" column="92" source="standard:function-signature" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/data/JsonListRepository.kt">
         <error line="23" column="33" source="standard:statement-wrapping" />
