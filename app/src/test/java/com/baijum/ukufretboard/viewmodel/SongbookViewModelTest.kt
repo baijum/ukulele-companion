@@ -4,6 +4,11 @@ import android.app.Application
 import androidx.test.core.app.ApplicationProvider
 import com.baijum.ukufretboard.data.ChordSheet
 import com.baijum.ukufretboard.data.SongSortOrder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -154,6 +159,45 @@ class SongbookViewModelTest {
         val id = vm.sheets.value[0].id
         vm.deleteSheet(id)
         assertTrue(vm.sheets.value.isEmpty())
+    }
+
+    @Test
+    fun deletingASheetAnnouncesTheDeletedId() {
+        // Setlists subscribe to this to purge the dead ID from their songIds
+        // instead of silently hiding it at render time (issue #594).
+        saveSong("To Delete")
+        val id = vm.sheets.value[0].id
+
+        val received = mutableListOf<List<String>>()
+        val scope = CoroutineScope(Dispatchers.Unconfined + Job())
+        val collector = scope.launch { vm.songsDeleted.collect { received.add(it) } }
+        try {
+            vm.deleteSheet(id)
+            assertEquals(listOf(listOf(id)), received)
+        } finally {
+            collector.cancel()
+            scope.cancel()
+        }
+    }
+
+    @Test
+    fun deletingSelectedSheetsAnnouncesEveryDeletedId() {
+        saveSong("One")
+        saveSong("Two")
+        val ids = vm.allSheets.value.map { it.id }.toSet()
+        ids.forEach { vm.toggleSelection(it) }
+
+        val received = mutableListOf<List<String>>()
+        val scope = CoroutineScope(Dispatchers.Unconfined + Job())
+        val collector = scope.launch { vm.songsDeleted.collect { received.add(it) } }
+        try {
+            vm.deleteSelected()
+            assertEquals(1, received.size)
+            assertEquals(ids, received[0].toSet())
+        } finally {
+            collector.cancel()
+            scope.cancel()
+        }
     }
 
     // ── Selection mode ───────────────────────────────────────────────

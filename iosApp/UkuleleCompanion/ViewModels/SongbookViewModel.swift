@@ -1,6 +1,19 @@
 import Foundation
 import shared
 
+/// Posted (with the deleted IDs under `Notification.songsDeletedIds`) whenever
+/// songs are removed from the library, so stores that reference song IDs —
+/// currently setlists — can purge the dead references instead of letting them
+/// silently disappear at render time (issue #594).
+extension Notification.Name {
+    static let songsDeletedFromLibrary =
+        Notification.Name("songsDeletedFromLibrary")
+}
+
+extension Notification {
+    static let songsDeletedIds = "songsDeletedIds"
+}
+
 struct StoredSong: Codable, Identifiable {
     let id: String
     var title: String
@@ -147,6 +160,13 @@ final class SongbookViewModel: ObservableObject {
     func delete(id: String) {
         songs.removeAll { $0.id == id }
         repository.save(songs)
+        // Emitted after the store is updated so a purging observer never sees
+        // the song still present in the library.
+        NotificationCenter.default.post(
+            name: .songsDeletedFromLibrary,
+            object: nil,
+            userInfo: [Notification.songsDeletedIds: [id]]
+        )
     }
 
     func updateLabels(id: String, labels: [String]) {

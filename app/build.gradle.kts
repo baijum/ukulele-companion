@@ -144,6 +144,7 @@ dependencies {
     implementation(libs.play.review)
     implementation(libs.play.review.ktx)
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(platform(libs.compose.bom))
     testImplementation(libs.ui.test.junit4)
     testImplementation(libs.jazzer.junit)

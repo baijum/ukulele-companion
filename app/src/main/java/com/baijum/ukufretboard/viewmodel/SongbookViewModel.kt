@@ -8,8 +8,11 @@ import com.baijum.ukufretboard.data.ChordSheetRepository
 import com.baijum.ukufretboard.data.SongSortOrder
 import com.baijum.ukufretboard.domain.ChordSheetTranspose
 import com.baijum.ukufretboard.domain.SongbookFilter
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 /**
@@ -47,6 +50,15 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
      * stable view regardless of what is typed in the Songbook (issue #572).
      */
     val allSheets: StateFlow<List<ChordSheet>> = _allSheets.asStateFlow()
+
+    private val _songsDeleted = MutableSharedFlow<List<String>>(extraBufferCapacity = 1)
+
+    /**
+     * Emits the IDs of songs removed from the library, so other stores that
+     * reference songs (currently setlists) can drop the dead IDs too instead of
+     * leaving them to silently disappear at render time (issue #594).
+     */
+    val songsDeleted: SharedFlow<List<String>> = _songsDeleted.asSharedFlow()
 
     /** The currently open sheet (for viewing/editing). */
     private val _currentSheet = MutableStateFlow<ChordSheet?>(null)
@@ -280,7 +292,9 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun deleteSelected() {
-        _selectedIds.value.forEach { repository.delete(it) }
+        val deletedIds = _selectedIds.value.toList()
+        deletedIds.forEach { repository.delete(it) }
+        if (deletedIds.isNotEmpty()) _songsDeleted.tryEmit(deletedIds)
         _selectedIds.value = emptySet()
         _isSelectionMode.value = false
         refresh()
@@ -304,6 +318,9 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
             _currentSheet.value = null
         }
         refresh()
+        // Emitted after the store is updated so a collector purging setlists
+        // never sees the song still present in the library (issue #594).
+        _songsDeleted.tryEmit(listOf(id))
     }
 
     /**

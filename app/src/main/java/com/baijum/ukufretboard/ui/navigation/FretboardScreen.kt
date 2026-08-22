@@ -141,6 +141,16 @@ fun FretboardScreen(
     widthSizeClass: WindowWidthSizeClass = WindowWidthSizeClass.Compact,
     heightSizeClass: WindowHeightSizeClass = WindowHeightSizeClass.Medium,
 ) {
+    // A song deleted from the Songbook must not linger as a dead ID inside
+    // setlists — purge it from every setlist, persisted and in memory
+    // (issue #594). The event carries the IDs so both the single-delete and
+    // multi-select-delete paths are covered by one collector.
+    LaunchedEffect(songbookViewModel, setlistViewModel) {
+        songbookViewModel.songsDeleted.collect { deletedIds ->
+            setlistViewModel.purgeDeletedSongs(deletedIds)
+        }
+    }
+
     val isCompactWidth = widthSizeClass == WindowWidthSizeClass.Compact
     val isTabletWidth =
         widthSizeClass == WindowWidthSizeClass.Expanded &&
