@@ -112,6 +112,17 @@ class SetlistTabTest {
         ApplicationProvider.getApplicationContext<Application>().getString(resId)
 
     @Test
+    fun activeSongbookFilterDoesNotHideSetlistSongs() {
+        // Regression for issue #572: the setlist binds to the unfiltered
+        // library, so a Songbook search query must not hide its songs.
+        songbookViewModel.setSearchQuery("Alpha")
+        composeTestRule.waitForIdle()
+
+        composeTestRule.onNodeWithText("Bravo").assertExists()
+        composeTestRule.onNodeWithText("Charlie").assertExists()
+    }
+
+    @Test
     fun moveUpMovesTheTappedSongNotTheIndexedOne() {
         composeTestRule.onNodeWithText("Bravo").assertExists()
 

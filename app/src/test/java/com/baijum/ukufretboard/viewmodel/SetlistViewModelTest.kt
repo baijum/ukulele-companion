@@ -272,6 +272,22 @@ class SetlistViewModelTest {
 
         assertEquals(listOf("a", "c"), songIdsOf(first))
         assertEquals(listOf("d"), songIdsOf(second))
+
+        // The cleanup has to be persisted, not just applied to the in-memory
+        // flows — a fresh view model reads what the next app launch will see.
+        val reloaded = SetlistViewModel(app)
+        assertEquals(
+            listOf("a", "c"),
+            reloaded.setlists.value
+                .single { it.id == first }
+                .songIds,
+        )
+        assertEquals(
+            listOf("d"),
+            reloaded.setlists.value
+                .single { it.id == second }
+                .songIds,
+        )
     }
 
     @Test
