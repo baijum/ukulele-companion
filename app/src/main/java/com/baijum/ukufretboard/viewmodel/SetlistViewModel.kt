@@ -104,7 +104,35 @@ class SetlistViewModel(application: Application) : AndroidViewModel(application)
             updatedAt = System.currentTimeMillis(),
         )
         repository.save(updated)
-        if (_currentSetlist.value?.id == setlistId) _currentSetlist.value = updated
+        if (_currentSetlist.value?.id == setlistId) {
+            _currentSetlist.value = updated
+        }
         refresh()
+    }
+
+    /**
+     * Strips deleted library songs out of every setlist — persisted and in
+     * memory, including the open one — so a dead ID can neither resurface in a
+     * later save nor silently vanish from the rendered list (issue #594).
+     */
+    fun purgeDeletedSongs(deletedSongIds: Collection<String>) {
+        if (deletedSongIds.isEmpty()) return
+        var updatedCurrent: Setlist? = null
+        _setlists.value = _setlists.value.map { setlist ->
+            if (setlist.songIds.none { it in deletedSongIds }) {
+                setlist
+            } else {
+                val updated = setlist.copy(
+                    songIds = setlist.songIds.filterNot { it in deletedSongIds },
+                    updatedAt = System.currentTimeMillis(),
+                )
+                repository.save(updated)
+                if (_currentSetlist.value?.id == updated.id) {
+                    updatedCurrent = updated
+                }
+                updated
+            }
+        }
+        updatedCurrent?.let { _currentSetlist.value = it }
     }
 }

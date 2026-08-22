@@ -259,6 +259,43 @@ class SetlistViewModelTest {
         assertTrue(songIdsOf(id).isEmpty())
     }
 
+    // ── Purging deleted songs (issue #594) ───────────────────────
+
+    @Test
+    fun purgeDeletedSongsStripsTheSongFromEverySetlist() {
+        val first = createAndGetId("First")
+        val second = createAndGetId("Second")
+        listOf("a", "b", "c").forEach { vm.addSong(first, it) }
+        listOf("b", "d").forEach { vm.addSong(second, it) }
+
+        vm.purgeDeletedSongs(listOf("b"))
+
+        assertEquals(listOf("a", "c"), songIdsOf(first))
+        assertEquals(listOf("d"), songIdsOf(second))
+    }
+
+    @Test
+    fun purgeDeletedSongsKeepsTheOpenSetlistInSync() {
+        val id = createAndGetId("Gig")
+        listOf("a", "b").forEach { vm.addSong(id, it) }
+        vm.open(vm.setlists.value.single { it.id == id })
+
+        vm.purgeDeletedSongs(listOf("a"))
+
+        assertEquals(listOf("b"), vm.currentSetlist.value?.songIds)
+    }
+
+    @Test
+    fun purgeDeletedSongsToleratesUnknownAndEmptyInputs() {
+        val id = createAndGetId("Gig")
+        listOf("a", "b").forEach { vm.addSong(id, it) }
+
+        vm.purgeDeletedSongs(emptyList())
+        vm.purgeDeletedSongs(listOf("not-there"))
+
+        assertEquals(listOf("a", "b"), songIdsOf(id))
+    }
+
     @Test
     fun songMutationsKeepTheOpenSetlistInSync() {
         val id = createAndGetId("Gig")

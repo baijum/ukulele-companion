@@ -41,6 +41,7 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 onnxruntime-android = { group = "com.microsoft.onnxruntime", name = "onnxruntime-android", version.ref = "onnxruntime" }

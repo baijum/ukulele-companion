@@ -14,10 +14,31 @@ final class SetlistViewModel: ObservableObject {
     @Published var setlists: [StoredSetlist] = []
 
     private let repository: SetlistRepository
+    // `nonisolated(unsafe)` so deinit can remove the observer; the token is only
+    // touched from init and deinit, which never overlap.
+    private nonisolated(unsafe) var songsDeletedObserver: NSObjectProtocol?
 
     init(repository: SetlistRepository = SetlistRepository()) {
         self.repository = repository
         setlists = repository.getAll()
+        // When a song is deleted from the Songbook, drop it from every setlist
+        // right away so dead IDs cannot resurface in a later save (issue #594).
+        songsDeletedObserver = NotificationCenter.default.addObserver(
+            forName: .songsDeletedFromLibrary,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            let ids = notification.userInfo?[Notification.songsDeletedIds] as? [String] ?? []
+            Task { @MainActor [weak self] in
+                self?.purgeDeletedSongs(ids)
+            }
+        }
+    }
+
+    deinit {
+        if let observer = songsDeletedObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     func create(name: String) {
@@ -67,6 +88,20 @@ final class SetlistViewModel: ObservableObject {
         let item = setlists[idx].songIds.remove(at: from)
         setlists[idx].songIds.insert(item, at: to)
         setlists[idx].updatedAt = Date().timeIntervalSince1970 * 1000
+        repository.save(setlists)
+    }
+
+    /// Strips deleted library songs out of every setlist — persisted and in
+    /// memory — so a dead ID can neither resurface in a later save nor silently
+    /// vanish from the rendered list (issue #594).
+    func purgeDeletedSongs(_ deletedSongIds: [String]) {
+        guard !deletedSongIds.isEmpty else { return }
+        let deleted = Set(deletedSongIds)
+        for idx in setlists.indices
+        where setlists[idx].songIds.contains(where: deleted.contains) {
+            setlists[idx].songIds.removeAll { deleted.contains($0) }
+            setlists[idx].updatedAt = Date().timeIntervalSince1970 * 1000
+        }
         repository.save(setlists)
     }
 

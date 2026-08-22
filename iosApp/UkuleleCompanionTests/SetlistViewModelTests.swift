@@ -112,4 +112,70 @@ final class SetlistViewModelTests: XCTestCase {
         XCTAssertEqual(vm2.setlists.first?.name, "Gig 1")
         XCTAssertEqual(vm2.setlists.first?.songIds, ["s1", "s2"])
     }
+
+    // MARK: - Purging deleted songs (issue #594)
+
+    @MainActor
+    func testPurgeDeletedSongsStripsTheSongFromEverySetlist() {
+        let vm = SetlistViewModel()
+        vm.create(name: "First")
+        vm.addSong(setlistId: vm.setlists.first { $0.name == "First" }!.id, songId: "a")
+        vm.addSong(setlistId: vm.setlists.first { $0.name == "First" }!.id, songId: "b")
+        vm.create(name: "Second")
+        vm.addSong(setlistId: vm.setlists.first { $0.name == "Second" }!.id, songId: "b")
+        vm.addSong(setlistId: vm.setlists.first { $0.name == "Second" }!.id, songId: "d")
+
+        vm.purgeDeletedSongs(["b"])
+
+        XCTAssertEqual(vm.setlists.first { $0.name == "First" }?.songIds, ["a"])
+        XCTAssertEqual(vm.setlists.first { $0.name == "Second" }?.songIds, ["d"])
+    }
+
+    @MainActor
+    func testPurgeDeletedSongsPersistsTheCleanup() {
+        let vm = SetlistViewModel()
+        vm.create(name: "Gig")
+        let id = vm.setlists.first!.id
+        vm.addSong(setlistId: id, songId: "a")
+        vm.addSong(setlistId: id, songId: "b")
+
+        vm.purgeDeletedSongs(["a"])
+
+        let reloaded = SetlistViewModel()
+        XCTAssertEqual(reloaded.setlists.first?.songIds, ["b"])
+    }
+
+    @MainActor
+    func testPurgeDeletedSongsToleratesUnknownAndEmptyInputs() {
+        let vm = SetlistViewModel()
+        vm.create(name: "Gig")
+        let id = vm.setlists.first!.id
+        vm.addSong(setlistId: id, songId: "a")
+
+        vm.purgeDeletedSongs([])
+        vm.purgeDeletedSongs(["not-there"])
+
+        XCTAssertEqual(vm.setlists.first?.songIds, ["a"])
+    }
+
+    @MainActor
+    func testSongDeletionNotificationPurgesSetlists() {
+        let setlists = SetlistViewModel()
+        setlists.create(name: "Gig")
+        let id = setlists.setlists.first!.id
+        setlists.addSong(setlistId: id, songId: "song-1")
+
+        NotificationCenter.default.post(
+            name: .songsDeletedFromLibrary,
+            object: nil,
+            userInfo: [Notification.songsDeletedIds: ["song-1"]]
+        )
+
+        // The observer hops through the main queue and a @MainActor Task, so
+        // wait for the published state rather than asserting immediately.
+        let purged = expectation(for: NSPredicate { _, _ in
+            setlists.setlists.first?.songIds.isEmpty ?? false
+        }, evaluatedWith: nil)
+        wait(for: [purged], timeout: 2)
+    }
 }
