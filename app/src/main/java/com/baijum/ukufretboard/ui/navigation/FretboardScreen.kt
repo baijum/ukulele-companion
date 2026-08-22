@@ -997,7 +997,9 @@ internal fun AchievementWatcher(
     onNewlyEarned: (List<AchievementDef>) -> Unit,
 ) {
     val progressState by learningProgressViewModel.state.collectAsState()
-    val sheetsState by songbookViewModel.sheets.collectAsState()
+    // Unfiltered library: a Songbook search filter must not shrink the song count
+    // achievements are measured against (issue #572).
+    val sheetsState by songbookViewModel.allSheets.collectAsState()
     val achievementContext =
         progressState.toAchievementContext(
             songsCount = sheetsState.size,
@@ -1022,7 +1024,9 @@ private fun AchievementsRoute(
     favoritesCount: Int,
     unlockedAchievementIds: Set<String>,
 ) {
-    val sheetsState by songbookViewModel.sheets.collectAsState()
+    // Unfiltered library: the Achievements screen must show the real total, not
+    // whatever subset the Songbook search filter currently matches (issue #572).
+    val sheetsState by songbookViewModel.allSheets.collectAsState()
     AchievementsView(
         progressViewModel = learningProgressViewModel,
         unlockedIds = unlockedAchievementIds,

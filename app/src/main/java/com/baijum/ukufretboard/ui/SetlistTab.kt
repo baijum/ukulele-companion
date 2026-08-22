@@ -56,7 +56,10 @@ fun SetlistTab(
 ) {
     val setlists by setlistViewModel.setlists.collectAsState()
     val currentSetlist by setlistViewModel.currentSetlist.collectAsState()
-    val allSongs by songbookViewModel.sheets.collectAsState()
+    // The unfiltered library, not `sheets`: `sheets` is the search/label-filtered
+    // result, and binding the setlist to it made songs vanish and reorder wrongly
+    // whenever a Songbook query was still active (issue #572).
+    val allSongs by songbookViewModel.allSheets.collectAsState()
 
     if (currentSetlist != null) {
         SetlistDetailView(
@@ -65,7 +68,9 @@ fun SetlistTab(
             onBack = { setlistViewModel.close() },
             onAddSong = { setlistViewModel.addSong(currentSetlist!!.id, it) },
             onRemoveSong = { setlistViewModel.removeSong(currentSetlist!!.id, it) },
-            onMoveSong = { from, to -> setlistViewModel.moveSong(currentSetlist!!.id, from, to) },
+            onMoveSong = { songId, offset ->
+                setlistViewModel.moveSong(currentSetlist!!.id, songId, offset)
+            },
         )
     } else {
         SetlistListView(
@@ -213,6 +218,13 @@ private fun SetlistListView(
     }
 }
 
+/**
+ * Detail view for one setlist.
+ *
+ * [onMoveSong] takes `(songId, offset)` — keyed by ID, not display index, so a
+ * move always targets the right song even when the visible list is a filtered
+ * subset of the library (issue #572).
+ */
 @Composable
 private fun SetlistDetailView(
     setlist: Setlist,
@@ -220,7 +232,7 @@ private fun SetlistDetailView(
     onBack: () -> Unit,
     onAddSong: (String) -> Unit,
     onRemoveSong: (String) -> Unit,
-    onMoveSong: (Int, Int) -> Unit,
+    onMoveSong: (String, Int) -> Unit,
 ) {
     var showAddDialog by remember { mutableStateOf(false) }
     val songMap = remember(allSongs) { allSongs.associateBy { it.id } }
@@ -300,7 +312,7 @@ private fun SetlistDetailView(
                                 }
                             }
                             if (index > 0) {
-                                IconButton(onClick = { onMoveSong(index, index - 1) }) {
+                                IconButton(onClick = { onMoveSong(song.id, -1) }) {
                                     Icon(
                                         Icons.Filled.ArrowUpward,
                                         contentDescription = stringResource(R.string.cd_setlist_move_up),
@@ -308,7 +320,7 @@ private fun SetlistDetailView(
                                 }
                             }
                             if (index < setlistSongs.size - 1) {
-                                IconButton(onClick = { onMoveSong(index, index + 1) }) {
+                                IconButton(onClick = { onMoveSong(song.id, +1) }) {
                                     Icon(
                                         Icons.Filled.ArrowDownward,
                                         contentDescription = stringResource(R.string.cd_setlist_move_down),

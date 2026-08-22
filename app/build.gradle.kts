@@ -58,13 +58,18 @@ android {
     }
 
     testOptions {
-        unitTests.all {
-            it.configure<JacocoTaskExtension> {
-                // Robolectric loads classes through its own classloader, which
-                // JaCoCo reports as having no location. Without this, every
-                // Robolectric-tested class reports 0% coverage.
-                isIncludeNoLocationClasses = true
-                excludes = listOf("jdk.internal.*")
+        unitTests {
+            // Lets Robolectric see ui-test-manifest's ComponentActivity so
+            // Compose UI tests can run on the JVM.
+            isIncludeAndroidResources = true
+            all {
+                it.configure<JacocoTaskExtension> {
+                    // Robolectric loads classes through its own classloader, which
+                    // JaCoCo reports as having no location. Without this, every
+                    // Robolectric-tested class reports 0% coverage.
+                    isIncludeNoLocationClasses = true
+                    excludes = listOf("jdk.internal.*")
+                }
             }
         }
     }
@@ -139,6 +144,8 @@ dependencies {
     implementation(libs.play.review)
     implementation(libs.play.review.ktx)
     testImplementation(libs.junit)
+    testImplementation(platform(libs.compose.bom))
+    testImplementation(libs.ui.test.junit4)
     testImplementation(libs.jazzer.junit)
     testImplementation(libs.jazzer.api)
     testImplementation("org.robolectric:robolectric:4.16.1")

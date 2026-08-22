@@ -82,6 +82,21 @@ class SongbookViewModelTest {
         assertEquals(3, vm.sheets.value.size)
     }
 
+    @Test
+    fun allSheetsIsNotAffectedByTheSearchFilter() {
+        // Issue #572: consumers like setlists and achievements need the whole
+        // library even while a Songbook search query is active.
+        saveSong("Riptide", artist = "Vance Joy")
+        saveSong("Hey Soul Sister", artist = "Train")
+
+        vm.setSearchQuery("ript")
+        assertEquals(1, vm.sheets.value.size)
+        assertEquals(2, vm.allSheets.value.size)
+
+        vm.setSearchQuery("")
+        assertEquals(2, vm.allSheets.value.size)
+    }
+
     // ── Sort order ───────────────────────────────────────────────────
 
     @Test
