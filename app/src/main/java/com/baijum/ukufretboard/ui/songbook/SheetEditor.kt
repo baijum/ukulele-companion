@@ -53,6 +53,7 @@ import com.baijum.ukufretboard.R
 import com.baijum.ukufretboard.data.ChordParser
 import com.baijum.ukufretboard.data.ChordSheet
 import com.baijum.ukufretboard.ui.CapoStepper
+import com.baijum.ukufretboard.ui.StringListSaver
 
 /** Highest capo position offered by the editor stepper; matches the iOS 0...12 range. */
 private const val MAX_CAPO_FRET = 12
@@ -75,23 +76,28 @@ internal fun SheetEditor(
     ) -> Unit,
     onCancel: () -> Unit,
 ) {
-    var title by remember(sheet?.id) { mutableStateOf(sheet?.title ?: "") }
-    var artist by remember(sheet?.id) { mutableStateOf(sheet?.artist ?: "") }
-    var content by remember(sheet?.id) { mutableStateOf(sheet?.content ?: "") }
-    var key by remember(sheet?.id) { mutableStateOf(sheet?.key ?: "") }
-    var capo by remember(sheet?.id) { mutableIntStateOf(sheet?.capo ?: 0) }
-    var strumPatternName by remember(sheet?.id) { mutableStateOf(sheet?.strumPatternName ?: "") }
-    var labels by remember(sheet?.id) { mutableStateOf(sheet?.labels ?: emptyList()) }
+    var title by rememberSaveable(sheet?.id) { mutableStateOf(sheet?.title ?: "") }
+    var artist by rememberSaveable(sheet?.id) { mutableStateOf(sheet?.artist ?: "") }
+    var content by rememberSaveable(sheet?.id) { mutableStateOf(sheet?.content ?: "") }
+    var key by rememberSaveable(sheet?.id) { mutableStateOf(sheet?.key ?: "") }
+    var capo by rememberSaveable(sheet?.id) { mutableIntStateOf(sheet?.capo ?: 0) }
+    var strumPatternName by rememberSaveable(sheet?.id) { mutableStateOf(sheet?.strumPatternName ?: "") }
+    // List<String> is not auto-saveable; use the reusable StringListSaver so unsaved
+    // label edits survive activity recreation (rotation, font-size change, #573).
+    var labels by rememberSaveable(sheet?.id, stateSaver = StringListSaver) {
+        mutableStateOf(sheet?.labels ?: emptyList())
+    }
     var showPreview by rememberSaveable { mutableStateOf(false) }
     var showDiscardDialog by remember { mutableStateOf(false) }
 
-    val hasChanges = title != (sheet?.title ?: "") ||
-        artist != (sheet?.artist ?: "") ||
-        content != (sheet?.content ?: "") ||
-        key != (sheet?.key ?: "") ||
-        capo != (sheet?.capo ?: 0) ||
-        strumPatternName != (sheet?.strumPatternName ?: "") ||
-        labels != (sheet?.labels ?: emptyList<String>())
+    val hasChanges =
+        title != (sheet?.title ?: "") ||
+            artist != (sheet?.artist ?: "") ||
+            content != (sheet?.content ?: "") ||
+            key != (sheet?.key ?: "") ||
+            capo != (sheet?.capo ?: 0) ||
+            strumPatternName != (sheet?.strumPatternName ?: "") ||
+            labels != (sheet?.labels ?: emptyList<String>())
 
     val handleCancel = {
         if (hasChanges) {
@@ -112,9 +118,10 @@ internal fun SheetEditor(
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
     ) {
         OutlinedTextField(
             value = title,
@@ -188,9 +195,10 @@ internal fun SheetEditor(
 
         // Chord insertion helper row
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             val commonChords = listOf("C", "G", "Am", "F", "Em", "Dm", "D", "A", "E", "Bm")
@@ -201,9 +209,10 @@ internal fun SheetEditor(
                     selected = false,
                     onClick = { content += "[$chord]" },
                     label = { Text(chord) },
-                    modifier = Modifier.clearAndSetSemantics {
-                        contentDescription = insertChordDesc
-                    },
+                    modifier =
+                        Modifier.clearAndSetSemantics {
+                            contentDescription = insertChordDesc
+                        },
                 )
             }
         }
@@ -233,10 +242,11 @@ internal fun SheetEditor(
         if (showPreview) {
             // Live preview of chords above lyrics
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .verticalScroll(rememberScrollState()),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .verticalScroll(rememberScrollState()),
             ) {
                 content.lines().forEach { line ->
                     val segments = ChordParser.parseLine(line)
@@ -257,6 +267,7 @@ internal fun SheetEditor(
                                 is ChordParser.TextSegment.PlainText -> {
                                     lyricLine.append(segment.text)
                                 }
+
                                 is ChordParser.TextSegment.Chord -> {
                                     hasChords = true
                                     chordPositions.add(lyricLine.length to segment.name)
@@ -265,39 +276,42 @@ internal fun SheetEditor(
                         }
 
                         if (hasChords) {
-                            val chordAnnotated = buildAnnotatedString {
-                                var cursor = 0
-                                chordPositions.forEach { (pos, name) ->
-                                    if (pos > cursor) {
-                                        append(" ".repeat(pos - cursor))
-                                        cursor = pos
+                            val chordAnnotated =
+                                buildAnnotatedString {
+                                    var cursor = 0
+                                    chordPositions.forEach { (pos, name) ->
+                                        if (pos > cursor) {
+                                            append(" ".repeat(pos - cursor))
+                                            cursor = pos
+                                        }
+                                        withStyle(
+                                            SpanStyle(
+                                                color = chordColor,
+                                                fontWeight = FontWeight.Bold,
+                                            ),
+                                        ) {
+                                            append(name)
+                                        }
+                                        cursor += name.length
                                     }
-                                    withStyle(
-                                        SpanStyle(
-                                            color = chordColor,
-                                            fontWeight = FontWeight.Bold,
-                                        )
-                                    ) {
-                                        append(name)
-                                    }
-                                    cursor += name.length
                                 }
-                            }
 
                             Text(
                                 text = chordAnnotated,
-                                style = MaterialTheme.typography.bodyMedium.copy(
-                                    fontFamily = FontFamily.Monospace,
-                                ),
+                                style =
+                                    MaterialTheme.typography.bodyMedium.copy(
+                                        fontFamily = FontFamily.Monospace,
+                                    ),
                             )
                         }
 
                         Text(
                             text = lyricLine.toString(),
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                fontFamily = FontFamily.Monospace,
-                                color = MaterialTheme.colorScheme.onSurface,
-                            ),
+                            style =
+                                MaterialTheme.typography.bodyMedium.copy(
+                                    fontFamily = FontFamily.Monospace,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                ),
                         )
                     }
                 }
@@ -307,9 +321,10 @@ internal fun SheetEditor(
                 value = content,
                 onValueChange = { content = it },
                 label = { Text(stringResource(R.string.songbook_field_lyrics)) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
                 textStyle = MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace),
             )
         }
@@ -391,21 +406,23 @@ private fun LabelEditorSection(
     var labelInput by remember { mutableStateOf("") }
     var showSuggestions by remember { mutableStateOf(false) }
 
-    val suggestions = remember(labelInput, allLabels, labels) {
-        if (labelInput.isBlank()) {
-            emptyList()
-        } else {
-            val query = labelInput.trim().lowercase()
-            (allLabels - labels.toSet())
-                .filter { it.lowercase().contains(query) }
-                .take(5)
+    val suggestions =
+        remember(labelInput, allLabels, labels) {
+            if (labelInput.isBlank()) {
+                emptyList()
+            } else {
+                val query = labelInput.trim().lowercase()
+                (allLabels - labels.toSet())
+                    .filter { it.lowercase().contains(query) }
+                    .take(5)
+            }
         }
-    }
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
     ) {
         Text(
             text = stringResource(R.string.songbook_labels),
@@ -436,10 +453,11 @@ private fun LabelEditorSection(
                             )
                         },
                         modifier = Modifier.height(28.dp),
-                        colors = InputChipDefaults.inputChipColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            labelColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                        ),
+                        colors =
+                            InputChipDefaults.inputChipColors(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                labelColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                            ),
                     )
                 }
             }

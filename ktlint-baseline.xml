@@ -1731,49 +1731,6 @@
         <error line="78" column="18" source="standard:if-else-wrapping" />
         <error line="78" column="18" source="standard:multiline-if-else" />
     </file>
-    <file name="app/src/main/java/com/baijum/ukufretboard/ui/StateSavers.kt">
-        <error line="13" column="66" source="standard:multiline-expression-wrapping" />
-        <error line="13" column="66" source="standard:function-signature" />
-        <error line="19" column="75" source="standard:multiline-expression-wrapping" />
-        <error line="19" column="75" source="standard:function-signature" />
-        <error line="25" column="76" source="standard:multiline-expression-wrapping" />
-        <error line="27" column="24" source="standard:if-else-wrapping" />
-        <error line="27" column="24" source="standard:multiline-if-else" />
-        <error line="28" column="14" source="standard:if-else-wrapping" />
-        <error line="28" column="14" source="standard:multiline-if-else" />
-        <error line="45" column="29" source="standard:if-else-wrapping" />
-        <error line="45" column="29" source="standard:multiline-if-else" />
-        <error line="46" column="14" source="standard:if-else-wrapping" />
-        <error line="46" column="14" source="standard:multiline-if-else" />
-        <error line="65" column="66" source="standard:multiline-expression-wrapping" />
-        <error line="67" column="24" source="standard:if-else-wrapping" />
-        <error line="67" column="24" source="standard:multiline-if-else" />
-        <error line="68" column="14" source="standard:if-else-wrapping" />
-        <error line="68" column="14" source="standard:multiline-if-else" />
-        <error line="77" column="29" source="standard:if-else-wrapping" />
-        <error line="77" column="29" source="standard:multiline-if-else" />
-        <error line="78" column="14" source="standard:if-else-wrapping" />
-        <error line="78" column="14" source="standard:multiline-if-else" />
-        <error line="89" column="76" source="standard:multiline-expression-wrapping" />
-        <error line="91" column="24" source="standard:if-else-wrapping" />
-        <error line="91" column="24" source="standard:multiline-if-else" />
-        <error line="92" column="14" source="standard:if-else-wrapping" />
-        <error line="92" column="14" source="standard:multiline-if-else" />
-        <error line="104" column="29" source="standard:if-else-wrapping" />
-        <error line="104" column="29" source="standard:multiline-if-else" />
-        <error line="105" column="14" source="standard:if-else-wrapping" />
-        <error line="105" column="14" source="standard:multiline-if-else" />
-        <error line="110" column="21" source="standard:multiline-expression-wrapping" />
-        <error line="122" column="50" source="standard:multiline-expression-wrapping" />
-        <error line="124" column="24" source="standard:if-else-wrapping" />
-        <error line="124" column="24" source="standard:multiline-if-else" />
-        <error line="125" column="14" source="standard:if-else-wrapping" />
-        <error line="125" column="14" source="standard:multiline-if-else" />
-        <error line="133" column="29" source="standard:if-else-bracing" />
-        <error line="133" column="29" source="standard:if-else-wrapping" />
-        <error line="133" column="29" source="standard:multiline-if-else" />
-        <error line="140" column="27" source="standard:multiline-expression-wrapping" />
-    </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/ui/TapTempoButton.kt">
         <error line="66" column="27" source="standard:multiline-expression-wrapping" />
     </file>
@@ -2533,22 +2490,6 @@
         <error line="146" column="121" source="standard:argument-list-wrapping" />
         <error line="146" column="121" source="standard:max-line-length" />
         <error line="146" column="122" source="standard:argument-list-wrapping" />
-    </file>
-    <file name="app/src/main/java/com/baijum/ukufretboard/ui/songbook/SheetEditor.kt">
-        <error line="88" column="22" source="standard:multiline-expression-wrapping" />
-        <error line="115" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="191" column="24" source="standard:multiline-expression-wrapping" />
-        <error line="204" column="32" source="standard:multiline-expression-wrapping" />
-        <error line="236" column="28" source="standard:multiline-expression-wrapping" />
-        <error line="260" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="268" column="50" source="standard:multiline-expression-wrapping" />
-        <error line="279" column="42" source="standard:trailing-comma-on-call-site" />
-        <error line="289" column="41" source="standard:multiline-expression-wrapping" />
-        <error line="297" column="37" source="standard:multiline-expression-wrapping" />
-        <error line="310" column="28" source="standard:multiline-expression-wrapping" />
-        <error line="394" column="23" source="standard:multiline-expression-wrapping" />
-        <error line="406" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="439" column="34" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/ui/songbook/SheetViewer.kt">
         <error line="3" column="1" source="standard:import-ordering" />
