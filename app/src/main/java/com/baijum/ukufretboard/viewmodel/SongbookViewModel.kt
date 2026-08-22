@@ -39,6 +39,15 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
     /** Observable list of filtered and sorted chord sheets. */
     val sheets: StateFlow<List<ChordSheet>> = _sheets.asStateFlow()
 
+    /**
+     * The complete, unfiltered song library.
+     *
+     * Unlike [sheets], this ignores the active search query and label filter, so
+     * consumers that must see every song (setlists, achievement counts) keep a
+     * stable view regardless of what is typed in the Songbook (issue #572).
+     */
+    val allSheets: StateFlow<List<ChordSheet>> = _allSheets.asStateFlow()
+
     /** The currently open sheet (for viewing/editing). */
     private val _currentSheet = MutableStateFlow<ChordSheet?>(null)
     val currentSheet: StateFlow<ChordSheet?> = _currentSheet.asStateFlow()

@@ -80,12 +80,25 @@ class SetlistViewModel(application: Application) : AndroidViewModel(application)
         refresh()
     }
 
-    fun moveSong(setlistId: String, fromIndex: Int, toIndex: Int) {
+    /**
+     * Moves [songId] by [offset] positions within the persisted song order
+     * ([offset] of -1 moves it up one, +1 down one).
+     *
+     * The move is keyed by song ID rather than by display index so it cannot be
+     * desynced from the stored `songIds` array — e.g. when a Songbook search
+     * filter hides some songs and the visible list's indices no longer match the
+     * persisted ones (issue #572).
+     */
+    fun moveSong(setlistId: String, songId: String, offset: Int) {
+        if (offset == 0) return
         val setlist = _setlists.value.find { it.id == setlistId } ?: return
         val songs = setlist.songIds.toMutableList()
-        if (fromIndex !in songs.indices || toIndex !in songs.indices) return
-        val item = songs.removeAt(fromIndex)
-        songs.add(toIndex, item)
+        val currentIndex = songs.indexOf(songId)
+        if (currentIndex < 0) return
+        val targetIndex = currentIndex + offset
+        if (targetIndex !in songs.indices) return
+        val item = songs.removeAt(currentIndex)
+        songs.add(targetIndex, item)
         val updated = setlist.copy(
             songIds = songs,
             updatedAt = System.currentTimeMillis(),

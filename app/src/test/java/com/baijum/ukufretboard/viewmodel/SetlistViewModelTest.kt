@@ -216,21 +216,38 @@ class SetlistViewModelTest {
         val id = createAndGetId("Gig")
         listOf("a", "b", "c").forEach { vm.addSong(id, it) }
 
-        vm.moveSong(id, fromIndex = 0, toIndex = 2)
+        vm.moveSong(id, songId = "a", offset = +2)
         assertEquals(listOf("b", "c", "a"), songIdsOf(id))
 
-        vm.moveSong(id, fromIndex = 2, toIndex = 0)
+        vm.moveSong(id, songId = "a", offset = -2)
         assertEquals(listOf("a", "b", "c"), songIdsOf(id))
     }
 
     @Test
-    fun moveSongIgnoresOutOfRangeIndices() {
+    fun moveSongTargetsTheNamedSongNotAPosition() {
+        // Regression for issue #572: the UI's display index can diverge from the
+        // persisted order (e.g. a Songbook filter hides songs), so the move must
+        // be keyed by ID.
+        val id = createAndGetId("Gig")
+        listOf("a", "b", "c").forEach { vm.addSong(id, it) }
+
+        vm.moveSong(id, songId = "b", offset = -1)
+        assertEquals(listOf("b", "a", "c"), songIdsOf(id))
+
+        vm.moveSong(id, songId = "b", offset = +1)
+        assertEquals(listOf("a", "b", "c"), songIdsOf(id))
+    }
+
+    @Test
+    fun moveSongIgnoresOutOfRangeMoves() {
         val id = createAndGetId("Gig")
         listOf("a", "b").forEach { vm.addSong(id, it) }
 
-        vm.moveSong(id, fromIndex = -1, toIndex = 0)
-        vm.moveSong(id, fromIndex = 0, toIndex = 5)
-        vm.moveSong(id, fromIndex = 9, toIndex = 9)
+        vm.moveSong(id, songId = "a", offset = -1)
+        vm.moveSong(id, songId = "b", offset = +1)
+        vm.moveSong(id, songId = "not-there", offset = 0)
+        vm.moveSong(id, songId = "not-there", offset = +1)
+        vm.moveSong(id, songId = "a", offset = 0)
 
         assertEquals(listOf("a", "b"), songIdsOf(id))
     }
@@ -238,7 +255,7 @@ class SetlistViewModelTest {
     @Test
     fun moveSongOnAnEmptySetlistIsANoOp() {
         val id = createAndGetId("Gig")
-        vm.moveSong(id, fromIndex = 0, toIndex = 0)
+        vm.moveSong(id, songId = "a", offset = +1)
         assertTrue(songIdsOf(id).isEmpty())
     }
 
@@ -251,7 +268,7 @@ class SetlistViewModelTest {
         assertEquals(listOf("a"), vm.currentSetlist.value?.songIds)
 
         vm.addSong(id, "b")
-        vm.moveSong(id, fromIndex = 0, toIndex = 1)
+        vm.moveSong(id, songId = "a", offset = +1)
         assertEquals(listOf("b", "a"), vm.currentSetlist.value?.songIds)
 
         vm.removeSong(id, "b")

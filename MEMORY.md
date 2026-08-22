@@ -38,3 +38,9 @@ These are stable truths about the codebase unlikely to change frequently.
 ## Session Log
 
 <!-- Append new entries below this line. Format: YYYY-MM-DD: <note> -->
+- 2025-08-21: `ktlint-baseline.xml` is line-number-based — editing a file shifts
+  its baselined violations to new lines, so preflight reports them as "new".
+  Fix surgically: regenerate entries only for touched files
+  (`~/.cache/ktlint/ktlint-1.8.0 --baseline=/tmp/new.xml <globs>`, then merge
+  those file blocks back). The committed baseline also carries many stale
+  entries; don't wholesale-regenerate or the diff explodes.
