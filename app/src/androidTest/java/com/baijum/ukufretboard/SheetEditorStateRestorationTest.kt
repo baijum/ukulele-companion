@@ -7,6 +7,7 @@ import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import androidx.test.platform.app.InstrumentationRegistry
 import com.baijum.ukufretboard.data.ChordSheet
@@ -141,9 +142,14 @@ class SheetEditorStateRestorationTest {
             ),
         )
 
+        // Replace the content deterministically: typing into a pre-filled field
+        // places the cursor at position 0, so clear first, then type the edit.
         composeTestRule
             .onNodeWithText(str(R.string.songbook_field_lyrics))
-            .performTextInput("\n[Am]More lyrics")
+            .performTextClearance()
+        composeTestRule
+            .onNodeWithText(str(R.string.songbook_field_lyrics))
+            .performTextInput("[Em]I want to live\n[Am]More lyrics")
 
         simulateRecreation()
 
