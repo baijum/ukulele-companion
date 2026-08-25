@@ -203,13 +203,38 @@ class MelodyRepositoryTest {
     }
 
     @Test
-    fun importAllKeepsTheNewerCopyOfAnExistingId() {
-        repo.save(melody("a", name = "Old", createdAt = 100L))
+    fun importAllKeepsTheLocalCopyOfAnExistingIdAndAddsNewIds() {
+        repo.save(melody("a", name = "Local", createdAt = 100L))
 
-        repo.importAll(listOf(melody("a", name = "New", createdAt = 200L), melody("b", createdAt = 50L)))
+        repo.importAll(listOf(melody("a", name = "Backup", createdAt = 200L), melody("b", createdAt = 50L)))
 
-        assertEquals("New", repo.get("a")?.name)
+        // Melody has no updatedAt and createdAt never changes after creation, so
+        // an import must keep the local copy on an ID collision (#597) and add the
+        // genuinely new IDs. A "keep newer by createdAt" policy would tie on every
+        // real conflict and let the backup silently win.
+        assertEquals("Local", repo.get("a")?.name)
         assertEquals(listOf("a", "b"), repo.getAll().map { it.id })
+    }
+
+    @Test
+    fun importAllDoesNotOverwriteNewerLocalEditsWithAnOlderBackup() {
+        // #597 repro: save M, snapshot it for a backup, edit M locally keeping the
+        // same id and createdAt, then re-import the snapshot. The local edit must
+        // survive -- under the old mergeNewerWins the tie on createdAt resolved to
+        // the incoming (older) backup, silently discarding the edit.
+        repo.save(melody("X", name = "Original", createdAt = 1_000L))
+        val snapshot = repo.getAll() // the backup file
+
+        val edited =
+            melody("X", name = "Renamed after backup", createdAt = 1_000L)
+                .copy(notes = melody("X").notes + MelodyNote(pitchClass = 7, octave = 4, duration = NoteDuration.HALF))
+        repo.save(edited)
+
+        repo.importAll(snapshot)
+
+        val restored = repo.get("X")
+        assertEquals("Renamed after backup", restored?.name)
+        assertEquals(edited.notes, restored?.notes)
     }
 
     private companion object {

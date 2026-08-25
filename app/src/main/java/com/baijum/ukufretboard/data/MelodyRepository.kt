@@ -2,7 +2,7 @@ package com.baijum.ukufretboard.data
 
 import android.content.Context
 import android.util.Log
-import com.baijum.ukufretboard.domain.mergeNewerWins
+import com.baijum.ukufretboard.domain.mergeKeepExisting
 
 /**
  * Repository for persisting melodies using SharedPreferences.
@@ -33,10 +33,16 @@ class MelodyRepository(
 
     /**
      * Merges the given list of melodies into local storage using merge-by-ID.
-     * Keeps the newer version (by createdAt) when a melody exists in both.
+     *
+     * Keeps the existing local melody on an ID collision and only adds melodies
+     * whose IDs are new. Melody has no `updatedAt`, and every save preserves the
+     * original `createdAt` (#597), so a "keep newer by createdAt" policy would tie
+     * on every conflict and let the incoming backup silently overwrite newer local
+     * edits. Keeping local on a tie matches iOS's strict `>` comparison and the
+     * union-merge intent.
      */
     override fun importAll(items: List<Melody>) {
-        persist(mergeNewerWins(getAll(), items, ::entityId, ::entityTimestamp))
+        persist(mergeKeepExisting(getAll(), items, ::entityId))
     }
 
     /**

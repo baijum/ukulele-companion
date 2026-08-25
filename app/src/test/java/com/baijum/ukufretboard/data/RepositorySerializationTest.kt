@@ -314,13 +314,16 @@ class RepositorySerializationTest {
     }
 
     @Test
-    fun melodyImportNewerCreatedAtWins() {
+    fun melodyImportKeepsTheLocalCopyOnAnIdCollision() {
         val repo = MelodyRepository(context)
-        val local = Melody(id = "m1", name = "Old", notes = emptyList(), bpm = 100, createdAt = 100L)
+        val local = Melody(id = "m1", name = "Local", notes = emptyList(), bpm = 100, createdAt = 100L)
         repo.save(local)
-        val newer = Melody(id = "m1", name = "New", notes = emptyList(), bpm = 120, createdAt = 200L)
-        repo.importAll(listOf(newer))
-        assertEquals("New", repo.get("m1")!!.name)
+        // Melody has no updatedAt and createdAt never changes after creation (#597),
+        // so an import keeps the local copy on an ID collision instead of letting a
+        // newer-looking createdAt in the backup overwrite local edits.
+        val backup = Melody(id = "m1", name = "Backup", notes = emptyList(), bpm = 120, createdAt = 200L)
+        repo.importAll(listOf(backup))
+        assertEquals("Local", repo.get("m1")!!.name)
     }
 
     @Test
