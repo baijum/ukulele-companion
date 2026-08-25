@@ -5124,47 +5124,50 @@
         <error line="67" column="1" source="standard:blank-line-before-declaration" />
         <error line="67" column="1" source="standard:no-consecutive-comments" />
         <error line="67" column="1" source="standard:spacing-between-declarations-with-comments" />
-        <error line="74" column="51" source="standard:function-signature" />
-        <error line="77" column="75" source="standard:multiline-expression-wrapping" />
-        <error line="78" column="24" source="standard:multiline-expression-wrapping" />
-        <error line="79" column="40" source="standard:argument-list-wrapping" />
-        <error line="79" column="73" source="standard:argument-list-wrapping" />
-        <error line="80" column="47" source="standard:argument-list-wrapping" />
-        <error line="81" column="43" source="standard:argument-list-wrapping" />
-        <error line="83" column="24" source="standard:multiline-expression-wrapping" />
-        <error line="84" column="40" source="standard:argument-list-wrapping" />
-        <error line="84" column="73" source="standard:argument-list-wrapping" />
-        <error line="85" column="48" source="standard:argument-list-wrapping" />
-        <error line="86" column="43" source="standard:argument-list-wrapping" />
-        <error line="86" column="77" source="standard:argument-list-wrapping" />
-        <error line="88" column="25" source="standard:multiline-expression-wrapping" />
-        <error line="89" column="40" source="standard:argument-list-wrapping" />
-        <error line="90" column="47" source="standard:argument-list-wrapping" />
-        <error line="91" column="43" source="standard:argument-list-wrapping" />
-        <error line="91" column="79" source="standard:argument-list-wrapping" />
-        <error line="93" column="27" source="standard:multiline-expression-wrapping" />
-        <error line="94" column="40" source="standard:argument-list-wrapping" />
-        <error line="94" column="73" source="standard:argument-list-wrapping" />
-        <error line="95" column="47" source="standard:argument-list-wrapping" />
-        <error line="96" column="44" source="standard:argument-list-wrapping" />
+        <error line="78" column="51" source="standard:function-signature" />
+        <error line="81" column="75" source="standard:multiline-expression-wrapping" />
+        <error line="82" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="83" column="40" source="standard:argument-list-wrapping" />
+        <error line="83" column="73" source="standard:argument-list-wrapping" />
+        <error line="84" column="47" source="standard:argument-list-wrapping" />
+        <error line="86" column="48" source="standard:argument-list-wrapping" />
+        <error line="87" column="43" source="standard:argument-list-wrapping" />
+        <error line="89" column="44" source="standard:argument-list-wrapping" />
+        <error line="89" column="80" source="standard:argument-list-wrapping" />
+        <error line="91" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="92" column="40" source="standard:argument-list-wrapping" />
+        <error line="92" column="73" source="standard:argument-list-wrapping" />
+        <error line="94" column="48" source="standard:argument-list-wrapping" />
+        <error line="96" column="43" source="standard:argument-list-wrapping" />
+        <error line="96" column="77" source="standard:argument-list-wrapping" />
         <error line="98" column="25" source="standard:multiline-expression-wrapping" />
         <error line="99" column="40" source="standard:argument-list-wrapping" />
-        <error line="99" column="73" source="standard:argument-list-wrapping" />
         <error line="100" column="47" source="standard:argument-list-wrapping" />
         <error line="101" column="43" source="standard:argument-list-wrapping" />
-        <error line="103" column="29" source="standard:multiline-expression-wrapping" />
+        <error line="101" column="79" source="standard:argument-list-wrapping" />
+        <error line="103" column="27" source="standard:multiline-expression-wrapping" />
         <error line="104" column="40" source="standard:argument-list-wrapping" />
+        <error line="104" column="73" source="standard:argument-list-wrapping" />
         <error line="105" column="47" source="standard:argument-list-wrapping" />
-        <error line="106" column="46" source="standard:argument-list-wrapping" />
-        <error line="106" column="80" source="standard:argument-list-wrapping" />
-        <error line="108" column="26" source="standard:multiline-expression-wrapping" />
-        <error line="109" column="41" source="standard:argument-list-wrapping" />
+        <error line="106" column="44" source="standard:argument-list-wrapping" />
+        <error line="108" column="25" source="standard:multiline-expression-wrapping" />
+        <error line="109" column="40" source="standard:argument-list-wrapping" />
+        <error line="109" column="73" source="standard:argument-list-wrapping" />
         <error line="110" column="47" source="standard:argument-list-wrapping" />
         <error line="111" column="43" source="standard:argument-list-wrapping" />
-        <error line="111" column="78" source="standard:argument-list-wrapping" />
-        <error line="115" column="22" source="standard:function-signature" />
-        <error line="115" column="39" source="standard:function-signature" />
-        <error line="115" column="59" source="standard:function-signature" />
+        <error line="113" column="29" source="standard:multiline-expression-wrapping" />
+        <error line="114" column="40" source="standard:argument-list-wrapping" />
+        <error line="115" column="47" source="standard:argument-list-wrapping" />
+        <error line="116" column="46" source="standard:argument-list-wrapping" />
+        <error line="116" column="80" source="standard:argument-list-wrapping" />
+        <error line="118" column="26" source="standard:multiline-expression-wrapping" />
+        <error line="119" column="41" source="standard:argument-list-wrapping" />
+        <error line="120" column="47" source="standard:argument-list-wrapping" />
+        <error line="121" column="43" source="standard:argument-list-wrapping" />
+        <error line="121" column="78" source="standard:argument-list-wrapping" />
+        <error line="125" column="22" source="standard:function-signature" />
+        <error line="125" column="39" source="standard:function-signature" />
+        <error line="125" column="59" source="standard:function-signature" />
     </file>
     <file name="shared/src/commonMain/kotlin/com/baijum/ukufretboard/domain/IntervalTrainer.kt">
         <error line="15" column="1" source="standard:no-empty-first-line-in-class-body" />
