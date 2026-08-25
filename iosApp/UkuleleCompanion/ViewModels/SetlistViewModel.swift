@@ -18,9 +18,20 @@ final class SetlistViewModel: ObservableObject {
     // touched from init and deinit, which never overlap.
     private nonisolated(unsafe) var songsDeletedObserver: NSObjectProtocol?
 
-    init(repository: SetlistRepository = SetlistRepository()) {
+    init(
+        repository: SetlistRepository = SetlistRepository(),
+        songbookRepository: SongbookRepository = SongbookRepository()
+    ) {
         self.repository = repository
         setlists = repository.getAll()
+        // One-time reconciliation at launch: strip any songIds entry that no
+        // longer resolves in the song library. A dead ID (a song deleted in an
+        // earlier version, or one a restored backup's import skipped) would
+        // otherwise persist forever and offset every future delete/reorder,
+        // since the rendered list — built with compactMap — is shorter than the
+        // raw songIds array (issue #602). Nothing else reconciles at launch: the
+        // #594 observer only fires on live deletions.
+        reconcileWithLibrary(validSongIds: Set(songbookRepository.getAll().map { $0.id }))
         // When a song is deleted from the Songbook, drop it from every setlist
         // right away so dead IDs cannot resurface in a later save (issue #594).
         songsDeletedObserver = NotificationCenter.default.addObserver(
@@ -81,14 +92,39 @@ final class SetlistViewModel: ObservableObject {
         repository.save(setlists)
     }
 
-    func moveSong(setlistId: String, from: Int, to: Int) {
+    /// Moves `songId` by `offset` positions within the persisted song order
+    /// (`offset` of -1 moves it up one, +1 down one).
+    ///
+    /// Keyed by song ID rather than by display index so it cannot be desynced
+    /// from the stored `songIds` array — e.g. when an unresolvable ID makes the
+    /// rendered list (built with `compactMap`) shorter than the raw array and
+    /// the visible offsets no longer match the persisted ones (issue #602).
+    func moveSong(setlistId: String, songId: String, offset: Int) {
+        guard offset != 0 else { return }
         guard let idx = setlists.firstIndex(where: { $0.id == setlistId }) else { return }
-        guard from >= 0, from < setlists[idx].songIds.count,
-              to >= 0, to < setlists[idx].songIds.count else { return }
-        let item = setlists[idx].songIds.remove(at: from)
-        setlists[idx].songIds.insert(item, at: to)
+        guard let currentIndex = setlists[idx].songIds.firstIndex(of: songId) else { return }
+        let targetIndex = currentIndex + offset
+        guard targetIndex >= 0, targetIndex < setlists[idx].songIds.count else { return }
+        let item = setlists[idx].songIds.remove(at: currentIndex)
+        setlists[idx].songIds.insert(item, at: targetIndex)
         setlists[idx].updatedAt = Date().timeIntervalSince1970 * 1000
         repository.save(setlists)
+    }
+
+    /// Drops every `songIds` entry not present in `validSongIds`. Persisted and
+    /// in-memory setlists are updated in place; only setlists that actually held
+    /// a dead ID are rewritten, so clean setlists keep their `updatedAt`.
+    private func reconcileWithLibrary(validSongIds: Set<String>) {
+        var changed = false
+        for idx in setlists.indices
+        where setlists[idx].songIds.contains(where: { !validSongIds.contains($0) }) {
+            setlists[idx].songIds.removeAll { !validSongIds.contains($0) }
+            setlists[idx].updatedAt = Date().timeIntervalSince1970 * 1000
+            changed = true
+        }
+        if changed {
+            repository.save(setlists)
+        }
     }
 
     /// Strips deleted library songs out of every setlist — persisted and in

@@ -5,7 +5,37 @@ final class SetlistViewModelTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        UserDefaults.standard.removeObject(forKey: "setlists")
+        clearStores()
+    }
+
+    override func tearDown() {
+        clearStores()
+        super.tearDown()
+    }
+
+    private func clearStores() {
+        for key in ["setlists", "chord_sheets"] {
+            UserDefaults.standard.removeObject(forKey: key)
+            UserDefaults.standard.removeObject(forKey: "\(key)_backup")
+            UserDefaults.standard.removeObject(forKey: "\(key)_quarantine")
+        }
+    }
+
+    private func seedLibrary(ids: [String]) {
+        let songs = ids.map { id in
+            StoredSong(
+                id: id, title: id, artist: "", content: "", key: "C",
+                capo: 0, strumPatternName: "", labels: [], createdAt: 0, updatedAt: 0
+            )
+        }
+        SongbookRepository().save(songs)
+    }
+
+    private func seedSetlist(id: String, name: String, songIds: [String]) {
+        let setlist = StoredSetlist(
+            id: id, name: name, songIds: songIds, createdAt: 0, updatedAt: 0
+        )
+        SetlistRepository().save([setlist])
     }
 
     @MainActor
@@ -88,8 +118,79 @@ final class SetlistViewModelTests: XCTestCase {
         vm.addSong(setlistId: id, songId: "b")
         vm.addSong(setlistId: id, songId: "c")
 
-        vm.moveSong(setlistId: id, from: 2, to: 0)
+        // Keyed by song ID + offset, not a raw index: move "c" up two places.
+        vm.moveSong(setlistId: id, songId: "c", offset: -2)
         XCTAssertEqual(vm.setlists.first?.songIds, ["c", "a", "b"])
+    }
+
+    @MainActor
+    func testMoveSongWithUnknownIdIsNoOp() {
+        let vm = SetlistViewModel()
+        vm.create(name: "My Set")
+        guard let id = vm.setlists.first?.id else { return XCTFail("no setlist") }
+        vm.addSong(setlistId: id, songId: "a")
+        vm.addSong(setlistId: id, songId: "b")
+
+        vm.moveSong(setlistId: id, songId: "missing", offset: 1)
+        vm.moveSong(setlistId: id, songId: "a", offset: 0)
+        XCTAssertEqual(vm.setlists.first?.songIds, ["a", "b"])
+    }
+
+    // MARK: - Launch reconciliation (issue #602)
+
+    @MainActor
+    func testInitDropsSongIdsAbsentFromLibrary() {
+        // A setlist persisted with a leading ID (S1) that no longer resolves in
+        // the library — a legacy dead ID, or one a restored backup's import
+        // skipped. It should render two rows (S2, S3), so reconciliation must
+        // strip S1 rather than let it offset every edit.
+        seedLibrary(ids: ["S2", "S3"])
+        seedSetlist(id: "set-1", name: "Legacy", songIds: ["S1", "S2", "S3"])
+
+        let vm = SetlistViewModel()
+
+        XCTAssertEqual(vm.setlists.first?.songIds, ["S2", "S3"])
+    }
+
+    @MainActor
+    func testInitReconciliationPersistsAcrossReload() {
+        seedLibrary(ids: ["S2", "S3"])
+        seedSetlist(id: "set-1", name: "Legacy", songIds: ["S1", "S2", "S3"])
+
+        _ = SetlistViewModel() // reconciles and saves
+        let reloaded = SetlistViewModel()
+
+        XCTAssertEqual(reloaded.setlists.first?.songIds, ["S2", "S3"])
+    }
+
+    @MainActor
+    func testInitLeavesResolvableSetlistUntouched() {
+        seedLibrary(ids: ["S1", "S2", "S3"])
+        seedSetlist(id: "set-1", name: "Clean", songIds: ["S1", "S2", "S3"])
+
+        let vm = SetlistViewModel()
+
+        XCTAssertEqual(vm.setlists.first?.songIds, ["S1", "S2", "S3"])
+        // A setlist without dead IDs must not be rewritten (updatedAt preserved).
+        XCTAssertEqual(vm.setlists.first?.updatedAt, 0)
+    }
+
+    @MainActor
+    func testDeleteAfterReconciliationTargetsCorrectRenderedRow() {
+        // Pre-fix: songIds[0] = S1 (dead), so deleting rendered row 0 (S2) read
+        // S1 and left S2 in place. After reconciliation songIds == rendered
+        // order, so removing the rendered row's ID hits the right song.
+        seedLibrary(ids: ["S2", "S3"])
+        seedSetlist(id: "set-1", name: "Legacy", songIds: ["S1", "S2", "S3"])
+
+        let vm = SetlistViewModel()
+        guard let renderedFirst = vm.setlists.first?.songIds.first else {
+            return XCTFail("expected reconciled rows")
+        }
+        XCTAssertEqual(renderedFirst, "S2")
+
+        vm.removeSong(setlistId: "set-1", songId: renderedFirst)
+        XCTAssertEqual(vm.setlists.first?.songIds, ["S3"])
     }
 
     @MainActor
