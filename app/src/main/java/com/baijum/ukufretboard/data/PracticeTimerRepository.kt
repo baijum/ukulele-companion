@@ -27,7 +27,12 @@ class PracticeTimerRepository(context: Context) {
      * @param durationMs Duration in milliseconds.
      */
     fun recordSession(durationMs: Long) {
-        val minutes = (durationMs / 60_000).toInt().coerceAtLeast(1)
+        // Sanity ceiling: even with the lifecycle-bounded clock (#601), never
+        // let a single span exceed a plausible practice session. This stops an
+        // already-corrupt duration from permanently pinning longest_session (and
+        // inflating the cumulative totals), since those figures cannot be
+        // lowered afterwards through max-merge backup import.
+        val minutes = (durationMs / 60_000).toInt().coerceIn(1, MAX_SESSION_MINUTES)
         val today = todayKey()
 
         prefs.edit().apply {
@@ -149,6 +154,15 @@ class PracticeTimerRepository(context: Context) {
         private const val KEY_LAST_SESSION = "last_session"
         private const val KEY_DAILY_GOAL = "daily_goal"
         private const val DEFAULT_DAILY_GOAL = 15
+
+        /**
+         * Upper bound (minutes) for a single recorded session. A genuine
+         * foreground practice stretch never approaches this; it exists only to
+         * cap an already-corrupt span (e.g. a stale clock) before it lands in
+         * the cumulative totals or longest_session, which cannot be lowered
+         * later. 12 hours is well beyond any real session.
+         */
+        private const val MAX_SESSION_MINUTES = 12 * 60
     }
 }
 
