@@ -197,6 +197,49 @@ final class RepositoryBackupTests: XCTestCase {
         XCTAssertEqual(repository.load().totalMinutes, 120)
     }
 
+    // MARK: - Importing the daily practice goal
+
+    /// A backup with no practice-timer data (or one made on a device still at the
+    /// default) carries the 15-minute default goal. Importing it must not clobber
+    /// a goal the user chose (#608). Mirrors Android's guard in
+    /// `PracticeTimerRepository.importAll`.
+    func testImportDefaultGoalLeavesUserGoalUntouched() {
+        let repository = PracticeTimerRepository()
+        var data = PracticeTimerData()
+        data.dailyGoal = 60
+
+        repository.importData(["dailyGoal": 15], into: &data)
+
+        XCTAssertEqual(data.dailyGoal, 60)
+        XCTAssertEqual(repository.load().dailyGoal, 60)
+    }
+
+    /// A non-default goal from a backup still overrides the current goal.
+    func testImportNonDefaultGoalOverridesCurrent() {
+        let repository = PracticeTimerRepository()
+        var data = PracticeTimerData()
+        data.dailyGoal = 60
+
+        repository.importData(["dailyGoal": 30], into: &data)
+
+        XCTAssertEqual(data.dailyGoal, 30)
+        XCTAssertEqual(repository.load().dailyGoal, 30)
+    }
+
+    /// A hand-edited or corrupt backup cannot push the goal outside the 5...120
+    /// range the app's own setter enforces.
+    func testImportClampsOutOfRangeGoal() {
+        let repository = PracticeTimerRepository()
+        var data = PracticeTimerData()
+        data.dailyGoal = 60
+
+        repository.importData(["dailyGoal": 500], into: &data)
+        XCTAssertEqual(data.dailyGoal, 120)
+
+        repository.importData(["dailyGoal": 1], into: &data)
+        XCTAssertEqual(data.dailyGoal, 5)
+    }
+
     func testFavoritesRecoverFromBackup() {
         let repository = FavoritesRepository()
         repository.save([
