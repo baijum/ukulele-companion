@@ -339,7 +339,10 @@ struct SongEditorView: View {
             strumPatternName: strumPatternName,
             labels: labels,
             createdAt: existingSong?.createdAt ?? now,
-            updatedAt: now
+            updatedAt: now,
+            viewCount: existingSong?.viewCount ?? 0,
+            lastViewedAt: existingSong?.lastViewedAt ?? 0,
+            totalViewTimeMs: existingSong?.totalViewTimeMs ?? 0
         )
         viewModel.save(song: song)
     }
