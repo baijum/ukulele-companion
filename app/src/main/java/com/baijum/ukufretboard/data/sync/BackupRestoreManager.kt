@@ -553,8 +553,8 @@ class BackupRestoreManager(
                         bm.notes.map { n ->
                             MelodyNote(
                                 pitchClass = n.pitchClass?.takeIf { it in 0..11 },
-                                octave = n.octave.coerceIn(3, 5),
-                                duration = NoteDuration.valueOf(n.duration),
+                                octave = n.octave.coerceIn(3, 6),
+                                duration = parseDuration(n.duration),
                                 stringIndex = n.stringIndex?.takeIf { it in 0..3 },
                                 fret = n.fret,
                             )
@@ -566,6 +566,15 @@ class BackupRestoreManager(
                 null
             }
         }
+
+    /**
+     * Decodes a stored duration string, degrading per note rather than per melody.
+     * An unrecognised value (e.g. a duration symbol from a version whose encoder
+     * didn't map it — see #600) falls back to a quarter note so the rest of the
+     * melody still imports instead of the whole song being dropped.
+     */
+    private fun parseDuration(value: String): NoteDuration =
+        runCatching { NoteDuration.valueOf(value) }.getOrDefault(NoteDuration.QUARTER)
 
     companion object {
         /** All SharedPreferences files that importBackup may write to. */

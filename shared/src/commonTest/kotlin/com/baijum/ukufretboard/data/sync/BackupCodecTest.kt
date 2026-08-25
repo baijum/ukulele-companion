@@ -407,6 +407,43 @@ class BackupCodecTest {
     }
 
     @Test
+    fun decodeIosMelodiesWithComposedNoteDurationSequences() {
+        // Half (U+1D157 U+1D165) and sixteenth (U+1D158 U+1D165 U+1D16F) are
+        // combining sequences, not the single code points the old coders
+        // hard-typed. A backup written with the enum's real raw values must
+        // still map to KMP names, and an octave-6 note must survive (#600, #598).
+        val iosBackup =
+            """
+            {
+                "version": 3,
+                "timestamp": 1717430400.0,
+                "melodies": [
+                    {
+                        "id": "m-1",
+                        "name": "Composed",
+                        "notes": [
+                            {"pitchClass": 0, "octave": 4, "duration": "𝅗𝅥"},
+                            {"pitchClass": 7, "octave": 6, "duration": "𝅘𝅥𝅯"}
+                        ],
+                        "bpm": 100,
+                        "createdAt": 1717430400000
+                    }
+                ]
+            }
+            """.trimIndent()
+
+        val decoded = BackupCodec.decode(iosBackup)
+        assertEquals(1, decoded.melodies.size)
+        val notes = decoded.melodies[0].notes
+        assertEquals(2, notes.size)
+        assertEquals("HALF", notes[0].duration)
+        assertEquals("SIXTEENTH", notes[1].duration)
+        // Octave 6 must pass through the shared decode unchanged so the widened
+        // import clamp (coerceIn(3, 6)) can retain it.
+        assertEquals(6, notes[1].octave)
+    }
+
+    @Test
     fun decodeLegacyIosLearnProgressWithAchievements() {
         val legacyIos = """
         {
