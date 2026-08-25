@@ -1,5 +1,6 @@
 package com.baijum.ukufretboard.data
 
+import com.baijum.ukufretboard.domain.ChordSheetTranspose
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -74,6 +75,23 @@ class ChordProExporterTest {
     fun exportOmitsEmptyKey() {
         val result = ChordProExporter.export(sheet(key = ""))
         assertFalse(result.contains("{key"))
+    }
+
+    // Regression for #591: exporting a transposed preview must move the key with
+    // the content. Mirrors the effectiveSheet construction in SheetViewer.kt so a
+    // +2 preview of a song in C emits {key: D}, not the stale {key: C}.
+    @Test
+    fun exportTransposedPreviewMovesKeyWithContent() {
+        val semitones = 2
+        val original = sheet(key = "C", content = "[C]Amazing grace")
+        val effectiveSheet =
+            original.copy(
+                content = ChordSheetTranspose.transpose(original.content, semitones),
+                key = ChordSheetTranspose.transposeKey(original.key, semitones),
+            )
+        val result = ChordProExporter.export(effectiveSheet)
+        assertTrue(result.contains("{key: D}"), "Key should be transposed to D: $result")
+        assertFalse(result.contains("{key: C}"), "Stale original key must not survive: $result")
     }
 
     // --- export: capo ---

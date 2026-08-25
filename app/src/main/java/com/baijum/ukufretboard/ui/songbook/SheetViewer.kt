@@ -512,7 +512,10 @@ internal fun SheetViewer(
             val shareSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
             val effectiveSheet =
                 if (transposeSemitones != 0) {
-                    sheet.copy(content = displayContent)
+                    sheet.copy(
+                        content = displayContent,
+                        key = ChordSheetTranspose.transposeKey(sheet.key, transposeSemitones),
+                    )
                 } else {
                     sheet
                 }
