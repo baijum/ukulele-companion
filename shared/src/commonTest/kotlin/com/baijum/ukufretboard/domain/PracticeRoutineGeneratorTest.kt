@@ -8,7 +8,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class PracticeRoutineGeneratorTest {
-
     @Test
     fun defaultRoutineIsNonEmpty() {
         val routine = PracticeRoutineGenerator.generate()
@@ -69,11 +68,12 @@ class PracticeRoutineGeneratorTest {
         // pool, so a "15-Minute" routine delivered only ~7 minutes. The pool
         // now refills, so the routine fills the requested time and the title
         // matches the realised total.
-        val routine = PracticeRoutineGenerator.generate(
-            durationMinutes = 15,
-            skillLevel = SkillLevel.BEGINNER,
-            focusAreas = setOf(FocusArea.CHORDS),
-        )
+        val routine =
+            PracticeRoutineGenerator.generate(
+                durationMinutes = 15,
+                skillLevel = SkillLevel.BEGINNER,
+                focusAreas = setOf(FocusArea.CHORDS),
+            )
 
         // The title must exactly match the realised total (no overstating).
         assertEquals(
@@ -95,9 +95,10 @@ class PracticeRoutineGeneratorTest {
 
         // The focused exercises (everything but warm-up and cool-down) should
         // all be chord drills, repeating to fill the time.
-        val exercises = routine.steps.filter {
-            it.type != StepType.WARM_UP && it.type != StepType.FREE_PLAY
-        }
+        val exercises =
+            routine.steps.filter {
+                it.type != StepType.WARM_UP && it.type != StepType.FREE_PLAY
+            }
         assertTrue(
             exercises.size > 1,
             "Pool should refill so exercises repeat, got ${exercises.size}",
@@ -141,8 +142,10 @@ class PracticeRoutineGeneratorTest {
     fun shortRoutineHasFewerSteps() {
         val short = PracticeRoutineGenerator.generate(durationMinutes = 10)
         val long = PracticeRoutineGenerator.generate(durationMinutes = 30)
-        assertTrue(short.steps.size <= long.steps.size,
-            "Short routine (${short.steps.size} steps) should have <= steps than long (${long.steps.size})")
+        assertTrue(
+            short.steps.size <= long.steps.size,
+            "Short routine (${short.steps.size} steps) should have <= steps than long (${long.steps.size})",
+        )
     }
 
     // --- Step types are valid ---

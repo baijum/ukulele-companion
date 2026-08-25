@@ -15,7 +15,6 @@ import kotlin.random.Random
  * form a structured practice session.
  */
 object PracticeRoutineGenerator {
-
     /**
      * Generates a practice routine.
      *
@@ -80,24 +79,36 @@ object PracticeRoutineGenerator {
         )
     }
 
-    private fun generateWarmUp(level: SkillLevel, random: Random): PracticeStep {
-        val warmups = when (level) {
-            SkillLevel.BEGINNER -> listOf(
-                "Slowly strum each open string (G-C-E-A) and listen for clear tones.",
-                "Practice placing and lifting your fingers on the C chord shape.",
-                "Strum C and Am chords slowly, 4 beats each, for 2 minutes.",
-            )
-            SkillLevel.INTERMEDIATE -> listOf(
-                "Play a chromatic scale on each string from fret 1 to 5 and back.",
-                "Cycle through C-Am-F-G at 80 BPM, 4 beats per chord.",
-                "Practice barre chord shapes slowly up the neck.",
-            )
-            SkillLevel.ADVANCED -> listOf(
-                "Warm up with the major scale in 3 different positions.",
-                "Play chord inversions up the neck for any chord.",
-                "Fingerpick through an arpeggio pattern at a comfortable tempo.",
-            )
-        }
+    private fun generateWarmUp(
+        level: SkillLevel,
+        random: Random,
+    ): PracticeStep {
+        val warmups =
+            when (level) {
+                SkillLevel.BEGINNER -> {
+                    listOf(
+                        "Slowly strum each open string (G-C-E-A) and listen for clear tones.",
+                        "Practice placing and lifting your fingers on the C chord shape.",
+                        "Strum C and Am chords slowly, 4 beats each, for 2 minutes.",
+                    )
+                }
+
+                SkillLevel.INTERMEDIATE -> {
+                    listOf(
+                        "Play a chromatic scale on each string from fret 1 to 5 and back.",
+                        "Cycle through C-Am-F-G at 80 BPM, 4 beats per chord.",
+                        "Practice barre chord shapes slowly up the neck.",
+                    )
+                }
+
+                SkillLevel.ADVANCED -> {
+                    listOf(
+                        "Warm up with the major scale in 3 different positions.",
+                        "Play chord inversions up the neck for any chord.",
+                        "Fingerpick through an arpeggio pattern at a comfortable tempo.",
+                    )
+                }
+            }
         return PracticeStep(
             type = StepType.WARM_UP,
             title = "Warm Up",
@@ -112,82 +123,95 @@ object PracticeRoutineGenerator {
         minutes: Int,
         level: SkillLevel,
         random: Random,
-    ): PracticeStep = when (type) {
-        StepType.CHORD_DRILL -> {
-            val chords = when (level) {
-                SkillLevel.BEGINNER -> listOf("C", "Am", "F", "G", "Em", "Dm")
-                SkillLevel.INTERMEDIATE -> listOf("Bm", "F#m", "Bb", "Eb", "A7", "Dm7")
-                SkillLevel.ADVANCED -> listOf("Cmaj7", "Am7", "Dm9", "G13", "Bbmaj7")
+    ): PracticeStep =
+        when (type) {
+            StepType.CHORD_DRILL -> {
+                val chords =
+                    when (level) {
+                        SkillLevel.BEGINNER -> listOf("C", "Am", "F", "G", "Em", "Dm")
+                        SkillLevel.INTERMEDIATE -> listOf("Bm", "F#m", "Bb", "Eb", "A7", "Dm7")
+                        SkillLevel.ADVANCED -> listOf("Cmaj7", "Am7", "Dm9", "G13", "Bbmaj7")
+                    }
+                val chord1 = chords[random.nextInt(chords.size)]
+                val chord2 = chords[random.nextInt(chords.size)]
+                PracticeStep(
+                    type = type,
+                    title = "Chord Transition: $chord1 ↔ $chord2",
+                    description =
+                        "Switch between $chord1 and $chord2 with a metronome. " +
+                            "Start at 60 BPM and increase by 10 each minute.",
+                    durationMinutes = minutes,
+                    navTarget = NavSection.CHORD_TRANSITION,
+                )
             }
-            val chord1 = chords[random.nextInt(chords.size)]
-            val chord2 = chords[random.nextInt(chords.size)]
-            PracticeStep(
-                type = type,
-                title = "Chord Transition: $chord1 ↔ $chord2",
-                description = "Switch between $chord1 and $chord2 with a metronome. Start at 60 BPM and increase by 10 each minute.",
-                durationMinutes = minutes,
-                navTarget = NavSection.CHORD_TRANSITION,
-            )
-        }
-        StepType.SCALE_PRACTICE -> {
-            val scales = when (level) {
-                SkillLevel.BEGINNER -> listOf("C Major", "A Minor", "G Major")
-                SkillLevel.INTERMEDIATE -> listOf("D Major", "E Minor Pentatonic", "Blues Scale")
-                SkillLevel.ADVANCED -> listOf("Mixolydian", "Dorian", "Melodic Minor")
-            }
-            val scale = scales[random.nextInt(scales.size)]
-            PracticeStep(
-                type = type,
-                title = "Scale: $scale",
-                description = "Play the $scale scale ascending and descending. Try in different positions on the fretboard.",
-                durationMinutes = minutes,
-                navTarget = NavSection.SCALE_PRACTICE,
-            )
-        }
-        StepType.EAR_TRAINING -> {
-            PracticeStep(
-                type = type,
-                title = "Ear Training",
-                description = "Identify intervals and chord types by ear. Focus on getting at least 70% correct.",
-                durationMinutes = minutes,
-                navTarget = NavSection.CHORD_EAR,
-            )
-        }
-        StepType.THEORY_QUIZ -> {
-            PracticeStep(
-                type = type,
-                title = "Theory Check",
-                description = "Answer theory questions to reinforce your knowledge. Aim for a 5-question streak!",
-                durationMinutes = minutes,
-                navTarget = NavSection.THEORY_QUIZ,
-            )
-        }
-        StepType.SONG_PRACTICE -> {
-            PracticeStep(
-                type = type,
-                title = "Song Practice",
-                description = "Pick a song from your songbook and play through it. Focus on smooth chord changes.",
-                durationMinutes = minutes,
-                navTarget = NavSection.SONGBOOK,
-            )
-        }
 
-        StepType.WARM_UP, StepType.FREE_PLAY -> {
-            // Already handled separately
-            PracticeStep(
-                type = type,
-                title = "Free Play",
-                description = "Play whatever you like!",
-                durationMinutes = minutes,
-                navTarget = null,
-            )
+            StepType.SCALE_PRACTICE -> {
+                val scales =
+                    when (level) {
+                        SkillLevel.BEGINNER -> listOf("C Major", "A Minor", "G Major")
+                        SkillLevel.INTERMEDIATE -> listOf("D Major", "E Minor Pentatonic", "Blues Scale")
+                        SkillLevel.ADVANCED -> listOf("Mixolydian", "Dorian", "Melodic Minor")
+                    }
+                val scale = scales[random.nextInt(scales.size)]
+                PracticeStep(
+                    type = type,
+                    title = "Scale: $scale",
+                    description =
+                        "Play the $scale scale ascending and descending. " +
+                            "Try in different positions on the fretboard.",
+                    durationMinutes = minutes,
+                    navTarget = NavSection.SCALE_PRACTICE,
+                )
+            }
+
+            StepType.EAR_TRAINING -> {
+                PracticeStep(
+                    type = type,
+                    title = "Ear Training",
+                    description = "Identify intervals and chord types by ear. Focus on getting at least 70% correct.",
+                    durationMinutes = minutes,
+                    navTarget = NavSection.CHORD_EAR,
+                )
+            }
+
+            StepType.THEORY_QUIZ -> {
+                PracticeStep(
+                    type = type,
+                    title = "Theory Check",
+                    description = "Answer theory questions to reinforce your knowledge. Aim for a 5-question streak!",
+                    durationMinutes = minutes,
+                    navTarget = NavSection.THEORY_QUIZ,
+                )
+            }
+
+            StepType.SONG_PRACTICE -> {
+                PracticeStep(
+                    type = type,
+                    title = "Song Practice",
+                    description = "Pick a song from your songbook and play through it. Focus on smooth chord changes.",
+                    durationMinutes = minutes,
+                    navTarget = NavSection.SONGBOOK,
+                )
+            }
+
+            StepType.WARM_UP, StepType.FREE_PLAY -> {
+                // Already handled separately
+                PracticeStep(
+                    type = type,
+                    title = "Free Play",
+                    description = "Play whatever you like!",
+                    durationMinutes = minutes,
+                    navTarget = null,
+                )
+            }
         }
-    }
 
     /**
      * Practice step types.
      */
-    enum class StepType(val label: String) {
+    enum class StepType(
+        val label: String,
+    ) {
         WARM_UP("Warm Up"),
         CHORD_DRILL("Chord Drill"),
         SCALE_PRACTICE("Scale Practice"),
@@ -201,7 +225,10 @@ object PracticeRoutineGenerator {
     /**
      * Focus areas that map to step types.
      */
-    enum class FocusArea(val label: String, val stepTypes: List<StepType>) {
+    enum class FocusArea(
+        val label: String,
+        val stepTypes: List<StepType>,
+    ) {
         CHORDS("Chords", listOf(StepType.CHORD_DRILL)),
         SCALES("Scales", listOf(StepType.SCALE_PRACTICE)),
         EAR("Ear Training", listOf(StepType.EAR_TRAINING)),
@@ -212,7 +239,9 @@ object PracticeRoutineGenerator {
     /**
      * User skill levels.
      */
-    enum class SkillLevel(val label: String) {
+    enum class SkillLevel(
+        val label: String,
+    ) {
         BEGINNER("Beginner"),
         INTERMEDIATE("Intermediate"),
         ADVANCED("Advanced"),
