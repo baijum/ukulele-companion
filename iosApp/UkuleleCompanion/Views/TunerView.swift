@@ -93,6 +93,7 @@ struct TunerView: View {
             viewModel.noiseGateRms = Self.filteringToRms(settings.noiseGateFiltering)
             viewModel.spokenFeedback = settings.spokenFeedback
             viewModel.a4Reference = Double(settings.a4Reference)
+            viewModel.precisionMode = settings.precisionMode
             viewModel.currentTuning = tuning
             if settings.autoStartTuner && !viewModel.isCapturing {
                 viewModel.toggleCapture()
@@ -106,6 +107,9 @@ struct TunerView: View {
         }
         .onChange(of: settings.a4Reference) { newVal in
             viewModel.a4Reference = Double(newVal)
+        }
+        .onChange(of: settings.precisionMode) { newVal in
+            viewModel.precisionMode = newVal
         }
         .onChange(of: settings.selectedTuning) { _ in
             viewModel.currentTuning = tuning
