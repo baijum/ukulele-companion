@@ -27,21 +27,28 @@ enum AchievementWatcher {
         let scaleStats = learnVM.scalePracticeStats()
         let totalLessons = TheoryLessons.shared.ALL.asArray(of: TheoryLesson.self).count
 
+        // Counts are clamped rather than converted: these values originate from
+        // `UserDefaults` (64-bit `Int`), and a value outside `Int32` — from a
+        // corrupt store or a restored backup — would trap on the way into the
+        // shared rules. This runs from `ContentView`'s `.task` on every launch,
+        // so a trap here is a startup crash loop. Clamping to `Int32.max` also
+        // stays on the safe side of every achievement threshold. Matches
+        // `ReviewPromptManager.snapshot()`.
         return AchievementContext(
-            currentStreak: Int32(learnVM.currentDayStreak()),
-            bestStreak: Int32(learnVM.bestDayStreak()),
-            completedLessons: Int32(learnVM.completedLessonCount()),
-            totalLessons: Int32(totalLessons),
-            quizCorrect: Int32(quizStats.correct),
-            quizTotal: Int32(quizStats.total),
-            quizBestStreak: Int32(quizStats.bestStreak),
-            intervalTotal: Int32(intervalStats.total),
-            intervalCorrect: Int32(intervalStats.correct),
-            chordEarTotal: Int32(chordEarStats.total),
-            chordEarCorrect: Int32(chordEarStats.correct),
-            scalePracticeTotal: Int32(scaleStats.total),
-            songsCount: Int32(songsCount),
-            favoritesCount: Int32(favoritesCount)
+            currentStreak: Int32(clamping: learnVM.currentDayStreak()),
+            bestStreak: Int32(clamping: learnVM.bestDayStreak()),
+            completedLessons: Int32(clamping: learnVM.completedLessonCount()),
+            totalLessons: Int32(clamping: totalLessons),
+            quizCorrect: Int32(clamping: quizStats.correct),
+            quizTotal: Int32(clamping: quizStats.total),
+            quizBestStreak: Int32(clamping: quizStats.bestStreak),
+            intervalTotal: Int32(clamping: intervalStats.total),
+            intervalCorrect: Int32(clamping: intervalStats.correct),
+            chordEarTotal: Int32(clamping: chordEarStats.total),
+            chordEarCorrect: Int32(clamping: chordEarStats.correct),
+            scalePracticeTotal: Int32(clamping: scaleStats.total),
+            songsCount: Int32(clamping: songsCount),
+            favoritesCount: Int32(clamping: favoritesCount)
         )
     }
 
