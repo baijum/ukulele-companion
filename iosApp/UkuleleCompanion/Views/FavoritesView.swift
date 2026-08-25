@@ -3,6 +3,7 @@ import shared
 
 struct FavoritesView: View {
     @EnvironmentObject private var viewModel: FavoritesViewModel
+    @EnvironmentObject private var settings: SettingsViewModel
     @State private var selectedFolderId: String?
     @State private var showCreateFolder = false
     @State private var renamingFolder: FavoriteFolderData?
@@ -199,7 +200,7 @@ struct FavoritesView: View {
     private func playFavorite(_ fav: FavoriteVoicingData) {
         let pitchClasses = fav.frets.enumerated().compactMap { i, fret -> Int32? in
             guard fret >= 0 else { return nil }
-            let openPc = UkuleleTuning.highG.pitchClassInts[i]
+            let openPc = settings.resolvedTuning.pitchClassInts[i]
             return (openPc + Int32(fret)) % 12
         }
         tonePlayer.playChord(pitchClasses: pitchClasses, strumDelayMs: 40)
