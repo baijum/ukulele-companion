@@ -317,10 +317,15 @@ object BackupCodec {
 
     private val iosDurationToKMP = mapOf(
         "\uD834\uDD5D" to "WHOLE",
+        // Legacy single-code-point keys kept so backups written by shipped
+        // versions still import, plus the composed combining sequences the
+        // iOS NoteDuration enum actually uses (issue #600).
         "\uD834\uDD5E" to "HALF",
+        "\uD834\uDD57\uD834\uDD65" to "HALF",
         "\u2669" to "QUARTER",
         "\u266A" to "EIGHTH",
         "\uD834\uDD63" to "SIXTEENTH",
+        "\uD834\uDD58\uD834\uDD65\uD834\uDD6F" to "SIXTEENTH",
     )
 
     private fun normalizeIosMelodies(root: JsonObject): JsonArray? {

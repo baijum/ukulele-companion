@@ -480,14 +480,26 @@ private enum SetlistCoder {
 }
 
 private enum MelodyCoder {
-    private static let durationToKMP: [String: String] = [
-        "\u{1D15D}": "WHOLE", "\u{1D15E}": "HALF",
-        "\u{2669}": "QUARTER", "\u{266A}": "EIGHTH",
-        "\u{1D163}": "SIXTEENTH",
-    ]
-    private static let durationFromKMP: [String: String] = {
-        Dictionary(uniqueKeysWithValues: durationToKMP.map { ($0.value, $0.key) })
-    }()
+    // Derived from NoteDuration.allCases so the glyph keys always match the
+    // enum's real raw values. Hand-typed escapes drifted from the combining
+    // sequences that half/sixteenth notes actually use, dropping those
+    // melodies on cross-platform restore (see issue #600).
+    private static let durationToKMP: [String: String] = Dictionary(
+        uniqueKeysWithValues: NoteDuration.allCases.map { ($0.rawValue, kmpName($0)) }
+    )
+    private static let durationFromKMP: [String: String] = Dictionary(
+        uniqueKeysWithValues: NoteDuration.allCases.map { (kmpName($0), $0.rawValue) }
+    )
+
+    private static func kmpName(_ duration: NoteDuration) -> String {
+        switch duration {
+        case .whole: "WHOLE"
+        case .half: "HALF"
+        case .quarter: "QUARTER"
+        case .eighth: "EIGHTH"
+        case .sixteenth: "SIXTEENTH"
+        }
+    }
 
     static func build(_ melodies: [[String: Any]]) -> [BackupMelody] {
         melodies.map { m in

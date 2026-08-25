@@ -58,7 +58,7 @@ struct MelodyData: Codable, Identifiable {
             MelodyNoteData(
                 id: note.id,
                 pitchClass: note.pitchClass.flatMap { (0...11).contains($0) ? $0 : nil },
-                octave: min(max(note.octave, 3), 5),
+                octave: min(max(note.octave, 3), 6),
                 duration: note.duration,
                 isRest: note.isRest
             )
