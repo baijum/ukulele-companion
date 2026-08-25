@@ -10,6 +10,7 @@ import com.baijum.ukufretboard.domain.ChordDetector
 import com.baijum.ukufretboard.domain.ChordFrameInput
 import com.baijum.ukufretboard.domain.FrameGate
 import com.baijum.ukufretboard.domain.FrameGateResult
+import com.baijum.ukufretboard.domain.NeuralArbitrator
 import com.baijum.ukufretboard.domain.NeuralPitchResult
 import com.baijum.ukufretboard.domain.NeuralPitchSupervisor
 import com.baijum.ukufretboard.domain.PitchDetector
@@ -480,14 +481,16 @@ class PitchMonitorViewModel : ViewModel() {
 
         if (isOctaveRelation(yinResult.frequencyHz, neuralResult.frequencyHz) &&
             neuralResult.confidence >= 0.85 &&
-            yinResult.confidence >= 0.12
+            yinResult.confidence >= PitchDetector.DEFAULT_THRESHOLD *
+            NeuralArbitrator.YIN_CONFIDENCE_OCTAVE_FRACTION
         ) {
             return yinResult.copy(frequencyHz = neuralResult.frequencyHz)
         }
 
         return if (semitoneGap >= ARBITRATION_STRONG_SEMITONES &&
             neuralResult.confidence >= 0.93 &&
-            yinResult.confidence >= 0.16
+            yinResult.confidence >= PitchDetector.DEFAULT_THRESHOLD *
+            NeuralArbitrator.YIN_CONFIDENCE_STRONG_FRACTION
         ) {
             yinResult.copy(frequencyHz = neuralResult.frequencyHz)
         } else {

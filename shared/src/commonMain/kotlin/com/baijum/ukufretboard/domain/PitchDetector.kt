@@ -55,15 +55,6 @@ object PitchDetector {
     private const val SILENCE_THRESHOLD = 0.01f
 
     /**
-     * Maximum CMNDF dip value considered reliable.
-     *
-     * During clean sustain, `cmnd[bestTau]` is typically 0.01–0.10.
-     * During attack transients it jumps to 0.3–0.8. Frames where the
-     * best dip exceeds this value are rejected as aperiodic.
-     */
-    private const val CONFIDENCE_REJECT_THRESHOLD = 0.30
-
-    /**
      * Neighbourhood radius (in samples) for the Best Local Estimate
      * refinement (YIN paper, Step 5). The raw difference function is
      * searched within ±[BEST_LOCAL_RADIUS] of the CMND-selected lag
@@ -207,10 +198,11 @@ object PitchDetector {
 
             if (bestTau < 0) return@withLock null
 
-            // --- Step 4: Confidence gate ------------------------------------
-            if (cmnd[bestTau] > CONFIDENCE_REJECT_THRESHOLD) return@withLock null
-
-            // --- Step 5: Best Local Estimate (YIN paper, Step 5) ------------
+            // --- Step 4: Best Local Estimate (YIN paper, Step 5) ------------
+            // Note: there is no separate confidence-reject gate here. By
+            // construction `findFirstDipBelow` only returns a tau whose CMND
+            // value is strictly below `threshold` (≤ DEFAULT_THRESHOLD = 0.15),
+            // so any `cmnd[bestTau] > 0.30` test could never fire (see #603).
             var localBestTau = bestTau
             var localBestVal = diff[bestTau]
             val searchStart = (bestTau - BEST_LOCAL_RADIUS).coerceAtLeast(minLag)
