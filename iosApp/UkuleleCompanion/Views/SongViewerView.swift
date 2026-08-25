@@ -278,7 +278,12 @@ struct SongViewerView: View {
         }
         if let popover = activityVC.popoverPresentationController {
             popover.sourceView = presenter.view
-            popover.sourceRect = CGRect(x: presenter.view.bounds.midX, y: presenter.view.bounds.midY, width: 0, height: 0)
+            popover.sourceRect = CGRect(
+                x: presenter.view.bounds.midX,
+                y: presenter.view.bounds.midY,
+                width: 0,
+                height: 0
+            )
             popover.permittedArrowDirections = []
         }
         presenter.present(activityVC, animated: true)
@@ -351,7 +356,12 @@ struct SongViewerView: View {
         }
         if let popover = activityVC.popoverPresentationController {
             popover.sourceView = presenter.view
-            popover.sourceRect = CGRect(x: presenter.view.bounds.midX, y: presenter.view.bounds.midY, width: 0, height: 0)
+            popover.sourceRect = CGRect(
+                x: presenter.view.bounds.midX,
+                y: presenter.view.bounds.midY,
+                width: 0,
+                height: 0
+            )
             popover.permittedArrowDirections = []
         }
         presenter.present(activityVC, animated: true)
@@ -750,6 +760,7 @@ struct SongViewerView: View {
             HStack {
                 Image(systemName: "metronome")
                     .font(.body)
+                    .accessibilityHidden(true)
                 Text("Tempo: \(bpmValue) BPM")
                     .font(.subheadline)
                 Spacer()
@@ -817,12 +828,13 @@ struct SongViewerView: View {
                 .asArray(of: NSString.self).map { $0 as String }
             let voicings: [(String, ChordVoicing)] = chordNames.compactMap { name in
                 guard let parsed = ChordNameParser.shared.parse(input: name) else { return nil }
-                let tuning = UkuleleTuning.highG.asUkuleleStrings
+                // Follows the selected tuning (#576) and Allow Muted Strings (#593).
+                let tuning = settingsVM.resolvedTuning.asUkuleleStrings
                 let generated = VoicingGenerator.shared.generate(
                     rootPitchClass: Int32(parsed.rootPitchClass),
                     formula: parsed.formula,
                     tuning: tuning,
-                    allowMutedStrings: false
+                    allowMutedStrings: settingsVM.allowMuted
                 ).asArray(of: ChordVoicing.self)
                 guard let voicing = generated.first else { return nil }
                 return (name, voicing)

@@ -11,7 +11,8 @@ final class ChordLibraryViewModel: ObservableObject {
     @Published var searchQuery: String = ""
     @Published var searchResults: [ChordSearchResult] = []
 
-    private let tuning: [shared.UkuleleString] = UkuleleTuning.highG.asUkuleleStrings
+    private var tuning: [shared.UkuleleString] = UkuleleTuning.highG.asUkuleleStrings
+    private var allowMutedStrings: Bool = false
 
     init() {
         let formulas = formulasForCategory(.triad)
@@ -34,6 +35,20 @@ final class ChordLibraryViewModel: ObservableObject {
         let rootName = Notes.shared.pitchClassToName(pitchClass: selectedRoot)
         let symbol = selectedFormula?.symbol ?? ""
         return rootName + symbol
+    }
+
+    /// Updates the tuning used to generate voicings and regenerates (#576).
+    func setTuning(_ newTuning: [shared.UkuleleString]) {
+        tuning = newTuning
+        regenerateVoicings()
+    }
+
+    /// Updates whether muted-string voicings are allowed and regenerates so an
+    /// in-session toggle re-runs generation, matching Android (#593).
+    func setAllowMutedStrings(_ allow: Bool) {
+        guard allowMutedStrings != allow else { return }
+        allowMutedStrings = allow
+        regenerateVoicings()
     }
 
     func selectRoot(_ pitchClass: Int32) {
@@ -84,7 +99,7 @@ final class ChordLibraryViewModel: ObservableObject {
             rootPitchClass: root,
             formula: formula,
             tuning: tuning,
-            allowMutedStrings: false
+            allowMutedStrings: allowMutedStrings
         )
         return result.asArray(of: ChordVoicing.self)
     }

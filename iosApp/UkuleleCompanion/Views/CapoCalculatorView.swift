@@ -8,15 +8,10 @@ struct CapoCalculatorView: View {
     }
 
     let mode: Mode
-    private let leftHanded: Bool
 
-    private let tuning: [shared.UkuleleString] = UkuleleTuning.highG.asUkuleleStrings
-
-    init(mode: Mode) {
-        self.mode = mode
-        let defaults = UserDefaults(suiteName: "app_settings") ?? .standard
-        self.leftHanded = defaults.bool(forKey: "left_handed")
-    }
+    // Capo positions are computed for the selected tuning (#576). Left-handed
+    // mirroring now comes from the diagram's environment.
+    private let tuning: [shared.UkuleleString] = FretboardPreferences.tuning.asUkuleleStrings
 
     var body: some View {
         Group {
@@ -154,9 +149,16 @@ struct CapoCalculatorView: View {
         .padding()
         .background(isRecommended ? Color.accentColor.opacity(0.1) : Color(.secondarySystemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
-        .accessibilityCombined(
-            label: "\(result.capoFret == 0 ? "No capo" : "Capo fret \(result.capoFret)"), play \(result.shapeName) shape\(isRecommended ? ", recommended" : "")"
-        )
+        .accessibilityCombined(label: singleResultAccessibilityLabel(result, isRecommended: isRecommended))
+    }
+
+    private func singleResultAccessibilityLabel(
+        _ result: CapoCalculator.SingleChordResult,
+        isRecommended: Bool
+    ) -> String {
+        let capo = result.capoFret == 0 ? "No capo" : "Capo fret \(result.capoFret)"
+        let recommended = isRecommended ? ", recommended" : ""
+        return "\(capo), play \(result.shapeName) shape\(recommended)"
     }
 
     // MARK: - Progression Result Card

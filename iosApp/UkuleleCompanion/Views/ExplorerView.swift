@@ -46,7 +46,7 @@ struct ExplorerView: View {
                     // Capo selector
                     CapoSelectorView(
                         capoFret: fretboardVM.capoFret,
-                        lastFret: FretboardViewModel.fretCount - 1,
+                        lastFret: settings.lastFret,
                         onCapoChange: { fretboardVM.setCapoFret($0) }
                     )
                     .padding(.horizontal)
@@ -133,11 +133,14 @@ struct ExplorerView: View {
             }
             .onAppear {
                 fretboardVM.applySoundSettings(from: settings)
+                fretboardVM.applyFretboardSettings(from: settings)
             }
             .onChange(of: settings.soundEnabled) { _ in fretboardVM.applySoundSettings(from: settings) }
             .onChange(of: settings.volume) { _ in fretboardVM.applySoundSettings(from: settings) }
             .onChange(of: settings.strumDelayMs) { _ in fretboardVM.applySoundSettings(from: settings) }
             .onChange(of: settings.strumDown) { _ in fretboardVM.applySoundSettings(from: settings) }
+            .onChange(of: settings.selectedTuning) { _ in fretboardVM.applyFretboardSettings(from: settings) }
+            .onChange(of: settings.lastFret) { _ in fretboardVM.applyFretboardSettings(from: settings) }
         }
     }
 
@@ -159,7 +162,7 @@ struct ExplorerView: View {
             rootPitchClass: Int32(rootPc),
             formula: formula,
             tuning: fretboardVM.tuning,
-            allowMutedStrings: false
+            allowMutedStrings: settings.allowMuted
         ).asArray(of: ChordVoicing.self)
 
         if let voicing = voicings.first {

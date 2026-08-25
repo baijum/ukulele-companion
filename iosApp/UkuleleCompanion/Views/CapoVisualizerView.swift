@@ -8,17 +8,9 @@ struct CapoVisualizerView: View {
 
     @State private var capoPosition: Float = 0
 
-    private let leftHanded: Bool
-    private let tuning: [shared.UkuleleString]
-
-    init(voicing: ChordVoicing, rootPitchClass: Int32, formula: ChordFormula) {
-        self.voicing = voicing
-        self.rootPitchClass = rootPitchClass
-        self.formula = formula
-        let defaults = UserDefaults(suiteName: "app_settings") ?? .standard
-        self.leftHanded = defaults.bool(forKey: "left_handed")
-        self.tuning = UkuleleTuning.highG.asUkuleleStrings
-    }
+    // Sounding-note calculation follows the selected tuning (#576). Left-handed
+    // mirroring now comes from the diagram's environment, so no local flag.
+    private let tuning: [shared.UkuleleString] = FretboardPreferences.tuning.asUkuleleStrings
 
     private var capoFret: Int { Int(capoPosition) }
     private var soundingRoot: Int32 { (rootPitchClass + Int32(capoFret)) % 12 }
@@ -103,7 +95,9 @@ struct CapoVisualizerView: View {
 
                 // Educational tip
                 if capoFret > 0 {
-                    Text("A capo at fret \(capoFret) raises every string by \(capoFret) semitone\(capoFret == 1 ? "" : "s"). Playing a \(originalName) shape now sounds as \(soundingName).")
+                    Text("A capo at fret \(capoFret) raises every string by "
+                        + "\(capoFret) semitone\(capoFret == 1 ? "" : "s"). "
+                        + "Playing a \(originalName) shape now sounds as \(soundingName).")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .padding()

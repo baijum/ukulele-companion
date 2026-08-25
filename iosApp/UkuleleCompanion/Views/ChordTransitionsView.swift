@@ -3,6 +3,7 @@ import shared
 
 struct ChordTransitionsView: View {
     @StateObject private var viewModel = ChordTransitionsViewModel()
+    @EnvironmentObject private var settings: SettingsViewModel
     @State private var root1: Int = 0
     @State private var quality1: Int = 0
     @State private var root2: Int = 7
@@ -31,6 +32,7 @@ struct ChordTransitionsView: View {
                 Image(systemName: "arrow.left.arrow.right")
                     .font(.title2)
                     .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
 
                 chordSelector(label: "Chord 2", root: $root2, quality: $quality2)
                     .disabled(viewModel.isRunning)
@@ -109,7 +111,10 @@ struct ChordTransitionsView: View {
                             Label(formatTime(viewModel.elapsedSeconds), systemImage: "clock")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
-                            Label(String(format: "%.1f/min", viewModel.switchesPerMinute), systemImage: "arrow.triangle.swap")
+                            Label(
+                                String(format: "%.1f/min", viewModel.switchesPerMinute),
+                                systemImage: "arrow.triangle.swap"
+                            )
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -134,7 +139,12 @@ struct ChordTransitionsView: View {
             .padding(.vertical)
         }
         .navigationTitle("Chord Transitions")
-        .onAppear { syncChordNames() }
+        .onAppear {
+            applyTuningSettings()
+            syncChordNames()
+        }
+        .onChange(of: settings.selectedTuning) { _ in applyTuningSettings() }
+        .onChange(of: settings.allowMuted) { _ in applyTuningSettings() }
         .onChange(of: root1) { _ in syncChordNames() }
         .onChange(of: quality1) { _ in syncChordNames() }
         .onChange(of: root2) { _ in syncChordNames() }
@@ -150,6 +160,13 @@ struct ChordTransitionsView: View {
     private func syncChordNames() {
         viewModel.chord1 = chordName(root: root1, quality: quality1)
         viewModel.chord2 = chordName(root: root2, quality: quality2)
+    }
+
+    private func applyTuningSettings() {
+        viewModel.applySettings(
+            tuning: settings.resolvedTuning.asUkuleleStrings,
+            allowMuted: settings.allowMuted
+        )
     }
 
     private func chordSelector(label: String, root: Binding<Int>, quality: Binding<Int>) -> some View {
@@ -187,7 +204,9 @@ struct ChordTransitionsView: View {
                                 .font(.caption)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 5)
-                                .background(quality.wrappedValue == i ? Color.accentColor.opacity(0.2) : Color(.systemGray6))
+                                .background(quality.wrappedValue == i
+                                    ? Color.accentColor.opacity(0.2)
+                                    : Color(.systemGray6))
                                 .foregroundStyle(quality.wrappedValue == i ? Color.accentColor : .primary)
                                 .clipShape(Capsule())
                         }

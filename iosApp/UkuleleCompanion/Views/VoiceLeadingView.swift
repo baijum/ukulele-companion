@@ -9,18 +9,9 @@ struct VoiceLeadingView: View {
     @State private var path: VoiceLeading.Path?
 
     @StateObject private var tonePlayer = TonePlayer()
-    private let leftHanded: Bool
-    private let tuning: [shared.UkuleleString]
-
-
-    init(progression: Progression, keyRoot: Int32) {
-        self.progression = progression
-        self.keyRoot = keyRoot
-        let defaults = UserDefaults(suiteName: "app_settings") ?? .standard
-        self.leftHanded = defaults.bool(forKey: "left_handed")
-        let t = UkuleleTuning.highG
-        self.tuning = t.asUkuleleStrings
-    }
+    // Voice-leading paths and note names follow the selected tuning (#576).
+    // Left-handed mirroring now comes from the diagram's environment.
+    private let tuning: [shared.UkuleleString] = FretboardPreferences.tuning.asUkuleleStrings
 
     var body: some View {
         Group {
@@ -189,6 +180,7 @@ struct VoiceLeadingView: View {
             Image(systemName: "arrow.right")
                 .foregroundStyle(.secondary)
                 .padding(.top, 60)
+                .accessibilityHidden(true)
 
             // To diagram
             VStack(spacing: 4) {
@@ -222,7 +214,9 @@ struct VoiceLeadingView: View {
 
         return VStack(alignment: .leading, spacing: 8) {
             let commonLabel = commonCount == 1 ? "1 common tone" : "\(commonCount) common tones"
-            let distLabel = transition.totalDistance == 1 ? "1 fret movement" : "\(transition.totalDistance) frets movement"
+            let distLabel = transition.totalDistance == 1
+                ? "1 fret movement"
+                : "\(transition.totalDistance) frets movement"
 
             Text("\(commonLabel) \u{00B7} \(distLabel)")
                 .font(.subheadline.bold())
@@ -285,7 +279,8 @@ struct VoiceLeadingView: View {
 
     private func totalPathSummary(path: VoiceLeading.Path) -> some View {
         let transCount = path.transitions.count
-        return Text("Total path: \(path.totalDistance) frets across \(transCount) transition\(transCount == 1 ? "" : "s")")
+        let transLabel = "\(transCount) transition\(transCount == 1 ? "" : "s")"
+        return Text("Total path: \(path.totalDistance) frets across \(transLabel)")
             .font(.caption)
             .foregroundStyle(.secondary)
             .frame(maxWidth: .infinity)

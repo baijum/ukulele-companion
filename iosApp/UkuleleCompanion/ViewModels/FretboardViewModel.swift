@@ -4,8 +4,21 @@ import shared
 /// View model managing fretboard state, chord detection, scale overlay, and capo.
 @MainActor
 final class FretboardViewModel: ObservableObject {
-    static let fretCount = 13 // 0 (open) through 12
     static let stringCount = 4
+
+    /// Number of fret columns rendered, i.e. 0 (open) through `lastFret`.
+    /// Seeded from `SettingsViewModel.lastFret` and updated by
+    /// `applyFretboardSettings(from:)` so the neck can extend past fret 12 (#593).
+    @Published var fretCount: Int = FretboardViewModel.clampLastFret(
+        Int(FretboardSettings.companion.DEFAULT_LAST_FRET)
+    ) + 1
+
+    /// Clamps a requested last fret to the shared valid range.
+    private static func clampLastFret(_ value: Int) -> Int {
+        let lo = Int(FretboardSettings.companion.MIN_LAST_FRET)
+        let hi = Int(FretboardSettings.companion.MAX_LAST_FRET)
+        return max(lo, min(hi, value))
+    }
 
     @Published var selections: [Int: Int?] = [0: nil, 1: nil, 2: nil, 3: nil]
     @Published var showNoteNames: Bool = true
@@ -40,6 +53,18 @@ final class FretboardViewModel: ObservableObject {
         strumDelayMs = settings.strumDelayMs
         strumDown = settings.strumDown
         playOnTap = settings.playOnTap
+    }
+
+    /// Applies the selected tuning (#576) and last-fret range (#593) from a
+    /// SettingsViewModel. Call this alongside `applySoundSettings` on appear and
+    /// whenever the tuning or last-fret setting changes.
+    func applyFretboardSettings(from settings: SettingsViewModel) {
+        tuning = settings.resolvedTuning.asUkuleleStrings
+        fretCount = Self.clampLastFret(settings.lastFret) + 1
+        // A shorter neck may now sit below the current capo — clamp it.
+        if capoFret > fretCount - 1 {
+            setCapoFret(capoFret)
+        }
     }
 
     // MARK: - Fret Interaction
@@ -98,9 +123,9 @@ final class FretboardViewModel: ObservableObject {
         let effectiveFret = Int32(fret) + Int32(capoFret)
         let pc = ((openPC + effectiveFret) % 12 + 12) % 12
 
-        if scaleOverlay.enabled, scaleOverlay.scale != nil {
-            let isMinor = scaleOverlay.scale!.intervals.count > 2
-                && (scaleOverlay.scale!.intervals[2] as? NSNumber)?.intValue == 3
+        if scaleOverlay.enabled, let scale = scaleOverlay.scale {
+            let isMinor = scale.intervals.count > 2
+                && (scale.intervals[2] as? NSNumber)?.intValue == 3
             let name = Notes.shared.enharmonicForKey(
                 pitchClass: pc,
                 keyRoot: KotlinInt(int: scaleOverlay.root),
@@ -174,7 +199,7 @@ final class FretboardViewModel: ObservableObject {
     // MARK: - Capo
 
     func setCapoFret(_ fret: Int) {
-        let newCapo = max(0, min(fret, Self.fretCount - 1))
+        let newCapo = max(0, min(fret, fretCount - 1))
         capoFret = newCapo
 
         for (stringIndex, sel) in selections {

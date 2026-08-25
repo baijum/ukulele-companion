@@ -15,18 +15,18 @@ struct ProgressionPracticeView: View {
     @State private var timer: AnyCancellable?
 
     @StateObject private var tonePlayer = TonePlayer()
-    private let leftHanded: Bool
+    // Voicings and playback follow the selected tuning (#576) and the Allow
+    // Muted Strings setting (#593). Left-handed mirroring comes from the
+    // diagram's environment.
     private let tuning: [shared.UkuleleString]
     private let cachedVoicings: [[ChordVoicing]]
 
     init(progression: Progression, keyRoot: Int32) {
         self.progression = progression
         self.keyRoot = keyRoot
-        let defaults = UserDefaults(suiteName: "app_settings") ?? .standard
-        self.leftHanded = defaults.bool(forKey: "left_handed")
-        let t = UkuleleTuning.highG
-        let tuning = t.asUkuleleStrings
+        let tuning = FretboardPreferences.tuning.asUkuleleStrings
         self.tuning = tuning
+        let allowMuted = FretboardPreferences.allowMuted
 
         let degrees = progression.degrees.asArray(of: ChordDegree.self)
         let formulas = ChordFormulas.shared.ALL.asArray(of: ChordFormula.self)
@@ -39,7 +39,7 @@ struct ProgressionPracticeView: View {
                 rootPitchClass: chordRoot,
                 formula: formula,
                 tuning: tuning,
-                allowMutedStrings: false
+                allowMutedStrings: allowMuted
             )
             return voicings.asArray(of: ChordVoicing.self)
         }
