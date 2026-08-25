@@ -34,7 +34,8 @@ import com.baijum.ukufretboard.data.Scale
 import com.baijum.ukufretboard.data.ScalePosition
 import com.baijum.ukufretboard.data.ScalePositions
 import com.baijum.ukufretboard.data.Scales
-import com.baijum.ukufretboard.domain.ScaleChords
+import com.baijum.ukufretboard.domain.ScaleChord
+import com.baijum.ukufretboard.domain.ScaleChordBuilder
 import com.baijum.ukufretboard.viewmodel.ScaleOverlayState
 
 /**
@@ -56,7 +57,7 @@ fun ScaleSelector(
     onScaleChanged: (Scale) -> Unit,
     onToggle: () -> Unit,
     onPositionChanged: (ScalePosition?) -> Unit = {},
-    onChordTapped: (ScaleChords.DiatonicChord) -> Unit = {},
+    onChordTapped: (ScaleChord) -> Unit = {},
 ) {
     val reduceMotion = LocalReduceMotion.current
     Column(
@@ -209,7 +210,7 @@ fun ScaleSelector(
                         modifier = Modifier.padding(bottom = 4.dp),
                     )
 
-                    val diatonicChords = ScaleChords.diatonicTriads(state.root, currentScale)
+                    val diatonicChords = ScaleChordBuilder.buildTriads(state.root, currentScale)
                     Row(
                         modifier =
                             Modifier
@@ -218,7 +219,7 @@ fun ScaleSelector(
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
                         diatonicChords.forEach { chord ->
-                            val chordName = ScaleChords.formatChord(chord, state.root)
+                            val chordName = chord.rootName + chord.symbol
                             FilterChip(
                                 selected = false,
                                 onClick = { onChordTapped(chord) },

@@ -87,7 +87,7 @@ internal fun ExplorerTabContent(
             },
             onChordTapped = { chord ->
                 val formula = com.baijum.ukufretboard.data.ChordFormulas.ALL
-                    .firstOrNull { it.symbol == chord.quality }
+                    .firstOrNull { it.symbol == chord.symbol }
                 if (formula != null) {
                     val voicings = com.baijum.ukufretboard.data.VoicingGenerator.generate(
                         rootPitchClass = chord.rootPitchClass,
