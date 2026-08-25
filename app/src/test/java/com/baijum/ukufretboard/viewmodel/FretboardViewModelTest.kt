@@ -1,11 +1,13 @@
 package com.baijum.ukufretboard.viewmodel
 
+import com.baijum.ukufretboard.data.ChordFormulas
 import com.baijum.ukufretboard.data.Notes
 import com.baijum.ukufretboard.data.Scale
 import com.baijum.ukufretboard.data.Scales
 import com.baijum.ukufretboard.data.TuningSettings
 import com.baijum.ukufretboard.data.UkuleleTuning
 import com.baijum.ukufretboard.domain.ChordDetector
+import com.baijum.ukufretboard.domain.ChordVoicing
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -226,5 +228,99 @@ class FretboardViewModelTest {
         val state = vm.uiState.value
         assertEquals(4, state.tuning.size)
         assertEquals(UkuleleTuning.LOW_G.octaves[0], state.tuning[0].octave)
+    }
+
+    // ── applyVoicing honours the capo (#574) ─────────────────────────
+
+    /** The open C-major shape (G-C-E-A tuning): G0, C0, E0, C on A-string. */
+    private fun cMajorVoicing(): ChordVoicing =
+        ChordVoicing(
+            frets = listOf(0, 0, 0, 3),
+            notes = listOf(null, null, null, null),
+            minFret = 0,
+            maxFret = 3,
+        )
+
+    private val majorFormula = ChordFormulas.ALL.first { it.quality == "Major" }
+
+    @Test
+    fun applyVoicingWithoutCapoUsesLibraryName() {
+        vm.applyVoicing(cMajorVoicing(), rootPitchClass = 0, formula = majorFormula)
+        val result = vm.uiState.value.detectionResult
+        assertTrue(result is ChordDetector.DetectionResult.ChordFound)
+        val chord = (result as ChordDetector.DetectionResult.ChordFound).result
+        assertEquals("No capo: library C shape stays C", "C", chord.name)
+        assertEquals(0, chord.root.pitchClass)
+        assertEquals(
+            "Notes are C-E-G",
+            setOf(0, 4, 7),
+            chord.notes.map { it.pitchClass }.toSet(),
+        )
+    }
+
+    @Test
+    fun applyVoicingShiftsNameAndNotesByCapo() {
+        vm.setCapoFret(2)
+        vm.applyVoicing(cMajorVoicing(), rootPitchClass = 0, formula = majorFormula)
+
+        val result = vm.uiState.value.detectionResult
+        assertTrue(result is ChordDetector.DetectionResult.ChordFound)
+        val chord = (result as ChordDetector.DetectionResult.ChordFound).result
+
+        // Capo 2 raises the C shape by two semitones: it sounds D major.
+        assertEquals("Capo 2 + library C shape sounds D", "D", chord.name)
+        assertEquals(2, chord.root.pitchClass)
+        assertEquals(
+            "Notes are the sounding D-F#-A, not C-E-G",
+            setOf(2, 6, 9),
+            chord.notes.map { it.pitchClass }.toSet(),
+        )
+    }
+
+    @Test
+    fun applyVoicingWithCapoMatchesManualTap() {
+        // Library path: apply the C shape with a capo at fret 2.
+        vm.setCapoFret(2)
+        vm.applyVoicing(cMajorVoicing(), rootPitchClass = 0, formula = majorFormula)
+        val applied = vm.uiState.value.detectionResult
+        assertTrue(applied is ChordDetector.DetectionResult.ChordFound)
+        val appliedChord = (applied as ChordDetector.DetectionResult.ChordFound).result
+
+        // Manual path: tap the identical frets with the same capo.
+        // clearAll() resets the capo, so re-apply it before tapping.
+        vm.clearAll()
+        vm.setCapoFret(2)
+        vm.toggleFret(0, 0)
+        vm.toggleFret(1, 0)
+        vm.toggleFret(2, 0)
+        vm.toggleFret(3, 3)
+        val tapped = vm.uiState.value.detectionResult
+        assertTrue(tapped is ChordDetector.DetectionResult.ChordFound)
+        val tappedChord = (tapped as ChordDetector.DetectionResult.ChordFound).result
+
+        assertEquals("Applied name matches manual-tap name", tappedChord.name, appliedChord.name)
+        assertEquals(
+            "Applied notes match manual-tap notes",
+            tappedChord.notes.map { it.pitchClass }.toSet(),
+            appliedChord.notes.map { it.pitchClass }.toSet(),
+        )
+    }
+
+    @Test
+    fun applyVoicingHonoursCapoInLowGTuning() {
+        vm.setTuningSettings(TuningSettings(tuning = UkuleleTuning.LOW_G))
+        vm.setCapoFret(2)
+        vm.applyVoicing(cMajorVoicing(), rootPitchClass = 0, formula = majorFormula)
+
+        val result = vm.uiState.value.detectionResult
+        assertTrue(result is ChordDetector.DetectionResult.ChordFound)
+        val chord = (result as ChordDetector.DetectionResult.ChordFound).result
+
+        // Pitch classes are tuning-independent, so Low-G sounds D major too.
+        assertEquals("Low-G capo 2 + C shape sounds D", "D", chord.name)
+        assertEquals(
+            setOf(2, 6, 9),
+            chord.notes.map { it.pitchClass }.toSet(),
+        )
     }
 }
