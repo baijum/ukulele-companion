@@ -156,5 +156,10 @@ class SheetEditorStateRestorationTest {
         tapSave()
         assertEquals("Heart of Gold", saved?.title)
         assertEquals("[Em]I want to live\n[Am]More lyrics", saved?.content)
+        // Pin the remaining editable fields too: they must survive recreation
+        // untouched, not silently reset to defaults.
+        assertEquals("Neil Young", saved?.artist)
+        assertEquals("G", saved?.key)
+        assertEquals(2, saved?.capo)
     }
 }
