@@ -159,7 +159,7 @@ struct ScalePracticeView: View {
         let currentPC = viewModel.currentNoteIndex >= 0 && viewModel.currentNoteIndex < viewModel.scaleNotes.count
             ? viewModel.scaleNotes[viewModel.currentNoteIndex] : -1
         let fretRange = viewModel.fretPosition.range(lastFret: settings.lastFret)
-        let tuning: [Int] = [7, 0, 4, 9] // G C E A (High-G)
+        let tuning: [Int] = settings.resolvedTuning.pitchClassInts.map(Int.init)
 
         VStack(spacing: 0) {
             ForEach(Array((0..<4).reversed()), id: \.self) { stringIdx in
