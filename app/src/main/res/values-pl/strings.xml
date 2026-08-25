@@ -1203,4 +1203,7 @@
     <string name="cd_setlist_move_up">Przenieś w górę</string>
     <string name="cd_setlist_move_down">Przenieś w dół</string>
     <string name="cd_setlist_remove_song">Usuń z listy</string>
+    <string name="note_map_cell_description">%1$s, struna %2$s, próg %3$d</string>
+    <string name="note_map_cell_highlighted">wyróżnione</string>
+    <string name="note_map_cell_dimmed">przyciemnione</string>
 </resources>

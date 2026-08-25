@@ -1200,4 +1200,7 @@
     <string name="cd_setlist_move_up">Mover para cima</string>
     <string name="cd_setlist_move_down">Mover para baixo</string>
     <string name="cd_setlist_remove_song">Remover da lista</string>
+    <string name="note_map_cell_description">%1$s, corda %2$s, traste %3$d</string>
+    <string name="note_map_cell_highlighted">destacado</string>
+    <string name="note_map_cell_dimmed">esmaecido</string>
 </resources>

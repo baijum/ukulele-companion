@@ -1214,4 +1214,7 @@
     <string name="cd_setlist_move_up">Mover arriba</string>
     <string name="cd_setlist_move_down">Mover abajo</string>
     <string name="cd_setlist_remove_song">Eliminar de la lista</string>
+    <string name="note_map_cell_description">%1$s, cuerda %2$s, traste %3$d</string>
+    <string name="note_map_cell_highlighted">resaltado</string>
+    <string name="note_map_cell_dimmed">atenuado</string>
 </resources>

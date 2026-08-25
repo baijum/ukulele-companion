@@ -1202,4 +1202,7 @@
     <string name="cd_setlist_move_up">Sposta su</string>
     <string name="cd_setlist_move_down">Sposta giù</string>
     <string name="cd_setlist_remove_song">Rimuovi dalla scaletta</string>
+    <string name="note_map_cell_description">%1$s, corda %2$s, tasto %3$d</string>
+    <string name="note_map_cell_highlighted">evidenziato</string>
+    <string name="note_map_cell_dimmed">attenuato</string>
 </resources>

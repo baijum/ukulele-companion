@@ -1205,4 +1205,7 @@
     <string name="cd_setlist_move_up">Переместить вверх</string>
     <string name="cd_setlist_move_down">Переместить вниз</string>
     <string name="cd_setlist_remove_song">Убрать из сет-листа</string>
+    <string name="note_map_cell_description">%1$s, струна %2$s, лад %3$d</string>
+    <string name="note_map_cell_highlighted">выделено</string>
+    <string name="note_map_cell_dimmed">затемнено</string>
 </resources>
