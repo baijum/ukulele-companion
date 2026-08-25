@@ -31,12 +31,35 @@ final class TunerViewModel: ObservableObject {
     var spokenFeedback: Bool = false
     var a4Reference: Double = 440.0
     var currentTuning: UkuleleTuning = .highG
+    /// When on, the in-tune window tightens from ±6 to ±2 cents (mirrors
+    /// Android's precision mode). Set from SettingsViewModel like a4Reference.
+    var precisionMode: Bool = false
+
+    // In-tune window (cents). Mirrors Android IN_TUNE_CENTS / PRECISION_IN_TUNE_CENTS.
+    private static let inTuneCents = 6.0
+    private static let precisionInTuneCents = 2.0
+    private var effectiveInTuneCents: Double {
+        precisionMode ? Self.precisionInTuneCents : Self.inTuneCents
+    }
 
     private let audioEngine = AudioCaptureEngine()
     let tonePlayer = TonePlayer()
     private var previousFrequency: Double?
-    private var settledFrames: Int = 0
-    private static let settledThreshold = 8
+
+    // In-tune hold: a string must stay in-tune for this long before it is
+    // marked done, tracked per string so frames from one string never count
+    // toward the next. Mirrors Android IN_TUNE_HOLD_MS + inTuneStringIndex.
+    private var inTuneFrames: Int = 0
+    private var inTuneStringIndex: Int = -1
+    /// Milliseconds a string must stay in-tune before it's marked done.
+    private static let inTuneHoldMs = 1400
+    /// Approximate interval between pitch readings, derived the same way as
+    /// Android's FRAME_INTERVAL_MS (1024-sample hop at 44.1 kHz -> ~23 ms).
+    private static let frameIntervalMs =
+        AudioCaptureEngine.hopSize * 1000 / Int(AudioCaptureEngine.sampleRate)
+    /// Consecutive in-tune frames required, derived from the millisecond hold.
+    private static let inTuneHoldFrames = inTuneHoldMs / frameIntervalMs
+
     private var lostSignalFrames: Int = 0
     private static let lostSignalHoldFrames = 17
 
@@ -217,7 +240,8 @@ final class TunerViewModel: ObservableObject {
             lastFrequencyLock.withLock { $0 = nil }
             recentFrequencies.removeAll()
             displayCentsFiltered = 0.0
-            settledFrames = 0
+            inTuneFrames = 0
+            inTuneStringIndex = -1
             isInTune = false
             noteName = "--"
             octave = nil
@@ -284,20 +308,30 @@ final class TunerViewModel: ObservableObject {
                 centsDeviation = clampedCents
                 displayCentsDeviation = smoothDisplayCents(clampedCents)
                 let justTuned: Bool
-                isInTune = abs(cents) <= 6
-                if abs(cents) <= 6 {
+                let inTune = abs(cents) <= effectiveInTuneCents
+                isInTune = inTune
+                if inTune {
                     tuningStatus = "In tune!"
-                    settledFrames += 1
-                    if settledFrames >= Self.settledThreshold && !stringProgress[stringIdx] {
-                        stringProgress[stringIdx] = true
-                        justTuned = true
-                        advanceToNextUntuned()
+                    if stringIdx == inTuneStringIndex {
+                        inTuneFrames += 1
+                        if inTuneFrames >= Self.inTuneHoldFrames && !stringProgress[stringIdx] {
+                            stringProgress[stringIdx] = true
+                            justTuned = true
+                            advanceToNextUntuned()
+                        } else {
+                            justTuned = false
+                        }
                     } else {
+                        // In-tune run moved to a different string: start over so
+                        // frames accumulated on one string never mark the next.
+                        inTuneStringIndex = stringIdx
+                        inTuneFrames = 1
                         justTuned = false
                     }
                 } else {
                     justTuned = false
-                    settledFrames = 0
+                    inTuneFrames = 0
+                    inTuneStringIndex = -1
                     if cents > 0 {
                         tuningStatus = String(format: "%.0f cents sharp", cents)
                     } else {
@@ -322,7 +356,8 @@ final class TunerViewModel: ObservableObject {
             lastFrequencyLock.withLock { $0 = nil }
             recentFrequencies.removeAll()
             displayCentsFiltered = 0.0
-            settledFrames = 0
+            inTuneFrames = 0
+            inTuneStringIndex = -1
             isInTune = false
             noteName = "--"
             octave = nil
@@ -376,9 +411,22 @@ final class TunerViewModel: ObservableObject {
     private func speakTunerState(note: String, cents: Double, stringTuned: Bool, stringName: String?) {
         guard spokenFeedback else { return }
         let now = Date()
-        let isInTune = abs(cents) <= 6
-        let interval = isInTune ? Self.ttsInTuneInterval : Self.ttsNormalInterval
         let bucket = Int(cents / Double(Self.ttsCentsBucketSize))
+
+        // The "<string> string tuned!" confirmation is the single most important
+        // spoken event in the tuner for a blind user — it is the only signal that
+        // a string is done. Bypass the throttle entirely so it is never dropped as
+        // routine chatter (mirrors Android TtsAnnouncementThrottler's
+        // `if (justTuned) return true`).
+        if stringTuned, let name = stringName {
+            lastTtsTime = now
+            lastTtsBucket = bucket
+            speak("\(name) string tuned!")
+            return
+        }
+
+        let isInTune = abs(cents) <= effectiveInTuneCents
+        let interval = isInTune ? Self.ttsInTuneInterval : Self.ttsNormalInterval
 
         guard now.timeIntervalSince(lastTtsTime) >= interval || bucket != lastTtsBucket else { return }
 
@@ -386,15 +434,17 @@ final class TunerViewModel: ObservableObject {
         lastTtsBucket = bucket
 
         let message: String
-        if stringTuned, let name = stringName {
-            message = "\(name) string tuned!"
-        } else if isInTune {
+        if isInTune {
             message = "\(note), in tune"
         } else {
             let direction = cents > 0 ? "sharp" : "flat"
             message = String(format: "%@, %.0f cents %@", note, abs(cents), direction)
         }
 
+        speak(message)
+    }
+
+    private func speak(_ message: String) {
         let utterance = AVSpeechUtterance(string: message)
         utterance.rate = AVSpeechUtteranceDefaultSpeechRate * 1.1
         utterance.volume = 0.8
@@ -415,7 +465,8 @@ final class TunerViewModel: ObservableObject {
     func resetProgress() {
         stringProgress = [false, false, false, false]
         autoAdvanceTarget = 0
-        settledFrames = 0
+        inTuneFrames = 0
+        inTuneStringIndex = -1
     }
 
     private func resetDisplay() {
@@ -431,7 +482,8 @@ final class TunerViewModel: ObservableObject {
         recentFrequencies.removeAll()
         displayCentsFiltered = 0.0
         activeStringIndex = nil
-        settledFrames = 0
+        inTuneFrames = 0
+        inTuneStringIndex = -1
         lostSignalFrames = 0
         isInTune = false
         neuralArbitrator.reset()

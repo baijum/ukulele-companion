@@ -57,7 +57,7 @@ final class FretboardViewModel: ObservableObject {
         }
         runDetection()
 
-        if !wasSelected, selections[stringIndex] != nil, soundEnabled {
+        if !wasSelected, selections[stringIndex] != nil, soundEnabled, playOnTap {
             playNoteAt(stringIndex: stringIndex, fret: fret)
         }
     }
