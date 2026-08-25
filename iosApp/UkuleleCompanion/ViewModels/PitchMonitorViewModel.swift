@@ -407,12 +407,19 @@ final class PitchMonitorViewModel: ObservableObject {
         if semitoneGap <= Self.arbitrationIgnoreSemitones { return yinFreq }
         if neuralConsistencyFrames < Self.neuralConsistencyRequired { return yinFreq }
 
+        // YIN confidence is a CMND dip value (lower is better) that the
+        // detector only ever emits strictly below its threshold, so these
+        // gates are expressed as fractions of that threshold to stay in the
+        // reachable [0, threshold) range — see #603.
+        let yinThreshold = PitchDetector.shared.DEFAULT_THRESHOLD
         if Self.isOctaveRelation(yinFreq, neuralResult.frequencyHz)
-            && neuralResult.confidence >= 0.85 && yinConf >= 0.12 {
+            && neuralResult.confidence >= 0.85
+            && yinConf >= yinThreshold * NeuralArbitrator.companion.YIN_CONFIDENCE_OCTAVE_FRACTION {
             return neuralResult.frequencyHz
         }
         if semitoneGap >= Self.arbitrationStrongSemitones
-            && neuralResult.confidence >= 0.93 && yinConf >= 0.16 {
+            && neuralResult.confidence >= 0.93
+            && yinConf >= yinThreshold * NeuralArbitrator.companion.YIN_CONFIDENCE_STRONG_FRACTION {
             return neuralResult.frequencyHz
         }
         return yinFreq

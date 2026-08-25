@@ -264,7 +264,8 @@ final class TunerViewModel: ObservableObject {
 
             let arbitration = neuralArbitrator.arbitrate(
                 yinResult: result,
-                neuralResult: neuralResult
+                neuralResult: neuralResult,
+                yinThreshold: PitchDetector.shared.DEFAULT_THRESHOLD
             )
             let finalHz = arbitration.frequencyHz
 

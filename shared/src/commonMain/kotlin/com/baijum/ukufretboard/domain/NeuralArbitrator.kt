@@ -44,7 +44,6 @@ enum class PitchSource { YIN, NEURAL }
  * ```
  */
 class NeuralArbitrator {
-
     companion object {
         /** Run neural inference every N audio frames. */
         const val SUPERVISOR_INTERVAL = 5
@@ -64,12 +63,35 @@ class NeuralArbitrator {
         /** Required consecutive similar neural readings before override. */
         const val CONSISTENCY_FRAMES = 2
 
-        fun semitoneDistance(aHz: Double, bHz: Double): Double {
+        /**
+         * YIN confidence gates for octave correction and strong-disagreement
+         * override, expressed as fractions of the detector's CMND threshold.
+         *
+         * YIN confidence is a CMND dip value where **lower is better**, and the
+         * detector only ever emits values strictly below its threshold (see
+         * [PitchDetector.detect]). Expressing these gates relative to that same
+         * threshold keeps them inside the reachable `[0, threshold)` range, so
+         * they can never silently drift out of it (see #603). Strong
+         * disagreement demands a poorer (higher) YIN confidence than octave
+         * correction, hence the larger fraction.
+         */
+        const val YIN_CONFIDENCE_OCTAVE_FRACTION = 0.8
+
+        /** @see YIN_CONFIDENCE_OCTAVE_FRACTION */
+        const val YIN_CONFIDENCE_STRONG_FRACTION = 0.95
+
+        fun semitoneDistance(
+            aHz: Double,
+            bHz: Double,
+        ): Double {
             if (aHz <= 0.0 || bHz <= 0.0) return Double.MAX_VALUE
             return abs(12.0 * log2(aHz / bHz))
         }
 
-        fun isOctaveRelation(aHz: Double, bHz: Double): Boolean {
+        fun isOctaveRelation(
+            aHz: Double,
+            bHz: Double,
+        ): Boolean {
             if (aHz <= 0.0 || bHz <= 0.0) return false
             val semitones = semitoneDistance(aHz, bHz)
             return abs(semitones - 12.0) <= 1.0 || abs(semitones - 24.0) <= 1.0
@@ -143,9 +165,7 @@ class NeuralArbitrator {
      * Returns the most recent neural result if it is still within the
      * [RESULT_TTL_FRAMES] window, or `null` if stale / unavailable.
      */
-    fun currentResult(): NeuralPitchResult? {
-        return if (resultAgeFrames <= RESULT_TTL_FRAMES) lastResult else null
-    }
+    fun currentResult(): NeuralPitchResult? = if (resultAgeFrames <= RESULT_TTL_FRAMES) lastResult else null
 
     // --- Arbitration ---------------------------------------------------------
 
@@ -160,10 +180,16 @@ class NeuralArbitrator {
      * 5. Strong disagreement (≥ [ARBITRATION_STRONG_SEMITONES]) with neural
      *    confidence ≥ 0.93 → override with neural Hz.
      * 6. Otherwise → use YIN.
+     *
+     * @param yinThreshold the CMND threshold the YIN detector was run with
+     *   (default [PitchDetector.DEFAULT_THRESHOLD]). The YIN-confidence gates
+     *   are fractions of this value so they stay inside the reachable
+     *   `[0, yinThreshold)` range — see [YIN_CONFIDENCE_OCTAVE_FRACTION].
      */
     fun arbitrate(
         yinResult: PitchResult,
         neuralResult: NeuralPitchResult?,
+        yinThreshold: Double = PitchDetector.DEFAULT_THRESHOLD,
     ): ArbitrationResult {
         if (neuralResult == null) {
             return ArbitrationResult(
@@ -195,7 +221,7 @@ class NeuralArbitrator {
 
         if (isOctaveRelation(yinResult.frequencyHz, neuralResult.frequencyHz) &&
             neuralResult.confidence >= 0.85 &&
-            yinResult.confidence >= 0.12
+            yinResult.confidence >= yinThreshold * YIN_CONFIDENCE_OCTAVE_FRACTION
         ) {
             return ArbitrationResult(
                 frequencyHz = neuralResult.frequencyHz,
@@ -207,7 +233,7 @@ class NeuralArbitrator {
 
         return if (semitoneGap >= ARBITRATION_STRONG_SEMITONES &&
             neuralResult.confidence >= 0.93 &&
-            yinResult.confidence >= 0.16
+            yinResult.confidence >= yinThreshold * YIN_CONFIDENCE_STRONG_FRACTION
         ) {
             ArbitrationResult(
                 frequencyHz = neuralResult.frequencyHz,
@@ -247,13 +273,14 @@ class NeuralArbitrator {
         }
 
         val previous = lastFrequencyForConsistency
-        consistencyFrames = if (previous != null &&
-            semitoneDistance(previous, neuralFrequencyHz) <= 0.5
-        ) {
-            consistencyFrames + 1
-        } else {
-            1
-        }
+        consistencyFrames =
+            if (previous != null &&
+                semitoneDistance(previous, neuralFrequencyHz) <= 0.5
+            ) {
+                consistencyFrames + 1
+            } else {
+                1
+            }
         lastFrequencyForConsistency = neuralFrequencyHz
     }
 }
