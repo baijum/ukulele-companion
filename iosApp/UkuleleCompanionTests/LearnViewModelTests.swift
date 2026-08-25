@@ -133,13 +133,31 @@ final class LearnViewModelTests: XCTestCase {
         let vm = LearnViewModel()
         vm.markLessonCompleted("lesson_1")
         vm.recordQuizAnswer(category: .intervals, correct: true)
+
+        vm.clearAllProgress()
+
+        XCTAssertFalse(vm.isLessonCompleted("lesson_1"))
+        XCTAssertEqual(vm.quizStats().total, 0)
+    }
+
+    // Reset All Progress must clear learning progress but keep unlocked
+    // achievements, matching Android (where trophies live in a separate
+    // store). See issue #607.
+    @MainActor
+    func testClearAllProgressKeepsUnlockedAchievements() {
+        let vm = LearnViewModel()
+        vm.markLessonCompleted("lesson_1")
+        vm.recordQuizAnswer(category: .intervals, correct: true)
+        vm.unlockAchievement("first_chord")
         vm.unlockAchievement("test")
 
         vm.clearAllProgress()
 
         XCTAssertFalse(vm.isLessonCompleted("lesson_1"))
         XCTAssertEqual(vm.quizStats().total, 0)
-        XCTAssertTrue(vm.unlockedAchievementIds.isEmpty)
+        XCTAssertTrue(vm.unlockedAchievementIds.contains("first_chord"))
+        XCTAssertTrue(vm.unlockedAchievementIds.contains("test"))
+        XCTAssertEqual(vm.unlockedAchievementIds.count, 2)
     }
 
     @MainActor
