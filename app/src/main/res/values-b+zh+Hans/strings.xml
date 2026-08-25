@@ -1197,4 +1197,7 @@
     <string name="cd_setlist_move_up">上移</string>
     <string name="cd_setlist_move_down">下移</string>
     <string name="cd_setlist_remove_song">从歌单中移除</string>
+    <string name="note_map_cell_description">%1$s，第 %2$s 弦，第 %3$d 品</string>
+    <string name="note_map_cell_highlighted">已高亮</string>
+    <string name="note_map_cell_dimmed">已变暗</string>
 </resources>

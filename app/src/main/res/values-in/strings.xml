@@ -1200,4 +1200,7 @@
     <string name="cd_setlist_move_up">Pindah ke atas</string>
     <string name="cd_setlist_move_down">Pindah ke bawah</string>
     <string name="cd_setlist_remove_song">Hapus dari daftar</string>
+    <string name="note_map_cell_description">%1$s, senar %2$s, fret %3$d</string>
+    <string name="note_map_cell_highlighted">disorot</string>
+    <string name="note_map_cell_dimmed">redup</string>
 </resources>

@@ -1201,4 +1201,7 @@
     <string name="cd_setlist_move_up">Yukarı taşı</string>
     <string name="cd_setlist_move_down">Aşağı taşı</string>
     <string name="cd_setlist_remove_song">Set listesinden kaldır</string>
+    <string name="note_map_cell_description">%1$s, tel %2$s, perde %3$d</string>
+    <string name="note_map_cell_highlighted">vurgulanmış</string>
+    <string name="note_map_cell_dimmed">soluk</string>
 </resources>

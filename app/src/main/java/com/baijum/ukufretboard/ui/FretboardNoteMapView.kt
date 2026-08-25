@@ -35,6 +35,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -62,20 +65,22 @@ fun FretboardNoteMapView(
 ) {
     val canToggleHighLow = tuning == UkuleleTuning.HIGH_G || tuning == UkuleleTuning.LOW_G
     var isLowG by remember(tuning) { mutableStateOf(tuning == UkuleleTuning.LOW_G) }
-    val effectiveTuning = if (canToggleHighLow) {
-        if (isLowG) UkuleleTuning.LOW_G else UkuleleTuning.HIGH_G
-    } else {
-        tuning
-    }
+    val effectiveTuning =
+        if (canToggleHighLow) {
+            if (isLowG) UkuleleTuning.LOW_G else UkuleleTuning.HIGH_G
+        } else {
+            tuning
+        }
     var highlightNote by remember { mutableIntStateOf(-1) } // -1 = none
     val scope = rememberCoroutineScope()
     val maxFret = lastFret
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
             text = stringResource(R.string.note_map_title),
@@ -99,19 +104,21 @@ fun FretboardNoteMapView(
                     selected = !isLowG,
                     onClick = { isLowG = false },
                     label = { Text(stringResource(R.string.note_map_high_g)) },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primary,
-                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-                    ),
+                    colors =
+                        FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
                 )
                 FilterChip(
                     selected = isLowG,
                     onClick = { isLowG = true },
                     label = { Text(stringResource(R.string.note_map_low_g)) },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primary,
-                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-                    ),
+                    colors =
+                        FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -132,30 +139,33 @@ fun FretboardNoteMapView(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState())
-                .padding(vertical = 4.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
+                    .padding(vertical = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             FilterChip(
                 selected = highlightNote == -1,
                 onClick = { highlightNote = -1 },
                 label = { Text(stringResource(R.string.label_all), style = MaterialTheme.typography.labelSmall) },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = MaterialTheme.colorScheme.secondary,
-                    selectedLabelColor = MaterialTheme.colorScheme.onSecondary,
-                ),
+                colors =
+                    FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = MaterialTheme.colorScheme.secondary,
+                        selectedLabelColor = MaterialTheme.colorScheme.onSecondary,
+                    ),
             )
             (0..11).forEach { pc ->
                 FilterChip(
                     selected = highlightNote == pc,
                     onClick = { highlightNote = pc },
                     label = { Text(Notes.pitchClassToName(pc), style = MaterialTheme.typography.labelSmall) },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = MaterialTheme.colorScheme.secondary,
-                        selectedLabelColor = MaterialTheme.colorScheme.onSecondary,
-                    ),
+                    colors =
+                        FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.secondary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onSecondary,
+                        ),
                 )
             }
         }
@@ -173,11 +183,16 @@ fun FretboardNoteMapView(
                 val octaves = effectiveTuning.octaves
                 val stringNames = effectiveTuning.stringNames
 
+                // Single shared scroll state so the header and all string rows
+                // move together and stay column-aligned (#584).
+                val gridScroll = rememberScrollState()
+
                 // Header row: fret numbers
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState()),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .horizontalScroll(gridScroll),
                 ) {
                     // String label column
                     Box(modifier = Modifier.size(36.dp))
@@ -201,9 +216,10 @@ fun FretboardNoteMapView(
                     val openPc = tuningPitchClasses[stringIndex]
                     val baseOctave = octaves[stringIndex]
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .horizontalScroll(rememberScrollState()),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .horizontalScroll(gridScroll),
                     ) {
                         // String name
                         Box(
@@ -224,32 +240,57 @@ fun FretboardNoteMapView(
                             val noteName = Notes.pitchClassToName(pitchClass)
                             val isHighlighted = highlightNote == -1 || highlightNote == pitchClass
                             val isOpen = fret == 0
-                            val bgColor = when {
-                                !isHighlighted -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
-                                isOpen -> MaterialTheme.colorScheme.primaryContainer
-                                else -> MaterialTheme.colorScheme.surface
-                            }
-                            val textColor = when {
-                                !isHighlighted -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
-                                isOpen -> MaterialTheme.colorScheme.onPrimaryContainer
-                                else -> MaterialTheme.colorScheme.onSurface
-                            }
+                            val bgColor =
+                                when {
+                                    !isHighlighted -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+                                    isOpen -> MaterialTheme.colorScheme.primaryContainer
+                                    else -> MaterialTheme.colorScheme.surface
+                                }
+                            val textColor =
+                                when {
+                                    !isHighlighted -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
+                                    isOpen -> MaterialTheme.colorScheme.onPrimaryContainer
+                                    else -> MaterialTheme.colorScheme.onSurface
+                                }
+                            // Full cell semantics for TalkBack: note + string + fret,
+                            // plus highlighted/dimmed state (#585). The description on the
+                            // clickable container intentionally replaces the child Text.
+                            val cellDescription =
+                                stringResource(
+                                    R.string.note_map_cell_description,
+                                    noteName,
+                                    stringNames[stringIndex],
+                                    fret,
+                                )
+                            val cellState =
+                                if (isHighlighted) {
+                                    stringResource(R.string.note_map_cell_highlighted)
+                                } else {
+                                    stringResource(R.string.note_map_cell_dimmed)
+                                }
+                            val playLabel = stringResource(R.string.cd_play_sound)
 
                             Box(
-                                modifier = Modifier
-                                    .size(36.dp)
-                                    .clip(RoundedCornerShape(4.dp))
-                                    .background(bgColor)
-                                    .border(
-                                        width = if (isOpen) 1.5.dp else 0.5.dp,
-                                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-                                        shape = RoundedCornerShape(4.dp),
-                                    )
-                                    .clickable(enabled = isHighlighted) {
-                                        scope.launch {
-                                            ToneGenerator.playNote(pitchClass, octave)
-                                        }
-                                    },
+                                modifier =
+                                    Modifier
+                                        .size(36.dp)
+                                        .clip(RoundedCornerShape(4.dp))
+                                        .background(bgColor)
+                                        .border(
+                                            width = if (isOpen) 1.5.dp else 0.5.dp,
+                                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
+                                            shape = RoundedCornerShape(4.dp),
+                                        ).clickable(
+                                            enabled = isHighlighted,
+                                            onClickLabel = playLabel,
+                                        ) {
+                                            scope.launch {
+                                                ToneGenerator.playNote(pitchClass, octave)
+                                            }
+                                        }.semantics {
+                                            contentDescription = cellDescription
+                                            stateDescription = cellState
+                                        },
                                 contentAlignment = Alignment.Center,
                             ) {
                                 Text(
@@ -283,10 +324,11 @@ fun FretboardNoteMapView(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "\u2022 ${stringResource(R.string.note_map_tip_1)}\n" +
-                        "\u2022 ${stringResource(R.string.note_map_tip_2)}\n" +
-                        "\u2022 ${stringResource(R.string.note_map_tip_3)}\n" +
-                        "\u2022 ${stringResource(R.string.note_map_tip_4)}",
+                    text =
+                        "\u2022 ${stringResource(R.string.note_map_tip_1)}\n" +
+                            "\u2022 ${stringResource(R.string.note_map_tip_2)}\n" +
+                            "\u2022 ${stringResource(R.string.note_map_tip_3)}\n" +
+                            "\u2022 ${stringResource(R.string.note_map_tip_4)}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )

@@ -1207,4 +1207,7 @@
     <string name="cd_setlist_move_up">تحريك لأعلى</string>
     <string name="cd_setlist_move_down">تحريك لأسفل</string>
     <string name="cd_setlist_remove_song">إزالة من القائمة</string>
+    <string name="note_map_cell_description">%1$s، الوتر %2$s، الدستان %3$d</string>
+    <string name="note_map_cell_highlighted">مُميَّز</string>
+    <string name="note_map_cell_dimmed">خافت</string>
 </resources>

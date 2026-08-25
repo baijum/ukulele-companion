@@ -1203,4 +1203,7 @@
     <string name="cd_setlist_move_up">ऊपर ले जाएं</string>
     <string name="cd_setlist_move_down">नीचे ले जाएं</string>
     <string name="cd_setlist_remove_song">सेटलिस्ट से हटाएं</string>
+    <string name="note_map_cell_description">%1$s, तार %2$s, फ्रेट %3$d</string>
+    <string name="note_map_cell_highlighted">हाइलाइट किया गया</string>
+    <string name="note_map_cell_dimmed">मंद</string>
 </resources>

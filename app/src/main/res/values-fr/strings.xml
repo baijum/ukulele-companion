@@ -1198,4 +1198,7 @@
     <string name="cd_setlist_move_up">Déplacer vers le haut</string>
     <string name="cd_setlist_move_down">Déplacer vers le bas</string>
     <string name="cd_setlist_remove_song">Retirer de la setlist</string>
+    <string name="note_map_cell_description">%1$s, corde %2$s, frette %3$d</string>
+    <string name="note_map_cell_highlighted">en surbrillance</string>
+    <string name="note_map_cell_dimmed">estompé</string>
 </resources>

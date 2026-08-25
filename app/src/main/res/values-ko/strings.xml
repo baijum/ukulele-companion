@@ -1202,4 +1202,7 @@
     <string name="cd_setlist_move_up">위로 이동</string>
     <string name="cd_setlist_move_down">아래로 이동</string>
     <string name="cd_setlist_remove_song">세트리스트에서 제거</string>
+    <string name="note_map_cell_description">%1$s, %2$s 줄, %3$d 프렛</string>
+    <string name="note_map_cell_highlighted">강조됨</string>
+    <string name="note_map_cell_dimmed">흐리게 표시됨</string>
 </resources>

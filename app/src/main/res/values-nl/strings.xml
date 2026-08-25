@@ -1201,4 +1201,7 @@
     <string name="cd_setlist_move_up">Omhoog verplaatsen</string>
     <string name="cd_setlist_move_down">Omlaag verplaatsen</string>
     <string name="cd_setlist_remove_song">Verwijderen uit setlist</string>
+    <string name="note_map_cell_description">%1$s, snaar %2$s, fret %3$d</string>
+    <string name="note_map_cell_highlighted">gemarkeerd</string>
+    <string name="note_map_cell_dimmed">gedimd</string>
 </resources>

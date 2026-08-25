@@ -850,6 +850,10 @@
     <string name="note_map_tip_3">Fret 12 is the same notes as fret 0 (one octave higher)</string>
     <string name="note_map_tip_4">Switch to Low-G to see how the G string changes</string>
     <string name="note_map_string">String %d</string>
+    <!-- Note map cell accessibility: %1$s note name, %2$s string name, %3$d fret number -->
+    <string name="note_map_cell_description">%1$s, string %2$s, fret %3$d</string>
+    <string name="note_map_cell_highlighted">highlighted</string>
+    <string name="note_map_cell_dimmed">dimmed</string>
 
     <!-- ── Fretboard View ───────────────────────────────────────────── -->
     <string name="fretboard_string">string, </string>
