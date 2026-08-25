@@ -293,22 +293,28 @@ class FretboardViewModel : ViewModel() {
             }.toMap()
 
             val detection = if (rootPitchClass != null && formula != null) {
-                // Run detection to discover alternate chord names
+                // Run detection to discover alternate chord names. This goes
+                // through the capo-aware path, so its notes already reflect the
+                // sounding strings.
                 val detected = detectChord(newSelections)
-                val alternates = buildAlternates(detected, rootPitchClass, formula)
+
+                // Transpose the intended root by the capo so the named chord
+                // matches the strings that actually sound. Every other pitch
+                // site in this file adds the capo; without it, applying a
+                // library "C" at capo 2 would label the board "C" while the
+                // strings sound D.
+                val capo = current.capoFret
+                val soundingRoot = (rootPitchClass + capo).mod(Notes.PITCH_CLASS_COUNT)
+                val alternates = buildAlternates(detected, soundingRoot, formula)
 
                 val rootNote = Note(
-                    pitchClass = rootPitchClass,
-                    name = Notes.pitchClassToName(rootPitchClass),
+                    pitchClass = soundingRoot,
+                    name = Notes.pitchClassToName(soundingRoot),
                 )
-                val chordNotes = newSelections.entries
-                    .sortedBy { it.key }
-                    .mapNotNull { (i, fret) ->
-                        fret?.let {
-                            val pc = ((tuning[i].openPitchClass + it) % Notes.PITCH_CLASS_COUNT + Notes.PITCH_CLASS_COUNT) % Notes.PITCH_CLASS_COUNT
-                            Note(pitchClass = pc, name = Notes.pitchClassToName(pc))
-                        }
-                    }
+                // Use the capo-aware note list from detection so the notes
+                // shown match the sounding strings (identical to tapping the
+                // same frets by hand).
+                val chordNotes = detectedNotes(detected)
 
                 ChordDetector.DetectionResult.ChordFound(
                     ChordResult(
@@ -330,6 +336,22 @@ class FretboardViewModel : ViewModel() {
             )
         }
     }
+
+    /**
+     * Extracts the note list carried by a [ChordDetector.DetectionResult].
+     *
+     * Used by [applyVoicing] so the notes shown for a library voicing come from
+     * the capo-aware detection pass and match what tapping the same frets by
+     * hand produces.
+     */
+    private fun detectedNotes(detected: ChordDetector.DetectionResult): List<Note> =
+        when (detected) {
+            is ChordDetector.DetectionResult.ChordFound -> detected.result.notes
+            is ChordDetector.DetectionResult.NoMatch -> detected.notes
+            is ChordDetector.DetectionResult.Interval -> detected.notes
+            is ChordDetector.DetectionResult.SingleNote -> listOf(detected.note)
+            ChordDetector.DetectionResult.NoSelection -> emptyList()
+        }
 
     /**
      * Builds the list of alternate chord interpretations, excluding the
