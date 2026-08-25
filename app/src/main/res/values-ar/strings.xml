@@ -833,6 +833,7 @@
     <string name="melody_added_feedback">تمت إضافة %s</string>
     <string name="melody_mode_linear">خطي</string>
     <string name="melody_mode_step_sequencer">مُتتابع خطوات</string>
+    <string name="melody_step_sequencer_scratch_hint">شبكة الخطوات مساحة مؤقتة — لا تُحفظ مع اللحن.</string>
     <string name="melody_duration_whole">كاملة</string>
     <string name="melody_duration_half">نصف</string>
     <string name="melody_duration_quarter">ربع</string>

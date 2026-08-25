@@ -830,6 +830,7 @@
     <string name="melody_added_feedback">%s adicionado</string>
     <string name="melody_mode_linear">Linear</string>
     <string name="melody_mode_step_sequencer">Sequenciador</string>
+    <string name="melody_step_sequencer_scratch_hint">A grade de passos é um rascunho — não é salva com a melodia.</string>
     <string name="melody_duration_whole">semibreve</string>
     <string name="melody_duration_half">mínima</string>
     <string name="melody_duration_quarter">semínima</string>

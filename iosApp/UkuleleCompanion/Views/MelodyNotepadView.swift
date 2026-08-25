@@ -485,6 +485,11 @@ struct MelodyNotepadView: View {
                         ? "Shrink to 8 steps" : "Expand to 16 steps"
                 )
             }
+
+            Text("melody_step_sequencer_scratch_hint")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .sheet(item: Binding(
             get: { stepPitchPickerIndex.map { StepPickerItem(index: $0) } },

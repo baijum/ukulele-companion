@@ -831,6 +831,7 @@
     <string name="melody_added_feedback">Dodano %s</string>
     <string name="melody_mode_linear">Liniowy</string>
     <string name="melody_mode_step_sequencer">Sekwencer krokowy</string>
+    <string name="melody_step_sequencer_scratch_hint">Siatka kroków to brudnopis — nie jest zapisywana z melodią.</string>
     <string name="melody_duration_whole">cała</string>
     <string name="melody_duration_half">półnuta</string>
     <string name="melody_duration_quarter">ćwierćnuta</string>

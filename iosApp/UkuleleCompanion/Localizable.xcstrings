@@ -54782,6 +54782,106 @@
         }
       }
     },
+    "melody_step_sequencer_scratch_hint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Step grid is a scratch pad — not saved with the melody."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La grille de pas est un brouillon — non enregistrée avec la mélodie."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Schrittraster ist ein Notizzettel – wird nicht mit der Melodie gespeichert."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La cuadrícula de pasos es un borrador: no se guarda con la melodía."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La griglia dei passi è una bozza: non viene salvata con la melodia."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A grade de passos é um rascunho — não é salva com a melodia."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Het stappenraster is een kladblok — wordt niet met de melodie opgeslagen."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сетка шагов — черновик и не сохраняется вместе с мелодией."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adım ızgarası bir müsvedde — melodiyle birlikte kaydedilmez."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siatka kroków to brudnopis — nie jest zapisywana z melodią."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ステップグリッドはスクラッチ用で、メロディーと一緒には保存されません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스텝 그리드는 임시 메모이며 멜로디와 함께 저장되지 않습니다."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "स्टेप ग्रिड एक अस्थायी नोट है — यह धुन के साथ सहेजा नहीं जाता।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kisi langkah adalah catatan sementara — tidak disimpan bersama melodi."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شبكة الخطوات مساحة مؤقتة — لا تُحفظ مع اللحن."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "步进网格是草稿，不会随旋律一起保存。"
+          }
+        }
+      }
+    },
     "melody_step_sequencer_title": {
       "localizations": {
         "en": {

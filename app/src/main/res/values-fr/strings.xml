@@ -830,6 +830,7 @@
     <string name="melody_added_feedback">%s ajouté</string>
     <string name="melody_mode_linear">Linéaire</string>
     <string name="melody_mode_step_sequencer">Séquenceur</string>
+    <string name="melody_step_sequencer_scratch_hint">La grille de pas est un brouillon — non enregistrée avec la mélodie.</string>
     <string name="melody_duration_whole">ronde</string>
     <string name="melody_duration_half">blanche</string>
     <string name="melody_duration_quarter">noire</string>

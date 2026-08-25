@@ -829,6 +829,7 @@
     <string name="melody_added_feedback">%s जोड़ा गया</string>
     <string name="melody_mode_linear">रैखिक</string>
     <string name="melody_mode_step_sequencer">स्टेप सीक्वेंसर</string>
+    <string name="melody_step_sequencer_scratch_hint">स्टेप ग्रिड एक अस्थायी नोट है — यह धुन के साथ सहेजा नहीं जाता।</string>
     <string name="melody_duration_whole">पूर्ण</string>
     <string name="melody_duration_half">आधी</string>
     <string name="melody_duration_quarter">चौथाई</string>

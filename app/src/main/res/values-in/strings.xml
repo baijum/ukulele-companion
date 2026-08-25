@@ -828,6 +828,7 @@
     <string name="melody_added_feedback">%s ditambahkan</string>
     <string name="melody_mode_linear">Linear</string>
     <string name="melody_mode_step_sequencer">Step Sequencer</string>
+    <string name="melody_step_sequencer_scratch_hint">Kisi langkah adalah catatan sementara — tidak disimpan bersama melodi.</string>
     <string name="melody_duration_whole">penuh</string>
     <string name="melody_duration_half">setengah</string>
     <string name="melody_duration_quarter">seperempat</string>

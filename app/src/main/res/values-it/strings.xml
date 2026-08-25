@@ -830,6 +830,7 @@
     <string name="melody_added_feedback">%s aggiunto</string>
     <string name="melody_mode_linear">Lineare</string>
     <string name="melody_mode_step_sequencer">Sequenziatore</string>
+    <string name="melody_step_sequencer_scratch_hint">La griglia dei passi è una bozza: non viene salvata con la melodia.</string>
     <string name="melody_duration_whole">semibreve</string>
     <string name="melody_duration_half">minima</string>
     <string name="melody_duration_quarter">semiminima</string>
