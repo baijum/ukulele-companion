@@ -46,6 +46,9 @@ import com.baijum.ukufretboard.ui.LocalReduceMotion
 import com.baijum.ukufretboard.ui.rememberTouchExplorationEnabled
 import kotlinx.coroutines.delay
 
+/** ~60fps auto-scroll tick cadence, in milliseconds. */
+private const val AUTO_SCROLL_TICK_MS = 16L
+
 @Composable
 internal fun PerformanceModeView(
     displayContent: String,
@@ -101,7 +104,7 @@ internal fun PerformanceModeView(
                 } else {
                     // No pixel to move this tick; keep the ~16ms cadence so a
                     // sub-1px/tick speed doesn't busy-loop.
-                    delay(16L)
+                    delay(AUTO_SCROLL_TICK_MS)
                 }
             }
         }
