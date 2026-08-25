@@ -208,6 +208,39 @@ class HarmonicFunctionTest {
         assertEquals(HarmonicFunction.TONIC, harmonicFunction("visus4", ScaleType.MAJOR))
     }
 
+    // --- Chromatic / borrowed / secondary-dominant numerals (issue #604) ---
+
+    @Test
+    fun minorHalfDiminishedIiIsSubdominant() {
+        // "iim7♭5" (Minor ii–V–I) → base "ii" → SUBDOMINANT, not TONIC.
+        assertEquals(HarmonicFunction.SUBDOMINANT, harmonicFunction("iim7♭5", ScaleType.MINOR))
+    }
+
+    @Test
+    fun majorSecondaryDominantII7IsDominant() {
+        assertEquals(HarmonicFunction.DOMINANT, harmonicFunction("II7", ScaleType.MAJOR))
+    }
+
+    @Test
+    fun majorSecondaryDominantIII7IsDominant() {
+        assertEquals(HarmonicFunction.DOMINANT, harmonicFunction("III7", ScaleType.MAJOR))
+    }
+
+    @Test
+    fun majorSecondaryDominantVI7IsDominant() {
+        assertEquals(HarmonicFunction.DOMINANT, harmonicFunction("VI7", ScaleType.MAJOR))
+    }
+
+    @Test
+    fun majorBorrowedFlatVIIsSubdominant() {
+        assertEquals(HarmonicFunction.SUBDOMINANT, harmonicFunction("♭VI", ScaleType.MAJOR))
+    }
+
+    @Test
+    fun majorBorrowedFlatVIIIsSubdominant() {
+        assertEquals(HarmonicFunction.SUBDOMINANT, harmonicFunction("♭VII", ScaleType.MAJOR))
+    }
+
     // --- Fallback ---
 
     @Test
