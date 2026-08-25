@@ -36,7 +36,6 @@ data class PitchResult(
  * This is a pure-Kotlin implementation with no external dependencies.
  */
 object PitchDetector {
-
     /**
      * Default CMND threshold.
      *
@@ -112,7 +111,10 @@ object PitchDetector {
         }
     }
 
-    private fun ensureDiffBuffers(sampleSize: Int, maxLag: Int) {
+    private fun ensureDiffBuffers(
+        sampleSize: Int,
+        maxLag: Int,
+    ) {
         val prefixSize = sampleSize + 1
         val diffSize = maxLag + 1
         if (sampleSize != cachedSampleSize) {
@@ -299,8 +301,9 @@ object PitchDetector {
     // --- Fast YIN helpers ---------------------------------------------------
 
     /**
-     * Computes the squared difference function using FFT-based
-     * cross-correlation (O(N log N) instead of O(N * maxLag)).
+     * Computes the squared difference function into [outDiff] using FFT-based
+     * cross-correlation (O(N log N) instead of O(N * maxLag)). Must be called
+     * while [bufferLock] is held.
      *
      * Uses the decomposition:
      *   d(tau) = E0 + E(tau) - 2 * r(tau)
@@ -312,11 +315,7 @@ object PitchDetector {
      * @param samples Audio samples of length N.
      * @param halfLen Window length W = N/2.
      * @param maxLag  Maximum lag to compute.
-     * @return A [FloatArray] of size maxLag+1 containing d(0)..d(maxLag).
-     */
-    /**
-     * Computes the squared difference function into [outDiff] using
-     * FFT-based cross-correlation. Must be called while [bufferLock] is held.
+     * @param outDiff Output buffer of size maxLag+1, filled with d(0)..d(maxLag).
      */
     private fun computeDifferenceFunctionFFTLocked(
         samples: FloatArray,
@@ -342,8 +341,10 @@ object PitchDetector {
         FFTProcessor.fft(fftSigReal, fftSigImag)
 
         for (i in 0 until fftSize) {
-            val ar = fftRefReal[i]; val ai = fftRefImag[i]
-            val br = fftSigReal[i]; val bi = fftSigImag[i]
+            val ar = fftRefReal[i]
+            val ai = fftRefImag[i]
+            val br = fftSigReal[i]
+            val bi = fftSigImag[i]
             fftRefReal[i] = ar * br + ai * bi
             fftRefImag[i] = ar * bi - ai * br
         }
@@ -352,9 +353,10 @@ object PitchDetector {
 
         for (tau in 1..maxLag) {
             val energyTau = prefixSq[tau + halfLen] - prefixSq[tau]
-            outDiff[tau] = (energy0 + energyTau - 2.0 * fftRefReal[tau].toDouble())
-                .coerceAtLeast(0.0)
-                .toFloat()
+            outDiff[tau] =
+                (energy0 + energyTau - 2.0 * fftRefReal[tau].toDouble())
+                    .coerceAtLeast(0.0)
+                    .toFloat()
         }
     }
 

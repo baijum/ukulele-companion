@@ -44,7 +44,6 @@ enum class PitchSource { YIN, NEURAL }
  * ```
  */
 class NeuralArbitrator {
-
     companion object {
         /** Run neural inference every N audio frames. */
         const val SUPERVISOR_INTERVAL = 5
@@ -81,12 +80,18 @@ class NeuralArbitrator {
         /** @see YIN_CONFIDENCE_OCTAVE_FRACTION */
         const val YIN_CONFIDENCE_STRONG_FRACTION = 0.95
 
-        fun semitoneDistance(aHz: Double, bHz: Double): Double {
+        fun semitoneDistance(
+            aHz: Double,
+            bHz: Double,
+        ): Double {
             if (aHz <= 0.0 || bHz <= 0.0) return Double.MAX_VALUE
             return abs(12.0 * log2(aHz / bHz))
         }
 
-        fun isOctaveRelation(aHz: Double, bHz: Double): Boolean {
+        fun isOctaveRelation(
+            aHz: Double,
+            bHz: Double,
+        ): Boolean {
             if (aHz <= 0.0 || bHz <= 0.0) return false
             val semitones = semitoneDistance(aHz, bHz)
             return abs(semitones - 12.0) <= 1.0 || abs(semitones - 24.0) <= 1.0
@@ -160,9 +165,7 @@ class NeuralArbitrator {
      * Returns the most recent neural result if it is still within the
      * [RESULT_TTL_FRAMES] window, or `null` if stale / unavailable.
      */
-    fun currentResult(): NeuralPitchResult? {
-        return if (resultAgeFrames <= RESULT_TTL_FRAMES) lastResult else null
-    }
+    fun currentResult(): NeuralPitchResult? = if (resultAgeFrames <= RESULT_TTL_FRAMES) lastResult else null
 
     // --- Arbitration ---------------------------------------------------------
 
@@ -270,13 +273,14 @@ class NeuralArbitrator {
         }
 
         val previous = lastFrequencyForConsistency
-        consistencyFrames = if (previous != null &&
-            semitoneDistance(previous, neuralFrequencyHz) <= 0.5
-        ) {
-            consistencyFrames + 1
-        } else {
-            1
-        }
+        consistencyFrames =
+            if (previous != null &&
+                semitoneDistance(previous, neuralFrequencyHz) <= 0.5
+            ) {
+                consistencyFrames + 1
+            } else {
+                1
+            }
         lastFrequencyForConsistency = neuralFrequencyHz
     }
 }
