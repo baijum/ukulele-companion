@@ -829,6 +829,7 @@
     <string name="melody_added_feedback">%s eklendi</string>
     <string name="melody_mode_linear">Doğrusal</string>
     <string name="melody_mode_step_sequencer">Adım Sıralayıcı</string>
+    <string name="melody_step_sequencer_scratch_hint">Adım ızgarası bir müsvedde — melodiyle birlikte kaydedilmez.</string>
     <string name="melody_duration_whole">tam</string>
     <string name="melody_duration_half">yarım</string>
     <string name="melody_duration_quarter">dörtlük</string>

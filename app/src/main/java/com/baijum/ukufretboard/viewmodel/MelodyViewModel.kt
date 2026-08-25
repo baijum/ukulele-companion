@@ -250,10 +250,12 @@ class MelodyViewModel : ViewModel() {
                 octave = state.currentOctave,
                 duration = state.selectedDuration,
             )
+        // The step grid is scratch state and is never persisted with the melody
+        // (see saveMelody / Melody model), so grid edits must not mark the
+        // document dirty — otherwise Save promises to store a grid it discards.
         _uiState.update {
             it.copy(
                 steps = it.steps.toMutableList().apply { set(index, note) },
-                hasUnsavedChanges = true,
             )
         }
         playNote(pitchClass, state.currentOctave)
@@ -262,10 +264,10 @@ class MelodyViewModel : ViewModel() {
     fun clearStep(index: Int) {
         val state = _uiState.value
         if (index !in state.steps.indices) return
+        // Scratch-state grid edit — do not mark the document dirty (see setStep).
         _uiState.update {
             it.copy(
                 steps = it.steps.toMutableList().apply { set(index, null) },
-                hasUnsavedChanges = true,
             )
         }
     }

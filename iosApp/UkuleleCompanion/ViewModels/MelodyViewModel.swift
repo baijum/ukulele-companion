@@ -207,15 +207,17 @@ final class MelodyViewModel: ObservableObject {
             duration: selectedDuration,
             isRest: false
         )
+        // The step grid is scratch state and is never persisted with the melody
+        // (see saveMelody / MelodyData), so grid edits must not mark the document
+        // dirty — otherwise Save promises to store a grid it discards.
         steps[index] = note
-        hasUnsavedChanges = true
         tonePlayer.playNote(pitchClass: Int32(pitchClass))
     }
 
     func clearStep(index: Int) {
         guard index >= 0 && index < steps.count else { return }
+        // Scratch-state grid edit — do not mark the document dirty (see setStep).
         steps[index] = nil
-        hasUnsavedChanges = true
     }
 
     func expandSteps() {
@@ -254,10 +256,10 @@ final class MelodyViewModel: ObservableObject {
     }
 
     func clearAllSteps() {
+        // Scratch-state grid edit — do not mark the document dirty (see setStep).
         for i in 0..<steps.count {
             steps[i] = nil
         }
-        hasUnsavedChanges = true
     }
 
     private func showFeedback(_ text: String) {

@@ -829,6 +829,7 @@
     <string name="melody_added_feedback">%s hinzugefügt</string>
     <string name="melody_mode_linear">Linear</string>
     <string name="melody_mode_step_sequencer">Step-Sequenzer</string>
+    <string name="melody_step_sequencer_scratch_hint">Das Schrittraster ist ein Notizzettel – wird nicht mit der Melodie gespeichert.</string>
     <string name="melody_duration_whole">ganz</string>
     <string name="melody_duration_half">halb</string>
     <string name="melody_duration_quarter">viertel</string>

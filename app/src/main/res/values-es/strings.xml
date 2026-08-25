@@ -830,6 +830,7 @@
     <string name="melody_added_feedback">%s añadido</string>
     <string name="melody_mode_linear">Lineal</string>
     <string name="melody_mode_step_sequencer">Secuenciador</string>
+    <string name="melody_step_sequencer_scratch_hint">La cuadrícula de pasos es un borrador: no se guarda con la melodía.</string>
     <string name="melody_duration_whole">redonda</string>
     <string name="melody_duration_half">blanca</string>
     <string name="melody_duration_quarter">negra</string>

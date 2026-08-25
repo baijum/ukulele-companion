@@ -828,6 +828,7 @@
     <string name="melody_added_feedback">%s 추가됨</string>
     <string name="melody_mode_linear">순차</string>
     <string name="melody_mode_step_sequencer">스텝 시퀀서</string>
+    <string name="melody_step_sequencer_scratch_hint">스텝 그리드는 임시 메모이며 멜로디와 함께 저장되지 않습니다.</string>
     <string name="melody_duration_whole">온음표</string>
     <string name="melody_duration_half">2분음표</string>
     <string name="melody_duration_quarter">4분음표</string>

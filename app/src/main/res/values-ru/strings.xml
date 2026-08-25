@@ -831,6 +831,7 @@
     <string name="melody_added_feedback">Добавлено: %s</string>
     <string name="melody_mode_linear">Линейный</string>
     <string name="melody_mode_step_sequencer">Секвенсор</string>
+    <string name="melody_step_sequencer_scratch_hint">Сетка шагов — черновик и не сохраняется вместе с мелодией.</string>
     <string name="melody_duration_whole">целая</string>
     <string name="melody_duration_half">половинная</string>
     <string name="melody_duration_quarter">четвертная</string>

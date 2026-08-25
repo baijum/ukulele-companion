@@ -828,6 +828,7 @@
     <string name="melody_added_feedback">%s を追加</string>
     <string name="melody_mode_linear">リニア</string>
     <string name="melody_mode_step_sequencer">ステップシーケンサー</string>
+    <string name="melody_step_sequencer_scratch_hint">ステップグリッドはスクラッチ用で、メロディーと一緒には保存されません。</string>
     <string name="melody_duration_whole">全音符</string>
     <string name="melody_duration_half">2分音符</string>
     <string name="melody_duration_quarter">4分音符</string>

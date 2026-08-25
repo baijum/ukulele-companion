@@ -829,6 +829,7 @@
     <string name="melody_added_feedback">%s toegevoegd</string>
     <string name="melody_mode_linear">Lineair</string>
     <string name="melody_mode_step_sequencer">Stappensequencer</string>
+    <string name="melody_step_sequencer_scratch_hint">Het stappenraster is een kladblok — wordt niet met de melodie opgeslagen.</string>
     <string name="melody_duration_whole">heel</string>
     <string name="melody_duration_half">half</string>
     <string name="melody_duration_quarter">kwart</string>

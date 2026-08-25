@@ -939,6 +939,7 @@
     <string name="melody_added_feedback">Added %s</string>
     <string name="melody_mode_linear">Linear</string>
     <string name="melody_mode_step_sequencer">Step Sequencer</string>
+    <string name="melody_step_sequencer_scratch_hint">Step grid is a scratch pad — not saved with the melody.</string>
     <string name="melody_duration_whole">whole</string>
     <string name="melody_duration_half">half</string>
     <string name="melody_duration_quarter">quarter</string>

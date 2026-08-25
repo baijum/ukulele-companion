@@ -2151,10 +2151,10 @@
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/ui/melody/MelodyNotepadView.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="55" column="24" source="standard:multiline-expression-wrapping" />
-        <error line="68" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="118" column="28" source="standard:multiline-expression-wrapping" />
-        <error line="127" column="28" source="standard:multiline-expression-wrapping" />
+        <error line="56" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="69" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="119" column="28" source="standard:multiline-expression-wrapping" />
+        <error line="128" column="28" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/ui/melody/MelodyStepSequencer.kt">
         <error line="60" column="24" source="standard:multiline-expression-wrapping" />

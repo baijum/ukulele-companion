@@ -828,6 +828,7 @@
     <string name="melody_added_feedback">已添加 %s</string>
     <string name="melody_mode_linear">线性</string>
     <string name="melody_mode_step_sequencer">步进音序器</string>
+    <string name="melody_step_sequencer_scratch_hint">步进网格是草稿，不会随旋律一起保存。</string>
     <string name="melody_duration_whole">全音符</string>
     <string name="melody_duration_half">二分音符</string>
     <string name="melody_duration_quarter">四分音符</string>
