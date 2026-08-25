@@ -3,6 +3,7 @@ import shared
 
 struct MelodyNotepadView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @EnvironmentObject var settings: SettingsViewModel
     @StateObject private var viewModel = MelodyViewModel()
     @State private var showingSaveDialog = false
     @State private var saveName = ""
@@ -71,11 +72,23 @@ struct MelodyNotepadView: View {
                 renameName = ""
             }
         }
+        .onAppear {
+            viewModel.setNoiseGateRms(Self.filteringToRms(settings.noiseGateFiltering))
+        }
+        .onChange(of: settings.noiseGateFiltering) { newVal in
+            viewModel.setNoiseGateRms(Self.filteringToRms(newVal))
+        }
         .onDisappear {
             if viewModel.isRecording {
                 viewModel.stopRecording()
             }
         }
+    }
+
+    // Mirrors SoundSettings.filteringToRms / TunerView so melody recording uses
+    // the same noise-gate setting as the tuner and pitch monitor.
+    private static func filteringToRms(_ filtering: Float) -> Float {
+        0.002 + filtering * 0.051
     }
 
     private var modeToggle: some View {
@@ -467,7 +480,10 @@ struct MelodyNotepadView: View {
                         .font(.caption)
                 }
                 .buttonStyle(.bordered)
-                .accessibilityLabel(viewModel.steps.count >= MelodyViewModel.stepCount16 ? "Shrink to 8 steps" : "Expand to 16 steps")
+                .accessibilityLabel(
+                    viewModel.steps.count >= MelodyViewModel.stepCount16
+                        ? "Shrink to 8 steps" : "Expand to 16 steps"
+                )
             }
         }
         .sheet(item: Binding(
