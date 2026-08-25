@@ -234,6 +234,10 @@ final class SetlistViewModelTests: XCTestCase {
 
     @MainActor
     func testPurgeDeletedSongsPersistsTheCleanup() {
+        // Seed the library so the launch-time reconciliation (#602) keeps "b":
+        // setlist song IDs must resolve in the songbook, otherwise init strips
+        // them as dead IDs.
+        seedLibrary(ids: ["a", "b"])
         let vm = SetlistViewModel()
         vm.create(name: "Gig")
         let id = vm.setlists.first!.id
