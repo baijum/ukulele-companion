@@ -52,10 +52,60 @@ class PracticeRoutineGeneratorTest {
     }
 
     @Test
-    fun titleIncludesDurationAndLevel() {
+    fun titleIncludesRealisedDurationAndLevel() {
         val routine = PracticeRoutineGenerator.generate(durationMinutes = 30, skillLevel = SkillLevel.ADVANCED)
-        assertTrue(routine.title.contains("30"), "Title should include duration")
+        // Title must reflect the realised total, never the requested duration,
+        // so the header can never overstate the routine (#609).
+        assertTrue(
+            routine.title.contains("${routine.totalMinutes}"),
+            "Title '${routine.title}' should include realised total ${routine.totalMinutes}",
+        )
         assertTrue(routine.title.contains("Advanced"), "Title should include skill level")
+    }
+
+    @Test
+    fun singleFocusAreaFillsRequestedDuration() {
+        // Regression for #609: selecting one focus area used to drain the type
+        // pool, so a "15-Minute" routine delivered only ~7 minutes. The pool
+        // now refills, so the routine fills the requested time and the title
+        // matches the realised total.
+        val routine = PracticeRoutineGenerator.generate(
+            durationMinutes = 15,
+            skillLevel = SkillLevel.BEGINNER,
+            focusAreas = setOf(FocusArea.CHORDS),
+        )
+
+        // The title must exactly match the realised total (no overstating).
+        assertEquals(
+            routine.steps.sumOf { it.durationMinutes },
+            routine.totalMinutes,
+            "totalMinutes should equal the sum of step durations",
+        )
+        assertTrue(
+            routine.title.contains("${routine.totalMinutes}"),
+            "Title '${routine.title}' should advertise the realised ${routine.totalMinutes} minutes",
+        )
+
+        // The routine must fill close to the requested 15 minutes, not the old
+        // 7-minute (warm-up + one drill + cool-down) result.
+        assertTrue(
+            routine.totalMinutes >= 14,
+            "Single focus area at 15 min should fill the duration, got ${routine.totalMinutes}",
+        )
+
+        // The focused exercises (everything but warm-up and cool-down) should
+        // all be chord drills, repeating to fill the time.
+        val exercises = routine.steps.filter {
+            it.type != StepType.WARM_UP && it.type != StepType.FREE_PLAY
+        }
+        assertTrue(
+            exercises.size > 1,
+            "Pool should refill so exercises repeat, got ${exercises.size}",
+        )
+        assertTrue(
+            exercises.all { it.type == StepType.CHORD_DRILL },
+            "Only Chords was selected, so every exercise should be a chord drill",
+        )
     }
 
     // --- Skill levels ---

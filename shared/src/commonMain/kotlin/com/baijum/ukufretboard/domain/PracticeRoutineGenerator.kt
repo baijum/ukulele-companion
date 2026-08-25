@@ -41,10 +41,18 @@ object PracticeRoutineGenerator {
         val exerciseCount = (remainingTime / 3).coerceIn(2, 5)
         val timePerExercise = remainingTime / exerciseCount
 
-        val availableTypes = focusAreas.flatMap { it.stepTypes }.distinct().toMutableList()
+        val focusTypes = focusAreas.flatMap { it.stepTypes }.distinct()
+        // Draw from a pool that refills once exhausted, so selecting fewer
+        // focus areas than exerciseCount still fills the requested time
+        // (types repeat) instead of yielding a routine shorter than the title
+        // advertises. See #609.
+        val availableTypes = focusTypes.toMutableList()
 
         repeat(exerciseCount) {
-            if (availableTypes.isEmpty()) return@repeat
+            if (focusTypes.isEmpty()) return@repeat
+            if (availableTypes.isEmpty()) {
+                availableTypes.addAll(focusTypes)
+            }
             val typeIndex = random.nextInt(availableTypes.size)
             val type = availableTypes.removeAt(typeIndex)
             steps.add(generateStep(type, timePerExercise, skillLevel, random))
@@ -61,10 +69,14 @@ object PracticeRoutineGenerator {
             ),
         )
 
+        val totalMinutes = steps.sumOf { it.durationMinutes }
+
         return PracticeRoutine(
-            title = "${durationMinutes}-Minute ${skillLevel.label} Practice",
+            // Title from the realised total, never the requested duration, so
+            // the header can never overstate the routine. See #609.
+            title = "$totalMinutes-Minute ${skillLevel.label} Practice",
             steps = steps,
-            totalMinutes = steps.sumOf { it.durationMinutes },
+            totalMinutes = totalMinutes,
         )
     }
 
