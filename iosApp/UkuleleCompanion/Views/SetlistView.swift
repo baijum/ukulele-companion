@@ -114,13 +114,25 @@ struct SetlistDetailView: View {
                     .accessibilityLabel("\(index + 1). \(song.title.isEmpty ? "Untitled" : song.title)")
                 }
                 .onMove { source, destination in
-                    guard let from = source.first else { return }
+                    guard let from = source.first, from < setlistSongs.count else { return }
                     let to = destination > from ? destination - 1 : destination
-                    viewModel.moveSong(setlistId: currentSetlist.id, from: from, to: to)
+                    // Resolve the song ID from the RENDERED row and move by
+                    // offset; the ViewModel re-keys to the persisted array so a
+                    // shorter rendered list (compactMap drops unresolved IDs)
+                    // can't offset the wrong song (issue #602).
+                    let songId = setlistSongs[from].id
+                    viewModel.moveSong(
+                        setlistId: currentSetlist.id,
+                        songId: songId,
+                        offset: to - from
+                    )
                 }
                 .onDelete { offsets in
-                    for index in offsets {
-                        let songId = currentSetlist.songIds[index]
+                    // Resolve from the RENDERED row, not currentSetlist.songIds[index]:
+                    // an unresolvable ID makes songIds longer than the rendered
+                    // list, so a raw-array index would delete the wrong song (#602).
+                    for index in offsets where index < setlistSongs.count {
+                        let songId = setlistSongs[index].id
                         viewModel.removeSong(setlistId: currentSetlist.id, songId: songId)
                     }
                 }
