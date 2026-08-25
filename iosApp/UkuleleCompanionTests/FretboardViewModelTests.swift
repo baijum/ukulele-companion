@@ -173,6 +173,6 @@ final class FretboardViewModelTests: XCTestCase {
         XCTAssertEqual(vm.capoFret, 0)
 
         vm.setCapoFret(20)
-        XCTAssertEqual(vm.capoFret, FretboardViewModel.fretCount - 1)
+        XCTAssertEqual(vm.capoFret, vm.fretCount - 1)
     }
 }
