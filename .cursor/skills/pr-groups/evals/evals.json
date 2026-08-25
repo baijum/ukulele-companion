@@ -1,0 +1,61 @@
+{
+  "skill_name": "pr-groups",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Group the open P1 issues into sets I can each work on in a single PR.",
+      "expected_output": "Cohesive groups, each with a platform tag (shared/android/ios/both), the files it touches, a merge order, and a parallelism verdict. Shared-module fixes are tagged [shared] and ordered before platform-specific work. iOS-only parity divergences (Android already guards) are tagged [ios].",
+      "files": [],
+      "expectations": [
+        "Every group carries a platform tag of shared, android, ios, or both",
+        "Every group names the files it touches, resolved to their real path (shared/src/commonMain, app/src/main, or iosApp/)",
+        "A fix that lives in shared/src/commonMain is identified as fixing both platforms in one edit and ordered shared-before-platform",
+        "An explicit merge order is given, marking which groups are parallel (disjoint files)",
+        "The long pole is named, with a statement of whether the rest ships without it"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "Which of these can I do in one PR: 607, 608? (skill argument: 607,608)",
+      "expected_output": "One group containing both, tagged [ios], justified as the same parity-divergence root cause — iOS restore/reset destroys data that Android already guards — even though they sit in different files (LearnRepository.swift and PracticeTimerRepository.swift).",
+      "expectations": [
+        "#607 and #608 are placed in a single group",
+        "The justification is the shared root cause: an iOS restore/reset path overwrites or deletes data that Android's equivalent path preserves",
+        "The group is tagged as iOS-only (both fixes are in iosApp/ Swift files; Android is already correct)",
+        "Both files are named: iosApp/UkuleleCompanion/Repositories/LearnRepository.swift and .../PracticeTimerRepository.swift"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Is issue 609 one PR on its own or can it be batched with the iOS restore bugs 607 and 608? (skill argument: 607,608,609)",
+      "expected_output": "Two groups: #609 alone tagged [shared] because it is a fix in shared/src/commonMain PracticeRoutineGenerator.kt that fixes both platforms at once, and #607+#608 as a separate [ios] parity group. #609 is not merged with the iOS bugs — different surface, different root cause.",
+      "expectations": [
+        "#609 is placed in its own group, separate from #607/#608",
+        "#609 is identified as a shared-module fix (shared/src/commonMain/.../PracticeRoutineGenerator.kt) that lands once and fixes both platforms",
+        "#607 and #608 remain grouped together as the iOS parity group",
+        "The shared-module group is ordered before or independent of the platform-specific group, not merged into it"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Batch the open issues in milestone 9.9.9 into PRs.",
+      "expected_output": "A statement that no open issues carry that milestone (milestones are rarely set in this repo), and no groups — must not fall back to the whole tracker.",
+      "expectations": [
+        "Response states that the milestone matched no open issues",
+        "Response contains no groups",
+        "Response does not fall back to grouping all open issues"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I want to launch concurrent sessions on the open P0 issues rather than review a plan — give me the waves.",
+      "expected_output": "Bare paste-able wave lines containing only issue numbers, with every group in a wave touching files no other group in that wave touches.",
+      "expectations": [
+        "Response contains 'Wave N:' lines with comma-separated issue numbers",
+        "No issue number appears in more than one wave",
+        "Groups sharing a file never appear in the same wave",
+        "The wave lines contain no prose or commands mixed in"
+      ]
+    }
+  ]
+}
