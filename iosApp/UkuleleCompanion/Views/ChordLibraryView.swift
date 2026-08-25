@@ -5,6 +5,7 @@ struct ChordLibraryView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @StateObject private var viewModel = ChordLibraryViewModel()
     @EnvironmentObject private var favoritesVM: FavoritesViewModel
+    @EnvironmentObject private var settings: SettingsViewModel
     var onApplyVoicing: ((ChordVoicing, Int32, ChordFormula) -> Void)?
     var fretboardVM: FretboardViewModel?
     @State private var shareInfo: ShareChordInfo?
@@ -44,6 +45,12 @@ struct ChordLibraryView: View {
         }
         .navigationTitle("Chord Library")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            viewModel.setTuning(tuningStrings)
+            viewModel.setAllowMutedStrings(settings.allowMuted)
+        }
+        .onChange(of: settings.selectedTuning) { _ in viewModel.setTuning(tuningStrings) }
+        .onChange(of: settings.allowMuted) { newValue in viewModel.setAllowMutedStrings(newValue) }
         .onChange(of: viewModel.selectedFormula?.symbol) { _ in inversionFilter = nil }
         .onChange(of: viewModel.selectedRoot) { _ in
             inversionFilter = nil
@@ -179,6 +186,7 @@ struct ChordLibraryView: View {
         Button(action: { withAnimation(reduceMotion ? nil : .default) { filtersExpanded.toggle() } }) {
             HStack {
                 Image(systemName: "line.3.horizontal.decrease.circle")
+                    .accessibilityHidden(true)
                 if filtersExpanded {
                     Text("Filters")
                 } else {
@@ -243,7 +251,7 @@ struct ChordLibraryView: View {
             }
             .accessibilityLabel("Transpose down one semitone")
 
-            Text(transposeSemitones == 0 ? "Original" : (transposeSemitones > 0 ? "+\(transposeSemitones)" : "\(transposeSemitones)"))
+            Text(transposeLabel)
                 .font(.subheadline.bold())
                 .frame(minWidth: 60)
                 .multilineTextAlignment(.center)
@@ -335,7 +343,7 @@ struct ChordLibraryView: View {
         guard let filter = inversionFilter, let formula = viewModel.selectedFormula else {
             return viewModel.voicings
         }
-        let tuning = Self.tuningStrings
+        let tuning = tuningStrings
         return viewModel.voicings.filter { voicing in
             let fretList = voicing.fretInts
             let kotlinFrets = fretList.map { KotlinInt(int: Int32($0)) }
@@ -351,7 +359,7 @@ struct ChordLibraryView: View {
 
     private func inversionCount(_ inv: ChordInfo.Inversion) -> Int {
         guard let formula = viewModel.selectedFormula else { return 0 }
-        let tuning = Self.tuningStrings
+        let tuning = tuningStrings
         return viewModel.voicings.filter { voicing in
             let fretList = voicing.fretInts
             let kotlinFrets = fretList.map { KotlinInt(int: Int32($0)) }
@@ -461,7 +469,7 @@ struct ChordLibraryView: View {
                                 frets: kotlinFrets,
                                 rootPitchClass: viewModel.selectedRoot,
                                 formula: formula,
-                                tuning: Self.tuningStrings
+                                tuning: tuningStrings
                             )
                             return inv.label
                         }()
@@ -500,7 +508,9 @@ struct ChordLibraryView: View {
                                         .frame(minWidth: 44, minHeight: 44)
                                 }
                                 .buttonStyle(.plain)
-                                .accessibilityLabel(isFav ? "Manage \(invLabel) favorites" : "Add \(invLabel) to favorites")
+                                .accessibilityLabel(isFav
+                                    ? "Manage \(invLabel) favorites"
+                                    : "Add \(invLabel) to favorites")
 
                                 Spacer()
 
@@ -561,11 +571,18 @@ struct ChordLibraryView: View {
         [.triad, .seventh, .suspended, .extended]
     }
 
-    private static let tuningStrings: [shared.UkuleleString] = UkuleleTuning.highG.asUkuleleStrings
+    private var transposeLabel: String {
+        if transposeSemitones == 0 { return "Original" }
+        return transposeSemitones > 0 ? "+\(transposeSemitones)" : "\(transposeSemitones)"
+    }
+
+    // Resolved from the user's selected tuning (#576) rather than hardcoded
+    // High-G; also pushed into the view model so voicings match.
+    private var tuningStrings: [shared.UkuleleString] { settings.resolvedTuning.asUkuleleStrings }
 
     private func bassStringIndex(_ voicing: ChordVoicing) -> Int? {
         let frets = voicing.fretInts.map { KotlinInt(int: Int32($0)) }
-        return Int(ChordInfo.shared.findBassStringIndex(frets: frets, tuning: Self.tuningStrings))
+        return Int(ChordInfo.shared.findBassStringIndex(frets: frets, tuning: tuningStrings))
     }
 }
 

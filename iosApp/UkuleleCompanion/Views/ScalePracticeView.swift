@@ -4,6 +4,7 @@ import shared
 struct ScalePracticeView: View {
     @StateObject private var viewModel = ScalePracticeViewModel()
     @EnvironmentObject var learnVM: LearnViewModel
+    @EnvironmentObject var settings: SettingsViewModel
 
     var body: some View {
         ScrollView {
@@ -157,7 +158,7 @@ struct ScalePracticeView: View {
         let scaleSet = Set(viewModel.scaleNotes)
         let currentPC = viewModel.currentNoteIndex >= 0 && viewModel.currentNoteIndex < viewModel.scaleNotes.count
             ? viewModel.scaleNotes[viewModel.currentNoteIndex] : -1
-        let fretRange = viewModel.fretPosition.range(lastFret: 12)
+        let fretRange = viewModel.fretPosition.range(lastFret: settings.lastFret)
         let tuning: [Int] = [7, 0, 4, 9] // G C E A (High-G)
 
         VStack(spacing: 0) {
@@ -172,8 +173,11 @@ struct ScalePracticeView: View {
                             Rectangle()
                                 .stroke(Color.secondary.opacity(0.3), lineWidth: 0.5)
                             if isScale {
+                                let dotColor = isCurrent
+                                    ? Color.accentColor
+                                    : (isRoot ? Color.orange : Color.blue.opacity(0.6))
                                 Circle()
-                                    .fill(isCurrent ? Color.accentColor : (isRoot ? Color.orange : Color.blue.opacity(0.6)))
+                                    .fill(dotColor)
                                     .frame(width: 14, height: 14)
                             }
                         }
@@ -217,7 +221,12 @@ struct ScalePracticeView: View {
                             .background(quizBg(index: index, correctIndex: Int(q.correctIndex)))
                             .cornerRadius(8)
                         }
-                        .accessibilityValue(viewModel.quizShowResult ? (index == Int(q.correctIndex) ? "Correct answer" : (index == viewModel.quizSelectedAnswer ? "Your answer, incorrect" : "")) : "")
+                        .accessibilityValue(answerAccessibilityValue(
+                            showResult: viewModel.quizShowResult,
+                            index: index,
+                            correctIndex: Int(q.correctIndex),
+                            selectedAnswer: viewModel.quizSelectedAnswer
+                        ))
                     }
                     .padding(.horizontal)
                 }
@@ -275,7 +284,12 @@ struct ScalePracticeView: View {
                             .background(earBg(index: index, correctIndex: Int(q.correctIndex)))
                             .cornerRadius(8)
                         }
-                        .accessibilityValue(viewModel.earShowResult ? (index == Int(q.correctIndex) ? "Correct answer" : (index == viewModel.earSelectedAnswer ? "Your answer, incorrect" : "")) : "")
+                        .accessibilityValue(answerAccessibilityValue(
+                            showResult: viewModel.earShowResult,
+                            index: index,
+                            correctIndex: Int(q.correctIndex),
+                            selectedAnswer: viewModel.earSelectedAnswer
+                        ))
                     }
                     .padding(.horizontal)
                 }
@@ -289,6 +303,17 @@ struct ScalePracticeView: View {
                     .buttonStyle(.borderedProminent)
             }
         }
+    }
+
+    private func answerAccessibilityValue(
+        showResult: Bool,
+        index: Int,
+        correctIndex: Int,
+        selectedAnswer: Int?
+    ) -> String {
+        guard showResult else { return "" }
+        if index == correctIndex { return "Correct answer" }
+        return index == selectedAnswer ? "Your answer, incorrect" : ""
     }
 
     private func quizBg(index: Int, correctIndex: Int) -> Color {

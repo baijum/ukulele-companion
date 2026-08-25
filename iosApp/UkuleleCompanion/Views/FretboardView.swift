@@ -14,7 +14,7 @@ struct FretboardView: View {
     private let doubleMarkerFret = 12
 
     private var fretOrder: [Int] {
-        let range = Array(0..<FretboardViewModel.fretCount)
+        let range = Array(0..<viewModel.fretCount)
         return leftHanded ? range.reversed() : range
     }
 
@@ -93,7 +93,7 @@ struct FretboardView: View {
                 drawFretboard(context: context, size: size)
             }
             .frame(
-                width: CGFloat(FretboardViewModel.fretCount) * cellSize,
+                width: CGFloat(viewModel.fretCount) * cellSize,
                 height: CGFloat(FretboardViewModel.stringCount) * cellSize
             )
             .accessibilityHidden(true)
@@ -105,10 +105,12 @@ struct FretboardView: View {
                             let noteInfo = viewModel.getNoteAt(stringIndex: stringIndex, fret: fret)
                             let isBlockedByCapo = viewModel.capoFret > 0 && fret >= 1 && fret <= viewModel.capoFret
                             let isCapoFret = viewModel.capoFret > 0 && fret == viewModel.capoFret
+                            let inPositionRange = viewModel.scaleOverlay.positionFretRange.map {
+                                $0.contains(fret)
+                            } ?? true
                             let inScale = viewModel.scaleOverlay.enabled
                                 && viewModel.scaleOverlay.scaleNotes.contains(noteInfo.pitchClass)
-                                && (viewModel.scaleOverlay.positionFretRange == nil
-                                    || viewModel.scaleOverlay.positionFretRange!.contains(fret))
+                                && inPositionRange
                             let isScaleRoot = viewModel.scaleOverlay.enabled
                                 && noteInfo.pitchClass == viewModel.scaleOverlay.root
 
@@ -166,7 +168,7 @@ struct FretboardView: View {
 
     private func drawFretboard(context: GraphicsContext, size: CGSize) {
         let strings = FretboardViewModel.stringCount
-        let frets = FretboardViewModel.fretCount
+        let frets = viewModel.fretCount
 
         for s in 0..<strings {
             let y = CGFloat(s) * cellSize + cellSize / 2

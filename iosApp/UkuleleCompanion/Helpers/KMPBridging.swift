@@ -98,6 +98,32 @@ extension UkuleleTuning {
     }
 }
 
+// MARK: - Persisted fretboard preferences
+
+/// Resolves persisted fretboard settings for contexts that build their state in
+/// `init` (before a `SettingsViewModel` is reachable through the environment),
+/// e.g. `CapoCalculatorView`, `VoiceLeadingView`, `ProgressionPracticeView`, and
+/// helper views presented in popovers. Views that already hold a
+/// `SettingsViewModel` should read it directly (`settings.resolvedTuning`,
+/// `settings.allowMuted`) so they react to live changes.
+///
+/// Keys match `SettingsRepository`; kept in sync manually since that file is
+/// owned by a separate change.
+enum FretboardPreferences {
+    private static var defaults: UserDefaults {
+        UserDefaults(suiteName: "app_settings") ?? .standard
+    }
+
+    /// The user's selected tuning, resolved from its persisted label (#576).
+    static var tuning: UkuleleTuning {
+        let label = defaults.string(forKey: "selected_tuning") ?? "High-G (Standard)"
+        return UkuleleTuning.entries.first { $0.label == label } ?? .highG
+    }
+
+    /// Whether chord generation may include voicings with a muted string (#593).
+    static var allowMuted: Bool { defaults.bool(forKey: "allow_muted") }
+}
+
 // MARK: - ChordVoicing convenience
 
 extension ChordVoicing {

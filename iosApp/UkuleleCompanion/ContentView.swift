@@ -129,6 +129,10 @@ struct ContentView: View {
         .environmentObject(melodyVM)
         .environmentObject(progressionsVM)
         .environmentObject(practiceTimerVM)
+        // Root injection so every ChordDiagramView tracks Left-Handed (#592) and
+        // the selected tuning (#576) live, including inside sheets/covers.
+        .environment(\.leftHanded, settingsVM.leftHanded)
+        .environment(\.diagramStringNames, settingsVM.resolvedTuning.stringNameArray)
         .tint(isHighContrast ? .yellow : nil)
         .sheet(isPresented: $showSettings) { SettingsView() }
         .onChange(of: showSettings) { isShowing in
@@ -158,6 +162,10 @@ struct ContentView: View {
         .environmentObject(melodyVM)
         .environmentObject(progressionsVM)
         .environmentObject(practiceTimerVM)
+        // Root injection so every ChordDiagramView tracks Left-Handed (#592) and
+        // the selected tuning (#576) live, including inside sheets/covers.
+        .environment(\.leftHanded, settingsVM.leftHanded)
+        .environment(\.diagramStringNames, settingsVM.resolvedTuning.stringNameArray)
         .tint(isHighContrast ? .yellow : nil)
         .sheet(isPresented: $showSettings) { SettingsView() }
         .onChange(of: showSettings) { isShowing in

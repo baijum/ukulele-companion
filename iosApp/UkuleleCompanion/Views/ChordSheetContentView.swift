@@ -144,12 +144,13 @@ struct ChordDetailPopover: View {
 
     var body: some View {
         if let parsed = ChordNameParser.shared.parse(input: chord) {
-            let tuning = UkuleleTuning.highG.asUkuleleStrings
+            // Follows the selected tuning (#576) and Allow Muted Strings (#593).
+            let tuning = FretboardPreferences.tuning.asUkuleleStrings
             let voicings = VoicingGenerator.shared.generate(
                 rootPitchClass: Int32(parsed.rootPitchClass),
                 formula: parsed.formula,
                 tuning: tuning,
-                allowMutedStrings: false
+                allowMutedStrings: FretboardPreferences.allowMuted
             ).asArray(of: ChordVoicing.self)
 
             VStack(spacing: 8) {
@@ -186,11 +187,11 @@ struct ChordDetailPopover: View {
 
     private func play(voicing: ChordVoicing) {
         let fretList = voicing.fretInts
+        let openPitchClasses = FretboardPreferences.tuning.pitchClassInts
         let pitchClasses = (0..<fretList.count).compactMap { i -> Int32? in
             let fret = fretList[i]
             guard fret >= 0 else { return nil }
-            let openPc = UkuleleTuning.highG.pitchClassInts[i]
-            return (openPc + Int32(fret)) % 12
+            return (openPitchClasses[i] + Int32(fret)) % 12
         }
         tonePlayer.playChord(pitchClasses: pitchClasses, strumDelayMs: 40)
     }

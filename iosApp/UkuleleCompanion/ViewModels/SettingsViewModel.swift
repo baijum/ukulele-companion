@@ -49,6 +49,13 @@ final class SettingsViewModel: ObservableObject {
     @Published var chordColor: String = "theme"
     @Published var showChordDiagramRail: Bool = true
 
+    /// The user's selected tuning resolved from its persisted label, falling
+    /// back to High-G. Mirrors the resolution in `FretboardNoteMapView` and
+    /// `TunerView` so every fretboard/diagram screen reads one source (#576).
+    var resolvedTuning: UkuleleTuning {
+        UkuleleTuning.entries.first { $0.label == selectedTuning } ?? .highG
+    }
+
     private let repository: SettingsRepository
 
     init(repository: SettingsRepository = SettingsRepository()) {

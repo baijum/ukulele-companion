@@ -21,6 +21,17 @@ final class ChordTransitionsViewModel: ObservableObject {
     private var clockTimer: AnyCancellable?
     private var tapTimestamps: [Date] = []
 
+    // Driven from settings so diagrams and playback honour the selected tuning
+    // (#576) and the Allow Muted Strings setting (#593).
+    private var tuning: [shared.UkuleleString] = UkuleleTuning.highG.asUkuleleStrings
+    private var allowMutedStrings: Bool = false
+
+    /// Applies the current tuning and muted-strings settings.
+    func applySettings(tuning: [shared.UkuleleString], allowMuted: Bool) {
+        self.tuning = tuning
+        self.allowMutedStrings = allowMuted
+    }
+
     var currentChord: String {
         currentChordIsFirst ? chord1 : chord2
     }
@@ -106,13 +117,11 @@ final class ChordTransitionsViewModel: ObservableObject {
         let rootPc = parsed.rootPitchClass
         let formula = parsed.formula
 
-        let tuning = UkuleleTuning.highG.asUkuleleStrings
-
         let voicings = VoicingGenerator.shared.generate(
             rootPitchClass: Int32(rootPc),
             formula: formula,
             tuning: tuning,
-            allowMutedStrings: false
+            allowMutedStrings: allowMutedStrings
         ).asArray(of: ChordVoicing.self)
 
         if let voicing = voicings.first {
@@ -120,7 +129,7 @@ final class ChordTransitionsViewModel: ObservableObject {
             let pitchClasses = (0..<fretList.count).compactMap { i -> Int32? in
                 let fret = fretList[i]
                 guard fret >= 0 else { return nil }
-                let openPc = UkuleleTuning.highG.pitchClassInts[i]
+                let openPc = tuning[i].openPitchClass
                 return (openPc + Int32(fret)) % 12
             }
             tonePlayer.playChord(pitchClasses: pitchClasses, strumDelayMs: 40)
@@ -132,13 +141,11 @@ final class ChordTransitionsViewModel: ObservableObject {
         let rootPc = parsed.rootPitchClass
         let formula = parsed.formula
 
-        let tuning = UkuleleTuning.highG.asUkuleleStrings
-
         let voicings = VoicingGenerator.shared.generate(
             rootPitchClass: Int32(rootPc),
             formula: formula,
             tuning: tuning,
-            allowMutedStrings: false
+            allowMutedStrings: allowMutedStrings
         ).asArray(of: ChordVoicing.self)
 
         return voicings.first

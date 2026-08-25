@@ -5,7 +5,6 @@ import shared
 struct ChordDiagramView: View {
     let voicing: ChordVoicing
     var chordName: String?
-    var leftHanded: Bool = false
     var bassStringIndex: Int? = nil
     var commonToneIndices: Set<Int>? = nil
     var capoFret: Int? = nil
@@ -14,6 +13,11 @@ struct ChordDiagramView: View {
     var onFavoriteClick: (() -> Void)? = nil
 
     @Environment(\.horizontalSizeClass) private var sizeClass
+    // Injected once at the app root (ContentView) from SettingsViewModel, so
+    // every one of the 16 call sites tracks the Left-Handed setting (#592) and
+    // the selected tuning (#576) without having to pass either explicitly.
+    @Environment(\.leftHanded) private var leftHanded
+    @Environment(\.diagramStringNames) private var diagramStringNames
 
     private let stringCount = 4
     private let minFretRows = 5
@@ -48,7 +52,9 @@ struct ChordDiagramView: View {
     private var showNut: Bool { startFret == 0 }
 
     private var stringNames: [String] {
-        leftHanded ? ["A", "E", "C", "G"] : ["G", "C", "E", "A"]
+        // Names come from the selected tuning (#576); mirrored for a
+        // left-handed player so the VoiceOver order matches the diagram (#592).
+        leftHanded ? Array(diagramStringNames.reversed()) : diagramStringNames
     }
 
     private var perStringDescriptions: [String] {
@@ -98,7 +104,9 @@ struct ChordDiagramView: View {
                 // Capo bar
                 if let capo = capoFret, capo > 0 {
                     let relCapo = capo - startFret
-                    let capoVisible = showNut ? (relCapo >= 1 && relCapo <= fretRowCount) : (relCapo >= 0 && relCapo < fretRowCount)
+                    let capoVisible = showNut
+                        ? (relCapo >= 1 && relCapo <= fretRowCount)
+                        : (relCapo >= 0 && relCapo < fretRowCount)
                     if capoVisible {
                         let capoY = showNut
                             ? gridTop + (CGFloat(relCapo) - 0.5) * fretSpacing
@@ -238,5 +246,32 @@ struct ChordDiagramView: View {
             path.addLine(to: CGPoint(x: x, y: gt + diagramHeight))
             context.stroke(path, with: .color(.secondary.opacity(0.6)), lineWidth: 1)
         }
+    }
+}
+
+// MARK: - Diagram Environment
+
+/// Whether chord diagrams and fretboards should mirror for a left-handed
+/// player. Set once at the app root from `SettingsViewModel.leftHanded` (#592).
+private struct LeftHandedKey: EnvironmentKey {
+    static let defaultValue = false
+}
+
+/// The per-string names (open-string order) that label chord diagrams. Set once
+/// at the app root from the selected tuning (#576). Carried as `[String]` rather
+/// than `UkuleleTuning` so it is `Sendable` under Swift 6 strict concurrency.
+private struct DiagramStringNamesKey: EnvironmentKey {
+    static let defaultValue = ["G", "C", "E", "A"]
+}
+
+extension EnvironmentValues {
+    var leftHanded: Bool {
+        get { self[LeftHandedKey.self] }
+        set { self[LeftHandedKey.self] = newValue }
+    }
+
+    var diagramStringNames: [String] {
+        get { self[DiagramStringNamesKey.self] }
+        set { self[DiagramStringNamesKey.self] = newValue }
     }
 }

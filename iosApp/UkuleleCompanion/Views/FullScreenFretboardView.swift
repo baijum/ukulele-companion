@@ -8,8 +8,8 @@ struct FullScreenFretboardView: View {
     @State private var showOverlay = true
 
     private let autoHideDelay: TimeInterval = 4.0
-    private var fretCount: Int { FretboardViewModel.fretCount }
-    private let stringNames = ["G", "C", "E", "A"]
+    private var fretCount: Int { fretboardVM.fretCount }
+    private var stringNames: [String] { fretboardVM.tuning.map { $0.name } }
 
     private var fretOrder: [Int] {
         let range = Array(0..<fretCount)
@@ -38,7 +38,9 @@ struct FullScreenFretboardView: View {
                 }
             }
             .onTapGesture { showOverlayBriefly() }
-            .accessibilityHint(UIAccessibility.isVoiceOverRunning ? "Controls remain visible for VoiceOver" : "Double tap to show or hide controls")
+            .accessibilityHint(UIAccessibility.isVoiceOverRunning
+                ? "Controls remain visible for VoiceOver"
+                : "Double tap to show or hide controls")
         }
         .statusBarHidden(true)
         .onAppear { scheduleOverlayHide() }

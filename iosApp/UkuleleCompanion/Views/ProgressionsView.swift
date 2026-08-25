@@ -329,7 +329,10 @@ struct ProgressionsView: View {
                     .controlSize(.small)
 
                     NavigationLink {
-                        CapoCalculatorView(mode: .progression(progression: progression, keyRoot: viewModel.selectedRoot))
+                        CapoCalculatorView(mode: .progression(
+                            progression: progression,
+                            keyRoot: viewModel.selectedRoot
+                        ))
                     } label: {
                         Label("Capo", systemImage: "guitars")
                             .font(.caption2.bold())
@@ -602,6 +605,7 @@ struct CreateProgressionSheet: View {
                                     Image(systemName: "xmark.circle.fill")
                                         .font(.system(size: 10))
                                         .foregroundStyle(.secondary)
+                                        .accessibilityHidden(true)
                                 }
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 5)
@@ -664,7 +668,10 @@ private struct WrappingHStack: Layout {
         }
     }
 
-    private func arrangeSubviews(proposal: ProposedViewSize, subviews: Subviews) -> (size: CGSize, positions: [CGPoint]) {
+    private func arrangeSubviews(
+        proposal: ProposedViewSize,
+        subviews: Subviews
+    ) -> (size: CGSize, positions: [CGPoint]) {
         let maxWidth = proposal.width ?? .infinity
         var positions: [CGPoint] = []
         var x: CGFloat = 0
@@ -821,13 +828,17 @@ private struct ProgressionPlaybackBar: View {
         let rootPc = parsed.rootPitchClass
         let formula = parsed.formula
 
-        let tuning = UkuleleTuning.highG.asUkuleleStrings
+        // Playback follows the selected tuning (#576) and the Allow Muted
+        // Strings setting (#593).
+        let tuningEnum = FretboardPreferences.tuning
+        let tuning = tuningEnum.asUkuleleStrings
+        let openPitchClasses = tuningEnum.pitchClassInts
 
         let voicings = VoicingGenerator.shared.generate(
             rootPitchClass: Int32(rootPc),
             formula: formula,
             tuning: tuning,
-            allowMutedStrings: false
+            allowMutedStrings: FretboardPreferences.allowMuted
         ).asArray(of: ChordVoicing.self)
 
         if let voicing = voicings.first {
@@ -835,8 +846,7 @@ private struct ProgressionPlaybackBar: View {
             let pitchClasses = (0..<fretList.count).compactMap { i -> Int32? in
                 let fret = fretList[i]
                 guard fret >= 0 else { return nil }
-                let openPc = UkuleleTuning.highG.pitchClassInts[i]
-                return (openPc + Int32(fret)) % 12
+                return (openPitchClasses[i] + Int32(fret)) % 12
             }
             tonePlayer.playChord(pitchClasses: pitchClasses, strumDelayMs: 40)
         }
