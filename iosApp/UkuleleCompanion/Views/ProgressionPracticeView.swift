@@ -19,12 +19,6 @@ struct ProgressionPracticeView: View {
     private let tuning: [shared.UkuleleString]
     private let cachedVoicings: [[ChordVoicing]]
 
-    private static let sampleNames = [
-        "uke_c", "uke_csharp", "uke_d", "uke_dsharp",
-        "uke_e", "uke_f", "uke_fsharp", "uke_g",
-        "uke_gsharp", "uke_a", "uke_asharp", "uke_b",
-    ]
-
     init(progression: Progression, keyRoot: Int32) {
         self.progression = progression
         self.keyRoot = keyRoot
@@ -302,12 +296,11 @@ struct ProgressionPracticeView: View {
 
     private func playVoicing(_ voicing: ChordVoicing) {
         let frets = voicing.fretInts
-        for (i, fret) in frets.enumerated() {
-            guard fret >= 0 else { continue }
-            let pc = (tuning[i].openPitchClass + Int32(fret)) % 12
-            tonePlayer.play(Self.sampleNames[Int(pc)])
-            return
+        let pitchClasses = frets.enumerated().compactMap { i, fret -> Int32? in
+            guard fret >= 0 else { return nil }
+            return (tuning[i].openPitchClass + Int32(fret)) % 12
         }
+        tonePlayer.playChord(pitchClasses: pitchClasses, strumDelayMs: 40)
     }
 
     // MARK: - Tap Tempo
