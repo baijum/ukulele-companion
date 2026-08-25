@@ -7,7 +7,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class ChordProExporterTest {
-
     private fun sheet(
         title: String = "Test Song",
         subtitle: String = "",
@@ -206,13 +205,16 @@ class ChordProExporterTest {
 
     @Test
     fun exportCompleteSong() {
-        val result = ChordProExporter.export(sheet(
-            title = "Amazing Grace",
-            artist = "Traditional",
-            key = "G",
-            capo = 2,
-            content = "[Verse]\n[G]Amazing grace",
-        ))
+        val result =
+            ChordProExporter.export(
+                sheet(
+                    title = "Amazing Grace",
+                    artist = "Traditional",
+                    key = "G",
+                    capo = 2,
+                    content = "[Verse]\n[G]Amazing grace",
+                ),
+            )
         assertTrue(result.contains("{title: Amazing Grace}"))
         assertTrue(result.contains("{artist: Traditional}"))
         assertTrue(result.contains("{key: G}"))
@@ -316,14 +318,15 @@ class ChordProExporterTest {
 
     @Test
     fun roundTripPreservesMetadata() {
-        val original = sheet(
-            title = "Round Trip",
-            subtitle = "A Subtitle",
-            artist = "Test Artist",
-            key = "Am",
-            capo = 4,
-            content = "[Am]Hello [G]world",
-        )
+        val original =
+            sheet(
+                title = "Round Trip",
+                subtitle = "A Subtitle",
+                artist = "Test Artist",
+                key = "Am",
+                capo = 4,
+                content = "[Am]Hello [G]world",
+            )
         val exported = ChordProExporter.export(original)
         val reimported = ChordProParser.parse(exported)
         assertEquals("Round Trip", reimported.title)
@@ -336,10 +339,11 @@ class ChordProExporterTest {
 
     @Test
     fun roundTripPreservesSections() {
-        val original = sheet(
-            title = "Sections Test",
-            content = "[Verse]\nLine 1\n[Chorus]\nLine 2\n[Bridge]\nLine 3",
-        )
+        val original =
+            sheet(
+                title = "Sections Test",
+                content = "[Verse]\nLine 1\n[Chorus]\nLine 2\n[Bridge]\nLine 3",
+            )
         val exported = ChordProExporter.export(original)
         val reimported = ChordProParser.parse(exported)
         assertTrue(reimported.content.contains("[Verse]"))
@@ -352,10 +356,11 @@ class ChordProExporterTest {
 
     @Test
     fun roundTripPreservesCustomSectionNames() {
-        val original = sheet(
-            title = "Custom Sections",
-            content = "[Verse 2]\nSecond verse lyrics",
-        )
+        val original =
+            sheet(
+                title = "Custom Sections",
+                content = "[Verse 2]\nSecond verse lyrics",
+            )
         val exported = ChordProExporter.export(original)
         val reimported = ChordProParser.parse(exported)
         assertTrue(reimported.content.contains("[Verse 2]"), "Content: ${reimported.content}")
