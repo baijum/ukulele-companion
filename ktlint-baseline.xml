@@ -1714,15 +1714,15 @@
         <error line="142" column="22" source="standard:multiline-expression-wrapping" />
         <error line="170" column="31" source="standard:multiline-expression-wrapping" />
         <error line="180" column="44" source="standard:multiline-expression-wrapping" />
-        <error line="246" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="270" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="300" column="121" source="standard:max-line-length" />
-        <error line="315" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="341" column="24" source="standard:multiline-expression-wrapping" />
-        <error line="415" column="24" source="standard:multiline-expression-wrapping" />
-        <error line="437" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="537" column="26" source="standard:multiline-expression-wrapping" />
-        <error line="566" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="250" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="274" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="304" column="121" source="standard:max-line-length" />
+        <error line="319" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="345" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="419" column="24" source="standard:multiline-expression-wrapping" />
+        <error line="441" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="541" column="26" source="standard:multiline-expression-wrapping" />
+        <error line="570" column="24" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/ui/SoundSection.kt">
         <error line="77" column="21" source="standard:multiline-expression-wrapping" />
@@ -2973,16 +2973,17 @@
         <error line="106" column="22" source="standard:multiline-expression-wrapping" />
         <error line="129" column="23" source="standard:multiline-expression-wrapping" />
         <error line="182" column="21" source="standard:multiline-expression-wrapping" />
-        <error line="212" column="23" source="standard:multiline-expression-wrapping" />
-        <error line="225" column="23" source="standard:multiline-expression-wrapping" />
-        <error line="239" column="23" source="standard:multiline-expression-wrapping" />
-        <error line="250" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="334" column="24" source="standard:function-signature" />
-        <error line="334" column="41" source="standard:function-signature" />
-        <error line="334" column="65" source="standard:function-signature" />
-        <error line="350" column="25" source="standard:function-signature" />
-        <error line="350" column="42" source="standard:function-signature" />
-        <error line="350" column="66" source="standard:function-signature" />
+        <error line="229" column="21" source="standard:multiline-expression-wrapping" />
+        <error line="244" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="257" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="271" column="23" source="standard:multiline-expression-wrapping" />
+        <error line="282" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="366" column="24" source="standard:function-signature" />
+        <error line="366" column="41" source="standard:function-signature" />
+        <error line="366" column="65" source="standard:function-signature" />
+        <error line="382" column="25" source="standard:function-signature" />
+        <error line="382" column="42" source="standard:function-signature" />
+        <error line="382" column="66" source="standard:function-signature" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/viewmodel/TtsAnnouncementThrottler.kt">
         <error line="22" column="1" source="standard:no-empty-first-line-in-class-body" />

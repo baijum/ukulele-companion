@@ -246,6 +246,39 @@ class SongbookViewModelTest {
         assertTrue(vm.sheets.value.any { it.title == "Original (Copy)" })
     }
 
+    // ── Create vs. update (issue #575) ───────────────────────────────
+
+    @Test
+    fun createSheetAlwaysAddsANewSongAndLeavesTheOpenOneUntouched() {
+        // Issue #575: Songwriter Mode calls into the view model for what is always
+        // a new song, but a song opened earlier in the session is still held in
+        // _currentSheet. saveSheet would infer "update" from it and overwrite the
+        // opened song in place. createSheet must never consult _currentSheet.
+        saveSong("Existing Song")
+        val original = vm.sheets.value.single()
+        // Simulate reaching Songwriter Mode with a song still open (the drawer does
+        // not call closeSheet, so _currentSheet stays non-null).
+        vm.openSheet(original)
+        val openedId = vm.currentSheet.value!!.id
+
+        vm.createSheet(
+            title = "Songwriter Song",
+            artist = "",
+            content = "[C]Brand new content",
+            key = "C Major",
+        )
+
+        // A genuinely new song was added; the opened song was not overwritten.
+        assertEquals(2, vm.sheets.value.size)
+        val songwriter = vm.sheets.value.single { it.title == "Songwriter Song" }
+        assertTrue("new song should have a distinct id", songwriter.id != original.id)
+
+        val preserved = vm.sheets.value.single { it.id == original.id }
+        assertEquals("Existing Song", preserved.title)
+        assertEquals("test content", preserved.content)
+        assertEquals(openedId, preserved.id)
+    }
+
     // ── Import (issue #500) ──────────────────────────────────────────
 
     @Test

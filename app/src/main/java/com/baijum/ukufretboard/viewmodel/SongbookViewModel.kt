@@ -207,6 +207,38 @@ class SongbookViewModel(application: Application) : AndroidViewModel(application
         refresh()
     }
 
+    /**
+     * Creates a brand-new song, always inserting a fresh [ChordSheet].
+     *
+     * Unlike [saveSheet], this never consults [_currentSheet] to decide between
+     * update and create, so a caller outside the Songbook editor screens (e.g.
+     * Songwriter Mode) cannot silently overwrite whatever song happens to still be
+     * open. `_currentSheet` is only a reliable "sheet being edited" signal while an
+     * editor is on screen; any other caller must state its create intent explicitly
+     * (issue #575).
+     */
+    fun createSheet(
+        title: String,
+        artist: String,
+        content: String,
+        key: String = "",
+        capo: Int = 0,
+        strumPatternName: String = "",
+        labels: List<String> = emptyList(),
+    ) {
+        val sheet = ChordSheet(
+            title = title,
+            artist = artist,
+            content = content,
+            key = key,
+            capo = capo,
+            strumPatternName = strumPatternName,
+            labels = labels,
+        )
+        repository.save(sheet)
+        refresh()
+    }
+
     fun updateLabels(labels: List<String>) {
         val sheet = _currentSheet.value ?: return
         val updated = sheet.copy(
