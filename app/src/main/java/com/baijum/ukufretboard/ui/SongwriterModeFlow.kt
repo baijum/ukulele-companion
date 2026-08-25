@@ -184,7 +184,11 @@ fun SongwriterModeFlow(
                         }
                         val finalRoot = ((selectedRoot + transposeSemitones) % 12 + 12) % 12
                         val finalKey = "${Notes.pitchClassToName(finalRoot)} ${selectedScale.label}"
-                        songbookViewModel.saveSheet(
+                        // Always create a NEW song here. Songwriter Mode is never
+                        // editing an existing sheet, but saveSheet would infer that
+                        // from a stale _currentSheet and overwrite the last-opened
+                        // song in place (issue #575).
+                        songbookViewModel.createSheet(
                             title = songTitle.ifBlank { "My Song" },
                             artist = "",
                             content = finalContent,
