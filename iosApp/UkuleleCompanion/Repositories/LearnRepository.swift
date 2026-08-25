@@ -56,9 +56,17 @@ final class LearnRepository {
     }
 
     func clearAll() {
+        // Preserve unlocked achievements: they live in this same suite but are
+        // not "learning progress". Android keeps trophies across Reset All
+        // Progress (achievements live in a separate store there), so read the
+        // list, clear the suite, then write it back to match. See issue #607.
+        let preservedAchievements = defaults.stringArray(forKey: "unlocked_achievements")
         let allKeys = defaults.dictionaryRepresentation().keys
         for key in allKeys {
             defaults.removeObject(forKey: key)
+        }
+        if let preservedAchievements, !preservedAchievements.isEmpty {
+            defaults.set(preservedAchievements, forKey: "unlocked_achievements")
         }
     }
 
