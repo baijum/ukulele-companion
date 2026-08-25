@@ -1,12 +1,12 @@
 package com.baijum.ukufretboard.data
 
+import com.baijum.ukufretboard.domain.ChordSheetTranspose
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class ChordProExporterTest {
-
     private fun sheet(
         title: String = "Test Song",
         subtitle: String = "",
@@ -74,6 +74,23 @@ class ChordProExporterTest {
     fun exportOmitsEmptyKey() {
         val result = ChordProExporter.export(sheet(key = ""))
         assertFalse(result.contains("{key"))
+    }
+
+    // Regression for #591: exporting a transposed preview must move the key with
+    // the content. Mirrors the effectiveSheet construction in SheetViewer.kt so a
+    // +2 preview of a song in C emits {key: D}, not the stale {key: C}.
+    @Test
+    fun exportTransposedPreviewMovesKeyWithContent() {
+        val semitones = 2
+        val original = sheet(key = "C", content = "[C]Amazing grace")
+        val effectiveSheet =
+            original.copy(
+                content = ChordSheetTranspose.transpose(original.content, semitones),
+                key = ChordSheetTranspose.transposeKey(original.key, semitones),
+            )
+        val result = ChordProExporter.export(effectiveSheet)
+        assertTrue(result.contains("{key: D}"), "Key should be transposed to D: $result")
+        assertFalse(result.contains("{key: C}"), "Stale original key must not survive: $result")
     }
 
     // --- export: capo ---
@@ -188,13 +205,16 @@ class ChordProExporterTest {
 
     @Test
     fun exportCompleteSong() {
-        val result = ChordProExporter.export(sheet(
-            title = "Amazing Grace",
-            artist = "Traditional",
-            key = "G",
-            capo = 2,
-            content = "[Verse]\n[G]Amazing grace",
-        ))
+        val result =
+            ChordProExporter.export(
+                sheet(
+                    title = "Amazing Grace",
+                    artist = "Traditional",
+                    key = "G",
+                    capo = 2,
+                    content = "[Verse]\n[G]Amazing grace",
+                ),
+            )
         assertTrue(result.contains("{title: Amazing Grace}"))
         assertTrue(result.contains("{artist: Traditional}"))
         assertTrue(result.contains("{key: G}"))
@@ -298,14 +318,15 @@ class ChordProExporterTest {
 
     @Test
     fun roundTripPreservesMetadata() {
-        val original = sheet(
-            title = "Round Trip",
-            subtitle = "A Subtitle",
-            artist = "Test Artist",
-            key = "Am",
-            capo = 4,
-            content = "[Am]Hello [G]world",
-        )
+        val original =
+            sheet(
+                title = "Round Trip",
+                subtitle = "A Subtitle",
+                artist = "Test Artist",
+                key = "Am",
+                capo = 4,
+                content = "[Am]Hello [G]world",
+            )
         val exported = ChordProExporter.export(original)
         val reimported = ChordProParser.parse(exported)
         assertEquals("Round Trip", reimported.title)
@@ -318,10 +339,11 @@ class ChordProExporterTest {
 
     @Test
     fun roundTripPreservesSections() {
-        val original = sheet(
-            title = "Sections Test",
-            content = "[Verse]\nLine 1\n[Chorus]\nLine 2\n[Bridge]\nLine 3",
-        )
+        val original =
+            sheet(
+                title = "Sections Test",
+                content = "[Verse]\nLine 1\n[Chorus]\nLine 2\n[Bridge]\nLine 3",
+            )
         val exported = ChordProExporter.export(original)
         val reimported = ChordProParser.parse(exported)
         assertTrue(reimported.content.contains("[Verse]"))
@@ -334,10 +356,11 @@ class ChordProExporterTest {
 
     @Test
     fun roundTripPreservesCustomSectionNames() {
-        val original = sheet(
-            title = "Custom Sections",
-            content = "[Verse 2]\nSecond verse lyrics",
-        )
+        val original =
+            sheet(
+                title = "Custom Sections",
+                content = "[Verse 2]\nSecond verse lyrics",
+            )
         val exported = ChordProExporter.export(original)
         val reimported = ChordProParser.parse(exported)
         assertTrue(reimported.content.contains("[Verse 2]"), "Content: ${reimported.content}")
