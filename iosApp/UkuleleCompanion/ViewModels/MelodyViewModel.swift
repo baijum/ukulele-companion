@@ -99,6 +99,13 @@ final class MelodyViewModel: ObservableObject {
     private var loadedMelodyId: String? = nil
     private static let stabilizationThreshold = 3
 
+    // Pre-detection gating constants, matched exactly to Android MelodyViewModel.
+    // `nonisolated` so they can be read from the nonisolated audio-processing
+    // queue closure without forcing it onto the main actor (which would in turn
+    // reject the direct `frameGate.exit()` on the gated paths).
+    private nonisolated static let onsetRatioThreshold: Float = 3.0
+    private nonisolated static let blankingFrames = 2
+
     private let repository: MelodyRepository
     private let tonePlayer = TonePlayer()
     private var playbackTask: Task<Void, Never>?
@@ -113,6 +120,13 @@ final class MelodyViewModel: ObservableObject {
     private var awaitingSilence = false
     private nonisolated(unsafe) var previousFrequency: KotlinDouble? = nil
 
+    // Amplitude gate + onset blanking state (accessed only on the serial
+    // audioProcessingQueue; the frame gate guarantees one frame in flight).
+    // noiseGateRms defaults to Android's 0.04 and is overwritten from settings.
+    private nonisolated(unsafe) var noiseGateRms: Float = 0.04
+    private nonisolated(unsafe) var previousRms: Float = 0
+    private nonisolated(unsafe) var blankingFramesRemaining = 0
+
     init(repository: MelodyRepository = MelodyRepository()) {
         self.repository = repository
         savedMelodies = repository.getAll()
@@ -120,6 +134,12 @@ final class MelodyViewModel: ObservableObject {
 
     var noteNames: [String] {
         Notes.shared.NOTE_NAMES_SHARP.asStrings
+    }
+
+    /// Sets the amplitude gate below which recording frames are discarded,
+    /// fed from the noise-gate setting the same way the tuner is.
+    func setNoiseGateRms(_ rms: Float) {
+        noiseGateRms = rms
     }
 
     func addNote(pitchClass: Int, octave: Int) {
@@ -314,11 +334,53 @@ final class MelodyViewModel: ObservableObject {
         lastDetectedOctave = nil
         awaitingSilence = false
         previousFrequency = nil
+        previousRms = 0
+        blankingFramesRemaining = 0
 
         audioEngine.onBuffer = { [weak self] samples in
             guard let self else { return }
             guard self.frameGate.tryEnter() else { return }
             self.audioProcessingQueue.async {
+                // Pre-detection gating, ported from Android MelodyViewModel so
+                // room noise/speech is not stabilised into notes. RMS is computed
+                // in place (equivalent to PitchDetector.rms) to avoid allocating a
+                // KotlinFloatArray on gated frames in the audio hot path.
+                let currentRms = sqrt(
+                    samples.reduce(Float(0)) { $0 + $1 * $1 } / Float(max(samples.count, 1))
+                )
+                if self.previousRms > 0 && currentRms / self.previousRms > Self.onsetRatioThreshold {
+                    self.blankingFramesRemaining = Self.blankingFrames
+                }
+                self.previousRms = currentRms
+
+                // Onset blanking: discard the frames right after a sudden RMS jump,
+                // where a pluck attack is broadband and YIN reports garbage.
+                if self.blankingFramesRemaining > 0 {
+                    self.blankingFramesRemaining -= 1
+                    // FrameGate is a shared (KMP) non-Sendable type, so release it
+                    // on the main actor like the other paths do, rather than
+                    // calling exit() directly from this nonisolated closure.
+                    Task { @MainActor [weak self] in self?.frameGate.exit() }
+                    return
+                }
+
+                // Amplitude gate: below the noise floor, reset any pending hint so a
+                // stale note cannot survive a pause, and discard the frame.
+                if currentRms < self.noiseGateRms {
+                    self.previousFrequency = nil
+                    Task { @MainActor [weak self] in
+                        guard let self else { return }
+                        defer { self.frameGate.exit() }
+                        self.detectedNote = nil
+                        self.stableCount = 0
+                        self.lastDetectedPitchClass = nil
+                        self.lastDetectedOctave = nil
+                        self.stabilizationProgress = 0
+                        self.awaitingSilence = false
+                    }
+                    return
+                }
+
                 let floatArray = KotlinFloatArray(size: Int32(samples.count))
                 for i in 0..<samples.count {
                     floatArray.set(index: Int32(i), value: samples[i])
@@ -403,6 +465,8 @@ final class MelodyViewModel: ObservableObject {
         lastDetectedOctave = nil
         awaitingSilence = false
         previousFrequency = nil
+        previousRms = 0
+        blankingFramesRemaining = 0
     }
 
     func save(name: String) {
