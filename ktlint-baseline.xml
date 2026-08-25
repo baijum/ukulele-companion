@@ -68,8 +68,8 @@
     <file name="app/src/main/java/com/baijum/ukufretboard/audio/MetronomeEngine.kt">
         <error line="18" column="1" source="standard:no-empty-first-line-in-class-body" />
         <error line="49" column="15" source="standard:multiline-expression-wrapping" />
-        <error line="104" column="15" source="standard:multiline-expression-wrapping" />
-        <error line="112" column="36" source="standard:multiline-expression-wrapping" />
+        <error line="106" column="15" source="standard:multiline-expression-wrapping" />
+        <error line="117" column="36" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="app/src/main/java/com/baijum/ukufretboard/audio/PatternPlayer.kt">
         <error line="26" column="1" source="standard:no-empty-first-line-in-class-body" />

@@ -87,6 +87,9 @@ class MetronomeViewModel(
         if (beatIndex in pattern.indices) {
             pattern[beatIndex] = MetronomeStateLogic.cycleBeatType(pattern[beatIndex])
             _accentPattern.value = pattern
+            // No restart needed: the running engine reads _accentPattern on each beat,
+            // so accent/mute edits take effect on the next beat without resetting the
+            // bar (see issue #582).
         }
     }
 
@@ -114,7 +117,7 @@ class MetronomeViewModel(
             bpm = _bpm.value,
             beatsPerMeasure = _beatsPerMeasure.value,
             subdivision = _subdivision.value,
-            accentPattern = _accentPattern.value,
+            accentPattern = { _accentPattern.value },
             onTick = { beat, subBeat, type ->
                 _currentBeat.value = beat
                 _currentSubBeat.value = subBeat
