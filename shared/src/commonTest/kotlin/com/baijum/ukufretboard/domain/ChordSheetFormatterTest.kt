@@ -124,6 +124,20 @@ class ChordSheetFormatterTest {
         assertTrue(result.contains("Am"), "Am chord present")
     }
 
+    @Test
+    fun chordsAboveLyricsKeepsSectionHeaders() {
+        // Regression for #590: section labels are chord-free lines, so the
+        // "no chords" branch must emit them verbatim rather than stripping the
+        // bracket token. Both label shapes reach this branch:
+        // [Chorus] (root C + "horus", invalid chord) and [Verse] (V not A-G).
+        val result =
+            ChordSheetFormatter.formatChordsAboveLyrics(
+                sheet(content = "[Verse]\nLine A\n[Chorus]\nLine B"),
+            )
+        assertTrue(result.contains("[Verse]"), "Verse header should survive: $result")
+        assertTrue(result.contains("[Chorus]"), "Chorus header should survive: $result")
+    }
+
     // --- formatPlainText() ---
 
     @Test

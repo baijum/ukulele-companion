@@ -37,8 +37,10 @@ object ChordSheetFormatter {
         sheet.content.lines().forEach { line ->
             val segments = ChordParser.parseLine(line)
             if (segments.isEmpty() || segments.all { it is ChordParser.TextSegment.PlainText }) {
-                // No chords — just output the line
-                sb.appendLine(line.replace(Regex("\\[[^]]*]"), ""))
+                // No chords — just output the line verbatim. This branch is
+                // chord-free by definition, so section labels like [Verse] /
+                // [Chorus] must survive (see #590).
+                sb.appendLine(line)
             } else {
                 // Build chord line and lyric line
                 val chordLine = StringBuilder()
