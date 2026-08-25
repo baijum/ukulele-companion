@@ -62,6 +62,7 @@ struct FretboardNoteMapView: View {
 
                     let pitchClasses = tuning.pitchClassInts
                     let stringNames = tuning.stringNameArray
+                    let octaves = tuning.octaveInts
 
                     ForEach(Array((0..<4).reversed()), id: \.self) { stringIndex in
                         HStack(spacing: 0) {
@@ -76,6 +77,9 @@ struct FretboardNoteMapView: View {
                                     openStringPitchClass: openPC,
                                     fret: Int32(fret)
                                 )
+                                // Octave for this cell, matching Android's
+                                // baseOctave + (openPc + fret) / 12 (see #588).
+                                let octave = octaves[stringIndex] + (openPC + Int32(fret)) / 12
                                 let isHighlighted = highlightPitchClass < 0 ||
                                     note.pitchClass == highlightPitchClass
                                 let isOpenString = fret == 0
@@ -85,13 +89,13 @@ struct FretboardNoteMapView: View {
                                     .frame(width: cellSize, height: cellSize)
                                     .background(
                                         isHighlighted
-                                            ? (isOpenString ? Color.accentColor.opacity(0.3) : Color.accentColor.opacity(0.15))
+                                            ? Color.accentColor.opacity(isOpenString ? 0.3 : 0.15)
                                             : Color(.systemGray6)
                                     )
                                     .foregroundStyle(isHighlighted ? .primary : .quaternary)
                                     .border(Color(.systemGray4), width: 0.5)
                                     .onTapGesture {
-                                        tonePlayer.playNote(pitchClass: note.pitchClass)
+                                        tonePlayer.playNote(pitchClass: note.pitchClass, octave: octave)
                                     }
                                     .accessibilityLabel("\(note.name), string \(stringIndex + 1), fret \(fret)")
                                     .accessibilityValue(isHighlighted ? "highlighted" : "dimmed")

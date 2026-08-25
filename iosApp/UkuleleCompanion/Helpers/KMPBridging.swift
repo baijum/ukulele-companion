@@ -91,6 +91,11 @@ extension UkuleleTuning {
     var stringNameArray: [String] {
         (0..<Int(stringNames.count)).map { (stringNames[$0] as? String) ?? "" }
     }
+
+    /// Octave number of each open string as a Swift `[Int32]` array.
+    var octaveInts: [Int32] {
+        (0..<Int(octaves.count)).map { (octaves[$0] as? NSNumber)?.int32Value ?? 0 }
+    }
 }
 
 // MARK: - ChordVoicing convenience
