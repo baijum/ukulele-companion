@@ -9,7 +9,6 @@ import com.baijum.ukufretboard.data.Progression
  * Formatting and sharing utilities for chord sheets and progressions.
  */
 object ChordSheetFormatter {
-
     /**
      * Formats a chord sheet with chords placed above the lyrics.
      *
@@ -55,6 +54,7 @@ object ChordSheetFormatter {
                             }
                             lyricLine.append(segment.text)
                         }
+
                         is ChordParser.TextSegment.Chord -> {
                             // Pad chord line to match current position
                             while (chordLine.length < lyricLine.length) {
@@ -106,8 +106,8 @@ object ChordSheetFormatter {
         return null
     }
 
-    fun extractSections(content: String): List<SectionMarker> {
-        return content.lines().mapIndexedNotNull { index, line ->
+    fun extractSections(content: String): List<SectionMarker> =
+        content.lines().mapIndexedNotNull { index, line ->
             val trimmed = line.trim()
             val match = sectionPattern.matchEntire(trimmed)
             if (match != null) {
@@ -116,7 +116,6 @@ object ChordSheetFormatter {
                 null
             }
         }
-    }
 
     /**
      * Formats a chord sheet as plain text with inline chord brackets.
@@ -152,12 +151,12 @@ object ChordSheetFormatter {
         keyRoot: Int,
     ): String {
         val keyName = Notes.enharmonicForKey(keyRoot, keyRoot)
-        val chords = progression.degrees.joinToString(" \u2013 ") { degree ->
-            val chordRoot = (keyRoot + degree.interval) % Notes.PITCH_CLASS_COUNT
-            Notes.enharmonicForKey(chordRoot, keyRoot) + degree.quality
-        }
+        val chords =
+            progression.degrees.joinToString(" \u2013 ") { degree ->
+                val chordRoot = (keyRoot + degree.interval) % Notes.PITCH_CLASS_COUNT
+                Notes.enharmonicForKey(chordRoot, keyRoot) + degree.quality
+            }
         val numerals = progression.degrees.joinToString(" \u2013 ") { it.numeral }
         return "${progression.name} in $keyName:\n$numerals\n$chords"
     }
-
 }
