@@ -8,6 +8,9 @@ import Foundation
 /// backup-and-quarantine helper as the list stores (#569).
 final class PracticeTimerRepository {
     private let storageKey = "practice_timer"
+    /// Default daily practice goal in minutes; matches `PracticeTimerData`'s
+    /// default and Android's `DEFAULT_DAILY_GOAL`.
+    private static let defaultDailyGoal = 15
     private let defaults: UserDefaults
 
     init(defaults: UserDefaults = .standard) {
@@ -62,7 +65,16 @@ final class PracticeTimerRepository {
             data.lastSessionTime = max(data.lastSessionTime, normalized)
         }
         if let goal = dict["dailyGoal"] as? Int {
-            data.dailyGoal = goal
+            // Mirror Android (PracticeTimerRepository.importAll): clamp the
+            // incoming goal to the valid 5...120 range and apply it only when it
+            // differs from the 15-minute default. The backup dictionary always
+            // carries this key — an absent or default practice-timer section
+            // decodes to a goal of 15 — so assigning it unconditionally would
+            // silently overwrite a goal the user chose (#608).
+            let incomingGoal = min(max(goal, 5), 120)
+            if incomingGoal != Self.defaultDailyGoal {
+                data.dailyGoal = incomingGoal
+            }
         }
         if let daily = dict["dailyMinutes"] as? [String: Int] {
             for (key, value) in daily {
