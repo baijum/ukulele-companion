@@ -66,7 +66,10 @@ final class SettingsRepository {
     func exportSettings() -> [String: Any] {
         [
             "sound_enabled": defaults.object(forKey: "sound_enabled") as? Bool ?? true,
-            "volume": defaults.object(forKey: "volume") as? Float ?? 1.0,
+            // Store as Double: the backup dictionary crosses a [String: Any] boundary, and
+            // `Any(Float) as? Double` is always nil (Swift `as?` does no numeric conversion
+            // unless the value arrived as an NSNumber). BackupRestoreManager reads this as Double.
+            "volume": Double(defaults.object(forKey: "volume") as? Float ?? 1.0),
             "note_duration_ms": defaults.object(forKey: "note_duration_ms") as? Int ?? 600,
             "strum_delay_ms": defaults.object(forKey: "strum_delay_ms") as? Int ?? 50,
             "play_on_tap": defaults.bool(forKey: "play_on_tap"),
@@ -96,7 +99,8 @@ final class SettingsRepository {
 
     func importSettings(_ dict: [String: Any]) {
         if let v = dict["sound_enabled"] as? Bool { defaults.set(v, forKey: "sound_enabled") }
-        if let v = dict["volume"] as? Float { defaults.set(v, forKey: "volume") }
+        // Read as Double to match the export type; `Any(Double) as? Float` is always nil.
+        if let v = dict["volume"] as? Double { defaults.set(Float(v), forKey: "volume") }
         if let v = dict["note_duration_ms"] as? Int { defaults.set(v, forKey: "note_duration_ms") }
         if let v = dict["strum_delay_ms"] as? Int { defaults.set(v, forKey: "strum_delay_ms") }
         if let v = dict["play_on_tap"] as? Bool { defaults.set(v, forKey: "play_on_tap") }

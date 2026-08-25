@@ -612,7 +612,9 @@ private enum PracticeTimerCoder {
     }
 }
 
-private enum SettingsCoder {
+// Not `private`: the settings round trip (export → build → extract → import) is
+// exercised by RepositoryBackupTests via `@testable import` (#599).
+enum SettingsCoder {
     private static let themeToKMP: [String: String] = [
         "Light": "LIGHT", "Dark": "DARK",
         "System": "SYSTEM", "High Contrast": "HIGH_CONTRAST",
