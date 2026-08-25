@@ -357,7 +357,10 @@ final class MelodyViewModel: ObservableObject {
                 // where a pluck attack is broadband and YIN reports garbage.
                 if self.blankingFramesRemaining > 0 {
                     self.blankingFramesRemaining -= 1
-                    self.frameGate.exit()
+                    // FrameGate is a shared (KMP) non-Sendable type, so release it
+                    // on the main actor like the other paths do, rather than
+                    // calling exit() directly from this nonisolated closure.
+                    Task { @MainActor [weak self] in self?.frameGate.exit() }
                     return
                 }
 
