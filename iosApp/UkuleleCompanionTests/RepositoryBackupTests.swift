@@ -293,4 +293,38 @@ final class RepositoryBackupTests: XCTestCase {
 
         XCTAssertEqual(repository.getAll().map(\.title), ["Amazing Grace"])
     }
+
+    // MARK: - Settings round trip
+
+    /// A non-default playback volume must survive the full settings backup round
+    /// trip. The value crosses two `[String: Any]` boundaries — export → build,
+    /// then extract → import — and `as?` does no numeric conversion between two
+    /// Swift-native numeric types boxed in `Any`, so a Float/Double mismatch on
+    /// either hop silently drops the value and the app reverts to its default
+    /// (#599). Both ends must agree on `Double`.
+    func testVolumeSurvivesSettingsBackupRoundTrip() {
+        // SettingsRepository stores settings in its own suite, not `.standard`.
+        let suite = UserDefaults(suiteName: "app_settings") ?? .standard
+        let saved = suite.object(forKey: "volume")
+        defer {
+            if let saved { suite.set(saved, forKey: "volume") } else { suite.removeObject(forKey: "volume") }
+        }
+
+        // A volume the user chose — distinct from every default in the pipeline
+        // (export 1.0, build 0.7, restore 1.0) so a dropped value cannot masquerade.
+        suite.set(Float(0.2), forKey: "volume")
+
+        let repository = SettingsRepository()
+        let exported = repository.exportSettings()
+        let roundTripped = SettingsCoder.extract(SettingsCoder.build(exported))
+
+        // Clear the stored value so only the import can restore it.
+        suite.removeObject(forKey: "volume")
+        repository.importSettings(roundTripped)
+
+        XCTAssertEqual(
+            repository.load().volume, 0.2, accuracy: 0.0001,
+            "playback volume must survive export → build → extract → import"
+        )
+    }
 }
