@@ -8,6 +8,16 @@ struct ShareableChordDiagramView: View {
     let chordName: String
     var inversionLabel: String?
 
+    // ImageRenderer draws this view outside the SwiftUI hierarchy, so it cannot
+    // read `\.leftHanded` / `\.diagramStringNames` from the environment the way
+    // the on-screen ChordDiagramView does (#637). The two settings are therefore
+    // passed in explicitly from SettingsViewModel at the call site (#638) so the
+    // exported PNG mirrors for left-handed players and labels strings/notes for
+    // the selected tuning (High-G, Low-G, Baritone, ...).
+    var leftHanded: Bool = false
+    var stringNames: [String] = ["G", "C", "E", "A"]
+    var openPitchClasses: [Int] = [7, 0, 4, 9] // G C E A
+
     private let stringCount = 4
     private let minFretRows = 5
     private let stringSpacing: CGFloat = 36
@@ -17,10 +27,23 @@ struct ShareableChordDiagramView: View {
     private let nutThickness: CGFloat = 5
     private let dotColor = Color(red: 0.18, green: 0.49, blue: 0.20) // #2E7D32
 
-    private let standardOpenPitchClasses: [Int] = [7, 0, 4, 9] // G C E A
-
+    /// Voicing frets in draw order — reversed for a left-handed player so the
+    /// exported diagram mirrors the on-screen one (matches ChordDiagramView).
     private var frets: [Int] {
-        voicing.fretInts
+        let raw = voicing.fretInts
+        return leftHanded ? raw.reversed() : raw
+    }
+
+    /// Open-string pitch classes in the same draw order as `frets`, so the note
+    /// names below the grid stay aligned with each mirrored string.
+    private var orderedPitchClasses: [Int] {
+        leftHanded ? Array(openPitchClasses.reversed()) : openPitchClasses
+    }
+
+    /// Open-string names in the same draw order as `frets`, used for the
+    /// accessibility description so it reflects the mirrored order (#638).
+    private var orderedStringNames: [String] {
+        leftHanded ? Array(stringNames.reversed()) : stringNames
     }
 
     private var startFret: Int {
@@ -51,8 +74,14 @@ struct ShareableChordDiagramView: View {
     private var diagramWidth: CGFloat { CGFloat(stringCount - 1) * stringSpacing }
 
     private var accessibilityDescription: String {
-        let fretList = frets.map { $0 < 0 ? "muted" : "\($0)" }.joined(separator: ", ")
-        var desc = "\(chordName) chord diagram, frets: \(fretList)"
+        // Name each string in the (possibly mirrored) draw order so a blind
+        // left-handed user hears the same layout the sighted image shows (#638).
+        let perString = zip(orderedStringNames, frets).map { name, fret -> String in
+            if fret < 0 { return "\(name) string muted" }
+            if fret == 0 { return "\(name) string open" }
+            return "\(name) string fret \(fret)"
+        }.joined(separator: ", ")
+        var desc = "\(chordName) chord diagram, \(perString)"
         if let label = inversionLabel { desc += ", \(label)" }
         return desc
     }
@@ -199,7 +228,7 @@ struct ShareableChordDiagramView: View {
             for s in 0..<stringCount {
                 let fret = currentFrets[s]
                 let x = stringXPositions[s]
-                let openPitch = standardOpenPitchClasses[s]
+                let openPitch = orderedPitchClasses[s]
 
                 let noteName: String
                 if fret < 0 {
