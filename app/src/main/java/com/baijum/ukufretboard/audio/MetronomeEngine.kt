@@ -82,7 +82,9 @@ class MetronomeEngine {
      * @param bpm Beats per minute (40–300).
      * @param beatsPerMeasure Number of beats in each measure.
      * @param subdivision Number of ticks per beat (1 = quarter, 2 = eighth, 3 = triplet, 4 = sixteenth).
-     * @param accentPattern [BeatType] for each beat in the measure. Size must equal [beatsPerMeasure].
+     * @param accentPattern Provider of the [BeatType] for each beat in the measure. Read once per
+     *   main beat so accent/mute edits made while running take effect on the next beat without
+     *   restarting the bar. The returned list is expected to have [beatsPerMeasure] entries.
      * @param onTick Callback fired on each tick with (beat 0-based, subBeat 0-based, type).
      *   On the main beat (subBeat == 0), type comes from [accentPattern].
      *   On subdivision ticks (subBeat > 0), type is always [BeatType.NORMAL].
@@ -93,7 +95,7 @@ class MetronomeEngine {
         bpm: Int,
         beatsPerMeasure: Int,
         subdivision: Int,
-        accentPattern: List<BeatType>,
+        accentPattern: () -> List<BeatType>,
         onTick: (beat: Int, subBeat: Int, type: BeatType) -> Unit,
         onMeasure: (measureCount: Int) -> Unit = {},
     ) {
@@ -107,10 +109,13 @@ class MetronomeEngine {
 
             while (isActive) {
                 for (beat in 0 until beatsPerMeasure) {
+                    // Re-read the pattern each main beat so accent/mute edits made while
+                    // running take effect on the next beat (see issue #582).
+                    val currentPattern = accentPattern()
                     for (sub in 0 until subdivision) {
                         if (!isActive) return@launch
                         val type = if (sub == 0) {
-                            accentPattern.getOrElse(beat) { BeatType.NORMAL }
+                            currentPattern.getOrElse(beat) { BeatType.NORMAL }
                         } else {
                             BeatType.NORMAL
                         }
