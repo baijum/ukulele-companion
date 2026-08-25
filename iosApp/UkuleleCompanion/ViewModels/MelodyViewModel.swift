@@ -100,8 +100,11 @@ final class MelodyViewModel: ObservableObject {
     private static let stabilizationThreshold = 3
 
     // Pre-detection gating constants, matched exactly to Android MelodyViewModel.
-    private static let onsetRatioThreshold: Float = 3.0
-    private static let blankingFrames = 2
+    // `nonisolated` so they can be read from the nonisolated audio-processing
+    // queue closure without forcing it onto the main actor (which would in turn
+    // reject the direct `frameGate.exit()` on the gated paths).
+    private nonisolated static let onsetRatioThreshold: Float = 3.0
+    private nonisolated static let blankingFrames = 2
 
     private let repository: MelodyRepository
     private let tonePlayer = TonePlayer()
