@@ -25,6 +25,13 @@ struct ContentView: View {
     @StateObject private var customPatternsVM = CustomPatternsViewModel()
     @StateObject private var setlistVM = SetlistViewModel()
     @StateObject private var metronomeVM = MetronomeViewModel()
+    @StateObject private var melodyVM = MelodyViewModel()
+    @StateObject private var progressionsVM = ProgressionsViewModel()
+    // Owned by UkuleleCompanionApp and injected at the app root; forwarded here
+    // so it also reaches the Settings sheet, the same way the shared instances
+    // above do. Declared as @EnvironmentObject (not @StateObject) to avoid
+    // creating a second, divergent copy.
+    @EnvironmentObject private var practiceTimerVM: PracticeTimerViewModel
 
     init() {
         let completed = UserDefaults(suiteName: "app_settings")?.bool(forKey: "onboarding_completed") ?? false
@@ -119,6 +126,9 @@ struct ContentView: View {
         .environmentObject(customPatternsVM)
         .environmentObject(setlistVM)
         .environmentObject(metronomeVM)
+        .environmentObject(melodyVM)
+        .environmentObject(progressionsVM)
+        .environmentObject(practiceTimerVM)
         .tint(isHighContrast ? .yellow : nil)
         .sheet(isPresented: $showSettings) { SettingsView() }
         .onChange(of: showSettings) { isShowing in
@@ -145,6 +155,9 @@ struct ContentView: View {
         .environmentObject(customPatternsVM)
         .environmentObject(setlistVM)
         .environmentObject(metronomeVM)
+        .environmentObject(melodyVM)
+        .environmentObject(progressionsVM)
+        .environmentObject(practiceTimerVM)
         .tint(isHighContrast ? .yellow : nil)
         .sheet(isPresented: $showSettings) { SettingsView() }
         .onChange(of: showSettings) { isShowing in
@@ -283,5 +296,8 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View { ContentView() }
+    static var previews: some View {
+        ContentView()
+            .environmentObject(PracticeTimerViewModel())
+    }
 }
