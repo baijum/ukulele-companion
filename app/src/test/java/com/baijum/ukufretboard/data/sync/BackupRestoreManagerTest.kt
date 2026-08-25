@@ -347,12 +347,14 @@ class BackupRestoreManagerTest {
     }
 
     @Test
-    fun importBadMelodiesDoesNotAffectOtherCategories() {
+    fun importMelodyWithUnknownDurationDegradesPerNoteAndKeepsOtherCategories() {
         val favRepo = FavoritesRepository(app)
         favRepo.add(FavoriteVoicing(0, "maj", listOf(0, 0, 0, 3), 1000L))
 
-        val badMelody =
-            """[{"id":"m1","name":"Bad","notes":""" +
+        // A duration from a version whose encoder didn't map it (#600) degrades
+        // to a quarter note per note instead of dropping the whole melody.
+        val oddMelody =
+            """[{"id":"m1","name":"Odd","notes":""" +
                 """[{"pitchClass":0,"octave":4,""" +
                 """"duration":"NONEXISTENT_DURATION"}],""" +
                 """"bpm":100,"createdAt":5000}]"""
@@ -366,7 +368,7 @@ class BackupRestoreManagerTest {
                     """[{"id":"s1","title":"Song",""" +
                         """"content":"[C]lyrics",""" +
                         """"createdAt":100,"updatedAt":200}]""",
-                melodies = badMelody,
+                melodies = oddMelody,
             )
         manager.importBackup(backup)
 
@@ -374,7 +376,9 @@ class BackupRestoreManagerTest {
         val sheetRepo = ChordSheetRepository(app)
         assertNotNull(sheetRepo.get("s1"))
         val melodyRepo = MelodyRepository(app)
-        assertEquals(0, melodyRepo.getAll().size)
+        val melody = melodyRepo.get("m1")
+        assertNotNull(melody)
+        assertEquals("QUARTER", melody!!.notes[0].duration.name)
     }
 
     @Test
