@@ -1,1 +1,5 @@
-• Now targets Android 16 for compatibility with the latest devices and platform features
+• Song viewer now collapses details into a compact header, leaving more room for lyrics
+• Key and capo fields are now shown and editable in the song editor and viewer
+• Full-screen chord sheets are now properly formatted instead of showing raw ChordPro
+• Dozens of fixes across backup/restore, tuner, melody recording, and iOS parity
+• Accessibility improved: fretboard note map and capo stepper are now fully labeled for screen readers

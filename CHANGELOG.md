@@ -4,6 +4,82 @@ All notable changes to Ukulele Companion are documented in this file.
 This changelog is auto-generated from commit messages during each release
 using `scripts/changelog.sh`.
 
+## v9.13.0
+
+### Added
+- Collapse the song details above the lyrics
+- Buy Me a Coffee support links to GitHub, README, and website
+
+### Fixed
+- shared chord-diagram image honours Left-Handed and tuning
+- iOS Favourites playback and Scale Practice grid follow the selected tuning
+- melody step grid is scratch state, no longer flags unsaved changes
+- release the frame gate off the audio queue on the blanking path
+- iOS fretboard and chord diagrams honour tuning, handedness, muted strings and last fret
+- iOS melody recording gates room noise before detection
+- auto-scroll honours fractional speeds (0.5x, 1.5x)
+- iOS playback volume survives backup export and restore
+- make neural strong-disagreement override reachable again
+- metronome accent/mute taps take effect while running
+- harmonic function labels chromatic and half-diminished degrees correctly
+- Scale Explorer chord chips agree across platforms
+- Share/Copy/PDF export keeps section headers
+- ChordPro export transposes the key with the content
+- iOS Progression Practice strums the full chord
+- iOS Fretboard Note Map plays each fret at its real octave
+- practice routine fills its advertised duration
+- editing a song preserves its view count and practice time
+- iOS Reset All Progress keeps unlocked achievements
+- iOS restore no longer overwrites the daily practice goal
+- AchievementWatcher clamps Int32 conversions to avoid a launch crash
+- applying a chord-library voicing honours the capo
+- Fretboard Note Map scrolls as one grid and labels cells for TalkBack
+- Songwriter Mode creates a new song instead of overwriting the last one
+- melody durations and octave 6 survive cross-platform backup restore
+- Android practice clock measures foreground time, not the Activity lifetime
+- iOS restore writes to the shared ViewModels, not private Settings copies
+- iOS setlist delete/reorder targets the rendered row, not a raw songIds offset
+- melody restore keeps newer local edits instead of the backup copy
+- iOS tuner hold, spoken confirmation and Precision Mode honour Android behaviour
+- song editor no longer discards unsaved edits on recreation
+- cascade song deletion out of setlists on both platforms
+- setlist reorder moved the wrong song when a Songbook filter was active
+- Keep a corrupt favourites payload out of the backup slot
+- Put every iOS UserDefaults store on backup-and-quarantine
+- Put melodies on the shared backup-and-quarantine scheme
+- Quarantine unreadable payloads in every list store
+- Keep a store's own keys out of the legacy migration cleanup
+- Migrate legacy settings when any legacy key is present
+- Re-seed a corrupt settings backup on the same save
+- Keep a corrupt list payload out of the backup slot
+- Save settings only from the state the update actually published
+- Give settings a backup and quarantine copy
+- Correct the shared notes in three chord substitutions
+- Correct the baritone B string octave
+- Drop the redundant per-section active-day recording
+- Check achievements app-wide instead of only on their own screen
+- Clamp stored counts and reject a negative prompt count
+- Replace deprecated SKStoreReviewController with the SwiftUI action
+- Request store review directly instead of gating it behind a prompt
+- Move duplicate/delete to overflow menu in song viewer toolbar
+- Stop rebuilding AVAudioEngine on every SwiftUI re-render
+- Keep the collapse handle reachable on a short screen
+- Share one accessible capo stepper between Explorer and the song editor
+- Render a formatted chord sheet in fullscreen, not raw ChordPro
+- Stop wiping a song's key on save; show and edit key and capo
+- Import ChordPro metadata from files picked via SAF
+
+### Changed
+- Extract the shared backup fallback rule
+- Extract the shared backup rotation rule
+- Move LegacySettingsReader into the data package
+- Move instrumented tests to the v2 compose test rule
+- Extract review prompt eligibility into the shared module
+
+### Maintenance
+- Dependency bumps: Kotlin 2.4.10, Compose BOM 2026.08.00, AGP 9.3.1, Gradle 9.7.0, ONNX Runtime, AppCompat, Kotest
+- CI improvements: Codecov path fix, iOS report upload, required status check gate
+
 ## v9.12.1
 
 ### Fixed
