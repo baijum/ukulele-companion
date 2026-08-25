@@ -282,19 +282,28 @@ internal fun SheetViewer(
         // Auto-scroll effect
         LaunchedEffect(autoScrolling, scrollSpeed) {
             if (autoScrolling) {
+                // Accumulate the fractional remainder so fractional speeds (0.5x)
+                // scroll less than one pixel per tick on average instead of being
+                // truncated up to 1px. A fresh accumulator resets the remainder on
+                // every scrollSpeed change or restart because this effect is keyed
+                // on autoScrolling + scrollSpeed.
+                val accumulator = AutoScrollAccumulator()
                 while (autoScrolling) {
-                    programmaticScroll.value = true
-                    try {
-                        scrollState.animateScrollTo(
-                            scrollState.value + scrollSpeed.toInt().coerceAtLeast(1),
-                            animationSpec =
-                                androidx.compose.animation.core.tween(
-                                    durationMillis = 16,
-                                    easing = androidx.compose.animation.core.LinearEasing,
-                                ),
-                        )
-                    } finally {
-                        programmaticScroll.value = false
+                    val delta = accumulator.nextDelta(scrollSpeed)
+                    if (delta > 0) {
+                        programmaticScroll.value = true
+                        try {
+                            scrollState.animateScrollTo(
+                                scrollState.value + delta,
+                                animationSpec =
+                                    androidx.compose.animation.core.tween(
+                                        durationMillis = 16,
+                                        easing = androidx.compose.animation.core.LinearEasing,
+                                    ),
+                            )
+                        } finally {
+                            programmaticScroll.value = false
+                        }
                     }
                     delay(16L)
                 }

@@ -44,6 +44,10 @@ import com.baijum.ukufretboard.data.ChordDisplayStyle
 import com.baijum.ukufretboard.domain.ChordSheetFormatter
 import com.baijum.ukufretboard.ui.LocalReduceMotion
 import com.baijum.ukufretboard.ui.rememberTouchExplorationEnabled
+import kotlinx.coroutines.delay
+
+/** ~60fps auto-scroll tick cadence, in milliseconds. */
+private const val AUTO_SCROLL_TICK_MS = 16L
 
 @Composable
 internal fun PerformanceModeView(
@@ -72,22 +76,35 @@ internal fun PerformanceModeView(
 
     LaunchedEffect(autoScrolling, scrollSpeed) {
         if (autoScrolling) {
+            // Accumulate the fractional remainder so fractional speeds (e.g. 0.5x,
+            // 1.5x) scroll less than one pixel per tick on average instead of being
+            // truncated up to a whole pixel. A fresh accumulator resets the remainder
+            // on every scrollSpeed change or restart because this effect is keyed on
+            // autoScrolling + scrollSpeed.
+            val accumulator = AutoScrollAccumulator()
             while (autoScrolling) {
-                programmaticScroll.value = true
-                try {
-                    scrollState.animateScrollTo(
-                        scrollState.value + scrollSpeed.toInt().coerceAtLeast(1),
-                        animationSpec =
-                            androidx.compose.animation.core.tween(
-                                durationMillis = 16,
-                                easing = androidx.compose.animation.core.LinearEasing,
-                            ),
-                    )
-                } finally {
-                    programmaticScroll.value = false
-                }
-                if (scrollState.value >= scrollState.maxValue) {
-                    autoScrolling = false
+                val delta = accumulator.nextDelta(scrollSpeed)
+                if (delta > 0) {
+                    programmaticScroll.value = true
+                    try {
+                        scrollState.animateScrollTo(
+                            scrollState.value + delta,
+                            animationSpec =
+                                androidx.compose.animation.core.tween(
+                                    durationMillis = 16,
+                                    easing = androidx.compose.animation.core.LinearEasing,
+                                ),
+                        )
+                    } finally {
+                        programmaticScroll.value = false
+                    }
+                    if (scrollState.value >= scrollState.maxValue) {
+                        autoScrolling = false
+                    }
+                } else {
+                    // No pixel to move this tick; keep the ~16ms cadence so a
+                    // sub-1px/tick speed doesn't busy-loop.
+                    delay(AUTO_SCROLL_TICK_MS)
                 }
             }
         }
