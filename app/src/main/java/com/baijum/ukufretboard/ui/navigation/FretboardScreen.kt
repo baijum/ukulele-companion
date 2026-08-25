@@ -198,15 +198,40 @@ fun FretboardScreen(
     }
 
     val practiceTimerRepository = remember { PracticeTimerRepository(context) }
-    val sessionStartMs = remember { System.currentTimeMillis() }
     var practiceStats by remember { mutableStateOf(practiceTimerRepository.stats()) }
 
-    androidx.compose.runtime.DisposableEffect(Unit) {
-        onDispose {
-            val durationMs = System.currentTimeMillis() - sessionStartMs
-            if (durationMs >= 60_000L) {
-                practiceTimerRepository.recordSession(durationMs)
+    // Drive the practice-session clock from the process lifecycle, not from the
+    // composition. A composition created by `setContent` is disposed only on
+    // Activity *destroy* — which any configuration change (a mere screen
+    // rotation) triggers — not on stop/pause, so timing the composition banks
+    // every backgrounded minute, even a full day, as practice time (#601).
+    // Instead start the clock when the app enters the foreground (ON_START) and
+    // record the elapsed span when it leaves (ON_STOP), mirroring the iOS
+    // scenePhase handling: a span only counts if it lasted at least 60s.
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+    androidx.compose.runtime.DisposableEffect(lifecycleOwner) {
+        var sessionStartMs = System.currentTimeMillis()
+        val observer =
+            androidx.lifecycle.LifecycleEventObserver { _, event ->
+                when (event) {
+                    androidx.lifecycle.Lifecycle.Event.ON_START -> {
+                        sessionStartMs = System.currentTimeMillis()
+                    }
+
+                    androidx.lifecycle.Lifecycle.Event.ON_STOP -> {
+                        val durationMs = System.currentTimeMillis() - sessionStartMs
+                        if (durationMs >= 60_000L) {
+                            practiceTimerRepository.recordSession(durationMs)
+                            practiceStats = practiceTimerRepository.stats()
+                        }
+                    }
+
+                    else -> {}
+                }
             }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
 
