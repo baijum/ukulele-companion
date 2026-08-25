@@ -32,7 +32,7 @@ Interpret the argument:
 | empty | `gh issue list --state open --limit 500 --json number,title,labels,assignees` |
 | `label:<name>` | add `--label "<name>"` (repeat per comma-separated label; they AND). This repo's practical filters are the priority labels `P0` / `P1` / `P2` and the area labels `audio` / `ui` / `music-content` / `accessibility` / `testing` / `ci-cd`. |
 | a milestone title | add `--milestone "<title>"` — but milestones are rarely set here; expect an empty result and fall back to asking whether the user meant a label. |
-| comma-separated numbers | fetch exactly those with `gh issue view` |
+| comma-separated numbers | fetch exactly those with `gh issue view <n> --json number,title,labels,body,state,assignees`; drop any whose `state` is not `OPEN`, and say which you dropped |
 
 If a filter returns nothing, say so and stop. Never silently widen to the whole
 tracker. If the returned count equals the limit, raise the limit and rerun.
@@ -46,10 +46,15 @@ labelled `blocked` / `wontfix` / `duplicate` / `invalid`.
 Bodies in this tracker are unusually good: they name the exact `.kt` and
 `.swift` files with line numbers, and they usually state the Android-vs-iOS
 divergence outright ("Android guards this; iOS does not"). Every rule below
-depends on knowing which code an issue touches, so fetch bodies:
+depends on knowing which code an issue touches, so fetch bodies **for exactly
+the set you scoped in Step 1** — reuse the same mode, filters, and limit, just
+adding `body` to the `--json` fields. Do not substitute a different filter here;
+a mismatch means you group a different or truncated set than you selected.
 
 ```bash
+# label mode — carry every ANDed --label and the same --limit from Step 1
 gh issue list --state open --limit 500 --label "<name>" --json number,title,labels,body
+# explicit-number mode — the bodies came back in Step 1's gh issue view calls; reuse them
 ```
 
 For a large set, write the bodies to a scratch file and read that rather than
@@ -65,7 +70,7 @@ someone discovers it.
 Match the repro cost to the surface:
 
 - **Shared-module logic** (`shared/src/commonMain/`) is cheap to check — write
-  or run a `shared/src/commonTest/` case, or `./gradlew :shared:testDebugUnitTest`.
+  or run a `shared/src/commonTest/` case, or `./gradlew :shared:jvmTest`.
   Worth doing for the whole set.
 - **Android UI / repository behaviour** needs an emulator; see the
   `android-bug-reproduce` skill. Do it only when the grouping hinges on it.
@@ -86,7 +91,7 @@ named sites still exist — bodies cite line numbers that drift as the file move
 
 ```bash
 grep -n '<symbol>' <path from the body>     # do the named sites exist?
-find . -name '<File>.kt' -o -name '<File>.swift' -not -path '*/build/*'
+find . -type f \( -name '<File>.kt' -o -name '<File>.swift' \) -not -path '*/build/*'
 ```
 
 What you are looking for is cheap and specific:
@@ -213,18 +218,20 @@ Follow with the order as a short diagram:
 A  →  B, C, D  (parallel, disjoint files)  →  E  (design-first)
 ```
 
-Close with: anything that no longer reproduces (from step 3), any repo
-constraint a group would blow (step 6 — the 16-locale table, the ktlint
-baseline), and the long-pole sentence (step 8).
+The two closing modes are **exclusive** — pick one by what the user asked for:
 
-If the user wants to launch concurrent sessions rather than review a plan, also
-emit the group leaders as bare paste-able lines, one wave per line, containing
-nothing else:
+- **Review-plan mode** (the default). Close with: anything that no longer
+  reproduces (from step 3), any repo constraint a group would blow (step 6 —
+  the 16-locale table, the ktlint baseline), and the long-pole sentence (step 8).
 
-```text
-Wave 1: NNN, NNN
-Wave 2: NNN, NNN, NNN
-```
+- **Concurrent-session mode** — when the user wants to launch parallel sessions
+  rather than review a plan. Emit **only** the group leaders as bare paste-able
+  lines, one wave per line, and nothing else — no caveats, no summary, no prose:
+
+  ```text
+  Wave 1: NNN, NNN
+  Wave 2: NNN, NNN, NNN
+  ```
 
 Waves come from the order in step 7 — every group in a wave touches files no
 other group in that wave touches, so their PRs can merge in any order.
