@@ -1,6 +1,6 @@
 ---
 description: Edge-to-edge Play Store warnings and why they are expected — relevant when handling Play Console warnings, upgrading androidx.activity or Material Components, or working on edge-to-edge / window insets
-globs: app/src/main/java/**/MainActivity.kt, app/src/main/java/**/ui/theme/Theme.kt, gradle/libs.versions.toml
+globs: app/src/main/java/**/MainActivity.kt, app/src/main/java/**/ui/theme/Theme.kt, app/src/main/java/**/ui/navigation/FretboardScreen.kt, app/src/main/java/**/ui/OnboardingScreen.kt, gradle/libs.versions.toml
 alwaysApply: false
 ---
 
@@ -46,8 +46,11 @@ unless something in the "Re-check when" section below has changed.
   `Color.TRANSPARENT` through the deprecated setters. Play Console's check is a
   static bytecode scan, so it flags library callers exactly like app code.
   Because the calls come from Google's own recommended API, the warning is a
-  false positive for this app. The only way to silence it would be to stop
-  calling `enableEdgeToEdge()`, which would be a regression.
+  false positive for this app. With the shipped activity-compose 1.13.0, the
+  only app-side way to silence it would be to stop calling
+  `enableEdgeToEdge()`, which would be a regression; a future
+  `androidx.activity` release that drops the deprecated setters may clear it
+  on its own (see "Re-check when" below).
 - **Material Components is not the cause.** The March 2026 analysis blamed
   `com.google.android.material:material:1.13.0` internals and said to revisit
   once 1.14.0 shipped. 9.13.0 already ships Material 1.14.0, whose AAR contains
@@ -68,5 +71,13 @@ unless something in the "Re-check when" section below has changed.
   1.13.0 (its `EdgeToEdge.kt` may stop calling the deprecated setters), or the
   console lists a caller that does **not** map to an AndroidX class. To
   re-verify, unzip `classes*.dex` from `app-release.apk`, run
-  `dexdump -d` and grep for `Landroid/view/Window;.setStatusBarColor`, then
-  look up the obfuscated class in `mapping.txt`.
+  `dexdump -d` on each, and grep for every flagged signature:
+  `Landroid/view/Window;.setStatusBarColor`,
+  `Landroid/view/Window;.setNavigationBarColor`,
+  `Landroid/view/Window;.setDecorFitsSystemWindows`,
+  `Landroid/view/Window;.setStatusBarContrastEnforced`,
+  `Landroid/view/Window;.setNavigationBarContrastEnforced`, and
+  `Landroid/view/WindowManager$LayoutParams;.layoutInDisplayCutoutMode`.
+  Note the enclosing `Class descriptor` of each hit and look every one of
+  them up in `mapping.txt` (`grep -E "^[^ ].* -> <name>:$"`). All must map
+  to `androidx.*` classes or R8 `$$ExternalSyntheticApiModelOutline` stubs.
