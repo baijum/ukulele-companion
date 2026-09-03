@@ -108,7 +108,7 @@ The canonical rule bodies live in these `.cursor/rules/*.mdc` files (auto-attach
 | `compose-ui.mdc` | `ui/**/*.kt` | Material 3, recomposition, Compose-only UI |
 | `compose-coroutines.mdc` | `ui/**/*.kt` | Compose scroll/coroutine patterns, programmatic vs user scroll |
 | `testing-conventions.mdc` | `test/**/*.kt`, `androidTest/**/*.kt` | Kotest property tests, JUnit 4, what to test when |
-| `edge_to_edge.mdc` | `MainActivity.kt`, `Theme.kt`, `libs.versions.toml` | Play Store edge-to-edge warnings (deferred) |
+| `edge_to_edge.mdc` | `MainActivity.kt`, `Theme.kt`, `libs.versions.toml` | Play Store edge-to-edge warnings (expected: callers are AndroidX, no action) |
 
 ## Skills Reference
 

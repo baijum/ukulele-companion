@@ -1,33 +1,72 @@
 ---
-description: Edge-to-edge Play Store warnings and deferred action items — relevant when upgrading Material Components, handling Play Store warnings, or working on edge-to-edge / window insets
+description: Edge-to-edge Play Store warnings and why they are expected — relevant when handling Play Console warnings, upgrading androidx.activity or Material Components, or working on edge-to-edge / window insets
 globs: app/src/main/java/**/MainActivity.kt, app/src/main/java/**/ui/theme/Theme.kt, gradle/libs.versions.toml
 alwaysApply: false
 ---
 
-# Edge-to-Edge Play Store Warnings (Deferred)
+# Edge-to-Edge Play Store Warnings (Expected — No Action)
 
-Two Google Play Console recommendations were analyzed in March 2026. No action is required from app code — the root cause is in the Material Components library.
+Google Play Console shows two "recommended actions" on every production
+release. They were first analyzed in March 2026 and re-analyzed in September
+2026 against the shipped 9.13.0 release (versionCode 110). **Both are expected
+and require no app change.** Do not spend a session re-investigating them
+unless something in the "Re-check when" section below has changed.
 
 ## Warning 1: "Edge-to-edge may not display for all users"
 
-- **Status:** Already handled.
-- The app calls `enableEdgeToEdge()` in `MainActivity.onCreate()` before `setContent`.
-- Both `FretboardScreen` and `OnboardingScreen` use Material 3 `Scaffold` with `innerPadding`, which automatically accounts for system bar insets.
-- `OnboardingScreen` bottom bar applies `navigationBarsPadding()`.
-- **Follow-up:** A visual audit on an Android 15+ device/emulator could confirm nothing is clipped behind system bars (bottom sheets, dialogs, drawer, FABs).
+- **Status:** Already handled by app code.
+- `MainActivity.onCreate()` calls `enableEdgeToEdge()` before `setContent`.
+- `FretboardScreen` and `OnboardingScreen` use Material 3 `Scaffold` with
+  `innerPadding`, which accounts for system bar insets; the onboarding bottom
+  bar applies `navigationBarsPadding()`.
+- `targetSdk` is 36, and no theme or manifest uses
+  `windowOptOutEdgeToEdgeEnforcement`, `statusBarColor`, `navigationBarColor`
+  or `windowLayoutInDisplayCutoutMode`.
+- This banner is the generic companion to Warning 2 and fires together with it.
 
 ## Warning 2: "Your app uses deprecated APIs or parameters for edge-to-edge"
 
-- **Deprecated APIs flagged:** `setStatusBarColor`, `setNavigationBarColor`, `LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES`
-- **Root cause:** Internal code in `com.google.android.material:material:1.13.0`:
-  - `EdgeToEdgeUtils.applyEdgeToEdge()` calls `window.setStatusBarColor()` / `window.setNavigationBarColor()`
-  - `BottomSheetDialog.onCreate()` uses the above utilities
-  - `MaterialDatePicker.onStart()` sets `LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES`
-- **Not in app code** — the obfuscated class names (`b.q.b`, `b.t.b`, `b.v.b`, `b.r.t`) in the Play Console map to these Material library internals after R8.
-- **Upstream fix:** Commit `c2051db` in Material Components, available in `1.14.0-alpha` but not yet in a stable release.
-- **Tracked at:** https://github.com/material-components/material-components-android/issues/4507
+- **Deprecated APIs flagged:** `setStatusBarColor`, `setNavigationBarColor`,
+  `setDecorFitsSystemWindows`, `layoutInDisplayCutoutMode`, and the
+  status/navigation bar contrast-enforced setters.
+- **Root cause (verified September 2026):** every caller is inside AndroidX,
+  none is app code. Verified by disassembling the release APK
+  (`dexdump` from build-tools) and mapping the obfuscated class names through
+  `app/build/outputs/mapping/release/mapping.txt`:
+
+  | Deprecated API | Caller in the shipped APK |
+  |----------------|---------------------------|
+  | `Window.setStatusBarColor` / `setNavigationBarColor` | `androidx.activity.EdgeToEdgeApi26`, `EdgeToEdgeApi29`, `EdgeToEdgeApi35` |
+  | `Window.setDecorFitsSystemWindows` | R8-outlined API stub for `androidx.core.view.WindowCompat` |
+  | `WindowManager.LayoutParams.layoutInDisplayCutoutMode` | R8-outlined API stub for AndroidX Core |
+  | `setStatusBarContrastEnforced` / `setNavigationBarContrastEnforced` | R8-outlined API stub for AndroidX Compose UI |
+
+  Those `EdgeToEdgeApi*` classes **are** `enableEdgeToEdge()` (activity-compose
+  1.13.0). Even the API 35 path unconditionally sets both bars to
+  `Color.TRANSPARENT` through the deprecated setters. Play Console's check is a
+  static bytecode scan, so it flags library callers exactly like app code.
+  Because the calls come from Google's own recommended API, the warning is a
+  false positive for this app. The only way to silence it would be to stop
+  calling `enableEdgeToEdge()`, which would be a regression.
+- **Material Components is not the cause.** The March 2026 analysis blamed
+  `com.google.android.material:material:1.13.0` internals and said to revisit
+  once 1.14.0 shipped. 9.13.0 already ships Material 1.14.0, whose AAR contains
+  no references to the deprecated setters, and the warning persists. Keep the
+  `material` dependency: `res/values/themes.xml` inherits from
+  `Theme.Material3.DayNight.NoActionBar`, which it provides.
+- No official Google page states that the warning can be ignored when the
+  callers are AndroidX; the conclusion above rests on the bytecode evidence.
 
 ## Action
 
-- **Decision (March 2026):** No action for now.
-- **Revisit when:** Material Components `1.14.0` stable is released. Update the `material` version in `gradle/libs.versions.toml` (currently `1.13.0`) and verify the Play Console warnings are resolved.
+- **Decision (September 2026):** No code change. The console's
+  "Is this useful?" thumbs-down is the only feedback channel Google offers.
+- **Still worth doing once:** a visual pass on an Android 15+ emulator to
+  confirm nothing is clipped behind system bars (bottom sheets, dialogs,
+  drawer, FABs).
+- **Re-check when:** `androidx.activity` / `activity-compose` is bumped past
+  1.13.0 (its `EdgeToEdge.kt` may stop calling the deprecated setters), or the
+  console lists a caller that does **not** map to an AndroidX class. To
+  re-verify, unzip `classes*.dex` from `app-release.apk`, run
+  `dexdump -d` and grep for `Landroid/view/Window;.setStatusBarColor`, then
+  look up the obfuscated class in `mapping.txt`.
