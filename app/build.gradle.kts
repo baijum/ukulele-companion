@@ -63,6 +63,11 @@ android {
             // Compose UI tests can run on the JVM.
             isIncludeAndroidResources = true
             all {
+                // Robolectric 4.17's FileDescriptorInterceptor reflects into
+                // jdk.internal.access.SharedSecrets while setting up the test
+                // environment; JPMS blocks that without an explicit export
+                // (robolectric/robolectric#11434).
+                it.jvmArgs("--add-exports=java.base/jdk.internal.access=ALL-UNNAMED")
                 it.configure<JacocoTaskExtension> {
                     // Robolectric loads classes through its own classloader, which
                     // JaCoCo reports as having no location. Without this, every
@@ -149,7 +154,7 @@ dependencies {
     testImplementation(libs.ui.test.junit4)
     testImplementation(libs.jazzer.junit)
     testImplementation(libs.jazzer.api)
-    testImplementation("org.robolectric:robolectric:4.16.1")
+    testImplementation("org.robolectric:robolectric:4.17")
     testImplementation("androidx.test:core:1.7.0")
     testRuntimeOnly(libs.junit.vintage.engine)
     testRuntimeOnly(libs.junit.jupiter.engine)
