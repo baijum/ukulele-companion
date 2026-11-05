@@ -56,7 +56,7 @@ jobs:
           java-version: 17
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@cf4beec8b4cca436a7b646657f74edc125658df8 # v6.1.1
+        uses: gradle/actions/setup-gradle@c8a326d85724fce2ae59a38810306f4a058f26a4 # v6.1.1
 
       - name: Run Debug lint
         run: ./gradlew lintDebug
@@ -93,7 +93,7 @@ jobs:
           java-version: 17
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@cf4beec8b4cca436a7b646657f74edc125658df8 # v6.1.1
+        uses: gradle/actions/setup-gradle@c8a326d85724fce2ae59a38810306f4a058f26a4 # v6.1.1
 
       - name: Run shared tests with coverage
         run: ./gradlew :shared:koverXmlReport
@@ -135,7 +135,7 @@ jobs:
           java-version: 17
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@cf4beec8b4cca436a7b646657f74edc125658df8 # v6.1.1
+        uses: gradle/actions/setup-gradle@c8a326d85724fce2ae59a38810306f4a058f26a4 # v6.1.1
 
       - name: Run unit tests with coverage
         run: ./gradlew createDebugUnitTestCoverageReport
@@ -177,7 +177,7 @@ jobs:
           java-version: 17
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@cf4beec8b4cca436a7b646657f74edc125658df8 # v6.1.1
+        uses: gradle/actions/setup-gradle@c8a326d85724fce2ae59a38810306f4a058f26a4 # v6.1.1
 
       - name: Build debug APK
         run: ./gradlew assembleDebug
@@ -213,7 +213,7 @@ jobs:
           java-version: 17
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@cf4beec8b4cca436a7b646657f74edc125658df8 # v6.1.1
+        uses: gradle/actions/setup-gradle@c8a326d85724fce2ae59a38810306f4a058f26a4 # v6.1.1
 
       - name: Build release APK
         run: ./gradlew assembleRelease
@@ -255,7 +255,7 @@ jobs:
           java-version: 17
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@cf4beec8b4cca436a7b646657f74edc125658df8 # v6.1.1
+        uses: gradle/actions/setup-gradle@c8a326d85724fce2ae59a38810306f4a058f26a4 # v6.1.1
 
       - name: Enable KVM
         run: |
